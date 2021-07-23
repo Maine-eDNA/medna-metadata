@@ -18,10 +18,14 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from users import views
+from users.views import CustomUserView
+from field_sites.views import FieldSitesFilterView
+from sample_labels.views import SampleLabelFilterView
 
 router = routers.DefaultRouter()
-router.register(r'users', views.CustomUserView, 'users')
+router.register(r'users', CustomUserView, 'users')
+router.register(r'field_sites', FieldSitesFilterView, 'field_sites')
+router.register(r'sample_labels', SampleLabelFilterView, 'sample_labels')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +33,5 @@ urlpatterns = [
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     #url(r'^account/', include('allauth.urls')),
     #url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
-    path('api/', include(router.urls)),
+    path('api/', include(router.urls))
 ]

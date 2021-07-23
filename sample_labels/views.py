@@ -64,25 +64,25 @@ class SampleLabelExportDetailView(DetailView):
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
             datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
-        writer.writerow(['id', 'sample_label','sample_barcode','sample_label_cap', 'added_by', 'added_date'])
+        writer.writerow(['id', 'sample_label','sample_barcode','sample_label_cap', 'created_by', 'created_datetime'])
 
         samplelabel_reqnum = samplelabel.req_sample_label_num
         samplelabel_id = samplelabel.id
-        addedby_email = samplelabel.added_by.email
-        samplelabel_added_date = samplelabel.added_date
+        addedby_email = samplelabel.created_by.email
+        samplelabel_created_datetime = samplelabel.created_datetime
 
         if samplelabel_reqnum < 2:
             year_added = samplelabel.sample_label_prefix[-3:]
             sequence = samplelabel.min_sample_label_id[-4:]
             label_cap = samplelabel.site_id.site_id + "\n" + year_added + "\n" + sequence
-            writer.writerow([samplelabel_id, samplelabel.min_sample_label_id, samplelabel.min_sample_label_id, label_cap,addedby_email, samplelabel_added_date])
+            writer.writerow([samplelabel_id, samplelabel.min_sample_label_id, samplelabel.min_sample_label_id, label_cap,addedby_email, samplelabel_created_datetime])
         else:
             sequence = samplelabel.min_sample_label_id[-4:]
             for label_seq in range(samplelabel_reqnum):
                 year_added = samplelabel.sample_label_prefix[-3:]
                 sample_label = samplelabel.sample_label_prefix + "_" + sequence
                 label_cap = samplelabel.site_id.site_id + "\n" + year_added + "\n" + sequence
-                writer.writerow([samplelabel_id, sample_label, sample_label, label_cap, addedby_email,samplelabel_added_date])
+                writer.writerow([samplelabel_id, sample_label, sample_label, label_cap, addedby_email,samplelabel_created_datetime])
                 sequence = str(int(sequence)+1).zfill(4)
         return response
 
@@ -96,8 +96,8 @@ class AddSampleLabelView(LoginRequiredMixin,CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.added_by = self.request.user
-        self.object.added_date = timezone.now()
+        self.object.created_by = self.request.user
+        self.object.created_datetime = timezone.now()
         return super().form_valid(form)
 
     def get_initial(self):

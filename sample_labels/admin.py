@@ -9,11 +9,11 @@ class SampleTypeAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = SampleTypeAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'added_date', 'added_by')
+    list_display = ('__str__', 'created_datetime', 'created_by')
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['sample_type_label','added_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+        self.fields = ['sample_type_label','created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleTypeAdmin, self).change_view(request, object_id)
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -31,20 +31,20 @@ class SampleLabelRequestAdmin(ExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['site_id','sample_type', 'purpose','req_sample_label_num','added_by']
+        self.fields = ['site_id','sample_type', 'purpose','req_sample_label_num','created_by']
         self.list_filter = (
             ('sample_type', RelatedDropdownFilter),
         )
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
-        add_fields['added_by'] = request.user
+        add_fields['created_by'] = request.user
         request.GET = add_fields
         return super(SampleLabelRequestAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['purpose','added_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+        self.fields = ['purpose','created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleLabelRequestAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu

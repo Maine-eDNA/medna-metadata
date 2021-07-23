@@ -15,7 +15,7 @@ class SampleLabelRequestTable(tables.Table):
                                   attrs={"td": {"class": "addlink"}},
                                   text='Add', args=[A("site_id.id"), A("sample_type.id"), A("purpose")])
     # formatting for date column
-    added_date = tables.DateTimeColumn(format="M d, Y", attrs={"th": {"class": "field-added_date"}})
+    created_datetime = tables.DateTimeColumn(format="M d, Y", attrs={"th": {"class": "field-created_datetime"}})
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
                                                     "input": {"class": "action-select"},
@@ -26,7 +26,7 @@ class SampleLabelRequestTable(tables.Table):
     # "td__class": {"action-checkbox"}},
     class Meta:
         model = SampleLabelRequest
-        fields = ("_selected_action", "max_sample_label_id", "min_sample_label_num", "sample_year", "sample_type", "purpose", "added_date")
+        fields = ("_selected_action", "max_sample_label_id", "min_sample_label_num", "sample_year", "sample_type", "purpose", "created_datetime")
         # set table css class to "result_lust"
         #attrs = {"class": "result_list"}
         # this is NOT the template it writes to, this is the template it uses to load with

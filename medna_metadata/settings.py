@@ -40,7 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.gis',
+#    'django.contrib.gis',
+    'users',
+    'field_sites',
+    'sample_labels',
+    'field_survey',
+    'wet_lab',
+    'freezer_inventory',
+    'bioinfo_denoising',
+    'bioinfo_taxon',
     'corsheaders',
     'allauth', # django-allauth handles user registration as well as social authentication.
     'allauth.account', # Good for email address verification, resetting passwords, etc.
@@ -49,10 +57,10 @@ INSTALLED_APPS = [
     'rest_auth', # django-rest-auth provides API endpoints for user reg, login/logout,
     'rest_auth.registration', # password change/reset, social auth, etc
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
-    'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
+#    'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
     'rest_framework.authtoken',  # for the creation of api tokens
     'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
-    'users',
+
 ]
 
 # grab currently logged in user for reference in models
@@ -117,12 +125,13 @@ WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DJANGO_DATABASE_NAME', 'medna_metadata'),
         'USER': os.environ.get('DJANGO_DATABASE_USERNAME', 'django'),
         'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD', 'password'),
         'HOST': os.environ.get('DJANGO_DATABASE_HOST', 'localhost'),
-        'PORT': os.environ.get('DJANGO_DATABASE_PORT', 5432),
+        'PORT': os.environ.get('DJANGO_DATABASE_PORT', 5433),
     }
 }
 
