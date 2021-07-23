@@ -47,7 +47,7 @@ class GeoRegionsListView(generics.ListAPIView):
 class FieldSiteDetailView(DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom', 'added_by', 'added_date']
+    fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom', 'created_by', 'created_datetime']
 
 #    def get_object(self, queryset=None):
 #        return queryset.get(self.kwargs['pk'])
@@ -64,10 +64,10 @@ class FieldSiteExportDetailView(DetailView):
             datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
         writer.writerow(['id','site_id', 'project', 'system', 'region', 'general_location_name',
-                         'purpose', 'lat', 'lon', 'srid', 'added_by','added_date'])
+                         'purpose', 'lat', 'lon', 'srid', 'created_by','created_datetime'])
         writer.writerow([site.id, site.site_id, site.project.project_label, site.system.system_label, site.region.region_label,
                          site.general_location_name, site.purpose, site.geom.y,
-                         site.geom.x, site.geom.srid, site.added_by.email,site.added_date])
+                         site.geom.x, site.geom.srid, site.created_by.email,site.created_datetime])
         return response
 
 class AddFieldSiteView(LoginRequiredMixin,CreateView):
@@ -79,8 +79,8 @@ class AddFieldSiteView(LoginRequiredMixin,CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.added_by = self.request.user
-        self.object.added_date = timezone.now()
+        self.object.created_by = self.request.user
+        self.object.created_datetime = timezone.now()
         return super().form_valid(form)
 
     def get_success_url(self):

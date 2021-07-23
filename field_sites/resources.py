@@ -9,21 +9,21 @@ class ProjectAdminResource(resources.ModelResource):
         import_id_fields = ('project_code',)
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 class SystemAdminResource(resources.ModelResource):
     class Meta:
         model = System
         import_id_fields = ('system_code',)
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 class RegionAdminResource(resources.ModelResource):
     class Meta:
         model = Region
         import_id_fields = ('region_code',)
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 class WorldBorderAdminResource(resources.ModelResource):
     class Meta:
@@ -36,9 +36,9 @@ class FieldSiteAdminResource(resources.ModelResource):
         import_id_fields = ('site_id',)
         exclude = ('site_prefix','site_num')
         fields = ('site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'geom', 'added_by','added_date',)
+                  'purpose', 'geom', 'created_by','created_datetime',)
         export_order = ('site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'geom', 'added_by','added_date',)
+                  'purpose', 'geom', 'created_by','created_datetime',)
 
     project = fields.Field(
         column_name='project',
@@ -55,7 +55,7 @@ class FieldSiteAdminResource(resources.ModelResource):
         attribute='region',
         widget=ForeignKeyWidget(Region, 'region_label'))
 
-    added_by = fields.Field(
-        column_name='added_by',
-        attribute='added_by',
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
