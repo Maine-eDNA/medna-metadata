@@ -2,8 +2,8 @@ from django.contrib import admin
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import FieldSurveyAdminResource, FieldCrewAdminResource, EnvMeasurementAdminResource, \
-    FieldCollectionAdminResource, SampleFilterAdminResource
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, SampleFilter
+    FieldCollectionAdminResource, FieldSampleAdminResource
+from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample
 
 # Register your models here.
 class FieldSurveyAdmin(ImportExportActionModelAdmin):
@@ -100,9 +100,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
                        'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material', 'water_vessel_color',
                        'water_collect_notes','core_control', 'core_label', 'core_start', 'core_end', 'core_method',
                        'core_method_other','core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',
-                       'subcore_fname','subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_date',
-                       'subcore_start','subcore_end', 'subcore_min_barcode', 'subcore_num', 'subcore_length',
-                       'subcore_diameter','subcore_clayer', 'core_purpose', 'core_notes', 'was_prefiltered',
+                        'core_purpose', 'core_notes', 'was_prefiltered',
                        'was_filtered','survey_global_id', 'created_by', 'created_datetime']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
@@ -117,22 +115,23 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
 
 admin.site.register(FieldCollection, FieldCollectionAdmin)
 
-class SampleFilterAdmin(ImportExportActionModelAdmin):
+class FieldSampleAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleLabelAdminResource
-    resource_class = SampleFilterAdminResource
+    resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'filter_global_id', 'filter_date', 'filter_sample_label',
-                    'filter_barcode', 'created_datetime', 'created_by')
+    list_display = ('collection_global_id', 'sample_global_id', 'field_sample_barcode', 'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['filter_global_id','filter_location','filter_fname', 'filter_lname', 'filter_sample_label',
-                       'filter_barcode', 'filter_date', 'filter_time', 'filter_method', 'filter_method_other',
+        self.fields = ['sample_global_id','filter_location','filter_fname', 'filter_lname', 'filter_sample_label',
+                       'field_sample_barcode', 'filter_date', 'filter_time', 'filter_method', 'filter_method_other',
                        'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                       'filter_notes', 'collection_global_id', 'created_datetime', 'created_by']
+                       'filter_notes', 'subcore_fname','subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_date',
+                       'subcore_datetime_start','subcore_datetime_end', 'subcore_num', 'subcore_length',
+                       'subcore_diameter','subcore_clayer', 'collection_global_id', 'created_datetime', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(SampleFilterAdmin, self).change_view(request, object_id)
+        return super(FieldSampleAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -142,4 +141,4 @@ class SampleFilterAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
-admin.site.register(SampleFilter, SampleFilterAdmin)
+admin.site.register(FieldSample, FieldSampleAdmin)

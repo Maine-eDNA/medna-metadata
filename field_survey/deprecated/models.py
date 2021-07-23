@@ -201,10 +201,20 @@ class EnvMeasurement(TrackDateModel):
 
 class FieldCollection(TrackDateModel):
     collection_global_id = models.TextField("Global ID", primary_key=True)
+    collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
                                          related_name="FieldSurveyToFieldCollection",
                                          on_delete=models.CASCADE)
-    collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
+    class Meta:
+        app_label = 'field_survey'
+        verbose_name = 'FieldCollection'
+        verbose_name_plural = 'FieldCollections'
+
+class CollectionWater(FieldCollection):
+    # id = models.AutoField(unique=True)
+    #collection_global_id = models.TextField("Global ID", primary_key=True)
+    # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
+#    collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
     water_control = models.CharField("Is Control", max_length=3, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=255, blank=True)
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
@@ -219,6 +229,23 @@ class FieldCollection(TrackDateModel):
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
     # wasfiltered
     was_filtered = models.CharField("Filtered", max_length=3, blank=True)
+
+    def __str__(self):
+        return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(
+            survey_global_id=self.survey_global_id,
+            collection_global_id=self.collection_global_id,
+            collection_type=self.collection_type)
+
+    class Meta:
+        app_label = 'field_survey'
+        verbose_name = 'CollectionWater'
+        verbose_name_plural = 'CollectionWaters'
+
+class CollectionSediment(FieldCollection):
+    # id = models.AutoField(unique=True)
+    #collection_global_id = models.TextField("Global ID", primary_key=True)
+    # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
+    #collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
     core_control = models.CharField("Is Control", max_length=3, blank=True)
     core_label = models.TextField("Core Label", blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
@@ -241,21 +268,41 @@ class FieldCollection(TrackDateModel):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldCollection'
-        verbose_name_plural = 'FieldCollections'
+        verbose_name = 'CollectionSediment'
+        verbose_name_plural = 'CollectionSediments'
 
 class FieldSample(TrackDateModel):
+    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     sample_global_id = models.TextField("Global ID", primary_key=True)
+    field_sample_barcode = models.ForeignKey(SampleLabel, on_delete=models.RESTRICT, primary_key=True)
+    # not survey fields, django fields
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id",
                                              related_name="FieldCollectionToFieldSample",
                                              on_delete=models.CASCADE)
-    field_sample_barcode = models.ForeignKey(SampleLabel, on_delete=models.RESTRICT, unique=True)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
+
+    def __str__(self):
+        return '{collection_global_id}, {field_sample_barcode}'.format(
+            collection_global_id=self.collection_global_id,
+            field_sample_barcode=self.field_sample_barcode)
+
+    class Meta:
+        app_label = 'field_survey'
+        verbose_name = 'FieldSample'
+        verbose_name_plural = 'FieldSamples'
+
+
+class SampleFilter(FieldSample):
+    # id = models.AutoField(unique=True)
+    # now sample_global_id in FieldSample
+#    filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
+    # now in FieldSample
+#    filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, unique=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
@@ -265,27 +312,44 @@ class FieldSample(TrackDateModel):
     filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
     filter_size = models.IntegerField("Filter Size", blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
+
+    def __str__(self):
+        return '{filter_fname} {filter_lname}, {filter_sample_label}, {filter_type}, {filter_datetime}'.format(
+            filter_fname=self.filter_fname,
+            filter_lname=self.filter_lname,
+            filter_sample_label=self.filter_sample_label,
+            filter_type=self.filter_type,
+            filter_datetime=self.filter_datetime)
+
+    class Meta:
+        app_label = 'field_survey'
+        verbose_name = 'SampleFilter'
+        verbose_name_plural = 'SampleFilters'
+
+class SampleSubCore(FieldSample):
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
     subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
+#    subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, unique=True)
+#    subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, unique=True)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
     subcore_length = models.FloatField("Sub-Core Length (cm)", blank=True, null=True)
     subcore_diameter = models.FloatField("Sub-Core Diameter (cm)", blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
 
     def __str__(self):
-        return '{collection_global_id}: {sample_type}, {field_sample_barcode}'.format(
-            collection_global_id=self.collection_global_id,
-            sample_type=self.sample_type,
-            field_sample_barcode=self.field_sample_barcode)
+        return '{subcore_fname} {subcore_lname}, {subcore_datetime_start}'.format(
+            subcore_fname=self.subcore_fname,
+            subcore_lname=self.subcore_lname,
+            subcore_datetime_start=self.subcore_datetime_start)
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldSample'
-        verbose_name_plural = 'FieldSamples'
+        verbose_name = 'SampleSubCore'
+        verbose_name_plural = 'SampleSubCores'
 
 
 ###########
