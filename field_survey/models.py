@@ -14,11 +14,25 @@ def get_sentinel_user():
 
 def get_default_user():
     return User.objects.get(id=1)
+
+class TrackDateModel(models.Model):
+    # these are django fields for when the record was created and by whom
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
+    modified_datetime = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now=True)
+
+    def was_added_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
+
+    class Meta:
+        abstract = True
+
 ###########
 # Post Transform
 ###########
 
-class FieldSurvey(models.Model):
+class FieldSurvey(TrackDateModel):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     # id = models.AutoField(unique=True)
@@ -74,7 +88,7 @@ class FieldSurvey(models.Model):
     gps_cap_alt = models.FloatField("Captured Altitude (m)", blank=True, null=True)
     gps_cap_horiz_acc = models.FloatField("Captured Horizontal Accuracy (m)", blank=True, null=True)
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
-    record_creation_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
+    record_create_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(User, db_column='username', verbose_name="Survey Creator", blank=True,
                                        on_delete=models.SET(get_sentinel_user), related_name="record_creator")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
@@ -83,10 +97,6 @@ class FieldSurvey(models.Model):
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
-    # not survey fields, django fields
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
 
     @property
     def lat(self):
@@ -100,10 +110,6 @@ class FieldSurvey(models.Model):
     def srid(self):
         return self.geom.srid
 
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
-
     def __str__(self):
         return '{survey_global_id}, {date} {time}, {location}, {creator}, Incomplete: {survey_incomplete}'.format(
             survey_global_id=self.survey_global_id,
@@ -114,12 +120,12 @@ class FieldSurvey(models.Model):
             survey_incomplete=self.survey_incomplete)
 
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'FieldSurvey'
         verbose_name_plural = 'FieldSurveys'
 
 
-class FieldCrew(models.Model):
+class FieldCrew(TrackDateModel):
     # id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
@@ -127,10 +133,6 @@ class FieldCrew(models.Model):
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
                                          related_name="FieldSurveyToFieldCrew",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    added_datetime = models.DateTimeField("Date Added", auto_now=True, null=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
 
     def __str__(self):
         return '{survey_global_id}, {fname} {lname}'.format(survey_global_id=self.survey_global_id,
@@ -138,12 +140,12 @@ class FieldCrew(models.Model):
                                                             lname=self.crew_lname)
 
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'FieldCrew'
         verbose_name_plural = 'FieldCrews'
 
 
-class EnvMeasurement(models.Model):
+class EnvMeasurement(TrackDateModel):
     # id = models.AutoField(unique=True)
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
@@ -185,10 +187,6 @@ class EnvMeasurement(models.Model):
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
                                          related_name="FieldSurveyToEnvMeasurement",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
 
     def __str__(self):
         return '{survey_global_id}, {env_measure_time}, {env_measure_depth}'.format(
@@ -197,23 +195,22 @@ class EnvMeasurement(models.Model):
             env_measure_depth=self.env_measure_depth)
 
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'EnvMeasurement'
         verbose_name_plural = 'EnvMeasurements'
 
-class FieldCollection(models.Model):
+class FieldCollection(TrackDateModel):
     collection_global_id = models.TextField("Global ID", primary_key=True)
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
                                          related_name="FieldSurveyToFieldCollection",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+    class Meta:
+        app_label = 'field_survey'
+        verbose_name = 'FieldCollection'
+        verbose_name_plural = 'FieldCollections'
 
-
-class WaterCollection(FieldCollection):
+class CollectionWater(FieldCollection):
     # id = models.AutoField(unique=True)
     #collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
@@ -230,17 +227,9 @@ class WaterCollection(FieldCollection):
     water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
-    # wasprefiltered
-    # was_prefiltered = models.CharField("Pre-Filtered", max_length=3, blank=True)
     # wasfiltered
     was_filtered = models.CharField("Filtered", max_length=3, blank=True)
-#    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
-#                                         related_name="FieldSurveyToFieldCollection",
-#                                         on_delete=models.CASCADE)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     def __str__(self):
         return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(
             survey_global_id=self.survey_global_id,
@@ -248,11 +237,11 @@ class WaterCollection(FieldCollection):
             collection_type=self.collection_type)
 
     class Meta:
-        app_label = 'medna_data'
-        verbose_name = 'WaterCollection'
-        verbose_name_plural = 'WaterCollections'
+        app_label = 'field_survey'
+        verbose_name = 'CollectionWater'
+        verbose_name_plural = 'CollectionWaters'
 
-class SedimentCollection(FieldCollection):
+class CollectionSediment(FieldCollection):
     # id = models.AutoField(unique=True)
     #collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
@@ -270,13 +259,7 @@ class SedimentCollection(FieldCollection):
     core_notes = models.TextField("Core Notes", blank=True)
     # subcorestaken
     subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True)
-    #survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
-    #                                     related_name="FieldSurveyToFieldCollection",
-    #                                     on_delete=models.CASCADE)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     def __str__(self):
         return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(
             survey_global_id=self.survey_global_id,
@@ -284,23 +267,19 @@ class SedimentCollection(FieldCollection):
             collection_type=self.collection_type)
 
     class Meta:
-        app_label = 'medna_data'
-        verbose_name = 'SedimentCollection'
-        verbose_name_plural = 'SedimentCollections'
+        app_label = 'field_survey'
+        verbose_name = 'CollectionSediment'
+        verbose_name_plural = 'CollectionSediments'
 
-class FieldSample(models.Model):
+class FieldSample(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     sample_global_id = models.TextField("Global ID", primary_key=True)
     field_sample_barcode = models.ForeignKey(SampleLabel, on_delete=models.RESTRICT, primary_key=True)
     # not survey fields, django fields
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
-    collection_global_id = models.ForeignKey(WaterCollection, db_column="collection_global_id",
-                                             related_name="FieldCollectionToSampleFilter",
+    collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id",
+                                             related_name="FieldCollectionToFieldSample",
                                              on_delete=models.CASCADE)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
 
     def __str__(self):
         return '{collection_global_id}, {field_sample_barcode}'.format(
@@ -308,7 +287,7 @@ class FieldSample(models.Model):
             field_sample_barcode=self.field_sample_barcode)
 
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'FieldSample'
         verbose_name_plural = 'FieldSamples'
 
@@ -322,7 +301,7 @@ class SampleFilter(FieldSample):
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
-    # needs to fk to samplelabels at some point
+    # now in FieldSample
 #    filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, unique=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
@@ -333,14 +312,6 @@ class SampleFilter(FieldSample):
     filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
     filter_size = models.IntegerField("Filter Size", blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
-    # now collection_global_id in FieldSample
-#    collection_global_id = models.ForeignKey(WaterCollection, db_column="collection_global_id",
-#                                             related_name="FieldCollectionToSampleFilter",
-#                                             on_delete=models.CASCADE)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
 
     def __str__(self):
         return '{filter_fname} {filter_lname}, {filter_sample_label}, {filter_type}, {filter_datetime}'.format(
@@ -351,7 +322,7 @@ class SampleFilter(FieldSample):
             filter_datetime=self.filter_datetime)
 
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'SampleFilter'
         verbose_name_plural = 'SampleFilters'
 
@@ -368,10 +339,6 @@ class SampleSubCore(FieldSample):
     subcore_length = models.FloatField("Sub-Core Length (cm)", blank=True, null=True)
     subcore_diameter = models.FloatField("Sub-Core Diameter (cm)", blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
 
     def __str__(self):
         return '{subcore_fname} {subcore_lname}, {subcore_datetime_start}'.format(
@@ -380,7 +347,7 @@ class SampleSubCore(FieldSample):
             subcore_datetime_start=self.subcore_datetime_start)
 
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'SampleSubCore'
         verbose_name_plural = 'SampleSubCores'
 
@@ -389,7 +356,7 @@ class SampleSubCore(FieldSample):
 # Pre Transform
 ###########
 
-class FieldSurveyETL(models.Model):
+class FieldSurveyETL(TrackDateModel):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     #id = models.AutoField(unique=True)
@@ -445,7 +412,7 @@ class FieldSurveyETL(models.Model):
     gps_cap_alt = models.FloatField("Captured Altitude (m)", blank=True, null=True)
     gps_cap_horiz_acc = models.FloatField("Captured Horizontal Accuracy (m)", blank=True, null=True)
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
-    record_creation_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
+    record_create_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(User, db_column='username', verbose_name="Survey Creator", blank=True,
                                  on_delete=models.SET(get_sentinel_user), related_name="record_creator")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
@@ -454,11 +421,7 @@ class FieldSurveyETL(models.Model):
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
-    # not survey fields, django fields
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     @property
     def lat(self):
         return self.geom.y
@@ -479,32 +442,29 @@ class FieldSurveyETL(models.Model):
                                                                                                                   creator=self.record_creator,
                                                                                                                   survey_incomplete=self.survey_incomplete)
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'FieldSurvey'
         verbose_name_plural = 'FieldSurveys'
 
-class FieldCrewETL(models.Model):
+class FieldCrewETL(TrackDateModel):
     #id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="FieldSurveyToFieldCrew",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True, null=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     def __str__(self):
         return '{survey_global_id}, {fname} {lname}'.format(survey_global_id=self.survey_global_id,
                                                            fname=self.crew_fname,
                                                            lname=self.crew_lname)
+
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'FieldCrew'
         verbose_name_plural = 'FieldCrews'
 
-class EnvMeasurementETL(models.Model):
+class EnvMeasurementETL(TrackDateModel):
     #id = models.AutoField(unique=True)
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
@@ -545,21 +505,17 @@ class EnvMeasurementETL(models.Model):
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="FieldSurveyToEnvMeasurement",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     def __str__(self):
         return '{survey_global_id}, {env_measure_time}, {env_measure_depth}'.format(survey_global_id=self.survey_global_id,
                                                                                   env_measure_time=self.env_measure_time,
                                                                                   env_measure_depth=self.env_measure_depth)
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'EnvMeasurement'
         verbose_name_plural = 'EnvMeasurements'
 
-class FieldCollectionETL(models.Model):
+class FieldCollectionETL(TrackDateModel):
     #id = models.AutoField(unique=True)
     collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
@@ -607,21 +563,17 @@ class FieldCollectionETL(models.Model):
     was_filtered = models.CharField("Filtered", max_length=3, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="FieldSurveyToFieldCollection",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     def __str__(self):
         return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(survey_global_id=self.survey_global_id,
                                                                                     collection_global_id=self.collection_global_id,
                                                                                     collection_type=self.collection_type)
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'FieldCollection'
         verbose_name_plural = 'FieldCollections'
 
-class SampleFilterETL(models.Model):
+class SampleFilterETL(TrackDateModel):
     #id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
@@ -642,17 +594,12 @@ class SampleFilterETL(models.Model):
     filter_notes = models.TextField("Filter Notes", blank=True)
     collection_global_id = models.ForeignKey(FieldCollectionETL, db_column="collection_global_id", related_name="FieldCollectionToSampleFilter",
                                          on_delete=models.CASCADE)
-    # not survey fields, django fields
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user),
-                                 default=get_default_user)
+
     def __str__(self):
         return '{collection_global_id}, {filter_sample_label}, {filter_barcode}'.format(collection_global_id=self.collection_global_id,
                                                                                       filter_sample_label=self.filter_sample_label,
                                                                                       filter_barcode=self.filter_barcode)
     class Meta:
-        app_label = 'medna_data'
+        app_label = 'field_survey'
         verbose_name = 'SampleFilter'
         verbose_name_plural = 'SampleFilters'
-

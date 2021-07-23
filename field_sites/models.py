@@ -15,30 +15,35 @@ def get_sentinel_user():
 def get_default_user():
     return CustomUser.objects.get(id=1)
 
-class Project(models.Model):
-    project_code = models.CharField("Project Code",max_length=1)
-    project_label = models.CharField("Project Label",max_length=200)
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(),on_delete=models.SET(get_sentinel_user), default=get_default_user)
+class TrackDateModel(models.Model):
+    # these are django fields for when the record was created and by whom
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
+    modified_datetime = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now=True)
+
     def was_added_recently(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
+        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
+
+    class Meta:
+        abstract = True
+
+class Project(TrackDateModel):
+    project_code = models.CharField("Project Code",max_length=1, unique=True)
+    project_label = models.CharField("Project Label",max_length=200)
+
     def __str__(self):
         return '{code}: {label}'.format(code=self.project_code, label=self.project_label)
 
-class System(models.Model):
-    system_code = models.CharField("System Code",max_length=1)
+class System(TrackDateModel):
+    system_code = models.CharField("System Code",max_length=1, unique=True)
     system_label = models.CharField("System Label",max_length=200)
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(),on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
+
     def __str__(self):
         return '{code}: {label}'.format(code=self.system_code, label=self.system_label)
 
-class Region(models.Model):
-    region_code = models.CharField("Region Code",max_length=2)
+class Region(TrackDateModel):
+    region_code = models.CharField("Region Code",max_length=2, unique=True)
     region_label = models.CharField("Region Label",max_length=200)
     huc8 = models.CharField("HUC8", max_length=200)
     states = models.CharField("States", max_length=200)
@@ -48,16 +53,11 @@ class Region(models.Model):
     area_acres = models.DecimalField('Area (acres)', max_digits=18, decimal_places=2)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     geom = models.MultiPolygonField()
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(),on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
+
     def __str__(self):
         return '{code}: {label}'.format(code=self.region_code, label=self.region_label)
 
-class FieldSite(models.Model):
+class FieldSite(TrackDateModel):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     project = models.ForeignKey(Project, on_delete=models.RESTRICT)
@@ -69,12 +69,9 @@ class FieldSite(models.Model):
     #lon = models.FloatField("Longitude (DD)")
     site_prefix = models.CharField("Site Prefix", max_length=5)
     site_num = models.IntegerField(default=1)
-    site_id = models.CharField("Site ID", max_length=7, primary_key=True)
+    site_id = models.CharField("Site ID", max_length=7, unique=True)
     envo_biome = models.CharField("ENVO Biome")
     envo_feature = models.CharField("ENVO Feature")
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
@@ -91,10 +88,6 @@ class FieldSite(models.Model):
     def srid(self):
         return self.geom.srid
 
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
-
     def __str__(self):
         return self.site_id
 
@@ -102,7 +95,9 @@ class FieldSite(models.Model):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
             # concatenate project, region, and system to create site_prefix, e.g., "eAL_L"
-            self.site_prefix = '{project}{region}_{system}'.format(project=self.project.project_code,region=self.region.region_code,system=self.system.system_code)
+            self.site_prefix = '{project}{region}_{system}'.format(project=self.project.project_code,
+                                                                   region=self.region.region_code,
+                                                                   system=self.system.system_code)
             # Retrieve a list of `Site` instances, group them by the site_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
             largest = FieldSite.objects.only('site_prefix','site_num').filter(site_prefix=self.site_prefix).order_by('site_num').last()
@@ -117,7 +112,8 @@ class FieldSite(models.Model):
             # add leading zeros to site_num, e.g., 1 to 01
             site_num_leading_zeros = str(self.site_num).zfill(2)
             # format site_id, e.g., "eAL_L01"
-            self.site_id = '{siteprefix}{sitenum}'.format(siteprefix=self.site_prefix,sitenum=site_num_leading_zeros)
+            self.site_id = '{siteprefix}{sitenum}'.format(siteprefix=self.site_prefix,
+                                                          sitenum=site_num_leading_zeros)
         # all done, time to save changes to the db
         super(FieldSite, self).save(*args, **kwargs)
 

@@ -23,52 +23,26 @@ def get_sentinel_user():
 def get_default_user():
     return CustomUser.objects.get(id=1)
 
-def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sample_label_num, max_sample_label_num,
-                            sample_label_prefix, site_id, sample_type, sample_year, purpose):
-    if min_sample_label_id == max_sample_label_id:
-    # only one label request, so min and max label id will be the same; only need to enter
-    # one new label into SampleLabel
-        sample_label_id = min_sample_label_id
-        SampleLabel.objects.update_or_create(
-            sample_label_id=sample_label_id,
-            site_id=site_id,
-            sample_type=sample_type,
-            sample_year=sample_year,
-            purpose=purpose
-        )
-    else:
-        # more than one label requested, so need to interate to insert into SampleLabel
-        # arange does not include max value, hence max+1
-        for num in np.arange(min_sample_label_num, max_sample_label_num+1, 1):
-            # add leading zeros to site_num, e.g., 1 to 01
-            num_leading_zeros = str(num).zfill(4)
-
-            # format site_id, e.g., "eAL_L01"
-            sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=sample_label_prefix,
-                                                                        sitenum=num_leading_zeros)
-            # enter each new label into SampleLabel - request only has a single row with the requested
-            # number and min/max; this table is necessary for joining proceeding tables
-            SampleLabel.objects.update_or_create(
-                sample_label_id=sample_label_id,
-                site_id=site_id,
-                sample_type=sample_type,
-                sample_year=sample_year,
-                purpose=purpose
-            )
-
-class SampleType(models.Model):
-    sample_type_code = models.CharField("System Code",max_length=1)
-    sample_type_label = models.CharField("System Label",max_length=200)
+class TrackDateModel(models.Model):
     # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(),on_delete=models.SET(get_sentinel_user), default=get_default_user)
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
+    modified_datetime = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now=True)
+
     def was_added_recently(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
+        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
+
+    class Meta:
+        abstract = True
+
+class SampleType(TrackDateModel):
+    sample_type_code = models.CharField("System Code",max_length=1, unique=True)
+    sample_type_label = models.CharField("System Label",max_length=200)
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
 
-class SampleLabelRequest(models.Model):
+class SampleLabelRequest(TrackDateModel):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
@@ -81,14 +55,42 @@ class SampleLabelRequest(models.Model):
     max_sample_label_num = models.IntegerField(default=1)
     min_sample_label_id = models.CharField("Min Sample Label ID",max_length=16)
     max_sample_label_id = models.CharField("Max Sample Label ID",max_length=16)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(),on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
     def __str__(self):
         return self.max_sample_label_id
+
+    def insert_update_sample_id_req(self, min_sample_label_id, max_sample_label_id, min_sample_label_num,
+                                    max_sample_label_num, sample_label_prefix, site_id, sample_type, sample_year,
+                                    purpose):
+        if min_sample_label_id == max_sample_label_id:
+            # only one label request, so min and max label id will be the same; only need to enter
+            # one new label into SampleLabel
+            sample_label_id = min_sample_label_id
+            SampleLabel.objects.update_or_create(
+                sample_label_id=sample_label_id,
+                site_id=site_id,
+                sample_type=sample_type,
+                sample_year=sample_year,
+                purpose=purpose
+            )
+        else:
+            # more than one label requested, so need to interate to insert into SampleLabel
+            # arange does not include max value, hence max+1
+            for num in np.arange(min_sample_label_num, max_sample_label_num + 1, 1):
+                # add leading zeros to site_num, e.g., 1 to 01
+                num_leading_zeros = str(num).zfill(4)
+
+                # format site_id, e.g., "eAL_L01"
+                sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=sample_label_prefix,
+                                                                   sitenum=num_leading_zeros)
+                # enter each new label into SampleLabel - request only has a single row with the requested
+                # number and min/max; this table is necessary for joining proceeding tables
+                SampleLabel.objects.update_or_create(
+                    sample_label_id=sample_label_id,
+                    site_id=site_id,
+                    sample_type=sample_type,
+                    sample_year=sample_year,
+                    purpose=purpose
+                )
     def save(self, *args, **kwargs):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
@@ -114,13 +116,14 @@ class SampleLabelRequest(models.Model):
             # format site_id, e.g., "eAL_L01"
             self.min_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,sitenum=min_num_leading_zeros)
             self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,sitenum=max_num_leading_zeros)
-            insert_update_sample_id_req(self.min_sample_label_id, self.max_sample_label_id, self.min_sample_label_num,
-                                    self.max_sample_label_num, self.sample_label_prefix, self.site_id,
-                                    self.sample_type, self.sample_year, self.purpose)
+            self.insert_update_sample_id_req(self.min_sample_label_id, self.max_sample_label_id,
+                                             self.min_sample_label_num, self.max_sample_label_num,
+                                             self.sample_label_prefix, self.site_id,
+                                             self.sample_type, self.sample_year, self.purpose)
         # all done, time to save changes to the db
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
-class SampleLabel(models.Model):
+class SampleLabel(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     class YesNo(models.IntegerChoices):
         NO = 0, _('No')
@@ -129,19 +132,12 @@ class SampleLabel(models.Model):
 
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    sample_label_id = models.CharField("Sample Label ID", max_length=16, primary_key=True)
+    sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     sample_year = models.PositiveIntegerField("Sample Year",default=current_year(), validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=200)
     is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
     def __str__(self):
         return self.sample_label_id
 

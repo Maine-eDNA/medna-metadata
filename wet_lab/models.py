@@ -15,7 +15,21 @@ def get_sentinel_user():
 def get_default_user():
     return CustomUser.objects.get(id=1)
 
-class PrimerPair(models.Model):
+
+class TrackDateModel(models.Model):
+    # these are django fields for when the record was created and by whom
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
+    modified_datetime = models.DateTimeField(auto_now_add=True)
+    created_datetime = models.DateTimeField(auto_now=True)
+
+    def was_added_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
+
+    class Meta:
+        abstract = True
+
+class PrimerPair(TrackDateModel):
     class TargetGene(models.IntegerChoices):
         TG_12S = 0, _('12S')
         TG_16S = 1, _('16S')
@@ -31,38 +45,24 @@ class PrimerPair(models.Model):
     primer_set_name = models.TextField("Primer Set Name")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{primer_set_name}, {primer_target_gene}'.format(
             primer_set_name=self.primer_set_name,
             primer_target_gene=self.primer_target_gene)
 
-class IndexPair(models.Model):
+class IndexPair(TrackDateModel):
     index_i7 = models.CharField("i7 Index", max_length=16)
     index_i7_id = models.CharField("i7 Index ID", max_length=12)
     index_i5 = models.CharField("i5 Index", max_length=16)
     index_i5_id = models.CharField("i5 Index ID", max_length=12)
     index_adapter = models.CharField("Adapter", max_length=30)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{pkey}'.format(pkey=self.pk)
 
 
-class IndexRemovalMethod(models.Model):
+class IndexRemovalMethod(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    EXOSAP = 0, _('exo-sap')
@@ -70,18 +70,11 @@ class IndexRemovalMethod(models.Model):
     #    __empty__ = _('(Unknown)')
 
     index_removal_method_name = models.CharField("Index Removal Method", max_length=255)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
-class SizeSelectionMethod(models.Model):
+class SizeSelectionMethod(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    BEADS = 0, _('Beads')
@@ -90,18 +83,11 @@ class SizeSelectionMethod(models.Model):
     #    __empty__ = _('(Unknown)')
 
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
-class QuantificationMethod(models.Model):
+class QuantificationMethod(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    QBIT = 0, _('qbit')
@@ -112,18 +98,11 @@ class QuantificationMethod(models.Model):
     #    __empty__ = _('(Unknown)')
 
     quant_method_name = models.CharField("Quantification Method", max_length=255)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{name}'.format(name=self.quant_method_name)
 
-class ExtractionMethod(models.Model):
+class ExtractionMethod(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    BLOODTISSUE = 0, _('Qiagen Blood and Tissue')
@@ -133,13 +112,6 @@ class ExtractionMethod(models.Model):
 
     extraction_method_name = models.CharField("Extraction Method Name", max_length=255)
     extraction_method_manufacturer = models.CharField("Extraction Kit Manufacturer", max_length=255)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{manufacturer} {name}'.format(
@@ -147,7 +119,7 @@ class ExtractionMethod(models.Model):
             name=self.extraction_method_name)
 
 
-class Extraction(models.Model):
+class Extraction(TrackDateModel):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     class VolUnits(models.IntegerChoices):
         MICROLITER = 0, _('microliter (µL)')
@@ -170,18 +142,10 @@ class Extraction(models.Model):
     extraction_dna_concentration_units = models.IntegerField("DNA Concentration Units", choices=ConcentrationUnits.choices)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
-
     def __str__(self):
         return self.sample_label_id
 
-class Ddpcr(models.Model):
+class Ddpcr(TrackDateModel):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -196,13 +160,6 @@ class Ddpcr(models.Model):
     ddpcr_results = models.DecimalField("ddPCR Results", max_digits=10, decimal_places=2)
     ddpcr_results_units = models.IntegerField("ddPCR Results Units", choices=ConcentrationUnits.choices)
     ddpcr_notes = models.TextField("ddPCR Notes")
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{field_sample} {date}, {primer_set}, {ddpcr_results}'.format(
@@ -211,7 +168,7 @@ class Ddpcr(models.Model):
             primer_set=self.primer_set,
             ddpcr_results=self.ddpcr_results)
 
-class Qpcr(models.Model):
+class Qpcr(TrackDateModel):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -226,13 +183,6 @@ class Qpcr(models.Model):
     qpcr_results = models.DecimalField("qPCR Results", max_digits=10, decimal_places=2)
     qpcr_results_units = models.IntegerField("qPCR Results Units", choices=ConcentrationUnits.choices)
     qpcr_notes = models.TextField("qPCR Notes")
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{field_sample} {date}, {primer_set}, {qpcr_results}'.format(
@@ -241,7 +191,7 @@ class Qpcr(models.Model):
             primer_set=self.primer_set,
             qpcr_results=self.qpcr_results)
 
-class LibraryPrep(models.Model):
+class LibraryPrep(TrackDateModel):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -267,18 +217,11 @@ class LibraryPrep(models.Model):
     library_prep_kit = models.CharField("Library Prep Kit", max_length=255)
     library_prep_type = models.IntegerField("Library Prep Type", choices=PrepType.choices)
     library_prep_thermal_sop_filename = models.TextField("Thermal SOP Filename")
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{name}'.format(name=self.library_prep_experiment_name)
 
-class PooledLibrary(models.Model):
+class PooledLibrary(TrackDateModel):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -294,18 +237,11 @@ class PooledLibrary(models.Model):
     pooled_library_pooled_quantification = models.DecimalField("Pooled Quantification", max_digits=10, decimal_places=2)
     pooled_library_pooled_quant_units = models.IntegerField("Pooled Quant Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.NM)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{date} {added_by}'.format(date=self.added_datetime, added_by=self.added_by)
 
-class RunPrep(models.Model):
+class RunPrep(TrackDateModel):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -322,35 +258,28 @@ class RunPrep(models.Model):
     final_library_concentration = models.DecimalField("Final Library Concentration", max_digits=10, decimal_places=2)
     final_library_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.PM)
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{date} {added_by}'.format(date=self.run_date, added_by=self.added_by)
 
-class RunResults(models.Model):
-
+class RunResult(TrackDateModel):
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     run_id = models.CharField("Run ID", max_length=255)
     run_start_datetime = models.DateTimeField("Run Start Time")
     run_completion_datetime = models.DateTimeField("Run Completion Time")
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
     run_instrument = models.CharField("Instrument", max_length=255)
-    fastq_datafile = models.TextField("fastq_datafile")
-    # these are django fields for when the record was created and by whom
-    added_datetime = models.DateTimeField("Date Added", auto_now=True)
-    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
 
     def __str__(self):
         return '{run_id} {datetime} {run_experiment_name}'.format(run_id=self.run_id,
                                                                   datetime=self.run_completion_datetime,
                                                                   run_experiment_name=self.run_experiment_name)
+
+class FastqFile(TrackDateModel):
+    run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
+    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
+    fastq_datafile = models.TextField("FastQ Datafile")
+
+    def __str__(self):
+        return '{run_id}: {fastq}'.format(run_id=self.run_result.run_id,
+                                         fastq=self.fastq_datafile)
