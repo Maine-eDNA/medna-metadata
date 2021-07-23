@@ -36,5 +36,20 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN pip install --upgrade setuptools wheel
 RUN pip install -r requirements/prod.txt
 
-# Copy and install requirements
-COPY entrypoint.sh .
+# Copy app
+COPY . .
+
+USER root
+RUN mkdir -p $DJANGO_HOME/static
+RUN mkdir -p $DJANGO_HOME/media
+
+# Collect static files
+RUN python manage.py collectstatic --noinput --clear
+RUN chmod 755 -R $DJANGO_HOME/static
+RUN chmod 755 -R $DJANGO_HOME/media
+RUN chown -R django:django $DJANGO_HOME
+RUN chmod +x entrypoint.sh
+
+USER django
+# run entrypoint.sh
+ENTRYPOINT ["/home/django/entrypoint.sh"]

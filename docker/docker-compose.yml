@@ -1,0 +1,47 @@
+   # ----------------------------------------
+   # MEDNA-METADATA-POSTGIS
+   # ----------------------------------------
+    medna-metadata-pgdb:
+        restart: always
+        image: postgis/postgis:12-master
+        container_name: medna-metadata-pgdb
+        ports:
+            - '5433:5432'     # expose ports - HOST:CONTAINER
+        env_file:
+            - '/mnt/webcontent/medna-metadata/docker/medna.env.db'
+        volumes:
+            - './configs/medna-metadata/pgdata:/var/lib/postgresql/data/'
+
+   # ----------------------------------------
+   # MEDNA-METADATA
+   # ----------------------------------------
+    medna-metadata:
+        restart: always
+        build:
+            context: '/mnt/webcontent/medna-metadata'
+            dockerfile: './docker/web/Dockerfile'
+        container_name: medna-metadata
+        ports:
+            - '8001:8000'
+        env_file:
+            - '/mnt/webcontent/medna-metadata/docker/medna.env'
+        volumes:
+            - './configs/medna-metadata/media:/home/django/media/'
+        depends_on:
+            - medna-metadata-pgdb
+
+   # ----------------------------------------
+   # METADATA-NGINX
+   # ----------------------------------------
+#    metadata-nginx:
+#        restart: always
+#        image: nginx
+#            build:
+#                context: '/mnt/webcontent/medna-metadata'
+#                dockerfile: './nginx/Dockerfile'
+#        ports:
+#            - 80:80         # expose ports - HOST:CONTAINER
+#        volumes_from:
+#            - medna-metadata
+#        depends_on:
+#            - medna-metadata
