@@ -41,27 +41,48 @@ class ReferenceDatabase(TrackDateModel):
             version=self.refdb_version,
             coverage=self.redfb_coverage_score)
 
-class TaxonKingdom(TrackDateModel):
-    taxon_kingdom = models.DateField("Kingdom", max_length=255)
+class TaxonDomain(TrackDateModel):
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def __str__(self):
-        return '{tax_kingdom}'.format(
+        return '{tax_domain}'.format(
+            tax_domain=self.taxon_domain)
+
+class TaxonKingdom(TaxonDomain):
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+
+    def __str__(self):
+        return '{tax_domain} {tax_kingdom}'.format(
+            tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom)
 
-class TaxonClass(TaxonKingdom):
-    taxon_class = models.DateField("Class", max_length=255)
+class TaxonPhylum(TaxonKingdom):
+    taxon_phylum = models.CharField("Phylum", max_length=255)
 
     def __str__(self):
-        return '{tax_kingdom} {tax_class}'.format(
+        return '{tax_domain} {tax_kingdom} {tax_phylum}'.format(
+            tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
+            tax_phylum=self.taxon_phylum)
+
+class TaxonClass(TaxonPhylum):
+    taxon_class = models.CharField("Class", max_length=255)
+
+    def __str__(self):
+        return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class}'.format(
+            tax_domain=self.taxon_domain,
+            tax_kingdom=self.taxon_kingdom,
+            tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class)
 
 class TaxonOrder(TaxonClass):
     taxon_order = models.CharField("Order", max_length=255)
 
     def __str__(self):
-        return '{tax_kingdom} {tax_class} {tax_order}'.format(
+        return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order}'.format(
+            tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
+            tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class,
             tax_order=self.taxon_order)
 
@@ -69,8 +90,10 @@ class TaxonFamily(TaxonOrder):
     taxon_family = models.CharField("Family", max_length=255)
 
     def __str__(self):
-        return '{tax_kingdom} {tax_class} {tax_order} {tax_family}'.format(
+        return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order} {tax_family}'.format(
+            tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
+            tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class,
             tax_order=self.taxon_order,
             tax_family=self.taxon_family)
@@ -79,8 +102,10 @@ class TaxonGenus(TaxonFamily):
     taxon_genus = models.CharField("Genus", max_length=255)
 
     def __str__(self):
-        return '{tax_kingdom} {tax_class} {tax_order} {tax_family} {tax_genus}'.format(
+        return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order} {tax_family} {tax_genus}'.format(
+            tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
+            tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class,
             tax_order=self.taxon_order,
             tax_family=self.taxon_family,
@@ -98,8 +123,10 @@ class TaxonSpecies(TaxonGenus):
     is_endemic = models.IntegerField("Endemic to New England", choices=YesNo.choices, default=YesNo.YES)
 
     def __str__(self):
-        return '{tax_kingdom} {tax_class} {tax_order} {tax_family} {tax_genus} {tax_species}'.format(
+        return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order} {tax_family} {tax_genus} {tax_species}'.format(
+            tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
+            tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class,
             tax_order=self.taxon_order,
             tax_family=self.taxon_family,
@@ -118,7 +145,7 @@ class AnnotationMethod(TrackDateModel):
 
     def __str__(self):
         return '{name}'.format(
-            name=self.denoising_method_name)
+            name=self.annotation_method_name)
 
 class AnnotationMetadata(TrackDateModel):
     analysis_date = models.DateField("Freezer Date", auto_now=True)
@@ -142,13 +169,18 @@ class TaxonomicAnnotation(TrackDateModel):
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
     confidence = models.DecimalField("Confidence", max_digits=10, decimal_places=2, blank=True)
     ta_taxon = models.TextField("Taxon", blank=True)
+    ta_domain = models.CharField("Domain", max_length=255, blank=True)
     ta_kingdom = models.CharField("Kingdom", max_length=255, blank=True)
+    ta_phylum = models.CharField("Phylum", max_length=255, blank=True)
     ta_class = models.CharField("Class", max_length=255, blank=True)
     ta_order = models.CharField("Order", max_length=255, blank=True)
+    ta_family = models.CharField("Family", max_length=255, blank=True)
     ta_genus = models.CharField("Genus", max_length=255, blank=True)
     ta_species = models.CharField("Species", max_length=255, blank=True)
     ta_common_name = models.CharField("Common Name", max_length=255, blank=True)
+    manual_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT, blank=True, null=True)
     manual_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT, blank=True, null=True)
+    manual_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT, blank=True, null=True)
     manual_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT, blank=True, null=True)
     manual_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT, blank=True, null=True)
     manual_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT, blank=True, null=True)
