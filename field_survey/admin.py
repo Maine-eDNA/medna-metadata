@@ -11,7 +11,7 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
     # SampleTypeAdminResource
     resource_class = FieldSurveyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'added_date', 'added_by')
+    list_display = ('__str__', 'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -23,8 +23,8 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
                        'env_collection_mode', 'env_boat_type', 'env_bottom_depth', 'core_subcorer',
                        'water_filterer', 'survey_incomplete', 'qa_editor', 'qa_date', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                       'record_creation_date', 'record_creator', 'record_edit_date', 'record_editor', 'added_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+                       'record_create_date', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -43,8 +43,8 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['crew_global_id','crew_fname', 'crew_lname' ,'added_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+        self.fields = ['crew_global_id','crew_fname', 'crew_lname' ,'created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -62,7 +62,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'env_global_id', 'env_measure_time', 'env_measure_depth', 'added_date', 'added_by')
+    list_display = ('survey_global_id', 'env_global_id', 'env_measure_time', 'env_measure_depth', 'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -72,8 +72,8 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
                     'env_meas_taken', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
                     'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla',
                     'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime',
-                    'env_conditions_notes', 'survey_global_id', 'added_date', 'added_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+                    'env_conditions_notes', 'survey_global_id', 'created_datetime', 'created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -91,7 +91,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'collection_global_id', 'collection_type', 'added_by', 'added_date')
+    list_display = ('survey_global_id', 'collection_global_id', 'collection_type', 'created_by', 'created_datetime')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -103,8 +103,8 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
                        'subcore_fname','subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_date',
                        'subcore_start','subcore_end', 'subcore_min_barcode', 'subcore_num', 'subcore_length',
                        'subcore_diameter','subcore_clayer', 'core_purpose', 'core_notes', 'was_prefiltered',
-                       'was_filtered','survey_global_id', 'added_by', 'added_date']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+                       'was_filtered','survey_global_id', 'created_by', 'created_datetime']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -123,15 +123,15 @@ class SampleFilterAdmin(ImportExportActionModelAdmin):
     resource_class = SampleFilterAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('collection_global_id', 'filter_global_id', 'filter_date', 'filter_sample_label',
-                    'filter_barcode', 'added_date', 'added_by')
+                    'filter_barcode', 'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['filter_global_id','filter_location','filter_fname', 'filter_lname', 'filter_sample_label',
                        'filter_barcode', 'filter_date', 'filter_time', 'filter_method', 'filter_method_other',
                        'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                       'filter_notes', 'collection_global_id', 'added_date', 'added_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','added_date')
+                       'filter_notes', 'collection_global_id', 'created_datetime', 'created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleFilterAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu

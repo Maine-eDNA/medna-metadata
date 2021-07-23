@@ -15,7 +15,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
                             'env_collection_mode', 'env_boat_type', 'env_bottom_depth', 'core_subcorer',
                             'water_filterer', 'survey_incomplete', 'qa_editor', 'qa_date', 'qa_initial',
                             'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                            'record_creation_date', 'record_creator', 'record_edit_date', 'record_editor',)
+                            'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',)
         fields = ('survey_global_id','username','survey_date','departure_time','project_ids','supervisor',
                   'recorder_fname','recorder_lname','arrival_time','site_id','site_id_other',
                   'site_general_name','lat_manual','long_manual','env_obs_turbidity','env_obs_precip',
@@ -24,8 +24,8 @@ class FieldSurveyAdminResource(resources.ModelResource):
                   'env_collection_mode', 'env_boat_type', 'env_bottom_depth', 'core_subcorer',
                   'water_filterer', 'survey_incomplete', 'qa_editor', 'qa_date', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                  'record_creation_date', 'record_creator', 'record_edit_date', 'record_editor',
-                  'added_by','added_date',)
+                  'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',
+                  'created_by','created_datetime',)
         export_order = ('survey_global_id','username','survey_date','departure_time','project_ids','supervisor',
                         'recorder_fname','recorder_lname','arrival_time','site_id','site_id_other',
                         'site_general_name','lat_manual','long_manual','env_obs_turbidity','env_obs_precip',
@@ -34,8 +34,8 @@ class FieldSurveyAdminResource(resources.ModelResource):
                         'env_collection_mode', 'env_boat_type', 'env_bottom_depth', 'core_subcorer',
                         'water_filterer', 'survey_incomplete', 'qa_editor', 'qa_date', 'qa_initial',
                         'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                        'record_creation_date', 'record_creator', 'record_edit_date', 'record_editor',
-                        'added_by','added_date',)
+                        'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',
+                        'created_by','created_datetime',)
 
     username = fields.Field(
         column_name='username',
@@ -72,32 +72,32 @@ class FieldSurveyAdminResource(resources.ModelResource):
         attribute='record_editor',
         widget=ForeignKeyWidget(User, 'username'))
 
-    added_by = fields.Field(
-        column_name='added_by',
-        attribute='added_by',
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
         widget=ForeignKeyWidget(User, 'username'))
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 class FieldCrewAdminResource(resources.ModelResource):
     class Meta:
         # SampleLabel
         model = FieldCrew
         import_id_fields = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',)
-        fields = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id', 'added_by','added_date',)
-        export_order = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id', 'added_by','added_date',)
+        fields = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id', 'created_by','created_datetime',)
+        export_order = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id', 'created_by','created_datetime',)
 
     survey_global_id = fields.Field(
         column_name='survey_global_id',
         attribute='survey_global_id',
         widget=ForeignKeyWidget(FieldSurvey, 'survey_global_id'))
-    added_by = fields.Field(
-        column_name='added_by',
-        attribute='added_by',
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
         widget=ForeignKeyWidget(User, 'username'))
 
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 
 class EnvMeasurementAdminResource(resources.ModelResource):
@@ -118,7 +118,7 @@ class EnvMeasurementAdminResource(resources.ModelResource):
                   'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                   'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                   'env_substrate', 'env_lab_datetime', 'env_conditions_notes', 'survey_global_id',
-                  'added_by', 'added_date',)
+                  'created_by', 'created_datetime',)
         export_order = ('env_global_id', 'env_measure_time', 'env_measure_depth', 'env_instrument','env_ctd_filename',
                         'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn', 'env_ysi_notes',
                         'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes',
@@ -126,19 +126,19 @@ class EnvMeasurementAdminResource(resources.ModelResource):
                         'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                         'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                         'env_substrate', 'env_lab_datetime', 'env_conditions_notes', 'survey_global_id',
-                        'added_by', 'added_date',)
+                        'created_by', 'created_datetime',)
 
     survey_global_id = fields.Field(
         column_name='survey_global_id',
         attribute='survey_global_id',
         widget=ForeignKeyWidget(FieldSurvey, 'survey_global_id'))
-    added_by = fields.Field(
-        column_name='added_by',
-        attribute='added_by',
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
         widget=ForeignKeyWidget(User, 'username'))
 
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 
 class FieldCollectionAdminResource(resources.ModelResource):
@@ -162,7 +162,7 @@ class FieldCollectionAdminResource(resources.ModelResource):
                   'subcore_fname','subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_date',
                   'subcore_start','subcore_end', 'subcore_min_barcode', 'subcore_num', 'subcore_length',
                   'subcore_diameter','subcore_clayer', 'core_purpose', 'core_notes', 'was_prefiltered',
-                  'was_filtered','survey_global_id', 'added_by', 'added_date',)
+                  'was_filtered','survey_global_id', 'created_by', 'created_datetime',)
         export_order = ('collection_global_id', 'collection_type', 'water_control', 'water_control_type','water_vessel_label',
                         'water_collect_time', 'water_collect_depth', 'water_collect_mode', 'water_niskin_number',
                         'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material', 'water_vessel_color',
@@ -171,19 +171,19 @@ class FieldCollectionAdminResource(resources.ModelResource):
                         'subcore_fname','subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_date',
                         'subcore_start','subcore_end', 'subcore_min_barcode', 'subcore_num', 'subcore_length',
                         'subcore_diameter','subcore_clayer', 'core_purpose', 'core_notes', 'was_prefiltered',
-                        'was_filtered','survey_global_id', 'added_by', 'added_date',)
+                        'was_filtered','survey_global_id', 'created_by', 'created_datetime',)
 
     survey_global_id = fields.Field(
         column_name='survey_global_id',
         attribute='survey_global_id',
         widget=ForeignKeyWidget(FieldSurvey, 'survey_global_id'))
-    added_by = fields.Field(
-        column_name='added_by',
-        attribute='added_by',
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
         widget=ForeignKeyWidget(User, 'username'))
 
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
 
 class SampleFilterAdminResource(resources.ModelResource):
     class Meta:
@@ -196,20 +196,20 @@ class SampleFilterAdminResource(resources.ModelResource):
         fields = ('filter_global_id','filter_location','filter_fname', 'filter_lname', 'filter_sample_label',
                   'filter_barcode', 'filter_date', 'filter_time', 'filter_method', 'filter_method_other',
                   'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                  'filter_notes', 'collection_global_id', 'added_date', 'added_by',)
+                  'filter_notes', 'collection_global_id', 'created_datetime', 'created_by',)
         export_order = ('filter_global_id','filter_location','filter_fname', 'filter_lname', 'filter_sample_label',
                         'filter_barcode', 'filter_date', 'filter_time', 'filter_method', 'filter_method_other',
                         'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                        'filter_notes', 'collection_global_id', 'added_date', 'added_by', )
+                        'filter_notes', 'collection_global_id', 'created_datetime', 'created_by', )
 
     collection_global_id = fields.Field(
         column_name='collection_global_id',
         attribute='collection_global_id',
         widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
-    added_by = fields.Field(
-        column_name='added_by',
-        attribute='added_by',
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
         widget=ForeignKeyWidget(User, 'username'))
 
     def before_import_row(self, row, **kwargs):
-        row['added_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].id
