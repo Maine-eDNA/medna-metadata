@@ -8,9 +8,9 @@
         ports:
             - '5433:5432'     # expose ports - HOST:CONTAINER
         env_file:
-            - '/mnt/webcontent/medna-metadata/docker/medna.env.db'
+            - '/home/django/medna-metadata/docker/medna.env.db'
         volumes:
-            - './configs/medna-metadata/pgdata:/var/lib/postgresql/data/'
+            - 'postgres_data:/var/lib/postgresql/data/'
 
    # ----------------------------------------
    # MEDNA-METADATA
@@ -18,30 +18,57 @@
     medna-metadata:
         restart: always
         build:
-            context: '/mnt/webcontent/medna-metadata'
+            context: '/home/django/medna-metadata'
             dockerfile: './docker/web/Dockerfile'
         container_name: medna-metadata
         ports:
-            - '8001:8000'
+            - '8000:8000'
         env_file:
-            - '/mnt/webcontent/medna-metadata/docker/medna.env'
+            - '/home/django/medna-metadata/docker/medna.env'
         volumes:
-            - './configs/medna-metadata/media:/home/django/media/'
+            - 'static_volume:/home/django/static/'
+            - 'media_volume:/home/django/media/'
         depends_on:
             - medna-metadata-pgdb
+   # ----------------------------------------
+   # NGINX-PROXY
+   # ----------------------------------------
+  nginx-proxy:
+    container_name: nginx-proxy
+    build: nginx
+    restart: always
+    ports:
+      - '443:443'
+      - '80:80'
+    volumes:
+      - 'static_volume:/home/django/static/'
+      - 'media_volume:/home/django/media/'
+      - 'certs:/etc/nginx/certs'
+      - 'html:/usr/share/nginx/html'
+      - 'vhost:/etc/nginx/vhost.d'
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+    depends_on:
+      - medna-metadata
 
    # ----------------------------------------
-   # METADATA-NGINX
+   # NGINX-LETSENCRYPT
    # ----------------------------------------
-#    metadata-nginx:
-#        restart: always
-#        image: nginx
-#            build:
-#                context: '/mnt/webcontent/medna-metadata'
-#                dockerfile: './nginx/Dockerfile'
-#        ports:
-#            - 80:80         # expose ports - HOST:CONTAINER
-#        volumes_from:
-#            - medna-metadata
-#        depends_on:
-#            - medna-metadata
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    env_file:
+      - '/home/django/medna-metadata/docker/nginx.proxycompanion.env'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - 'certs:/etc/nginx/certs'
+      - 'html:/usr/share/nginx/html'
+      - 'vhost:/etc/nginx/vhost.d'
+    depends_on:
+      - nginx-proxy
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  certs:
+  html:
+  vhost:
