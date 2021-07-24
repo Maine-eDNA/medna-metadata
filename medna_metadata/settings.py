@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-#    'django.contrib.gis',
+    'django.contrib.gis',
     'users',
     'field_sites',
     'sample_labels',
@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'rest_auth', # django-rest-auth provides API endpoints for user reg, login/logout,
     'rest_auth.registration', # password change/reset, social auth, etc
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
-#    'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
+    'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
     'rest_framework.authtoken',  # for the creation of api tokens
     'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
 
@@ -125,8 +125,8 @@ WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     'default': {
-#        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DJANGO_DATABASE_NAME', 'medna_metadata'),
         'USER': os.environ.get('DJANGO_DATABASE_USERNAME', 'django'),
         'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD', 'password'),
@@ -246,7 +246,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
 
 ## django-cors-headers to open up the backend to connect to the frontend
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+     'http://localhost:8000'
 ]
 
 

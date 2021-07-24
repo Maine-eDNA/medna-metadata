@@ -1,19 +1,21 @@
 server {
     listen 80;
-    server_name medna-metadata;
+    server_name localhost 127.0.0.1 www.yourdomain.com;
     charset utf-8;
     client_max_body_size 100m;
 
     location /static {
         alias /home/django/static;
+        add_header Access-Control-Allow-Origin *;
     }
 
     location /media {
         alias /home/django/media;
+        add_header Access-Control-Allow-Origin *;
     }
 
     location / {
-        proxy_pass http://medna-metadata:8001;
+        proxy_pass http://medna-metadata:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

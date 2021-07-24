@@ -23,9 +23,9 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	python manage.py migrate users
 	python manage.py migrate field_sites
 	python manage.py migrate sample_labels
-	python manage.py migrate field_survey
-	python manage.py migrate freezer_inventory
-	python manage.py migrate wet_lab
+	#python manage.py migrate field_survey
+	#python manage.py migrate freezer_inventory
+	#python manage.py migrate wet_lab
 	python manage.py migrate
 fi
 
