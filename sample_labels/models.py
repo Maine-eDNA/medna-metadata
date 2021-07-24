@@ -12,7 +12,6 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext_lazy as _
 import numpy as np
 
-
 def current_year():
     return datetime.date.today().year
 
@@ -140,4 +139,3 @@ class SampleLabel(TrackDateModel):
     is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     def __str__(self):
         return self.sample_label_id
-
