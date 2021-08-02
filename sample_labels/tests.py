@@ -1,3 +1,45 @@
 from django.test import TestCase
-
+from .models import SampleType, SampleLabel, SampleLabelRequest
 # Create your tests here.
+
+class SampleTypeTestCase(TestCase):
+    def setUp(self):
+        SampleType.objects.create(sample_type_label="Sediment", sample_type_code="s")
+        SampleType.objects.create(sample_type_label="Water", sample_type_code="w")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        sediment = SampleType.objects.get(sample_type_code="s")
+        water = SampleType.objects.get(sample_type_code="w")
+        self.assertEqual(sediment.was_added_recently(), False)
+        self.assertEqual(water.was_added_recently(), False)
+
+class SampleLabelRequestTestCase(TestCase):
+    def setUp(self):
+        SampleLabelRequest.objects.create(site_id=1, sample_type=1, sample_year=2021, purpose="SampleLabelTest1",
+                                  req_sample_label_num=30)
+        SampleLabelRequest.objects.create(site_id=1, sample_type=1, sample_year=2021, purpose="SampleLabelTest2",
+                                  req_sample_label_num=30)
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test1 = SampleLabelRequest.objects.get(purpose="SampleLabelTest1")
+        test2 = SampleLabelRequest.objects.get(purpose="SampleLabelTest2")
+        self.assertEqual(test1.was_added_recently(), False)
+        self.assertEqual(test2.was_added_recently(), False)
+
+"""
+class SampleLabelTestCase(TestCase):
+    def setUp(self):
+        SampleLabel.objects.create(site_id=1, sample_type=1, sample_year=2021, purpose="SampleLabelTest1",
+                                  req_sample_label_num=30)
+        SampleLabel.objects.create(site_id=1, sample_type=1, sample_year=2021, purpose="SampleLabelTest2",
+                                  req_sample_label_num=30)
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test1 = SampleLabel.objects.get(purpose="SampleLabelTest1")
+        test2 = SampleLabel.objects.get(purpose="SampleLabelTest2")
+        self.assertEqual(test1.was_added_recently(), False)
+        self.assertEqual(test2.was_added_recently(), False)
+"""
