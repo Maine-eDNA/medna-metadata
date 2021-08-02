@@ -28,6 +28,22 @@ class TrackDateModel(models.Model):
     class Meta:
         abstract = True
 
+class EnvoBiome(TrackDateModel):
+    biome_code = models.CharField("Biome Code",max_length=200, unique=True)
+    biome_label = models.CharField("ENVO Biome",max_length=200)
+    ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
+
+    def __str__(self):
+        return '{label}'.format(label=self.biome_label)
+
+class EnvoFeature(TrackDateModel):
+    feature_code = models.CharField("Feature Code",max_length=200, unique=True)
+    feature_label = models.CharField("ENVO Feature",max_length=200)
+    ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
+
+    def __str__(self):
+        return '{label}'.format(label=self.feature_label)
+
 class Project(TrackDateModel):
     project_code = models.CharField("Project Code",max_length=1, unique=True)
     project_label = models.CharField("Project Label",max_length=200)
@@ -65,13 +81,13 @@ class FieldSite(TrackDateModel):
     region = models.ForeignKey(Region, on_delete=models.RESTRICT)
     general_location_name = models.CharField("General Location", max_length=200)
     purpose = models.CharField("Site Purpose", max_length=200)
+    envo_biome = models.ForeignKey(EnvoBiome, on_delete=models.RESTRICT)
+    envo_feature = models.ForeignKey(EnvoFeature, on_delete=models.RESTRICT)
     #lat = models.FloatField("Latitude (DD)")
     #lon = models.FloatField("Longitude (DD)")
     site_prefix = models.CharField("Site Prefix", max_length=5)
     site_num = models.IntegerField(default=1)
     site_id = models.CharField("Site ID", max_length=7, unique=True)
-    envo_biome = models.CharField("ENVO Biome")
-    envo_feature = models.CharField("ENVO Feature")
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
