@@ -1,18 +1,68 @@
 from rest_framework import serializers
-from .models import FieldSite, Region
+from .models import EnvoBiome, EnvoFeature, Project, System, FieldSite, Region
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 
 # Django REST Framework to allow the automatic downloading of data!
+class EnvoBiomeSerializer(serializers.ModelSerializer):
+    biome_code = serializers.CharField()
+    biome_label = serializers.CharField()
+    ontology_url = serializers.URLField()
+
+    class Meta:
+        model = EnvoBiome
+        fields = ['id', 'biome_code', 'biome_label', 'ontology_url', 'created_by', 'created_datetime']
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+class EnvoFeatureSerializer(serializers.ModelSerializer):
+    feature_code = serializers.CharField()
+    feature_label = serializers.CharField()
+    ontology_url = serializers.URLField()
+
+    class Meta:
+        model = EnvoFeature
+        fields = ['id', 'feature_code', 'feature_label', 'ontology_url', 'created_by', 'created_datetime']
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+class ProjectSerializer(serializers.ModelSerializer):
+    project_code = serializers.CharField()
+    project_label = serializers.CharField()
+
+    class Meta:
+        model = Project
+        fields = ['id', 'project_code', 'project_label', 'created_by', 'created_datetime']
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+class SystemSerializer(serializers.ModelSerializer):
+    system_code = serializers.CharField()
+    system_label = serializers.CharField()
+
+    class Meta:
+        model = System
+        fields = ['id', 'system_code', 'system_label', 'created_by', 'created_datetime']
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
 class FieldSiteSerializer(serializers.ModelSerializer):
     lat = serializers.FloatField()
     lon = serializers.FloatField()
     srid = serializers.CharField()
     class Meta:
         model = FieldSite
-        fields = ['id','site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose','lat','lon','srid', 'created_by','created_datetime']
+        fields = ['id', 'site_id', 'project', 'system', 'region', 'general_location_name',
+                  'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -25,8 +75,8 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = FieldSite
         geo_field = 'geom'
-        fields = ['id','site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'created_by','created_datetime']
+        fields = ['id', 'site_id', 'project', 'system', 'region', 'general_location_name',
+                  'purpose', 'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -39,8 +89,8 @@ class GeoRegionSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = Region
         geo_field = 'geom'
-        fields = ['id','region_label', 'huc8', 'states', 'lat', 'lon',
-                  'area_sqkm','area_acres', 'created_by','created_datetime']
+        fields = ['id', 'region_label', 'huc8', 'states', 'lat', 'lon',
+                  'area_sqkm', 'area_acres', 'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

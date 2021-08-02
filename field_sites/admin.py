@@ -7,8 +7,6 @@ from import_export.admin import ImportExportActionModelAdmin, ExportActionModelA
 from .resources import EnvoBiomeAdminResource, EnvoFeatureAdminResource, ProjectAdminResource, SystemAdminResource, \
     RegionAdminResource, FieldSiteAdminResource, WorldBorderAdminResource
 
-
-
 class EnvoBiomeAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoBiomeAdminResource
