@@ -1,38 +1,14 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
-#from django.conf import settings
-from django.contrib.auth import get_user_model
 import datetime
 from django.utils import timezone
 from sample_labels.models import SampleLabel, SampleType
-from django.utils.translation import ugettext_lazy as _
-
-# Create your models here.
-def get_sentinel_user():
-    # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_user():
-    return User.objects.get(id=1)
-
-class TrackDateModel(models.Model):
-    # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
-
-    class Meta:
-        abstract = True
+from users.models import DateTimeUserMixin, get_sentinel_user
 
 ###########
 # Post Transform
 ###########
-
-class FieldSurvey(TrackDateModel):
+class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     # id = models.AutoField(unique=True)
@@ -125,7 +101,7 @@ class FieldSurvey(TrackDateModel):
         verbose_name_plural = 'FieldSurveys'
 
 
-class FieldCrew(TrackDateModel):
+class FieldCrew(DateTimeUserMixin):
     # id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
@@ -145,7 +121,7 @@ class FieldCrew(TrackDateModel):
         verbose_name_plural = 'FieldCrews'
 
 
-class EnvMeasurement(TrackDateModel):
+class EnvMeasurement(DateTimeUserMixin):
     # id = models.AutoField(unique=True)
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
@@ -199,7 +175,7 @@ class EnvMeasurement(TrackDateModel):
         verbose_name = 'EnvMeasurement'
         verbose_name_plural = 'EnvMeasurements'
 
-class FieldCollection(TrackDateModel):
+class FieldCollection(DateTimeUserMixin):
     collection_global_id = models.TextField("Global ID", primary_key=True)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
                                          related_name="FieldSurveyToFieldCollection",
@@ -244,7 +220,7 @@ class FieldCollection(TrackDateModel):
         verbose_name = 'FieldCollection'
         verbose_name_plural = 'FieldCollections'
 
-class FieldSample(TrackDateModel):
+class FieldSample(DateTimeUserMixin):
     sample_global_id = models.TextField("Global ID", primary_key=True)
     collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id",
                                              related_name="FieldCollectionToFieldSample",
@@ -292,7 +268,7 @@ class FieldSample(TrackDateModel):
 # Pre Transform
 ###########
 
-class FieldSurveyETL(TrackDateModel):
+class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     #id = models.AutoField(unique=True)
@@ -382,7 +358,7 @@ class FieldSurveyETL(TrackDateModel):
         verbose_name = 'FieldSurvey'
         verbose_name_plural = 'FieldSurveys'
 
-class FieldCrewETL(TrackDateModel):
+class FieldCrewETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
@@ -400,7 +376,7 @@ class FieldCrewETL(TrackDateModel):
         verbose_name = 'FieldCrew'
         verbose_name_plural = 'FieldCrews'
 
-class EnvMeasurementETL(TrackDateModel):
+class EnvMeasurementETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
@@ -451,7 +427,7 @@ class EnvMeasurementETL(TrackDateModel):
         verbose_name = 'EnvMeasurement'
         verbose_name_plural = 'EnvMeasurements'
 
-class FieldCollectionETL(TrackDateModel):
+class FieldCollectionETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
     collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
@@ -509,7 +485,7 @@ class FieldCollectionETL(TrackDateModel):
         verbose_name = 'FieldCollection'
         verbose_name_plural = 'FieldCollections'
 
-class SampleFilterETL(TrackDateModel):
+class SampleFilterETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)

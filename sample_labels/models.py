@@ -1,13 +1,10 @@
 # Create your models here.
 import datetime
-
 #from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-from django.utils import timezone
-from django.contrib.auth import get_user_model
 from field_sites.models import FieldSite
-from users.models import CustomUser
+from users.models import DateTimeUserMixin
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext_lazy as _
 import numpy as np
@@ -15,33 +12,13 @@ import numpy as np
 def current_year():
     return datetime.date.today().year
 
-def get_sentinel_user():
-    # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_user():
-    return CustomUser.objects.get(id=1)
-
-class TrackDateModel(models.Model):
-    # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
-
-    class Meta:
-        abstract = True
-
-class SampleType(TrackDateModel):
+class SampleType(DateTimeUserMixin):
     sample_type_code = models.CharField("System Code",max_length=1, unique=True)
     sample_type_label = models.CharField("System Label",max_length=200)
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
 
-class SampleLabelRequest(TrackDateModel):
+class SampleLabelRequest(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
@@ -122,7 +99,7 @@ class SampleLabelRequest(TrackDateModel):
         # all done, time to save changes to the db
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
-class SampleLabel(TrackDateModel):
+class SampleLabel(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     class YesNo(models.IntegerChoices):
         NO = 0, _('No')

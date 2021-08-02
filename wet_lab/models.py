@@ -1,35 +1,10 @@
-from django.db import models
-import datetime
-
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-from users.models import CustomUser
+from django.contrib.gis.db import models
 from field_survey.models import FieldSample
 from django.utils.translation import ugettext_lazy as _
+from users.models import DateTimeUserMixin
 
 # Create your models here.
-def get_sentinel_user():
-    # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_user():
-    return CustomUser.objects.get(id=1)
-
-
-class TrackDateModel(models.Model):
-    # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
-
-    class Meta:
-        abstract = True
-
-class PrimerPair(TrackDateModel):
+class PrimerPair(DateTimeUserMixin):
     class TargetGene(models.IntegerChoices):
         TG_12S = 0, _('12S')
         TG_16S = 1, _('16S')
@@ -51,7 +26,7 @@ class PrimerPair(TrackDateModel):
             primer_set_name=self.primer_set_name,
             primer_target_gene=self.primer_target_gene)
 
-class IndexPair(TrackDateModel):
+class IndexPair(DateTimeUserMixin):
     index_i7 = models.CharField("i7 Index", max_length=16)
     index_i7_id = models.CharField("i7 Index ID", max_length=12)
     index_i5 = models.CharField("i5 Index", max_length=16)
@@ -62,7 +37,7 @@ class IndexPair(TrackDateModel):
         return '{pkey}'.format(pkey=self.pk)
 
 
-class IndexRemovalMethod(TrackDateModel):
+class IndexRemovalMethod(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    EXOSAP = 0, _('exo-sap')
@@ -74,7 +49,7 @@ class IndexRemovalMethod(TrackDateModel):
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
-class SizeSelectionMethod(TrackDateModel):
+class SizeSelectionMethod(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    BEADS = 0, _('Beads')
@@ -87,7 +62,7 @@ class SizeSelectionMethod(TrackDateModel):
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
-class QuantificationMethod(TrackDateModel):
+class QuantificationMethod(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    QBIT = 0, _('qbit')
@@ -102,7 +77,7 @@ class QuantificationMethod(TrackDateModel):
     def __str__(self):
         return '{name}'.format(name=self.quant_method_name)
 
-class ExtractionMethod(TrackDateModel):
+class ExtractionMethod(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class ExtrMethod(models.IntegerChoices):
     #    BLOODTISSUE = 0, _('Qiagen Blood and Tissue')
@@ -119,7 +94,7 @@ class ExtractionMethod(TrackDateModel):
             name=self.extraction_method_name)
 
 
-class Extraction(TrackDateModel):
+class Extraction(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     class VolUnits(models.IntegerChoices):
         MICROLITER = 0, _('microliter (µL)')
@@ -145,7 +120,7 @@ class Extraction(TrackDateModel):
     def __str__(self):
         return self.sample_label_id
 
-class Ddpcr(TrackDateModel):
+class Ddpcr(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -168,7 +143,7 @@ class Ddpcr(TrackDateModel):
             primer_set=self.primer_set,
             ddpcr_results=self.ddpcr_results)
 
-class Qpcr(TrackDateModel):
+class Qpcr(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -191,7 +166,7 @@ class Qpcr(TrackDateModel):
             primer_set=self.primer_set,
             qpcr_results=self.qpcr_results)
 
-class LibraryPrep(TrackDateModel):
+class LibraryPrep(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -221,7 +196,7 @@ class LibraryPrep(TrackDateModel):
     def __str__(self):
         return '{name}'.format(name=self.library_prep_experiment_name)
 
-class PooledLibrary(TrackDateModel):
+class PooledLibrary(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -241,7 +216,7 @@ class PooledLibrary(TrackDateModel):
     def __str__(self):
         return '{date} {added_by}'.format(date=self.added_datetime, added_by=self.added_by)
 
-class RunPrep(TrackDateModel):
+class RunPrep(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
         NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -262,7 +237,7 @@ class RunPrep(TrackDateModel):
     def __str__(self):
         return '{date} {added_by}'.format(date=self.run_date, added_by=self.added_by)
 
-class RunResult(TrackDateModel):
+class RunResult(DateTimeUserMixin):
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     run_id = models.CharField("Run ID", max_length=255)
     run_start_datetime = models.DateTimeField("Run Start Time")
@@ -275,7 +250,7 @@ class RunResult(TrackDateModel):
                                                                   datetime=self.run_completion_datetime,
                                                                   run_experiment_name=self.run_experiment_name)
 
-class FastqFile(TrackDateModel):
+class FastqFile(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     fastq_datafile = models.TextField("FastQ Datafile")

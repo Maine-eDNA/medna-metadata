@@ -1,64 +1,40 @@
 # Create your models here.
-import datetime
-
 #from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-from users.models import CustomUser
+from users.models import DateTimeUserMixin
 
-def get_sentinel_user():
-    # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_user():
-    return CustomUser.objects.get(id=1)
-
-class TrackDateModel(models.Model):
-    # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
-
-    class Meta:
-        abstract = True
-
-class EnvoBiome(TrackDateModel):
-    biome_code = models.CharField("Biome Code",max_length=200, unique=True)
-    biome_label = models.CharField("ENVO Biome",max_length=200)
+class EnvoBiome(DateTimeUserMixin):
+    biome_code = models.CharField("ENVO Biome Code",max_length=200, unique=True)
+    biome_label = models.CharField("ENVO Biome Label",max_length=200)
     ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def __str__(self):
         return '{label}'.format(label=self.biome_label)
 
-class EnvoFeature(TrackDateModel):
-    feature_code = models.CharField("Feature Code",max_length=200, unique=True)
-    feature_label = models.CharField("ENVO Feature",max_length=200)
+class EnvoFeature(DateTimeUserMixin):
+    feature_code = models.CharField("ENVO Feature Code",max_length=200, unique=True)
+    feature_label = models.CharField("ENVO Feature Label",max_length=200)
     ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def __str__(self):
         return '{label}'.format(label=self.feature_label)
 
-class Project(TrackDateModel):
+class Project(DateTimeUserMixin):
     project_code = models.CharField("Project Code",max_length=1, unique=True)
     project_label = models.CharField("Project Label",max_length=200)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.project_code, label=self.project_label)
 
-class System(TrackDateModel):
+class System(DateTimeUserMixin):
     system_code = models.CharField("System Code",max_length=1, unique=True)
     system_label = models.CharField("System Label",max_length=200)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.system_code, label=self.system_label)
 
-class Region(TrackDateModel):
+class Region(DateTimeUserMixin):
     region_code = models.CharField("Region Code",max_length=2, unique=True)
     region_label = models.CharField("Region Label",max_length=200)
     huc8 = models.CharField("HUC8", max_length=200)
@@ -73,7 +49,7 @@ class Region(TrackDateModel):
     def __str__(self):
         return '{code}: {label}'.format(code=self.region_code, label=self.region_label)
 
-class FieldSite(TrackDateModel):
+class FieldSite(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     project = models.ForeignKey(Project, on_delete=models.RESTRICT)

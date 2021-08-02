@@ -1,34 +1,10 @@
-from django.db import models
-import datetime
-
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-from users.models import CustomUser
+from django.contrib.gis.db import models
 from wet_lab.models import RunResult
-from django.utils.translation import ugettext_lazy as _
+
+from users.models import DateTimeUserMixin
 
 # Create your models here.
-def get_sentinel_user():
-    # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_user():
-    return CustomUser.objects.get(id=1)
-
-class TrackDateModel(models.Model):
-    # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
-
-    class Meta:
-        abstract = True
-
-class DenoisingMethod(TrackDateModel):
+class DenoisingMethod(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class AnalysisMethod(models.IntegerChoices):
     #    DADA2 = 0, _('DADA2')
@@ -45,7 +21,7 @@ class DenoisingMethod(TrackDateModel):
             pipeline=self.denoising_method_pipeline,
             name=self.denoising_method_name)
 
-class DenoisingMetadata(TrackDateModel):
+class DenoisingMetadata(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     analysis_date = models.DateField("Freezer Date", auto_now=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
@@ -63,7 +39,7 @@ class DenoisingMetadata(TrackDateModel):
             method=self.analysis_method)
 
 
-class AmpliconSequenceVariant(TrackDateModel):
+class AmpliconSequenceVariant(DateTimeUserMixin):
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
     amplicon_sequence_variant = models.TextField("Amplicon Sequence Variant (ASV)")
 
@@ -74,7 +50,7 @@ class AmpliconSequenceVariant(TrackDateModel):
             method=self.denoising_metadata.analysis_method,
             asv=self.amplicon_sequence_variant)
 
-class ASVRead(TrackDateModel):
+class ASVRead(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
     number_reads = models.PositiveIntegerField("Number Reads")
 

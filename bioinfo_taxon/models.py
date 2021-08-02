@@ -1,34 +1,10 @@
-from django.db import models
-import datetime
-
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-from users.models import CustomUser
+from django.contrib.gis.db import models
 from bioinfo_denoising.models import AmpliconSequenceVariant
 from django.utils.translation import ugettext_lazy as _
+from users.models import DateTimeUserMixin
 
 # Create your models here.
-def get_sentinel_user():
-    # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_user():
-    return CustomUser.objects.get(id=1)
-
-class TrackDateModel(models.Model):
-    # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
-
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
-
-    class Meta:
-        abstract = True
-
-class ReferenceDatabase(TrackDateModel):
+class ReferenceDatabase(DateTimeUserMixin):
     refdb_name = models.DateField("Reference Database Name", auto_now=True)
     refdb_version = models.CharField("Reference Database Version", max_length=255)
     refdb_date = models.CharField("Reference Database Date", max_length=255)
@@ -41,7 +17,7 @@ class ReferenceDatabase(TrackDateModel):
             version=self.refdb_version,
             coverage=self.redfb_coverage_score)
 
-class TaxonDomain(TrackDateModel):
+class TaxonDomain(DateTimeUserMixin):
     taxon_domain = models.CharField("Domain", max_length=255)
 
     def __str__(self):
@@ -133,7 +109,7 @@ class TaxonSpecies(TaxonGenus):
             tax_genus=self.taxon_genus,
             tax_species=self.taxon_species)
 
-class AnnotationMethod(TrackDateModel):
+class AnnotationMethod(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
     #class AnalysisMethod(models.IntegerChoices):
     #    BLAST = 0, _('BLAST')
@@ -147,7 +123,7 @@ class AnnotationMethod(TrackDateModel):
         return '{name}'.format(
             name=self.annotation_method_name)
 
-class AnnotationMetadata(TrackDateModel):
+class AnnotationMetadata(DateTimeUserMixin):
     analysis_date = models.DateField("Freezer Date", auto_now=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
@@ -163,7 +139,7 @@ class AnnotationMetadata(TrackDateModel):
             lname=self.analyst_last_name,
             method=self.analysis_method)
 
-class TaxonomicAnnotation(TrackDateModel):
+class TaxonomicAnnotation(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
