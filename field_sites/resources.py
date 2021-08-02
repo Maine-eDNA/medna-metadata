@@ -1,7 +1,24 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import Project, System, Region, FieldSite, WorldBorder
+from .models import EnvoBiome, EnvoFeature, Project, System, Region, FieldSite, WorldBorder
 from users.models import CustomUser
+
+class EnvoBiomeAdminResource(resources.ModelResource):
+    class Meta:
+        model = EnvoBiome
+        import_id_fields = ('biome_code',)
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
+class EnvoFeatureAdminResource(resources.ModelResource):
+    class Meta:
+        model = EnvoFeature
+        import_id_fields = ('feature_code',)
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class ProjectAdminResource(resources.ModelResource):
     class Meta:

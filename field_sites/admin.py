@@ -1,10 +1,49 @@
 # Register your models here.
 #from django.contrib import admin
 from django.contrib.gis import admin
-from .models import Project, System, Region, FieldSite, WorldBorder
+from .models import EnvoBiome, EnvoFeature, Project, System, Region, FieldSite, WorldBorder
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
-from .resources import ProjectAdminResource, SystemAdminResource, RegionAdminResource, FieldSiteAdminResource, WorldBorderAdminResource
+from .resources import EnvoBiomeAdminResource, EnvoFeatureAdminResource, ProjectAdminResource, SystemAdminResource, \
+    RegionAdminResource, FieldSiteAdminResource, WorldBorderAdminResource
+
+
+
+class EnvoBiomeAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    resource_class = EnvoBiomeAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'created_datetime', 'created_by')
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['biome_label','biome_code','created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(EnvoBiomeAdmin, self).change_view(request, object_id)
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+admin.site.register(EnvoBiome,EnvoBiomeAdmin)
+
+class EnvoFeatureAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    resource_class = EnvoFeatureAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'created_datetime', 'created_by')
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['feature_label','feature_code','created_by']
+        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(EnvoFeatureAdmin, self).change_view(request, object_id)
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+admin.site.register(EnvoFeature,EnvoFeatureAdmin)
 
 class ProjectAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
