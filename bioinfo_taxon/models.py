@@ -5,10 +5,11 @@ from users.models import DateTimeUserMixin
 
 # Create your models here.
 class ReferenceDatabase(DateTimeUserMixin):
-    refdb_name = models.DateField("Reference Database Name", auto_now=True)
+    refdb_name = models.CharField("Reference Database Name", max_length=255)
     refdb_version = models.CharField("Reference Database Version", max_length=255)
-    refdb_date = models.CharField("Reference Database Date", max_length=255)
+    refdb_date = models.DateField("Reference Database Date", blank=True, null=True)
     redfb_coverage_score = models.DecimalField("Coverage Score (Percentage)", max_digits=6, decimal_places=2)
+    refdb_repo_url = models.URLField("Reference Database URL", max_length=200, default="https://github.com/Maine-eDNA")
 
     def __str__(self):
         return '{date}, {name} {version}, {coverage}%'.format(
@@ -124,11 +125,11 @@ class AnnotationMethod(DateTimeUserMixin):
             name=self.annotation_method_name)
 
 class AnnotationMetadata(DateTimeUserMixin):
-    analysis_date = models.DateField("Freezer Date", auto_now=True)
+    analysis_date = models.DateField("Analysis Date", blank=True, null=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_filename = models.TextField("Analysis SOP Filename")
-    analysis_script_repo_link = models.TextField("Repository Link")
+    analysis_script_repo_url = models.URLField("Repository URL", max_length=200, default="https://github.com/Maine-eDNA")
     analysis_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)
     readme_datafile = models.TextField("README Datafile")
 
