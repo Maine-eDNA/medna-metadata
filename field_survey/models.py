@@ -4,6 +4,7 @@ import datetime
 from django.utils import timezone
 from sample_labels.models import SampleLabel, SampleType
 from users.models import DateTimeUserMixin, get_sentinel_user
+from django.utils.translation import ugettext_lazy as _
 
 ###########
 # Post Transform
@@ -13,7 +14,10 @@ class FieldSurvey(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     # id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
-    username = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Username", blank=True,
+    username = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 db_column="agol_username",
+                                 verbose_name="Username",
+                                 blank=True,
                                  on_delete=models.SET(get_sentinel_user),
                                  related_name="username")
     # date
@@ -21,8 +25,12 @@ class FieldSurvey(DateTimeUserMixin):
 
     # prj_ids
     project_ids = models.TextField("Affiliated Project(s)", blank=True)
-    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Supervisor", blank=True,
-                                   on_delete=models.SET(get_sentinel_user), related_name="supervisor")
+    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   db_column="agol_username",
+                                   verbose_name="Supervisor",
+                                   blank=True,
+                                   on_delete=models.SET(get_sentinel_user),
+                                   related_name="supervisor")
     # recdr_fname
     recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
     # recdr_lname
@@ -50,13 +58,25 @@ class FieldSurvey(DateTimeUserMixin):
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
     measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
-    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Designated Sub-corer", blank=True,
-                                      on_delete=models.SET(get_sentinel_user), related_name="core_subcorer")
-    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Designated Filterer", blank=True,
-                                       on_delete=models.SET(get_sentinel_user), related_name="water_filterer")
+    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      db_column="agol_username",
+                                      verbose_name="Designated Sub-corer",
+                                      blank=True,
+                                      on_delete=models.SET(get_sentinel_user),
+                                      related_name="core_subcorer")
+    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                       db_column="agol_username",
+                                       verbose_name="Designated Filterer",
+                                       blank=True,
+                                       on_delete=models.SET(get_sentinel_user),
+                                       related_name="water_filterer")
     survey_complete = models.CharField("Survey Complete", max_length=3, blank=True)
-    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Quality Editor", blank=True,
-                                  on_delete=models.SET(get_sentinel_user), related_name="qa_editor")
+    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  db_column="agol_username",
+                                  verbose_name="Quality Editor",
+                                  blank=True,
+                                  on_delete=models.SET(get_sentinel_user),
+                                  related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
     gps_cap_lat = models.FloatField("Captured Latitude (DD)", blank=True, null=True)
@@ -65,11 +85,19 @@ class FieldSurvey(DateTimeUserMixin):
     gps_cap_horiz_acc = models.FloatField("Captured Horizontal Accuracy (m)", blank=True, null=True)
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
     record_create_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Survey Creator", blank=True,
-                                       on_delete=models.SET(get_sentinel_user), related_name="record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                       db_column="agol_username",
+                                       verbose_name="Survey Creator",
+                                       blank=True,
+                                       on_delete=models.SET(get_sentinel_user),
+                                       related_name="record_creator")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Survey Editor", blank=True,
-                                      on_delete=models.SET(get_sentinel_user), related_name="record_editor")
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      db_column="agol_username",
+                                      verbose_name="Survey Editor",
+                                      blank=True,
+                                      on_delete=models.SET(get_sentinel_user),
+                                      related_name="record_editor")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
@@ -106,8 +134,9 @@ class FieldCrew(DateTimeUserMixin):
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
-    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
-                                         related_name="FieldSurveyToFieldCrew",
+    survey_global_id = models.ForeignKey(FieldSurvey,
+                                         db_column="survey_global_id",
+                                         related_name="fieldsurvey_to_fieldcrew",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
@@ -161,7 +190,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
-                                         related_name="FieldSurveyToEnvMeasurement",
+                                         related_name="fieldsurvey_to_envmeasurement",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
@@ -177,8 +206,9 @@ class EnvMeasurement(DateTimeUserMixin):
 
 class FieldCollection(DateTimeUserMixin):
     collection_global_id = models.TextField("Global ID", primary_key=True)
-    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
-                                         related_name="FieldSurveyToFieldCollection",
+    survey_global_id = models.ForeignKey(FieldSurvey,
+                                         db_column="survey_global_id",
+                                         related_name="fieldsurvey_to_fieldcollection",
                                          on_delete=models.CASCADE)
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
     water_control = models.CharField("Is Control", max_length=3, blank=True)
@@ -221,11 +251,18 @@ class FieldCollection(DateTimeUserMixin):
         verbose_name_plural = 'FieldCollections'
 
 class FieldSample(DateTimeUserMixin):
+    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
+    class YesNo(models.IntegerChoices):
+        NO = 0, _('No')
+        YES = 1, _('Yes')
+        __empty__ = _('(Unknown)')
     sample_global_id = models.TextField("Global ID", primary_key=True)
-    collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id",
-                                             related_name="FieldCollectionToFieldSample",
+    collection_global_id = models.ForeignKey(FieldCollection,
+                                             db_column="collection_global_id",
+                                             related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.ForeignKey(SampleLabel, on_delete=models.RESTRICT, unique=True)
+    is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
@@ -273,16 +310,23 @@ class FieldSurveyETL(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     #id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
-    username = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Username", blank=True,
+    username = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 db_column="agol_username",
+                                 verbose_name="Username",
+                                 blank=True,
                                  on_delete=models.SET(get_sentinel_user),
                                  related_name="username")
     # date
-    survey_datetime = models.DateTimeField("Survey DateTime",blank=True, null=True)
+    survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
 
     # prj_ids
     project_ids = models.TextField("Affiliated Project(s)", blank=True)
-    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Supervisor", blank=True,
-                                 on_delete=models.SET(get_sentinel_user), related_name="supervisor")
+    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   db_column="agol_username",
+                                   verbose_name="Supervisor",
+                                   blank=True,
+                                   on_delete=models.SET(get_sentinel_user),
+                                   related_name="supervisor")
     # recdr_fname
     recorder_fname = models.CharField("Recorder First Name",max_length=255,blank=True)
     # recdr_lname
@@ -310,13 +354,25 @@ class FieldSurveyETL(DateTimeUserMixin):
     env_boat_type = models.CharField("Boat Type",max_length=255,blank=True)
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
     measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
-    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Designated Sub-corer", blank=True,
-                                 on_delete=models.SET(get_sentinel_user), related_name="core_subcorer")
-    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Designated Filterer", blank=True,
-                                 on_delete=models.SET(get_sentinel_user), related_name="water_filterer")
+    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      db_column="agol_username",
+                                      verbose_name="Designated Sub-corer",
+                                      blank=True,
+                                      on_delete=models.SET(get_sentinel_user),
+                                      related_name="core_subcorer")
+    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                       db_column="agol_username",
+                                       verbose_name="Designated Filterer",
+                                       blank=True,
+                                       on_delete=models.SET(get_sentinel_user),
+                                       related_name="water_filterer")
     survey_complete = models.CharField("Survey Complete",max_length=3, blank=True)
-    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Quality Editor", blank=True,
-                                 on_delete=models.SET(get_sentinel_user), related_name="qa_editor")
+    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  db_column="agol_username",
+                                  verbose_name="Quality Editor",
+                                  blank=True,
+                                  on_delete=models.SET(get_sentinel_user),
+                                  related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials",max_length=200, blank=True)
     gps_cap_lat = models.FloatField("Captured Latitude (DD)", blank=True, null=True)
@@ -325,11 +381,19 @@ class FieldSurveyETL(DateTimeUserMixin):
     gps_cap_horiz_acc = models.FloatField("Captured Horizontal Accuracy (m)", blank=True, null=True)
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
     record_create_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Survey Creator", blank=True,
-                                 on_delete=models.SET(get_sentinel_user), related_name="record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                       db_column="agol_username",
+                                       verbose_name="Survey Creator",
+                                       blank=True,
+                                       on_delete=models.SET(get_sentinel_user),
+                                       related_name="record_creator")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='agol_username', verbose_name="Survey Editor", blank=True,
-                                 on_delete=models.SET(get_sentinel_user), related_name="record_editor")
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                      db_column="agol_username",
+                                      verbose_name="Survey Editor",
+                                      blank=True,
+                                      on_delete=models.SET(get_sentinel_user),
+                                      related_name="record_editor")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
@@ -363,13 +427,15 @@ class FieldCrewETL(DateTimeUserMixin):
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="FieldSurveyToFieldCrew",
+    survey_global_id = models.ForeignKey(FieldSurveyETL,
+                                         db_column="survey_global_id",
+                                         related_name="fieldsurvey_to_fieldcrew",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
         return '{survey_global_id}, {fname} {lname}'.format(survey_global_id=self.survey_global_id,
-                                                           fname=self.crew_fname,
-                                                           lname=self.crew_lname)
+                                                            fname=self.crew_fname,
+                                                            lname=self.crew_lname)
 
     class Meta:
         app_label = 'field_survey'
@@ -415,13 +481,13 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_substrate = models.CharField("Bottom Substrate", max_length=255, blank=True)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="FieldSurveyToEnvMeasurement",
+    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_envmeasurement",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
         return '{survey_global_id}, {env_measure_time}, {env_measure_depth}'.format(survey_global_id=self.survey_global_id,
-                                                                                  env_measure_time=self.env_measure_time,
-                                                                                  env_measure_depth=self.env_measure_depth)
+                                                                                    env_measure_time=self.env_measure_time,
+                                                                                    env_measure_depth=self.env_measure_depth)
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'EnvMeasurement'
@@ -437,15 +503,15 @@ class FieldCollectionETL(DateTimeUserMixin):
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
     water_collect_depth = models.FloatField("Water Collection Depth", blank=True, null=True)
-    water_collect_mode = models.TextField("Collection Mode",blank=True)
+    water_collect_mode = models.TextField("Collection Mode", blank=True)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     water_niskin_vol = models.FloatField("Niskin Sample Volume", blank=True, null=True)
     water_vessel_vol = models.FloatField("Water Vessel Volume", blank=True, null=True)
     water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
-    water_collect_notes = models.TextField("Water Sample Notes",blank=True)
+    water_collect_notes = models.TextField("Water Sample Notes", blank=True)
     core_control = models.CharField("Is Control", max_length=3, blank=True)
-    core_label = models.TextField("Core Label",blank=True)
+    core_label = models.TextField("Core Label", blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.TimeField("Core End DateTime", blank=True, null=True)
     core_method = models.CharField("Corer Method", max_length=255, blank=True)
@@ -458,28 +524,30 @@ class FieldCollectionETL(DateTimeUserMixin):
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
-    subcore_method_other = models.TextField("Other Sub-Core Method",blank=True)
+    subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
-    subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End",blank=True, null=True)
+    subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
     subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, unique=True)
     subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, unique=True)
-    subcore_number = models.IntegerField("Number of Sub-Cores",blank=True, null=True)
-    subcore_length = models.FloatField("Sub-Core Length (cm)",blank=True, null=True)
-    subcore_diameter = models.FloatField("Sub-Core Diameter (cm)",blank=True, null=True)
-    subcore_clayer = models.IntegerField("Sub-Core Consistency Layer",blank=True, null=True)
+    subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
+    subcore_length = models.FloatField("Sub-Core Length (cm)", blank=True, null=True)
+    subcore_diameter = models.FloatField("Sub-Core Diameter (cm)", blank=True, null=True)
+    subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
     core_purpose = models.TextField("Purpose of Other Cores",blank=True)
-    core_notes = models.TextField("Core Notes",blank=True)
+    core_notes = models.TextField("Core Notes", blank=True)
     # wasprefiltered
     #was_prefiltered = models.CharField("Pre-Filtered", max_length=3, blank=True)
     # wasfiltered
     was_filtered = models.CharField("Filtered", max_length=3, blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="FieldSurveyToFieldCollection",
+    survey_global_id = models.ForeignKey(FieldSurveyETL,
+                                         db_column="survey_global_id",
+                                         related_name="fieldsurvey_to_fieldcollection",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
         return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(survey_global_id=self.survey_global_id,
-                                                                                    collection_global_id=self.collection_global_id,
-                                                                                    collection_type=self.collection_type)
+                                                                                      collection_global_id=self.collection_global_id,
+                                                                                      collection_type=self.collection_type)
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'FieldCollection'
@@ -504,13 +572,15 @@ class SampleFilterETL(DateTimeUserMixin):
     filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
     filter_size = models.IntegerField("Filter Size", blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
-    collection_global_id = models.ForeignKey(FieldCollectionETL, db_column="collection_global_id", related_name="FieldCollectionToSampleFilter",
-                                         on_delete=models.CASCADE)
+    collection_global_id = models.ForeignKey(FieldCollectionETL,
+                                             db_column="collection_global_id",
+                                             related_name="fieldcollection_to_samplefilter",
+                                             on_delete=models.CASCADE)
 
     def __str__(self):
         return '{collection_global_id}, {filter_sample_label}, {filter_barcode}'.format(collection_global_id=self.collection_global_id,
-                                                                                      filter_sample_label=self.filter_sample_label,
-                                                                                      filter_barcode=self.filter_barcode)
+                                                                                        filter_sample_label=self.filter_sample_label,
+                                                                                        filter_barcode=self.filter_barcode)
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'SampleFilter'
