@@ -2,7 +2,7 @@ from rest_framework import serializers
 from users.serializers import SerializerExportMixin
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
-from .models import SampleLabelRequest
+from .models import SampleLabel, SampleLabelRequest
 
 try:
     from tablib import Dataset
@@ -17,12 +17,28 @@ def delete_keys(keys, the_dict):
             del the_dict[key]
 
 # Django REST Framework to allow the automatic downloading of data!
+class SampleLabelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SampleLabel
+        fields = ['id', 'sample_label_id', 'site_id', 'sample_type', 'sample_year',
+                  'purpose', 'created_by', 'created_datetime']
+#    id = serializers.IntegerField(read_only=True)
+    # Since site_id, sample_type, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
+    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_label')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+#    purpose = serializers.CharField(required=True, max_length=200)
+#    req_sample_label_num = serializers.IntegerField(required=True, default=1)
+
+
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = SampleLabelRequest
         fields = ['id', 'sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
-                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year','sample_type',
-                  'purpose', 'created_by','created_datetime']
+                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_type',
+                  'purpose', 'created_by', 'created_datetime']
 #    id = serializers.IntegerField(read_only=True)
     # Since site_id, sample_type, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -45,7 +61,7 @@ class SampleLabelRequestSerializerTableExport(TableExport):
         self.dataset = Dataset()
         serializer_data = serializer([x for x in table.data], many=True).data
         if len(serializer_data) > 0:
-            self.dataset.headers = ('id','sample_label','sample_barcode','sample_label_cap','created_by','created_datetime')
+            self.dataset.headers = ('id', 'sample_label', 'sample_barcode', 'sample_label_cap', 'created_by', 'created_datetime')
             for row in serializer_data:
                 samplelabel_id = row['id']
                 samplelabel_prefix = row['sample_label_prefix']
