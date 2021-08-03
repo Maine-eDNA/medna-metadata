@@ -1,5 +1,4 @@
-# medna-metadata
-Maine-eDNA metadata - a data management system for tracking environmental DNA samples
+# Maine-eDNA metadata - a data management system for tracking environmental DNA samples
 
 *The modules in Maine-eDNA metadata have not yet been fully tested and migrated. 
 This message will be updated after successful implementation with the following Docker commands.*
