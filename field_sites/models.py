@@ -5,38 +5,38 @@ from django.contrib.gis.db import models
 from users.models import DateTimeUserMixin
 
 class EnvoBiome(DateTimeUserMixin):
-    biome_code = models.CharField("ENVO Biome Code",max_length=200, unique=True)
-    biome_label = models.CharField("ENVO Biome Label",max_length=200)
+    biome_code = models.CharField("ENVO Biome Code", max_length=200, unique=True)
+    biome_label = models.CharField("ENVO Biome Label", max_length=200)
     ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def __str__(self):
         return '{label}'.format(label=self.biome_label)
 
 class EnvoFeature(DateTimeUserMixin):
-    feature_code = models.CharField("ENVO Feature Code",max_length=200, unique=True)
-    feature_label = models.CharField("ENVO Feature Label",max_length=200)
+    feature_code = models.CharField("ENVO Feature Code", max_length=200, unique=True)
+    feature_label = models.CharField("ENVO Feature Label", max_length=200)
     ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def __str__(self):
         return '{label}'.format(label=self.feature_label)
 
 class Project(DateTimeUserMixin):
-    project_code = models.CharField("Project Code",max_length=1, unique=True)
-    project_label = models.CharField("Project Label",max_length=200)
+    project_code = models.CharField("Project Code", max_length=1, unique=True)
+    project_label = models.CharField("Project Label", max_length=200)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.project_code, label=self.project_label)
 
 class System(DateTimeUserMixin):
-    system_code = models.CharField("System Code",max_length=1, unique=True)
-    system_label = models.CharField("System Label",max_length=200)
+    system_code = models.CharField("System Code", max_length=1, unique=True)
+    system_label = models.CharField("System Label", max_length=200)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.system_code, label=self.system_label)
 
 class Region(DateTimeUserMixin):
-    region_code = models.CharField("Region Code",max_length=2, unique=True)
-    region_label = models.CharField("Region Label",max_length=200)
+    region_code = models.CharField("Region Code", max_length=2, unique=True)
+    region_label = models.CharField("Region Label", max_length=200)
     huc8 = models.CharField("HUC8", max_length=200)
     states = models.CharField("States", max_length=200)
     lat = models.FloatField("Latitude (DD)")
