@@ -203,18 +203,38 @@ class PooledLibrary(DateTimeUserMixin):
         NM = 2, _('nM')
         __empty__ = _('(Unknown)')
 
-    library_prep = models.ManyToManyField(LibraryPrep, on_delete=models.RESTRICT)
+    library_prep = models.ManyToManyField(LibraryPrep,
+                                          on_delete=models.RESTRICT,
+                                          related_name='libraryprep_to_pooledlibrary')
+    pooled_label = models.CharField("Pooled Library Label", max_length=255)
+    pooled_date = models.DateTimeField("Pooled Library Date", blank=True, null=True)
+    quant_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    quant = models.DecimalField("Quantification", max_digits=10, decimal_places=2)
+    quant_units = models.IntegerField("Quant Units", choices=ConcentrationUnits.choices,
+                                                  default=ConcentrationUnits.NM)
 
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    pooled_library_quantification = models.DecimalField("Quantification", max_digits=10, decimal_places=2)
-    pooled_library_quant_units = models.IntegerField("Quant Units", choices=ConcentrationUnits.choices,
-                                                  default=ConcentrationUnits.NM)
-    pooled_library_pooled_quantification = models.DecimalField("Pooled Quantification", max_digits=10, decimal_places=2)
-    pooled_library_pooled_quant_units = models.IntegerField("Pooled Quant Units", choices=ConcentrationUnits.choices,
-                                                  default=ConcentrationUnits.NM)
 
     def __str__(self):
-        return '{date} {added_by}'.format(date=self.added_datetime, added_by=self.added_by)
+        return '{date} {label}'.format(date=self.pooled_date, label=self.pooled_label)
+
+class FinalPooledLibrary(DateTimeUserMixin):
+    class ConcentrationUnits(models.IntegerChoices):
+        NGUL = 0, _('Nanograms per microliter (ng/µL)')
+        NGML = 1, _('Nanograms per milliliter (ng/mL)')
+        NM = 2, _('nM')
+        __empty__ = _('(Unknown)')
+    pooled_library = models.ManyToManyField(PooledLibrary,
+                                            on_delete=models.RESTRICT,
+                                            related_name='pooledlibrary_to_finalpooledlibrary')
+    final_pooled_label = models.CharField("Final Pooled Label", max_length=255)
+    final_pooled_date = models.DateTimeField("Final Pooled Date", blank=True, null=True)
+    quant_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    final_pooled_quant = models.DecimalField("Final Pooled Quantification", max_digits=10, decimal_places=2)
+    final_pooled_quant_units = models.IntegerField("Final Pooled Quant Units", choices=ConcentrationUnits.choices,
+                                                  default=ConcentrationUnits.NM)
+    def __str__(self):
+        return '{date} {label}'.format(date=self.final_pooled_date, label=self.final_pooled_label)
+
 
 class RunPrep(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
@@ -224,7 +244,7 @@ class RunPrep(DateTimeUserMixin):
         PM = 3, _('pM')
         __empty__ = _('(Unknown)')
 
-    pooled_library = models.ManyToManyField(PooledLibrary, on_delete=models.RESTRICT)
+    final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=10, decimal_places=2)
     phix_spike_in_units = models.IntegerField("PhiX Spike In Units", choices=ConcentrationUnits.choices,
@@ -235,7 +255,7 @@ class RunPrep(DateTimeUserMixin):
                                                   default=ConcentrationUnits.PM)
 
     def __str__(self):
-        return '{date} {added_by}'.format(date=self.run_date, added_by=self.added_by)
+        return '{date} {created_by}'.format(date=self.run_date, created_by=self.created_by)
 
 class RunResult(DateTimeUserMixin):
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
