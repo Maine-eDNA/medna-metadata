@@ -23,11 +23,11 @@ class DenoisingMethod(DateTimeUserMixin):
 
 class DenoisingMetadata(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    analysis_date = models.DateField("Freezer Date", auto_now=True)
+    analysis_date = models.DateField("Analysis Date", blank=True, null=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_filename = models.TextField("Analysis SOP Filename")
-    analysis_script_repo_link = models.TextField("Repository Link")
+    analysis_script_repo_url = models.URLField("Repository URL", max_length=200, default="https://github.com/Maine-eDNA")
     analysis_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
     readme_datafile = models.TextField("README Datafile")
 
