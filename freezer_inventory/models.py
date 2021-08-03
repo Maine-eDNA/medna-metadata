@@ -94,16 +94,18 @@ class FreezerCheckout(models.Model):
     class CheckoutAction(models.IntegerChoices):
         CHECKOUT = 0, _('Checkout')
         RETURN = 1, _('Return')
-        REMOVE = 2, _('Remove')
+        REMOVE = 2, _('Permanent Removal')
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT)
     freezer_user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
     freezer_checkout_action = models.IntegerField("Freezer Checkout Action", choices=CheckoutAction.choices)
-    freezer_checkout_datetime = models.DateTimeField("Freezer Checkout DateTime", blank=True)
-    freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True)
-    freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=10, decimal_places=2, blank=True)
-    freezer_return_vol_units = models.IntegerField("Volume Units", choices=Units.choices, blank=True)
-    freezer_remove_datetime = models.DateTimeField("Freezer Removal DateTime", blank=True)
-    freezer_notes = models.TextField("Return Notes", blank=True)
+    freezer_checkout_datetime = models.DateTimeField("Freezer Checkout DateTime", blank=True, null=True)
+    freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True, null=True)
+    freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=10, decimal_places=2, blank=True, null=True)
+    freezer_return_vol_units = models.IntegerField("Volume Units", choices=Units.choices, blank=True, null=True)
+    freezer_return_notes = models.TextField("Return Notes", blank=True)
+    #freezer_return_action
+    freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
+
 
     def freezer_inv_status_update(self, inv_pk, freezer_checkout_action):
         if freezer_checkout_action == 0:
@@ -117,8 +119,9 @@ class FreezerCheckout(models.Model):
             FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=2)
 
     def __str__(self):
-        return '{field_sample} {extraction} {pooled_library}'.format(field_sample=self.freezer_inventory.field_sample, extraction=self.freezer_inventory.extraction,
-                                                     pooled_library=self.freezer_inventory.pooled_library)
+        return '{field_sample} {extraction} {pooled_library}'.format(field_sample=self.freezer_inventory.field_sample,
+                                                                     extraction=self.freezer_inventory.extraction,
+                                                                     pooled_library=self.freezer_inventory.pooled_library)
 
     def save(self, *args, **kwargs):
         if self.freezer_checkout_action == self.CheckoutAction.CHECKOUT:
