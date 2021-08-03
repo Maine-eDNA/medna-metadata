@@ -115,13 +115,12 @@ class FieldSurvey(DateTimeUserMixin):
         return self.geom.srid
 
     def __str__(self):
-        return '{survey_global_id}, {date} {time}, {location}, {creator}, Incomplete: {survey_incomplete}'.format(
+        return '{survey_global_id}, {date}, {location}, {creator}, Incomplete: {survey_complete}'.format(
             survey_global_id=self.survey_global_id,
-            date=self.survey_date,
-            time=self.departure_time,
-            location=self.site_general_name,
+            date=self.survey_datetime,
+            location=self.site_name,
             creator=self.record_creator,
-            survey_incomplete=self.survey_incomplete)
+            survey_complete=self.survey_complete)
 
     class Meta:
         app_label = 'field_survey'
@@ -196,7 +195,7 @@ class EnvMeasurement(DateTimeUserMixin):
     def __str__(self):
         return '{survey_global_id}, {env_measure_time}, {env_measure_depth}'.format(
             survey_global_id=self.survey_global_id,
-            env_measure_time=self.env_measure_time,
+            env_measure_time=self.env_measure_datetime,
             env_measure_depth=self.env_measure_depth)
 
     class Meta:
@@ -328,30 +327,30 @@ class FieldSurveyETL(DateTimeUserMixin):
                                    on_delete=models.SET(get_sentinel_user),
                                    related_name="supervisor")
     # recdr_fname
-    recorder_fname = models.CharField("Recorder First Name",max_length=255,blank=True)
+    recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
     # recdr_lname
-    recorder_lname = models.CharField("Recorder Last Name",max_length=255,blank=True)
+    recorder_lname = models.CharField("Recorder Last Name", max_length=255, blank=True)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
-    site_id = models.CharField("Site ID",max_length=7,blank=True)
-    site_id_other = models.CharField("Site ID - Other",max_length=255,blank=True)
-    site_name = models.TextField("General Location Name",blank=True)
+    site_id = models.CharField("Site ID", max_length=7, blank=True)
+    site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
+    site_name = models.TextField("General Location Name", blank=True)
     lat_manual = models.FloatField("Latitude (DD)")
     long_manual = models.FloatField("Latitude (DD)")
     # environmental observations
-    env_obs_turbidity = models.CharField("Water Turbidity",max_length=255, blank=True)
-    env_obs_precip = models.CharField("Precipitation",max_length=255, blank=True)
-    env_obs_wind_speed = models.CharField("Wind Speed",max_length=255, blank=True)
-    env_obs_cloud_cover = models.CharField("Cloud Cover",max_length=255, blank=True)
-    env_biome = models.CharField("Biome",max_length=255,blank=True)
-    env_biome_other = models.CharField("Other Biome",max_length=255,blank=True)
-    env_feature = models.CharField("Feature",max_length=255,blank=True)
-    env_feature_other = models.CharField("Other Feature",max_length=255,blank=True)
-    env_material = models.CharField("Material",max_length=255,blank=True)
-    env_material_other = models.CharField("Other Material",max_length=255,blank=True)
-    env_notes = models.TextField("Environmental Notes",blank=True)
+    env_obs_turbidity = models.CharField("Water Turbidity", max_length=255, blank=True)
+    env_obs_precip = models.CharField("Precipitation", max_length=255, blank=True)
+    env_obs_wind_speed = models.CharField("Wind Speed", max_length=255, blank=True)
+    env_obs_cloud_cover = models.CharField("Cloud Cover", max_length=255, blank=True)
+    env_biome = models.CharField("Biome", max_length=255, blank=True)
+    env_biome_other = models.CharField("Other Biome", max_length=255, blank=True)
+    env_feature = models.CharField("Feature", max_length=255, blank=True)
+    env_feature_other = models.CharField("Other Feature", max_length=255, blank=True)
+    env_material = models.CharField("Material", max_length=255,blank=True)
+    env_material_other = models.CharField("Other Material", max_length=255, blank=True)
+    env_notes = models.TextField("Environmental Notes", blank=True)
     # by boat or by foot
-    env_measure_mode = models.CharField("Collection Mode",max_length=255,blank=True)
-    env_boat_type = models.CharField("Boat Type",max_length=255,blank=True)
+    env_measure_mode = models.CharField("Collection Mode", max_length=255,blank=True)
+    env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
     measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -366,7 +365,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
-    survey_complete = models.CharField("Survey Complete",max_length=3, blank=True)
+    survey_complete = models.CharField("Survey Complete", max_length=3, blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   db_column="agol_username",
                                   verbose_name="Quality Editor",
@@ -374,7 +373,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                                   on_delete=models.SET(get_sentinel_user),
                                   related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
-    qa_initial = models.CharField("Quality Check Initials",max_length=200, blank=True)
+    qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
     gps_cap_lat = models.FloatField("Captured Latitude (DD)", blank=True, null=True)
     gps_cap_long = models.FloatField("Captured Longitude (DD)", blank=True, null=True)
     gps_cap_alt = models.FloatField("Captured Altitude (m)", blank=True, null=True)
@@ -401,22 +400,21 @@ class FieldSurveyETL(DateTimeUserMixin):
     @property
     def lat(self):
         return self.geom.y
+
     @property
     def lon(self):
         return self.geom.x
+
     @property
     def srid(self):
         return self.geom.srid
-    def was_added_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.added_datetime <= now
+
     def __str__(self):
-        return '{survey_global_id}, {date} {time}, {location}, {creator}, Incomplete: {survey_incomplete}'.format(survey_global_id=self.survey_global_id,
-                                                                                                                  date=self.survey_date,
-                                                                                                                  time=self.departure_time,
-                                                                                                                  location=self.site_general_name,
+        return '{survey_global_id}, {date}, {location}, {creator}, Incomplete: {survey_complete}'.format(survey_global_id=self.survey_global_id,
+                                                                                                                  date=self.survey_datetime,
+                                                                                                                  location=self.site_name,
                                                                                                                   creator=self.record_creator,
-                                                                                                                  survey_incomplete=self.survey_incomplete)
+                                                                                                                  survey_complete=self.survey_complete)
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'FieldSurvey'
@@ -486,7 +484,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
 
     def __str__(self):
         return '{survey_global_id}, {env_measure_time}, {env_measure_depth}'.format(survey_global_id=self.survey_global_id,
-                                                                                    env_measure_time=self.env_measure_time,
+                                                                                    env_measure_time=self.env_measure_datetime,
                                                                                     env_measure_depth=self.env_measure_depth)
     class Meta:
         app_label = 'field_survey'
@@ -533,7 +531,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     subcore_length = models.FloatField("Sub-Core Length (cm)", blank=True, null=True)
     subcore_diameter = models.FloatField("Sub-Core Diameter (cm)", blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
-    core_purpose = models.TextField("Purpose of Other Cores",blank=True)
+    core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # wasprefiltered
     #was_prefiltered = models.CharField("Pre-Filtered", max_length=3, blank=True)
