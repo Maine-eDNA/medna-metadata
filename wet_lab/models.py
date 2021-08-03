@@ -87,6 +87,7 @@ class ExtractionMethod(DateTimeUserMixin):
 
     extraction_method_name = models.CharField("Extraction Method Name", max_length=255)
     extraction_method_manufacturer = models.CharField("Extraction Kit Manufacturer", max_length=255)
+    extraction_sop_filename = models.TextField("Extraction SOP Filename")
 
     def __str__(self):
         return '{manufacturer} {name}'.format(
@@ -111,10 +112,9 @@ class Extraction(DateTimeUserMixin):
     extraction_last_name = models.CharField("Last Name", max_length=255)
     extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=10, decimal_places=2)
     extraction_volume_units = models.IntegerField("Extraction Volume Units", choices=VolUnits.choices)
-    extraction_sop_filename = models.TextField("Extraction SOP Filename")
-    extraction_quant_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    extraction_dna_concentration = models.DecimalField("DNA Concentration", max_digits=10, decimal_places=2)
-    extraction_dna_concentration_units = models.IntegerField("DNA Concentration Units", choices=ConcentrationUnits.choices)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    extraction_concentration = models.DecimalField("Concentration", max_digits=10, decimal_places=2)
+    extraction_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def __str__(self):
@@ -184,10 +184,10 @@ class LibraryPrep(DateTimeUserMixin):
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     library_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
-    libraryprep_quantification = models.DecimalField("Library Prep Quantification", max_digits=10, decimal_places=2)
-    libraryprep_quant_units = models.IntegerField("Library Prep Quant Units", choices=ConcentrationUnits.choices,
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    libraryprep_concentration = models.DecimalField("Library Prep Concentration", max_digits=10, decimal_places=2)
+    libraryprep_concentration_units = models.IntegerField("Library Prep Concentration Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.NM)
     library_prep_kit = models.CharField("Library Prep Kit", max_length=255)
     library_prep_type = models.IntegerField("Library Prep Type", choices=PrepType.choices)
@@ -206,11 +206,11 @@ class PooledLibrary(DateTimeUserMixin):
     library_prep = models.ManyToManyField(LibraryPrep,
                                           on_delete=models.RESTRICT,
                                           related_name='libraryprep_to_pooledlibrary')
-    pooled_label = models.CharField("Pooled Library Label", max_length=255)
-    pooled_date = models.DateTimeField("Pooled Library Date", blank=True, null=True)
-    quant_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    quant = models.DecimalField("Quantification", max_digits=10, decimal_places=2)
-    quant_units = models.IntegerField("Quant Units", choices=ConcentrationUnits.choices,
+    pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
+    pooled_lib_date = models.DateTimeField("Pooled Library Date", blank=True, null=True)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=10, decimal_places=2)
+    pooled_lib_concentration_units = models.IntegerField("Pooled Library Concentration Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.NM)
 
 
@@ -226,12 +226,15 @@ class FinalPooledLibrary(DateTimeUserMixin):
     pooled_library = models.ManyToManyField(PooledLibrary,
                                             on_delete=models.RESTRICT,
                                             related_name='pooledlibrary_to_finalpooledlibrary')
-    final_pooled_label = models.CharField("Final Pooled Label", max_length=255)
-    final_pooled_date = models.DateTimeField("Final Pooled Date", blank=True, null=True)
-    quant_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    final_pooled_quant = models.DecimalField("Final Pooled Quantification", max_digits=10, decimal_places=2)
-    final_pooled_quant_units = models.IntegerField("Final Pooled Quant Units", choices=ConcentrationUnits.choices,
-                                                  default=ConcentrationUnits.NM)
+    final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
+    final_pooled_lib_date = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
+                                                         max_digits=10,
+                                                         decimal_places=2)
+    final_pooled_lib_concentration_units = models.IntegerField("Final Pooled Library Concentration Units",
+                                                               choices=ConcentrationUnits.choices,
+                                                               default=ConcentrationUnits.NM)
     def __str__(self):
         return '{date} {label}'.format(date=self.final_pooled_date, label=self.final_pooled_label)
 
@@ -245,14 +248,16 @@ class RunPrep(DateTimeUserMixin):
         __empty__ = _('(Unknown)')
 
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=10, decimal_places=2)
-    phix_spike_in_units = models.IntegerField("PhiX Spike In Units", choices=ConcentrationUnits.choices,
-                                                  default=ConcentrationUnits.PM)
+    phix_spike_in_units = models.IntegerField("PhiX Spike In Units",
+                                              choices=ConcentrationUnits.choices,
+                                              default=ConcentrationUnits.PM)
     run_date = models.DateTimeField("Run Date", auto_now=True)
-    final_library_concentration = models.DecimalField("Final Library Concentration", max_digits=10, decimal_places=2)
-    final_library_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices,
-                                                  default=ConcentrationUnits.PM)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
+    final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=10, decimal_places=2)
+    final_lib_concentration_units = models.IntegerField("Final Library Concentration Units",
+                                                        choices=ConcentrationUnits.choices,
+                                                        default=ConcentrationUnits.PM)
 
     def __str__(self):
         return '{date} {created_by}'.format(date=self.run_date, created_by=self.created_by)
