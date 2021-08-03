@@ -1,7 +1,5 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-import datetime
-from django.utils import timezone
 from sample_labels.models import SampleLabel, SampleType
 from users.models import DateTimeUserMixin, get_sentinel_user
 from django.utils.translation import ugettext_lazy as _
@@ -345,7 +343,7 @@ class FieldSurveyETL(DateTimeUserMixin):
     env_biome_other = models.CharField("Other Biome", max_length=255, blank=True)
     env_feature = models.CharField("Feature", max_length=255, blank=True)
     env_feature_other = models.CharField("Other Feature", max_length=255, blank=True)
-    env_material = models.CharField("Material", max_length=255,blank=True)
+    env_material = models.CharField("Material", max_length=255, blank=True)
     env_material_other = models.CharField("Other Material", max_length=255, blank=True)
     env_notes = models.TextField("Environmental Notes", blank=True)
     # by boat or by foot
@@ -411,10 +409,10 @@ class FieldSurveyETL(DateTimeUserMixin):
 
     def __str__(self):
         return '{survey_global_id}, {date}, {location}, {creator}, Incomplete: {survey_complete}'.format(survey_global_id=self.survey_global_id,
-                                                                                                                  date=self.survey_datetime,
-                                                                                                                  location=self.site_name,
-                                                                                                                  creator=self.record_creator,
-                                                                                                                  survey_complete=self.survey_complete)
+                                                                                                         date=self.survey_datetime,
+                                                                                                         location=self.site_name,
+                                                                                                         creator=self.record_creator,
+                                                                                                         survey_complete=self.survey_complete)
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'FieldSurvey'
@@ -450,7 +448,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
     env_ctd_notes = models.TextField("CTD Notes", blank=True)
     # env_ysi_fname
-    env_ysi_filename = models.CharField("YSI File Name", max_length=255,blank=True)
+    env_ysi_filename = models.CharField("YSI File Name", max_length=255, blank=True)
     env_ysi_model = models.CharField("YSI Model", max_length=255, blank=True)
     env_ysi_sn = models.CharField("YSI Serial Number", max_length=255, blank=True)
     env_ysi_notes = models.TextField("YSI Notes", blank=True)
@@ -479,7 +477,9 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_substrate = models.CharField("Bottom Substrate", max_length=255, blank=True)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_envmeasurement",
+    survey_global_id = models.ForeignKey(FieldSurveyETL,
+                                         db_column="survey_global_id",
+                                         related_name="fieldsurvey_to_envmeasurement",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
