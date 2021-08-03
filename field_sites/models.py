@@ -92,7 +92,7 @@ class FieldSite(DateTimeUserMixin):
                                                                    system=self.system.system_code)
             # Retrieve a list of `Site` instances, group them by the site_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
-            largest = FieldSite.objects.only('site_prefix','site_num').filter(site_prefix=self.site_prefix).order_by('site_num').last()
+            largest = FieldSite.objects.only('site_prefix', 'site_num').filter(site_prefix=self.site_prefix).order_by('site_num').last()
             if not largest:
                 # largest is `None` if `Site` has no instances
                 # in which case we return the start value of 1

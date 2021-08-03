@@ -6,15 +6,15 @@ from django.contrib.gis.db import models
 from field_sites.models import FieldSite
 from users.models import DateTimeUserMixin
 from django.core.validators import MinValueValidator
-from django.utils.translation import ugettext_lazy as _
 import numpy as np
 
 def current_year():
     return datetime.date.today().year
 
 class SampleType(DateTimeUserMixin):
-    sample_type_code = models.CharField("System Code",max_length=1, unique=True)
-    sample_type_label = models.CharField("System Label",max_length=200)
+    sample_type_code = models.CharField("System Code", max_length=1, unique=True)
+    sample_type_label = models.CharField("System Label", max_length=200)
+
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
 
@@ -23,14 +23,15 @@ class SampleLabelRequest(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
-    sample_year = models.PositiveIntegerField("Sample Year",default=current_year(), validators=[MinValueValidator(2018)])
-    purpose = models.CharField("Sample Label Purpose",max_length=200)
-    sample_label_prefix = models.CharField("Sample Label Prefix",max_length=11)
-    req_sample_label_num = models.IntegerField("Number Requested",default=1)
+    sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
+    purpose = models.CharField("Sample Label Purpose", max_length=200)
+    sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
+    req_sample_label_num = models.IntegerField("Number Requested", default=1)
     min_sample_label_num = models.IntegerField(default=1)
     max_sample_label_num = models.IntegerField(default=1)
-    min_sample_label_id = models.CharField("Min Sample Label ID",max_length=16)
-    max_sample_label_id = models.CharField("Max Sample Label ID",max_length=16)
+    min_sample_label_id = models.CharField("Min Sample Label ID", max_length=16)
+    max_sample_label_id = models.CharField("Max Sample Label ID", max_length=16)
+
     def __str__(self):
         return self.max_sample_label_id
 
@@ -72,10 +73,12 @@ class SampleLabelRequest(DateTimeUserMixin):
         if self.pk is None:
             last_twosigits_year = str(self.sample_year)[-2:]
             # concatenate project, region, and system to create sample_label_prefix, e.g., "eAL_L"
-            self.sample_label_prefix = '{site}_{twosigits_year}{sample_type}'.format(site=self.site_id.site_id,twosigits_year=last_twosigits_year,sample_type=self.sample_type.sample_type_code)
+            self.sample_label_prefix = '{site}_{twosigits_year}{sample_type}'.format(site=self.site_id.site_id,
+                                                                                     twosigits_year=last_twosigits_year,
+                                                                                     sample_type=self.sample_type.sample_type_code)
             # Retrieve a list of `Site` instances, group them by the sample_label_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
-            largest = SampleLabelRequest.objects.only('sample_label_prefix','max_sample_label_num').filter(sample_label_prefix=self.sample_label_prefix).order_by('max_sample_label_num').last()
+            largest = SampleLabelRequest.objects.only('sample_label_prefix', 'max_sample_label_num').filter(sample_label_prefix=self.sample_label_prefix).order_by('max_sample_label_num').last()
             if not largest:
                 # largest is `None` if `Site` has no instances
                 # in which case we return the start value of 1
@@ -90,8 +93,8 @@ class SampleLabelRequest(DateTimeUserMixin):
             min_num_leading_zeros = str(self.min_sample_label_num).zfill(4)
             max_num_leading_zeros = str(self.max_sample_label_num).zfill(4)
             # format site_id, e.g., "eAL_L01"
-            self.min_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,sitenum=min_num_leading_zeros)
-            self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,sitenum=max_num_leading_zeros)
+            self.min_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix, sitenum=min_num_leading_zeros)
+            self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix, sitenum=max_num_leading_zeros)
             self.insert_update_sample_id_req(self.min_sample_label_id, self.max_sample_label_id,
                                              self.min_sample_label_num, self.max_sample_label_num,
                                              self.sample_label_prefix, self.site_id,
@@ -100,19 +103,13 @@ class SampleLabelRequest(DateTimeUserMixin):
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
 class SampleLabel(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
-
+    sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
-    sample_year = models.PositiveIntegerField("Sample Year",default=current_year(), validators=[MinValueValidator(2018)])
+    sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=200)
-    is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
+
     def __str__(self):
         return self.sample_label_id
