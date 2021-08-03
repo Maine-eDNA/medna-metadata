@@ -1,4 +1,6 @@
-from django.db import models
+# from django.db import models
+# swapping to GeoDjango
+from django.contrib.gis.db import models
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
@@ -24,7 +26,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     phone_number = PhoneNumberField(blank=True)
-    agol_username = models.CharField("ArcGIS Online Username", max_length=200, blank=True)
+    agol_username = models.CharField("ArcGIS Online Username", max_length=200, blank=True, unique=True)
 
     def __str__(self):
         return self.email
