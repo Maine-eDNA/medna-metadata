@@ -258,7 +258,7 @@ class FieldSample(DateTimeUserMixin):
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
-    field_sample_barcode = models.ForeignKey(SampleLabel, on_delete=models.RESTRICT, unique=True)
+    field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
     is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
@@ -525,8 +525,8 @@ class FieldCollectionETL(DateTimeUserMixin):
     subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
-    subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, unique=True)
-    subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, unique=True)
+    subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, blank=True)
+    subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, blank=True)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
     subcore_length = models.FloatField("Sub-Core Length (cm)", blank=True, null=True)
     subcore_diameter = models.FloatField("Sub-Core Diameter (cm)", blank=True, null=True)
@@ -560,7 +560,7 @@ class SampleFilterETL(DateTimeUserMixin):
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
     # needs to fk to samplelabels at some point
-    filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, unique=True)
+    filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, blank=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
