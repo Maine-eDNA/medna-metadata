@@ -25,7 +25,8 @@ from sample_labels.views import SampleLabelRequestViewSet
 router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet, 'users')
 router.register(r'field_sites', FieldSitesViewSet, 'field_sites')
-router.register(r'sample_labels', SampleLabelRequestViewSet, 'sample_labels')
+router.register(r'sample_label_requests', SampleLabelRequestViewSet, 'sample_labels')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
