@@ -231,7 +231,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
         NM = 2, _('nM')
         __empty__ = _('(Unknown)')
     pooled_library = models.ManyToManyField(PooledLibrary,
-                                            through='PooledToFinalPooledLibrary',
+                                            through='PooledLibraryToFinalPooledLibrary',
                                             related_name='pooledlibrary_to_finalpooledlibrary')
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
     final_pooled_lib_date = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
@@ -245,7 +245,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
     def __str__(self):
         return '{date} {label}'.format(date=self.final_pooled_date, label=self.final_pooled_label)
 
-class PooledToFinalPooledLibrary(DateTimeUserMixin):
+class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
     '''
     ManyToMany relationship table between PooledLibrary and FinalPooledLibrary
     '''
