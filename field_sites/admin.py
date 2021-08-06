@@ -15,7 +15,7 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
-                       'biome_fifth_label','created_by']
+                       'biome_fifth_label', 'ontology_url', 'created_by', 'created_datetime']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeAdmin, self).change_view(request, object_id)
     # removes "delete selected" from drop down menu
@@ -34,7 +34,8 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
-                       'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'created_by']
+                       'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'ontology_url',
+                       'created_by', 'created_datetime']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureAdmin, self).change_view(request, object_id)
     # removes "delete selected" from drop down menu

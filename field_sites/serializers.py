@@ -1,31 +1,58 @@
 from rest_framework import serializers
-from .models import EnvoBiome, EnvoFeature, Project, System, FieldSite, Region
+from .models import EnvoBiomeFifth, EnvoFeatureSeventh, Project, System, FieldSite, Region
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeSerializer(serializers.ModelSerializer):
-    biome_code = serializers.CharField()
-    biome_label = serializers.CharField()
+    biome_first_label = serializers.CharField()
+    biome_second_label = serializers.CharField()
+    biome_third_label = serializers.CharField()
+    biome_fourth_label = serializers.CharField()
+    biome_fifth_label = serializers.CharField()
+
+    biome_first_code = serializers.CharField()
+    biome_second_code = serializers.CharField()
+    biome_third_code = serializers.CharField()
+    biome_fourth_code = serializers.CharField()
+    biome_fifth_code = serializers.CharField()
+
     ontology_url = serializers.URLField()
 
     class Meta:
-        model = EnvoBiome
-        fields = ['id', 'biome_code', 'biome_label', 'ontology_url', 'created_by', 'created_datetime']
+        model = EnvoBiomeFifth
+        fields = ['id', 'biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
+                       'biome_fifth_label', 'ontology_url', 'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 class EnvoFeatureSerializer(serializers.ModelSerializer):
-    feature_code = serializers.CharField()
-    feature_label = serializers.CharField()
+    feature_first_label = serializers.CharField()
+    feature_second_label = serializers.CharField()
+    feature_third_label = serializers.CharField()
+    feature_fourth_label = serializers.CharField()
+    feature_fifth_label = serializers.CharField()
+    feature_sixth_label = serializers.CharField()
+    feature_seventh_label = serializers.CharField()
+
+    feature_first_code = serializers.CharField()
+    feature_second_code = serializers.CharField()
+    feature_third_code = serializers.CharField()
+    feature_fourth_code = serializers.CharField()
+    feature_fifth_code = serializers.CharField()
+    feature_sixth_code = serializers.CharField()
+    feature_seventh_code = serializers.CharField()
+
     ontology_url = serializers.URLField()
 
     class Meta:
-        model = EnvoFeature
-        fields = ['id', 'feature_code', 'feature_label', 'ontology_url', 'created_by', 'created_datetime']
+        model = EnvoFeatureSeventh
+        fields = ['id', 'feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
+                       'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'ontology_url',
+                       'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

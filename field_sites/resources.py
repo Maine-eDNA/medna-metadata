@@ -7,7 +7,7 @@ class EnvoBiomeAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFifth
         import_id_fields = ('biome_first_code', 'biome_second_code', 'biome_third_code', 'biome_fourth_code',
-                            'biome_fifth_code',)
+                            'biome_fifth_code', 'ontology_url',)
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -16,7 +16,7 @@ class EnvoFeatureAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSeventh
         import_id_fields = ('feature_first_code', 'feature_second_code', 'feature_third_code', 'feature_fourth_code',
-                            'feature_fifth_code', 'feature_sixth_code', 'feature_seventh_code',)
+                            'feature_fifth_code', 'feature_sixth_code', 'feature_seventh_code', 'ontology_url',)
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
