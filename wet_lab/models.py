@@ -204,7 +204,7 @@ class PooledLibrary(DateTimeUserMixin):
         __empty__ = _('(Unknown)')
 
     library_prep = models.ManyToManyField(LibraryPrep,
-                                          on_delete=models.RESTRICT,
+                                          through='LibraryPrepToPooledLibrary',
                                           related_name='libraryprep_to_pooledlibrary')
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
     pooled_lib_date = models.DateTimeField("Pooled Library Date", blank=True, null=True)
@@ -217,6 +217,13 @@ class PooledLibrary(DateTimeUserMixin):
     def __str__(self):
         return '{date} {label}'.format(date=self.pooled_date, label=self.pooled_label)
 
+class LibraryPrepToPooledLibrary(DateTimeUserMixin):
+    '''
+    ManyToMany relationship table between LibraryPrep and PooledLibrary
+    '''
+    library_prep = models.ForeignKey(LibraryPrep, on_delete=models.RESTRICT)
+    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
+
 class FinalPooledLibrary(DateTimeUserMixin):
     class ConcentrationUnits(models.IntegerChoices):
         NGUL = 0, _('Nanograms per microliter (ng/µL)')
@@ -224,7 +231,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
         NM = 2, _('nM')
         __empty__ = _('(Unknown)')
     pooled_library = models.ManyToManyField(PooledLibrary,
-                                            on_delete=models.RESTRICT,
+                                            through='PooledToFinalPooledLibrary',
                                             related_name='pooledlibrary_to_finalpooledlibrary')
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
     final_pooled_lib_date = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
@@ -237,6 +244,13 @@ class FinalPooledLibrary(DateTimeUserMixin):
                                                                default=ConcentrationUnits.NM)
     def __str__(self):
         return '{date} {label}'.format(date=self.final_pooled_date, label=self.final_pooled_label)
+
+class PooledToFinalPooledLibrary(DateTimeUserMixin):
+    '''
+    ManyToMany relationship table between PooledLibrary and FinalPooledLibrary
+    '''
+    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
+    final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
 
 
 class RunPrep(DateTimeUserMixin):
