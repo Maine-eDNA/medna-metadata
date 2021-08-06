@@ -1,7 +1,7 @@
 # Register your models here.
 #from django.contrib import admin
 from django.contrib.gis import admin
-from .models import EnvoBiome, EnvoFeature, Project, System, Region, FieldSite, WorldBorder
+from .models import EnvoBiomeFifth, EnvoFeatureSeventh, Project, System, Region, FieldSite, WorldBorder
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import EnvoBiomeAdminResource, EnvoFeatureAdminResource, ProjectAdminResource, SystemAdminResource, \
@@ -14,7 +14,8 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_datetime', 'created_by')
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['biome_label','biome_code','created_by']
+        self.fields = ['biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
+                       'biome_fifth_label','created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeAdmin, self).change_view(request, object_id)
     # removes "delete selected" from drop down menu
@@ -23,7 +24,7 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
-admin.site.register(EnvoBiome,EnvoBiomeAdmin)
+admin.site.register(EnvoBiomeFifth, EnvoBiomeAdmin)
 
 class EnvoFeatureAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -32,7 +33,8 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_datetime', 'created_by')
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_label','feature_code','created_by']
+        self.fields = ['feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
+                       'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureAdmin, self).change_view(request, object_id)
     # removes "delete selected" from drop down menu
@@ -41,7 +43,7 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
-admin.site.register(EnvoFeature,EnvoFeatureAdmin)
+admin.site.register(EnvoFeatureSeventh,EnvoFeatureAdmin)
 
 class ProjectAdmin(ImportExportActionModelAdmin):
     # below are import_export configs

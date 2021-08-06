@@ -1,24 +1,25 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import EnvoBiome, EnvoFeature, Project, System, Region, FieldSite, WorldBorder
+from .models import EnvoBiomeFifth, EnvoFeatureSeventh, Project, System, Region, FieldSite, WorldBorder
 from users.models import CustomUser
 
 class EnvoBiomeAdminResource(resources.ModelResource):
     class Meta:
-        model = EnvoBiome
-        import_id_fields = ('biome_code',)
+        model = EnvoBiomeFifth
+        import_id_fields = ('biome_first_code', 'biome_second_code', 'biome_third_code', 'biome_fourth_code',
+                            'biome_fifth_code',)
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
 
 class EnvoFeatureAdminResource(resources.ModelResource):
     class Meta:
-        model = EnvoFeature
-        import_id_fields = ('feature_code',)
+        model = EnvoFeatureSeventh
+        import_id_fields = ('feature_first_code', 'feature_second_code', 'feature_third_code', 'feature_fourth_code',
+                            'feature_fifth_code', 'feature_sixth_code', 'feature_seventh_code',)
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
-
 
 class ProjectAdminResource(resources.ModelResource):
     class Meta:
@@ -51,11 +52,11 @@ class FieldSiteAdminResource(resources.ModelResource):
     class Meta:
         model = FieldSite
         import_id_fields = ('site_id',)
-        exclude = ('site_prefix','site_num')
+        exclude = ('site_prefix', 'site_num')
         fields = ('site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'geom', 'created_by','created_datetime',)
+                  'purpose', 'geom', 'created_by', 'created_datetime',)
         export_order = ('site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'geom', 'created_by','created_datetime',)
+                        'purpose', 'geom', 'created_by', 'created_datetime',)
 
     project = fields.Field(
         column_name='project',
