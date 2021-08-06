@@ -18,14 +18,14 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from users.views import CustomUserView
-from field_sites.views import FieldSitesFilterView
-from sample_labels.views import SampleLabelFilterView
+from users.views import CustomUserViewSet
+from field_sites.views import FieldSitesViewSet
+from sample_labels.views import SampleLabelRequestViewSet
 
 router = routers.DefaultRouter()
-router.register(r'users', CustomUserView, 'users')
-router.register(r'field_sites', FieldSitesFilterView, 'field_sites')
-router.register(r'sample_labels', SampleLabelFilterView, 'sample_labels')
+router.register(r'users', CustomUserViewSet, 'users')
+router.register(r'field_sites', FieldSitesViewSet, 'field_sites')
+router.register(r'sample_labels', SampleLabelRequestViewSet, 'sample_labels')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -14,12 +14,18 @@ import datetime
 import csv
 from django.http import HttpResponse
 from rest_framework import generics
+from rest_framework import viewsets
 
 def year_choices():
     return [(r,r) for r in range(2018, datetime.date.today().year+1)]
 
 def current_year():
     return datetime.date.today().year
+
+class SampleLabelRequestViewSet(viewsets.ModelViewSet):
+    serializer_class = SampleLabelRequestSerializer
+    queryset = SampleLabelRequest.objects.all()
+
 
 class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
     """View samplelabel filter view with REST serializser and django-tables2"""

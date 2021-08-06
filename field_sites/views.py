@@ -18,7 +18,12 @@ import datetime
 import csv
 from django.http import HttpResponse
 from rest_framework import generics
+from rest_framework import viewsets
 from .forms import AddFieldSiteForm
+
+class FieldSitesViewSet(viewsets.ModelViewSet):
+    serializer_class = FieldSiteSerializer
+    queryset = FieldSite.objects.all()
 
 class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
     """View site filter view with REST serializser and django-tables2"""

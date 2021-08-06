@@ -4,6 +4,6 @@ from .models import CustomUser
 
 # Create your views here.
 
-class CustomUserView(viewsets.ModelViewSet):
+class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
