@@ -39,7 +39,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCrewAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__')
+    list_display = ('survey_global_id', 'crew_fname', 'crew_lname')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
