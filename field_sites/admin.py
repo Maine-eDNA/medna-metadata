@@ -12,18 +12,21 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
     resource_class = EnvoBiomeAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
                        'biome_fifth_label', 'ontology_url', 'created_by', 'created_datetime']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
 admin.site.register(EnvoBiomeFifth, EnvoBiomeAdmin)
 
 class EnvoFeatureAdmin(ImportExportActionModelAdmin):
@@ -31,6 +34,7 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
     resource_class = EnvoFeatureAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
@@ -38,12 +42,14 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
                        'created_by', 'created_datetime']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
 admin.site.register(EnvoFeatureSeventh,EnvoFeatureAdmin)
 
 class ProjectAdmin(ImportExportActionModelAdmin):
@@ -51,17 +57,20 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     resource_class = ProjectAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['project_label', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProjectAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
 admin.site.register(Project,ProjectAdmin)
 
 class SystemAdmin(ImportExportActionModelAdmin):
@@ -69,17 +78,20 @@ class SystemAdmin(ImportExportActionModelAdmin):
     resource_class = SystemAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['system_label', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SystemAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
 admin.site.register(System,SystemAdmin)
 
 class RegionAdmin(ExportActionMixin,admin.OSMGeoAdmin):
@@ -100,6 +112,7 @@ class RegionAdmin(ExportActionMixin,admin.OSMGeoAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
 admin.site.register(Region,RegionAdmin)
 
 class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
@@ -114,12 +127,14 @@ class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         self.readonly_fields = ['area', 'fips', 'iso2', 'iso3', 'un', 'region', 'subregion', 'lat', 'lon']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(WorldBorderAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
 admin.site.register(WorldBorder,WorldBorderAdmin)
 
 class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
@@ -156,4 +171,5 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
             del actions['delete_selected']
         return actions
     # import_export configs - export ONLY
+
 admin.site.register(FieldSite, FieldSiteAdmin)
