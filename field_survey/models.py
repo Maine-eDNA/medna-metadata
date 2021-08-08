@@ -5,6 +5,7 @@ from field_sites.models import FieldSite
 from users.models import DateTimeUserMixin, get_sentinel_user
 from users.enumerations import YesNo
 
+
 ###########
 # Post Transform
 ###########
@@ -195,6 +196,7 @@ class EnvMeasurement(DateTimeUserMixin):
         verbose_name = 'EnvMeasurement'
         verbose_name_plural = 'EnvMeasurements'
 
+
 class FieldCollection(DateTimeUserMixin):
     collection_global_id = models.TextField("Global ID", primary_key=True)
     survey_global_id = models.ForeignKey(FieldSurvey,
@@ -240,6 +242,7 @@ class FieldCollection(DateTimeUserMixin):
         app_label = 'field_survey'
         verbose_name = 'FieldCollection'
         verbose_name_plural = 'FieldCollections'
+
 
 class FieldSample(DateTimeUserMixin):
     sample_global_id = models.TextField("Global ID", primary_key=True)
@@ -294,7 +297,7 @@ class FieldSample(DateTimeUserMixin):
 class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    #id = models.AutoField(unique=True)
+    # id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
@@ -395,13 +398,15 @@ class FieldSurveyETL(DateTimeUserMixin):
                                                                                                          location=self.site_name,
                                                                                                          creator=self.record_creator,
                                                                                                          survey_complete=self.survey_complete)
+
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'FieldSurveyETL'
         verbose_name_plural = 'FieldSurveyETLs'
 
+
 class FieldCrewETL(DateTimeUserMixin):
-    #id = models.AutoField(unique=True)
+    # id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
@@ -419,6 +424,7 @@ class FieldCrewETL(DateTimeUserMixin):
         app_label = 'field_survey'
         verbose_name = 'FieldCrewETL'
         verbose_name_plural = 'FieldCrewETLs'
+
 
 class EnvMeasurementETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
@@ -468,13 +474,15 @@ class EnvMeasurementETL(DateTimeUserMixin):
         return '{survey_global_id}, {env_measure_time}, {env_measure_depth}'.format(survey_global_id=self.survey_global_id,
                                                                                     env_measure_time=self.env_measure_datetime,
                                                                                     env_measure_depth=self.env_measure_depth)
+
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'EnvMeasurementETL'
         verbose_name_plural = 'EnvMeasurementETLs'
 
+
 class FieldCollectionETL(DateTimeUserMixin):
-    #id = models.AutoField(unique=True)
+    # id = models.AutoField(unique=True)
     collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
@@ -517,7 +525,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # wasprefiltered
-    #was_prefiltered = models.IntegerField("Pre-Filtered", choices=YesNo.choices, blank=True)
+    # was_prefiltered = models.IntegerField("Pre-Filtered", choices=YesNo.choices, blank=True)
     # wasfiltered
 
     survey_global_id = models.ForeignKey(FieldSurveyETL,
@@ -529,13 +537,15 @@ class FieldCollectionETL(DateTimeUserMixin):
         return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(survey_global_id=self.survey_global_id,
                                                                                       collection_global_id=self.collection_global_id,
                                                                                       collection_type=self.collection_type)
+
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'FieldCollectionETL'
         verbose_name_plural = 'FieldCollectionETLs'
 
+
 class SampleFilterETL(DateTimeUserMixin):
-    #id = models.AutoField(unique=True)
+    # id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.IntegerField("Prefilter", choices=YesNo.choices, blank=True)
@@ -562,6 +572,7 @@ class SampleFilterETL(DateTimeUserMixin):
         return '{collection_global_id}, {filter_sample_label}, {filter_barcode}'.format(collection_global_id=self.collection_global_id,
                                                                                         filter_sample_label=self.filter_sample_label,
                                                                                         filter_barcode=self.filter_barcode)
+
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'SampleFilterETL'

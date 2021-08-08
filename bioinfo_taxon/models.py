@@ -3,6 +3,7 @@ from bioinfo_denoising.models import AmpliconSequenceVariant
 from users.models import DateTimeUserMixin
 from users.enumerations import YesNo
 
+
 # Create your models here.
 class ReferenceDatabase(DateTimeUserMixin):
     refdb_name = models.CharField("Reference Database Name", max_length=255)
@@ -18,12 +19,14 @@ class ReferenceDatabase(DateTimeUserMixin):
             version=self.refdb_version,
             coverage=self.redfb_coverage_score)
 
+
 class TaxonDomain(DateTimeUserMixin):
     taxon_domain = models.CharField("Domain", max_length=255)
 
     def __str__(self):
         return '{tax_domain}'.format(
             tax_domain=self.taxon_domain)
+
 
 class TaxonKingdom(TaxonDomain):
     taxon_kingdom = models.CharField("Kingdom", max_length=255)
@@ -33,6 +36,7 @@ class TaxonKingdom(TaxonDomain):
             tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom)
 
+
 class TaxonPhylum(TaxonKingdom):
     taxon_phylum = models.CharField("Phylum", max_length=255)
 
@@ -41,6 +45,7 @@ class TaxonPhylum(TaxonKingdom):
             tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
             tax_phylum=self.taxon_phylum)
+
 
 class TaxonClass(TaxonPhylum):
     taxon_class = models.CharField("Class", max_length=255)
@@ -52,6 +57,7 @@ class TaxonClass(TaxonPhylum):
             tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class)
 
+
 class TaxonOrder(TaxonClass):
     taxon_order = models.CharField("Order", max_length=255)
 
@@ -62,6 +68,7 @@ class TaxonOrder(TaxonClass):
             tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class,
             tax_order=self.taxon_order)
+
 
 class TaxonFamily(TaxonOrder):
     taxon_family = models.CharField("Family", max_length=255)
@@ -75,6 +82,7 @@ class TaxonFamily(TaxonOrder):
             tax_order=self.taxon_order,
             tax_family=self.taxon_family)
 
+
 class TaxonGenus(TaxonFamily):
     taxon_genus = models.CharField("Genus", max_length=255)
 
@@ -87,6 +95,7 @@ class TaxonGenus(TaxonFamily):
             tax_order=self.taxon_order,
             tax_family=self.taxon_family,
             tax_genus=self.taxon_genus)
+
 
 class TaxonSpecies(TaxonGenus):
     taxon_species = models.CharField("Species", max_length=255)
@@ -104,12 +113,14 @@ class TaxonSpecies(TaxonGenus):
             tax_genus=self.taxon_genus,
             tax_species=self.taxon_species)
 
+
 class AnnotationMethod(DateTimeUserMixin):
     annotation_method_name = models.CharField("Denoising Method Name", max_length=255)
 
     def __str__(self):
         return '{name}'.format(
             name=self.annotation_method_name)
+
 
 class AnnotationMetadata(DateTimeUserMixin):
     analysis_date = models.DateField("Analysis Date", blank=True, null=True)
@@ -126,6 +137,7 @@ class AnnotationMetadata(DateTimeUserMixin):
             fname=self.analyst_first_name,
             lname=self.analyst_last_name,
             method=self.analysis_method)
+
 
 class TaxonomicAnnotation(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
