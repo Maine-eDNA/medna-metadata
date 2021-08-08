@@ -8,6 +8,11 @@ from django.utils.translation import ugettext_lazy as _
 # Post Transform
 ###########
 class FieldSurvey(DateTimeUserMixin):
+    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
+    class YesNo(models.IntegerChoices):
+        NO = 0, _('No')
+        YES = 1, _('Yes')
+        __empty__ = _('(Unknown)')
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     # id = models.AutoField(unique=True)
@@ -55,7 +60,7 @@ class FieldSurvey(DateTimeUserMixin):
     env_measure_mode = models.CharField("Collection Mode", max_length=255, blank=True)
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
-    measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
+    measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       db_column="agol_username",
                                       verbose_name="Designated Sub-corer",
@@ -68,7 +73,7 @@ class FieldSurvey(DateTimeUserMixin):
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
-    survey_complete = models.CharField("Survey Complete", max_length=3, blank=True)
+    survey_complete = models.IntegerField("Survey Complete", choices=YesNo.choices, blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   db_column="agol_username",
                                   verbose_name="Quality Editor",
@@ -202,13 +207,18 @@ class EnvMeasurement(DateTimeUserMixin):
         verbose_name_plural = 'EnvMeasurements'
 
 class FieldCollection(DateTimeUserMixin):
+    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
+    class YesNo(models.IntegerChoices):
+        NO = 0, _('No')
+        YES = 1, _('Yes')
+        __empty__ = _('(Unknown)')
     collection_global_id = models.TextField("Global ID", primary_key=True)
     survey_global_id = models.ForeignKey(FieldSurvey,
                                          db_column="survey_global_id",
                                          related_name="fieldsurvey_to_fieldcollection",
                                          on_delete=models.CASCADE)
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
-    water_control = models.CharField("Is Control", max_length=3, blank=True)
+    water_control = models.IntegerField("Is Control", choices=YesNo.choices, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=255, blank=True)
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
@@ -221,11 +231,11 @@ class FieldCollection(DateTimeUserMixin):
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
     # wasfiltered
-    was_filtered = models.CharField("Filtered", max_length=3, blank=True)
-    core_control = models.CharField("Is Control", max_length=3, blank=True)
+    was_filtered = models.IntegerField("Filtered", choices=YesNo.choices, blank=True)
+    core_control = models.IntegerField("Is Control", choices=YesNo.choices, blank=True)
     core_label = models.TextField("Core Label", blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
-    core_datetime_end = models.TimeField("Core End DateTime", blank=True, null=True)
+    core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
     core_method = models.CharField("Corer Method", max_length=255, blank=True)
     core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
     core_collect_depth = models.FloatField("Core Depth (m)", blank=True, null=True)
@@ -234,7 +244,7 @@ class FieldCollection(DateTimeUserMixin):
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True)
+    subcores_taken = models.IntegerField("Sub-Cored", choices=YesNo.choices, blank=True)
 
     def __str__(self):
         return '{survey_global_id}, {collection_global_id}, {collection_type}'.format(
@@ -262,7 +272,7 @@ class FieldSample(DateTimeUserMixin):
     is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
-    is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
+    is_prefilter = models.IntegerField("Prefilter", choices=YesNo.choices, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
@@ -303,6 +313,10 @@ class FieldSample(DateTimeUserMixin):
 ###########
 
 class FieldSurveyETL(DateTimeUserMixin):
+    class YesNo(models.IntegerChoices):
+        NO = 0, _('No')
+        YES = 1, _('Yes')
+        __empty__ = _('(Unknown)')
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     #id = models.AutoField(unique=True)
@@ -350,7 +364,7 @@ class FieldSurveyETL(DateTimeUserMixin):
     env_measure_mode = models.CharField("Collection Mode", max_length=255,blank=True)
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
-    measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
+    measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       db_column="agol_username",
                                       verbose_name="Designated Sub-corer",
@@ -363,7 +377,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
-    survey_complete = models.CharField("Survey Complete", max_length=3, blank=True)
+    survey_complete = models.IntegerField("Survey Complete", choices=YesNo.choices, blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   db_column="agol_username",
                                   verbose_name="Quality Editor",
@@ -492,11 +506,16 @@ class EnvMeasurementETL(DateTimeUserMixin):
         verbose_name_plural = 'EnvMeasurements'
 
 class FieldCollectionETL(DateTimeUserMixin):
+    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
+    class YesNo(models.IntegerChoices):
+        NO = 0, _('No')
+        YES = 1, _('Yes')
+        __empty__ = _('(Unknown)')
     #id = models.AutoField(unique=True)
     collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
-    water_control = models.CharField("Is Control", max_length=3, blank=True)
+    water_control = models.IntegerField("Is Control", choices=YesNo.choices, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=255, blank=True)
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
@@ -508,17 +527,18 @@ class FieldCollectionETL(DateTimeUserMixin):
     water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
-    core_control = models.CharField("Is Control", max_length=3, blank=True)
+    was_filtered = models.IntegerField("Filtered", choices=YesNo.choices, blank=True)
+    core_control = models.IntegerField("Is Control", choices=YesNo.choices, blank=True)
     core_label = models.TextField("Core Label", blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
-    core_datetime_end = models.TimeField("Core End DateTime", blank=True, null=True)
+    core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
     core_method = models.CharField("Corer Method", max_length=255, blank=True)
     core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
     core_collect_depth = models.FloatField("Core Depth (m)", blank=True, null=True)
     core_length = models.FloatField("Core Length (cm)", blank=True, null=True)
     core_diameter = models.FloatField("Core Diameter (cm)", blank=True, null=True)
     # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True)
+    subcores_taken = models.IntegerField("Sub-Cored", choices=YesNo.choices, blank=True)
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
@@ -534,9 +554,9 @@ class FieldCollectionETL(DateTimeUserMixin):
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # wasprefiltered
-    #was_prefiltered = models.CharField("Pre-Filtered", max_length=3, blank=True)
+    #was_prefiltered = models.IntegerField("Pre-Filtered", choices=YesNo.choices, blank=True)
     # wasfiltered
-    was_filtered = models.CharField("Filtered", max_length=3, blank=True)
+
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
                                          related_name="fieldsurvey_to_fieldcollection",
@@ -552,10 +572,14 @@ class FieldCollectionETL(DateTimeUserMixin):
         verbose_name_plural = 'FieldCollections'
 
 class SampleFilterETL(DateTimeUserMixin):
+    class YesNo(models.IntegerChoices):
+        NO = 0, _('No')
+        YES = 1, _('Yes')
+        __empty__ = _('(Unknown)')
     #id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
-    is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
+    is_prefilter = models.IntegerField("Prefilter", choices=YesNo.choices, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
