@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from bioinfo_denoising.models import AmpliconSequenceVariant
-from django.utils.translation import ugettext_lazy as _
 from users.models import DateTimeUserMixin
+from users.enumerations import YesNo
 
 # Create your models here.
 class ReferenceDatabase(DateTimeUserMixin):
@@ -89,12 +89,6 @@ class TaxonGenus(TaxonFamily):
             tax_genus=self.taxon_genus)
 
 class TaxonSpecies(TaxonGenus):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
-
     taxon_species = models.CharField("Species", max_length=255)
     taxon_common_name = models.CharField("Common Name", max_length=255)
     is_endemic = models.IntegerField("Endemic to New England", choices=YesNo.choices, default=YesNo.YES)
@@ -111,13 +105,6 @@ class TaxonSpecies(TaxonGenus):
             tax_species=self.taxon_species)
 
 class AnnotationMethod(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    #class AnalysisMethod(models.IntegerChoices):
-    #    BLAST = 0, _('BLAST')
-    #    BLASTPLUS = 1, _('BLAST+')
-    #    MNNAIVEBAYES = 2, _('Multinomial Naive Bayes')
-    #    __empty__ = _('(Unknown)')
-
     annotation_method_name = models.CharField("Denoising Method Name", max_length=255)
 
     def __str__(self):

@@ -3,17 +3,12 @@ from django.conf import settings
 from sample_labels.models import SampleLabel, SampleType
 from field_sites.models import FieldSite
 from users.models import DateTimeUserMixin, get_sentinel_user
-from django.utils.translation import ugettext_lazy as _
+from users.enumerations import YesNo
 
 ###########
 # Post Transform
 ###########
 class FieldSurvey(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     # id = models.AutoField(unique=True)
@@ -201,11 +196,6 @@ class EnvMeasurement(DateTimeUserMixin):
         verbose_name_plural = 'EnvMeasurements'
 
 class FieldCollection(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
     collection_global_id = models.TextField("Global ID", primary_key=True)
     survey_global_id = models.ForeignKey(FieldSurvey,
                                          db_column="survey_global_id",
@@ -252,11 +242,6 @@ class FieldCollection(DateTimeUserMixin):
         verbose_name_plural = 'FieldCollections'
 
 class FieldSample(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
     sample_global_id = models.TextField("Global ID", primary_key=True)
     collection_global_id = models.ForeignKey(FieldCollection,
                                              db_column="collection_global_id",
@@ -307,10 +292,6 @@ class FieldSample(DateTimeUserMixin):
 ###########
 
 class FieldSurveyETL(DateTimeUserMixin):
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     #id = models.AutoField(unique=True)
@@ -493,11 +474,6 @@ class EnvMeasurementETL(DateTimeUserMixin):
         verbose_name_plural = 'EnvMeasurementETLs'
 
 class FieldCollectionETL(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
     #id = models.AutoField(unique=True)
     collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
@@ -559,10 +535,6 @@ class FieldCollectionETL(DateTimeUserMixin):
         verbose_name_plural = 'FieldCollectionETLs'
 
 class SampleFilterETL(DateTimeUserMixin):
-    class YesNo(models.IntegerChoices):
-        NO = 0, _('No')
-        YES = 1, _('Yes')
-        __empty__ = _('(Unknown)')
     #id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)

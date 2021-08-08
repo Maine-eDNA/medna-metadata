@@ -1,18 +1,9 @@
 from django.contrib.gis.db import models
 from wet_lab.models import RunResult
-
 from users.models import DateTimeUserMixin
 
 # Create your models here.
 class DenoisingMethod(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    #class AnalysisMethod(models.IntegerChoices):
-    #    DADA2 = 0, _('DADA2')
-    #    DEBLUR = 1, _('DeBlur')
-    #    PYRONOISE = 2, _('PyroNoise')
-    #    UNOISE3 = 3, _('UNoise3')
-    #    __empty__ = _('(Unknown)')
-
     denoising_method_name = models.CharField("Denoising Method Name", max_length=255)
     denoising_method_pipeline = models.CharField("Denoising Pipeline", max_length=255)
 
@@ -37,7 +28,6 @@ class DenoisingMetadata(DateTimeUserMixin):
             fname=self.analyst_first_name,
             lname=self.analyst_last_name,
             method=self.analysis_method)
-
 
 class AmpliconSequenceVariant(DateTimeUserMixin):
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)

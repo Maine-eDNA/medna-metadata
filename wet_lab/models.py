@@ -1,21 +1,15 @@
 from django.contrib.gis.db import models
 from field_survey.models import FieldSample
-from django.utils.translation import ugettext_lazy as _
 from users.models import DateTimeUserMixin
+from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepType
 
 # Create your models here.
 class PrimerPair(DateTimeUserMixin):
-    class TargetGene(models.IntegerChoices):
-        TG_12S = 0, _('12S')
-        TG_16S = 1, _('16S')
-        TG_18S = 2, _('18S')
-        TG_COI = 3, _('COI')
-        __empty__ = _('(Unknown)')
     primer_name_forward = models.CharField("Quantification Method", max_length=255)
     primer_name_reverse = models.CharField("Quantification Method", max_length=255)
     primer_forward = models.TextField("Quantification Method")
     primer_reverse = models.TextField("Quantification Method")
-    primer_target_gene = models.IntegerField("Target Gene", choices=TargetGene.choices)
+    primer_target_gene = models.IntegerField("Target Gene", choices=TargetGenes.choices)
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
     primer_set_name = models.TextField("Primer Set Name")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
@@ -38,53 +32,24 @@ class IndexPair(DateTimeUserMixin):
 
 
 class IndexRemovalMethod(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    #class ExtrMethod(models.IntegerChoices):
-    #    EXOSAP = 0, _('exo-sap')
-    #    BEADS = 1, _('beads')
-    #    __empty__ = _('(Unknown)')
-
     index_removal_method_name = models.CharField("Index Removal Method", max_length=255)
 
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
 class SizeSelectionMethod(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    #class ExtrMethod(models.IntegerChoices):
-    #    BEADS = 0, _('Beads')
-    #    GELCUTS = 1, _('Gel Cuts')
-    #    SPINCOL = 2, _('Spin Column')
-    #    __empty__ = _('(Unknown)')
-
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255)
 
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
 class QuantificationMethod(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    #class ExtrMethod(models.IntegerChoices):
-    #    QBIT = 0, _('qbit')
-    #    NANODROP = 1, _('nanodrop')
-    #    QPCR = 2, _('qPCR')
-    #    BIOANALYZER = 3, _('Bioanalyzer')
-    #    TAPESTATION = 4, _('Tape Station')
-    #    __empty__ = _('(Unknown)')
-
     quant_method_name = models.CharField("Quantification Method", max_length=255)
 
     def __str__(self):
         return '{name}'.format(name=self.quant_method_name)
 
 class ExtractionMethod(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    #class ExtrMethod(models.IntegerChoices):
-    #    BLOODTISSUE = 0, _('Qiagen Blood and Tissue')
-    #    POWERSOIL = 1, _('Qiagen Power Soil Pro')
-    #    POWERWATER = 2, _('')
-    #    __empty__ = _('(Unknown)')
-
     extraction_method_name = models.CharField("Extraction Method Name", max_length=255)
     extraction_method_manufacturer = models.CharField("Extraction Kit Manufacturer", max_length=255)
     extraction_sop_filename = models.TextField("Extraction SOP Filename")
@@ -96,15 +61,6 @@ class ExtractionMethod(DateTimeUserMixin):
 
 
 class Extraction(DateTimeUserMixin):
-    # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-    class VolUnits(models.IntegerChoices):
-        MICROLITER = 0, _('microliter (µL)')
-        MILLILITER = 1, _('milliliter (mL)')
-        __empty__ = _('(Unknown)')
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        __empty__ = _('(Unknown)')
     field_sample = models.ForeignKey(FieldSample, on_delete=models.RESTRICT)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_date = models.DateField("Extraction Date",  auto_now=True)
@@ -121,11 +77,6 @@ class Extraction(DateTimeUserMixin):
         return self.sample_label_id
 
 class Ddpcr(DateTimeUserMixin):
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        __empty__ = _('(Unknown)')
-
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     ddpcr_date = models.DateField("ddPCR Date", auto_now=True)
@@ -144,11 +95,6 @@ class Ddpcr(DateTimeUserMixin):
             ddpcr_results=self.ddpcr_results)
 
 class Qpcr(DateTimeUserMixin):
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        __empty__ = _('(Unknown)')
-
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     qpcr_date = models.DateField("qPCR Date", auto_now=True)
@@ -167,18 +113,6 @@ class Qpcr(DateTimeUserMixin):
             qpcr_results=self.qpcr_results)
 
 class LibraryPrep(DateTimeUserMixin):
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        NM = 2, _('nM')
-        __empty__ = _('(Unknown)')
-
-    class PrepType(models.IntegerChoices):
-        AMPLICON = 0, _('Amplicon')
-        RNA = 1, _('RNA')
-        SHOTGUN = 2, _('Shotgun')
-        __empty__ = _('(Unknown)')
-
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
@@ -197,12 +131,6 @@ class LibraryPrep(DateTimeUserMixin):
         return '{name}'.format(name=self.library_prep_experiment_name)
 
 class PooledLibrary(DateTimeUserMixin):
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        NM = 2, _('nM')
-        __empty__ = _('(Unknown)')
-
     library_prep = models.ManyToManyField(LibraryPrep,
                                           through='LibraryPrepToPooledLibrary',
                                           related_name='libraryprep_to_pooledlibrary')
@@ -212,7 +140,6 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=10, decimal_places=2)
     pooled_lib_concentration_units = models.IntegerField("Pooled Library Concentration Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.NM)
-
 
     def __str__(self):
         return '{date} {label}'.format(date=self.pooled_date, label=self.pooled_label)
@@ -225,11 +152,6 @@ class LibraryPrepToPooledLibrary(DateTimeUserMixin):
     pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
 
 class FinalPooledLibrary(DateTimeUserMixin):
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        NM = 2, _('nM')
-        __empty__ = _('(Unknown)')
     pooled_library = models.ManyToManyField(PooledLibrary,
                                             through='PooledLibraryToFinalPooledLibrary',
                                             related_name='pooledlibrary_to_finalpooledlibrary')
@@ -254,13 +176,6 @@ class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
-    class ConcentrationUnits(models.IntegerChoices):
-        NGUL = 0, _('Nanograms per microliter (ng/µL)')
-        NGML = 1, _('Nanograms per milliliter (ng/mL)')
-        NM = 2, _('nM')
-        PM = 3, _('pM')
-        __empty__ = _('(Unknown)')
-
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=10, decimal_places=2)
     phix_spike_in_units = models.IntegerField("PhiX Spike In Units",
