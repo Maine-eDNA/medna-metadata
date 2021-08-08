@@ -275,12 +275,12 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SampleFilterETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'filter_global_id', 'field_sample_barcode', 'created_datetime',
+    list_display = ('collection_global_id', 'filter_global_id', 'filter_barcode', 'created_datetime',
                     'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
+        self.fields = ['filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'collection_global_id', 'created_datetime', 'created_by']
