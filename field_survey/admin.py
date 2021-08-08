@@ -15,13 +15,13 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['username','survey_date','departure_time','project_ids','supervisor',
-                       'recorder_fname','recorder_lname','arrival_time','site_id','site_id_other',
-                       'site_general_name','lat_manual','long_manual','env_obs_turbidity','env_obs_precip',
+        self.fields = ['username', 'survey_datetime', 'project_ids', 'supervisor',
+                       'recorder_fname', 'recorder_lname', 'arrival_datetime', 'site_id', 'site_id_other',
+                       'site_name', 'lat_manual', 'long_manual', 'env_obs_turbidity', 'env_obs_precip',
                        'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome', 'env_biome_other', 'env_feature',
                        'env_feature_other', 'env_material', 'env_material_other', 'env_notes',
-                       'env_collection_mode', 'env_boat_type', 'env_bottom_depth', 'core_subcorer',
-                       'water_filterer', 'survey_incomplete', 'qa_editor', 'qa_date', 'qa_initial',
+                       'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
+                       'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
                        'record_create_date', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -43,7 +43,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['crew_global_id','crew_fname', 'crew_lname' ,'created_by']
+        self.fields = ['crew_global_id', 'crew_fname', 'crew_lname', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewAdmin, self).change_view(request, object_id)
 
@@ -62,17 +62,19 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'env_global_id', 'env_measure_time', 'env_measure_depth', 'created_datetime', 'created_by')
+    list_display = ('survey_global_id', 'env_global_id', 'env_measure_datetime', 'env_measure_depth',
+                    'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['env_global_id', 'env_measure_time', 'env_measure_depth', 'env_instrument', 'env_ctd_filename',
-                    'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn', 'env_ysi_notes',
-                    'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes', 'env_inst_other',
-                    'env_meas_taken', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
-                    'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla',
-                    'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime',
-                    'env_conditions_notes', 'survey_global_id', 'created_datetime', 'created_by']
+        self.fields = ['env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
+                       'env_ctd_filename', 'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn',
+                       'env_ysi_notes', 'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes',
+                       'env_inst_other', 'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity',
+                       'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
+                       'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
+                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id', 'created_datetime',
+                       'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementAdmin, self).change_view(request, object_id)
 
@@ -95,13 +97,13 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['collection_global_id', 'collection_type', 'water_control', 'water_control_type','water_vessel_label',
-                       'water_collect_time', 'water_collect_depth', 'water_collect_mode', 'water_niskin_number',
-                       'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material', 'water_vessel_color',
-                       'water_collect_notes','core_control', 'core_label', 'core_start', 'core_end', 'core_method',
-                       'core_method_other','core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',
-                        'core_purpose', 'core_notes', 'was_prefiltered',
-                       'was_filtered','survey_global_id', 'created_by', 'created_datetime']
+        self.fields = ['collection_global_id', 'collection_type', 'water_control', 'water_control_type',
+                       'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+                       'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+                       'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
+                       'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                       'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
+                       'subcores_taken', 'survey_global_id', 'created_by', 'created_datetime']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
@@ -120,16 +122,18 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'sample_global_id', 'field_sample_barcode', 'created_datetime', 'created_by')
+    list_display = ('collection_global_id', 'sample_global_id', 'field_sample_barcode', 'created_datetime',
+                    'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['sample_global_id','filter_location','filter_fname', 'filter_lname', 'filter_sample_label',
-                       'field_sample_barcode', 'filter_date', 'filter_time', 'filter_method', 'filter_method_other',
-                       'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                       'filter_notes', 'subcore_fname','subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_date',
-                       'subcore_datetime_start','subcore_datetime_end', 'subcore_num', 'subcore_length',
-                       'subcore_diameter','subcore_clayer', 'collection_global_id', 'created_datetime', 'created_by']
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted', 'sample_type', 'filter_location',
+                       'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
+                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
+                       'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
+                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
+                       'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
+                       'created_datetime', 'created_by']
         #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
