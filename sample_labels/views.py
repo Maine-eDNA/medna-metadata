@@ -7,36 +7,44 @@ from django_tables2.views import SingleTableMixin
 from django.utils import timezone
 from .serializers import SampleLabelRequestSerializerExportMixin
 from django_filters import rest_framework as filters
-from .models import SampleLabelRequest
+from .models import SampleLabelRequest, SampleLabel
 from .tables import SampleLabelRequestTable
-from .serializers import SampleLabelRequestSerializer
+from .serializers import SampleLabelRequestSerializer, SampleLabelSerializer
 import datetime
 import csv
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
 
+
 def year_choices():
-    return [(r,r) for r in range(2018, datetime.date.today().year+1)]
+    return [(r, r) for r in range(2018, datetime.date.today().year+1)]
+
 
 def current_year():
     return datetime.date.today().year
+
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
     queryset = SampleLabelRequest.objects.all()
 
 
+class SampleLabelViewSet(viewsets.ModelViewSet):
+    serializer_class = SampleLabelSerializer
+    queryset = SampleLabel.objects.all()
+
+
 class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
-    """View samplelabel filter view with REST serializser and django-tables2"""
-    #export_formats = ['csv','xlsx'] # set in user_sites in default
+    """View samplelabel filter view with REST serializers and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
     # Implement lazy pagination, preventing any count() queries.
-    #table_pagination = {
+    # table_pagination = {
     #    'paginator_class': LazyPaginator,
-    #}
+    # }
     # the name of the exported file
     export_name = 'samplelabel_' + str(datetime.datetime.now().replace(microsecond=0).isoformat())
     # where the data is coming from when it is being exported -- foreign keys to grab the appropriate columns
@@ -44,24 +52,28 @@ class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTable
     # where the filter is applied -- at the backend upon exporting
     filter_backends = (filters.DjangoFilterBackend,)
 
+
 class SampleLabelListView(generics.ListAPIView):
     queryset = SampleLabelRequest.objects.all()
     serializer_class = SampleLabelRequestSerializer
     # who can download the data - only those who are authenticated - this is mostly for the API since
     # access via the url == login only
     # this is now hard-coded in settings under: 'DEFAULT_PERMISSION_CLASSES'
-    #permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
+
 
 class SampleLabelDetailView(DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
     context_object_name = 'samplelabel'
 
+
 class SampleLabelExportDetailView(DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
     """View sample label detail"""
     model = SampleLabelRequest
     context_object_name = 'samplelabel'
+
     def render_to_response(self, context, **response_kwargs):
         # If I wanted to iterate through num to create 0001:0020 labels, this is where I could add it
         samplelabel = context.get('samplelabel')  # getting User object from context using context_object_name
@@ -70,7 +82,7 @@ class SampleLabelExportDetailView(DetailView):
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
             datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
-        writer.writerow(['id', 'sample_label','sample_barcode','sample_label_cap', 'created_by', 'created_datetime'])
+        writer.writerow(['id', 'sample_label', 'sample_barcode', 'sample_label_cap', 'created_by', 'created_datetime'])
 
         samplelabel_reqnum = samplelabel.req_sample_label_num
         samplelabel_id = samplelabel.id
@@ -92,13 +104,14 @@ class SampleLabelExportDetailView(DetailView):
                 sequence = str(int(sequence)+1).zfill(4)
         return response
 
+
 class AddSampleLabelView(LoginRequiredMixin,CreateView):
     """View sample label create view"""
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     model = SampleLabelRequest
     fields = ['site_id', 'sample_year', 'sample_type', 'purpose', 'req_sample_label_num']
-    #sample_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=current_year)
+    # sample_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=current_year)
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
