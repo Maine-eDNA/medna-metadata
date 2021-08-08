@@ -20,12 +20,14 @@ from django.urls import path, include
 from rest_framework import routers
 from users.views import CustomUserViewSet
 from field_sites.views import FieldSitesViewSet
-from sample_labels.views import SampleLabelRequestViewSet
+from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet, 'users')
 router.register(r'field_sites', FieldSitesViewSet, 'field_sites')
 router.register(r'sample_label_requests', SampleLabelRequestViewSet, 'sample_labels')
+router.register(r'sample_labels', SampleLabelViewSet, 'sample_labels')
+
 
 
 urlpatterns = [
