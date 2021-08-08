@@ -20,6 +20,12 @@ try:
 except ImportError:
     raise ImportError("allauth needs to be added to INSTALLED_APPS.")
 
+# django rest_framework
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username')
+
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,18 +33,12 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
         fields = ['pk', 'email', 'first_name', 'last_name', 'phone_number']
         read_only_fields = ('email',)
 
-class CustomUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('email', 'password')
-
 # rest-auth login and registration forms
 class CustomLoginSerializer(LoginSerializer):
     username = None
 
 class CustomRegisterSerializer(RegisterSerializer):
-    # this is disabled because I removed the URLs to register via API
-    # I don't want people to register their accounts via API.
+    # this is currently disabled
     username = None
     email = serializers.EmailField(required=allauth_settings.EMAIL_REQUIRED)
     password1 = serializers.CharField(write_only=True)
