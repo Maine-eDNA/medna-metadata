@@ -1,7 +1,8 @@
 from django.contrib.gis.db import models
 from field_survey.models import FieldSample
 from users.models import DateTimeUserMixin
-from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepType
+from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTypes
+
 
 # Create your models here.
 class PrimerPair(DateTimeUserMixin):
@@ -20,6 +21,7 @@ class PrimerPair(DateTimeUserMixin):
             primer_set_name=self.primer_set_name,
             primer_target_gene=self.primer_target_gene)
 
+
 class IndexPair(DateTimeUserMixin):
     index_i7 = models.CharField("i7 Index", max_length=16)
     index_i7_id = models.CharField("i7 Index ID", max_length=12)
@@ -37,11 +39,13 @@ class IndexRemovalMethod(DateTimeUserMixin):
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
 
+
 class SizeSelectionMethod(DateTimeUserMixin):
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255)
 
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
+
 
 class QuantificationMethod(DateTimeUserMixin):
     quant_method_name = models.CharField("Quantification Method", max_length=255)
@@ -49,10 +53,11 @@ class QuantificationMethod(DateTimeUserMixin):
     def __str__(self):
         return '{name}'.format(name=self.quant_method_name)
 
+
 class ExtractionMethod(DateTimeUserMixin):
     extraction_method_name = models.CharField("Extraction Method Name", max_length=255)
     extraction_method_manufacturer = models.CharField("Extraction Kit Manufacturer", max_length=255)
-    extraction_sop_filename = models.TextField("Extraction SOP Filename")
+    extraction_sop_filename = models.URLField("Extraction SOP Filename", max_length=200)
 
     def __str__(self):
         return '{manufacturer} {name}'.format(
@@ -76,6 +81,7 @@ class Extraction(DateTimeUserMixin):
     def __str__(self):
         return self.sample_label_id
 
+
 class Ddpcr(DateTimeUserMixin):
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
@@ -93,6 +99,7 @@ class Ddpcr(DateTimeUserMixin):
             date=self.ddpcr_date,
             primer_set=self.primer_set,
             ddpcr_results=self.ddpcr_results)
+
 
 class Qpcr(DateTimeUserMixin):
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
@@ -112,6 +119,7 @@ class Qpcr(DateTimeUserMixin):
             primer_set=self.primer_set,
             qpcr_results=self.qpcr_results)
 
+
 class LibraryPrep(DateTimeUserMixin):
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
@@ -124,11 +132,12 @@ class LibraryPrep(DateTimeUserMixin):
     libraryprep_concentration_units = models.IntegerField("Library Prep Concentration Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.NM)
     library_prep_kit = models.CharField("Library Prep Kit", max_length=255)
-    library_prep_type = models.IntegerField("Library Prep Type", choices=PrepType.choices)
-    library_prep_thermal_sop_filename = models.TextField("Thermal SOP Filename")
+    library_prep_type = models.IntegerField("Library Prep Type", choices=PrepTypes.choices)
+    library_prep_thermal_sop_filename = models.URLField("Thermal SOP Filename", max_length=200)
 
     def __str__(self):
         return '{name}'.format(name=self.library_prep_experiment_name)
+
 
 class PooledLibrary(DateTimeUserMixin):
     library_prep = models.ManyToManyField(LibraryPrep,
@@ -144,12 +153,14 @@ class PooledLibrary(DateTimeUserMixin):
     def __str__(self):
         return '{date} {label}'.format(date=self.pooled_date, label=self.pooled_label)
 
+
 class LibraryPrepToPooledLibrary(DateTimeUserMixin):
     '''
     ManyToMany relationship table between LibraryPrep and PooledLibrary
     '''
     library_prep = models.ForeignKey(LibraryPrep, on_delete=models.RESTRICT)
     pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
+
 
 class FinalPooledLibrary(DateTimeUserMixin):
     pooled_library = models.ManyToManyField(PooledLibrary,
@@ -166,6 +177,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
                                                                default=ConcentrationUnits.NM)
     def __str__(self):
         return '{date} {label}'.format(date=self.final_pooled_date, label=self.final_pooled_label)
+
 
 class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
     '''
@@ -191,6 +203,7 @@ class RunPrep(DateTimeUserMixin):
     def __str__(self):
         return '{date} {created_by}'.format(date=self.run_date, created_by=self.created_by)
 
+
 class RunResult(DateTimeUserMixin):
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     run_id = models.CharField("Run ID", max_length=255)
@@ -204,11 +217,13 @@ class RunResult(DateTimeUserMixin):
                                                                   datetime=self.run_completion_datetime,
                                                                   run_experiment_name=self.run_experiment_name)
 
+
 class FastqFile(DateTimeUserMixin):
+    # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
-    fastq_datafile = models.TextField("FastQ Datafile")
+    fastq_datafile = models.FileField("FastQ Datafile", max_length=200)
 
     def __str__(self):
         return '{run_id}: {fastq}'.format(run_id=self.run_result.run_id,
-                                         fastq=self.fastq_datafile)
+                                          fastq=self.fastq_datafile)
