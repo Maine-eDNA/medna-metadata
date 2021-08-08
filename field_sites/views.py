@@ -7,12 +7,12 @@ from django_filters import rest_framework as filters
 from django.utils import timezone
 from users.serializers import SerializerExportMixin
 from .models import FieldSite, Region
-#from django.shortcuts import render
-#from django.http import HttpResponse
+# from django.shortcuts import render
+# from django.http import HttpResponse
 from django_filters.views import FilterView
 from .tables import FieldSiteTable
 from django_tables2.views import SingleTableMixin
-#from django_tables2.paginators import LazyPaginator
+# from django_tables2.paginators import LazyPaginator
 from .serializers import FieldSiteSerializer, GeoFieldSiteSerializer, GeoRegionSerializer
 import datetime
 import csv
@@ -21,13 +21,15 @@ from rest_framework import generics
 from rest_framework import viewsets
 from .forms import AddFieldSiteForm
 
+
 class FieldSitesViewSet(viewsets.ModelViewSet):
     serializer_class = FieldSiteSerializer
     queryset = FieldSite.objects.all()
 
+
 class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
     """View site filter view with REST serializser and django-tables2"""
-    #export_formats = ['csv','xlsx'] # set in user_sites in default
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
     table_class = FieldSiteTable
 #    table_pagination = {
@@ -37,17 +39,21 @@ class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
     serializer_class = FieldSiteSerializer
     filter_backends = (filters.DjangoFilterBackend,)
 
+
 class FieldSitesListView(generics.ListAPIView):
     queryset = FieldSite.objects.all()
     serializer_class = FieldSiteSerializer
+
 
 class GeoFieldSitesListView(generics.ListAPIView):
     queryset = FieldSite.objects.all()
     serializer_class = GeoFieldSiteSerializer
 
+
 class GeoRegionsListView(generics.ListAPIView):
     queryset = Region.objects.all()
     serializer_class = GeoRegionSerializer
+
 
 class FieldSiteDetailView(DetailView):
     model = FieldSite
@@ -57,10 +63,12 @@ class FieldSiteDetailView(DetailView):
 #    def get_object(self, queryset=None):
 #        return queryset.get(self.kwargs['pk'])
 
+
 class FieldSiteExportDetailView(DetailView):
     # this view is only for adding a button in SiteDetailView to download the single record...
     model = FieldSite
     context_object_name = 'site'
+
     def render_to_response(self, context, **response_kwargs):
         site = context.get('site')  # getting User object from context using context_object_name
         file_name = 'site'
@@ -75,12 +83,13 @@ class FieldSiteExportDetailView(DetailView):
                          site.geom.x, site.geom.srid, site.created_by.email,site.created_datetime])
         return response
 
+
 class AddFieldSiteView(LoginRequiredMixin,CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     form_class = AddFieldSiteForm
-    #model = Site
-    #fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom']
+    # model = Site
+    # fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom']
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
