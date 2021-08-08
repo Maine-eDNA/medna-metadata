@@ -18,7 +18,6 @@ class FieldSurvey(DateTimeUserMixin):
     # id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 db_column="agol_username",
                                  verbose_name="Username",
                                  blank=True,
                                  on_delete=models.SET(get_sentinel_user),
@@ -29,7 +28,6 @@ class FieldSurvey(DateTimeUserMixin):
     # prj_ids
     project_ids = models.TextField("Affiliated Project(s)", blank=True)
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   db_column="agol_username",
                                    verbose_name="Supervisor",
                                    blank=True,
                                    on_delete=models.SET(get_sentinel_user),
@@ -62,20 +60,17 @@ class FieldSurvey(DateTimeUserMixin):
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
     measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      db_column="agol_username",
                                       verbose_name="Designated Sub-corer",
                                       blank=True,
                                       on_delete=models.SET(get_sentinel_user),
                                       related_name="core_subcorer")
     water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       db_column="agol_username",
                                        verbose_name="Designated Filterer",
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
     survey_complete = models.IntegerField("Survey Complete", choices=YesNo.choices, blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  db_column="agol_username",
                                   verbose_name="Quality Editor",
                                   blank=True,
                                   on_delete=models.SET(get_sentinel_user),
@@ -89,14 +84,12 @@ class FieldSurvey(DateTimeUserMixin):
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
     record_create_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       db_column="agol_username",
                                        verbose_name="Survey Creator",
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="record_creator")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      db_column="agol_username",
                                       verbose_name="Survey Editor",
                                       blank=True,
                                       on_delete=models.SET(get_sentinel_user),
@@ -322,7 +315,6 @@ class FieldSurveyETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 db_column="agol_username",
                                  verbose_name="Username",
                                  blank=True,
                                  on_delete=models.SET(get_sentinel_user),
@@ -333,7 +325,6 @@ class FieldSurveyETL(DateTimeUserMixin):
     # prj_ids
     project_ids = models.TextField("Affiliated Project(s)", blank=True)
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   db_column="agol_username",
                                    verbose_name="Supervisor",
                                    blank=True,
                                    on_delete=models.SET(get_sentinel_user),
@@ -366,20 +357,17 @@ class FieldSurveyETL(DateTimeUserMixin):
     env_bottom_depth = models.FloatField("Bottom Depth (m)", blank=True, null=True)
     measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      db_column="agol_username",
                                       verbose_name="Designated Sub-corer",
                                       blank=True,
                                       on_delete=models.SET(get_sentinel_user),
                                       related_name="core_subcorer_etl")
     water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       db_column="agol_username",
                                        verbose_name="Designated Filterer",
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer_etl")
     survey_complete = models.IntegerField("Survey Complete", choices=YesNo.choices, blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  db_column="agol_username",
                                   verbose_name="Quality Editor",
                                   blank=True,
                                   on_delete=models.SET(get_sentinel_user),
@@ -393,14 +381,12 @@ class FieldSurveyETL(DateTimeUserMixin):
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
     record_create_date = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       db_column="agol_username",
                                        verbose_name="Survey Creator",
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="record_creator_etl")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      db_column="agol_username",
                                       verbose_name="Survey Editor",
                                       blank=True,
                                       on_delete=models.SET(get_sentinel_user),
