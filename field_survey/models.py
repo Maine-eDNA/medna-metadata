@@ -326,7 +326,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                                  verbose_name="Username",
                                  blank=True,
                                  on_delete=models.SET(get_sentinel_user),
-                                 related_name="username")
+                                 related_name="username_etl")
     # date
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
 
@@ -337,7 +337,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                                    verbose_name="Supervisor",
                                    blank=True,
                                    on_delete=models.SET(get_sentinel_user),
-                                   related_name="supervisor")
+                                   related_name="supervisor_etl")
     # recdr_fname
     recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
     # recdr_lname
@@ -370,20 +370,20 @@ class FieldSurveyETL(DateTimeUserMixin):
                                       verbose_name="Designated Sub-corer",
                                       blank=True,
                                       on_delete=models.SET(get_sentinel_user),
-                                      related_name="core_subcorer")
+                                      related_name="core_subcorer_etl")
     water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        db_column="agol_username",
                                        verbose_name="Designated Filterer",
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
-                                       related_name="water_filterer")
+                                       related_name="water_filterer_etl")
     survey_complete = models.IntegerField("Survey Complete", choices=YesNo.choices, blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   db_column="agol_username",
                                   verbose_name="Quality Editor",
                                   blank=True,
                                   on_delete=models.SET(get_sentinel_user),
-                                  related_name="qa_editor")
+                                  related_name="qa_editor_etl")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
     gps_cap_lat = models.FloatField("Captured Latitude (DD)", blank=True, null=True)
@@ -397,14 +397,14 @@ class FieldSurveyETL(DateTimeUserMixin):
                                        verbose_name="Survey Creator",
                                        blank=True,
                                        on_delete=models.SET(get_sentinel_user),
-                                       related_name="record_creator")
+                                       related_name="record_creator_etl")
     record_edit_date = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       db_column="agol_username",
                                       verbose_name="Survey Editor",
                                       blank=True,
                                       on_delete=models.SET(get_sentinel_user),
-                                      related_name="record_editor")
+                                      related_name="record_editor_etl")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
@@ -429,8 +429,8 @@ class FieldSurveyETL(DateTimeUserMixin):
                                                                                                          survey_complete=self.survey_complete)
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldSurvey'
-        verbose_name_plural = 'FieldSurveys'
+        verbose_name = 'FieldSurveyETL'
+        verbose_name_plural = 'FieldSurveyETLs'
 
 class FieldCrewETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
@@ -439,7 +439,7 @@ class FieldCrewETL(DateTimeUserMixin):
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcrew",
+                                         related_name="fieldsurvey_to_fieldcrew_etl",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
@@ -449,8 +449,8 @@ class FieldCrewETL(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldCrew'
-        verbose_name_plural = 'FieldCrews'
+        verbose_name = 'FieldCrewETL'
+        verbose_name_plural = 'FieldCrewETLs'
 
 class EnvMeasurementETL(DateTimeUserMixin):
     #id = models.AutoField(unique=True)
@@ -493,7 +493,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_envmeasurement",
+                                         related_name="fieldsurvey_to_envmeasurement_etl",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
@@ -502,8 +502,8 @@ class EnvMeasurementETL(DateTimeUserMixin):
                                                                                     env_measure_depth=self.env_measure_depth)
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'EnvMeasurement'
-        verbose_name_plural = 'EnvMeasurements'
+        verbose_name = 'EnvMeasurementETL'
+        verbose_name_plural = 'EnvMeasurementETLs'
 
 class FieldCollectionETL(DateTimeUserMixin):
     # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
@@ -559,7 +559,7 @@ class FieldCollectionETL(DateTimeUserMixin):
 
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcollection",
+                                         related_name="fieldsurvey_to_fieldcollection_etl",
                                          on_delete=models.CASCADE)
 
     def __str__(self):
@@ -568,8 +568,8 @@ class FieldCollectionETL(DateTimeUserMixin):
                                                                                       collection_type=self.collection_type)
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldCollection'
-        verbose_name_plural = 'FieldCollections'
+        verbose_name = 'FieldCollectionETL'
+        verbose_name_plural = 'FieldCollectionETLs'
 
 class SampleFilterETL(DateTimeUserMixin):
     class YesNo(models.IntegerChoices):
@@ -596,7 +596,7 @@ class SampleFilterETL(DateTimeUserMixin):
     filter_notes = models.TextField("Filter Notes", blank=True)
     collection_global_id = models.ForeignKey(FieldCollectionETL,
                                              db_column="collection_global_id",
-                                             related_name="fieldcollection_to_samplefilter",
+                                             related_name="fieldcollection_to_samplefilter_etl",
                                              on_delete=models.CASCADE)
 
     def __str__(self):
@@ -605,5 +605,5 @@ class SampleFilterETL(DateTimeUserMixin):
                                                                                         filter_barcode=self.filter_barcode)
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'SampleFilter'
-        verbose_name_plural = 'SampleFilters'
+        verbose_name = 'SampleFilterETL'
+        verbose_name_plural = 'SampleFilterETLs'
