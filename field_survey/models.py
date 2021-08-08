@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from django.conf import settings
 from sample_labels.models import SampleLabel, SampleType
+from field_sites.models import FieldSite
 from users.models import DateTimeUserMixin, get_sentinel_user
 from django.utils.translation import ugettext_lazy as _
 
@@ -37,11 +38,11 @@ class FieldSurvey(DateTimeUserMixin):
     # recdr_lname
     recorder_lname = models.CharField("Recorder Last Name", max_length=255, blank=True)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
-    site_id = models.CharField("Site ID", max_length=7, blank=True)
+    site_id = models.ForeignKey(FieldSite, blank=True, on_delete=models.RESTRICT)
     site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
     site_name = models.TextField("General Location Name", blank=True)
-    lat_manual = models.FloatField("Latitude (DD)")
-    long_manual = models.FloatField("Latitude (DD)")
+    lat_manual = models.DecimalField("Latitude (DD)", max_digits=9, decimal_places=6)
+    long_manual = models.DecimalField("Latitude (DD)", max_digits=9, decimal_places=6)
     # environmental observations
     env_obs_turbidity = models.CharField("Water Turbidity", max_length=255, blank=True)
     env_obs_precip = models.CharField("Precipitation", max_length=255, blank=True)
@@ -77,8 +78,8 @@ class FieldSurvey(DateTimeUserMixin):
                                   related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
-    gps_cap_lat = models.FloatField("Captured Latitude (DD)", blank=True, null=True)
-    gps_cap_long = models.FloatField("Captured Longitude (DD)", blank=True, null=True)
+    gps_cap_lat = models.DecimalField("Captured Latitude (DD)", blank=True, null=True, max_digits=9, decimal_places=6)
+    gps_cap_long = models.DecimalField("Captured Longitude (DD)", blank=True, null=True, max_digits=9, decimal_places=6)
     gps_cap_alt = models.FloatField("Captured Altitude (m)", blank=True, null=True)
     gps_cap_horiz_acc = models.FloatField("Captured Horizontal Accuracy (m)", blank=True, null=True)
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
@@ -337,8 +338,8 @@ class FieldSurveyETL(DateTimeUserMixin):
     site_id = models.CharField("Site ID", max_length=7, blank=True)
     site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
     site_name = models.TextField("General Location Name", blank=True)
-    lat_manual = models.FloatField("Latitude (DD)")
-    long_manual = models.FloatField("Latitude (DD)")
+    lat_manual = models.DecimalField("Latitude (DD)", max_digits=9, decimal_places=6)
+    long_manual = models.DecimalField("Latitude (DD)", max_digits=9, decimal_places=6)
     # environmental observations
     env_obs_turbidity = models.CharField("Water Turbidity", max_length=255, blank=True)
     env_obs_precip = models.CharField("Precipitation", max_length=255, blank=True)
@@ -374,8 +375,8 @@ class FieldSurveyETL(DateTimeUserMixin):
                                   related_name="qa_editor_etl")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
-    gps_cap_lat = models.FloatField("Captured Latitude (DD)", blank=True, null=True)
-    gps_cap_long = models.FloatField("Captured Longitude (DD)", blank=True, null=True)
+    gps_cap_lat = models.DecimalField("Captured Latitude (DD)", blank=True, null=True, max_digits=9, decimal_places=6)
+    gps_cap_long = models.DecimalField("Captured Longitude (DD)", blank=True, null=True, max_digits=9, decimal_places=6)
     gps_cap_alt = models.FloatField("Captured Altitude (m)", blank=True, null=True)
     gps_cap_horiz_acc = models.FloatField("Captured Horizontal Accuracy (m)", blank=True, null=True)
     gps_cap_vert_acc = models.FloatField("Captured Vertical Accuracy (m)", blank=True, null=True)
