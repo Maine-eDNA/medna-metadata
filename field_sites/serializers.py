@@ -4,6 +4,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 
+
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeSerializer(serializers.ModelSerializer):
     biome_first_label = serializers.CharField()
@@ -28,6 +29,7 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
 
 class EnvoFeatureSerializer(serializers.ModelSerializer):
     feature_first_label = serializers.CharField()
@@ -58,6 +60,7 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
+
 class ProjectSerializer(serializers.ModelSerializer):
     project_code = serializers.CharField()
     project_label = serializers.CharField()
@@ -70,6 +73,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
+
 class SystemSerializer(serializers.ModelSerializer):
     system_code = serializers.CharField()
     system_label = serializers.CharField()
@@ -81,6 +85,7 @@ class SystemSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
 
 class FieldSiteSerializer(serializers.ModelSerializer):
     lat = serializers.FloatField()
@@ -98,6 +103,7 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     region = serializers.SlugRelatedField(many=False, read_only=True, slug_field='region_label')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
+
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = FieldSite
@@ -111,6 +117,7 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     system = serializers.SlugRelatedField(many=False, read_only=True, slug_field='system_label')
     region = serializers.SlugRelatedField(many=False, read_only=True, slug_field='region_label')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
 
 class GeoRegionSerializer(GeoFeatureModelSerializer):
     class Meta:
