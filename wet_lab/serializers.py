@@ -98,13 +98,13 @@ class QuantificationMethodSerializer(serializers.ModelSerializer):
 class ExtractionMethodSerializer(serializers.ModelSerializer):
     extraction_method_name = serializers.CharField()
     extraction_method_manufacturer = serializers.CharField()
-    extraction_sop_filename = serializers.URLField()
+    extraction_sop_link = serializers.URLField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = ExtractionMethod
         fields = ['id', 'extraction_method_name', 'extraction_method_manufacturer',
-                  'extraction_sop_filename', 'created_by', 'created_datetime', ]
+                  'extraction_sop_link', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -184,13 +184,14 @@ class QpcrSerializer(serializers.ModelSerializer):
     extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='id')
     primer_set = serializers.SlugRelatedField(many=False, read_only=True, slug_field='primer_set_name')
 
+
 class LibraryPrepSerializer(serializers.ModelSerializer):
     library_prep_experiment_name = serializers.CharField()
     libraryprep_concentration = serializers.DecimalField()
     libraryprep_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     library_prep_kit = serializers.CharField()
     library_prep_type = serializers.ChoiceField(choices=PrepTypes.choices)
-    library_prep_thermal_sop_filename = serializers.URLField()
+    library_prep_thermal_sop_link = serializers.URLField()
 
     created_datetime = serializers.DateTimeField()
 
@@ -198,7 +199,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
         model = LibraryPrep
         fields = ['id', 'extraction', 'primer_set', 'index_pair', 'index_removal_method', 'size_selection_method',
                   'library_prep_experiment_name', 'libraryprep_concentration', 'libraryprep_concentration_units',
-                  'quantification_method', 'library_prep_kit', 'library_prep_type', 'library_prep_thermal_sop_filename',
+                  'quantification_method', 'library_prep_kit', 'library_prep_type', 'library_prep_thermal_sop_link',
                   'qpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
