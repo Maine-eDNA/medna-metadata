@@ -1,4 +1,7 @@
 from django.contrib.gis.db import models
+import uuid
+# UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
+# It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
 from users.models import DateTimeUserMixin
 from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTypes
@@ -220,8 +223,13 @@ class RunResult(DateTimeUserMixin):
 
 class FastqFile(DateTimeUserMixin):
     # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
+    # https://blog.theodo.com/2019/07/aws-s3-upload-django/
+    # https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
+    # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
+    fastq_filename = models.CharField("FastQ Filename", max_length=255)
     fastq_datafile = models.FileField("FastQ Datafile", max_length=200)
 
     def __str__(self):
