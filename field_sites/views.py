@@ -6,20 +6,31 @@ from django_filters import rest_framework as filters
 # import datetime
 from django.utils import timezone
 from users.serializers import SerializerExportMixin
-from .models import FieldSite, Region
+from .models import EnvoBiomeFifth, EnvoFeatureSeventh, FieldSite, Region
 # from django.shortcuts import render
 # from django.http import HttpResponse
 from django_filters.views import FilterView
 from .tables import FieldSiteTable
 from django_tables2.views import SingleTableMixin
 # from django_tables2.paginators import LazyPaginator
-from .serializers import FieldSiteSerializer, GeoFieldSiteSerializer, GeoRegionSerializer
+from .serializers import EnvoBiomeSerializer, EnvoFeatureSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
+    GeoRegionSerializer
 import datetime
 import csv
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
 from .forms import AddFieldSiteForm
+
+
+class BiomeViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoBiomeSerializer
+    queryset = EnvoBiomeFifth.objects.all()
+
+
+class FeatureViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureSerializer
+    queryset = EnvoFeatureSeventh.objects.all()
 
 
 class FieldSitesViewSet(viewsets.ModelViewSet):
