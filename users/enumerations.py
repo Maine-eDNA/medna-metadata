@@ -23,12 +23,24 @@ class VolUnits(models.IntegerChoices):
     MILLILITER = 1, _('milliliter (mL)')
     __empty__ = _('(Unknown)')
 
-
 class ConcentrationUnits(models.IntegerChoices):
     NGUL = 0, _('Nanograms per microliter (ng/µL)')
     NGML = 1, _('Nanograms per milliliter (ng/mL)')
-    NM = 2, _('nM')
-    PM = 3, _('pM')
+    PGUL = 2, _('Picograms per microliter (pg/µL)')
+    NM = 3, _('nanomolar (nM)')
+    PM = 4, _('picomolar (pM)')
+    PERC = 5, _('Percent (%)')
+    __empty__ = _('(Unknown)')
+
+
+class DdpcrUnits(models.IntegerChoices):
+    CP = 0, _('Copy Number')
+    CPUL = 1, _('Copies per microliter (copy/µL)')
+    __empty__ = _('(Unknown)')
+
+
+class QpcrUnits(models.IntegerChoices):
+    CQ = 0, _('Quantification Cycle (Cq)')
     __empty__ = _('(Unknown)')
 
 
@@ -68,20 +80,20 @@ class PrepTypes(models.IntegerChoices):
     __empty__ = _('(Unknown)')
 
 
-# class ExtrMethod(models.IntegerChoices):
+# class IndexRemovalMethods(models.IntegerChoices):
 #    EXOSAP = 0, _('exo-sap')
 #    BEADS = 1, _('beads')
 #    __empty__ = _('(Unknown)')
 
 
-# class ExtrMethod(models.IntegerChoices):
+# class SizeSelectionMethods(models.IntegerChoices):
 #    BEADS = 0, _('Beads')
 #    GELCUTS = 1, _('Gel Cuts')
 #    SPINCOL = 2, _('Spin Column')
 #    __empty__ = _('(Unknown)')
 
 
-# class ExtrMethod(models.IntegerChoices):
+# class QuantMethods(models.IntegerChoices):
 #    QBIT = 0, _('qbit')
 #    NANODROP = 1, _('nanodrop')
 #    QPCR = 2, _('qPCR')
@@ -90,14 +102,14 @@ class PrepTypes(models.IntegerChoices):
 #    __empty__ = _('(Unknown)')
 
 
-# class ExtrMethod(models.IntegerChoices):
+# class ExtrMethods(models.IntegerChoices):
 #    BLOODTISSUE = 0, _('Qiagen Blood and Tissue')
 #    POWERSOIL = 1, _('Qiagen Power Soil Pro')
 #    POWERWATER = 2, _('')
 #    __empty__ = _('(Unknown)')
 
 
-# class DenoisingAnalysisMethod(models.IntegerChoices):
+# class DenoisingMethods(models.IntegerChoices):
 #    DADA2 = 0, _('DADA2')
 #    DEBLUR = 1, _('DeBlur')
 #    PYRONOISE = 2, _('PyroNoise')
@@ -105,7 +117,7 @@ class PrepTypes(models.IntegerChoices):
 #    __empty__ = _('(Unknown)')
 
 
-# class TaxonAnalysisMethod(models.IntegerChoices):
+# class TaxonMethods(models.IntegerChoices):
 #    BLAST = 0, _('BLAST')
 #    BLASTPLUS = 1, _('BLAST+')
 #    MNNAIVEBAYES = 2, _('Multinomial Naive Bayes')
