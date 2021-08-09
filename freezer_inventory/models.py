@@ -5,7 +5,7 @@ from users.models import get_default_user
 from field_survey.models import FieldSample
 from wet_lab.models import Extraction, PooledLibrary
 from users.models import DateTimeUserMixin, get_sentinel_user
-from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvType, CheckoutAction
+from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions
 
 
 # Create your models here.
@@ -23,6 +23,7 @@ class Freezer(DateTimeUserMixin):
 
     def __str__(self):
         return self.freezer_label
+
 
 class FreezerRack(DateTimeUserMixin):
     freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT)
@@ -59,20 +60,22 @@ class FreezerInventory(DateTimeUserMixin):
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
     pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT, blank=True)
     freezer_inventory_date = models.DateField("Freezer Inventory Date", auto_now=True)
-    freezer_inventory_type = models.IntegerField("Freezer Inventory Type", choices=InvType.choices)
+    freezer_inventory_type = models.IntegerField("Freezer Inventory Type", choices=InvTypes.choices)
     freezer_inventory_status = models.IntegerField("Freezer Inventory Status", choices=InvStatus.choices, default=InvStatus.IN)
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
 
     def __str__(self):
-        return '{field_sample} {extraction} {pooled_library}'.format(field_sample=self.field_sample, extraction=self.extraction,
-                                                     pooled_library=self.pooled_library)
+        return '{field_sample} {extraction} {pooled_library}'.format(field_sample=self.field_sample,
+                                                                     extraction=self.extraction,
+                                                                     pooled_library=self.pooled_library)
+
 
 class FreezerCheckout(models.Model):
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT)
     freezer_user = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    freezer_checkout_action = models.IntegerField("Freezer Checkout Action", choices=CheckoutAction.choices)
+    freezer_checkout_action = models.IntegerField("Freezer Checkout Action", choices=CheckoutActions.choices)
     freezer_checkout_datetime = models.DateTimeField("Freezer Checkout DateTime", blank=True, null=True)
     freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True, null=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=10, decimal_places=2, blank=True, null=True)
@@ -80,7 +83,6 @@ class FreezerCheckout(models.Model):
     freezer_return_notes = models.TextField("Return Notes", blank=True)
     #freezer_return_action
     freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
-
 
     def freezer_inv_status_update(self, inv_pk, freezer_checkout_action):
         if freezer_checkout_action == 0:
@@ -99,13 +101,13 @@ class FreezerCheckout(models.Model):
                                                                      pooled_library=self.freezer_inventory.pooled_library)
 
     def save(self, *args, **kwargs):
-        if self.freezer_checkout_action == self.CheckoutAction.CHECKOUT:
+        if self.freezer_checkout_action == self.CheckoutActions.CHECKOUT:
             # if the freezer action is checkout, update freezer_checkout_datetime
             self.freezer_checkout_datetime = datetime.datetime.now()
-        elif self.freezer_checkout_action == self.CheckoutAction.RETURN:
+        elif self.freezer_checkout_action == self.CheckoutActions.RETURN:
             # if the freezer action is checkout, update freezer_return_datetime
             self.freezer_return_datetime = datetime.datetime.now()
-        elif self.freezer_checkout_action == self.CheckoutAction.REMOVE:
+        elif self.freezer_checkout_action == self.CheckoutActions.REMOVE:
             self.freezer_remove_datetime = datetime.datetime.now()
 
         self.freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
