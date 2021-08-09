@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from users.views import CustomUserViewSet
-from field_sites.views import FieldSitesViewSet
+from field_sites.views import BiomeViewSet, FeatureViewSet, FieldSitesViewSet
 from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import FieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     FieldSampleViewSet
@@ -32,6 +32,8 @@ router = routers.DefaultRouter()
 # users
 router.register(r'users', CustomUserViewSet, 'users')
 # field sites
+router.register(r'field_sites', BiomeViewSet, 'field_sites')
+router.register(r'field_sites', FeatureViewSet, 'field_sites')
 router.register(r'field_sites', FieldSitesViewSet, 'field_sites')
 # sample_labels
 router.register(r'sample_label_requests', SampleLabelRequestViewSet, 'sample_labels')
