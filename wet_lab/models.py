@@ -9,15 +9,16 @@ from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTy
 
 # Create your models here.
 class PrimerPair(DateTimeUserMixin):
-    primer_name_forward = models.CharField("Quantification Method", max_length=255)
-    primer_name_reverse = models.CharField("Quantification Method", max_length=255)
-    primer_forward = models.TextField("Quantification Method")
-    primer_reverse = models.TextField("Quantification Method")
+    primer_name_forward = models.CharField("Primer Name Forward", max_length=255)
+    primer_name_reverse = models.CharField("Primer Name Reverse", max_length=255)
+    primer_forward = models.TextField("Primer Forward")
+    primer_reverse = models.TextField("Primer Reverse")
     primer_target_gene = models.IntegerField("Target Gene", choices=TargetGenes.choices)
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
     primer_set_name = models.TextField("Primer Set Name")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
+    primer_pair_notes = models.TextField("Primer Pair Notes")
 
     def __str__(self):
         return '{primer_set_name}, {primer_target_gene}'.format(
@@ -137,6 +138,7 @@ class LibraryPrep(DateTimeUserMixin):
     library_prep_kit = models.CharField("Library Prep Kit", max_length=255)
     library_prep_type = models.IntegerField("Library Prep Type", choices=PrepTypes.choices)
     library_prep_thermal_sop_link = models.URLField("Thermal SOP Link", max_length=200)
+    library_prep_notes = models.TextField("Library Prep Notes")
 
     def __str__(self):
         return '{name}'.format(name=self.library_prep_experiment_name)
@@ -152,6 +154,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=10, decimal_places=2)
     pooled_lib_concentration_units = models.IntegerField("Pooled Library Concentration Units", choices=ConcentrationUnits.choices,
                                                   default=ConcentrationUnits.NM)
+    pooled_lib_notes = models.TextField("Pooled Library Notes")
 
     def __str__(self):
         return '{date} {label}'.format(date=self.pooled_date, label=self.pooled_label)
@@ -178,6 +181,8 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_concentration_units = models.IntegerField("Final Pooled Library Concentration Units",
                                                                choices=ConcentrationUnits.choices,
                                                                default=ConcentrationUnits.NM)
+    final_pooled_lib_notes = models.TextField("Final Pooled Library Notes")
+
     def __str__(self):
         return '{date} {label}'.format(date=self.final_pooled_date, label=self.final_pooled_label)
 
@@ -202,6 +207,7 @@ class RunPrep(DateTimeUserMixin):
     final_lib_concentration_units = models.IntegerField("Final Library Concentration Units",
                                                         choices=ConcentrationUnits.choices,
                                                         default=ConcentrationUnits.PM)
+    run_prep_notes = models.TextField("Run Prep Notes")
 
     def __str__(self):
         return '{date} {created_by}'.format(date=self.run_date, created_by=self.created_by)
