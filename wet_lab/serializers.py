@@ -295,12 +295,15 @@ class RunResultSerializer(serializers.ModelSerializer):
 
 class FastqFileSerializer(serializers.ModelSerializer):
     # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
+    uuid = serializers.UUIDField()
     fastq_datafile = serializers.FileField()
+    fastq_filename = serializers.CharField()
+    created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = FastqFile
-        fields = ['id', 'run_id', 'run_start_datetime', 'run_completion_datetime', 'run_experiment_name',
-                  'run_instrument', 'run_prep', 'created_by', 'created_datetime', ]
+        fields = ['uuid', 'fastq_datafile', 'fastq_filename', 'run_result', 'extraction',
+                  'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
