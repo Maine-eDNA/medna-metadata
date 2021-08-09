@@ -101,13 +101,13 @@ class FreezerCheckout(models.Model):
                                                                      pooled_library=self.freezer_inventory.pooled_library)
 
     def save(self, *args, **kwargs):
-        if self.freezer_checkout_action == self.CheckoutActions.CHECKOUT:
+        if self.freezer_checkout_action == CheckoutActions.CHECKOUT:
             # if the freezer action is checkout, update freezer_checkout_datetime
             self.freezer_checkout_datetime = datetime.datetime.now()
-        elif self.freezer_checkout_action == self.CheckoutActions.RETURN:
+        elif self.freezer_checkout_action == CheckoutActions.RETURN:
             # if the freezer action is checkout, update freezer_return_datetime
             self.freezer_return_datetime = datetime.datetime.now()
-        elif self.freezer_checkout_action == self.CheckoutActions.REMOVE:
+        elif self.freezer_checkout_action == CheckoutActions.REMOVE:
             self.freezer_remove_datetime = datetime.datetime.now()
 
         self.freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
