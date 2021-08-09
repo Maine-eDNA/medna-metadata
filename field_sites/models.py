@@ -4,6 +4,7 @@
 from django.contrib.gis.db import models
 from users.models import DateTimeUserMixin
 
+
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
     biome_first_code = models.CharField("ENVO 1st Tier Biome Code", max_length=200, unique=True)
@@ -12,6 +13,7 @@ class EnvoBiomeFirst(DateTimeUserMixin):
 
     def __str__(self):
         return '{biome1}'.format(biome1=self.biome_first_label)
+
 
 class EnvoBiomeSecond(EnvoBiomeFirst):
     # alpine tundra, freshwater, marine, montane savanna, montane shrubland, mediterranean,
@@ -26,6 +28,7 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
     def __str__(self):
         return '{biome1} - {biome2}'.format(biome1=self.biome_first_label,
                                             biome2=self.biome_second_label)
+
 
 class EnvoBiomeThird(EnvoBiomeSecond):
     # freshwater lake, freshwater river, xeric basin, epeiric sea, estuarine, marginal sea, marine benthic,
@@ -43,6 +46,7 @@ class EnvoBiomeThird(EnvoBiomeSecond):
         return '{biome1} - {biome2} - {biome3}'.format(biome1=self.biome_first_label,
                                                        biome2=self.biome_second_label,
                                                        biome3=self.biome_third_label)
+
 
 class EnvoBiomeFourth(EnvoBiomeThird):
     # large lake, small lake, large river, large river delta, large river headwater, small river,
@@ -62,6 +66,7 @@ class EnvoBiomeFourth(EnvoBiomeThird):
                                                                   biome3=self.biome_third_label,
                                                                   biome4=self.biome_fourth_label)
 
+
 class EnvoBiomeFifth(EnvoBiomeFourth):
     # area of attached Modiolus assemblages, mussel reef, neritic mussel bed, coastal shrimp pond, rural settlement
     biome_fifth_code = models.CharField("ENVO 5th Tier Biome Code", max_length=200, unique=True)
@@ -73,6 +78,7 @@ class EnvoBiomeFifth(EnvoBiomeFourth):
                                                                              biome3=self.biome_third_label,
                                                                              biome4=self.biome_fourth_label,
                                                                              biome5=self.biome_fifth_label)
+
 
 class EnvoFeatureFirst(DateTimeUserMixin):
     # geographic feature, harbor, headwater, illuminated biosphere part, isthmus, meander, meander neck, moraine,
@@ -87,6 +93,7 @@ class EnvoFeatureFirst(DateTimeUserMixin):
 
     def __str__(self):
         return '{feature1}'.format(feature1=self.feature_first_label)
+
 
 class EnvoFeatureSecond(EnvoFeatureFirst):
     # anthropogenic geographic feature, hydrographic feature, artificial harbor, nartural harbor, land bridge, arrugado,
@@ -104,6 +111,7 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
     def __str__(self):
         return '{feature1} - {feature2}'.format(feature1=self.feature_first_label,
                                                 feature2=self.feature_second_label)
+
 
 class EnvoFeatureThird(EnvoFeatureSecond):
     # anthropogenic contamination feature, campground, cut, fairground, garden, hedge, market, midden,
@@ -124,6 +132,7 @@ class EnvoFeatureThird(EnvoFeatureSecond):
                                                              feature2=self.feature_second_label,
                                                              feature3=self.feature_third_label)
 
+
 class EnvoFeatureFourth(EnvoFeatureThird):
     # landfill, oil spill, dedicated campground, impromptu campground, road cut, agricultural fairground,
     # allotment garden, botanical garden, domestic garden, garden soil, zoological garden, playground, public park,
@@ -140,6 +149,7 @@ class EnvoFeatureFourth(EnvoFeatureThird):
                                                                           feature2=self.feature_second_label,
                                                                           feature3=self.feature_third_label,
                                                                           feature4=self.feature_fourth_label)
+
 
 class EnvoFeatureFifth(EnvoFeatureFourth):
     # unexploded-ordnance dump, allotment garden soil, vegetable garden soil, petting zoo, bay, cove, fjord, sound,
@@ -159,6 +169,8 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
                                                                                        feature3=self.feature_third_label,
                                                                                        feature4=self.feature_fourth_label,
                                                                                        feature5=self.feature_fifth_label)
+
+
 class EnvoFeatureSixth(EnvoFeatureFifth):
     # coastal shrimp pond, Bathymodiolus-dominated oceanic mussel reef, neritic mussel reef, oceanic mussel reef
     feature_sixth_code = models.CharField("ENVO 6th Tier Feature Code", max_length=200, unique=True)
@@ -171,6 +183,8 @@ class EnvoFeatureSixth(EnvoFeatureFifth):
                                                                                                     feature4=self.feature_fourth_label,
                                                                                                     feature5=self.feature_fifth_label,
                                                                                                     feature6=self.feature_sixth_label)
+
+
 class EnvoFeatureSeventh(EnvoFeatureSixth):
     # Bathymodiolus-dominated oceanic mussel reef
     feature_seventh_code = models.CharField("ENVO 7th Tier Feature Code", max_length=200, unique=True)
@@ -184,6 +198,8 @@ class EnvoFeatureSeventh(EnvoFeatureSixth):
                                                                                                                  feature5=self.feature_fifth_label,
                                                                                                                  feature6=self.feature_sixth_label,
                                                                                                                  feature7=self.feature_seventh_label)
+
+
 class Project(DateTimeUserMixin):
     project_code = models.CharField("Project Code", max_length=1, unique=True)
     project_label = models.CharField("Project Label", max_length=200)
@@ -191,12 +207,14 @@ class Project(DateTimeUserMixin):
     def __str__(self):
         return '{code}: {label}'.format(code=self.project_code, label=self.project_label)
 
+
 class System(DateTimeUserMixin):
     system_code = models.CharField("System Code", max_length=1, unique=True)
     system_label = models.CharField("System Label", max_length=200)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.system_code, label=self.system_label)
+
 
 class Region(DateTimeUserMixin):
     region_code = models.CharField("Region Code", max_length=2, unique=True)
@@ -212,6 +230,7 @@ class Region(DateTimeUserMixin):
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.region_code, label=self.region_label)
+
 
 class FieldSite(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
@@ -247,8 +266,8 @@ class FieldSite(DateTimeUserMixin):
                                            related_name="feature_sixth_tier")
     envo_feature_seventh = models.ForeignKey(EnvoFeatureSeventh, on_delete=models.RESTRICT, null=True, blank=True,
                                              related_name="feature_seventh_tier")
-    #lat = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
-    #lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
+    # lat = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
+    # lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
     site_prefix = models.CharField("Site Prefix", max_length=5)
     site_num = models.IntegerField(default=1)
     site_id = models.CharField("Site ID", max_length=7, unique=True)
@@ -296,6 +315,7 @@ class FieldSite(DateTimeUserMixin):
                                                           sitenum=site_num_leading_zeros)
         # all done, time to save changes to the db
         super(FieldSite, self).save(*args, **kwargs)
+
 
 class WorldBorder(models.Model):
     # Regular Django fields corresponding to the attributes in the
