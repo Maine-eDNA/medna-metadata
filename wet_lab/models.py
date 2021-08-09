@@ -57,7 +57,7 @@ class QuantificationMethod(DateTimeUserMixin):
 class ExtractionMethod(DateTimeUserMixin):
     extraction_method_name = models.CharField("Extraction Method Name", max_length=255)
     extraction_method_manufacturer = models.CharField("Extraction Kit Manufacturer", max_length=255)
-    extraction_sop_filename = models.URLField("Extraction SOP Filename", max_length=200)
+    extraction_sop_link = models.URLField("Extraction SOP Link", max_length=200)
 
     def __str__(self):
         return '{manufacturer} {name}'.format(
@@ -133,7 +133,7 @@ class LibraryPrep(DateTimeUserMixin):
                                                   default=ConcentrationUnits.NM)
     library_prep_kit = models.CharField("Library Prep Kit", max_length=255)
     library_prep_type = models.IntegerField("Library Prep Type", choices=PrepTypes.choices)
-    library_prep_thermal_sop_filename = models.URLField("Thermal SOP Filename", max_length=200)
+    library_prep_thermal_sop_link = models.URLField("Thermal SOP Link", max_length=200)
 
     def __str__(self):
         return '{name}'.format(name=self.library_prep_experiment_name)
