@@ -18,38 +18,40 @@ class PrimerPairSerializer(serializers.ModelSerializer):
     primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
     primer_set_name = serializers.CharField()
-    primer_amplicon_length_max = serializers.IntegerField()
     primer_amplicon_length_min = serializers.IntegerField()
+    primer_amplicon_length_max = serializers.IntegerField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = PrimerPair
         fields = ['id', 'primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
-                  'primer_target_gene', 'primer_set_name', 'primer_amplicon_length_max',
-                  'primer_amplicon_length_min', 'created_by', 'created_datetime', ]
+                  'primer_target_gene', 'primer_set_name', 'primer_amplicon_length_min',
+                  'primer_amplicon_length_max', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class IndexPairSerializer(serializers.ModelSerializer):
     index_i7 = serializers.CharField()
-    index_i7_id = serializers.CharField()
+    i7_index_id = serializers.CharField()
     index_i5 = serializers.CharField()
-    index_i5_id = serializers.CharField()
+    i5_index_id = serializers.CharField()
     index_adapter = serializers.CharField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = IndexPair
-        fields = ['id', 'index_i7', 'index_i7_id', 'index_i5', 'index_i5_id',
+        fields = ['id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id',
                   'index_adapter', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -63,7 +65,8 @@ class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -77,7 +80,8 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -91,24 +95,26 @@ class QuantificationMethodSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class ExtractionMethodSerializer(serializers.ModelSerializer):
     extraction_method_name = serializers.CharField()
     extraction_method_manufacturer = serializers.CharField()
-    extraction_sop_link = serializers.URLField()
+    extraction_sop_url = serializers.URLField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = ExtractionMethod
         fields = ['id', 'extraction_method_name', 'extraction_method_manufacturer',
-                  'extraction_sop_link', 'created_by', 'created_datetime', ]
+                  'extraction_sop_url', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -132,14 +138,19 @@ class ExtractionSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    field_sample = serializers.SlugRelatedField(many=False, read_only=True, slug_field='field_sample_barcode')
-    extraction_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='extraction_method_name')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='quant_method_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    field_sample = serializers.SlugRelatedField(many=False, read_only=True,
+                                                slug_field='field_sample_barcode')
+    extraction_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                     slug_field='extraction_method_name')
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                         slug_field='quant_method_name')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class DdpcrSerializer(serializers.ModelSerializer):
+    ddpcr_experiment_name = serializers.CharField()
     ddpcr_date = serializers.DateField()
     ddpcr_first_name = serializers.CharField()
     ddpcr_last_name = serializers.CharField()
@@ -151,18 +162,22 @@ class DdpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ddpcr
-        fields = ['id', 'extraction', 'primer_set', 'ddpcr_date', 'ddpcr_first_name', 'ddpcr_last_name',
-                  'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
+        fields = ['id', 'extraction', 'primer_set', 'ddpcr_experiment_name', 'ddpcr_date', 'ddpcr_first_name',
+                  'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='id')
-    primer_set = serializers.SlugRelatedField(many=False, read_only=True, slug_field='primer_set_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    extraction = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='field_sample__field_sample_barcode')
+    primer_set = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='primer_set_name')
 
 
 class QpcrSerializer(serializers.ModelSerializer):
+    qpcr_experiment_name = serializers.CharField()
     qpcr_date = serializers.DateField()
     qpcr_first_name = serializers.CharField()
     qpcr_last_name = serializers.CharField()
@@ -174,15 +189,18 @@ class QpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Qpcr
-        fields = ['id', 'extraction', 'primer_set', 'qpcr_date', 'qpcr_first_name', 'qpcr_last_name',
-                  'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
+        fields = ['id', 'extraction', 'primer_set', 'qpcr_experiment_name', 'qpcr_date', 'qpcr_first_name',
+                  'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                   'qpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='id')
-    primer_set = serializers.SlugRelatedField(many=False, read_only=True, slug_field='primer_set_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    extraction = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='field_sample__field_sample_barcode')
+    primer_set = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='primer_set_name')
 
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
@@ -191,7 +209,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     libraryprep_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     library_prep_kit = serializers.CharField()
     library_prep_type = serializers.ChoiceField(choices=PrepTypes.choices)
-    library_prep_thermal_sop_link = serializers.URLField()
+    library_prep_thermal_sop_url = serializers.URLField()
     library_prep_notes = serializers.CharField()
     created_datetime = serializers.DateTimeField()
 
@@ -199,18 +217,25 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
         model = LibraryPrep
         fields = ['id', 'extraction', 'primer_set', 'index_pair', 'index_removal_method', 'size_selection_method',
                   'library_prep_experiment_name', 'libraryprep_concentration', 'libraryprep_concentration_units',
-                  'quantification_method', 'library_prep_kit', 'library_prep_type', 'library_prep_thermal_sop_link',
+                  'quantification_method', 'library_prep_kit', 'library_prep_type', 'library_prep_thermal_sop_url',
                   'library_prep_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='field_sample__field_sample_barcode')
-    primer_set = serializers.SlugRelatedField(many=False, read_only=True, slug_field='primer_set_name')
-    index_pair = serializers.SlugRelatedField(many=False, read_only=True, slug_field='id')
-    index_removal_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='index_removal_method_name')
-    size_selection_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='size_selection_method_name')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='quant_method_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    extraction = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='field_sample__field_sample_barcode')
+    primer_set = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='primer_set_name')
+    index_pair = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='id')
+    index_removal_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                        slug_field='index_removal_method_name')
+    size_selection_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                         slug_field='size_selection_method_name')
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                         slug_field='quant_method_name')
 
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
@@ -229,9 +254,12 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    library_prep = serializers.SlugRelatedField(many=True, read_only=True, slug_field='library_prep_experiment_name')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='quant_method_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    library_prep = serializers.SlugRelatedField(many=True, read_only=True,
+                                                slug_field='library_prep_experiment_name')
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                         slug_field='quant_method_name')
 
 
 class FinalPooledLibrarySerializer(serializers.ModelSerializer):
@@ -250,9 +278,12 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    pooled_library = serializers.SlugRelatedField(many=True, read_only=True, slug_field='pooled_lib_label')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='quant_method_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    pooled_library = serializers.SlugRelatedField(many=True, read_only=True,
+                                                  slug_field='pooled_lib_label')
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                         slug_field='quant_method_name')
 
 
 class RunPrepSerializer(serializers.ModelSerializer):
@@ -272,9 +303,12 @@ class RunPrepSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    final_pooled_library = serializers.SlugRelatedField(many=False, read_only=True, slug_field='final_pooled_lib_label')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='quant_method_name')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    final_pooled_library = serializers.SlugRelatedField(many=False, read_only=True,
+                                                        slug_field='final_pooled_lib_label')
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                         slug_field='quant_method_name')
 
 
 class RunResultSerializer(serializers.ModelSerializer):
@@ -292,8 +326,10 @@ class RunResultSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    run_prep = serializers.SlugRelatedField(many=False, read_only=True, slug_field='run_date')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    run_prep = serializers.SlugRelatedField(many=False, read_only=True,
+                                            slug_field='run_date')
 
 
 class FastqFileSerializer(serializers.ModelSerializer):
@@ -310,6 +346,9 @@ class FastqFileSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    run_result = serializers.SlugRelatedField(many=False, read_only=True, slug_field='run_id')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='id')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+    run_result = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='run_id')
+    extraction = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='field_sample__field_sample_barcode')
