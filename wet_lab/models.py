@@ -76,17 +76,17 @@ class ExtractionMethod(DateTimeUserMixin):
 
 
 class Extraction(DateTimeUserMixin):
+    extraction_datetime = models.DateTimeField("Extraction DateTime",  auto_now=True)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, unique=True)
     barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
-    extraction_datetime = models.DateTimeField("Extraction DateTime",  auto_now=True)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=10, decimal_places=10)
     # microliter, ul
     extraction_volume_units = models.IntegerField("Extraction Volume Units", choices=VolUnits.choices,
                                                   default=VolUnits.MICROLITER)
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_concentration = models.DecimalField("Concentration", max_digits=10, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
     extraction_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices,
@@ -103,10 +103,10 @@ class Extraction(DateTimeUserMixin):
 
 
 class Ddpcr(DateTimeUserMixin):
+    ddpcr_datetime = models.DateTimeField("ddPCR DateTime", auto_now=True)
+    ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
-    ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255)
-    ddpcr_datetime = models.DateTimeField("ddPCR DateTime", auto_now=True)
     ddpcr_first_name = models.CharField("First Name", max_length=255)
     ddpcr_last_name = models.CharField("Last Name", max_length=255)
     ddpcr_probe = models.TextField("ddPCR Probe")
@@ -122,10 +122,10 @@ class Ddpcr(DateTimeUserMixin):
 
 
 class Qpcr(DateTimeUserMixin):
+    qpcr_datetime = models.DateTimeField("qPCR DateTime", auto_now=True)
+    qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
-    qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255)
-    qpcr_datetime = models.DateTimeField("qPCR DateTime", auto_now=True)
     qpcr_first_name = models.CharField("First Name", max_length=255)
     qpcr_last_name = models.CharField("Last Name", max_length=255)
     qpcr_probe = models.TextField("qPCR Probe")
@@ -141,13 +141,13 @@ class Qpcr(DateTimeUserMixin):
 
 
 class LibraryPrep(DateTimeUserMixin):
+    lib_prep_datetime = models.DateTimeField("Library Prep DateTime", auto_now=True)
+    lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
-    lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
-    lib_prep_datetime = models.DateTimeField("Library Prep DateTime", auto_now=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     qubit_results = models.DecimalField("QuBit Results", max_digits=10, decimal_places=10)
     # units will be in ng/ml
@@ -172,11 +172,11 @@ class LibraryPrep(DateTimeUserMixin):
 
 
 class PooledLibrary(DateTimeUserMixin):
+    pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
+    pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
     library_prep = models.ManyToManyField(LibraryPrep,
                                           through='LibraryPrepToPooledLibrary',
                                           related_name='libraryprep_to_pooledlibrary')
-    pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
-    pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=10, decimal_places=10)
     # nanomolar, nM
@@ -198,11 +198,11 @@ class LibraryPrepToPooledLibrary(DateTimeUserMixin):
 
 
 class FinalPooledLibrary(DateTimeUserMixin):
+    final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
+    final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
     pooled_library = models.ManyToManyField(PooledLibrary,
                                             through='PooledLibraryToFinalPooledLibrary',
                                             related_name='pooledlibrary_to_finalpooledlibrary')
-    final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
-    final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
                                                          max_digits=10,
@@ -227,13 +227,13 @@ class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
+    run_date = models.DateField("Run Date", auto_now=True)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=10, decimal_places=10)
     # can be reported as percent and picomolar, pM
     phix_spike_in_units = models.IntegerField("PhiX Spike In Units",
                                               choices=ConcentrationUnits.choices,
                                               default=ConcentrationUnits.PM)
-    run_date = models.DateField("Run Date", auto_now=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=10, decimal_places=10)
     # can be reported as percent and picomolar, pM
@@ -248,10 +248,10 @@ class RunPrep(DateTimeUserMixin):
 
 
 class RunResult(DateTimeUserMixin):
-    run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     run_id = models.CharField("Run ID", max_length=255)
-    run_completion_datetime = models.DateTimeField("Run Completion Time")
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
+    run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
+    run_completion_datetime = models.DateTimeField("Run Completion Time")
     run_instrument = models.CharField("Instrument", max_length=255)
 
     def __str__(self):
