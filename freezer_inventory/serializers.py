@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
-from users.enumerations import YesNo, MeasureUnits, VolUnits, InvStatus, InvTypes, \
+from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -94,7 +94,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = FreezerInventory
         fields = ['freezer_box', 'field_sample', 'extraction',
-                  'barcode_slug', 'freezer_inventory_datetime',
+                  'barcode_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', ]
@@ -106,26 +106,29 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     freezer_box = serializers.SlugRelatedField(many=False, read_only=True,
                                                slug_field='freezer_box_label')
     field_sample = serializers.SlugRelatedField(many=False, read_only=True,
-                                                slug_field='field_sample_barcode')
+                                                slug_field='barcode_slug')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='field_sample__field_sample_barcode')
+                                              slug_field='barcode_slug')
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
     freezer_checkout_action = serializers.ChoiceField(choices=CheckoutActions.choices)
     freezer_checkout_datetime = serializers.DateTimeField()
     freezer_return_datetime = serializers.DateTimeField()
+    freezer_perm_removal_datetime = serializers.DateTimeField()
     freezer_return_vol_taken = serializers.DecimalField()
     freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices)
     freezer_return_notes = serializers.CharField()
-    freezer_perm_removal_datetime = serializers.DateTimeField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = FreezerCheckout
-        fields = ['freezer_box', 'field_sample', 'extraction', 'freezer_inventory_datetime',
-                  'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_column', 'freezer_inventory_row',
+        fields = ['freezer_inventory', 'freezer_checkout_action',
+                  'freezer_checkout_datetime',
+                  'freezer_return_datetime',
+                  'freezer_perm_removal_datetime',
+                  'freezer_return_vol_taken', 'freezer_return_vol_units',
+                  'freezer_return_notes',
                   'created_by', 'created_datetime', ]
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
