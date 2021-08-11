@@ -25,7 +25,7 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
-    phone_number = PhoneNumberField(blank=True)
+    phone_number = PhoneNumberField(blank=True, null=True)
     agol_username = models.CharField("ArcGIS Online Username", max_length=200, blank=True)
 
     def __str__(self):
