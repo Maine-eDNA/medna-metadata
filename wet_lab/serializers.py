@@ -119,7 +119,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class ExtractionSerializer(serializers.ModelSerializer):
-    extraction_date = serializers.DateField()
+    extraction_datetime = serializers.DateTimeField()
     extraction_first_name = serializers.CharField()
     extraction_last_name = serializers.CharField()
     extraction_volume = serializers.DecimalField()
@@ -151,7 +151,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
 # Django REST Framework to allow the automatic downloading of data!
 class DdpcrSerializer(serializers.ModelSerializer):
     ddpcr_experiment_name = serializers.CharField()
-    ddpcr_date = serializers.DateField()
+    ddpcr_datetime = serializers.DateTimeField()
     ddpcr_first_name = serializers.CharField()
     ddpcr_last_name = serializers.CharField()
     ddpcr_probe = serializers.CharField()
@@ -162,7 +162,7 @@ class DdpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ddpcr
-        fields = ['id', 'extraction', 'primer_set', 'ddpcr_experiment_name', 'ddpcr_date', 'ddpcr_first_name',
+        fields = ['id', 'extraction', 'primer_set', 'ddpcr_experiment_name', 'ddpcr_datetime', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -178,7 +178,7 @@ class DdpcrSerializer(serializers.ModelSerializer):
 
 class QpcrSerializer(serializers.ModelSerializer):
     qpcr_experiment_name = serializers.CharField()
-    qpcr_date = serializers.DateField()
+    qpcr_datetime = serializers.DateTimeField()
     qpcr_first_name = serializers.CharField()
     qpcr_last_name = serializers.CharField()
     qpcr_probe = serializers.CharField()
@@ -189,7 +189,7 @@ class QpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Qpcr
-        fields = ['id', 'extraction', 'primer_set', 'qpcr_experiment_name', 'qpcr_date', 'qpcr_first_name',
+        fields = ['id', 'extraction', 'primer_set', 'qpcr_experiment_name', 'qpcr_datetime', 'qpcr_first_name',
                   'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                   'qpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -240,7 +240,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_label = serializers.CharField()
-    pooled_lib_date = serializers.DateTimeField()
+    pooled_lib_datetime = serializers.DateTimeField()
     pooled_lib_concentration = serializers.DecimalField()
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pooled_lib_notes = serializers.CharField()
@@ -248,7 +248,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'library_prep', 'pooled_lib_label', 'pooled_lib_date', 'quantification_method',
+        fields = ['id', 'library_prep', 'pooled_lib_label', 'pooled_lib_datetime', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                   'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -264,7 +264,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 
 class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     final_pooled_lib_label = serializers.CharField()
-    final_pooled_lib_date = serializers.DateTimeField()
+    final_pooled_lib_datetime = serializers.DateTimeField()
     final_pooled_lib_concentration = serializers.DecimalField()
     final_pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_pooled_lib_notes = serializers.CharField()
@@ -272,7 +272,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FinalPooledLibrary
-        fields = ['id', 'final_pooled_lib_label', 'final_pooled_lib_date',
+        fields = ['id', 'final_pooled_lib_label', 'final_pooled_lib_datetime',
                   'quantification_method', 'final_pooled_lib_concentration', 'final_pooled_lib_concentration_units',
                   'pooled_library', 'final_pooled_lib_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
