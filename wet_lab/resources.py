@@ -18,6 +18,7 @@ class PrimerPairAdminResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
 
+
 class IndexPairAdminResource(resources.ModelResource):
     class Meta:
         model = IndexPair
