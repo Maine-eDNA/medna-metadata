@@ -14,6 +14,11 @@ class PrimerPairAdminResource(resources.ModelResource):
                             'primer_target_gene', 'primer_set_name', 'primer_amplicon_length_min',
                             'primer_amplicon_length_max', )
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -23,6 +28,11 @@ class IndexPairAdminResource(resources.ModelResource):
     class Meta:
         model = IndexPair
         import_id_fields = ('index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',)
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -34,6 +44,11 @@ class IndexRemovalMethodAdminResource(resources.ModelResource):
         model = IndexRemovalMethod
         import_id_fields = ('index_removal_method_name',)
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -43,6 +58,11 @@ class SizeSelectionMethodAdminResource(resources.ModelResource):
     class Meta:
         model = SizeSelectionMethod
         import_id_fields = ('size_selection_method_name',)
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -54,6 +74,11 @@ class QuantificationMethodAdminResource(resources.ModelResource):
         model = QuantificationMethod
         import_id_fields = ('quant_method_name',)
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -64,6 +89,11 @@ class ExtractionMethodAdminResource(resources.ModelResource):
         model = ExtractionMethod
         import_id_fields = ('extraction_method_name', 'extraction_method_manufacturer',
                             'extraction_sop_url',)
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -110,6 +140,10 @@ class ExtractionAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class DdpcrAdminResource(resources.ModelResource):
     class Meta:
@@ -140,6 +174,10 @@ class DdpcrAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class QpcrAdminResource(resources.ModelResource):
     class Meta:
@@ -169,6 +207,10 @@ class QpcrAdminResource(resources.ModelResource):
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class LibraryPrepAdminResource(resources.ModelResource):
@@ -228,6 +270,10 @@ class LibraryPrepAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class PooledLibraryAdminResource(resources.ModelResource):
     class Meta:
@@ -256,6 +302,10 @@ class PooledLibraryAdminResource(resources.ModelResource):
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class FinalPooledLibraryAdminResource(resources.ModelResource):
@@ -293,6 +343,10 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class RunPrepAdminResource(resources.ModelResource):
     class Meta:
@@ -323,6 +377,10 @@ class RunPrepAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class RunResultAdminResource(resources.ModelResource):
     class Meta:
@@ -346,6 +404,10 @@ class RunResultAdminResource(resources.ModelResource):
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class FastqFileAdminResource(resources.ModelResource):
@@ -372,3 +434,8 @@ class FastqFileAdminResource(resources.ModelResource):
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
