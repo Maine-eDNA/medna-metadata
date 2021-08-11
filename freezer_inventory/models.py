@@ -82,11 +82,11 @@ class FreezerBox(DateTimeUserMixin):
 
 
 class FreezerInventory(DateTimeUserMixin):
+    # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True)
     extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True)
     barcode_slug = models.SlugField(max_length=27, null=True)
-    # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_inventory_type = models.IntegerField("Freezer Inventory Type",
                                                  choices=InvTypes.choices)
     freezer_inventory_status = models.IntegerField("Freezer Inventory Status",
@@ -124,12 +124,12 @@ class FreezerCheckout(DateTimeUserMixin):
                                                   choices=CheckoutActions.choices)
     freezer_checkout_datetime = models.DateTimeField("Freezer Checkout DateTime", blank=True, null=True)
     freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True, null=True)
+    freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=10, decimal_places=10,
                                                    blank=True, null=True)
     freezer_return_vol_units = models.IntegerField("Volume Units",
                                                    choices=VolUnits.choices, blank=True, null=True)
     freezer_return_notes = models.TextField("Return Notes", blank=True)
-    freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
 
     def __str__(self):
         return '{created_datetime} ' \
