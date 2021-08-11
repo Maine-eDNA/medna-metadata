@@ -6,7 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
 import datetime
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 
 
