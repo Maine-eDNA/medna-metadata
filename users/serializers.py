@@ -6,7 +6,7 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 try:
     from allauth.account import app_settings as allauth_settings
@@ -20,11 +20,13 @@ try:
 except ImportError:
     raise ImportError("allauth needs to be added to INSTALLED_APPS.")
 
+
 # django rest_framework
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username')
+
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
@@ -33,9 +35,11 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
         fields = ['pk', 'email', 'first_name', 'last_name', 'phone_number']
         read_only_fields = ('email',)
 
+
 # rest-auth login and registration forms
 class CustomLoginSerializer(LoginSerializer):
     username = None
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     # this is currently disabled
@@ -79,6 +83,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         setup_user_email(request, user, [])
         return user
 
+
 # https://aldnav.com/blog/django-table-exporter/
 # allows for the combination of (SerializerExportMixin, SingleTableMixin, FilterView)
 # These mixed together equates to filtered views with downloadable data FROM the
@@ -102,8 +107,9 @@ class SerializerTableExport(TableExport):
         for row in serializer_data:
             self.dataset.append(row.values())
 
+
 class SerializerExportMixin(ExportMixin):
-    #export_action_param = "action"
+    # export_action_param = "action"
 
     def create_export(self, export_format):
         exporter = SerializerTableExport(
