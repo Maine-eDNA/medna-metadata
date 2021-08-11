@@ -26,8 +26,9 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
     biome_second_label = models.CharField("ENVO 2nd Tier Biome Label", max_length=200)
 
     def __str__(self):
-        return '{biome1} - {biome2}'.format(biome1=self.biome_first_label,
-                                            biome2=self.biome_second_label)
+        return '{biome1} - ' \
+               '{biome2}'.format(biome1=self.biome_first_label,
+                                 biome2=self.biome_second_label)
 
 
 class EnvoBiomeThird(EnvoBiomeSecond):
@@ -43,9 +44,11 @@ class EnvoBiomeThird(EnvoBiomeSecond):
     biome_third_label = models.CharField("ENVO 3rd Tier Biome Label", max_length=200)
 
     def __str__(self):
-        return '{biome1} - {biome2} - {biome3}'.format(biome1=self.biome_first_label,
-                                                       biome2=self.biome_second_label,
-                                                       biome3=self.biome_third_label)
+        return '{biome1} - ' \
+               '{biome2} - ' \
+               '{biome3}'.format(biome1=self.biome_first_label,
+                                 biome2=self.biome_second_label,
+                                 biome3=self.biome_third_label)
 
 
 class EnvoBiomeFourth(EnvoBiomeThird):
@@ -61,10 +64,13 @@ class EnvoBiomeFourth(EnvoBiomeThird):
     biome_fourth_label = models.CharField("ENVO 4th Tier Biome Label", max_length=200)
 
     def __str__(self):
-        return '{biome1} - {biome2} - {biome3} - {biome4}'.format(biome1=self.biome_first_label,
-                                                                  biome2=self.biome_second_label,
-                                                                  biome3=self.biome_third_label,
-                                                                  biome4=self.biome_fourth_label)
+        return '{biome1} - ' \
+               '{biome2} - ' \
+               '{biome3} - ' \
+               '{biome4}'.format(biome1=self.biome_first_label,
+                                 biome2=self.biome_second_label,
+                                 biome3=self.biome_third_label,
+                                 biome4=self.biome_fourth_label)
 
 
 class EnvoBiomeFifth(EnvoBiomeFourth):
@@ -73,11 +79,15 @@ class EnvoBiomeFifth(EnvoBiomeFourth):
     biome_fifth_label = models.CharField("ENVO 5th Tier Biome Label", max_length=200)
 
     def __str__(self):
-        return '{biome1} - {biome2} - {biome3} - {biome4} - {biome5}'.format(biome1=self.biome_first_label,
-                                                                             biome2=self.biome_second_label,
-                                                                             biome3=self.biome_third_label,
-                                                                             biome4=self.biome_fourth_label,
-                                                                             biome5=self.biome_fifth_label)
+        return '{biome1} - ' \
+               '{biome2} - ' \
+               '{biome3} - ' \
+               '{biome4} - ' \
+               '{biome5}'.format(biome1=self.biome_first_label,
+                                 biome2=self.biome_second_label,
+                                 biome3=self.biome_third_label,
+                                 biome4=self.biome_fourth_label,
+                                 biome5=self.biome_fifth_label)
 
 
 class EnvoFeatureFirst(DateTimeUserMixin):
@@ -109,8 +119,9 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
     feature_second_label = models.CharField("ENVO 2nd Tier Feature Label", max_length=200)
 
     def __str__(self):
-        return '{feature1} - {feature2}'.format(feature1=self.feature_first_label,
-                                                feature2=self.feature_second_label)
+        return '{feature1} - ' \
+               '{feature2}'.format(feature1=self.feature_first_label,
+                                   feature2=self.feature_second_label)
 
 
 class EnvoFeatureThird(EnvoFeatureSecond):
@@ -128,9 +139,11 @@ class EnvoFeatureThird(EnvoFeatureSecond):
     feature_third_label = models.CharField("ENVO 3rd Tier Feature Label", max_length=200)
 
     def __str__(self):
-        return '{feature1} - {feature2} - {feature3}'.format(feature1=self.feature_first_label,
-                                                             feature2=self.feature_second_label,
-                                                             feature3=self.feature_third_label)
+        return '{feature1} - ' \
+               '{feature2} - ' \
+               '{feature3}'.format(feature1=self.feature_first_label,
+                                   feature2=self.feature_second_label,
+                                   feature3=self.feature_third_label)
 
 
 class EnvoFeatureFourth(EnvoFeatureThird):
@@ -145,10 +158,13 @@ class EnvoFeatureFourth(EnvoFeatureThird):
     feature_fourth_label = models.CharField("ENVO 4th Tier Feature Label", max_length=200)
 
     def __str__(self):
-        return '{feature1} - {feature2} - {feature3} - {feature4}'.format(feature1=self.feature_first_label,
-                                                                          feature2=self.feature_second_label,
-                                                                          feature3=self.feature_third_label,
-                                                                          feature4=self.feature_fourth_label)
+        return '{feature1} - ' \
+               '{feature2} - ' \
+               '{feature3} - ' \
+               '{feature4}'.format(feature1=self.feature_first_label,
+                                   feature2=self.feature_second_label,
+                                   feature3=self.feature_third_label,
+                                   feature4=self.feature_fourth_label)
 
 
 class EnvoFeatureFifth(EnvoFeatureFourth):
@@ -164,11 +180,15 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
     feature_fifth_label = models.CharField("ENVO 5th Tier Feature Label", max_length=200)
 
     def __str__(self):
-        return '{feature1} - {feature2} - {feature3} - {feature4} - {feature5}'.format(feature1=self.feature_first_label,
-                                                                                       feature2=self.feature_second_label,
-                                                                                       feature3=self.feature_third_label,
-                                                                                       feature4=self.feature_fourth_label,
-                                                                                       feature5=self.feature_fifth_label)
+        return '{feature1} - ' \
+               '{feature2} - ' \
+               '{feature3} - ' \
+               '{feature4} - ' \
+               '{feature5}'.format(feature1=self.feature_first_label,
+                                   feature2=self.feature_second_label,
+                                   feature3=self.feature_third_label,
+                                   feature4=self.feature_fourth_label,
+                                   feature5=self.feature_fifth_label)
 
 
 class EnvoFeatureSixth(EnvoFeatureFifth):
@@ -177,12 +197,17 @@ class EnvoFeatureSixth(EnvoFeatureFifth):
     feature_sixth_label = models.CharField("ENVO 6th Tier Feature Label", max_length=200)
 
     def __str__(self):
-        return '{feature1} - {feature2} - {feature3} - {feature4} - {feature5} - {feature6}'.format(feature1=self.feature_first_label,
-                                                                                                    feature2=self.feature_second_label,
-                                                                                                    feature3=self.feature_third_label,
-                                                                                                    feature4=self.feature_fourth_label,
-                                                                                                    feature5=self.feature_fifth_label,
-                                                                                                    feature6=self.feature_sixth_label)
+        return '{feature1} - ' \
+               '{feature2} - ' \
+               '{feature3} - ' \
+               '{feature4} - ' \
+               '{feature5} - ' \
+               '{feature6}'.format(feature1=self.feature_first_label,
+                                   feature2=self.feature_second_label,
+                                   feature3=self.feature_third_label,
+                                   feature4=self.feature_fourth_label,
+                                   feature5=self.feature_fifth_label,
+                                   feature6=self.feature_sixth_label)
 
 
 class EnvoFeatureSeventh(EnvoFeatureSixth):
@@ -191,13 +216,19 @@ class EnvoFeatureSeventh(EnvoFeatureSixth):
     feature_seventh_label = models.CharField("ENVO 7th Tier Feature Label", max_length=200)
 
     def __str__(self):
-        return '{feature1} - {feature2} - {feature3} - {feature4} - {feature5} - {feature6} - {feature7}'.format(feature1=self.feature_first_label,
-                                                                                                                 feature2=self.feature_second_label,
-                                                                                                                 feature3=self.feature_third_label,
-                                                                                                                 feature4=self.feature_fourth_label,
-                                                                                                                 feature5=self.feature_fifth_label,
-                                                                                                                 feature6=self.feature_sixth_label,
-                                                                                                                 feature7=self.feature_seventh_label)
+        return '{feature1} - ' \
+               '{feature2} - ' \
+               '{feature3} - ' \
+               '{feature4} - ' \
+               '{feature5} - ' \
+               '{feature6} - ' \
+               '{feature7}'.format(feature1=self.feature_first_label,
+                                   feature2=self.feature_second_label,
+                                   feature3=self.feature_third_label,
+                                   feature4=self.feature_fourth_label,
+                                   feature5=self.feature_fifth_label,
+                                   feature6=self.feature_sixth_label,
+                                   feature7=self.feature_seventh_label)
 
 
 class Project(DateTimeUserMixin):
@@ -205,7 +236,8 @@ class Project(DateTimeUserMixin):
     project_label = models.CharField("Project Label", max_length=200)
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.project_code, label=self.project_label)
+        return '{code}: {label}'.format(code=self.project_code,
+                                        label=self.project_label)
 
 
 class System(DateTimeUserMixin):
@@ -213,7 +245,8 @@ class System(DateTimeUserMixin):
     system_label = models.CharField("System Label", max_length=200)
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.system_code, label=self.system_label)
+        return '{code}: {label}'.format(code=self.system_code,
+                                        label=self.system_label)
 
 
 class Region(DateTimeUserMixin):
@@ -229,7 +262,8 @@ class Region(DateTimeUserMixin):
     geom = models.MultiPolygonField()
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.region_code, label=self.region_label)
+        return '{code}: {label}'.format(code=self.region_code,
+                                        label=self.region_label)
 
 
 class FieldSite(DateTimeUserMixin):
@@ -241,30 +275,30 @@ class FieldSite(DateTimeUserMixin):
     general_location_name = models.CharField("General Location", max_length=200)
     purpose = models.CharField("Site Purpose", max_length=200)
     # ENVO biomes are hierarchical trees
-    envo_biome_first = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_biome_first = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT, blank=True,
                                          related_name="biome_first_tier")
-    envo_biome_second = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_biome_second = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT, blank=True,
                                           related_name="biome_second_tier")
-    envo_biome_third = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_biome_third = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT, blank=True,
                                          related_name="biome_third_tier")
-    envo_biome_fourth = models.ForeignKey(EnvoBiomeFourth, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_biome_fourth = models.ForeignKey(EnvoBiomeFourth, on_delete=models.RESTRICT, blank=True,
                                           related_name="biome_fourth_tier")
-    envo_biome_fifth = models.ForeignKey(EnvoBiomeFifth, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_biome_fifth = models.ForeignKey(EnvoBiomeFifth, on_delete=models.RESTRICT, blank=True,
                                          related_name="biome_fifth_tier")
     # ENVO Features are hierarchical trees
-    envo_feature_first = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_first = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT, blank=True,
                                            related_name="feature_first_tier")
-    envo_feature_second = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_second = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT, blank=True,
                                             related_name="feature_second_tier")
-    envo_feature_third = models.ForeignKey(EnvoFeatureThird, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_third = models.ForeignKey(EnvoFeatureThird, on_delete=models.RESTRICT, blank=True,
                                            related_name="feature_third_tier")
-    envo_feature_fourth = models.ForeignKey(EnvoFeatureFourth, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_fourth = models.ForeignKey(EnvoFeatureFourth, on_delete=models.RESTRICT, blank=True,
                                             related_name="feature_fourth_tier")
-    envo_feature_fifth = models.ForeignKey(EnvoFeatureFifth, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_fifth = models.ForeignKey(EnvoFeatureFifth, on_delete=models.RESTRICT, blank=True,
                                            related_name="feature_fifth_tier")
-    envo_feature_sixth = models.ForeignKey(EnvoFeatureSixth, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_sixth = models.ForeignKey(EnvoFeatureSixth, on_delete=models.RESTRICT, blank=True,
                                            related_name="feature_sixth_tier")
-    envo_feature_seventh = models.ForeignKey(EnvoFeatureSeventh, on_delete=models.RESTRICT, null=True, blank=True,
+    envo_feature_seventh = models.ForeignKey(EnvoFeatureSeventh, on_delete=models.RESTRICT, blank=True,
                                              related_name="feature_seventh_tier")
     # lat = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
@@ -329,8 +363,8 @@ class WorldBorder(models.Model):
     un = models.IntegerField('United Nations Code')
     region = models.IntegerField('Region Code')
     subregion = models.IntegerField('Sub-Region Code')
-    lon = models.FloatField()
-    lat = models.FloatField()
+    lon = models.DecimalField(max_digits=22, decimal_places=16)
+    lat = models.DecimalField(max_digits=22, decimal_places=16)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     geom = models.MultiPolygonField()
