@@ -77,7 +77,7 @@ class ExtractionMethod(DateTimeUserMixin):
 
 class Extraction(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, unique=True)
-    barcode_slug = models.SlugField(max_length=16, unique=True)
+    barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_datetime = models.DateTimeField("Extraction DateTime",  auto_now=True)
     extraction_first_name = models.CharField("First Name", max_length=255)
@@ -94,10 +94,8 @@ class Extraction(DateTimeUserMixin):
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        # if it already exists we don't want to change the site_id; we only want to update the associated fields.
-        if self.pk is None:
-            # just check if name or location.name has changed
-            self.barcode_slug = slugify(self.field_sample.barcode_slug)
+        # just check if name or location.name has changed
+        self.barcode_slug = slugify(self.field_sample.barcode_slug)
         super(Extraction, self).save(*args, **kwargs)
 
     def __str__(self):
