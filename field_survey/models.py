@@ -293,7 +293,7 @@ class FieldSample(DateTimeUserMixin):
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
                                                 unique=True)
-    barcode_slug = models.SlugField(max_length=16, unique=True)
+    barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
     is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
@@ -325,10 +325,8 @@ class FieldSample(DateTimeUserMixin):
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        # if it already exists we don't want to change the site_id; we only want to update the associated fields.
-        if self.pk is None:
-            # just check if name or location.name has changed
-            self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
+        # just check if name or location.name has changed
+        self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
         super(FieldSample, self).save(*args, **kwargs)
 
     def __str__(self):
