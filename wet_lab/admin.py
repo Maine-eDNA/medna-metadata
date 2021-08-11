@@ -19,11 +19,26 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['primer_set_name', 'primer_target_gene',
+                       'primer_name_forward', 'primer_name_reverse',
+                       'primer_forward', 'primer_reverse',
+                       'primer_amplicon_length_min', 'primer_amplicon_length_max', 'created_by']
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(PrimerPairAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
-                       'primer_target_gene', 'primer_set_name', 'primer_amplicon_length_min',
-                       'primer_amplicon_length_max', 'created_by', 'created_datetime']
+        self.fields = ['primer_set_name', 'primer_target_gene',
+                       'primer_name_forward', 'primer_name_reverse',
+                       'primer_forward', 'primer_reverse',
+                       'primer_amplicon_length_min', 'primer_amplicon_length_max',
+                       'created_by', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PrimerPairAdmin, self).change_view(request, object_id)
 
@@ -43,6 +58,17 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
     resource_class = IndexPairAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id',
+                       'index_adapter', 'created_by']
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(IndexPairAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -68,6 +94,16 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['index_removal_method_name', 'created_by']
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(IndexRemovalMethodAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['index_removal_method_name', 'created_by', 'created_datetime']
@@ -90,6 +126,16 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
     resource_class = SizeSelectionMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['size_selection_method_name', 'created_by']
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(SizeSelectionMethodAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -114,6 +160,16 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['quant_method_name', 'created_by']
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(QuantificationMethodAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['quant_method_name', 'created_by', 'created_datetime']
@@ -136,6 +192,17 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
     resource_class = ExtractionMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['extraction_method_name', 'extraction_method_manufacturer',
+                       'extraction_sop_url', 'created_by']
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(ExtractionMethodAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -167,13 +234,13 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
                        'extraction_first_name', 'extraction_last_name', 'quantification_method',
                        'extraction_volume', 'extraction_volume_units',
                        'extraction_concentration', 'extraction_concentration_units',
-                       'extraction_notes', 'created_by', 'created_datetime']
+                       'extraction_notes', 'created_by']
         self.list_filter = (
             ('field_sample', RelatedDropdownFilter),
             ('extraction_method', RelatedDropdownFilter),
             ('quantification_method', RelatedDropdownFilter)
         )
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -210,7 +277,7 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                       'ddpcr_notes']
+                       'ddpcr_notes', 'created_by']
         self.list_filter = (
             ('extraction', RelatedDropdownFilter),
             ('primer_set', RelatedDropdownFilter)
@@ -250,7 +317,7 @@ class QpcrAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                       'qpcr_notes']
+                       'qpcr_notes', 'created_by']
         self.list_filter = (
             ('primer_set', RelatedDropdownFilter),
             ('extraction', RelatedDropdownFilter)
@@ -292,7 +359,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'primer_set', 'index_removal_method', 'size_selection_method',
                        'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                        'final_concentration', 'final_concentration_units',
-                       'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes']
+                       'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes', 'created_by']
         self.list_filter = (
             ('extraction', RelatedDropdownFilter),
             ('primer_set', RelatedDropdownFilter),
@@ -338,7 +405,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['pooled_lib_datetime', 'pooled_lib_label', 'library_prep', 'quantification_method',
-                       'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes']
+                       'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes', 'created_by']
         self.list_filter = (
             ('library_prep', RelatedDropdownFilter),
             ('quantification_method', RelatedDropdownFilter)
@@ -380,7 +447,7 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
                        'pooled_library', 'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
-                       'final_pooled_lib_notes']
+                       'final_pooled_lib_notes', 'created_by']
         self.list_filter = (
             ('pooled_library', RelatedDropdownFilter),
             ('quantification_method', RelatedDropdownFilter)
@@ -423,7 +490,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['run_date', 'final_pooled_library', 'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
-                       'run_prep_notes']
+                       'run_prep_notes', 'created_by']
         self.list_filter = (
             ('final_pooled_library', RelatedDropdownFilter),
             ('quantification_method', RelatedDropdownFilter)
@@ -462,7 +529,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['run_id', 'run_experiment_name', 'run_prep',
-                       'run_completion_datetime', 'run_instrument']
+                       'run_completion_datetime', 'run_instrument', 'created_by']
         self.list_filter = (
             ('run_prep', RelatedDropdownFilter)
         )
@@ -499,7 +566,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['run_result', 'extraction', 'fastq_filename', 'fastq_datafile']
+        self.fields = ['run_result', 'extraction', 'fastq_filename', 'fastq_datafile', 'created_by']
         self.list_filter = (
             ('run_result', RelatedDropdownFilter),
             ('extraction', RelatedDropdownFilter)
