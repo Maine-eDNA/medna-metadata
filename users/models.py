@@ -37,9 +37,9 @@ class CustomUser(AbstractUser):
 
 class DateTimeUserMixin(models.Model):
     # these are django fields for when the record was created and by whom
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField(auto_now_add=True)
-    created_datetime = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey("Created By", get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
+    modified_datetime = models.DateTimeField("Modified DateTime", auto_now_add=True)
+    created_datetime = models.DateTimeField("Created DateTime", auto_now=True)
 
     def was_added_recently(self):
         now = timezone.now()
