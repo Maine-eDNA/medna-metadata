@@ -4,6 +4,7 @@ from sample_labels.models import SampleLabel, SampleType
 from field_sites.models import FieldSite
 from users.models import DateTimeUserMixin, get_sentinel_user
 from users.enumerations import YesNo
+from django.utils.text import slugify
 
 
 ###########
@@ -292,6 +293,7 @@ class FieldSample(DateTimeUserMixin):
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
                                                 unique=True)
+    barcode_slug = models.SlugField(max_length=16, unique=True)
     is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
@@ -321,6 +323,13 @@ class FieldSample(DateTimeUserMixin):
     subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
                                            max_digits=10, decimal_places=10, blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # if it already exists we don't want to change the site_id; we only want to update the associated fields.
+        if self.pk is None:
+            # just check if name or location.name has changed
+            self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
+        super(FieldSample, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{collection_global_id}: {sample_type}, ' \
@@ -666,7 +675,7 @@ class SampleFilterETL(DateTimeUserMixin):
         verbose_name_plural = 'SampleFilterETLs'
 
 
-class SampleFilterETL(DateTimeUserMixin):
+class BlankSampleFilterETL(DateTimeUserMixin):
     # id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
@@ -700,5 +709,5 @@ class SampleFilterETL(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'SampleFilterETL'
-        verbose_name_plural = 'SampleFilterETLs'
+        verbose_name = 'BlankSampleFilterETL'
+        verbose_name_plural = 'BlankSampleFilterETLs'
