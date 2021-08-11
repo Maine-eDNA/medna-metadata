@@ -12,13 +12,13 @@ from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTy
 # Create your models here.
 class PrimerPair(DateTimeUserMixin):
     # mifishU, ElbrechtB1, ecoprimer, 16sV4V5, 18sV4, ...
+    primer_set_name = models.TextField("Primer Set Name")
+    # 12S, 16S, 18S, COI, ...
+    primer_target_gene = models.IntegerField("Target Gene", choices=TargetGenes.choices)
     primer_name_forward = models.CharField("Primer Name Forward", max_length=255)
     primer_name_reverse = models.CharField("Primer Name Reverse", max_length=255)
     primer_forward = models.TextField("Primer Forward")
     primer_reverse = models.TextField("Primer Reverse")
-    primer_target_gene = models.IntegerField("Target Gene", choices=TargetGenes.choices)
-    # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
-    primer_set_name = models.TextField("Primer Set Name")
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
     primer_pair_notes = models.TextField("Primer Pair Notes")
@@ -82,11 +82,11 @@ class Extraction(DateTimeUserMixin):
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=10, decimal_places=10)
     # microliter, ul
     extraction_volume_units = models.IntegerField("Extraction Volume Units", choices=VolUnits.choices,
                                                   default=VolUnits.MICROLITER)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_concentration = models.DecimalField("Concentration", max_digits=10, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
     extraction_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices,
@@ -268,7 +268,7 @@ class FastqFile(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     fastq_filename = models.CharField("FastQ Filename", max_length=255)
-    fastq_datafile = models.FileField("FastQ Datafile", max_length=200)
+    fastq_datafile = models.FileField("FastQ Datafile", max_length=255)
 
     def __str__(self):
         return '{run_id}: {fastq}'.format(run_id=self.run_result.run_id,
