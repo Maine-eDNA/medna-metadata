@@ -9,7 +9,6 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 # Django REST Framework to allow the automatic downloading of data!
 class FreezerSerializer(serializers.ModelSerializer):
-    freezer_datetime = serializers.DateTimeField()
     freezer_label = serializers.CharField()
     freezer_depth = serializers.DecimalField()
     freezer_length = serializers.DecimalField()
@@ -23,7 +22,7 @@ class FreezerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Freezer
-        fields = ['freezer_datetime', 'freezer_label',
+        fields = ['freezer_label',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                   'created_by', 'created_datetime', ]
@@ -35,7 +34,6 @@ class FreezerSerializer(serializers.ModelSerializer):
 
 
 class FreezerRackSerializer(serializers.ModelSerializer):
-    freezer_rack_datetime = serializers.DateTimeField()
     freezer_rack_label = serializers.CharField()
     # location of rack in freezer
     freezer_rack_column_start = serializers.IntegerField(min_value=1)
@@ -48,7 +46,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerRack
-        fields = ['freezer', 'freezer_rack_datetime', 'freezer_rack_label',
+        fields = ['freezer', 'freezer_rack_label',
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
@@ -63,7 +61,6 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
-    freezer_box_datetime = serializers.DateTimeField()
     freezer_box_label = serializers.CharField()
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
@@ -73,7 +70,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerBox
-        fields = ['freezer_rack', 'freezer_box_datetime', 'freezer_box_label',
+        fields = ['freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                   'created_by', 'created_datetime', ]
     # Since freezer_rack and created_by reference different tables and we
