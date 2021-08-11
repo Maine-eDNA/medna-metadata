@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
@@ -48,14 +48,14 @@ class QpcrUnits(models.IntegerChoices):
 class InvStatus(models.IntegerChoices):
     IN = 0, _('In Stock')
     OUT = 1, _('Checked Out')
-    REMOVED = 2, _('Permanentaly Removed')
+    REMOVED = 2, _('Permanently Removed')
     __empty__ = _('(Unknown)')
 
 
 class InvTypes(models.IntegerChoices):
-    FIELDSAMPLE = 0, _('Field Sample')
+    FILTER = 0, _('Filter')
     EXTRACTION = 1, _('Extraction')
-    POOLEDLIBRARY = 2, _('Pooled Library')
+    # POOLEDLIBRARY = 2, _('Pooled Library')
 
 
 class CheckoutActions(models.IntegerChoices):
