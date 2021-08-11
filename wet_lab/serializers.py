@@ -11,13 +11,14 @@ from users.enumerations import YesNo
 
 # Django REST Framework to allow the automatic downloading of data!
 class PrimerPairSerializer(serializers.ModelSerializer):
+    # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
+    primer_set_name = serializers.CharField()
+    # 12S, 16S, 18S, COI, ...
+    primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
     primer_name_forward = serializers.CharField()
     primer_name_reverse = serializers.CharField()
     primer_forward = serializers.CharField()
     primer_reverse = serializers.CharField()
-    primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
-    # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
-    primer_set_name = serializers.CharField()
     primer_amplicon_length_min = serializers.IntegerField()
     primer_amplicon_length_max = serializers.IntegerField()
     created_datetime = serializers.DateTimeField()
@@ -45,8 +46,8 @@ class IndexPairSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = IndexPair
-        fields = ['id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id',
-                  'index_adapter', 'created_by', 'created_datetime', ]
+        fields = ['id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+                  'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -91,7 +92,7 @@ class QuantificationMethodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuantificationMethod
-        fields = ['id', 'size_selection_method_name', 'created_by', 'created_datetime',]
+        fields = ['id', 'quant_method_name', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -131,17 +132,17 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Extraction
-        fields = ['id', 'extraction_date', 'field_sample', 'extraction_method', 'quantification_method',
+        fields = ['id', 'extraction_date', 'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
-                  'extraction_concentration', 'extraction_concentration_units', 'extraction_notes', 'created_by',
-                  'created_datetime', ]
+                  'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
+                  'extraction_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     field_sample = serializers.SlugRelatedField(many=False, read_only=True,
-                                                slug_field='field_sample_barcode')
+                                                slug_field='barcode_slug')
     extraction_method = serializers.SlugRelatedField(many=False, read_only=True,
                                                      slug_field='extraction_method_name')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
@@ -150,8 +151,8 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class DdpcrSerializer(serializers.ModelSerializer):
-    ddpcr_experiment_name = serializers.CharField()
     ddpcr_datetime = serializers.DateTimeField()
+    ddpcr_experiment_name = serializers.CharField()
     ddpcr_first_name = serializers.CharField()
     ddpcr_last_name = serializers.CharField()
     ddpcr_probe = serializers.CharField()
@@ -162,7 +163,7 @@ class DdpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ddpcr
-        fields = ['id', 'extraction', 'primer_set', 'ddpcr_experiment_name', 'ddpcr_datetime', 'ddpcr_first_name',
+        fields = ['id', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -171,14 +172,14 @@ class DdpcrSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='field_sample__field_sample_barcode')
+                                              slug_field='barcode_slug')
     primer_set = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='primer_set_name')
 
 
 class QpcrSerializer(serializers.ModelSerializer):
-    qpcr_experiment_name = serializers.CharField()
     qpcr_datetime = serializers.DateTimeField()
+    qpcr_experiment_name = serializers.CharField()
     qpcr_first_name = serializers.CharField()
     qpcr_last_name = serializers.CharField()
     qpcr_probe = serializers.CharField()
@@ -189,7 +190,7 @@ class QpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Qpcr
-        fields = ['id', 'extraction', 'primer_set', 'qpcr_experiment_name', 'qpcr_datetime', 'qpcr_first_name',
+        fields = ['id', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                   'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                   'qpcr_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -198,34 +199,43 @@ class QpcrSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='field_sample__field_sample_barcode')
+                                              slug_field='barcode_slug')
     primer_set = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='primer_set_name')
 
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
-    library_prep_experiment_name = serializers.CharField()
-    libraryprep_concentration = serializers.DecimalField()
-    libraryprep_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    library_prep_kit = serializers.CharField()
-    library_prep_type = serializers.ChoiceField(choices=PrepTypes.choices)
-    library_prep_thermal_sop_url = serializers.URLField()
-    library_prep_notes = serializers.CharField()
+    lib_prep_datetime = serializers.DateTimeField()
+    lib_prep_experiment_name = serializers.CharField(max_length=255)
+    qubit_results = serializers.DecimalField(max_digits=10, decimal_places=10)
+    # units will be in ng/ml
+    qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    qpcr_results = serializers.DecimalField(max_digits=10, decimal_places=10)
+    # units will be nM or pM
+    qpcr_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    final_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
+    final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    lib_prep_kit = serializers.CharField(max_length=255)
+    lib_prep_type = serializers.ChoiceField(choices=PrepTypes.choices)
+    lib_prep_thermal_sop_url = serializers.URLField(max_length=200)
+    lib_prep_notes = serializers.CharField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = LibraryPrep
-        fields = ['id', 'extraction', 'primer_set', 'index_pair', 'index_removal_method', 'size_selection_method',
-                  'library_prep_experiment_name', 'libraryprep_concentration', 'libraryprep_concentration_units',
-                  'quantification_method', 'library_prep_kit', 'library_prep_type', 'library_prep_thermal_sop_url',
-                  'library_prep_notes', 'created_by', 'created_datetime', ]
+        fields = ['id', 'lib_prep_datetime', 'library_prep_experiment_name', 'extraction', 'index_pair',
+                  'primer_set', 'index_removal_method', 'size_selection_method',
+                  'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
+                  'final_concentration', 'final_concentration_units',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
+                  'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='field_sample__field_sample_barcode')
+                                              slug_field='barcode_slug')
     primer_set = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='primer_set_name')
     index_pair = serializers.SlugRelatedField(many=False, read_only=True,
@@ -239,16 +249,16 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
-    pooled_lib_label = serializers.CharField()
     pooled_lib_datetime = serializers.DateTimeField()
-    pooled_lib_concentration = serializers.DecimalField()
+    pooled_lib_label = serializers.CharField(max_length=255)
+    pooled_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pooled_lib_notes = serializers.CharField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'library_prep', 'pooled_lib_label', 'pooled_lib_datetime', 'quantification_method',
+        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'library_prep', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                   'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -263,18 +273,20 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 
 
 class FinalPooledLibrarySerializer(serializers.ModelSerializer):
-    final_pooled_lib_label = serializers.CharField()
     final_pooled_lib_datetime = serializers.DateTimeField()
-    final_pooled_lib_concentration = serializers.DecimalField()
+    final_pooled_lib_label = serializers.CharField(max_length=255)
+    final_pooled_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_pooled_lib_notes = serializers.CharField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = FinalPooledLibrary
-        fields = ['id', 'final_pooled_lib_label', 'final_pooled_lib_datetime',
-                  'quantification_method', 'final_pooled_lib_concentration', 'final_pooled_lib_concentration_units',
-                  'pooled_library', 'final_pooled_lib_notes', 'created_by', 'created_datetime', ]
+        fields = ['id', 'final_pooled_lib_datetime', 'final_pooled_lib_label',
+                  'pooled_library', 'quantification_method',
+                  'final_pooled_lib_concentration',
+                  'final_pooled_lib_concentration_units',
+                  'final_pooled_lib_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -287,18 +299,18 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 
 
 class RunPrepSerializer(serializers.ModelSerializer):
-    run_date = serializers.DateTimeField()
+    run_date = serializers.DateField()
     phix_spike_in = serializers.DecimalField()
     phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    final_lib_concentration = serializers.DecimalField()
+    final_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     run_prep_notes = serializers.CharField()
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = RunPrep
-        fields = ['id', 'run_date', 'phix_spike_in', 'phix_spike_in_units', 'quantification_method',
-                  'final_lib_concentration', 'final_lib_concentration_units', 'final_pooled_library',
+        fields = ['id', 'run_date', 'final_pooled_library', 'phix_spike_in', 'phix_spike_in_units',
+                  'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                   'run_prep_notes', 'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -312,17 +324,16 @@ class RunPrepSerializer(serializers.ModelSerializer):
 
 
 class RunResultSerializer(serializers.ModelSerializer):
-    run_id = serializers.CharField()
-    run_start_datetime = serializers.DateTimeField()
+    run_id = serializers.CharField(max_length=255)
+    run_experiment_name = serializers.CharField(max_length=255)
     run_completion_datetime = serializers.DateTimeField()
-    run_experiment_name = serializers.CharField()
-    run_instrument = serializers.CharField()
+    run_instrument = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = RunResult
-        fields = ['id', 'run_id', 'run_start_datetime', 'run_completion_datetime', 'run_experiment_name',
-                  'run_instrument', 'run_prep', 'created_by', 'created_datetime', ]
+        fields = ['id', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
+                  'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -335,13 +346,13 @@ class RunResultSerializer(serializers.ModelSerializer):
 class FastqFileSerializer(serializers.ModelSerializer):
     # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
     uuid = serializers.UUIDField()
-    fastq_datafile = serializers.FileField()
-    fastq_filename = serializers.CharField()
+    fastq_filename = serializers.CharField(max_length=255)
+    fastq_datafile = serializers.FileField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'fastq_datafile', 'fastq_filename', 'run_result', 'extraction',
+        fields = ['uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                   'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -351,4 +362,4 @@ class FastqFileSerializer(serializers.ModelSerializer):
     run_result = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='run_id')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='field_sample__field_sample_barcode')
+                                              slug_field='barcode_slug')

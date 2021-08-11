@@ -73,19 +73,22 @@ class ExtractionMethodAdminResource(resources.ModelResource):
 class ExtractionAdminResource(resources.ModelResource):
     class Meta:
         model = Extraction
-        import_id_fields = ('extraction_datetime', 'field_sample', 'extraction_method', 'quantification_method',
-                            'extraction_first_name', 'extraction_last_name', 'extraction_volume',
-                            'extraction_volume_units', 'extraction_concentration', 'extraction_concentration_units',
+        import_id_fields = ('extraction_datetime', 'field_sample', 'extraction_method',
+                            'extraction_first_name', 'extraction_last_name',
+                            'extraction_volume', 'extraction_volume_units',
+                            'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                             'extraction_notes', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'extraction_datetime', 'field_sample', 'extraction_method', 'quantification_method',
-                  'extraction_first_name', 'extraction_last_name', 'extraction_volume',
-                  'extraction_volume_units', 'extraction_concentration', 'extraction_concentration_units',
-                  'extraction_notes',  'created_by', 'created_datetime',)
-        export_order = ('id', 'extraction_datetime', 'field_sample', 'extraction_method', 'quantification_method',
-                        'extraction_first_name', 'extraction_last_name', 'extraction_volume',
-                        'extraction_volume_units', 'extraction_concentration', 'extraction_concentration_units',
-                        'extraction_notes',  'created_by', 'created_datetime',)
+        fields = ('id', 'extraction_datetime', 'field_sample', 'extraction_method',
+                        'extraction_first_name', 'extraction_last_name',
+                        'extraction_volume', 'extraction_volume_units',
+                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
+                        'extraction_notes',  'created_by', 'created_datetime', )
+        export_order = ('id', 'extraction_datetime', 'field_sample', 'extraction_method',
+                        'extraction_first_name', 'extraction_last_name',
+                        'extraction_volume', 'extraction_volume_units',
+                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
+                        'extraction_notes',  'created_by', 'created_datetime', )
 
     field_sample = fields.Field(
         column_name='field_sample',
