@@ -135,3 +135,4 @@ dmypy.json
 /docker/medna.env
 /docker/medna.env.db
 /docker/nginx.proxycompanion.env
+/docker/gunicorn.env
