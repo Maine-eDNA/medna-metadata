@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
-from wet_lab.models import RunResult
+from wet_lab.models import RunResult, Extraction
 from users.models import CustomUser
 
 
@@ -86,7 +86,7 @@ class ASVReadAdminResource(resources.ModelResource):
     class Meta:
         model = ASVRead
         import_id_fields = ('asv', )
-        fields = ('id', 'asv', 'number_reads',
+        fields = ('id', 'asv', 'extraction', 'number_reads',
                   'created_by', 'created_datetime',)
         export_order = ('id', 'asv', 'number_reads',
                         'created_by', 'created_datetime',)
@@ -95,6 +95,11 @@ class ASVReadAdminResource(resources.ModelResource):
             column_name='asv',
             attribute='asv',
             widget=ForeignKeyWidget(DenoisingMethod, 'asv_id'))
+
+        extraction = fields.Field(
+            column_name='extraction',
+            attribute='extraction',
+            widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
 
         created_by = fields.Field(
             column_name='created_by',

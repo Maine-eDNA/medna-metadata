@@ -63,10 +63,11 @@ class ASVReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ASVRead
-        fields = ['id', 'asv', 'number_reads',
+        fields = ['id', 'asv', 'extraction', 'number_reads',
                   'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
     asv = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asv_id')

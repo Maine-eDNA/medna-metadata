@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from wet_lab.models import RunResult
+from wet_lab.models import RunResult, Extraction
 from users.models import DateTimeUserMixin
 from django.utils.text import slugify
 
@@ -53,9 +53,11 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
 
 class ASVRead(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
+    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     number_reads = models.PositiveIntegerField("Number Reads")
 
     def __str__(self):
         return '{id}: {num_reads}'.format(
             id=self.asv.asv_id,
+            barcode=self.extraction.barcode_slug,
             num_reads=self.number_reads)

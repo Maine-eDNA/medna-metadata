@@ -138,9 +138,10 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['asv', 'number_reads', 'created_by']
+        self.fields = ['asv', 'extraction', 'number_reads', 'created_by']
         self.list_filter = (
-            ('asv', RelatedDropdownFilter)
+            ('asv', RelatedDropdownFilter),
+            ('extraction', RelatedDropdownFilter)
         )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -150,9 +151,10 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['asv', 'number_reads', 'created_by']
+        self.fields = ['asv', 'extraction', 'number_reads', 'created_by']
         self.list_filter = (
-            ('asv', RelatedDropdownFilter)
+            ('asv', RelatedDropdownFilter),
+            ('extraction', RelatedDropdownFilter)
         )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ASVReadAdmin, self).change_view(request, object_id)
