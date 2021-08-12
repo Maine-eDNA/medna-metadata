@@ -695,7 +695,7 @@ class BlankSampleFilterETL(DateTimeUserMixin):
     filter_notes = models.TextField("Filter Notes", blank=True)
     collection_global_id = models.ForeignKey(FieldCollectionETL,
                                              db_column="collection_global_id",
-                                             related_name="fieldcollection_to_samplefilter_etl",
+                                             related_name="fieldcollection_to_blanksamplefilter_etl",
                                              on_delete=models.CASCADE)
 
     def __str__(self):
