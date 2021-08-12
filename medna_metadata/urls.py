@@ -36,7 +36,6 @@ from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, A
 
 router = routers.DefaultRouter()
 # users
-router.register(r'login', CustomUserLoginViewSet, 'login')
 router.register(r'users', CustomUserViewSet, 'users')
 # field sites
 router.register(r'field_sites', BiomeViewSet, 'biome')
@@ -87,9 +86,11 @@ router.register(r'annotation', TaxonomicAnnotationViewSet, 'taxon_annotation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #url(r'^rest-auth/', include('rest_auth.urls')),
-    #url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    #url(r'^account/', include('allauth.urls')),
-    #url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
+    path('admin/', admin.site.urls),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^account/', include('allauth.urls')),
+    url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$',
+        confirm_email, name='account_confirm_email'),
     path('api/', include(router.urls))
 ]
