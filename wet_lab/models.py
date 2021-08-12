@@ -68,7 +68,7 @@ class ExtractionMethod(DateTimeUserMixin):
     # blood and tissue, power soil pro, power water, ...
     extraction_method_name = models.CharField("Extraction Method Name", max_length=255)
     extraction_method_manufacturer = models.CharField("Extraction Kit Manufacturer", max_length=255)
-    extraction_sop_url = models.URLField("Extraction SOP URL", max_length=200)
+    extraction_sop_url = models.URLField("Extraction SOP URL", max_length=255)
 
     def __str__(self):
         return '{manufacturer} {name}'.format(manufacturer=self.extraction_method_manufacturer,
@@ -163,7 +163,7 @@ class LibraryPrep(DateTimeUserMixin):
                                                     default=ConcentrationUnits.NM)
     lib_prep_kit = models.CharField("Library Prep Kit", max_length=255)
     lib_prep_type = models.IntegerField("Library Prep Type", choices=PrepTypes.choices)
-    lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=200)
+    lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes")
 
     def __str__(self):
