@@ -9,6 +9,15 @@ class YesNo(models.IntegerChoices):
     __empty__ = _('(Unknown)')
 
 
+class ProcessLocations(models.IntegerChoices):
+    CORE = 0, _('Maine-eDNA CORE')
+    BIGELOW = 1, _('Bigelow')
+    URI = 2, _('URI')
+    UNH = 3, _('UNH')
+    DALHOUSIEU = 4, _('Dalhousie U')
+    __empty__ = _('(Unknown)')
+
+
 # units choices
 class MeasureUnits(models.IntegerChoices):
     METERS = 0, _('Meter (m)')
