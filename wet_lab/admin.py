@@ -360,7 +360,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['lib_prep_datetime', 'library_prep_experiment_name', 'process_location',
+        self.fields = ['lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
                        'extraction', 'index_pair',
                        'primer_set', 'index_removal_method', 'size_selection_method',
                        'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
@@ -383,7 +383,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['lib_prep_datetime', 'library_prep_experiment_name', 'process_location',
+        self.fields = ['lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
                        'extraction', 'index_pair',
                        'primer_set', 'index_removal_method', 'size_selection_method',
                        'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',

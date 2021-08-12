@@ -239,16 +239,16 @@ class QpcrAdminResource(resources.ModelResource):
 class LibraryPrepAdminResource(resources.ModelResource):
     class Meta:
         model = LibraryPrep
-        import_id_fields = ('lib_prep_datetime', 'library_prep_experiment_name', 'extraction', )
+        import_id_fields = ('lib_prep_datetime', 'lib_prep_experiment_name', 'extraction', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'lib_prep_datetime', 'library_prep_experiment_name', 'process_location',
+        fields = ('id', 'lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
                   'extraction', 'index_pair',
                   'primer_set', 'index_removal_method', 'size_selection_method',
                   'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                   'final_concentration', 'final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'lib_prep_datetime', 'library_prep_experiment_name', 'process_location',
+        export_order = ('id', 'lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
                         'extraction', 'index_pair',
                         'primer_set', 'index_removal_method', 'size_selection_method',
                         'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
@@ -314,7 +314,7 @@ class PooledLibraryAdminResource(resources.ModelResource):
     library_prep = fields.Field(
         column_name='library_prep',
         attribute='library_prep',
-        widget=ForeignKeyWidget(LibraryPrep, 'library_prep_experiment_name'))
+        widget=ForeignKeyWidget(LibraryPrep, 'lib_prep_experiment_name'))
 
     quantification_method = fields.Field(
         column_name='quantification_method',

@@ -227,7 +227,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LibraryPrep
-        fields = ['id', 'lib_prep_datetime', 'library_prep_experiment_name', 'process_location',
+        fields = ['id', 'lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
                   'extraction', 'index_pair', 'primer_set', 'index_removal_method', 'size_selection_method',
                   'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                   'final_concentration', 'final_concentration_units',
@@ -273,7 +273,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     library_prep = serializers.SlugRelatedField(many=True, read_only=True,
-                                                slug_field='library_prep_experiment_name')
+                                                slug_field='lib_prep_experiment_name')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
                                                          slug_field='quant_method_name')
 
