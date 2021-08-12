@@ -78,11 +78,11 @@ router.register(r'denoising', DenoisingMetadataViewSet, 'denoising_metadata')
 router.register(r'denoising', AmpliconSequenceVariantViewSet, 'asv')
 router.register(r'denoising', ASVReadViewSet, 'asv_read')
 # bioinfo_taxon
-router.register(r'denoising', ReferenceDatabaseViewSet, 'refdb')
-router.register(r'denoising', TaxonSpeciesViewSet, 'taxon')
-router.register(r'denoising', AnnotationMethodViewSet, 'annotation_method')
-router.register(r'denoising', AnnotationMetadataViewSet, 'annotation_metadata')
-router.register(r'denoising', TaxonomicAnnotationViewSet, 'taxon_annotation')
+router.register(r'annotation', ReferenceDatabaseViewSet, 'refdb')
+router.register(r'annotation', TaxonSpeciesViewSet, 'taxon')
+router.register(r'annotation', AnnotationMethodViewSet, 'annotation_method')
+router.register(r'annotation', AnnotationMetadataViewSet, 'annotation_metadata')
+router.register(r'annotation', TaxonomicAnnotationViewSet, 'taxon_annotation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
