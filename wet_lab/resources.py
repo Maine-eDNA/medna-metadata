@@ -1,5 +1,5 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget
+from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
@@ -314,7 +314,7 @@ class PooledLibraryAdminResource(resources.ModelResource):
     library_prep = fields.Field(
         column_name='library_prep',
         attribute='library_prep',
-        widget=ForeignKeyWidget(LibraryPrep, 'lib_prep_experiment_name'))
+        widget=ManyToManyWidget(LibraryPrep, 'lib_prep_experiment_name'))
 
     quantification_method = fields.Field(
         column_name='quantification_method',
@@ -351,7 +351,7 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
     pooled_library = fields.Field(
         column_name='pooled_library',
         attribute='pooled_library',
-        widget=ForeignKeyWidget(PooledLibrary, 'pooled_lib_label'))
+        widget=ManyToManyWidget(PooledLibrary, 'pooled_lib_label'))
 
     quantification_method = fields.Field(
         column_name='quantification_method',
