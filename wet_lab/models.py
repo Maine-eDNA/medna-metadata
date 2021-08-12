@@ -76,7 +76,7 @@ class ExtractionMethod(DateTimeUserMixin):
 
 
 class Extraction(DateTimeUserMixin):
-    extraction_datetime = models.DateTimeField("Extraction DateTime",  auto_now=True)
+    extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, unique=True)
     barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
@@ -103,7 +103,7 @@ class Extraction(DateTimeUserMixin):
 
 
 class Ddpcr(DateTimeUserMixin):
-    ddpcr_datetime = models.DateTimeField("ddPCR DateTime", auto_now=True)
+    ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
     ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
@@ -122,7 +122,7 @@ class Ddpcr(DateTimeUserMixin):
 
 
 class Qpcr(DateTimeUserMixin):
-    qpcr_datetime = models.DateTimeField("qPCR DateTime", auto_now=True)
+    qpcr_datetime = models.DateTimeField("qPCR DateTime")
     qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
