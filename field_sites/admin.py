@@ -14,6 +14,16 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
+                       'biome_fifth_label', 'ontology_url']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(EnvoBiomeAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
@@ -38,6 +48,16 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
+                       'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'ontology_url']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(EnvoFeatureAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
@@ -54,7 +74,7 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(EnvoFeatureSeventh,EnvoFeatureAdmin)
+admin.site.register(EnvoFeatureSeventh, EnvoFeatureAdmin)
 
 
 class ProjectAdmin(ImportExportActionModelAdmin):
@@ -62,6 +82,15 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     resource_class = ProjectAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['project_label', 'project_code']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(ProjectAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -77,7 +106,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(Project,ProjectAdmin)
+admin.site.register(Project, ProjectAdmin)
 
 
 class SystemAdmin(ImportExportActionModelAdmin):
@@ -85,6 +114,15 @@ class SystemAdmin(ImportExportActionModelAdmin):
     resource_class = SystemAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['system_label', 'system_code']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(SystemAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -100,10 +138,10 @@ class SystemAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(System,SystemAdmin)
+admin.site.register(System, SystemAdmin)
 
 
-class RegionAdmin(ExportActionMixin,admin.OSMGeoAdmin):
+class RegionAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # import_export configs
     resource_class = RegionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
@@ -124,7 +162,7 @@ class RegionAdmin(ExportActionMixin,admin.OSMGeoAdmin):
         return actions
 
 
-admin.site.register(Region,RegionAdmin)
+admin.site.register(Region, RegionAdmin)
 
 
 class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
@@ -148,7 +186,7 @@ class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         return actions
 
 
-admin.site.register(WorldBorder,WorldBorderAdmin)
+admin.site.register(WorldBorder, WorldBorderAdmin)
 
 
 class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
