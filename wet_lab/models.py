@@ -211,7 +211,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
                                             related_name='pooledlibrary_to_finalpooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
-                                                         max_digits=10,
+                                                         max_digits=15,
                                                          decimal_places=10)
     # nanomolar, nM
     final_pooled_lib_concentration_units = models.IntegerField("Final Pooled Library Units",

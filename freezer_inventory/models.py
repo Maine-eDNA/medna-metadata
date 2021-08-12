@@ -26,8 +26,8 @@ class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_label = models.CharField("Freezer Label", max_length=255)
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
-    freezer_length = models.DecimalField("Freezer Length", max_digits=10,  decimal_places=10)
-    freezer_width = models.DecimalField("Freezer Width", max_digits=10,  decimal_places=10)
+    freezer_length = models.DecimalField("Freezer Length", max_digits=15,  decimal_places=10)
+    freezer_width = models.DecimalField("Freezer Width", max_digits=15,  decimal_places=10)
     freezer_dimension_units = models.IntegerField("Freezer Dimensions Units", choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each
     freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
