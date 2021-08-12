@@ -144,7 +144,8 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
-    confidence = models.DecimalField("Confidence", max_digits=10, decimal_places=10, blank=True, null=True)
+    confidence = models.DecimalField("Confidence", max_digits=10, decimal_places=10,
+                                     blank=True, null=True)
     ta_taxon = models.TextField("Taxon", blank=True)
     ta_domain = models.CharField("Domain", max_length=255, blank=True)
     ta_kingdom = models.CharField("Kingdom", max_length=255, blank=True)
