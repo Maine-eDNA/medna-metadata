@@ -27,7 +27,7 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['biome_first_tier', 'biome_second_tier', 'biome_third_tier', 'biome_fourth_tier',
-                       'biome_fifth_tier', 'ontology_url', 'created_by', 'created_datetime']
+                       'biome_fifth_tier', 'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeAdmin, self).change_view(request, object_id)
 
@@ -62,7 +62,7 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['feature_first_tier', 'feature_second_tier', 'feature_third_tier', 'feature_fourth_tier',
                        'feature_fifth_tier', 'feature_sixth_tier', 'feature_seventh_tier', 'ontology_url',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureAdmin, self).change_view(request, object_id)
 

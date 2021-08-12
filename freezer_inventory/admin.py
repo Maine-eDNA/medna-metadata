@@ -29,7 +29,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_label',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                       'created_by', 'created_datetime']
+                       'created_by']
         return super(FreezerAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -70,7 +70,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_column_start', 'freezer_rack_column_end',
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                       'created_by', 'created_datetime']
+                       'created_by']
         self.list_filter = (
             ('freezer', RelatedDropdownFilter))
         return super(FreezerRackAdmin, self).change_view(request, object_id)
@@ -109,7 +109,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                       'created_by', 'created_datetime']
+                       'created_by']
         self.list_filter = (
             ('freezer_rack', RelatedDropdownFilter))
         return super(FreezerBoxAdmin, self).change_view(request, object_id)
@@ -152,7 +152,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
                        'freezer_inventory_datetime',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
-                       'created_by', 'created_datetime']
+                       'created_by']
         self.list_filter = (
             ('freezer_box', RelatedDropdownFilter))
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)
@@ -199,7 +199,7 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
                        'freezer_perm_removal_datetime',
                        'freezer_return_vol_taken', 'freezer_return_vol_units',
                        'freezer_return_notes',
-                       'created_by', 'created_datetime']
+                       'created_by']
         self.list_filter = (
             ('freezer_inventory', RelatedDropdownFilter))
         return super(FreezerCheckoutAdmin, self).change_view(request, object_id)

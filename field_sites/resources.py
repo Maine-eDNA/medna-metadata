@@ -66,9 +66,9 @@ class FieldSiteAdminResource(resources.ModelResource):
         import_id_fields = ('site_id',)
         exclude = ('site_prefix', 'site_num')
         fields = ('site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'geom', 'created_by', 'created_datetime',)
+                  'purpose', 'geom', 'created_by', 'created_datetime', )
         export_order = ('site_id', 'project', 'system', 'region', 'general_location_name',
-                        'purpose', 'geom', 'created_by', 'created_datetime',)
+                        'purpose', 'geom', 'created_by', 'created_datetime', )
 
     project = fields.Field(
         column_name='project',

@@ -39,7 +39,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
                        'primer_name_forward', 'primer_name_reverse',
                        'primer_forward', 'primer_reverse',
                        'primer_amplicon_length_min', 'primer_amplicon_length_max',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PrimerPairAdmin, self).change_view(request, object_id)
 
@@ -74,7 +74,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexPairAdmin, self).change_view(request, object_id)
 
@@ -107,7 +107,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['index_removal_method_name', 'created_by', 'created_datetime']
+        self.fields = ['index_removal_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexRemovalMethodAdmin, self).change_view(request, object_id)
 
@@ -140,7 +140,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['size_selection_method_name', 'created_by', 'created_datetime']
+        self.fields = ['size_selection_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SizeSelectionMethodAdmin, self).change_view(request, object_id)
 
@@ -173,7 +173,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['quant_method_name', 'created_by', 'created_datetime']
+        self.fields = ['quant_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(QuantificationMethodAdmin, self).change_view(request, object_id)
 
@@ -212,7 +212,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
         self.fields = ['extraction_method_name',
                        'extraction_method_manufacturer',
                        'extraction_sop_url',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ExtractionMethodAdmin, self).change_view(request, object_id)
 
@@ -257,7 +257,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                       'extraction_notes', 'created_by', 'created_datetime']
+                       'extraction_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ExtractionAdmin, self).change_view(request, object_id)
 
@@ -297,7 +297,7 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                       'ddpcr_notes', 'created_by', 'created_datetime']
+                       'ddpcr_notes', 'created_by']
 
         return super(DdpcrAdmin, self).change_view(request, object_id)
 
@@ -337,7 +337,7 @@ class QpcrAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                       'qpcr_notes', 'created_by', 'created_datetime']
+                       'qpcr_notes', 'created_by']
 
         return super(QpcrAdmin, self).change_view(request, object_id)
 
@@ -389,7 +389,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                        'final_concentration', 'final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(LibraryPrepAdmin, self).change_view(request, object_id)
 
@@ -430,7 +430,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
         self.fields = ['pooled_lib_datetime', 'pooled_lib_label', 'process_location',
                        'library_prep', 'quantification_method',
                        'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PooledLibraryAdmin, self).change_view(request, object_id)
 
@@ -473,7 +473,7 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
                        'pooled_library', 'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
-                       'final_pooled_lib_notes', 'created_by', 'created_datetime']
+                       'final_pooled_lib_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FinalPooledLibraryAdmin, self).change_view(request, object_id)
 
@@ -515,7 +515,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
         self.fields = ['run_date', 'process_location', 'final_pooled_library',
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
-                       'run_prep_notes', 'created_by', 'created_datetime']
+                       'run_prep_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunPrepAdmin, self).change_view(request, object_id)
 
@@ -554,7 +554,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['run_id', 'run_experiment_name', 'run_prep',
                        'run_completion_datetime', 'run_instrument',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunResultAdmin, self).change_view(request, object_id)
 

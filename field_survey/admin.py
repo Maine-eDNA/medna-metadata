@@ -9,6 +9,7 @@ from .resources import FieldSurveyAdminResource, FieldCrewAdminResource, EnvMeas
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 
+
 # Register your models here.
 class FieldSurveyAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -28,15 +29,19 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
                        'record_create_date', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
+
 admin.site.register(FieldSurvey,FieldSurveyAdmin)
+
 
 class FieldCrewAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -48,7 +53,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['crew_fname', 'crew_lname', 'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -59,7 +64,9 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(FieldCrew, FieldCrewAdmin)
+
 
 class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -77,9 +84,9 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
                        'env_inst_other', 'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity',
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
-                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id', 'created_datetime',
+                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
                        'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -90,7 +97,9 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(EnvMeasurement, EnvMeasurementAdmin)
+
 
 class FieldCollectionAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -107,8 +116,8 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
                        'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
                        'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
                        'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
-                       'subcores_taken', 'survey_global_id', 'created_by', 'created_datetime']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+                       'subcores_taken', 'survey_global_id', 'created_by']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -119,7 +128,9 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(FieldCollection, FieldCollectionAdmin)
+
 
 class FieldSampleAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -137,8 +148,8 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                        'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
                        'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
-                       'created_datetime', 'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+                       'created_by']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -149,11 +160,13 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(FieldSample, FieldSampleAdmin)
 
 ###########
 # Pre Transform
 ###########
+
 
 # Register your models here.
 class FieldSurveyETLAdmin(ImportExportActionModelAdmin):
@@ -174,15 +187,19 @@ class FieldSurveyETLAdmin(ImportExportActionModelAdmin):
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
                        'record_create_date', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyETLAdmin, self).change_view(request, object_id)
+
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
+
 admin.site.register(FieldSurveyETL,FieldSurveyETLAdmin)
+
 
 class FieldCrewETLAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -194,7 +211,7 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['crew_fname', 'crew_lname', 'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -205,7 +222,9 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(FieldCrewETL, FieldCrewETLAdmin)
+
 
 class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -223,9 +242,9 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
                        'env_inst_other', 'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity',
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
-                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id', 'created_datetime',
+                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
                        'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -236,7 +255,9 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(EnvMeasurementETL, EnvMeasurementETLAdmin)
+
 
 class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -256,8 +277,8 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
-                       'survey_global_id', 'created_by', 'created_datetime']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+                       'survey_global_id', 'created_by']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -268,7 +289,9 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
         return actions
     # below are import_export configs
 
+
 admin.site.register(FieldCollectionETL, FieldCollectionETLAdmin)
+
 
 class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
@@ -283,8 +306,8 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
         self.fields = ['filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
-                       'collection_global_id', 'created_datetime', 'created_by']
-        #self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+                       'collection_global_id', 'created_by']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleFilterETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -294,5 +317,6 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
             del actions['delete_selected']
         return actions
     # below are import_export configs
+
 
 admin.site.register(SampleFilterETL, SampleFilterETLAdmin)

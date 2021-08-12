@@ -9,9 +9,7 @@ from users.models import CustomUser
 class FreezerAdminResource(resources.ModelResource):
     class Meta:
         model = Freezer
-        import_id_fields = ('freezer_label',
-                            'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
-                            'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth', )
+        import_id_fields = ('id', 'freezer_label', )
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_label',
@@ -36,22 +34,19 @@ class FreezerAdminResource(resources.ModelResource):
 class FreezerRackAdminResource(resources.ModelResource):
     class Meta:
         model = FreezerRack
-        import_id_fields = ('freezer', 'freezer_rack_label',
-                            'freezer_rack_column_start', 'freezer_rack_column_end',
-                            'freezer_rack_row_start', 'freezer_rack_row_end',
-                            'freezer_rack_depth_start', 'freezer_rack_depth_end',)
+        import_id_fields = ('id', 'freezer', 'freezer_rack_label', )
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer', 'freezer_rack_label',
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                  'created_by', 'created_datetime',)
+                  'created_by', 'created_datetime' , )
         export_order = ('id', 'freezer', 'freezer_rack_label',
                         'freezer_rack_column_start', 'freezer_rack_column_end',
                         'freezer_rack_row_start', 'freezer_rack_row_end',
                         'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                        'created_by', 'created_datetime',)
+                        'created_by', 'created_datetime', )
 
     freezer = fields.Field(
         column_name='freezer',
@@ -71,13 +66,12 @@ class FreezerRackAdminResource(resources.ModelResource):
 class FreezerBoxAdminResource(resources.ModelResource):
     class Meta:
         model = FreezerBox
-        import_id_fields = ('freezer_rack', 'freezer_box_label',
-                            'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',)
+        import_id_fields = ('id', 'freezer_rack', 'freezer_box_label', )
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                  'created_by', 'created_datetime',)
+                  'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_rack', 'freezer_box_label',
                         'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                         'created_by', 'created_datetime',)
@@ -100,10 +94,7 @@ class FreezerBoxAdminResource(resources.ModelResource):
 class FreezerInventoryAdminResource(resources.ModelResource):
     class Meta:
         model = FreezerInventory
-        import_id_fields = ('freezer_box', 'field_sample', 'extraction',
-                            'freezer_inventory_datetime',
-                            'freezer_inventory_type', 'freezer_inventory_status',
-                            'freezer_inventory_column', 'freezer_inventory_row', )
+        import_id_fields = ('id', 'freezer_box', 'field_sample', 'extraction', )
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_box', 'field_sample', 'extraction',
@@ -145,12 +136,7 @@ class FreezerInventoryAdminResource(resources.ModelResource):
 class FreezerCheckoutAdminResource(resources.ModelResource):
     class Meta:
         model = FreezerCheckout
-        import_id_fields = ('freezer_inventory', 'freezer_checkout_action',
-                            'freezer_checkout_datetime',
-                            'freezer_return_datetime',
-                            'freezer_perm_removal_datetime',
-                            'freezer_return_vol_taken', 'freezer_return_vol_units',
-                            'freezer_return_notes', )
+        import_id_fields = ('id', 'freezer_inventory', 'freezer_checkout_action', 'created_datetime', )
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_inventory', 'freezer_checkout_action',
