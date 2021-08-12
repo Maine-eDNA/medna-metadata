@@ -112,8 +112,7 @@ class FreezerInventory(DateTimeUserMixin):
         super(FreezerInventory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{barcode_slug} [r{row}, c{column}]'.format(barcode_slug=self.barcode_slug,
-                                                           row=self.freezer_inventory_row,
+        return '[r{row}, c{column}]'.format(row=self.freezer_inventory_row,
                                                            column=self.freezer_inventory_column)
 
 
