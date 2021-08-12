@@ -18,7 +18,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from users.views import CustomUserViewSet, CustomUserLoginViewSet
+from users.views import CustomUserViewSet
 from field_sites.views import BiomeViewSet, FeatureViewSet, FieldSitesViewSet
 from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import FieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
