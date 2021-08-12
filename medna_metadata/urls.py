@@ -30,6 +30,9 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
 from freezer_inventory.views import FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
     FreezerInventoryViewSet, FreezerCheckoutViewSet
 
+from bioinfo_denoising.views import DenoisingMethodViewSet, DenoisingMetadataViewSet, \
+    AmpliconSequenceVariantViewSet, ASVReadViewSet
+
 router = routers.DefaultRouter()
 # users
 router.register(r'users', CustomUserViewSet, 'users')
@@ -68,6 +71,11 @@ router.register(r'freezer_inv', FreezerRackViewSet, 'rack')
 router.register(r'freezer_inv', FreezerBoxViewSet, 'box')
 router.register(r'freezer_inv', FreezerInventoryViewSet, 'inventory')
 router.register(r'freezer_inv', FreezerCheckoutViewSet, 'checkout')
+# bioinfo_denoising
+router.register(r'denoising', DenoisingMethodViewSet, 'denoising_method')
+router.register(r'denoising', DenoisingMetadataViewSet, 'denoising_metadata')
+router.register(r'denoising', AmpliconSequenceVariantViewSet, 'asv')
+router.register(r'denoising', ASVReadViewSet, 'asv_read')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
