@@ -18,13 +18,14 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
     biome_third_code = serializers.CharField()
     biome_fourth_code = serializers.CharField()
     biome_fifth_code = serializers.CharField()
+    created_datetime = serializers.DateTimeField()
 
     ontology_url = serializers.URLField()
 
     class Meta:
         model = EnvoBiomeFifth
         fields = ['id', 'biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
-                       'biome_fifth_label', 'ontology_url', 'created_by', 'created_datetime']
+                  'biome_fifth_label', 'ontology_url', 'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -47,14 +48,15 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
     feature_fifth_code = serializers.CharField()
     feature_sixth_code = serializers.CharField()
     feature_seventh_code = serializers.CharField()
+    created_datetime = serializers.DateTimeField()
 
     ontology_url = serializers.URLField()
 
     class Meta:
         model = EnvoFeatureSeventh
         fields = ['id', 'feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
-                       'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'ontology_url',
-                       'created_by', 'created_datetime']
+                  'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'ontology_url',
+                  'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -64,6 +66,7 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     project_code = serializers.CharField()
     project_label = serializers.CharField()
+    created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = Project
@@ -77,6 +80,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class SystemSerializer(serializers.ModelSerializer):
     system_code = serializers.CharField()
     system_label = serializers.CharField()
+    created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = System
@@ -88,9 +92,11 @@ class SystemSerializer(serializers.ModelSerializer):
 
 
 class FieldSiteSerializer(serializers.ModelSerializer):
-    lat = serializers.FloatField()
-    lon = serializers.FloatField()
+    lat = serializers.DecimalField()
+    lon = serializers.DecimalField()
     srid = serializers.CharField()
+    created_datetime = serializers.DateTimeField()
+
     class Meta:
         model = FieldSite
         fields = ['id', 'site_id', 'project', 'system', 'region', 'general_location_name',
