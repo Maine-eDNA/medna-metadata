@@ -11,12 +11,12 @@ class PrimerPairAdminResource(resources.ModelResource):
     class Meta:
         model = PrimerPair
         import_id_fields = ('primer_set_name', 'primer_target_gene', )
-        fields = ('primer_set_name', 'primer_target_gene',
+        fields = ('id', 'primer_set_name', 'primer_target_gene',
                   'primer_name_forward', 'primer_name_reverse',
                   'primer_forward', 'primer_reverse',
                   'primer_amplicon_length_min', 'primer_amplicon_length_max',
                   'created_by', 'created_datetime', )
-        export_order = ('primer_set_name', 'primer_target_gene',
+        export_order = ('id', 'primer_set_name', 'primer_target_gene',
                         'primer_name_forward', 'primer_name_reverse',
                         'primer_forward', 'primer_reverse',
                         'primer_amplicon_length_min', 'primer_amplicon_length_max',
@@ -74,6 +74,10 @@ class SizeSelectionMethodAdminResource(resources.ModelResource):
     class Meta:
         model = SizeSelectionMethod
         import_id_fields = ('size_selection_method_name',)
+        fields = ('id', 'size_selection_method_name',
+                  'created_by', 'created_datetime', )
+        export_order = ('id', 'size_selection_method_name',
+                        'created_by', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -108,9 +112,13 @@ class ExtractionMethodAdminResource(resources.ModelResource):
     class Meta:
         model = ExtractionMethod
         import_id_fields = ('extraction_method_name', 'extraction_method_manufacturer', )
-        fields = ('id', 'extraction_method_name', 'extraction_method_manufacturer',
+        fields = ('id', 'extraction_method_name',
+                  'extraction_method_manufacturer',
+                  'extraction_sop_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'extraction_method_name', 'extraction_method_manufacturer',
+        export_order = ('id', 'extraction_method_name',
+                        'extraction_method_manufacturer',
+                        'extraction_sop_url',
                         'created_by', 'created_datetime', )
 
     created_by = fields.Field(
@@ -129,10 +137,10 @@ class ExtractionAdminResource(resources.ModelResource):
         import_id_fields = ('extraction_datetime', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'extraction_datetime', 'field_sample', 'extraction_method',
-                        'extraction_first_name', 'extraction_last_name',
-                        'extraction_volume', 'extraction_volume_units',
-                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                        'extraction_notes',  'created_by', 'created_datetime', )
+                  'extraction_first_name', 'extraction_last_name',
+                  'extraction_volume', 'extraction_volume_units',
+                  'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
+                  'extraction_notes',  'created_by', 'created_datetime', )
         export_order = ('id', 'extraction_datetime', 'field_sample', 'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
