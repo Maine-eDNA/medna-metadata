@@ -27,39 +27,47 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
     QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, DdpcrViewSet, QpcrViewSet, \
     LibraryPrepViewSet, PooledLibraryViewSet, FinalPooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
     FastqFileViewSet
+from freezer_inventory.views import FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
+    FreezerInventoryViewSet, FreezerCheckoutViewSet
 
 router = routers.DefaultRouter()
 # users
 router.register(r'users', CustomUserViewSet, 'users')
 # field sites
-router.register(r'field_sites', BiomeViewSet, 'field_sites')
-router.register(r'field_sites', FeatureViewSet, 'field_sites')
-router.register(r'field_sites', FieldSitesViewSet, 'field_sites')
+router.register(r'field_sites', BiomeViewSet, 'biome')
+router.register(r'field_sites', FeatureViewSet, 'feature')
+router.register(r'field_sites', FieldSitesViewSet, 'field_site')
 # sample_labels
-router.register(r'sample_label_requests', SampleLabelRequestViewSet, 'sample_labels')
-router.register(r'sample_labels', SampleLabelViewSet, 'sample_labels')
+router.register(r'sample_label_requests', SampleLabelRequestViewSet, 'sample_label_req')
+router.register(r'sample_labels', SampleLabelViewSet, 'sample_label')
 # field_survey
 router.register(r'field_survey', FieldSurveyViewSet, 'field_survey')
-router.register(r'field_survey', FieldCrewViewSet, 'field_survey')
-router.register(r'field_survey', EnvMeasurementViewSet, 'field_survey')
-router.register(r'field_survey', FieldCollectionViewSet, 'field_survey')
-router.register(r'field_survey', FieldSampleViewSet, 'field_survey')
+router.register(r'field_survey', FieldCrewViewSet, 'field_crew')
+router.register(r'field_survey', EnvMeasurementViewSet, 'env_measurement')
+router.register(r'field_survey', FieldCollectionViewSet, 'field_collection')
+router.register(r'field_survey', FieldSampleViewSet, 'field_sample')
 # wet_lab
-router.register(r'wet_lab', PrimerPairViewSet, 'wet_lab')
-router.register(r'wet_lab', IndexPairViewSet, 'wet_lab')
-router.register(r'wet_lab', IndexRemovalMethodViewSet, 'wet_lab')
-router.register(r'wet_lab', SizeSelectionMethodViewSet, 'wet_lab')
-router.register(r'wet_lab', QuantificationMethodViewSet, 'wet_lab')
-router.register(r'wet_lab', ExtractionMethodViewSet, 'wet_lab')
-router.register(r'wet_lab', ExtractionViewSet, 'wet_lab')
-router.register(r'wet_lab', DdpcrViewSet, 'wet_lab')
-router.register(r'wet_lab', QpcrViewSet, 'wet_lab')
-router.register(r'wet_lab', LibraryPrepViewSet, 'wet_lab')
-router.register(r'wet_lab', PooledLibraryViewSet, 'wet_lab')
-router.register(r'wet_lab', FinalPooledLibraryViewSet, 'wet_lab')
-router.register(r'wet_lab', RunPrepViewSet, 'wet_lab')
-router.register(r'wet_lab', RunResultViewSet, 'wet_lab')
-router.register(r'wet_lab', FastqFileViewSet, 'wet_lab')
+router.register(r'wet_lab', PrimerPairViewSet, 'primer_pair')
+router.register(r'wet_lab', IndexPairViewSet, 'index_pair')
+router.register(r'wet_lab', IndexRemovalMethodViewSet, 'index_removal_method')
+router.register(r'wet_lab', SizeSelectionMethodViewSet, 'size_selection_method')
+router.register(r'wet_lab', QuantificationMethodViewSet, 'quant_method')
+router.register(r'wet_lab', ExtractionMethodViewSet, 'extraction_method')
+router.register(r'wet_lab', ExtractionViewSet, 'extraction')
+router.register(r'wet_lab', DdpcrViewSet, 'ddpcr')
+router.register(r'wet_lab', QpcrViewSet, 'qpcr')
+router.register(r'wet_lab', LibraryPrepViewSet, 'lib_prep')
+router.register(r'wet_lab', PooledLibraryViewSet, 'pooled_lib')
+router.register(r'wet_lab', FinalPooledLibraryViewSet, 'final_pooled_lib')
+router.register(r'wet_lab', RunPrepViewSet, 'run_prep')
+router.register(r'wet_lab', RunResultViewSet, 'run_result')
+router.register(r'wet_lab', FastqFileViewSet, 'fastq')
+# freezer_inventory
+router.register(r'freezer_inv', FreezerViewSet, 'freezer')
+router.register(r'freezer_inv', FreezerRackViewSet, 'rack')
+router.register(r'freezer_inv', FreezerBoxViewSet, 'box')
+router.register(r'freezer_inv', FreezerInventoryViewSet, 'inventory')
+router.register(r'freezer_inv', FreezerCheckoutViewSet, 'checkout')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
