@@ -338,30 +338,30 @@ class FieldSite(DateTimeUserMixin):
     purpose = models.CharField("Site Purpose", max_length=255)
     # ENVO biomes are hierarchical trees
     envo_biome_first = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT, blank=True,
-                                         related_name="biome_first_tier")
+                                         related_name="biome_first")
     envo_biome_second = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT, blank=True,
-                                          related_name="biome_second_tier")
+                                          related_name="biome_second")
     envo_biome_third = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT, blank=True,
-                                         related_name="biome_third_tier")
+                                         related_name="biome_third")
     envo_biome_fourth = models.ForeignKey(EnvoBiomeFourth, on_delete=models.RESTRICT, blank=True,
-                                          related_name="biome_fourth_tier")
+                                          related_name="biome_fourth")
     envo_biome_fifth = models.ForeignKey(EnvoBiomeFifth, on_delete=models.RESTRICT, blank=True,
-                                         related_name="biome_fifth_tier")
+                                         related_name="biome_fifth")
     # ENVO Features are hierarchical trees
     envo_feature_first = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT, blank=True,
-                                           related_name="feature_first_tier")
+                                           related_name="feature_first")
     envo_feature_second = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT, blank=True,
-                                            related_name="feature_second_tier")
+                                            related_name="feature_second")
     envo_feature_third = models.ForeignKey(EnvoFeatureThird, on_delete=models.RESTRICT, blank=True,
-                                           related_name="feature_third_tier")
+                                           related_name="feature_third")
     envo_feature_fourth = models.ForeignKey(EnvoFeatureFourth, on_delete=models.RESTRICT, blank=True,
-                                            related_name="feature_fourth_tier")
+                                            related_name="feature_fourth")
     envo_feature_fifth = models.ForeignKey(EnvoFeatureFifth, on_delete=models.RESTRICT, blank=True,
-                                           related_name="feature_fifth_tier")
+                                           related_name="feature_fifth")
     envo_feature_sixth = models.ForeignKey(EnvoFeatureSixth, on_delete=models.RESTRICT, blank=True,
-                                           related_name="feature_sixth_tier")
+                                           related_name="feature_sixth")
     envo_feature_seventh = models.ForeignKey(EnvoFeatureSeventh, on_delete=models.RESTRICT, blank=True,
-                                             related_name="feature_seventh_tier")
+                                             related_name="feature_seventh")
     # lat = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
     site_prefix = models.CharField("Site Prefix", max_length=5)
