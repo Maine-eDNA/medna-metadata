@@ -18,11 +18,11 @@ class DenoisingMethod(DateTimeUserMixin):
 
 class DenoisingMetadata(DateTimeUserMixin):
     analysis_datetime = models.DateTimeField("Analysis DateTime", blank=True, null=True)
-    denoising_slug = models.SlugField(null=True)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
+    denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
+    denoising_slug = models.SlugField(null=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
-    denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
     analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
     analysis_script_repo_url = models.URLField("Repository URL", max_length=255,
                                                default="https://github.com/Maine-eDNA")
@@ -45,11 +45,10 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
     asv_sequence = models.TextField("ASV Sequence")
 
     def __str__(self):
-        return '{id}: {date}, {method}, {asv}'.format(
-            id=self.denoising_metadata.pk,
+        return '{id}: {date}, {method}'.format(
+            id=self.asv_id,
             date=self.denoising_metadata.analysis_datetime,
-            method=self.denoising_metadata.denoising_slug,
-            asv=self.asv_sequence)
+            method=self.denoising_metadata.denoising_slug)
 
 
 class ASVRead(DateTimeUserMixin):
