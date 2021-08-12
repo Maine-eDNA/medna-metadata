@@ -88,9 +88,16 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaxonomicAnnotation
-        fields = ['id', 'analysis_datetime', 'annotation_method',
-                  'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url',
+        fields = ['id', 'asv', 'annotation_metadata',
+                  'reference_database', 'confidence',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom',
+                  'ta_phylum', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', 'manual_domain',
+                  'manual_kingdom', 'manual_phylum',
+                  'manual_class', 'manual_order',
+                  'manual_family', 'manual_genus',
+                  'manual_species',
                   'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
