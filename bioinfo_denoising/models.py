@@ -28,7 +28,6 @@ class DenoisingMetadata(DateTimeUserMixin):
                                                default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
-        # just check if name or location.name has changed
         self.denoising_slug = '{run_id}-{method}'.format(run_id=slugify(self.run_result.run_id),
                                                          method=slugify(self.denoising_method.denoising_method_name))
         super(DenoisingMetadata, self).save(*args, **kwargs)
