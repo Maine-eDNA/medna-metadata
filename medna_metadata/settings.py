@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'bioinfo_denoising',
     'bioinfo_taxon',
     'corsheaders',
+    'import_export', # django-import-export
     'allauth', # django-allauth handles user registration as well as social authentication.
     'allauth.account', # Good for email address verification, resetting passwords, etc.
     'allauth.socialaccount',
