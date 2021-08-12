@@ -18,7 +18,7 @@ class EnvoBiomeAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['biome_first_label', 'biome_second_label', 'biome_third_label', 'biome_fourth_label',
                        'biome_fifth_label', 'ontology_url']
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -52,7 +52,7 @@ class EnvoFeatureAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['feature_first_label', 'feature_second_label', 'feature_third_label', 'feature_fourth_label',
                        'feature_fifth_label', 'feature_sixth_label', 'feature_seventh_label', 'ontology_url']
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -86,7 +86,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['project_label', 'project_code']
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -118,7 +118,7 @@ class SystemAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['system_label', 'system_code']
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
