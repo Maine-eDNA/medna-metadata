@@ -7,20 +7,20 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeSerializer(serializers.ModelSerializer):
-    biome_first_label = serializers.CharField(max_length=255)
-    biome_first_code = serializers.CharField(max_length=255)
+    biome_first_tier = serializers.CharField(max_length=255)
+    biome_first_tier_slug = serializers.CharField(max_length=255)
 
-    biome_second_label = serializers.CharField(max_length=255, allow_blank=True)
-    biome_second_code = serializers.CharField(max_length=255, allow_blank=True)
+    biome_second_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_second_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    biome_third_label = serializers.CharField(max_length=255, allow_blank=True)
-    biome_third_code = serializers.CharField(max_length=255, allow_blank=True)
+    biome_third_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_third_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    biome_fourth_label = serializers.CharField(max_length=255, allow_blank=True)
-    biome_fourth_code = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fourth_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    biome_fifth_label = serializers.CharField(max_length=255, allow_blank=True)
-    biome_fifth_code = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fifth_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
     created_datetime = serializers.DateTimeField()
 
@@ -28,11 +28,11 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnvoBiomeFifth
-        fields = ['id', 'biome_first_label', 'biome_first_code',
-                  'biome_second_label', 'biome_second_code',
-                  'biome_third_label', 'biome_third_code',
-                  'biome_fourth_label', 'biome_fourth_code',
-                  'biome_fifth_label', 'biome_fifth_code',
+        fields = ['id', 'biome_first_tier', 'biome_first_tier_slug',
+                  'biome_second_tier', 'biome_second_tier_slug',
+                  'biome_third_tier', 'biome_third_tier_slug',
+                  'biome_fourth_tier', 'biome_fourth_tier_slug',
+                  'biome_fifth_tier', 'biome_fifth_tier_slug',
                   'ontology_url', 'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -41,26 +41,26 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureSerializer(serializers.ModelSerializer):
-    feature_first_label = serializers.CharField(max_length=255)
-    feature_first_code = serializers.CharField(max_length=255)
+    feature_first_tier = serializers.CharField(max_length=255)
+    feature_first_tier_slug = serializers.CharField(max_length=255)
 
-    feature_second_label = serializers.CharField(max_length=255, allow_blank=True)
-    feature_second_code = serializers.CharField(max_length=255, allow_blank=True)
+    feature_second_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_second_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    feature_third_label = serializers.CharField(max_length=255, allow_blank=True)
-    feature_third_code = serializers.CharField(max_length=255, allow_blank=True)
+    feature_third_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_third_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    feature_fourth_label = serializers.CharField(max_length=255, allow_blank=True)
-    feature_fourth_code = serializers.CharField(max_length=255, allow_blank=True)
+    feature_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_fourth_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    feature_fifth_label = serializers.CharField(max_length=255, allow_blank=True)
-    feature_fifth_code = serializers.CharField(max_length=255, allow_blank=True)
+    feature_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_fifth_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    feature_sixth_label = serializers.CharField(max_length=255, allow_blank=True)
-    feature_sixth_code = serializers.CharField(max_length=255, allow_blank=True)
+    feature_sixth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_sixth_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
-    feature_seventh_label = serializers.CharField(max_length=255, allow_blank=True)
-    feature_seventh_code = serializers.CharField(max_length=255, allow_blank=True)
+    feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_seventh_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
 
     created_datetime = serializers.DateTimeField()
 
@@ -68,13 +68,13 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnvoFeatureSeventh
-        fields = ['id', 'feature_first_label', 'feature_second_code',
-                  'feature_second_label', 'feature_second_code',
-                  'feature_third_label', 'feature_third_code',
-                  'feature_fourth_label', 'feature_fourth_code',
-                  'feature_fifth_label', 'feature_fifth_code',
-                  'feature_sixth_label', 'feature_sixth_code',
-                  'feature_seventh_label', 'feature_seventh_code',
+        fields = ['id', 'feature_first_tier', 'feature_second_tier_slug',
+                  'feature_second_tier', 'feature_second_tier_slug',
+                  'feature_third_tier', 'feature_third_tier_slug',
+                  'feature_fourth_tier', 'feature_fourth_tier_slug',
+                  'feature_fifth_tier', 'feature_fifth_tier_slug',
+                  'feature_sixth_tier', 'feature_sixth_tier_slug',
+                  'feature_seventh_tier', 'feature_seventh_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime']
     # Since project, system, region, and created_by reference different tables and we
@@ -129,19 +129,19 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     system = serializers.SlugRelatedField(many=False, read_only=True, slug_field='system_label')
     region = serializers.SlugRelatedField(many=False, read_only=True, slug_field='region_label')
     # ENVO biomes are hierarchical trees
-    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_first_label")
-    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_second_label")
-    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_third_label")
-    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_fourth_label")
-    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_fifth_label")
+    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_first_tier")
+    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_second_tier")
+    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_third_tier")
+    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_fourth_tier")
+    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="biome_fifth_tier")
     # ENVO Features are hierarchical trees
-    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_first_label")
-    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_second_label")
-    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_third_label")
-    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_fourth_label")
-    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_fifth_label")
-    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_sixth_label")
-    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_seventh_label")
+    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_first_tier")
+    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_second_tier")
+    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_third_tier")
+    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_fourth_tier")
+    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_fifth_tier")
+    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_sixth_tier")
+    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=True, slug_field="feature_seventh_tier")
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
