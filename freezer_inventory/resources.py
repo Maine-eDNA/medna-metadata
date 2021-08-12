@@ -53,15 +53,15 @@ class FreezerRackAdminResource(resources.ModelResource):
                         'freezer_rack_depth_start', 'freezer_rack_depth_end',
                         'created_by', 'created_datetime',)
 
-        freezer = fields.Field(
-            column_name='freezer',
-            attribute='freezer',
-            widget=ForeignKeyWidget(Freezer, 'freezer_label'))
+    freezer = fields.Field(
+        column_name='freezer',
+        attribute='freezer',
+        widget=ForeignKeyWidget(Freezer, 'freezer_label'))
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -82,15 +82,15 @@ class FreezerBoxAdminResource(resources.ModelResource):
                         'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                         'created_by', 'created_datetime',)
 
-        freezer_rack = fields.Field(
-            column_name='freezer_rack',
-            attribute='freezer_rack',
-            widget=ForeignKeyWidget(FreezerRack, 'freezer_rack_label'))
+    freezer_rack = fields.Field(
+        column_name='freezer_rack',
+        attribute='freezer_rack',
+        widget=ForeignKeyWidget(FreezerRack, 'freezer_rack_label'))
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -117,25 +117,25 @@ class FreezerInventoryAdminResource(resources.ModelResource):
                         'freezer_inventory_column', 'freezer_inventory_row',
                         'created_by', 'created_datetime', )
 
-        freezer_box = fields.Field(
-            column_name='freezer_box',
-            attribute='freezer_box',
-            widget=ForeignKeyWidget(FreezerBox, 'freezer_box_label'))
+    freezer_box = fields.Field(
+        column_name='freezer_box',
+        attribute='freezer_box',
+        widget=ForeignKeyWidget(FreezerBox, 'freezer_box_label'))
 
-        field_sample = fields.Field(
-            column_name='field_sample',
-            attribute='field_sample',
-            widget=ForeignKeyWidget(FieldSample, 'barcode_slug'))
+    field_sample = fields.Field(
+        column_name='field_sample',
+        attribute='field_sample',
+        widget=ForeignKeyWidget(FieldSample, 'barcode_slug'))
 
-        extraction = fields.Field(
-            column_name='extraction',
-            attribute='extraction',
-            widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
+    extraction = fields.Field(
+        column_name='extraction',
+        attribute='extraction',
+        widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -168,15 +168,15 @@ class FreezerCheckoutAdminResource(resources.ModelResource):
                         'freezer_return_notes',
                         'created_by', 'created_datetime', )
 
-        freezer_inventory = fields.Field(
-            column_name='freezer_inventory',
-            attribute='freezer_inventory',
-            widget=ForeignKeyWidget(FreezerInventory, 'barcode_slug'))
+    freezer_inventory = fields.Field(
+        column_name='freezer_inventory',
+        attribute='freezer_inventory',
+        widget=ForeignKeyWidget(FreezerInventory, 'barcode_slug'))
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):

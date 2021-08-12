@@ -14,10 +14,10 @@ class DenoisingMethodAdminResource(resources.ModelResource):
         export_order = ('id', 'denoising_method_name', 'denoising_method_pipeline',
                         'created_by', 'created_datetime', )
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -67,15 +67,15 @@ class AmpliconSequenceVariantAdminResource(resources.ModelResource):
         export_order = ('id', 'asv_id', 'asv_sequence', 'denoising_metadata',
                         'created_by', 'created_datetime', )
 
-        denoising_metadata = fields.Field(
-            column_name='denoising_metadata',
-            attribute='denoising_metadata',
-            widget=ForeignKeyWidget(DenoisingMethod, 'denoising_slug'))
+    denoising_metadata = fields.Field(
+        column_name='denoising_metadata',
+        attribute='denoising_metadata',
+        widget=ForeignKeyWidget(DenoisingMethod, 'denoising_slug'))
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -91,20 +91,20 @@ class ASVReadAdminResource(resources.ModelResource):
         export_order = ('id', 'asv', 'number_reads',
                         'created_by', 'created_datetime',)
 
-        asv = fields.Field(
-            column_name='asv',
-            attribute='asv',
-            widget=ForeignKeyWidget(DenoisingMethod, 'asv_id'))
+    asv = fields.Field(
+        column_name='asv',
+        attribute='asv',
+        widget=ForeignKeyWidget(DenoisingMethod, 'asv_id'))
 
-        extraction = fields.Field(
-            column_name='extraction',
-            attribute='extraction',
-            widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
+    extraction = fields.Field(
+        column_name='extraction',
+        attribute='extraction',
+        widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
 
-        created_by = fields.Field(
-            column_name='created_by',
-            attribute='created_by',
-            widget=ForeignKeyWidget(CustomUser, 'email'))
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
