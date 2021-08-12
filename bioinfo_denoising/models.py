@@ -1,6 +1,7 @@
 from django.contrib.gis.db import models
 from wet_lab.models import RunResult
 from users.models import DateTimeUserMixin
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -16,21 +17,26 @@ class DenoisingMethod(DateTimeUserMixin):
 
 
 class DenoisingMetadata(DateTimeUserMixin):
+    analysis_datetime = models.DateTimeField("Analysis DateTime", blank=True, null=True)
+    denoising_slug = models.SlugField(null=True)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    analysis_date = models.DateField("Analysis Date", blank=True, null=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
-    analysis_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
-    analysis_sop_url = models.URLField("Analysis SOP URL")
-    analysis_script_repo_url = models.URLField("Repository URL", max_length=200,
+    denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
+    analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
+    analysis_script_repo_url = models.URLField("Repository URL", max_length=255,
                                                default="https://github.com/Maine-eDNA")
 
+    def save(self, *args, **kwargs):
+        # just check if name or location.name has changed
+        self.denoising_slug = '{run_id}-{method}'.format(run_id=slugify(self.run_result.run_id),
+                                                         method=slugify(self.denoising_method.denoising_method_name))
+        super(DenoisingMetadata, self).save(*args, **kwargs)
+
     def __str__(self):
-        return '{date}, {fname} {lname}, {method}'.format(
-            date=self.analysis_date,
-            fname=self.analyst_first_name,
-            lname=self.analyst_last_name,
-            method=self.analysis_method.denoising_method_name)
+        return '{date} {method}'.format(
+            date=self.analysis_datetime,
+            method=self.denoising_slug)
 
 
 class AmpliconSequenceVariant(DateTimeUserMixin):
@@ -41,8 +47,8 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
     def __str__(self):
         return '{id}: {date}, {method}, {asv}'.format(
             id=self.denoising_metadata.pk,
-            date=self.denoising_metadata.analysis_date,
-            method=self.denoising_metadata.analysis_method,
+            date=self.denoising_metadata.analysis_datetime,
+            method=self.denoising_metadata.denoising_slug,
             asv=self.asv_sequence)
 
 
@@ -51,7 +57,6 @@ class ASVRead(DateTimeUserMixin):
     number_reads = models.PositiveIntegerField("Number Reads")
 
     def __str__(self):
-        return '{id}: {num_reads}, {asv} '.format(
-            id=self.asv.denoising_metadata.pk,
-            num_reads=self.number_reads,
-            asv=self.asv.asv_sequence)
+        return '{id}: {num_reads}'.format(
+            id=self.asv.asv_id,
+            num_reads=self.number_reads)
