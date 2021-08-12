@@ -1,5 +1,5 @@
 # Create your models here.
-#from django.db import models
+# from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from users.models import DateTimeUserMixin
@@ -7,9 +7,9 @@ from users.models import DateTimeUserMixin
 
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
-    biome_first_code = models.CharField("ENVO 1st Tier Biome Code", max_length=200, unique=True)
-    biome_first_label = models.CharField("ENVO 1st Tier Biome Label", max_length=200)
-    ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
+    biome_first_code = models.CharField("ENVO 1st Tier Biome Code", max_length=255, unique=True)
+    biome_first_label = models.CharField("ENVO 1st Tier Biome Label", max_length=255)
+    ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def __str__(self):
         return '{biome1}'.format(biome1=self.biome_first_label)
@@ -22,8 +22,8 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
     # anthropogenic terrestrial, mangrove, shrubland, terrestrial environmental zone, tundra, woodland,
     # tropical marginal sea, tropical marine coral reef, tropical marine upwelling, tropical savanna,
     # tropical shrubland, tropical woodland
-    biome_second_code = models.CharField("ENVO 2nd Tier Biome Code", max_length=200, unique=True)
-    biome_second_label = models.CharField("ENVO 2nd Tier Biome Label", max_length=200)
+    biome_second_code = models.CharField("ENVO 2nd Tier Biome Code", max_length=255, unique=True)
+    biome_second_label = models.CharField("ENVO 2nd Tier Biome Label", max_length=255)
 
     def __str__(self):
         return '{biome1} - ' \
@@ -40,8 +40,8 @@ class EnvoBiomeThird(EnvoBiomeSecond):
     # area of barren land, area of deciduous forest, vegetated area, alpine tundra,
     # area of lichen-dominanted vegetation, area of tundra, savanna, subtropical woodland,
     # temperate woodland, tropical woodland
-    biome_third_code = models.CharField("ENVO 3rd Tier Biome Code", max_length=200, unique=True)
-    biome_third_label = models.CharField("ENVO 3rd Tier Biome Label", max_length=200)
+    biome_third_code = models.CharField("ENVO 3rd Tier Biome Code", max_length=255, unique=True)
+    biome_third_label = models.CharField("ENVO 3rd Tier Biome Label", max_length=255)
 
     def __str__(self):
         return '{biome1} - ' \
@@ -60,8 +60,8 @@ class EnvoBiomeFourth(EnvoBiomeThird):
     # concentration basin mediterranean sea, dilution basin mediterranean sea, temperate mediterranean sea,
     # ranch, village, mediterranean shrubland, area of developed open space, area of developed space,
     # area of pastureland or hayfields, rural area, rural settlement, desert area, mediterranean woodland
-    biome_fourth_code = models.CharField("ENVO 4th Tier Biome Code", max_length=200, unique=True)
-    biome_fourth_label = models.CharField("ENVO 4th Tier Biome Label", max_length=200)
+    biome_fourth_code = models.CharField("ENVO 4th Tier Biome Code", max_length=255, unique=True)
+    biome_fourth_label = models.CharField("ENVO 4th Tier Biome Label", max_length=255)
 
     def __str__(self):
         return '{biome1} - ' \
@@ -75,8 +75,8 @@ class EnvoBiomeFourth(EnvoBiomeThird):
 
 class EnvoBiomeFifth(EnvoBiomeFourth):
     # area of attached Modiolus assemblages, mussel reef, neritic mussel bed, coastal shrimp pond, rural settlement
-    biome_fifth_code = models.CharField("ENVO 5th Tier Biome Code", max_length=200, unique=True)
-    biome_fifth_label = models.CharField("ENVO 5th Tier Biome Label", max_length=200)
+    biome_fifth_code = models.CharField("ENVO 5th Tier Biome Code", max_length=255, unique=True)
+    biome_fifth_label = models.CharField("ENVO 5th Tier Biome Label", max_length=255)
 
     def __str__(self):
         return '{biome1} - ' \
@@ -97,9 +97,9 @@ class EnvoFeatureFirst(DateTimeUserMixin):
     # estuarine coastal upper water column, estuarine open water surface layer, estuarine open water upper water column,
     # lake surface, land, liquid surface of an astronomical body, planetary surface, soil biocrust, soil surface layer,
     # submerged bed, surface layer of a water body, turbulent aquatic surface layer
-    feature_first_code = models.CharField("ENVO 1st Tier Feature Code", max_length=200, unique=True)
-    feature_first_label = models.CharField("ENVO 1st Tier Feature Label", max_length=200)
-    ontology_url = models.URLField(max_length=200, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
+    feature_first_code = models.CharField("ENVO 1st Tier Feature Code", max_length=255, unique=True)
+    feature_first_label = models.CharField("ENVO 1st Tier Feature Label", max_length=255)
+    ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def __str__(self):
         return '{feature1}'.format(feature1=self.feature_first_label)
@@ -115,8 +115,8 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
     # estuarine tidal riverine coastal upper water column, estuarine tidal riverine open water surface layer,
     # estuarine tidal riverine open water upper water column, liquid planetary surface, bare soil surface layer,
     # soil biocrust, drop stone, lake bed, marine bed, pond bed, reservoir bed, stream bed, ice lead, sea surface layer
-    feature_second_code = models.CharField("ENVO 2nd Tier Feature Code", max_length=200, unique=True)
-    feature_second_label = models.CharField("ENVO 2nd Tier Feature Label", max_length=200)
+    feature_second_code = models.CharField("ENVO 2nd Tier Feature Code", max_length=255, unique=True)
+    feature_second_label = models.CharField("ENVO 2nd Tier Feature Label", max_length=255)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -135,8 +135,8 @@ class EnvoFeatureThird(EnvoFeatureSecond):
     # constructed swimming pool, hatchery, mine, open cage mariculture facility, overflow structure, patio,
     # public infrastructure, research facility, sports facility, transport feature, university campus, water intake,
     # lake bottom mud, marine faunal bed, ocean floor, sea floor, sea grass bed, river bed
-    feature_third_code = models.CharField("ENVO 3rd Tier Feature Code", max_length=200, unique=True)
-    feature_third_label = models.CharField("ENVO 3rd Tier Feature Label", max_length=200)
+    feature_third_code = models.CharField("ENVO 3rd Tier Feature Code", max_length=255, unique=True)
+    feature_third_label = models.CharField("ENVO 3rd Tier Feature Label", max_length=255)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -154,8 +154,8 @@ class EnvoFeatureFourth(EnvoFeatureThird):
     # marine water mass, mussel reef, warm seep, artificial reef, marine reef, abyssal feature, kelp forest,
     # marine benthic feature, boundary wall, dam, fence, fish hatchery, poultry hatchery, laboratory facility,
     # ocean time series station, research station, bridge, causeway, constructed pavement, ford, lock, pier, railway
-    feature_fourth_code = models.CharField("ENVO 4th Tier Feature Code", max_length=200, unique=True)
-    feature_fourth_label = models.CharField("ENVO 4th Tier Feature Label", max_length=200)
+    feature_fourth_code = models.CharField("ENVO 4th Tier Feature Code", max_length=255, unique=True)
+    feature_fourth_label = models.CharField("ENVO 4th Tier Feature Label", max_length=255)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -176,8 +176,8 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
     # marine coral reef buttress zone, marine coral reef crest, marine coral reef deep fore reef,
     # marine coral reef flat zone, marine coral reef fore reef, marine sponge reef, marine subtidal rocky reef,
     # mussel reef, marine hydrothermal vent chimney
-    feature_fifth_code = models.CharField("ENVO 5th Tier Feature Code", max_length=200, unique=True)
-    feature_fifth_label = models.CharField("ENVO 5th Tier Feature Label", max_length=200)
+    feature_fifth_code = models.CharField("ENVO 5th Tier Feature Code", max_length=255, unique=True)
+    feature_fifth_label = models.CharField("ENVO 5th Tier Feature Label", max_length=255)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -193,8 +193,8 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
 
 class EnvoFeatureSixth(EnvoFeatureFifth):
     # coastal shrimp pond, Bathymodiolus-dominated oceanic mussel reef, neritic mussel reef, oceanic mussel reef
-    feature_sixth_code = models.CharField("ENVO 6th Tier Feature Code", max_length=200, unique=True)
-    feature_sixth_label = models.CharField("ENVO 6th Tier Feature Label", max_length=200)
+    feature_sixth_code = models.CharField("ENVO 6th Tier Feature Code", max_length=255, unique=True)
+    feature_sixth_label = models.CharField("ENVO 6th Tier Feature Label", max_length=255)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -212,8 +212,8 @@ class EnvoFeatureSixth(EnvoFeatureFifth):
 
 class EnvoFeatureSeventh(EnvoFeatureSixth):
     # Bathymodiolus-dominated oceanic mussel reef
-    feature_seventh_code = models.CharField("ENVO 7th Tier Feature Code", max_length=200, unique=True)
-    feature_seventh_label = models.CharField("ENVO 7th Tier Feature Label", max_length=200)
+    feature_seventh_code = models.CharField("ENVO 7th Tier Feature Code", max_length=255, unique=True)
+    feature_seventh_label = models.CharField("ENVO 7th Tier Feature Label", max_length=255)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -233,7 +233,7 @@ class EnvoFeatureSeventh(EnvoFeatureSixth):
 
 class Project(DateTimeUserMixin):
     project_code = models.CharField("Project Code", max_length=1, unique=True)
-    project_label = models.CharField("Project Label", max_length=200)
+    project_label = models.CharField("Project Label", max_length=255)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.project_code,
@@ -242,7 +242,7 @@ class Project(DateTimeUserMixin):
 
 class System(DateTimeUserMixin):
     system_code = models.CharField("System Code", max_length=1, unique=True)
-    system_label = models.CharField("System Label", max_length=200)
+    system_label = models.CharField("System Label", max_length=255)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.system_code,
@@ -251,9 +251,9 @@ class System(DateTimeUserMixin):
 
 class Region(DateTimeUserMixin):
     region_code = models.CharField("Region Code", max_length=2, unique=True)
-    region_label = models.CharField("Region Label", max_length=200)
-    huc8 = models.CharField("HUC8", max_length=200)
-    states = models.CharField("States", max_length=200)
+    region_label = models.CharField("Region Label", max_length=255)
+    huc8 = models.CharField("HUC8", max_length=255)
+    states = models.CharField("States", max_length=255)
     lat = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
     area_sqkm = models.DecimalField('Area (sqkm)', max_digits=18, decimal_places=2)
@@ -272,8 +272,8 @@ class FieldSite(DateTimeUserMixin):
     project = models.ForeignKey(Project, on_delete=models.RESTRICT)
     system = models.ForeignKey(System, on_delete=models.RESTRICT)
     region = models.ForeignKey(Region, on_delete=models.RESTRICT)
-    general_location_name = models.CharField("General Location", max_length=200)
-    purpose = models.CharField("Site Purpose", max_length=200)
+    general_location_name = models.CharField("General Location", max_length=255)
+    purpose = models.CharField("Site Purpose", max_length=255)
     # ENVO biomes are hierarchical trees
     envo_biome_first = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT, blank=True,
                                          related_name="biome_first_tier")
