@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from bioinfo_denoising.models import AmpliconSequenceVariant
 from users.models import DateTimeUserMixin
 from users.enumerations import YesNo
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -22,7 +23,12 @@ class ReferenceDatabase(DateTimeUserMixin):
 
 
 class TaxonDomain(DateTimeUserMixin):
+    taxon_domain_slug = models.SlugField("Domain Slug", max_length=255)
     taxon_domain = models.CharField("Domain", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_domain_slug = '{tax_domain}'.format(tax_domain=slugify(self.taxon_domain))
+        super(TaxonDomain, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain}'.format(
@@ -30,7 +36,12 @@ class TaxonDomain(DateTimeUserMixin):
 
 
 class TaxonKingdom(TaxonDomain):
+    taxon_kingdom_slug = models.SlugField("Kingdom Slug", max_length=255)
     taxon_kingdom = models.CharField("Kingdom", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
+        super(TaxonKingdom, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom}'.format(
@@ -39,7 +50,12 @@ class TaxonKingdom(TaxonDomain):
 
 
 class TaxonPhylum(TaxonKingdom):
+    taxon_phylum_slug = models.SlugField("Phylum Slug", max_length=255)
     taxon_phylum = models.CharField("Phylum", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_phylum_slug = '{tax_phylum}'.format(tax_phylum=slugify(self.taxon_phylum))
+        super(TaxonPhylum, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom} {tax_phylum}'.format(
@@ -49,7 +65,12 @@ class TaxonPhylum(TaxonKingdom):
 
 
 class TaxonClass(TaxonPhylum):
+    taxon_class_slug = models.SlugField("Class Slug", max_length=255)
     taxon_class = models.CharField("Class", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_class_slug = '{tax_class}'.format(tax_class=slugify(self.taxon_class))
+        super(TaxonClass, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class}'.format(
@@ -60,7 +81,12 @@ class TaxonClass(TaxonPhylum):
 
 
 class TaxonOrder(TaxonClass):
+    taxon_order_slug = models.SlugField("Order Slug", max_length=255)
     taxon_order = models.CharField("Order", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_order_slug = '{tax_order}'.format(tax_order=slugify(self.taxon_order))
+        super(TaxonOrder, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order}'.format(
@@ -72,7 +98,12 @@ class TaxonOrder(TaxonClass):
 
 
 class TaxonFamily(TaxonOrder):
+    taxon_family_slug = models.SlugField("Family Slug", max_length=255)
     taxon_family = models.CharField("Family", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_family_slug = '{tax_family}'.format(tax_family=slugify(self.taxon_family))
+        super(TaxonFamily, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order} {tax_family}'.format(
@@ -85,7 +116,12 @@ class TaxonFamily(TaxonOrder):
 
 
 class TaxonGenus(TaxonFamily):
+    taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
     taxon_genus = models.CharField("Genus", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.taxon_genus_slug = '{tax_genus}'.format(tax_genus=slugify(self.taxon_genus))
+        super(TaxonGenus, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order} {tax_family} {tax_genus}'.format(
@@ -99,9 +135,14 @@ class TaxonGenus(TaxonFamily):
 
 
 class TaxonSpecies(TaxonGenus):
+    taxon_species_slug = models.SlugField("Species Slug", max_length=255)
     taxon_species = models.CharField("Species", max_length=255)
     taxon_common_name = models.CharField("Common Name", max_length=255)
     is_endemic = models.IntegerField("Endemic to New England", choices=YesNo.choices, default=YesNo.YES)
+
+    def save(self, *args, **kwargs):
+        self.taxon_species_slug = '{tax_species}'.format(tax_species=slugify(self.taxon_species))
+        super(TaxonSpecies, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{tax_domain} {tax_kingdom} {tax_phylum} {tax_class} {tax_order} {tax_family} {tax_genus} {tax_species}'.format(
