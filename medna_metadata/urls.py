@@ -18,7 +18,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from users.views import CustomUserViewSet
+from users.views import CustomUserViewSet, CustomUserLoginViewSet
 from field_sites.views import BiomeViewSet, FeatureViewSet, FieldSitesViewSet
 from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import FieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
@@ -36,6 +36,7 @@ from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, A
 
 router = routers.DefaultRouter()
 # users
+router.register(r'users', CustomUserLoginViewSet, 'login')
 router.register(r'users', CustomUserViewSet, 'users')
 # field sites
 router.register(r'field_sites', BiomeViewSet, 'biome')
