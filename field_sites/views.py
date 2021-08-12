@@ -89,7 +89,8 @@ class FieldSiteExportDetailView(DetailView):
         writer = csv.writer(response)
         writer.writerow(['id','site_id', 'project', 'system', 'region', 'general_location_name',
                          'purpose', 'lat', 'lon', 'srid', 'created_by','created_datetime'])
-        writer.writerow([site.id, site.site_id, site.project.project_label, site.system.system_label, site.region.region_label,
+        writer.writerow([site.id, site.site_id, site.project.project_label, site.system.system_label,
+                         site.region.region_label,
                          site.general_location_name, site.purpose, site.geom.y,
                          site.geom.x, site.geom.srid, site.created_by.email,site.created_datetime])
         return response
