@@ -141,7 +141,7 @@ class Qpcr(DateTimeUserMixin):
 
 
 class LibraryPrep(DateTimeUserMixin):
-    lib_prep_datetime = models.DateTimeField("Library Prep DateTime", auto_now=True)
+    lib_prep_datetime = models.DateTimeField("Library Prep DateTime")
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
     process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
                                            default=ProcessLocations.CORE)
