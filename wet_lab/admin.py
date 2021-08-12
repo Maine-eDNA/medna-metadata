@@ -417,7 +417,6 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
                        'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                        'created_by']
         self.list_filter = (
-            ('library_prep', RelatedDropdownFilter),
             ('quantification_method', RelatedDropdownFilter)
         )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -460,7 +459,6 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
                        'final_pooled_lib_concentration_units',
                        'final_pooled_lib_notes', 'created_by']
         self.list_filter = (
-            ('pooled_library', RelatedDropdownFilter),
             ('quantification_method', RelatedDropdownFilter)
         )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
