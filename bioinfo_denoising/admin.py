@@ -14,7 +14,7 @@ class DenoisingMethodAdmin(ImportExportActionModelAdmin):
     resource_class = DenoisingMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = '__str__'
+    list_display = ('__str__')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -48,7 +48,7 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
     resource_class = DenoisingMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = '__str__'
+    list_display = ('__str__')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -94,7 +94,7 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
     resource_class = AmpliconSequenceVariantAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = '__str__'
+    list_display = ('__str__')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -134,7 +134,7 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
     resource_class = ASVReadAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = '__str__'
+    list_display = ('__str__')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
