@@ -7,8 +7,8 @@ from users.models import CustomUser
 class EnvoBiomeAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFifth
-        import_id_fields = ('biome_first_tier_slug', 'biome_second_tier_slug', 'biome_third_tier_slug', 'biome_fourth_tier_slug',
-                            'biome_fifth_tier_slug', 'ontology_url',)
+        import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier', 'biome_fourth_tier',
+                            'biome_fifth_tier', 'ontology_url',)
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -18,8 +18,9 @@ class EnvoBiomeAdminResource(resources.ModelResource):
 class EnvoFeatureAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSeventh
-        import_id_fields = ('feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug', 'feature_fourth_tier_slug',
-                            'feature_fifth_tier_slug', 'feature_sixth_tier_slug', 'feature_seventh_tier_slug', 'ontology_url',)
+        import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
+                            'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier',
+                            'feature_seventh_tier', 'ontology_url',)
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
