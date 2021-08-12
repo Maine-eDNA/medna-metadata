@@ -87,7 +87,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
 
 
 class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
-    confidence = serializers.DecimalField(max_digits=10, decimal_places=10, allow_null=True)
+    confidence = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     ta_taxon = serializers.CharField(allow_blank=True)
     ta_domain = serializers.CharField(max_length=255, allow_blank=True)
     ta_kingdom = serializers.CharField(max_length=255, allow_blank=True)

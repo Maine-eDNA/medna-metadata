@@ -10,9 +10,9 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # Django REST Framework to allow the automatic downloading of data!
 class FreezerSerializer(serializers.ModelSerializer):
     freezer_label = serializers.CharField(max_length=255)
-    freezer_depth = serializers.DecimalField(max_digits=10, decimal_places=10)
-    freezer_length = serializers.DecimalField(max_digits=10, decimal_places=10)
-    freezer_width = serializers.DecimalField(max_digits=10, decimal_places=10)
+    freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
+    freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
+    freezer_width = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_dimension_units = serializers.ChoiceField(choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each
     freezer_max_columns = serializers.IntegerField(min_value=1)
@@ -116,7 +116,7 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
     freezer_checkout_datetime = serializers.DateTimeField(allow_null=True)
     freezer_return_datetime = serializers.DateTimeField(allow_null=True)
     freezer_perm_removal_datetime = serializers.DateTimeField(allow_null=True)
-    freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=10, decimal_places=10)
+    freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
     freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices, allow_null=True)
     freezer_return_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()

@@ -55,7 +55,7 @@ class FieldSurvey(DateTimeUserMixin):
     # by boat or by foot
     env_measure_mode = models.CharField("Collection Mode", max_length=255, blank=True)
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
-    env_bottom_depth = models.DecimalField("Bottom Depth (m)", max_digits=10, decimal_places=10, blank=True, null=True)
+    env_bottom_depth = models.DecimalField("Bottom Depth (m)", max_digits=15, decimal_places=10, blank=True, null=True)
     measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True, null=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Designated Sub-corer",
@@ -162,7 +162,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
-                                            max_digits=10, decimal_places=10,
+                                            max_digits=15, decimal_places=10,
                                             blank=True, null=True)
     env_instrument = models.CharField("Instruments Used", max_length=255, blank=True)
     # env_ctd_fname
@@ -173,7 +173,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_ysi_model = models.CharField("YSI Model", max_length=255, blank=True)
     env_ysi_sn = models.CharField("YSI Serial Number", max_length=255, blank=True)
     env_ysi_notes = models.TextField("YSI Notes", blank=True)
-    env_secchi_depth = models.DecimalField("Secchi Depth (m)", max_digits=10, decimal_places=10,
+    env_secchi_depth = models.DecimalField("Secchi Depth (m)", max_digits=15, decimal_places=10,
                                            blank=True, null=True)
     env_secchi_notes = models.TextField("Secchi Notes", blank=True)
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
@@ -181,36 +181,36 @@ class EnvMeasurement(DateTimeUserMixin):
     env_inst_other = models.TextField("Other Instruments", blank=True)
     env_measurement = models.TextField("Environmental Measurements", blank=True)
     env_flow_rate = models.DecimalField("Flow Rate (m/s)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     env_water_temp = models.DecimalField("Water Temperature (C)",
-                                         max_digits=10, decimal_places=10, blank=True, null=True)
+                                         max_digits=15, decimal_places=10, blank=True, null=True)
     # env_sal
     env_salinity = models.DecimalField("Salinity (PSU)",
-                                       max_digits=10, decimal_places=10, blank=True, null=True)
-    env_ph_scale = models.DecimalField("pH Scale", max_digits=10, decimal_places=10,
+                                       max_digits=15, decimal_places=10, blank=True, null=True)
+    env_ph_scale = models.DecimalField("pH Scale", max_digits=15, decimal_places=10,
                                        blank=True, null=True)
     env_par1 = models.DecimalField("PAR1 (Channel 1: Up μmoles/sec/m²)",
-                                   max_digits=10, decimal_places=10, blank=True, null=True)
+                                   max_digits=15, decimal_places=10, blank=True, null=True)
     env_par2 = models.DecimalField("PAR2 (Channel 2: Down μmoles/sec/m²)",
-                                   max_digits=10, decimal_places=10, blank=True, null=True)
+                                   max_digits=15, decimal_places=10, blank=True, null=True)
     env_turbidity = models.DecimalField("Turbidity FNU (Formazin Nephelometric Unit)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     env_conductivity = models.DecimalField("Conductivity (μS/cm)",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     env_do = models.DecimalField("Dissolved Oxygen (mg/L)",
-                                 max_digits=10, decimal_places=10, blank=True, null=True)
+                                 max_digits=15, decimal_places=10, blank=True, null=True)
     env_pheophytin = models.DecimalField("Pheophytin (µg/L)",
-                                         max_digits=10, decimal_places=10, blank=True, null=True)
+                                         max_digits=15, decimal_places=10, blank=True, null=True)
     env_chla = models.DecimalField("Chlorophyll a (µg/L)",
-                                   max_digits=10, decimal_places=10, blank=True, null=True)
+                                   max_digits=15, decimal_places=10, blank=True, null=True)
     env_no3no2 = models.DecimalField("Nitrate and Nitrite (µM)",
-                                     max_digits=10, decimal_places=10, blank=True, null=True)
+                                     max_digits=15, decimal_places=10, blank=True, null=True)
     env_no2 = models.DecimalField("Nitrite (µM)",
-                                  max_digits=10, decimal_places=10, blank=True, null=True)
+                                  max_digits=15, decimal_places=10, blank=True, null=True)
     env_nh4 = models.DecimalField("Ammonium (µM)",
-                                  max_digits=10, decimal_places=10, blank=True, null=True)
+                                  max_digits=15, decimal_places=10, blank=True, null=True)
     env_phosphate = models.DecimalField("Phosphate (µM)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     env_substrate = models.CharField("Bottom Substrate", max_length=255, blank=True)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
@@ -243,13 +243,13 @@ class FieldCollection(DateTimeUserMixin):
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
     water_collect_depth = models.DecimalField("Water Collection Depth",
-                                              max_digits=10, decimal_places=10, blank=True, null=True)
+                                              max_digits=15, decimal_places=10, blank=True, null=True)
     water_collect_mode = models.TextField("Collection Mode", blank=True)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     water_niskin_vol = models.DecimalField("Niskin Sample Volume",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     water_vessel_vol = models.DecimalField("Water Vessel Volume",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
@@ -262,11 +262,11 @@ class FieldCollection(DateTimeUserMixin):
     core_method = models.CharField("Corer Method", max_length=255, blank=True)
     core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
     core_collect_depth = models.DecimalField("Core Depth (m)",
-                                             max_digits=10, decimal_places=10, blank=True, null=True)
+                                             max_digits=15, decimal_places=10, blank=True, null=True)
     core_length = models.DecimalField("Core Length (cm)",
-                                      max_digits=10, decimal_places=10, blank=True, null=True)
+                                      max_digits=15, decimal_places=10, blank=True, null=True)
     core_diameter = models.DecimalField("Core Diameter (cm)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # subcorestaken
@@ -305,7 +305,7 @@ class FieldSample(DateTimeUserMixin):
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
-                                     max_digits=10, decimal_places=10, blank=True, null=True)
+                                     max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
     filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
@@ -319,9 +319,9 @@ class FieldSample(DateTimeUserMixin):
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
     subcore_length = models.DecimalField("Sub-Core Length (cm)",
-                                         max_digits=10, decimal_places=10, blank=True, null=True)
+                                         max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -391,7 +391,7 @@ class FieldSurveyETL(DateTimeUserMixin):
     env_measure_mode = models.CharField("Collection Mode", max_length=255,blank=True)
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.DecimalField("Bottom Depth (m)",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Designated Sub-corer",
@@ -492,7 +492,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
-                                            max_digits=10, decimal_places=10, blank=True, null=True)
+                                            max_digits=15, decimal_places=10, blank=True, null=True)
     env_instrument = models.CharField("Instruments Used", max_length=255, blank=True)
     # env_ctd_fname
     env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
@@ -503,43 +503,43 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_ysi_sn = models.CharField("YSI Serial Number", max_length=255, blank=True)
     env_ysi_notes = models.TextField("YSI Notes", blank=True)
     env_secchi_depth = models.DecimalField("Secchi Depth (m)",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     env_secchi_notes = models.TextField("Secchi Notes", blank=True)
     env_niskin_number = models.IntegerField("Niskin Number", blank=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
     env_measurement = models.TextField("Environmental Measurements", blank=True)
     env_flow_rate = models.DecimalField("Flow Rate (m/s)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     env_water_temp = models.DecimalField("Water Temperature (C)",
-                                         max_digits=10, decimal_places=10, blank=True, null=True)
+                                         max_digits=15, decimal_places=10, blank=True, null=True)
     # env_sal
     env_salinity = models.DecimalField("Salinity (PSU)",
-                                       max_digits=10, decimal_places=10, blank=True, null=True)
+                                       max_digits=15, decimal_places=10, blank=True, null=True)
     env_ph_scale = models.DecimalField("pH Scale",
-                                       max_digits=10, decimal_places=10, blank=True, null=True)
+                                       max_digits=15, decimal_places=10, blank=True, null=True)
     env_par1 = models.DecimalField("PAR1 (Channel 1: Up μmoles/sec/m²)",
-                                   max_digits=10, decimal_places=10, blank=True, null=True)
+                                   max_digits=15, decimal_places=10, blank=True, null=True)
     env_par2 = models.DecimalField("PAR2 (Channel 2: Down μmoles/sec/m²)",
-                                   max_digits=10, decimal_places=10, blank=True, null=True)
+                                   max_digits=15, decimal_places=10, blank=True, null=True)
     env_turbidity = models.DecimalField("Turbidity FNU (Formazin Nephelometric Unit)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     env_conductivity = models.DecimalField("Conductivity (μS/cm)",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     env_do = models.DecimalField("Dissolved Oxygen (mg/L)",
-                                 max_digits=10, decimal_places=10, blank=True, null=True)
+                                 max_digits=15, decimal_places=10, blank=True, null=True)
     env_pheophytin = models.DecimalField("Pheophytin (µg/L)",
-                                         max_digits=10, decimal_places=10, blank=True, null=True)
+                                         max_digits=15, decimal_places=10, blank=True, null=True)
     env_chla = models.DecimalField("Chlorophyll a (µg/L)",
-                                   max_digits=10, decimal_places=10, blank=True, null=True)
+                                   max_digits=15, decimal_places=10, blank=True, null=True)
     env_no3no2 = models.DecimalField("Nitrate and Nitrite (µM)",
-                                     max_digits=10, decimal_places=10, blank=True, null=True)
+                                     max_digits=15, decimal_places=10, blank=True, null=True)
     env_no2 = models.DecimalField("Nitrite (µM)",
-                                  max_digits=10, decimal_places=10, blank=True, null=True)
+                                  max_digits=15, decimal_places=10, blank=True, null=True)
     env_nh4 = models.DecimalField("Ammonium (µM)",
-                                  max_digits=10, decimal_places=10, blank=True, null=True)
+                                  max_digits=15, decimal_places=10, blank=True, null=True)
     env_phosphate = models.DecimalField("Phosphate (µM)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     env_substrate = models.CharField("Bottom Substrate",
                                      max_length=255, blank=True)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
@@ -572,13 +572,13 @@ class FieldCollectionETL(DateTimeUserMixin):
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
     water_collect_depth = models.DecimalField("Water Collection Depth",
-                                              max_digits=10, decimal_places=10, blank=True, null=True)
+                                              max_digits=15, decimal_places=10, blank=True, null=True)
     water_collect_mode = models.TextField("Collection Mode", blank=True)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     water_niskin_vol = models.DecimalField("Niskin Sample Volume",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     water_vessel_vol = models.DecimalField("Water Vessel Volume",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
@@ -590,11 +590,11 @@ class FieldCollectionETL(DateTimeUserMixin):
     core_method = models.CharField("Corer Method", max_length=255, blank=True)
     core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
     core_collect_depth = models.DecimalField("Core Depth (m)",
-                                             max_digits=10, decimal_places=10, blank=True, null=True)
+                                             max_digits=15, decimal_places=10, blank=True, null=True)
     core_length = models.DecimalField("Core Length (cm)",
-                                      max_digits=10, decimal_places=10, blank=True, null=True)
+                                      max_digits=15, decimal_places=10, blank=True, null=True)
     core_diameter = models.DecimalField("Core Diameter (cm)",
-                                        max_digits=10, decimal_places=10, blank=True, null=True)
+                                        max_digits=15, decimal_places=10, blank=True, null=True)
     # subcorestaken
     subcores_taken = models.IntegerField("Sub-Cored", choices=YesNo.choices, blank=True)
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
@@ -607,9 +607,9 @@ class FieldCollectionETL(DateTimeUserMixin):
     subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, blank=True)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
     subcore_length = models.DecimalField("Sub-Core Length (cm)",
-                                         max_digits=10, decimal_places=10, blank=True, null=True)
+                                         max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
-                                           max_digits=10, decimal_places=10, blank=True, null=True)
+                                           max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
@@ -649,7 +649,7 @@ class SampleFilterETL(DateTimeUserMixin):
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
-                                     max_digits=10, decimal_places=10, blank=True, null=True)
+                                     max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
     filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
@@ -687,7 +687,7 @@ class BlankSampleFilterETL(DateTimeUserMixin):
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
-                                     max_digits=10, decimal_places=10, blank=True, null=True)
+                                     max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
     filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)

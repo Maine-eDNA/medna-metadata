@@ -82,12 +82,12 @@ class Extraction(DateTimeUserMixin):
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
-    extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=10, decimal_places=10)
+    extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=15, decimal_places=10)
     # microliter, ul
     extraction_volume_units = models.IntegerField("Extraction Volume Units", choices=VolUnits.choices,
                                                   default=VolUnits.MICROLITER)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    extraction_concentration = models.DecimalField("Concentration", max_digits=10, decimal_places=10)
+    extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
     extraction_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices,
                                                          default=ConcentrationUnits.NGUL)
@@ -110,7 +110,7 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_first_name = models.CharField("First Name", max_length=255)
     ddpcr_last_name = models.CharField("Last Name", max_length=255)
     ddpcr_probe = models.TextField("ddPCR Probe")
-    ddpcr_results = models.DecimalField("ddPCR Results", max_digits=10, decimal_places=10)
+    ddpcr_results = models.DecimalField("ddPCR Results", max_digits=15, decimal_places=10)
     # results will be in copy number or copies per microliter (copy/ul)
     ddpcr_results_units = models.IntegerField("ddPCR Units", choices=DdpcrUnits.choices,
                                               default=DdpcrUnits.CP)
@@ -129,7 +129,7 @@ class Qpcr(DateTimeUserMixin):
     qpcr_first_name = models.CharField("First Name", max_length=255)
     qpcr_last_name = models.CharField("Last Name", max_length=255)
     qpcr_probe = models.TextField("qPCR Probe")
-    qpcr_results = models.DecimalField("qPCR Results", max_digits=10, decimal_places=10)
+    qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
     # results are Cq value
     qpcr_results_units = models.IntegerField("qPCR Units", choices=QpcrUnits.choices,
                                              default=QpcrUnits.CQ)
@@ -151,15 +151,15 @@ class LibraryPrep(DateTimeUserMixin):
     index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    qubit_results = models.DecimalField("QuBit Results", max_digits=10, decimal_places=10)
+    qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10)
     # units will be in ng/ml
     qubit_units = models.IntegerField("QuBit Units", choices=ConcentrationUnits.choices,
                                       default=ConcentrationUnits.NGML)
-    qpcr_results = models.DecimalField("qPCR Results", max_digits=10, decimal_places=10)
+    qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
     # units will be nM or pM
     qpcr_units = models.IntegerField("qPCR Units", choices=ConcentrationUnits.choices,
                                      default=ConcentrationUnits.NM)
-    final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=10, decimal_places=10)
+    final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=15, decimal_places=10)
     final_concentration_units = models.IntegerField("Library Prep Final Units",
                                                     choices=ConcentrationUnits.choices,
                                                     default=ConcentrationUnits.NM)
@@ -182,7 +182,7 @@ class PooledLibrary(DateTimeUserMixin):
                                           through='LibraryPrepToPooledLibrary',
                                           related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=10, decimal_places=10)
+    pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
     # nanomolar, nM
     pooled_lib_concentration_units = models.IntegerField("Pooled Library Units", choices=ConcentrationUnits.choices,
                                                          default=ConcentrationUnits.NM)
@@ -237,13 +237,13 @@ class RunPrep(DateTimeUserMixin):
     process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
                                            default=ProcessLocations.CORE)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
-    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=10, decimal_places=10)
+    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
     phix_spike_in_units = models.IntegerField("PhiX Spike In Units",
                                               choices=ConcentrationUnits.choices,
                                               default=ConcentrationUnits.PM)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=10, decimal_places=10)
+    final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
     final_lib_concentration_units = models.IntegerField("Final Library Units",
                                                         choices=ConcentrationUnits.choices,
