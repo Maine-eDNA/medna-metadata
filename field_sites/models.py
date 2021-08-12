@@ -3,16 +3,23 @@
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from users.models import DateTimeUserMixin
+from django.utils.text import slugify
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
-    biome_first_code = models.CharField("ENVO 1st Tier Biome Code", max_length=255, unique=True)
-    biome_first_label = models.CharField("ENVO 1st Tier Biome Label", max_length=255)
-    ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
+    biome_first_tier_slug = models.SlugField("ENVO Biome 1st Tier Slug",
+                                             max_length=255, unique=True)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
+
+    def save(self, *args, **kwargs):
+        self.biome_first_tier_slug = '{biome1}'.format(biome1=slugify(self.biome_first_tier))
+        super(EnvoBiomeFirst, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{biome1}'.format(biome1=self.biome_first_label)
+        return '{biome1}'.format(biome1=self.biome_first_tier)
 
 
 class EnvoBiomeSecond(EnvoBiomeFirst):
@@ -22,13 +29,18 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
     # anthropogenic terrestrial, mangrove, shrubland, terrestrial environmental zone, tundra, woodland,
     # tropical marginal sea, tropical marine coral reef, tropical marine upwelling, tropical savanna,
     # tropical shrubland, tropical woodland
-    biome_second_code = models.CharField("ENVO 2nd Tier Biome Code", max_length=255, unique=True)
-    biome_second_label = models.CharField("ENVO 2nd Tier Biome Label", max_length=255)
+    biome_second_tier_slug = models.SlugField("ENVO Biome 2nd Tier Slug",
+                                              max_length=255, unique=True)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
+        super(EnvoBiomeSecond, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{biome1} - ' \
-               '{biome2}'.format(biome1=self.biome_first_label,
-                                 biome2=self.biome_second_label)
+               '{biome2}'.format(biome1=self.biome_first_tier,
+                                 biome2=self.biome_second_tier)
 
 
 class EnvoBiomeThird(EnvoBiomeSecond):
@@ -40,15 +52,20 @@ class EnvoBiomeThird(EnvoBiomeSecond):
     # area of barren land, area of deciduous forest, vegetated area, alpine tundra,
     # area of lichen-dominanted vegetation, area of tundra, savanna, subtropical woodland,
     # temperate woodland, tropical woodland
-    biome_third_code = models.CharField("ENVO 3rd Tier Biome Code", max_length=255, unique=True)
-    biome_third_label = models.CharField("ENVO 3rd Tier Biome Label", max_length=255)
+    biome_third_tier_slug = models.SlugField("ENVO Biome 3rd Tier Slug",
+                                             max_length=255, unique=True)
+    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
+        super(EnvoBiomeThird, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{biome1} - ' \
                '{biome2} - ' \
-               '{biome3}'.format(biome1=self.biome_first_label,
-                                 biome2=self.biome_second_label,
-                                 biome3=self.biome_third_label)
+               '{biome3}'.format(biome1=self.biome_first_tier,
+                                 biome2=self.biome_second_tier,
+                                 biome3=self.biome_third_tier)
 
 
 class EnvoBiomeFourth(EnvoBiomeThird):
@@ -60,34 +77,44 @@ class EnvoBiomeFourth(EnvoBiomeThird):
     # concentration basin mediterranean sea, dilution basin mediterranean sea, temperate mediterranean sea,
     # ranch, village, mediterranean shrubland, area of developed open space, area of developed space,
     # area of pastureland or hayfields, rural area, rural settlement, desert area, mediterranean woodland
-    biome_fourth_code = models.CharField("ENVO 4th Tier Biome Code", max_length=255, unique=True)
-    biome_fourth_label = models.CharField("ENVO 4th Tier Biome Label", max_length=255)
+    biome_fourth_tier_slug = models.SlugField("ENVO Biome 4th Tier Slug",
+                                              max_length=255, unique=True)
+    biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.biome_fourth_tier_slug = '{biome4}'.format(biome4=slugify(self.biome_fourth_tier))
+        super(EnvoBiomeFourth, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{biome1} - ' \
                '{biome2} - ' \
                '{biome3} - ' \
-               '{biome4}'.format(biome1=self.biome_first_label,
-                                 biome2=self.biome_second_label,
-                                 biome3=self.biome_third_label,
-                                 biome4=self.biome_fourth_label)
+               '{biome4}'.format(biome1=self.biome_first_tier,
+                                 biome2=self.biome_second_tier,
+                                 biome3=self.biome_third_tier,
+                                 biome4=self.biome_fourth_tier)
 
 
 class EnvoBiomeFifth(EnvoBiomeFourth):
     # area of attached Modiolus assemblages, mussel reef, neritic mussel bed, coastal shrimp pond, rural settlement
-    biome_fifth_code = models.CharField("ENVO 5th Tier Biome Code", max_length=255, unique=True)
-    biome_fifth_label = models.CharField("ENVO 5th Tier Biome Label", max_length=255)
+    biome_fifth_tier_slug = models.SlugField("ENVO Biome 5th Tier Slug",
+                                             max_length=255, unique=True)
+    biome_fifth_tier = models.CharField("ENVO Biome 5th Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.biome_fifth_tier_slug = '{biome5}'.format(biome5=slugify(self.biome_fifth_tier))
+        super(EnvoBiomeFifth, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{biome1} - ' \
                '{biome2} - ' \
                '{biome3} - ' \
                '{biome4} - ' \
-               '{biome5}'.format(biome1=self.biome_first_label,
-                                 biome2=self.biome_second_label,
-                                 biome3=self.biome_third_label,
-                                 biome4=self.biome_fourth_label,
-                                 biome5=self.biome_fifth_label)
+               '{biome5}'.format(biome1=self.biome_first_tier,
+                                 biome2=self.biome_second_tier,
+                                 biome3=self.biome_third_tier,
+                                 biome4=self.biome_fourth_tier,
+                                 biome5=self.biome_fifth_tier)
 
 
 class EnvoFeatureFirst(DateTimeUserMixin):
@@ -97,12 +124,17 @@ class EnvoFeatureFirst(DateTimeUserMixin):
     # estuarine coastal upper water column, estuarine open water surface layer, estuarine open water upper water column,
     # lake surface, land, liquid surface of an astronomical body, planetary surface, soil biocrust, soil surface layer,
     # submerged bed, surface layer of a water body, turbulent aquatic surface layer
-    feature_first_code = models.CharField("ENVO 1st Tier Feature Code", max_length=255, unique=True)
-    feature_first_label = models.CharField("ENVO 1st Tier Feature Label", max_length=255)
+    feature_first_tier_slug = models.SlugField("ENVO Feature 1st Tier Slug",
+                                               max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
+    def save(self, *args, **kwargs):
+        self.feature_first_tier_slug = '{feature1}'.format(feature1=slugify(self.feature_first_tier))
+        super(EnvoFeatureFirst, self).save(*args, **kwargs)
+
     def __str__(self):
-        return '{feature1}'.format(feature1=self.feature_first_label)
+        return '{feature1}'.format(feature1=self.feature_first_tier)
 
 
 class EnvoFeatureSecond(EnvoFeatureFirst):
@@ -115,13 +147,18 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
     # estuarine tidal riverine coastal upper water column, estuarine tidal riverine open water surface layer,
     # estuarine tidal riverine open water upper water column, liquid planetary surface, bare soil surface layer,
     # soil biocrust, drop stone, lake bed, marine bed, pond bed, reservoir bed, stream bed, ice lead, sea surface layer
-    feature_second_code = models.CharField("ENVO 2nd Tier Feature Code", max_length=255, unique=True)
-    feature_second_label = models.CharField("ENVO 2nd Tier Feature Label", max_length=255)
+    feature_second_tier_slug = models.SlugField("ENVO Feature 2nd Tier Slug",
+                                                max_length=255, unique=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.feature_second_tier_slug = '{feature2}'.format(feature2=slugify(self.feature_second_tier))
+        super(EnvoFeatureSecond, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{feature1} - ' \
-               '{feature2}'.format(feature1=self.feature_first_label,
-                                   feature2=self.feature_second_label)
+               '{feature2}'.format(feature1=self.feature_first_tier,
+                                   feature2=self.feature_second_tier)
 
 
 class EnvoFeatureThird(EnvoFeatureSecond):
@@ -135,15 +172,20 @@ class EnvoFeatureThird(EnvoFeatureSecond):
     # constructed swimming pool, hatchery, mine, open cage mariculture facility, overflow structure, patio,
     # public infrastructure, research facility, sports facility, transport feature, university campus, water intake,
     # lake bottom mud, marine faunal bed, ocean floor, sea floor, sea grass bed, river bed
-    feature_third_code = models.CharField("ENVO 3rd Tier Feature Code", max_length=255, unique=True)
-    feature_third_label = models.CharField("ENVO 3rd Tier Feature Label", max_length=255)
+    feature_third_tier_slug = models.SlugField("ENVO Feature 3rd Tier Slug",
+                                               max_length=255, unique=True)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.feature_third_tier_slug = '{feature3}'.format(feature3=slugify(self.feature_third_tier))
+        super(EnvoFeatureThird, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{feature1} - ' \
                '{feature2} - ' \
-               '{feature3}'.format(feature1=self.feature_first_label,
-                                   feature2=self.feature_second_label,
-                                   feature3=self.feature_third_label)
+               '{feature3}'.format(feature1=self.feature_first_tier,
+                                   feature2=self.feature_second_tier,
+                                   feature3=self.feature_third_tier)
 
 
 class EnvoFeatureFourth(EnvoFeatureThird):
@@ -154,17 +196,22 @@ class EnvoFeatureFourth(EnvoFeatureThird):
     # marine water mass, mussel reef, warm seep, artificial reef, marine reef, abyssal feature, kelp forest,
     # marine benthic feature, boundary wall, dam, fence, fish hatchery, poultry hatchery, laboratory facility,
     # ocean time series station, research station, bridge, causeway, constructed pavement, ford, lock, pier, railway
-    feature_fourth_code = models.CharField("ENVO 4th Tier Feature Code", max_length=255, unique=True)
-    feature_fourth_label = models.CharField("ENVO 4th Tier Feature Label", max_length=255)
+    feature_fourth_tier_slug = models.SlugField("ENVO Feature 4th Tier Slug",
+                                                max_length=255, unique=True)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.feature_fourth_tier_slug = '{feature4}'.format(feature4=slugify(self.feature_fourth_tier))
+        super(EnvoFeatureFourth, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{feature1} - ' \
                '{feature2} - ' \
                '{feature3} - ' \
-               '{feature4}'.format(feature1=self.feature_first_label,
-                                   feature2=self.feature_second_label,
-                                   feature3=self.feature_third_label,
-                                   feature4=self.feature_fourth_label)
+               '{feature4}'.format(feature1=self.feature_first_tier,
+                                   feature2=self.feature_second_tier,
+                                   feature3=self.feature_third_tier,
+                                   feature4=self.feature_fourth_tier)
 
 
 class EnvoFeatureFifth(EnvoFeatureFourth):
@@ -176,25 +223,35 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
     # marine coral reef buttress zone, marine coral reef crest, marine coral reef deep fore reef,
     # marine coral reef flat zone, marine coral reef fore reef, marine sponge reef, marine subtidal rocky reef,
     # mussel reef, marine hydrothermal vent chimney
-    feature_fifth_code = models.CharField("ENVO 5th Tier Feature Code", max_length=255, unique=True)
-    feature_fifth_label = models.CharField("ENVO 5th Tier Feature Label", max_length=255)
+    feature_fifth_tier_slug = models.SlugField("ENVO Feature 5th Tier Slug",
+                                               max_length=255, unique=True)
+    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.feature_fifth_tier_slug = '{feature5}'.format(feature5=slugify(self.feature_fifth_tier))
+        super(EnvoFeatureFifth, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{feature1} - ' \
                '{feature2} - ' \
                '{feature3} - ' \
                '{feature4} - ' \
-               '{feature5}'.format(feature1=self.feature_first_label,
-                                   feature2=self.feature_second_label,
-                                   feature3=self.feature_third_label,
-                                   feature4=self.feature_fourth_label,
-                                   feature5=self.feature_fifth_label)
+               '{feature5}'.format(feature1=self.feature_first_tier,
+                                   feature2=self.feature_second_tier,
+                                   feature3=self.feature_third_tier,
+                                   feature4=self.feature_fourth_tier,
+                                   feature5=self.feature_fifth_tier)
 
 
 class EnvoFeatureSixth(EnvoFeatureFifth):
     # coastal shrimp pond, Bathymodiolus-dominated oceanic mussel reef, neritic mussel reef, oceanic mussel reef
-    feature_sixth_code = models.CharField("ENVO 6th Tier Feature Code", max_length=255, unique=True)
-    feature_sixth_label = models.CharField("ENVO 6th Tier Feature Label", max_length=255)
+    feature_sixth_tier_slug = models.SlugField("ENVO Feature 6th Tier Slug",
+                                               max_length=255, unique=True)
+    feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.feature_sixth_tier_slug = '{feature6}'.format(feature6=slugify(self.feature_sixth_tier))
+        super(EnvoFeatureSixth, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -202,18 +259,23 @@ class EnvoFeatureSixth(EnvoFeatureFifth):
                '{feature3} - ' \
                '{feature4} - ' \
                '{feature5} - ' \
-               '{feature6}'.format(feature1=self.feature_first_label,
-                                   feature2=self.feature_second_label,
-                                   feature3=self.feature_third_label,
-                                   feature4=self.feature_fourth_label,
-                                   feature5=self.feature_fifth_label,
-                                   feature6=self.feature_sixth_label)
+               '{feature6}'.format(feature1=self.feature_first_tier,
+                                   feature2=self.feature_second_tier,
+                                   feature3=self.feature_third_tier,
+                                   feature4=self.feature_fourth_tier,
+                                   feature5=self.feature_fifth_tier,
+                                   feature6=self.feature_sixth_tier)
 
 
 class EnvoFeatureSeventh(EnvoFeatureSixth):
     # Bathymodiolus-dominated oceanic mussel reef
-    feature_seventh_code = models.CharField("ENVO 7th Tier Feature Code", max_length=255, unique=True)
-    feature_seventh_label = models.CharField("ENVO 7th Tier Feature Label", max_length=255)
+    feature_seventh_tier_slug = models.SlugField("ENVO Feature 7th Tier Slug",
+                                                 max_length=255, unique=True)
+    feature_seventh_tier = models.CharField("ENVO Feature 7th Tier ", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.feature_seventh_tier_slug = '{feature7}'.format(feature7=slugify(self.feature_seventh_tier))
+        super(EnvoFeatureSeventh, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{feature1} - ' \
@@ -222,13 +284,13 @@ class EnvoFeatureSeventh(EnvoFeatureSixth):
                '{feature4} - ' \
                '{feature5} - ' \
                '{feature6} - ' \
-               '{feature7}'.format(feature1=self.feature_first_label,
-                                   feature2=self.feature_second_label,
-                                   feature3=self.feature_third_label,
-                                   feature4=self.feature_fourth_label,
-                                   feature5=self.feature_fifth_label,
-                                   feature6=self.feature_sixth_label,
-                                   feature7=self.feature_seventh_label)
+               '{feature7}'.format(feature1=self.feature_first_tier,
+                                   feature2=self.feature_second_tier,
+                                   feature3=self.feature_third_tier,
+                                   feature4=self.feature_fourth_tier,
+                                   feature5=self.feature_fifth_tier,
+                                   feature6=self.feature_sixth_tier,
+                                   feature7=self.feature_seventh_tier)
 
 
 class Project(DateTimeUserMixin):
