@@ -14,7 +14,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     resource_class = ReferenceDatabaseAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__')
+    list_display = ('__str__', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -50,7 +50,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     resource_class = TaxonSpeciesAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__')
+    list_display = ('__str__', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -88,7 +88,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     resource_class = AnnotationMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__')
+    list_display = ('__str__', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -127,7 +127,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     resource_class = AnnotationMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__')
+    list_display = ('__str__', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -171,7 +171,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
     resource_class = TaxonomicAnnotationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__')
+    list_display = ('__str__', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
