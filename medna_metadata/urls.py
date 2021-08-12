@@ -29,9 +29,10 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
     FastqFileViewSet
 from freezer_inventory.views import FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
     FreezerInventoryViewSet, FreezerCheckoutViewSet
-
 from bioinfo_denoising.views import DenoisingMethodViewSet, DenoisingMetadataViewSet, \
     AmpliconSequenceVariantViewSet, ASVReadViewSet
+from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, AnnotationMethodViewSet, \
+    AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
 
 router = routers.DefaultRouter()
 # users
@@ -76,6 +77,12 @@ router.register(r'denoising', DenoisingMethodViewSet, 'denoising_method')
 router.register(r'denoising', DenoisingMetadataViewSet, 'denoising_metadata')
 router.register(r'denoising', AmpliconSequenceVariantViewSet, 'asv')
 router.register(r'denoising', ASVReadViewSet, 'asv_read')
+# bioinfo_taxon
+router.register(r'denoising', ReferenceDatabaseViewSet, 'refdb')
+router.register(r'denoising', TaxonSpeciesViewSet, 'taxon')
+router.register(r'denoising', AnnotationMethodViewSet, 'annotation_method')
+router.register(r'denoising', AnnotationMetadataViewSet, 'annotation_metadata')
+router.register(r'denoising', TaxonomicAnnotationViewSet, 'taxon_annotation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

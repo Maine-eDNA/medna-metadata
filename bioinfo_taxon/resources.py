@@ -51,6 +51,25 @@ class TaxonSpeciesAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
+class AnnotationMethodAdminResource(resources.ModelResource):
+    class Meta:
+        model = AnnotationMethod
+        import_id_fields = ('annotation_method_name', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'annotation_method_name',
+                  'created_by', 'created_datetime', )
+        export_order = ('id', 'annotation_method_name',
+                        'created_by', 'created_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
+
 class AnnotationMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = AnnotationMetadata

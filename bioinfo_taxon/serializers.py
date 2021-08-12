@@ -51,6 +51,20 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
+class AnnotationMethodSerializer(serializers.ModelSerializer):
+    annotation_method_name = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField()
+
+    class Meta:
+        model = AnnotationMethod
+        fields = ['id', 'annotation_method_name',
+                  'created_by', 'created_datetime']
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
 class AnnotationMetadataSerializer(serializers.ModelSerializer):
     analysis_datetime = serializers.DateTimeField(allow_null=True)
     analyst_first_name = serializers.CharField(max_length=255)
