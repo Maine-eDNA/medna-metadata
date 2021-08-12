@@ -309,7 +309,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 class RunPrepSerializer(serializers.ModelSerializer):
     run_date = serializers.DateField()
     process_location = serializers.ChoiceField(choices=ProcessLocations.choices)
-    phix_spike_in = serializers.DecimalField()
+    phix_spike_in = serializers.DecimalField(max_digits=10, decimal_places=10)
     phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
