@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from field_survey.models import FieldSample
 from users.models import DateTimeUserMixin
 from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTypes, \
-    DdpcrUnits, QpcrUnits
+    DdpcrUnits, QpcrUnits, ProcessLocations
 
 
 # Create your models here.
@@ -143,6 +143,8 @@ class Qpcr(DateTimeUserMixin):
 class LibraryPrep(DateTimeUserMixin):
     lib_prep_datetime = models.DateTimeField("Library Prep DateTime", auto_now=True)
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
+    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
+                                           default=ProcessLocations.CORE)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
@@ -174,6 +176,8 @@ class LibraryPrep(DateTimeUserMixin):
 class PooledLibrary(DateTimeUserMixin):
     pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
+    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
+                                           default=ProcessLocations.CORE)
     library_prep = models.ManyToManyField(LibraryPrep,
                                           through='LibraryPrepToPooledLibrary',
                                           related_name='libraryprep_to_pooledlibrary')
@@ -200,6 +204,8 @@ class LibraryPrepToPooledLibrary(DateTimeUserMixin):
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
+    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
+                                           default=ProcessLocations.CORE)
     pooled_library = models.ManyToManyField(PooledLibrary,
                                             through='PooledLibraryToFinalPooledLibrary',
                                             related_name='pooledlibrary_to_finalpooledlibrary')
@@ -228,6 +234,8 @@ class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
 
 class RunPrep(DateTimeUserMixin):
     run_date = models.DateField("Run Date", auto_now=True)
+    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
+                                           default=ProcessLocations.CORE)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=10, decimal_places=10)
     # can be reported as percent and picomolar, pM

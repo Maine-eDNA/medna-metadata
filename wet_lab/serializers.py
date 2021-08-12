@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
-from users.enumerations import TargetGenes, VolUnits, ConcentrationUnits, PrepTypes
+from users.enumerations import TargetGenes, VolUnits, ConcentrationUnits, PrepTypes, \
+    ProcessLocations
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from users.enumerations import YesNo
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -209,6 +210,7 @@ class QpcrSerializer(serializers.ModelSerializer):
 class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_datetime = serializers.DateTimeField()
     lib_prep_experiment_name = serializers.CharField(max_length=255)
+    process_location = serializers.ChoiceField(choices=ProcessLocations.choices)
     qubit_results = serializers.DecimalField(max_digits=10, decimal_places=10, allow_null=True)
     # units will be in ng/ml
     qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
@@ -225,8 +227,8 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LibraryPrep
-        fields = ['id', 'lib_prep_datetime', 'library_prep_experiment_name', 'extraction', 'index_pair',
-                  'primer_set', 'index_removal_method', 'size_selection_method',
+        fields = ['id', 'lib_prep_datetime', 'library_prep_experiment_name', 'process_location',
+                  'extraction', 'index_pair', 'primer_set', 'index_removal_method', 'size_selection_method',
                   'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                   'final_concentration', 'final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
@@ -253,6 +255,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_datetime = serializers.DateTimeField()
     pooled_lib_label = serializers.CharField(max_length=255)
+    process_location = serializers.ChoiceField(choices=ProcessLocations.choices)
     pooled_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pooled_lib_notes = serializers.CharField(allow_blank=True)
@@ -260,7 +263,8 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'library_prep', 'quantification_method',
+        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'process_location',
+                  'library_prep', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                   'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -277,6 +281,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     final_pooled_lib_datetime = serializers.DateTimeField()
     final_pooled_lib_label = serializers.CharField(max_length=255)
+    process_location = serializers.ChoiceField(choices=ProcessLocations.choices)
     final_pooled_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_pooled_lib_notes = serializers.CharField(allow_blank=True)
@@ -284,7 +289,8 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FinalPooledLibrary
-        fields = ['id', 'final_pooled_lib_datetime', 'final_pooled_lib_label',
+        fields = ['id', 'final_pooled_lib_datetime',
+                  'final_pooled_lib_label', 'process_location',
                   'pooled_library', 'quantification_method',
                   'final_pooled_lib_concentration',
                   'final_pooled_lib_concentration_units',
@@ -302,6 +308,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 
 class RunPrepSerializer(serializers.ModelSerializer):
     run_date = serializers.DateField()
+    process_location = serializers.ChoiceField(choices=ProcessLocations.choices)
     phix_spike_in = serializers.DecimalField()
     phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
