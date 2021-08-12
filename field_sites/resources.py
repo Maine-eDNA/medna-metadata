@@ -3,20 +3,24 @@ from import_export.widgets import ForeignKeyWidget
 from .models import EnvoBiomeFifth, EnvoFeatureSeventh, Project, System, Region, FieldSite, WorldBorder
 from users.models import CustomUser
 
+
 class EnvoBiomeAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFifth
         import_id_fields = ('biome_first_code', 'biome_second_code', 'biome_third_code', 'biome_fourth_code',
                             'biome_fifth_code', 'ontology_url',)
+
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
+
 
 class EnvoFeatureAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSeventh
         import_id_fields = ('feature_first_code', 'feature_second_code', 'feature_third_code', 'feature_fourth_code',
                             'feature_fifth_code', 'feature_sixth_code', 'feature_seventh_code', 'ontology_url',)
+
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -25,28 +29,35 @@ class ProjectAdminResource(resources.ModelResource):
     class Meta:
         model = Project
         import_id_fields = ('project_code',)
+
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
+
 
 class SystemAdminResource(resources.ModelResource):
     class Meta:
         model = System
         import_id_fields = ('system_code',)
+
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
+
 
 class RegionAdminResource(resources.ModelResource):
     class Meta:
         model = Region
         import_id_fields = ('region_code',)
+
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
+
 
 class WorldBorderAdminResource(resources.ModelResource):
     class Meta:
         model = WorldBorder
         import_id_fields = ('id',)
+
 
 class FieldSiteAdminResource(resources.ModelResource):
     class Meta:
@@ -77,3 +88,6 @@ class FieldSiteAdminResource(resources.ModelResource):
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
