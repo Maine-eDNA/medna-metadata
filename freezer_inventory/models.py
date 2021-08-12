@@ -84,8 +84,8 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
-    field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True)
-    extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True)
+    field_sample = models.ForeignKey(FieldSample, on_delete=models.RESTRICT, blank=True)
+    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
     barcode_slug = models.SlugField(max_length=27, null=True)
     freezer_inventory_type = models.IntegerField("Freezer Inventory Type",
                                                  choices=InvTypes.choices)
@@ -112,7 +112,8 @@ class FreezerInventory(DateTimeUserMixin):
         super(FreezerInventory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '[r{row}, c{column}]'.format(row=self.freezer_inventory_row,
+        return '{barcode_slug} [r{row}, c{column}]'.format(barcode_slug=self.barcode_slug,
+                                                           row=self.freezer_inventory_row,
                                                            column=self.freezer_inventory_column)
 
 
