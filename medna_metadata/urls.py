@@ -36,7 +36,7 @@ from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, A
 
 router = routers.DefaultRouter()
 # users
-router.register(r'users', CustomUserLoginViewSet, 'login')
+router.register(r'login', CustomUserLoginViewSet, 'login')
 router.register(r'users', CustomUserViewSet, 'users')
 # field sites
 router.register(r'field_sites', BiomeViewSet, 'biome')
