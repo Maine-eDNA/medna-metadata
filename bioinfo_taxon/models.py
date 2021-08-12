@@ -8,14 +8,14 @@ from users.enumerations import YesNo
 class ReferenceDatabase(DateTimeUserMixin):
     refdb_name = models.CharField("Reference Database Name", max_length=255)
     refdb_version = models.CharField("Reference Database Version", max_length=255)
-    refdb_date = models.DateField("Reference Database Date", blank=True, null=True)
+    refdb_datetime = models.DateTimeField("Reference Database DateTime", blank=True, null=True)
     redfb_coverage_score = models.DecimalField("Coverage Score (Percentage)", max_digits=6, decimal_places=2)
-    refdb_repo_url = models.URLField("Reference Database URL", max_length=200,
+    refdb_repo_url = models.URLField("Reference Database URL", max_length=255,
                                      default="https://github.com/Maine-eDNA")
 
     def __str__(self):
         return '{date}, {name} {version}, {coverage}%'.format(
-            date=self.refdb_date,
+            date=self.refdb_datetime,
             name=self.refdb_name,
             version=self.refdb_version,
             coverage=self.redfb_coverage_score)
@@ -125,27 +125,26 @@ class AnnotationMethod(DateTimeUserMixin):
 
 
 class AnnotationMetadata(DateTimeUserMixin):
-    analysis_date = models.DateField("Analysis Date", blank=True, null=True)
+    analysis_datetime = models.DateTimeField("Analysis DateTime", blank=True, null=True)
+    annotation_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)
+    annotation_slug = models.SlugField(null=True)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
-    analysis_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)
-    analysis_sop_url = models.URLField("Analysis SOP URL")
-    analysis_script_repo_url = models.URLField("Repository URL", max_length=200,
+    analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
+    analysis_script_repo_url = models.URLField("Repository URL", max_length=255,
                                                default="https://github.com/Maine-eDNA")
 
     def __str__(self):
-        return '{date}, {fname} {lname}, {method}'.format(
-            date=self.analysis_date,
-            fname=self.analyst_first_name,
-            lname=self.analyst_last_name,
-            method=self.analysis_method)
+        return '{date}, {method}'.format(
+            date=self.analysis_datetime,
+            method=self.annotation_method.annotation_method_name)
 
 
 class TaxonomicAnnotation(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
-    confidence = models.DecimalField("Confidence", max_digits=10, decimal_places=2, blank=True)
+    confidence = models.DecimalField("Confidence", max_digits=10, decimal_places=10, blank=True, null=True)
     ta_taxon = models.TextField("Taxon", blank=True)
     ta_domain = models.CharField("Domain", max_length=255, blank=True)
     ta_kingdom = models.CharField("Kingdom", max_length=255, blank=True)
@@ -156,24 +155,24 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     ta_genus = models.CharField("Genus", max_length=255, blank=True)
     ta_species = models.CharField("Species", max_length=255, blank=True)
     ta_common_name = models.CharField("Common Name", max_length=255, blank=True)
-    manual_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT, blank=True,
                                       related_name="manual_domain")
-    manual_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT, blank=True,
                                        related_name="manual_kingdom")
-    manual_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT, blank=True,
                                       related_name="manual_phylum")
-    manual_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT, blank=True,
                                      related_name="manual_class")
-    manual_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT, blank=True,
                                      related_name="manual_order")
-    manual_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT, blank=True,
                                       related_name="manual_family")
-    manual_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT, blank=True,
                                      related_name="manual_genus")
-    manual_species = models.ForeignKey(TaxonSpecies, on_delete=models.RESTRICT, blank=True, null=True,
+    manual_species = models.ForeignKey(TaxonSpecies, on_delete=models.RESTRICT, blank=True,
                                        related_name="manual_species")
 
     def __str__(self):
         return '{taxon} {asv}'.format(
             taxon=self.ta_taxon,
-            asv=self.asv.asv_sequence)
+            asv=self.asv.asv_id)
