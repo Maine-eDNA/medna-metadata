@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default=get_random_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', True)
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(", ")
 
 # Application definition
 
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'allauth', # django-allauth handles user registration as well as social authentication.
     'allauth.account', # Good for email address verification, resetting passwords, etc.
     'allauth.socialaccount',
-#    'allauth.socialaccount.providers.google', # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
+    # 'allauth.socialaccount.providers.google', # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
     'rest_auth', # django-rest-auth provides API endpoints for user reg, login/logout,
     'rest_auth.registration', # password change/reset, social auth, etc
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
@@ -82,10 +82,10 @@ AUTHENTICATION_BACKENDS = [
 #  You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE,
 #  but you have not set CSRF_COOKIE_SECURE to True. Using a secure-only CSRF cookie makes
 #  it more difficult for network traffic sniffers to steal the CSRF token.
-#CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE is not set to True. Using a secure-only session cookie makes
 # it more difficult for network traffic sniffers to hijack user sessions.
-#SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -127,7 +127,7 @@ WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DJANGO_DATABASE_NAME', 'medna_metadata'),
         'USER': os.environ.get('DJANGO_DATABASE_USERNAME', 'django'),
         'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD', 'password'),
@@ -192,7 +192,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'US'
 
-## these are settings for Django REST framework
+# these are settings for Django REST framework
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -214,7 +214,7 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
 }
 
-## settings for import-export to allow exporting data via csv
+# settings for import-export to allow exporting data via csv
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 SITE_ID = 1
@@ -245,7 +245,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
 
-## django-cors-headers to open up the backend to connect to the frontend
+# django-cors-headers to open up the backend to connect to the frontend
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:8000'
 ]
