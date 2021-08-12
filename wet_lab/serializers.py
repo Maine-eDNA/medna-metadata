@@ -12,22 +12,24 @@ from users.enumerations import YesNo
 # Django REST Framework to allow the automatic downloading of data!
 class PrimerPairSerializer(serializers.ModelSerializer):
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
-    primer_set_name = serializers.CharField()
+    primer_set_name = serializers.CharField(max_length=255)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
-    primer_name_forward = serializers.CharField()
-    primer_name_reverse = serializers.CharField()
-    primer_forward = serializers.CharField()
-    primer_reverse = serializers.CharField()
-    primer_amplicon_length_min = serializers.IntegerField()
-    primer_amplicon_length_max = serializers.IntegerField()
+    primer_name_forward = serializers.CharField(max_length=255)
+    primer_name_reverse = serializers.CharField(max_length=255)
+    primer_forward = serializers.CharField(max_length=255)
+    primer_reverse = serializers.CharField(max_length=255)
+    primer_amplicon_length_min = serializers.IntegerField(min_value=0)
+    primer_amplicon_length_max = serializers.IntegerField(min_value=0)
+    primer_pair_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
         model = PrimerPair
         fields = ['id', 'primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
                   'primer_target_gene', 'primer_set_name', 'primer_amplicon_length_min',
-                  'primer_amplicon_length_max', 'created_by', 'created_datetime', ]
+                  'primer_amplicon_length_max', 'primer_pair_notes',
+                  'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -37,11 +39,11 @@ class PrimerPairSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class IndexPairSerializer(serializers.ModelSerializer):
-    index_i7 = serializers.CharField()
-    i7_index_id = serializers.CharField()
-    index_i5 = serializers.CharField()
-    i5_index_id = serializers.CharField()
-    index_adapter = serializers.CharField()
+    index_i7 = serializers.CharField(max_length=255)
+    i7_index_id = serializers.CharField(max_length=255)
+    index_i5 = serializers.CharField(max_length=255)
+    i5_index_id = serializers.CharField(max_length=255)
+    index_adapter = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -57,7 +59,7 @@ class IndexPairSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class IndexRemovalMethodSerializer(serializers.ModelSerializer):
-    index_removal_method_name = serializers.CharField()
+    index_removal_method_name = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -72,7 +74,7 @@ class IndexRemovalMethodSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class SizeSelectionMethodSerializer(serializers.ModelSerializer):
-    index_removal_method_name = serializers.CharField()
+    index_removal_method_name = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -87,7 +89,7 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class QuantificationMethodSerializer(serializers.ModelSerializer):
-    quant_method_name = serializers.CharField()
+    quant_method_name = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -102,9 +104,9 @@ class QuantificationMethodSerializer(serializers.ModelSerializer):
 
 # Django REST Framework to allow the automatic downloading of data!
 class ExtractionMethodSerializer(serializers.ModelSerializer):
-    extraction_method_name = serializers.CharField()
-    extraction_method_manufacturer = serializers.CharField()
-    extraction_sop_url = serializers.URLField()
+    extraction_method_name = serializers.CharField(max_length=255)
+    extraction_method_manufacturer = serializers.CharField(max_length=255)
+    extraction_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -121,13 +123,13 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 # Django REST Framework to allow the automatic downloading of data!
 class ExtractionSerializer(serializers.ModelSerializer):
     extraction_datetime = serializers.DateTimeField()
-    extraction_first_name = serializers.CharField()
-    extraction_last_name = serializers.CharField()
-    extraction_volume = serializers.DecimalField()
+    extraction_first_name = serializers.CharField(max_length=255)
+    extraction_last_name = serializers.CharField(max_length=255)
+    extraction_volume = serializers.DecimalField(max_digits=10, decimal_places=10)
     extraction_volume_units = serializers.ChoiceField(choices=VolUnits.choices)
-    extraction_concentration = serializers.DecimalField()
+    extraction_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     extraction_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    extraction_notes = serializers.CharField()
+    extraction_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -152,13 +154,13 @@ class ExtractionSerializer(serializers.ModelSerializer):
 # Django REST Framework to allow the automatic downloading of data!
 class DdpcrSerializer(serializers.ModelSerializer):
     ddpcr_datetime = serializers.DateTimeField()
-    ddpcr_experiment_name = serializers.CharField()
-    ddpcr_first_name = serializers.CharField()
-    ddpcr_last_name = serializers.CharField()
+    ddpcr_experiment_name = serializers.CharField(max_length=255)
+    ddpcr_first_name = serializers.CharField(max_length=255)
+    ddpcr_last_name = serializers.CharField(max_length=255)
     ddpcr_probe = serializers.CharField()
-    ddpcr_results = serializers.DecimalField()
+    ddpcr_results = serializers.DecimalField(max_digits=10, decimal_places=10)
     ddpcr_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    ddpcr_notes = serializers.CharField()
+    ddpcr_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -179,13 +181,13 @@ class DdpcrSerializer(serializers.ModelSerializer):
 
 class QpcrSerializer(serializers.ModelSerializer):
     qpcr_datetime = serializers.DateTimeField()
-    qpcr_experiment_name = serializers.CharField()
-    qpcr_first_name = serializers.CharField()
-    qpcr_last_name = serializers.CharField()
+    qpcr_experiment_name = serializers.CharField(max_length=255)
+    qpcr_first_name = serializers.CharField(max_length=255)
+    qpcr_last_name = serializers.CharField(max_length=255)
     qpcr_probe = serializers.CharField()
-    qpcr_results = serializers.DecimalField()
+    qpcr_results = serializers.DecimalField(max_digits=10, decimal_places=10)
     qpcr_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    qpcr_notes = serializers.CharField()
+    qpcr_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -207,18 +209,18 @@ class QpcrSerializer(serializers.ModelSerializer):
 class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_datetime = serializers.DateTimeField()
     lib_prep_experiment_name = serializers.CharField(max_length=255)
-    qubit_results = serializers.DecimalField(max_digits=10, decimal_places=10)
+    qubit_results = serializers.DecimalField(max_digits=10, decimal_places=10, allow_null=True)
     # units will be in ng/ml
-    qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    qpcr_results = serializers.DecimalField(max_digits=10, decimal_places=10)
+    qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
+    qpcr_results = serializers.DecimalField(max_digits=10, decimal_places=10, allow_null=True)
     # units will be nM or pM
-    qpcr_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    qpcr_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
     final_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     lib_prep_kit = serializers.CharField(max_length=255)
     lib_prep_type = serializers.ChoiceField(choices=PrepTypes.choices)
-    lib_prep_thermal_sop_url = serializers.URLField(max_length=200)
-    lib_prep_notes = serializers.CharField()
+    lib_prep_thermal_sop_url = serializers.URLField(max_length=255)
+    lib_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -253,7 +255,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_label = serializers.CharField(max_length=255)
     pooled_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    pooled_lib_notes = serializers.CharField()
+    pooled_lib_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -277,7 +279,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     final_pooled_lib_label = serializers.CharField(max_length=255)
     final_pooled_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    final_pooled_lib_notes = serializers.CharField()
+    final_pooled_lib_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -304,7 +306,7 @@ class RunPrepSerializer(serializers.ModelSerializer):
     phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_lib_concentration = serializers.DecimalField(max_digits=10, decimal_places=10)
     final_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    run_prep_notes = serializers.CharField()
+    run_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:

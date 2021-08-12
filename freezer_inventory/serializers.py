@@ -9,10 +9,10 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 # Django REST Framework to allow the automatic downloading of data!
 class FreezerSerializer(serializers.ModelSerializer):
-    freezer_label = serializers.CharField()
-    freezer_depth = serializers.DecimalField()
-    freezer_length = serializers.DecimalField()
-    freezer_width = serializers.DecimalField()
+    freezer_label = serializers.CharField(max_length=255)
+    freezer_depth = serializers.DecimalField(max_digits=10, decimal_places=10)
+    freezer_length = serializers.DecimalField(max_digits=10, decimal_places=10)
+    freezer_width = serializers.DecimalField(max_digits=10, decimal_places=10)
     freezer_dimension_units = serializers.ChoiceField(choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each
     freezer_max_columns = serializers.IntegerField(min_value=1)
@@ -34,7 +34,7 @@ class FreezerSerializer(serializers.ModelSerializer):
 
 
 class FreezerRackSerializer(serializers.ModelSerializer):
-    freezer_rack_label = serializers.CharField()
+    freezer_rack_label = serializers.CharField(max_length=255)
     # location of rack in freezer
     freezer_rack_column_start = serializers.IntegerField(min_value=1)
     freezer_rack_column_end = serializers.IntegerField(min_value=1)
@@ -61,7 +61,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
-    freezer_box_label = serializers.CharField()
+    freezer_box_label = serializers.CharField(max_length=255)
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
@@ -113,12 +113,12 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
     freezer_checkout_action = serializers.ChoiceField(choices=CheckoutActions.choices)
-    freezer_checkout_datetime = serializers.DateTimeField()
-    freezer_return_datetime = serializers.DateTimeField()
-    freezer_perm_removal_datetime = serializers.DateTimeField()
-    freezer_return_vol_taken = serializers.DecimalField()
-    freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices)
-    freezer_return_notes = serializers.CharField()
+    freezer_checkout_datetime = serializers.DateTimeField(allow_null=True)
+    freezer_return_datetime = serializers.DateTimeField(allow_null=True)
+    freezer_perm_removal_datetime = serializers.DateTimeField(allow_null=True)
+    freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=10, decimal_places=10)
+    freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices, allow_null=True)
+    freezer_return_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:

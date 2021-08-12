@@ -20,7 +20,7 @@ class DenoisingMethodSerializer(serializers.ModelSerializer):
 
 
 class DenoisingMetadataSerializer(serializers.ModelSerializer):
-    analysis_datetime = serializers.DateTimeField(allow_null=True)
+    analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
     analysis_sop_url = serializers.URLField(max_length=255)

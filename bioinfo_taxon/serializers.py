@@ -11,7 +11,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 class ReferenceDatabaseSerializer(serializers.ModelSerializer):
     refdb_name = serializers.CharField(max_length=255)
     refdb_version = serializers.CharField(max_length=255)
-    refdb_datetime = serializers.DateTimeField(allow_null=True)
+    refdb_datetime = serializers.DateTimeField()
     redfb_coverage_score = serializers.DecimalField(max_digits=6, decimal_places=2)
     refdb_repo_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField()
@@ -66,7 +66,7 @@ class AnnotationMethodSerializer(serializers.ModelSerializer):
 
 
 class AnnotationMetadataSerializer(serializers.ModelSerializer):
-    analysis_datetime = serializers.DateTimeField(allow_null=True)
+    analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
     analysis_sop_url = serializers.URLField(max_length=255)
