@@ -69,7 +69,8 @@ class GeoRegionsListView(generics.ListAPIView):
 class FieldSiteDetailView(DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom', 'created_by', 'created_datetime']
+    fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom',
+              'created_by', 'created_datetime']
 
 #    def get_object(self, queryset=None):
 #        return queryset.get(self.kwargs['pk'])
@@ -88,7 +89,7 @@ class FieldSiteExportDetailView(DetailView):
             datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
         writer.writerow(['id','site_id', 'project', 'system', 'region', 'general_location_name',
-                         'purpose', 'lat', 'lon', 'srid', 'created_by','created_datetime'])
+                         'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
         writer.writerow([site.id, site.site_id, site.project.project_label, site.system.system_label,
                          site.region.region_label,
                          site.general_location_name, site.purpose, site.geom.y,
