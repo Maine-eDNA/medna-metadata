@@ -129,7 +129,8 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = FreezerInventoryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
+    list_display = ('__str__', 'created_datetime', 'created_by',)
+    readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -138,7 +139,8 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']
         self.list_filter = (
-            ('freezer_box', RelatedDropdownFilter))
+            ('freezer_box', RelatedDropdownFilter)
+        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -152,7 +154,8 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']
         self.list_filter = (
-            ('freezer_box', RelatedDropdownFilter))
+            ('freezer_box', RelatedDropdownFilter)
+        )
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
