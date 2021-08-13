@@ -28,7 +28,7 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
                        'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                       'record_create_date', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
 
@@ -187,7 +187,7 @@ class FieldSurveyETLAdmin(ImportExportActionModelAdmin):
                        'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                       'record_create_date', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_date', 'record_editor', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyETLAdmin, self).change_view(request, object_id)
 
