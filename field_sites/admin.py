@@ -9,10 +9,9 @@ from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import EnvoBiomeFirstAdminResource, EnvoBiomeSecondAdminResource, \
     EnvoBiomeThirdAdminResource, EnvoBiomeFourthAdminResource, EnvoBiomeFifthAdminResource, \
-    EnvoBiomeAdminResource, \
     EnvoFeatureFirstAdminResource, EnvoFeatureSecondAdminResource, EnvoFeatureThirdAdminResource,\
     EnvoFeatureFourthAdminResource, EnvoFeatureFifthAdminResource, EnvoFeatureSixthAdminResource, \
-    EnvoFeatureSeventhAdminResource, EnvoFeatureAdminResource, \
+    EnvoFeatureSeventhAdminResource, \
     ProjectAdminResource, SystemAdminResource, \
     RegionAdminResource, FieldSiteAdminResource, WorldBorderAdminResource
 
@@ -199,50 +198,6 @@ class EnvoBiomeFifthAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(EnvoBiomeFifth, EnvoBiomeFifthAdmin)
-
-
-class EnvoBiomeAdmin(ImportExportActionModelAdmin):
-    # below are import_export configs
-    resource_class = EnvoBiomeAdminResource
-    # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
-
-   # def add_view(self, request, extra_content=None):
-   #     # specify the fields that can be viewed in add view
-   #     self.fields = ['biome_first_tier', 'biome_second_tier', 'biome_third_tier', 'biome_fourth_tier',
-   #                    'biome_fifth_tier', 'ontology_url']
-   #     self.exclude = ('id', 'modified_datetime', 'created_datetime')
-   #     add_fields = request.GET.copy()
-   #     add_fields['created_by'] = request.user
-   #     request.GET = add_fields
-   #     return super(EnvoBiomeAdmin, self).add_view(request)
-
-    def change_view(self, request, object_id, extra_content=None):
-        # specify what can be changed in admin change view
-        self.fields = ['biome_first_tier', 'biome_second_tier', 'biome_third_tier', 'biome_fourth_tier',
-                       'biome_fifth_tier', 'ontology_url', 'created_by']
-        self.list_filter = (
-            ('biome_first_tier', RelatedDropdownFilter),
-            ('biome_second_tier', RelatedDropdownFilter),
-            ('biome_third_tier', RelatedDropdownFilter),
-            ('biome_fourth_tier', RelatedDropdownFilter)
-        )
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(EnvoBiomeAdmin, self).change_view(request, object_id)
-
-    # disable add_view - this causes duplicates in cascading subclassed models
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-
-
-admin.site.register(EnvoBiomeFifth, EnvoBiomeAdmin)
 
 
 class EnvoFeatureFirstAdmin(ImportExportActionModelAdmin):
@@ -503,53 +458,6 @@ class EnvoFeatureSeventhAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(EnvoFeatureSeventh, EnvoFeatureSeventhAdmin)
-
-
-class EnvoFeatureAdmin(ImportExportActionModelAdmin):
-    # below are import_export configs
-    resource_class = EnvoFeatureAdminResource
-    # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
-
-   # def add_view(self, request, extra_content=None):
-   #     # specify the fields that can be viewed in add view
-   #     self.fields = ['feature_first_tier', 'feature_second_tier', 'feature_third_tier', 'feature_fourth_tier',
-   #                    'feature_fifth_tier', 'feature_sixth_tier', 'feature_seventh_tier', 'ontology_url']
-   #     self.exclude = ('id', 'modified_datetime', 'created_datetime')
-   #     add_fields = request.GET.copy()
-   #     add_fields['created_by'] = request.user
-   #     request.GET = add_fields
-   #     return super(EnvoFeatureAdmin, self).add_view(request)
-
-    def change_view(self, request, object_id, extra_content=None):
-        # specify what can be changed in admin change view
-        self.fields = ['feature_first_tier', 'feature_second_tier', 'feature_third_tier', 'feature_fourth_tier',
-                       'feature_fifth_tier', 'feature_sixth_tier', 'feature_seventh_tier', 'ontology_url',
-                       'created_by']
-        self.list_filter = (
-            ('feature_first_tier', RelatedDropdownFilter),
-            ('feature_second_tier', RelatedDropdownFilter),
-            ('feature_third_tier', RelatedDropdownFilter),
-            ('feature_fourth_tier', RelatedDropdownFilter),
-            ('feature_fifth_tier', RelatedDropdownFilter),
-            ('feature_sixth_tier', RelatedDropdownFilter),
-        )
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(EnvoFeatureAdmin, self).change_view(request, object_id)
-
-    # disable add_view - this causes duplicates in cascading subclassed models
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-
-
-admin.site.register(EnvoFeatureSeventh, EnvoFeatureAdmin)
 
 
 class ProjectAdmin(ImportExportActionModelAdmin):

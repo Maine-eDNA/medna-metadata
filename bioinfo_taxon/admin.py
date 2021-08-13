@@ -6,7 +6,7 @@ from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonomicAnnotation
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
-from .resources import ReferenceDatabaseAdminResource, TaxonAdminResource, \
+from .resources import ReferenceDatabaseAdminResource, \
     TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonPhylumAdminResource, \
     TaxonClassAdminResource, TaxonOrderAdminResource, TaxonFamilyAdminResource, \
     TaxonGenusAdminResource, TaxonSpeciesAdminResource, \
@@ -206,6 +206,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
 admin.site.register(TaxonClass, TaxonClassAdmin)
 
+
 class TaxonOrderAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonOrderAdminResource
@@ -368,60 +369,6 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(TaxonSpecies, TaxonSpeciesAdmin)
-
-
-class TaxonAdmin(ImportExportActionModelAdmin):
-    # import_export configs - export ONLY
-    resource_class = TaxonAdminResource
-    # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__', )
-    readonly_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug',
-                       'taxon_class_slug', 'taxon_order_slug', 'taxon_family_slug',
-                       'taxon_genus_slug', 'taxon_species_slug', )
-
-   # def add_view(self, request, extra_content=None):
-   #     # specify the fields that can be viewed in add view
-   #     self.fields = ['taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
-   #                    'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
-   #                    'taxon_common_name', 'is_endemic', 'created_by']
-   #     # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-   #     add_fields = request.GET.copy()
-   #     add_fields['created_by'] = request.user
-   #     request.GET = add_fields
-   #     return super(TaxonAdmin, self).add_view(request)
-
-    def change_view(self, request, object_id, extra_content=None):
-        # specify the fields that can be viewed in change view
-        self.fields = ['taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
-                       'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
-                       'taxon_common_name', 'is_endemic', 'created_by']
-        self.list_filter = (
-            ('taxon_domain', RelatedDropdownFilter),
-            ('taxon_kingdom', RelatedDropdownFilter),
-            ('taxon_phylum', RelatedDropdownFilter),
-            ('taxon_class', RelatedDropdownFilter),
-            ('taxon_order', RelatedDropdownFilter),
-            ('taxon_family', RelatedDropdownFilter),
-            ('taxon_genus', RelatedDropdownFilter)
-        )
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(TaxonAdmin, self).change_view(request, object_id)
-
-    # disable add_view - this causes duplicates in cascading subclassed models
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-    # import_export configs - export ONLY
-
-
-admin.site.register(TaxonSpecies, TaxonAdmin)
 
 
 class AnnotationMethodAdmin(ImportExportActionModelAdmin):
