@@ -197,21 +197,21 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     ta_genus = models.CharField("Genus", max_length=255, blank=True)
     ta_species = models.CharField("Species", max_length=255, blank=True)
     ta_common_name = models.CharField("Common Name", max_length=255, blank=True)
-    manual_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT, blank=True,
+    manual_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT, blank=True, null=True,
                                       related_name="manual_domain")
-    manual_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT, blank=True,
+    manual_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT, blank=True, null=True,
                                        related_name="manual_kingdom")
-    manual_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT, blank=True,
+    manual_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT, blank=True, null=True,
                                       related_name="manual_phylum")
-    manual_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT, blank=True,
+    manual_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT, blank=True, null=True,
                                      related_name="manual_class")
-    manual_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT, blank=True,
+    manual_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT, blank=True, null=True,
                                      related_name="manual_order")
-    manual_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT, blank=True,
+    manual_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT, blank=True, null=True,
                                       related_name="manual_family")
-    manual_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT, blank=True,
+    manual_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT, blank=True, null=True,
                                      related_name="manual_genus")
-    manual_species = models.ForeignKey(TaxonSpecies, on_delete=models.RESTRICT, blank=True,
+    manual_species = models.ForeignKey(TaxonSpecies, on_delete=models.RESTRICT, blank=True, null=True,
                                        related_name="manual_species")
 
     def __str__(self):
