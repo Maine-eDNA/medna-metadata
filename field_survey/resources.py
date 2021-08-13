@@ -383,11 +383,11 @@ class SampleFilterETLAdminResource(resources.ModelResource):
         # SampleLabel
         model = SampleFilterETL
         import_id_fields = ('filter_global_id', 'collection_global_id', )
-        fields = ('filter_global_id', 'field_sample_barcode', 'filter_location', 'is_prefilter', 'filter_fname',
+        fields = ('filter_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname',
                   'filter_lname', 'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
                   'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'collection_global_id', 'created_by', 'created_datetime', )
-        export_order = ('filter_global_id', 'field_sample_barcode', 'filter_location', 'is_prefilter', 'filter_fname',
+        export_order = ('filter_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname',
                         'filter_lname', 'filter_sample_label', 'filter_datetime', 'filter_method',
                         'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore',
                         'filter_size', 'filter_notes', 'collection_global_id', 'created_by', 'created_datetime', )
