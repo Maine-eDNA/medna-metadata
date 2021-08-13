@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from field_survey.models import FieldSample
 from users.models import DateTimeUserMixin
 from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTypes, \
-    DdpcrUnits, QpcrUnits, ProcessLocations
+    DdpcrUnits, QpcrUnits, ProcessLocations, YesNo
 
 
 # Create your models here.
@@ -77,7 +77,8 @@ class ExtractionMethod(DateTimeUserMixin):
 
 class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
-    field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, unique=True)
+    field_sample = models.ForeignKey(FieldSample, on_delete=models.RESTRICT,
+                                     limit_choices_to={'is_extracted': YesNo.NO})
     barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
