@@ -18,6 +18,7 @@ class FieldSurvey(DateTimeUserMixin):
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
                                  blank=True,
+                                 null=True,
                                  on_delete=models.SET(get_sentinel_user),
                                  related_name="username")
     # date
@@ -28,6 +29,7 @@ class FieldSurvey(DateTimeUserMixin):
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name="Supervisor",
                                    blank=True,
+                                   null=True,
                                    on_delete=models.SET(get_sentinel_user),
                                    related_name="supervisor")
     # recdr_fname
@@ -35,7 +37,7 @@ class FieldSurvey(DateTimeUserMixin):
     # recdr_lname
     recorder_lname = models.CharField("Recorder Last Name", max_length=255, blank=True)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
-    site_id = models.ForeignKey(FieldSite, blank=True, on_delete=models.RESTRICT)
+    site_id = models.ForeignKey(FieldSite, blank=True, null=True, on_delete=models.RESTRICT)
     site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
     site_name = models.TextField("General Location Name", blank=True)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
@@ -59,18 +61,18 @@ class FieldSurvey(DateTimeUserMixin):
     measurements_taken = models.IntegerField("Measurements Taken", choices=YesNo.choices, blank=True, null=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Designated Sub-corer",
-                                      blank=True,
+                                      blank=True, null=True,
                                       on_delete=models.SET(get_sentinel_user),
                                       related_name="core_subcorer")
     water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Designated Filterer",
-                                       blank=True,
+                                       blank=True, null=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
     survey_complete = models.IntegerField("Survey Complete", choices=YesNo.choices, blank=True, null=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name="Quality Editor",
-                                  blank=True,
+                                  blank=True, null=True,
                                   on_delete=models.SET(get_sentinel_user),
                                   related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
@@ -93,13 +95,13 @@ class FieldSurvey(DateTimeUserMixin):
     record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Survey Creator",
-                                       blank=True,
+                                       blank=True, null=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="record_creator")
     record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Survey Editor",
-                                      blank=True,
+                                      blank=True, null=True,
                                       on_delete=models.SET(get_sentinel_user),
                                       related_name="record_editor")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
@@ -352,7 +354,7 @@ class FieldSurveyETL(DateTimeUserMixin):
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
-                                 blank=True,
+                                 blank=True, null=True,
                                  on_delete=models.SET(get_sentinel_user),
                                  related_name="username_etl")
     # date
