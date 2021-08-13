@@ -134,7 +134,6 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['freezer_box', 'field_sample', 'extraction',
-                       'freezer_inventory_datetime',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']
@@ -149,7 +148,6 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['freezer_box', 'field_sample', 'extraction',
-                       'freezer_inventory_datetime',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']
