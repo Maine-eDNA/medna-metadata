@@ -6,7 +6,7 @@ from users.models import get_default_user
 from field_survey.models import FieldSample
 from wet_lab.models import Extraction, PooledLibrary
 from users.models import DateTimeUserMixin, get_sentinel_user
-from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions
+from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 
 
 def freezer_inv_status_update(inv_pk, freezer_checkout_action):
@@ -84,7 +84,8 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
-    field_sample = models.ForeignKey(FieldSample, on_delete=models.RESTRICT, blank=True)
+    field_sample = models.ForeignKey(FieldSample, on_delete=models.RESTRICT, blank=True,
+                                     limit_choices_to={'is_extracted': YesNo.NO})
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
     barcode_slug = models.SlugField(max_length=27, null=True)
     freezer_inventory_type = models.IntegerField("Freezer Inventory Type",
@@ -118,7 +119,8 @@ class FreezerInventory(DateTimeUserMixin):
 
 
 class FreezerCheckout(DateTimeUserMixin):
-    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT)
+    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
+                                          limit_choices_to={'freezer_inventory_status': InvStatus.IN})
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_checkout_action = models.IntegerField("Freezer Checkout Action",
                                                   choices=CheckoutActions.choices)
