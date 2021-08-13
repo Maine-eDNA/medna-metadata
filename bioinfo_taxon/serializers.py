@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import ReferenceDatabase, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
+from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
+    TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
 from users.enumerations import YesNo
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
@@ -26,14 +27,110 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-class TaxonSpeciesSerializer(serializers.ModelSerializer):
+class TaxonDomainSerializer(serializers.ModelSerializer):
     taxon_domain = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonDomain
+        fields = ['id', 'taxon_domain', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class TaxonKingdomSerializer(serializers.ModelSerializer):
     taxon_kingdom = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonKingdom
+        fields = ['id', 'taxon_kingdom', 'taxon_domain', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_domain = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_domain')
+
+
+class TaxonPhylumSerializer(serializers.ModelSerializer):
     taxon_phylum = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonPhylum
+        fields = ['id', 'taxon_phylum', 'taxon_kingdom', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_kingdom = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_kingdom')
+
+
+class TaxonClassSerializer(serializers.ModelSerializer):
     taxon_class = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonClass
+        fields = ['id', 'taxon_class', 'taxon_phylum', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_phylum = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_phylum')
+
+
+class TaxonOrderSerializer(serializers.ModelSerializer):
     taxon_order = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonOrder
+        fields = ['id', 'taxon_order', 'taxon_class', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_class = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_class')
+
+
+class TaxonFamilySerializer(serializers.ModelSerializer):
     taxon_family = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonFamily
+        fields = ['id', 'taxon_family', 'taxon_order', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_order = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_order')
+
+
+class TaxonGenusSerializer(serializers.ModelSerializer):
     taxon_genus = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonGenus
+        fields = ['id', 'taxon_family', 'taxon_genus', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_family = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_family')
+
+
+class TaxonSpeciesSerializer(serializers.ModelSerializer):
+    taxon_species = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = TaxonSpecies
+        fields = ['id', 'taxon_genus', 'taxon_species', 'taxon_common_name', 'is_endemic', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_genus = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_genus')
+
+
+class TaxonSerializer(serializers.ModelSerializer):
     taxon_species = serializers.CharField(max_length=255)
     taxon_common_name = serializers.CharField(max_length=255)
     is_endemic = serializers.ChoiceField(choices=YesNo.choices)
@@ -49,6 +146,13 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    taxon_domain = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_domain')
+    taxon_kingdom = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_kingdom')
+    taxon_phylum = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_phylum')
+    taxon_class = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_class')
+    taxon_order = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_order')
+    taxon_family = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_family')
+    taxon_genus = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_genus')
 
 
 class AnnotationMethodSerializer(serializers.ModelSerializer):

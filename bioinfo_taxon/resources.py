@@ -27,19 +27,14 @@ class ReferenceDatabaseAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
-class TaxonSpeciesAdminResource(resources.ModelResource):
+class TaxonDomainAdminResource(resources.ModelResource):
     class Meta:
-        model = TaxonSpecies
-        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
-                            'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species', )
+        model = TaxonDomain
+        import_id_fields = ('taxon_domain', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
-                  'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
-                  'taxon_common_name', 'is_endemic',
+        fields = ('id', 'taxon_domain',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
-                        'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
-                        'taxon_common_name', 'is_endemic',
+        export_order = ('id', 'taxon_domain',
                         'created_by', 'created_datetime', )
 
     created_by = fields.Field(
@@ -49,6 +44,155 @@ class TaxonSpeciesAdminResource(resources.ModelResource):
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
+
+
+class TaxonKingdomAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonKingdom
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', )
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', )
+
+        taxon_domain = fields.Field(
+            column_name='taxon_domain',
+            attribute='taxon_domain',
+            widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain'))
+
+
+class TaxonPhylumAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonPhylum
+        import_id_fields = ('taxon_kingdom', 'taxon_phylum', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_kingdom', 'taxon_phylum', )
+        export_order = ('id', 'taxon_kingdom', 'taxon_phylum', )
+
+    taxon_kingdom = fields.Field(
+        column_name='taxon_kingdom',
+        attribute='taxon_kingdom',
+        widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom'))
+
+
+class TaxonClassAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonClass
+        import_id_fields = ('taxon_phylum', 'taxon_class', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_phylum', 'taxon_class', )
+        export_order = ('id', 'taxon_phylum', 'taxon_class', )
+
+    taxon_phylum = fields.Field(
+        column_name='taxon_phylum',
+        attribute='taxon_phylum',
+        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum'))
+
+
+class TaxonOrderAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonOrder
+        import_id_fields = ('taxon_class', 'taxon_order', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_class', 'taxon_order', )
+        export_order = ('id', 'taxon_class', 'taxon_order', )
+
+    taxon_class = fields.Field(
+        column_name='taxon_class',
+        attribute='taxon_class',
+        widget=ForeignKeyWidget(TaxonClass, 'taxon_class'))
+
+
+class TaxonFamilyAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonFamily
+        import_id_fields = ('taxon_order', 'taxon_family',)
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_order', 'taxon_family',)
+        export_order = ('id', 'taxon_order', 'taxon_family',)
+
+    taxon_order = fields.Field(
+        column_name='taxon_order',
+        attribute='taxon_order',
+        widget=ForeignKeyWidget(TaxonOrder, 'taxon_order'))
+
+
+class TaxonGenusAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonGenus
+        import_id_fields = ('taxon_family', 'taxon_genus', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_family', 'taxon_genus', )
+        export_order = ('id', 'taxon_family', 'taxon_genus', )
+
+    taxon_family = fields.Field(
+        column_name='taxon_family',
+        attribute='taxon_family',
+        widget=ForeignKeyWidget(TaxonFamily, 'taxon_family'))
+
+
+class TaxonSpeciesAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonSpecies
+        import_id_fields = ('taxon_genus', 'taxon_species', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_genus', 'taxon_species',
+                  'taxon_common_name', 'is_endemic', )
+        export_order = ('id', 'taxon_genus', 'taxon_species',
+                        'taxon_common_name', 'is_endemic', )
+
+    taxon_genus = fields.Field(
+        column_name='taxon_genus',
+        attribute='taxon_genus',
+        widget=ForeignKeyWidget(TaxonGenus, 'taxon_genus'))
+
+
+class TaxonAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonSpecies
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                            'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                  'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
+                  'taxon_common_name', 'is_endemic', )
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                        'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
+                        'taxon_common_name', 'is_endemic', )
+
+    taxon_domain = fields.Field(
+        column_name='taxon_domain',
+        attribute='taxon_domain',
+        widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain'))
+
+    taxon_kingdom = fields.Field(
+        column_name='taxon_kingdom',
+        attribute='taxon_kingdom',
+        widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom'))
+
+    taxon_phylum = fields.Field(
+        column_name='taxon_phylum',
+        attribute='taxon_phylum',
+        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum'))
+
+    taxon_class = fields.Field(
+        column_name='taxon_class',
+        attribute='taxon_class',
+        widget=ForeignKeyWidget(TaxonClass, 'taxon_class'))
+
+    taxon_order = fields.Field(
+        column_name='taxon_order',
+        attribute='taxon_order',
+        widget=ForeignKeyWidget(TaxonOrder, 'taxon_order'))
+
+    taxon_family = fields.Field(
+        column_name='taxon_family',
+        attribute='taxon_family',
+        widget=ForeignKeyWidget(TaxonFamily, 'taxon_family'))
+
+    taxon_genus = fields.Field(
+        column_name='taxon_genus',
+        attribute='taxon_genus',
+        widget=ForeignKeyWidget(TaxonGenus, 'taxon_genus'))
 
 
 class AnnotationMethodAdminResource(resources.ModelResource):
