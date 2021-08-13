@@ -54,10 +54,10 @@ class TaxonKingdomAdminResource(resources.ModelResource):
         fields = ('id', 'taxon_domain', 'taxon_kingdom', )
         export_order = ('id', 'taxon_domain', 'taxon_kingdom', )
 
-        taxon_domain = fields.Field(
-            column_name='taxon_domain',
-            attribute='taxon_domain',
-            widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain'))
+    taxon_domain = fields.Field(
+        column_name='taxon_domain',
+        attribute='taxon_domain',
+        widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain'))
 
 
 class TaxonPhylumAdminResource(resources.ModelResource):
