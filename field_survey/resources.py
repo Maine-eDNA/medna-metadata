@@ -18,7 +18,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
                   'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                   'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                  'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',
+                  'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                   'created_by', 'created_datetime', )
         export_order = ('survey_global_id', 'username', 'survey_datetime', 'project_ids', 'supervisor',
                         'recorder_fname', 'recorder_lname', 'arrival_datetime', 'site_id', 'site_id_other',
@@ -28,7 +28,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
                         'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                         'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                         'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                        'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',
+                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                         'created_by', 'created_datetime', )
 
     username = fields.Field(
@@ -222,7 +222,7 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
                   'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                   'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                  'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',
+                  'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                   'created_by', 'created_datetime',)
         export_order = ('survey_global_id','username', 'survey_datetime', 'project_ids', 'supervisor',
                         'recorder_fname', 'recorder_lname', 'arrival_datetime', 'site_id', 'site_id_other',
@@ -232,7 +232,7 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
                         'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                         'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                         'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                        'record_create_date', 'record_creator', 'record_edit_date', 'record_editor',
+                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                         'created_by', 'created_datetime', )
 
     username = fields.Field(
