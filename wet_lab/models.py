@@ -28,6 +28,11 @@ class PrimerPair(DateTimeUserMixin):
                '{primer_target_gene}'.format(primer_set_name=self.primer_set_name,
                                              primer_target_gene=self.primer_target_gene)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'PrimerPair'
+        verbose_name_plural = 'PrimerPairs'
+
 
 class IndexPair(DateTimeUserMixin):
     index_i7 = models.CharField("i7 Index", max_length=16)
@@ -39,6 +44,11 @@ class IndexPair(DateTimeUserMixin):
     def __str__(self):
         return '{pkey}'.format(pkey=self.pk)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'IndexPair'
+        verbose_name_plural = 'IndexPairs'
+
 
 class IndexRemovalMethod(DateTimeUserMixin):
     # exo-sap, beads, ...
@@ -46,6 +56,11 @@ class IndexRemovalMethod(DateTimeUserMixin):
 
     def __str__(self):
         return '{name}'.format(name=self.index_removal_method_name)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'IndexRemovalMethod'
+        verbose_name_plural = 'IndexRemovalMethods'
 
 
 class SizeSelectionMethod(DateTimeUserMixin):
@@ -55,6 +70,11 @@ class SizeSelectionMethod(DateTimeUserMixin):
     def __str__(self):
         return '{name}'.format(name=self.size_selection_method_name)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'SizeSelectionMethod'
+        verbose_name_plural = 'SizeSelectionMethods'
+
 
 class QuantificationMethod(DateTimeUserMixin):
     # QuBit and qPCR, QuBit, qPCR, bioanalyzer, tape station, nanodrop, ...
@@ -62,6 +82,11 @@ class QuantificationMethod(DateTimeUserMixin):
 
     def __str__(self):
         return '{name}'.format(name=self.quant_method_name)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'QuantificationMethod'
+        verbose_name_plural = 'QuantificationMethods'
 
 
 class ExtractionMethod(DateTimeUserMixin):
@@ -73,6 +98,11 @@ class ExtractionMethod(DateTimeUserMixin):
     def __str__(self):
         return '{manufacturer} {name}'.format(manufacturer=self.extraction_method_manufacturer,
                                               name=self.extraction_method_name)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'ExtractionMethod'
+        verbose_name_plural = 'ExtractionMethods'
 
 
 class Extraction(DateTimeUserMixin):
@@ -102,6 +132,11 @@ class Extraction(DateTimeUserMixin):
     def __str__(self):
         return '{barcode}'.format(barcode=self.barcode_slug)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'Extraction'
+        verbose_name_plural = 'Extractions'
+
 
 class Ddpcr(DateTimeUserMixin):
     ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
@@ -121,6 +156,11 @@ class Ddpcr(DateTimeUserMixin):
         return '{date} {experiment_name}'.format(date=self.ddpcr_datetime,
                                                  experiment_name=self.ddpcr_experiment_name)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'ddPCR'
+        verbose_name_plural = 'ddPCRs'
+
 
 class Qpcr(DateTimeUserMixin):
     qpcr_datetime = models.DateTimeField("qPCR DateTime")
@@ -139,6 +179,11 @@ class Qpcr(DateTimeUserMixin):
     def __str__(self):
         return '{date} {experiment_name}'.format(date=self.qpcr_datetime,
                                                  experiment_name=self.qpcr_experiment_name)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'qPCR'
+        verbose_name_plural = 'qPCRs'
 
 
 class LibraryPrep(DateTimeUserMixin):
@@ -173,6 +218,11 @@ class LibraryPrep(DateTimeUserMixin):
         return '{date} {name}'.format(date=self.lib_prep_datetime,
                                       name=self.lib_prep_experiment_name)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'LibraryPrep'
+        verbose_name_plural = 'LibraryPreps'
+
 
 class PooledLibrary(DateTimeUserMixin):
     pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
@@ -192,6 +242,11 @@ class PooledLibrary(DateTimeUserMixin):
     def __str__(self):
         return '{date} {label}'.format(date=self.pooled_lib_datetime,
                                        label=self.pooled_lib_label)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'PooledLibrary'
+        verbose_name_plural = 'PooledLibraries'
 
 
 class LibraryPrepToPooledLibrary(DateTimeUserMixin):
@@ -224,6 +279,11 @@ class FinalPooledLibrary(DateTimeUserMixin):
         return '{date} {label}'.format(date=self.final_pooled_lib_datetime,
                                        label=self.final_pooled_lib_label)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'FinalPooledLibrary'
+        verbose_name_plural = 'FinalPooledLibraries'
+
 
 class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
     '''
@@ -255,6 +315,11 @@ class RunPrep(DateTimeUserMixin):
         return '{date} {label}'.format(date=self.run_date,
                                        label=self.final_pooled_library.final_pooled_lib_label)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'RunPrep'
+        verbose_name_plural = 'RunPreps'
+
 
 class RunResult(DateTimeUserMixin):
     run_id = models.CharField("Run ID", max_length=255)
@@ -266,6 +331,11 @@ class RunResult(DateTimeUserMixin):
     def __str__(self):
         return '{run_id}: {run_experiment_name}'.format(run_id=self.run_id,
                                                         run_experiment_name=self.run_experiment_name)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'RunResult'
+        verbose_name_plural = 'RunResults'
 
 
 class FastqFile(DateTimeUserMixin):
@@ -282,3 +352,8 @@ class FastqFile(DateTimeUserMixin):
     def __str__(self):
         return '{run_id}: {fastq}'.format(run_id=self.run_result.run_id,
                                           fastq=self.fastq_filename)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'FastqFile'
+        verbose_name_plural = 'FastqFiles'
