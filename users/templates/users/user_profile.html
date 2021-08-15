@@ -1,0 +1,35 @@
+{% extends "users/forms.html" %}
+{% load i18n static %}
+
+{% block content %}
+<br>
+<table>
+    <tbody>
+        <tr>
+            <th>{% translate 'Email Address:' %}</th>
+            <td>{{ object.email|urlize }}</td>
+        </tr>
+        <tr>
+            <th>{% translate 'First Name:' %}</th>
+            <td>{{ object.first_name }}</td>
+        </tr>
+        <tr>
+            <th>{% translate 'Last Name:' %}</th>
+            <td>{{ object.last_name }}</td>
+        </tr>
+        <tr>
+            <th>{% translate 'Phone Number:' %}</th>
+            <td>{{ object.phone_number }}</td>
+        </tr>
+        <tr>
+            <th>{% translate 'ArcGIS Online Username:' %}</th>
+            <td>{{ object.agol_username }}</td>
+        </tr>
+        <tr>
+            <th>{% translate 'Date Joined:' %}</th>
+            <td>{{ object.date_joined|date }}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+{% endblock %}

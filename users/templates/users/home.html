@@ -1,0 +1,19 @@
+{% extends "users/base_site.html" %}
+
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'users/css/dashboard.css' %}">{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    {% include "users/app_list.html" with app_list=True show_changelinks=True %}
+</div>
+{% endblock %}

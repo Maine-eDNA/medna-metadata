@@ -1,0 +1,56 @@
+{% load i18n static custom_filter_list %}
+<!-- add user section, site section, and label section -->
+{% if app_list %}
+<div class="app-users module{% if 'users/user/' in request.path %} current-app{% endif %}">
+  <table>
+    <caption>
+      <a href="{% url 'users:user_profile' %}" class="section" title="{% blocktranslate with name='users' %}Models in the {{ name }} application{% endblocktranslate %}"><strong>{% firstof user.get_short_name user.get_username|split_email %}</strong>'s
+{% translate ' ASSETS' %}</a>
+    </caption>
+    <tr class="model-users{% if 'users/user/profile/' in request.path %} current-model{% endif %}">
+      <th scope="row"><a href="{% url 'users:user_profile' %}"{% if 'users/user_profile/' in request.path %} aria-current='page'{% endif %}><strong>{% firstof user.get_short_name user.get_username|split_email %}</strong>'s
+{% translate ' Profile' %}</a></th>
+      <td><a href="{% url 'users:user_update' %}" class="changelink">{% translate 'Change' %}</a></td>
+      <td><a href="{% url 'users:user_profile' %}" class="viewlink">{% translate 'View' %}</a></td>
+    </tr>
+    <tr class="model-sites{% if 'users/user/site/' in request.path %} current-model{% endif %}">
+      <th scope="row"><a href="{% url 'users:sites_index' %}"{% if 'users/sites_index/' in request.path %} aria-current='page'{% endif %}><strong>{% firstof user.get_short_name user.get_username|split_email %}</strong>'s
+{% translate ' Sites' %}</a></th>
+      <td></td>
+      <td><a href="{% url 'users:sites_index' %}" class="viewlink">{% translate 'View' %}</a></td>
+    </tr>
+    <tr class="model-labels{% if 'users/user/samplelabel/' in request.path %} current-model{% endif %}">
+      <th scope="row"><a href="{% url 'users:labels_index' %}"{% if 'users/labels_index/' in request.path %} aria-current='page'{% endif %}><strong>{% firstof user.get_short_name user.get_username|split_email %}</strong>'s
+{% translate ' Labels' %}</a></th>
+      <td></td>
+      <td><a href="{% url 'users:labels_index' %}" class="viewlink">{% translate 'View' %}</a></td>
+    </tr>
+  </table>
+</div>
+<div class="app-sites module{% if 'sites/site/' in request.path %} current-app{% endif %}">
+  <table>
+    <caption>
+      <a href="{% url 'users:site' %}" class="section" title="{% blocktranslate with name='sites' %}Models in the {{ name }} application{% endblocktranslate %}">{% translate 'ADD OR VIEW SITES' %}</a>
+    </caption>
+    <tr class="model-sites{% if 'sites/site/' in request.path %} current-model{% endif %}">
+      <th scope="row"><a href="{% url 'users:site' %}"{% if 'sites/site/' in request.path %} aria-current='page'{% endif %}>{% translate 'Sites' %}</a></th>
+      <td><a href="{% url 'users:site_add' %}" class="addlink">{% translate 'Add' %}</a></td>
+      <td><a href="{% url 'users:site' %}" class="viewlink">{% translate 'View' %}</a></td>
+    </tr>
+  </table>
+</div>
+<div class="app-labels module{% if 'labels/samplelabel/' in request.path %} current-app{% endif %}">
+  <table>
+    <caption>
+      <a href="{% url 'users:samplelabel' %}" class="section" title="{% blocktranslate with name='labels' %}Models in the {{ name }} application{% endblocktranslate %}">{% translate 'ADD OR VIEW LABELS' %}</a>
+    </caption>
+    <tr class="model-labels{% if 'labels/samplelabel/' in request.path %} current-model{% endif %}">
+      <th scope="row"><a href="{% url 'users:samplelabel' %}"{% if 'labels/samplelabel/' in request.path %} aria-current='page'{% endif %}>{% translate 'Labels' %}</a></th>
+      <td><a href="{% url 'users:samplelabel_add' %}" class="addlink">{% translate 'Add' %}</a></td>
+      <td><a href="{% url 'users:samplelabel' %}" class="viewlink">{% translate 'View' %}</a></td>
+    </tr>
+  </table>
+</div>
+{% else %}
+  <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}
