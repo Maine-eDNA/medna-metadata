@@ -123,12 +123,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 
+# https://docs.djangoproject.com/en/3.2/topics/i18n/formatting/
 # https://stackoverflow.com/questions/46984504/django-datetimefield-str-give-different-time-from-admin-display
 # https://stackoverflow.com/questions/7216764/in-the-django-admin-site-how-do-i-change-the-display-format-of-time-fields
 # __str__ datetime default format
-en_formats.DATETIME_FORMAT = "%Y-%m-%d-%H:%M:%S"
-es_formats.DATETIME_FORMAT = "%Y-%m-%d-%H:%M:%S"
-fr_formats.DATETIME_FORMAT = "%Y-%m-%d-%H:%M:%S"
+en_formats.DATETIME_FORMAT = "Y-m-d-H:M:S"
+es_formats.DATETIME_FORMAT = "Y-m-d-H:M:S"
+fr_formats.DATETIME_FORMAT = "Y-m-d-H:M:S"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
