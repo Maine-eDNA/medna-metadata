@@ -39,6 +39,11 @@ class Freezer(DateTimeUserMixin):
                                                               column=self.freezer_max_columns,
                                                               depth=self.freezer_max_depth)
 
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'Freezer'
+        verbose_name_plural = 'Freezers'
+
 
 class FreezerRack(DateTimeUserMixin):
     freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT)
@@ -63,6 +68,11 @@ class FreezerRack(DateTimeUserMixin):
                                                     depth_start=self.freezer_rack_depth_start,
                                                     depth_end=self.freezer_rack_depth_end)
 
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'FreezerRack'
+        verbose_name_plural = 'FreezerRacks'
+
 
 class FreezerBox(DateTimeUserMixin):
     freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT)
@@ -78,6 +88,11 @@ class FreezerBox(DateTimeUserMixin):
                                                               row=self.freezer_box_row,
                                                               column=self.freezer_box_column,
                                                               depth=self.freezer_box_depth)
+
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'FreezerBox'
+        verbose_name_plural = 'FreezerBoxes'
 
 
 class FreezerInventory(DateTimeUserMixin):
@@ -116,6 +131,11 @@ class FreezerInventory(DateTimeUserMixin):
                                                            row=self.freezer_inventory_row,
                                                            column=self.freezer_inventory_column)
 
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'FreezerInventory'
+        verbose_name_plural = 'FreezerInventory'
+
 
 class FreezerCheckout(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
@@ -152,3 +172,8 @@ class FreezerCheckout(DateTimeUserMixin):
 
         # all done, time to save changes to the db
         super(FreezerCheckout, self).save(*args, **kwargs)
+
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'FreezerCheckout'
+        verbose_name_plural = 'FreezerCheckouts'
