@@ -118,6 +118,7 @@ class FreezerInventory(DateTimeUserMixin):
 
 
 class FreezerCheckout(DateTimeUserMixin):
+    # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
                                           limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
