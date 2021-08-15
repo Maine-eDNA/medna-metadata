@@ -71,6 +71,9 @@ INSTALLED_APPS = [
 # custom app ordering
 APP_ORDER = OrderedDict([
     ("users", ["CustomUser"]),
+    ("auth", ["Group"]),
+    ("account", ["emailaddress"]),
+    ("authtoken", ["tokenproxy"]),
     ("field_sites", ["Project", "System", "Region",
                      "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
                      "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
