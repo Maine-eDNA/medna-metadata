@@ -134,11 +134,9 @@ class FreezerCheckout(DateTimeUserMixin):
     freezer_return_notes = models.TextField("Return Notes", blank=True)
 
     def __str__(self):
-        return '{created_datetime} ' \
-               '{checkout_action} ' \
-               '{barcode}'.format(created_datetime=self.created_datetime,
-                                  checkout_action=self.get_freezer_checkout_action_display(),
-                                  barcode=self.freezer_inventory.barcode_slug)
+        return '{barcode}, ' \
+               '{checkout_action}'.format(barcode=self.freezer_inventory.barcode_slug,
+                                  checkout_action=self.get_freezer_checkout_action_display())
 
     def save(self, *args, **kwargs):
         if self.freezer_checkout_action == CheckoutActions.CHECKOUT:
