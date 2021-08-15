@@ -55,6 +55,11 @@ class SampleType(DateTimeUserMixin):
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
 
+    class Meta:
+        app_label = 'sample_labels'
+        verbose_name = 'SampleType'
+        verbose_name_plural = 'SampleTypes'
+
 
 class SampleLabelRequest(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
@@ -107,6 +112,11 @@ class SampleLabelRequest(DateTimeUserMixin):
         # all done, time to save changes to the db
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
+    class Meta:
+        app_label = 'sample_labels'
+        verbose_name = 'SampleLabelRequest'
+        verbose_name_plural = 'SampleLabelRequests'
+
 
 class SampleLabel(DateTimeUserMixin):
     sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
@@ -119,3 +129,8 @@ class SampleLabel(DateTimeUserMixin):
 
     def __str__(self):
         return '{label}'.format(label=self.sample_label_id)
+
+    class Meta:
+        app_label = 'sample_labels'
+        verbose_name = 'SampleLabel'
+        verbose_name_plural = 'SampleLabels'

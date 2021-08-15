@@ -15,6 +15,11 @@ class DenoisingMethod(DateTimeUserMixin):
             pipeline=self.denoising_method_pipeline,
             name=self.denoising_method_name)
 
+    class Meta:
+        app_label = 'bioinfo_denoising'
+        verbose_name = 'DenoisingMethod'
+        verbose_name_plural = 'DenoisingMethods'
+
 
 class DenoisingMetadata(DateTimeUserMixin):
     analysis_datetime = models.DateTimeField("Analysis DateTime", blank=True, null=True)
@@ -37,6 +42,11 @@ class DenoisingMetadata(DateTimeUserMixin):
             date=self.analysis_datetime,
             method=self.denoising_slug)
 
+    class Meta:
+        app_label = 'bioinfo_denoising'
+        verbose_name = 'DenoisingMetadata'
+        verbose_name_plural = 'DenoisingMetadata'
+
 
 class AmpliconSequenceVariant(DateTimeUserMixin):
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
@@ -49,6 +59,11 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
             date=self.denoising_metadata.analysis_datetime,
             method=self.denoising_metadata.denoising_slug)
 
+    class Meta:
+        app_label = 'bioinfo_denoising'
+        verbose_name = 'AmpliconSequenceVariant'
+        verbose_name_plural = 'AmpliconSequenceVariants'
+
 
 class ASVRead(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
@@ -60,3 +75,8 @@ class ASVRead(DateTimeUserMixin):
             id=self.asv.asv_id,
             barcode=self.extraction.barcode_slug,
             num_reads=self.number_reads)
+
+    class Meta:
+        app_label = 'bioinfo_denoising'
+        verbose_name = 'ASVRead'
+        verbose_name_plural = 'ASVReads'

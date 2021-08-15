@@ -21,6 +21,11 @@ class ReferenceDatabase(DateTimeUserMixin):
             version=self.refdb_version,
             coverage=self.redfb_coverage_score)
 
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'ReferenceDatabase'
+        verbose_name_plural = 'ReferenceDatabases'
+
 
 class TaxonDomain(DateTimeUserMixin):
     taxon_domain_slug = models.SlugField("Domain Slug", max_length=255)
@@ -33,6 +38,11 @@ class TaxonDomain(DateTimeUserMixin):
     def __str__(self):
         return '{tax_domain}'.format(
             tax_domain=self.taxon_domain)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonDomain'
+        verbose_name_plural = 'TaxonDomains'
 
 
 class TaxonKingdom(TaxonDomain):
@@ -48,6 +58,11 @@ class TaxonKingdom(TaxonDomain):
             tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom)
 
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonKingdom'
+        verbose_name_plural = 'TaxonKingdoms'
+
 
 class TaxonPhylum(TaxonKingdom):
     taxon_phylum_slug = models.SlugField("Phylum Slug", max_length=255)
@@ -62,6 +77,11 @@ class TaxonPhylum(TaxonKingdom):
             tax_domain=self.taxon_domain,
             tax_kingdom=self.taxon_kingdom,
             tax_phylum=self.taxon_phylum)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonPhylum'
+        verbose_name_plural = 'TaxonPhyla'
 
 
 class TaxonClass(TaxonPhylum):
@@ -79,6 +99,11 @@ class TaxonClass(TaxonPhylum):
             tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class)
 
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonClass'
+        verbose_name_plural = 'TaxonClasses'
+
 
 class TaxonOrder(TaxonClass):
     taxon_order_slug = models.SlugField("Order Slug", max_length=255)
@@ -95,6 +120,11 @@ class TaxonOrder(TaxonClass):
             tax_phylum=self.taxon_phylum,
             tax_class=self.taxon_class,
             tax_order=self.taxon_order)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonOrder'
+        verbose_name_plural = 'TaxonOrders'
 
 
 class TaxonFamily(TaxonOrder):
@@ -114,6 +144,11 @@ class TaxonFamily(TaxonOrder):
             tax_order=self.taxon_order,
             tax_family=self.taxon_family)
 
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonFamily'
+        verbose_name_plural = 'TaxonFamilies'
+
 
 class TaxonGenus(TaxonFamily):
     taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
@@ -132,6 +167,11 @@ class TaxonGenus(TaxonFamily):
             tax_order=self.taxon_order,
             tax_family=self.taxon_family,
             tax_genus=self.taxon_genus)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonGenus'
+        verbose_name_plural = 'TaxonGenera'
 
 
 class TaxonSpecies(TaxonGenus):
@@ -155,6 +195,11 @@ class TaxonSpecies(TaxonGenus):
             tax_genus=self.taxon_genus,
             tax_species=self.taxon_species)
 
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonSpecies'
+        verbose_name_plural = 'TaxonSpecies'
+
 
 class AnnotationMethod(DateTimeUserMixin):
     # BLAST, BLASTPLUS, MNNAIVEBAYES
@@ -163,6 +208,11 @@ class AnnotationMethod(DateTimeUserMixin):
     def __str__(self):
         return '{name}'.format(
             name=self.annotation_method_name)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'AnnotationMethod'
+        verbose_name_plural = 'AnnotationMethods'
 
 
 class AnnotationMetadata(DateTimeUserMixin):
@@ -179,6 +229,11 @@ class AnnotationMetadata(DateTimeUserMixin):
         return '{date}, {method}'.format(
             date=self.analysis_datetime,
             method=self.annotation_method.annotation_method_name)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'AnnotationMetadata'
+        verbose_name_plural = 'AnnotationMetadata'
 
 
 class TaxonomicAnnotation(DateTimeUserMixin):
@@ -218,3 +273,8 @@ class TaxonomicAnnotation(DateTimeUserMixin):
         return '{taxon} {asv}'.format(
             taxon=self.ta_taxon,
             asv=self.asv.asv_id)
+
+    class Meta:
+        app_label = 'bioinfo_taxon'
+        verbose_name = 'TaxonomicAnnotation'
+        verbose_name_plural = 'TaxonomicAnnotations'

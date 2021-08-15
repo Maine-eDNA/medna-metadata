@@ -156,7 +156,7 @@ class FieldCrew(DateTimeUserMixin):
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'FieldCrew'
-        verbose_name_plural = 'FieldCrews'
+        verbose_name_plural = 'FieldCrew'
 
 
 class EnvMeasurement(DateTimeUserMixin):
