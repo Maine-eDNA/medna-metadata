@@ -77,7 +77,7 @@ APP_ORDER = OrderedDict([
     ("account", ["emailaddress"]),
     ("authtoken", ["tokenproxy"]),
     ("socialaccount", ["socialaccount", "socialtoken", "socialapp"]),
-
+    ("freezer_inventory", ["Freezer", "FreezerRack", "FreezerBox", "FreezerInventory", "FreezerCheckout"]),
     ("field_sites", ["Project", "System", "Region",
                      "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
                      "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
@@ -90,7 +90,6 @@ APP_ORDER = OrderedDict([
     ("wet_lab", ["PrimerPair", "IndexPair", "IndexRemovalMethod", "SizeSelectionMethod",
                  "QuantificationMethod", "ExtractionMethod", "Extraction", "Ddpcr", "Qpcr",
                  "LibraryPrep", "PooledLibrary", "FinalPooledLibrary", "RunPrep", "RunResult", "FastqFile"]),
-    ("freezer_inventory", ["Freezer", "FreezerRack", "FreezerBox", "FreezerInventory", "FreezerCheckout"]),
     ("bioinfo_denoising", ["DenoisingMethod", "DenoisingMetadata", "AmpliconSequenceVariant", "ASVRead"]),
     ("bioinfo_taxon", ["ReferenceDatabase", "TaxonDomain", "TaxonKingdom", "TaxonPhylum", "TaxonClass",
                        "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies", "AnnotationMethod",
