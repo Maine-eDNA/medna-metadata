@@ -1,11 +1,10 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
 import datetime
-from django.contrib.auth import get_user_model
-from users.models import get_default_user
+from django.db.models import Q
 from field_survey.models import FieldSample
-from wet_lab.models import Extraction, PooledLibrary
-from users.models import DateTimeUserMixin, get_sentinel_user
+from wet_lab.models import Extraction
+from users.models import DateTimeUserMixin
 from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 
 
@@ -120,7 +119,7 @@ class FreezerInventory(DateTimeUserMixin):
 
 class FreezerCheckout(DateTimeUserMixin):
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
-                                          limit_choices_to={'freezer_inventory_status': InvStatus.IN})
+                                          limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_checkout_action = models.IntegerField("Freezer Checkout Action",
                                                   choices=CheckoutActions.choices)
