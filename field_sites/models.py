@@ -21,6 +21,11 @@ class EnvoBiomeFirst(DateTimeUserMixin):
     def __str__(self):
         return '{biome1}'.format(biome1=self.biome_first_tier)
 
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Biome 1st Tier'
+        verbose_name_plural = 'ENVO Biome 1st Tiers'
+
 
 class EnvoBiomeSecond(EnvoBiomeFirst):
     # alpine tundra, freshwater, marine, montane savanna, montane shrubland, mediterranean,
@@ -41,6 +46,11 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
         return '{biome1} - ' \
                '{biome2}'.format(biome1=self.biome_first_tier,
                                  biome2=self.biome_second_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Biome 2nd Tier'
+        verbose_name_plural = 'ENVO Biome 2nd Tiers'
 
 
 class EnvoBiomeThird(EnvoBiomeSecond):
@@ -66,6 +76,11 @@ class EnvoBiomeThird(EnvoBiomeSecond):
                '{biome3}'.format(biome1=self.biome_first_tier,
                                  biome2=self.biome_second_tier,
                                  biome3=self.biome_third_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Biome 3rd Tier'
+        verbose_name_plural = 'ENVO Biome 3rd Tiers'
 
 
 class EnvoBiomeFourth(EnvoBiomeThird):
@@ -94,6 +109,11 @@ class EnvoBiomeFourth(EnvoBiomeThird):
                                  biome3=self.biome_third_tier,
                                  biome4=self.biome_fourth_tier)
 
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Biome 4th Tier'
+        verbose_name_plural = 'ENVO Biome 4th Tiers'
+
 
 class EnvoBiomeFifth(EnvoBiomeFourth):
     # area of attached Modiolus assemblages, mussel reef, neritic mussel bed, coastal shrimp pond, rural settlement
@@ -116,6 +136,11 @@ class EnvoBiomeFifth(EnvoBiomeFourth):
                                  biome4=self.biome_fourth_tier,
                                  biome5=self.biome_fifth_tier)
 
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Biome 5th Tier'
+        verbose_name_plural = 'ENVO Biome 5th Tiers'
+
 
 class EnvoFeatureFirst(DateTimeUserMixin):
     # geographic feature, harbor, headwater, illuminated biosphere part, isthmus, meander, meander neck, moraine,
@@ -135,6 +160,11 @@ class EnvoFeatureFirst(DateTimeUserMixin):
 
     def __str__(self):
         return '{feature1}'.format(feature1=self.feature_first_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 1st Tier'
+        verbose_name_plural = 'ENVO Feature 1st Tiers'
 
 
 class EnvoFeatureSecond(EnvoFeatureFirst):
@@ -159,6 +189,11 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
         return '{feature1} - ' \
                '{feature2}'.format(feature1=self.feature_first_tier,
                                    feature2=self.feature_second_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 2nd Tier'
+        verbose_name_plural = 'ENVO Feature 2nd Tiers'
 
 
 class EnvoFeatureThird(EnvoFeatureSecond):
@@ -187,6 +222,11 @@ class EnvoFeatureThird(EnvoFeatureSecond):
                                    feature2=self.feature_second_tier,
                                    feature3=self.feature_third_tier)
 
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 3rd Tier'
+        verbose_name_plural = 'ENVO Feature 3rd Tiers'
+
 
 class EnvoFeatureFourth(EnvoFeatureThird):
     # landfill, oil spill, dedicated campground, impromptu campground, road cut, agricultural fairground,
@@ -212,6 +252,11 @@ class EnvoFeatureFourth(EnvoFeatureThird):
                                    feature2=self.feature_second_tier,
                                    feature3=self.feature_third_tier,
                                    feature4=self.feature_fourth_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 4th Tier'
+        verbose_name_plural = 'ENVO Feature 4th Tiers'
 
 
 class EnvoFeatureFifth(EnvoFeatureFourth):
@@ -242,6 +287,11 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
                                    feature4=self.feature_fourth_tier,
                                    feature5=self.feature_fifth_tier)
 
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 5th Tier'
+        verbose_name_plural = 'ENVO Feature 5th Tiers'
+
 
 class EnvoFeatureSixth(EnvoFeatureFifth):
     # coastal shrimp pond, Bathymodiolus-dominated oceanic mussel reef, neritic mussel reef, oceanic mussel reef
@@ -265,6 +315,11 @@ class EnvoFeatureSixth(EnvoFeatureFifth):
                                    feature4=self.feature_fourth_tier,
                                    feature5=self.feature_fifth_tier,
                                    feature6=self.feature_sixth_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 6th Tier'
+        verbose_name_plural = 'ENVO Feature 6th Tiers'
 
 
 class EnvoFeatureSeventh(EnvoFeatureSixth):
@@ -291,6 +346,11 @@ class EnvoFeatureSeventh(EnvoFeatureSixth):
                                    feature5=self.feature_fifth_tier,
                                    feature6=self.feature_sixth_tier,
                                    feature7=self.feature_seventh_tier)
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'ENVO Feature 7th Tier'
+        verbose_name_plural = 'ENVO Feature 7th Tiers'
 
 
 class Project(DateTimeUserMixin):
@@ -412,6 +472,11 @@ class FieldSite(DateTimeUserMixin):
         # all done, time to save changes to the db
         super(FieldSite, self).save(*args, **kwargs)
 
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'Field Site'
+        verbose_name_plural = 'Field Sites'
+
 
 class WorldBorder(models.Model):
     # Regular Django fields corresponding to the attributes in the
@@ -434,3 +499,8 @@ class WorldBorder(models.Model):
     # Returns the string representation of the model.
     def __str__(self):
         return self.name
+
+    class Meta:
+        app_label = 'field_sites'
+        verbose_name = 'World Border'
+        verbose_name_plural = 'World Borders'
