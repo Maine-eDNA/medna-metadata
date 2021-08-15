@@ -17,6 +17,7 @@ from django.conf.locale.en import formats as en_formats
 from django.conf.locale.es import formats as es_formats
 from django.conf.locale.fr import formats as fr_formats
 from django.core.management.utils import get_random_secret_key
+from collections import OrderedDict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,6 +65,29 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # for the creation of api tokens
     'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
 
+]
+
+# https://learnbatta.com/blog/how-to-re-order-apps-models-django/
+# custom app ordering
+APP_ORDER = [
+    ("users", ["CustomUser"]),
+    ("field_sites", ["Project", "System", "Region",
+                     "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
+                     "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
+                     "EnvoFeatureFourth", "EnvoFeatureFifth", "EnvoFeatureSixth", "EnvoFeatureSeventh",
+                     "FieldSite"]),
+    ("sample_labels", ["SampleType", "SampleLabelRequest", "SampleLabel"]),
+    ("field_survey", ["FieldSurvey", "FieldCrew", "EnvMeasurement", "FieldCollection", "FieldSample",
+                      "FieldSurveyETL", "FieldCrewETL", "EnvMeasurementETL",
+                      "FieldCollectionETL", "SampleFilterETL"]),
+    ("wet_lab", ["PrimerPair", "IndexPair", "IndexRemovalMethod", "SizeSelectionMethod",
+                 "QuantificationMethod", "ExtractionMethod", "Extraction", "Ddpcr", "Qpcr",
+                 "LibraryPrep", "PooledLibrary", "FinalPooledLibrary", "RunPrep", "RunResult", "FastqFile"]),
+    ("freezer_inventory", ["Freezer", "FreezerRack", "FreezerBox", "FreezerInventory", "FreezerCheckout"]),
+    ("bioinfo_denoising", ["DenoisingMethod", "DenoisingMetadata", "AmpliconSequenceVariant", "ASVRead"]),
+    ("bioinfo_taxon", ["ReferenceDatabase", "TaxonDomain", "TaxonKingdom", "TaxonPhylum", "TaxonClass",
+                       "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies", "AnnotationMethod",
+                       "AnnotationMetadata", "TaxonomicAnnotation"]),
 ]
 
 # grab currently logged in user for reference in models
