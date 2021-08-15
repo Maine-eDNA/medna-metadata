@@ -68,12 +68,16 @@ INSTALLED_APPS = [
 ]
 
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/
+# https://stackoverflow.com/questions/48293930/reorder-app-and-models-in-django-admin
 # custom app ordering
 APP_ORDER = OrderedDict([
+    ("sites", ["site"]),
     ("users", ["CustomUser"]),
     ("auth", ["Group"]),
     ("account", ["emailaddress"]),
     ("authtoken", ["tokenproxy"]),
+    ("socialaccount", ["socialaccount", "socialtoken", "socialapp"]),
+
     ("field_sites", ["Project", "System", "Region",
                      "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
                      "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
