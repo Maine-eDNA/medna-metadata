@@ -72,8 +72,8 @@ INSTALLED_APPS = [
 # custom app ordering
 APP_ORDER = OrderedDict([
     ("sites", ["site"]),
-    ("users", ["CustomUser"]),
     ("auth", ["Group"]),
+    ("users", ["CustomUser"]),
     ("account", ["emailaddress"]),
     ("authtoken", ["tokenproxy"]),
     ("socialaccount", ["socialaccount", "socialtoken", "socialapp"]),
