@@ -569,7 +569,7 @@ class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         return actions
 
 
-admin.site.register(WorldBorder, WorldBorderAdmin)
+#admin.site.register(WorldBorder, WorldBorderAdmin)
 
 
 class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
