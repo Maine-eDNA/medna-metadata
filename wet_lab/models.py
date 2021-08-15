@@ -30,8 +30,8 @@ class PrimerPair(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'PrimerPair'
-        verbose_name_plural = 'PrimerPairs'
+        verbose_name = 'Primer Pair'
+        verbose_name_plural = 'Primer Pairs'
 
 
 class IndexPair(DateTimeUserMixin):
@@ -46,8 +46,8 @@ class IndexPair(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'IndexPair'
-        verbose_name_plural = 'IndexPairs'
+        verbose_name = 'Index Pair'
+        verbose_name_plural = 'Index Pairs'
 
 
 class IndexRemovalMethod(DateTimeUserMixin):
@@ -59,8 +59,8 @@ class IndexRemovalMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'IndexRemovalMethod'
-        verbose_name_plural = 'IndexRemovalMethods'
+        verbose_name = 'Index Removal Method'
+        verbose_name_plural = 'Index Removal Methods'
 
 
 class SizeSelectionMethod(DateTimeUserMixin):
@@ -72,8 +72,8 @@ class SizeSelectionMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'SizeSelectionMethod'
-        verbose_name_plural = 'SizeSelectionMethods'
+        verbose_name = 'SizeSelection Method'
+        verbose_name_plural = 'SizeSelection Methods'
 
 
 class QuantificationMethod(DateTimeUserMixin):
@@ -85,8 +85,8 @@ class QuantificationMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'QuantificationMethod'
-        verbose_name_plural = 'QuantificationMethods'
+        verbose_name = 'Quantification Method'
+        verbose_name_plural = 'Quantification Methods'
 
 
 class ExtractionMethod(DateTimeUserMixin):
@@ -101,8 +101,8 @@ class ExtractionMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'ExtractionMethod'
-        verbose_name_plural = 'ExtractionMethods'
+        verbose_name = 'Extraction Method'
+        verbose_name_plural = 'Extraction Methods'
 
 
 class Extraction(DateTimeUserMixin):
@@ -220,8 +220,8 @@ class LibraryPrep(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'LibraryPrep'
-        verbose_name_plural = 'LibraryPreps'
+        verbose_name = 'Library Prep'
+        verbose_name_plural = 'Library Preps'
 
 
 class PooledLibrary(DateTimeUserMixin):
@@ -245,8 +245,8 @@ class PooledLibrary(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'PooledLibrary'
-        verbose_name_plural = 'PooledLibraries'
+        verbose_name = 'Pooled Library'
+        verbose_name_plural = 'Pooled Libraries'
 
 
 class LibraryPrepToPooledLibrary(DateTimeUserMixin):
@@ -281,8 +281,8 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'FinalPooledLibrary'
-        verbose_name_plural = 'FinalPooledLibraries'
+        verbose_name = 'Final Pooled Library'
+        verbose_name_plural = 'Final Pooled Libraries'
 
 
 class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
@@ -317,8 +317,8 @@ class RunPrep(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'RunPrep'
-        verbose_name_plural = 'RunPreps'
+        verbose_name = 'Run Prep'
+        verbose_name_plural = 'Run Preps'
 
 
 class RunResult(DateTimeUserMixin):
@@ -334,8 +334,8 @@ class RunResult(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'RunResult'
-        verbose_name_plural = 'RunResults'
+        verbose_name = 'Run Result'
+        verbose_name_plural = 'Run Results'
 
 
 class FastqFile(DateTimeUserMixin):
@@ -355,5 +355,5 @@ class FastqFile(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'FastqFile'
-        verbose_name_plural = 'FastqFiles'
+        verbose_name = 'Fastq File'
+        verbose_name_plural = 'Fastq Files'

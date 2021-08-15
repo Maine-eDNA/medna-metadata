@@ -133,8 +133,8 @@ class FieldSurvey(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldSurvey'
-        verbose_name_plural = 'FieldSurveys'
+        verbose_name = 'Field Survey'
+        verbose_name_plural = 'Field Surveys'
 
 
 class FieldCrew(DateTimeUserMixin):
@@ -155,8 +155,8 @@ class FieldCrew(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldCrew'
-        verbose_name_plural = 'FieldCrew'
+        verbose_name = 'Field Crew'
+        verbose_name_plural = 'Field Crew'
 
 
 class EnvMeasurement(DateTimeUserMixin):
@@ -229,8 +229,8 @@ class EnvMeasurement(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'EnvMeasurement'
-        verbose_name_plural = 'EnvMeasurements'
+        verbose_name = 'Env Measurement'
+        verbose_name_plural = 'Env Measurements'
 
 
 class FieldCollection(DateTimeUserMixin):
@@ -283,8 +283,8 @@ class FieldCollection(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldCollection'
-        verbose_name_plural = 'FieldCollections'
+        verbose_name = 'Field Collection'
+        verbose_name_plural = 'Field Collections'
 
 
 class FieldSample(DateTimeUserMixin):
@@ -339,8 +339,8 @@ class FieldSample(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'FieldSample'
-        verbose_name_plural = 'FieldSamples'
+        verbose_name = 'Field Sample'
+        verbose_name_plural = 'Field Samples'
 
 
 ###########

@@ -57,8 +57,8 @@ class SampleType(DateTimeUserMixin):
 
     class Meta:
         app_label = 'sample_labels'
-        verbose_name = 'SampleType'
-        verbose_name_plural = 'SampleTypes'
+        verbose_name = 'Sample Type'
+        verbose_name_plural = 'Sample Types'
 
 
 class SampleLabelRequest(DateTimeUserMixin):
@@ -115,7 +115,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     class Meta:
         app_label = 'sample_labels'
         verbose_name = 'SampleLabelRequest'
-        verbose_name_plural = 'SampleLabelRequests'
+        verbose_name_plural = 'Sample Label Requests'
 
 
 class SampleLabel(DateTimeUserMixin):
@@ -133,4 +133,4 @@ class SampleLabel(DateTimeUserMixin):
     class Meta:
         app_label = 'sample_labels'
         verbose_name = 'SampleLabel'
-        verbose_name_plural = 'SampleLabels'
+        verbose_name_plural = 'Sample Labels'

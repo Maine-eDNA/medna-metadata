@@ -23,8 +23,8 @@ class ReferenceDatabase(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'ReferenceDatabase'
-        verbose_name_plural = 'ReferenceDatabases'
+        verbose_name = 'Reference Database'
+        verbose_name_plural = 'Reference Databases'
 
 
 class TaxonDomain(DateTimeUserMixin):
@@ -41,8 +41,8 @@ class TaxonDomain(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonDomain'
-        verbose_name_plural = 'TaxonDomains'
+        verbose_name = 'Taxon Domain'
+        verbose_name_plural = 'Taxon Domains'
 
 
 class TaxonKingdom(TaxonDomain):
@@ -60,8 +60,8 @@ class TaxonKingdom(TaxonDomain):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonKingdom'
-        verbose_name_plural = 'TaxonKingdoms'
+        verbose_name = 'Taxon Kingdom'
+        verbose_name_plural = 'Taxon Kingdoms'
 
 
 class TaxonPhylum(TaxonKingdom):
@@ -80,8 +80,8 @@ class TaxonPhylum(TaxonKingdom):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonPhylum'
-        verbose_name_plural = 'TaxonPhyla'
+        verbose_name = 'Taxon Phylum'
+        verbose_name_plural = 'Taxon Phyla'
 
 
 class TaxonClass(TaxonPhylum):
@@ -101,8 +101,8 @@ class TaxonClass(TaxonPhylum):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonClass'
-        verbose_name_plural = 'TaxonClasses'
+        verbose_name = 'Taxon Class'
+        verbose_name_plural = 'Taxon Classes'
 
 
 class TaxonOrder(TaxonClass):
@@ -123,8 +123,8 @@ class TaxonOrder(TaxonClass):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonOrder'
-        verbose_name_plural = 'TaxonOrders'
+        verbose_name = 'Taxon Order'
+        verbose_name_plural = 'Taxon Orders'
 
 
 class TaxonFamily(TaxonOrder):
@@ -146,8 +146,8 @@ class TaxonFamily(TaxonOrder):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonFamily'
-        verbose_name_plural = 'TaxonFamilies'
+        verbose_name = 'Taxon Family'
+        verbose_name_plural = 'Taxon Families'
 
 
 class TaxonGenus(TaxonFamily):
@@ -170,8 +170,8 @@ class TaxonGenus(TaxonFamily):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonGenus'
-        verbose_name_plural = 'TaxonGenera'
+        verbose_name = 'Taxon Genus'
+        verbose_name_plural = 'Taxon Genera'
 
 
 class TaxonSpecies(TaxonGenus):
@@ -197,8 +197,8 @@ class TaxonSpecies(TaxonGenus):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonSpecies'
-        verbose_name_plural = 'TaxonSpecies'
+        verbose_name = 'Taxon Species'
+        verbose_name_plural = 'Taxon Species'
 
 
 class AnnotationMethod(DateTimeUserMixin):
@@ -211,8 +211,8 @@ class AnnotationMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'AnnotationMethod'
-        verbose_name_plural = 'AnnotationMethods'
+        verbose_name = 'Annotation Method'
+        verbose_name_plural = 'Annotation Methods'
 
 
 class AnnotationMetadata(DateTimeUserMixin):
@@ -232,8 +232,8 @@ class AnnotationMetadata(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'AnnotationMetadata'
-        verbose_name_plural = 'AnnotationMetadata'
+        verbose_name = 'Annotation Metadata'
+        verbose_name_plural = 'Annotation Metadata'
 
 
 class TaxonomicAnnotation(DateTimeUserMixin):
@@ -276,5 +276,5 @@ class TaxonomicAnnotation(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_taxon'
-        verbose_name = 'TaxonomicAnnotation'
-        verbose_name_plural = 'TaxonomicAnnotations'
+        verbose_name = 'Taxonomic Annotation'
+        verbose_name_plural = 'Taxonomic Annotations'

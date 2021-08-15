@@ -17,8 +17,8 @@ class DenoisingMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_denoising'
-        verbose_name = 'DenoisingMethod'
-        verbose_name_plural = 'DenoisingMethods'
+        verbose_name = 'Denoising Method'
+        verbose_name_plural = 'Denoising Methods'
 
 
 class DenoisingMetadata(DateTimeUserMixin):
@@ -44,8 +44,8 @@ class DenoisingMetadata(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_denoising'
-        verbose_name = 'DenoisingMetadata'
-        verbose_name_plural = 'DenoisingMetadata'
+        verbose_name = 'Denoising Metadata'
+        verbose_name_plural = 'Denoising Metadata'
 
 
 class AmpliconSequenceVariant(DateTimeUserMixin):
@@ -61,8 +61,8 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_denoising'
-        verbose_name = 'AmpliconSequenceVariant'
-        verbose_name_plural = 'AmpliconSequenceVariants'
+        verbose_name = 'Amplicon Sequence Variant (ASV)'
+        verbose_name_plural = 'Amplicon Sequence Variants (ASVs)'
 
 
 class ASVRead(DateTimeUserMixin):
@@ -78,5 +78,5 @@ class ASVRead(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo_denoising'
-        verbose_name = 'ASVRead'
-        verbose_name_plural = 'ASVReads'
+        verbose_name = 'ASV Read'
+        verbose_name_plural = 'ASV Reads'

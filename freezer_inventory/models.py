@@ -70,8 +70,8 @@ class FreezerRack(DateTimeUserMixin):
 
     class Meta:
         app_label = 'freezer_inventory'
-        verbose_name = 'FreezerRack'
-        verbose_name_plural = 'FreezerRacks'
+        verbose_name = 'Freezer Rack'
+        verbose_name_plural = 'Freezer Racks'
 
 
 class FreezerBox(DateTimeUserMixin):
@@ -91,8 +91,8 @@ class FreezerBox(DateTimeUserMixin):
 
     class Meta:
         app_label = 'freezer_inventory'
-        verbose_name = 'FreezerBox'
-        verbose_name_plural = 'FreezerBoxes'
+        verbose_name = 'Freezer Box'
+        verbose_name_plural = 'Freezer Boxes'
 
 
 class FreezerInventory(DateTimeUserMixin):
@@ -133,8 +133,8 @@ class FreezerInventory(DateTimeUserMixin):
 
     class Meta:
         app_label = 'freezer_inventory'
-        verbose_name = 'FreezerInventory'
-        verbose_name_plural = 'FreezerInventory'
+        verbose_name = 'Freezer Inventory'
+        verbose_name_plural = 'Freezer Inventory'
 
 
 class FreezerCheckout(DateTimeUserMixin):
@@ -175,5 +175,5 @@ class FreezerCheckout(DateTimeUserMixin):
 
     class Meta:
         app_label = 'freezer_inventory'
-        verbose_name = 'FreezerCheckout'
-        verbose_name_plural = 'FreezerCheckouts'
+        verbose_name = 'Freezer Checkout'
+        verbose_name_plural = 'Freezer Checkouts'
