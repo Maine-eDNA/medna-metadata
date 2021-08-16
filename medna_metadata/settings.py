@@ -145,6 +145,7 @@ CORS_ORIGIN_WHITELIST = [
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     r"^https://\metadata\.spatialmsk\.dev$",
+    'http://localhost:4001',
 ]
 
 ROOT_URLCONF = 'medna_metadata.urls'
