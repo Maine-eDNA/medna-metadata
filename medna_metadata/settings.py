@@ -134,8 +134,12 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 # django-cors-headers to open up the backend to connect to the frontend
 # List of origins that are authorized to make cross-site HTTP requests. Defaults to [].
+# https://www.digitalocean.com/community/tutorials/build-a-to-do-application-using-django-and-react
+# django-cors-headers is a Python library that will prevent the errors that you would normally get due to CORS rules.
+# In the CORS_ORIGIN_WHITELIST code, you whitelisted localhost:3000 because you want the frontend
+# (which will be served on that port) of the application to interact with the API.
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000',
+    'http://localhost:4001',
     'https://metadata.spatialmsk.dev/',
 ]
 
