@@ -1,0 +1,18 @@
+# django settings.py
+export DJANGO_DEBUG=True
+export DJANGO_ALLOWED_HOSTS='localhost www.yourdomain.com [::1]'
+export DJANGO_SECRET_KEY='your_secret_key'
+export DJANGO_SETTINGS_MODULE=medna_metadata.settings
+export DJANGO_DATABASE_NAME='medna_metadata'
+export DJANGO_DATABASE_USERNAME='django'
+export DJANGO_DATABASE_PASSWORD='your_db_password'
+export DJANGO_DATABASE_HOST='localhost'
+export DJANGO_DATABASE_PORT=''
+export DJANGO_EMAIL_HOST_USER='youremail@domain.com'
+export DJANGO_EMAIL_HOST_PASSWORD='your_email_password'
+
+# virtualenv settings
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/medna-metadata
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/local/bin/virtualenvwrapper.sh
