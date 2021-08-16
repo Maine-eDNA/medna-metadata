@@ -119,6 +119,8 @@ AUTHENTICATION_BACKENDS = [
 # it more difficult for network traffic sniffers to hijack user sessions.
 # SESSION_COOKIE_SECURE = True
 MIDDLEWARE = [
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,7 +128,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+]
+
+# If True, all origins will be accepted (not use the whitelist below). Defaults to False.
+CORS_ORIGIN_ALLOW_ALL = False
+# django-cors-headers to open up the backend to connect to the frontend
+# List of origins that are authorized to make cross-site HTTP requests. Defaults to [].
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:8000'
 ]
 
 ROOT_URLCONF = 'medna_metadata.urls'
@@ -284,11 +293,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
-
-# django-cors-headers to open up the backend to connect to the frontend
-CORS_ORIGIN_WHITELIST = [
-     'http://localhost:8000'
-]
 
 
 # Logging Configuration
