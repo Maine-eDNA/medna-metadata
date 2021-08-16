@@ -215,12 +215,12 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # location for dump or load of initial data
-FIXTURE_DIRS = [os.path.join(BASE_DIR, 'fixtures/'),]
+FIXTURE_DIRS = [os.path.join(BASE_DIR, 'fixtures/'), ]
 
 # Then set the redirect links for login and logout, which will both go to our home index template
 # https://learndjango.com/tutorials/django-custom-user-model
-LOGIN_REDIRECT_URL = 'users:home' # default to /accounts/profile .. which doesn't exist
-ACCOUNT_LOGOUT_REDIRECT_URL = 'users:home'
+# LOGIN_REDIRECT_URL = 'users:home' # default to /accounts/profile .. which doesn't exist
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'users:home'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
