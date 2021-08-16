@@ -135,7 +135,12 @@ CORS_ORIGIN_ALLOW_ALL = False
 # django-cors-headers to open up the backend to connect to the frontend
 # List of origins that are authorized to make cross-site HTTP requests. Defaults to [].
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:8000'
+    'http://localhost:8000',
+    'https://metadata.spatialmsk.dev/',
+]
+
+CORS_ORIGIN_REGEX_WHITELIST = [
+    r"^https://\metadata\.spatialmsk\.dev$",
 ]
 
 ROOT_URLCONF = 'medna_metadata.urls'
