@@ -130,6 +130,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# https://github.com/adamchainz/django-cors-headers#configuration
 # If True, all origins will be accepted (not use the whitelist below). Defaults to False.
 CORS_ORIGIN_ALLOW_ALL = False
 # django-cors-headers to open up the backend to connect to the frontend
