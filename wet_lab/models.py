@@ -153,8 +153,7 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_notes = models.TextField("ddPCR Notes")
 
     def __str__(self):
-        return '{date} {experiment_name}'.format(date=self.ddpcr_datetime,
-                                                 experiment_name=self.ddpcr_experiment_name)
+        return '{experiment_name}'.format(experiment_name=self.ddpcr_experiment_name)
 
     class Meta:
         app_label = 'wet_lab'
@@ -177,8 +176,7 @@ class Qpcr(DateTimeUserMixin):
     qpcr_notes = models.TextField("qPCR Notes")
 
     def __str__(self):
-        return '{date} {experiment_name}'.format(date=self.qpcr_datetime,
-                                                 experiment_name=self.qpcr_experiment_name)
+        return '{experiment_name}'.format(experiment_name=self.qpcr_experiment_name)
 
     class Meta:
         app_label = 'wet_lab'
@@ -215,8 +213,7 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_notes = models.TextField("Library Prep Notes")
 
     def __str__(self):
-        return '{date} {name}'.format(date=self.lib_prep_datetime,
-                                      name=self.lib_prep_experiment_name)
+        return '{name}'.format(name=self.lib_prep_experiment_name)
 
     class Meta:
         app_label = 'wet_lab'
@@ -240,8 +237,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_notes = models.TextField("Pooled Library Notes")
 
     def __str__(self):
-        return '{date} {label}'.format(date=self.pooled_lib_datetime,
-                                       label=self.pooled_lib_label)
+        return '{label}'.format(label=self.pooled_lib_label)
 
     class Meta:
         app_label = 'wet_lab'
@@ -281,8 +277,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes")
 
     def __str__(self):
-        return '{date} {label}'.format(date=self.final_pooled_lib_datetime,
-                                       label=self.final_pooled_lib_label)
+        return '{label}'.format(label=self.final_pooled_lib_label)
 
     class Meta:
         app_label = 'wet_lab'
@@ -322,8 +317,7 @@ class RunPrep(DateTimeUserMixin):
     run_prep_notes = models.TextField("Run Prep Notes")
 
     def __str__(self):
-        return '{date} {label}'.format(date=self.run_date,
-                                       label=self.final_pooled_library.final_pooled_lib_label)
+        return '{label}'.format(label=self.final_pooled_library.final_pooled_lib_label)
 
     class Meta:
         app_label = 'wet_lab'
