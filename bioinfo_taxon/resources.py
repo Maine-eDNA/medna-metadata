@@ -59,7 +59,7 @@ class TaxonKingdomAdminResource(resources.ModelResource):
     taxon_domain_slug = fields.Field(
         column_name='taxon_domain_slug',
         attribute='taxon_domain_slug',
-        widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain_slug'))
+        widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain'))
 
     created_by = fields.Field(
         column_name='created_by',

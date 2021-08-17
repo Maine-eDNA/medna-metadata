@@ -90,11 +90,11 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_kingdom_slug', 'taxon_domain_slug', )
+    readonly_fields = ('taxon_kingdom_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_kingdom', 'taxon_domain', 'created_by']
+        self.fields = ['taxon_kingdom', 'taxon_domain_slug', 'created_by']
         self.list_filter = (
             ('taxon_domain_slug', RelatedDropdownFilter)
         )
@@ -106,7 +106,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_kingdom', 'taxon_domain', 'created_by']
+        self.fields = ['taxon_kingdom', 'taxon_domain_slug', 'created_by']
         self.list_filter = (
             ('taxon_domain_slug', RelatedDropdownFilter)
         )
@@ -131,11 +131,11 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_phylum_slug', 'taxon_kingdom_slug', )
+    readonly_fields = ('taxon_phylum_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_phylum', 'taxon_kingdom', 'created_by']
+        self.fields = ['taxon_phylum', 'taxon_kingdom_slug', 'created_by']
         self.list_filter = (
             ('taxon_kingdom_slug', RelatedDropdownFilter)
         )
@@ -147,7 +147,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_phylum', 'taxon_kingdom', 'created_by']
+        self.fields = ['taxon_phylum', 'taxon_kingdom_slug', 'created_by']
         self.list_filter = (
             ('taxon_kingdom_slug', RelatedDropdownFilter)
         )
@@ -172,11 +172,11 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_class_slug', 'taxon_phylum_slug', )
+    readonly_fields = ('taxon_class_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class', 'taxon_phylum', 'created_by']
+        self.fields = ['taxon_class', 'taxon_phylum_slug', 'created_by']
         self.list_filter = (
             ('taxon_phylum_slug', RelatedDropdownFilter)
         )
@@ -188,7 +188,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_class', 'taxon_phylum', 'created_by']
+        self.fields = ['taxon_class', 'taxon_phylum_slug', 'created_by']
         self.list_filter = (
             ('taxon_phylum_slug', RelatedDropdownFilter)
         )
@@ -213,11 +213,11 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_order_slug', 'taxon_class_slug', )
+    readonly_fields = ('taxon_order_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_order', 'taxon_class', 'created_by']
+        self.fields = ['taxon_order', 'taxon_class_slug', 'created_by']
         self.list_filter = (
             ('taxon_class_slug', RelatedDropdownFilter)
         )
@@ -229,7 +229,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_order', 'taxon_class', 'created_by']
+        self.fields = ['taxon_order', 'taxon_class_slug', 'created_by']
         self.list_filter = (
             ('taxon_class_slug', RelatedDropdownFilter)
         )
@@ -254,11 +254,11 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_family_slug', 'taxon_order_slug', )
+    readonly_fields = ('taxon_family_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_family', 'taxon_order', 'created_by']
+        self.fields = ['taxon_family', 'taxon_order_slug', 'created_by']
         self.list_filter = (
             ('taxon_order_slug', RelatedDropdownFilter)
         )
@@ -270,7 +270,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_family', 'taxon_order', 'created_by']
+        self.fields = ['taxon_family', 'taxon_order_slug', 'created_by']
         self.list_filter = (
             ('taxon_order_slug', RelatedDropdownFilter)
         )
@@ -295,11 +295,11 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_genus_slug', 'taxon_family_slug', )
+    readonly_fields = ('taxon_genus_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_genus', 'taxon_family', 'created_by']
+        self.fields = ['taxon_genus', 'taxon_family_slug', 'created_by']
         self.list_filter = (
             ('taxon_family_slug', RelatedDropdownFilter)
         )
@@ -311,7 +311,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_genus', 'taxon_family']
+        self.fields = ['taxon_genus', 'taxon_family_slug', 'created_by']
         self.list_filter = (
             ('taxon_family_slug', RelatedDropdownFilter)
         )
@@ -336,11 +336,11 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', )
-    readonly_fields = ('taxon_species_slug', 'taxon_genus_slug', )
+    readonly_fields = ('taxon_species_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_species', 'taxon_genus', 'created_by']
+        self.fields = ['taxon_species', 'taxon_genus_slug', 'created_by']
         self.list_filter = (
             ('taxon_genus_slug', RelatedDropdownFilter)
         )
@@ -352,7 +352,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_species', 'taxon_genus']
+        self.fields = ['taxon_species', 'taxon_genus_slug', 'created_by']
         self.list_filter = (
             ('taxon_genus_slug', RelatedDropdownFilter)
         )
@@ -381,11 +381,6 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['annotation_method_name', 'created_by']
-        self.list_filter = (
-            ('project', RelatedDropdownFilter),
-            ('system', RelatedDropdownFilter),
-            ('region', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
