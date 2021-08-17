@@ -141,11 +141,9 @@ CORS_ORIGIN_ALLOW_ALL = False
 # (which will be served on that port) of the application to interact with the API.
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:4001',
-    'https://metadata.spatialmsk.dev/',
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
-    r"^https://\metadata\.spatialmsk\.dev$",
     'http://localhost:4001',
 ]
 
