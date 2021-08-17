@@ -547,6 +547,10 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                        'run_prep_notes', 'created_by']
+        self.list_filter = (
+            ('final_pooled_library', RelatedDropdownFilter),
+            ('quantification_method', RelatedDropdownFilter)
+        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunPrepAdmin, self).change_view(request, object_id)
 
@@ -623,7 +627,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
-                       'created_by', 'created_datetime']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FastqFileAdmin, self).change_view(request, object_id)
 
