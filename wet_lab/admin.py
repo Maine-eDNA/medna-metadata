@@ -421,9 +421,11 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['pooled_lib_datetime', 'pooled_lib_label', 'process_location',
+        self.fields = ['pooled_lib_datetime', 'pooled_lib_label',
+                       'process_location',
                        'quantification_method',
-                       'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
+                       'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                       'pooled_lib_notes',
                        'created_by']
         self.inlines = (LibraryPrepInline, )
         self.list_filter = (
@@ -437,9 +439,11 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['pooled_lib_datetime', 'pooled_lib_label', 'process_location',
-                       'library_prep', 'quantification_method',
-                       'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
+        self.fields = ['pooled_lib_datetime', 'pooled_lib_label',
+                       'process_location',
+                       'quantification_method',
+                       'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                       'pooled_lib_notes',
                        'created_by']
         self.inlines = (LibraryPrepInline, )
         self.list_filter = (
