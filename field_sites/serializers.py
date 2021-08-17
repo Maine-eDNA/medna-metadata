@@ -11,8 +11,8 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
     biome_first_tier = serializers.CharField(max_length=255, allow_blank=True)
-    ontology_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFirst
@@ -28,6 +28,8 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     biome_second_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeSecond
@@ -36,11 +38,14 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    biome_first_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_first_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    biome_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_first_tier')
 
 
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     biome_third_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeThird
@@ -49,11 +54,14 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    biome_second_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_second_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    biome_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_second_tier')
 
 
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     biome_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFourth
@@ -63,11 +71,14 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    biome_third_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_third_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    biome_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_third_tier')
 
 
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFifth
@@ -76,13 +87,14 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    biome_fourth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_fourth_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    biome_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_fourth_tier')
 
 
 class EnvoBiomeSerializer(serializers.ModelSerializer):
     biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
-    ontology_url = serializers.URLField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFifth
@@ -98,17 +110,16 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='created_by')
-    biome_first_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_first_tier')
-    biome_second_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_second_tier')
-    biome_third_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_third_tier')
-    biome_fourth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_fourth_tier')
+    biome_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_first_tier')
+    biome_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_second_tier')
+    biome_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_third_tier')
+    biome_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='biome_fourth_tier')
 
 
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
     feature_first_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
-
-    ontology_url = serializers.URLField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFirst
@@ -123,6 +134,8 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     feature_second_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSecond
@@ -131,11 +144,14 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature_first_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_first_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    feature_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_first_tier')
 
 
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     feature_third_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureThird
@@ -145,11 +161,14 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature_second_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_second_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    feature_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_second_tier')
 
 
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     feature_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFourth
@@ -159,11 +178,14 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature_third_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_third_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    feature_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_third_tier')
 
 
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     feature_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFifth
@@ -173,11 +195,14 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature_fourth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fourth_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    feature_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fourth_tier')
 
 
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     feature_sixth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSixth
@@ -186,11 +211,14 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature_fifth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fifth_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    feature_fifth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fifth_tier')
 
 
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
+    created_datetime = serializers.DateTimeField()
+    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSeventh
@@ -199,7 +227,8 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature_sixth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_sixth_tier')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    feature_sixth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_sixth_tier')
 
 
 class EnvoFeatureSerializer(serializers.ModelSerializer):
@@ -223,12 +252,12 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_first_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_first_tier')
-    feature_second_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_second_tier')
-    feature_third_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_third_tier')
-    feature_fourth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fourth_tier')
-    feature_fifth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fifth_tier')
-    feature_sixth_tier = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_sixth_tier')
+    feature_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_first_tier')
+    feature_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_second_tier')
+    feature_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_third_tier')
+    feature_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fourth_tier')
+    feature_fifth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_fifth_tier')
+    feature_sixth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_sixth_tier')
 
 
 class ProjectSerializer(serializers.ModelSerializer):
