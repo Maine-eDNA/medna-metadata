@@ -129,7 +129,7 @@ class FieldSurvey(DateTimeUserMixin):
                                                     date=self.survey_datetime,
                                                     location=self.site_name,
                                                     creator=self.record_creator,
-                                                    survey_complete=self.survey_complete)
+                                                    survey_complete=self.get_survey_complete_display())
 
     class Meta:
         app_label = 'field_survey'
@@ -149,7 +149,7 @@ class FieldCrew(DateTimeUserMixin):
 
     def __str__(self):
         return '{survey_global_id}, ' \
-               '{fname} {lname}'.format(survey_global_id=self.survey_global_id,
+               '{fname} {lname}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                         fname=self.crew_fname,
                                         lname=self.crew_lname)
 
@@ -223,7 +223,7 @@ class EnvMeasurement(DateTimeUserMixin):
     def __str__(self):
         return '{survey_global_id}, ' \
                '{env_measure_time}, ' \
-               '{env_measure_depth}'.format(survey_global_id=self.survey_global_id,
+               '{env_measure_depth}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                             env_measure_time=self.env_measure_datetime,
                                             env_measure_depth=self.env_measure_depth)
 
@@ -277,7 +277,7 @@ class FieldCollection(DateTimeUserMixin):
     def __str__(self):
         return '{survey_global_id}, ' \
                '{collection_global_id}, ' \
-               '{collection_type}'.format(survey_global_id=self.survey_global_id,
+               '{collection_type}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                           collection_global_id=self.collection_global_id,
                                           collection_type=self.collection_type)
 
@@ -333,7 +333,7 @@ class FieldSample(DateTimeUserMixin):
 
     def __str__(self):
         return '{collection_global_id}: {sample_type}, ' \
-               '{field_sample_barcode}'.format(collection_global_id=self.collection_global_id,
+               '{field_sample_barcode}'.format(collection_global_id=self.collection_global_id.collection_global_id,
                                                sample_type=self.sample_type,
                                                field_sample_barcode=self.field_sample_barcode.sample_label_id)
 
@@ -455,11 +455,11 @@ class FieldSurveyETL(DateTimeUserMixin):
                '{date}, ' \
                '{location}, ' \
                '{creator}, ' \
-               'Complete: {survey_complete}'.format(survey_global_id=self.survey_global_id,
+               'Complete: {survey_complete}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                                     date=self.survey_datetime,
                                                     location=self.site_name,
                                                     creator=self.record_creator,
-                                                    survey_complete=self.survey_complete)
+                                                    survey_complete=self.get_survey_complete_display())
 
     class Meta:
         app_label = 'field_survey'
@@ -479,7 +479,7 @@ class FieldCrewETL(DateTimeUserMixin):
 
     def __str__(self):
         return '{survey_global_id}, ' \
-               '{fname} {lname}'.format(survey_global_id=self.survey_global_id,
+               '{fname} {lname}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                         fname=self.crew_fname,
                                         lname=self.crew_lname)
 
@@ -554,7 +554,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     def __str__(self):
         return '{survey_global_id}, ' \
                '{env_measure_time}, ' \
-               '{env_measure_depth}'.format(survey_global_id=self.survey_global_id,
+               '{env_measure_depth}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                             env_measure_time=self.env_measure_datetime,
                                             env_measure_depth=self.env_measure_depth)
 
@@ -627,7 +627,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     def __str__(self):
         return '{survey_global_id}, ' \
                '{collection_global_id}, ' \
-               '{collection_type}'.format(survey_global_id=self.survey_global_id,
+               '{collection_type}'.format(survey_global_id=self.survey_global_id.survey_global_id,
                                           collection_global_id=self.collection_global_id,
                                           collection_type=self.collection_type)
 
@@ -665,7 +665,7 @@ class SampleFilterETL(DateTimeUserMixin):
     def __str__(self):
         return '{collection_global_id}, ' \
                '{filter_sample_label}, ' \
-               '{filter_barcode}'.format(collection_global_id=self.collection_global_id,
+               '{filter_barcode}'.format(collection_global_id=self.collection_global_id.collection_global_id,
                                          filter_sample_label=self.filter_sample_label,
                                          filter_barcode=self.filter_barcode)
 
@@ -703,7 +703,7 @@ class BlankSampleFilterETL(DateTimeUserMixin):
     def __str__(self):
         return '{collection_global_id}, ' \
                '{filter_sample_label}, ' \
-               '{filter_barcode}'.format(collection_global_id=self.collection_global_id,
+               '{filter_barcode}'.format(collection_global_id=self.collection_global_id.collection_global_id,
                                          filter_sample_label=self.filter_sample_label,
                                          filter_barcode=self.filter_barcode)
 
