@@ -83,7 +83,7 @@ class TaxonPhylumAdminResource(resources.ModelResource):
     taxon_kingdom_slug = fields.Field(
         column_name='taxon_kingdom_slug',
         attribute='taxon_kingdom_slug',
-        widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom_slug'))
+        widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -107,7 +107,7 @@ class TaxonClassAdminResource(resources.ModelResource):
     taxon_phylum_slug = fields.Field(
         column_name='taxon_phylum_slug',
         attribute='taxon_phylum_slug',
-        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum_slug'))
+        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -132,7 +132,7 @@ class TaxonOrderAdminResource(resources.ModelResource):
     taxon_class_slug = fields.Field(
         column_name='taxon_class_slug',
         attribute='taxon_class_slug',
-        widget=ForeignKeyWidget(TaxonClass, 'taxon_class_slug'))
+        widget=ForeignKeyWidget(TaxonClass, 'taxon_class'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -159,7 +159,7 @@ class TaxonFamilyAdminResource(resources.ModelResource):
     taxon_order_slug = fields.Field(
         column_name='taxon_order_slug',
         attribute='taxon_order_slug',
-        widget=ForeignKeyWidget(TaxonOrder, 'taxon_order_slug'))
+        widget=ForeignKeyWidget(TaxonOrder, 'taxon_order'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -186,7 +186,7 @@ class TaxonGenusAdminResource(resources.ModelResource):
     taxon_family_slug = fields.Field(
         column_name='taxon_family_slug',
         attribute='taxon_family_slug',
-        widget=ForeignKeyWidget(TaxonFamily, 'taxon_family_slug'))
+        widget=ForeignKeyWidget(TaxonFamily, 'taxon_family'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -215,7 +215,7 @@ class TaxonSpeciesAdminResource(resources.ModelResource):
     taxon_genus_slug = fields.Field(
         column_name='taxon_genus_slug',
         attribute='taxon_genus_slug',
-        widget=ForeignKeyWidget(TaxonGenus, 'taxon_genus_slug'))
+        widget=ForeignKeyWidget(TaxonGenus, 'taxon_genus'))
 
     created_by = fields.Field(
         column_name='created_by',
