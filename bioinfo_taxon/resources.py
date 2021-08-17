@@ -51,99 +51,179 @@ class TaxonKingdomAdminResource(resources.ModelResource):
         model = TaxonKingdom
         import_id_fields = ('taxon_domain', 'taxon_kingdom', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain', 'taxon_kingdom', )
-        export_order = ('id', 'taxon_domain', 'taxon_kingdom', )
+        fields = ('id', 'taxon_domain', 'taxon_kingdom',
+                  'created_by', 'created_datetime', )
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom',
+                        'created_by', 'created_datetime', )
 
-    taxon_domain = fields.Field(
-        column_name='taxon_domain',
-        attribute='taxon_domain',
-        widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain'))
+    taxon_domain_slug = fields.Field(
+        column_name='taxon_domain_slug',
+        attribute='taxon_domain_slug',
+        widget=ForeignKeyWidget(TaxonDomain, 'taxon_domain_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonPhylumAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonPhylum
-        import_id_fields = ('taxon_kingdom', 'taxon_phylum', )
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_kingdom', 'taxon_phylum', )
-        export_order = ('id', 'taxon_kingdom', 'taxon_phylum', )
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum',
+                  'created_by', 'created_datetime', )
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum',
+                        'created_by', 'created_datetime',)
 
-    taxon_kingdom = fields.Field(
-        column_name='taxon_kingdom',
-        attribute='taxon_kingdom',
-        widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom'))
+    taxon_kingdom_slug = fields.Field(
+        column_name='taxon_kingdom_slug',
+        attribute='taxon_kingdom_slug',
+        widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonClassAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonClass
-        import_id_fields = ('taxon_phylum', 'taxon_class', )
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_phylum', 'taxon_class', )
-        export_order = ('id', 'taxon_phylum', 'taxon_class', )
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                  'created_by', 'created_datetime',)
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                        'created_by', 'created_datetime',)
 
-    taxon_phylum = fields.Field(
-        column_name='taxon_phylum',
-        attribute='taxon_phylum',
-        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum'))
+    taxon_phylum_slug = fields.Field(
+        column_name='taxon_phylum_slug',
+        attribute='taxon_phylum_slug',
+        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonOrderAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonOrder
-        import_id_fields = ('taxon_class', 'taxon_order', )
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                            'taxon_order', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_class', 'taxon_order', )
-        export_order = ('id', 'taxon_class', 'taxon_order', )
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class', 'taxon_order',
+                  'created_by', 'created_datetime',)
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class', 'taxon_order',
+                        'created_by', 'created_datetime',)
 
-    taxon_class = fields.Field(
-        column_name='taxon_class',
-        attribute='taxon_class',
-        widget=ForeignKeyWidget(TaxonClass, 'taxon_class'))
+    taxon_class_slug = fields.Field(
+        column_name='taxon_class_slug',
+        attribute='taxon_class_slug',
+        widget=ForeignKeyWidget(TaxonClass, 'taxon_class_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonFamilyAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonFamily
-        import_id_fields = ('taxon_order', 'taxon_family',)
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                            'taxon_order', 'taxon_family',)
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_order', 'taxon_family',)
-        export_order = ('id', 'taxon_order', 'taxon_family',)
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum',
+                  'taxon_class', 'taxon_order', 'taxon_family',
+                  'created_by', 'created_datetime',)
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum',
+                        'taxon_class', 'taxon_order', 'taxon_family',
+                        'created_by', 'created_datetime',)
 
-    taxon_order = fields.Field(
-        column_name='taxon_order',
-        attribute='taxon_order',
-        widget=ForeignKeyWidget(TaxonOrder, 'taxon_order'))
+    taxon_order_slug = fields.Field(
+        column_name='taxon_order_slug',
+        attribute='taxon_order_slug',
+        widget=ForeignKeyWidget(TaxonOrder, 'taxon_order_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonGenusAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonGenus
-        import_id_fields = ('taxon_family', 'taxon_genus', )
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                            'taxon_order', 'taxon_family', 'taxon_genus', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_family', 'taxon_genus', )
-        export_order = ('id', 'taxon_family', 'taxon_genus', )
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                  'taxon_order', 'taxon_family', 'taxon_genus',
+                  'created_by', 'created_datetime',)
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                        'taxon_order', 'taxon_family', 'taxon_genus',
+                        'created_by', 'created_datetime',)
 
-    taxon_family = fields.Field(
-        column_name='taxon_family',
-        attribute='taxon_family',
-        widget=ForeignKeyWidget(TaxonFamily, 'taxon_family'))
+    taxon_family_slug = fields.Field(
+        column_name='taxon_family_slug',
+        attribute='taxon_family_slug',
+        widget=ForeignKeyWidget(TaxonFamily, 'taxon_family_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonSpeciesAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonSpecies
-        import_id_fields = ('taxon_genus', 'taxon_species', )
+        import_id_fields = ('taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                            'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',)
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_genus', 'taxon_species',
-                  'taxon_common_name', 'is_endemic', )
-        export_order = ('id', 'taxon_genus', 'taxon_species',
-                        'taxon_common_name', 'is_endemic', )
+        fields = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                  'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
+                  'taxon_common_name', 'is_endemic',
+                  'created_by', 'created_datetime',)
+        export_order = ('id', 'taxon_domain', 'taxon_kingdom', 'taxon_phylum', 'taxon_class',
+                        'taxon_order', 'taxon_family', 'taxon_genus', 'taxon_species',
+                        'taxon_common_name', 'is_endemic',
+                        'created_by', 'created_datetime',)
 
-    taxon_genus = fields.Field(
-        column_name='taxon_genus',
-        attribute='taxon_genus',
-        widget=ForeignKeyWidget(TaxonGenus, 'taxon_genus'))
+    taxon_genus_slug = fields.Field(
+        column_name='taxon_genus_slug',
+        attribute='taxon_genus_slug',
+        widget=ForeignKeyWidget(TaxonGenus, 'taxon_genus_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class TaxonAdminResource(resources.ModelResource):
