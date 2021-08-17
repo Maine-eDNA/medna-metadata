@@ -112,6 +112,29 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# these are settings for Django REST framework
+# https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',  # can authenticate via token
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # have to be authenticated to view rest API
+    ),
+}
+
+# make sure serializer is not default serializer, but the custom one with additional fields
+# https://krakensystems.co/blog/2020/custom-users-using-django-rest-framework
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
+}
+
 #  You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE,
 #  but you have not set CSRF_COOKIE_SECURE to True. Using a secure-only CSRF cookie makes
 #  it more difficult for network traffic sniffers to steal the CSRF token.
@@ -249,29 +272,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # django-phonenumber-field[phonenumberslite] settings
 PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'US'
-
-# these are settings for Django REST framework
-# https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',  # can authenticate via token
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated', # have to be authenticated to view rest API
-    ),
-}
-
-# make sure serializer is not default serializer, but the custom one with additional fields
-# https://krakensystems.co/blog/2020/custom-users-using-django-rest-framework
-REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
-    'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
-}
 
 # settings for import-export to allow exporting data via csv
 IMPORT_EXPORT_USE_TRANSACTIONS = True
