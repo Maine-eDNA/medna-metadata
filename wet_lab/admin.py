@@ -405,7 +405,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
 admin.site.register(LibraryPrep, LibraryPrepAdmin)
 
 
-class LibraryPrepInline(admin.StackedInline):
+class LibraryPrepInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     model = LibraryPrepToPooledLibrary
     extra = 1
@@ -457,7 +457,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
 admin.site.register(PooledLibrary, PooledLibraryAdmin)
 
 
-class PooledLibraryInline(admin.StackedInline):
+class PooledLibraryInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     model = PooledLibraryToFinalPooledLibrary
     extra = 1
