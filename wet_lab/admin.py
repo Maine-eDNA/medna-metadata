@@ -25,6 +25,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
                        'primer_name_forward', 'primer_name_reverse',
                        'primer_forward', 'primer_reverse',
                        'primer_amplicon_length_min', 'primer_amplicon_length_max',
+                       'primer_pair_notes',
                        'created_by']
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -39,6 +40,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
                        'primer_name_forward', 'primer_name_reverse',
                        'primer_forward', 'primer_reverse',
                        'primer_amplicon_length_min', 'primer_amplicon_length_max',
+                       'primer_pair_notes',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PrimerPairAdmin, self).change_view(request, object_id)
