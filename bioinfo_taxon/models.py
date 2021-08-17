@@ -55,7 +55,7 @@ class TaxonKingdom(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
-        #self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
         super(TaxonKingdom, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -78,8 +78,8 @@ class TaxonPhylum(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_phylum_slug = '{tax_phylum}'.format(tax_phylum=slugify(self.taxon_phylum))
-        #self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_kingdom_slug.taxon_kingdom)
-        #self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_kingdom_slug.taxon_domain)
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_kingdom_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_kingdom_slug.taxon_domain)
         super(TaxonPhylum, self).save(*args, **kwargs)
 
     def __str__(self):
