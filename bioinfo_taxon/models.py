@@ -28,6 +28,9 @@ class ReferenceDatabase(DateTimeUserMixin):
 
 
 class TaxonDomain(DateTimeUserMixin):
+    # Multi-table inheritance enforces onetoone relationships, which is
+    # not what we want here. Changing back to FK with populated fields.
+    # https://docs.djangoproject.com/en/3.2/topics/db/models/#multi-table-inheritance
     taxon_domain_slug = models.SlugField("Domain Slug", max_length=255)
     taxon_domain = models.CharField("Domain", max_length=255, unique=True)
 
@@ -45,12 +48,15 @@ class TaxonDomain(DateTimeUserMixin):
         verbose_name_plural = 'Taxon Domains'
 
 
-class TaxonKingdom(TaxonDomain):
+class TaxonKingdom(DateTimeUserMixin):
     taxon_kingdom_slug = models.SlugField("Kingdom Slug", max_length=255)
     taxon_kingdom = models.CharField("Kingdom", max_length=255, unique=True)
+    taxon_domain_slug = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
         super(TaxonKingdom, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -64,12 +70,17 @@ class TaxonKingdom(TaxonDomain):
         verbose_name_plural = 'Taxon Kingdoms'
 
 
-class TaxonPhylum(TaxonKingdom):
+class TaxonPhylum(DateTimeUserMixin):
     taxon_phylum_slug = models.SlugField("Phylum Slug", max_length=255)
     taxon_phylum = models.CharField("Phylum", max_length=255, unique=True)
+    taxon_kingdom_slug = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_phylum_slug = '{tax_phylum}'.format(tax_phylum=slugify(self.taxon_phylum))
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_kingdom_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_kingdom_slug.taxon_domain)
         super(TaxonPhylum, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -84,12 +95,19 @@ class TaxonPhylum(TaxonKingdom):
         verbose_name_plural = 'Taxon Phyla'
 
 
-class TaxonClass(TaxonPhylum):
+class TaxonClass(DateTimeUserMixin):
     taxon_class_slug = models.SlugField("Class Slug", max_length=255)
     taxon_class = models.CharField("Class", max_length=255, unique=True)
+    taxon_phylum_slug = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT)
+    taxon_phylum = models.CharField("Phylum", max_length=255)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_class_slug = '{tax_class}'.format(tax_class=slugify(self.taxon_class))
+        self.taxon_phylum = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_phylum)
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_phylum_slug.taxon_domain)
         super(TaxonClass, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -105,12 +123,21 @@ class TaxonClass(TaxonPhylum):
         verbose_name_plural = 'Taxon Classes'
 
 
-class TaxonOrder(TaxonClass):
+class TaxonOrder(DateTimeUserMixin):
     taxon_order_slug = models.SlugField("Order Slug", max_length=255)
     taxon_order = models.CharField("Order", max_length=255, unique=True)
+    taxon_class_slug = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT)
+    taxon_class = models.CharField("Class", max_length=255)
+    taxon_phylum = models.CharField("Phylum", max_length=255)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_order_slug = '{tax_order}'.format(tax_order=slugify(self.taxon_order))
+        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_class_slug.taxon_class)
+        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_class_slug.taxon_phylum)
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_class_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_class_slug.taxon_domain)
         super(TaxonOrder, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -127,12 +154,23 @@ class TaxonOrder(TaxonClass):
         verbose_name_plural = 'Taxon Orders'
 
 
-class TaxonFamily(TaxonOrder):
+class TaxonFamily(DateTimeUserMixin):
     taxon_family_slug = models.SlugField("Family Slug", max_length=255)
     taxon_family = models.CharField("Family", max_length=255, unique=True)
+    taxon_order_slug = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT)
+    taxon_order = models.CharField("Order", max_length=255)
+    taxon_class = models.CharField("Class", max_length=255)
+    taxon_phylum = models.CharField("Phylum", max_length=255)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_family_slug = '{tax_family}'.format(tax_family=slugify(self.taxon_family))
+        self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_order_slug.taxon_order)
+        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_order_slug.taxon_class)
+        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_order_slug.taxon_phylum)
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_order_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_order_slug.taxon_domain)
         super(TaxonFamily, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -150,12 +188,25 @@ class TaxonFamily(TaxonOrder):
         verbose_name_plural = 'Taxon Families'
 
 
-class TaxonGenus(TaxonFamily):
+class TaxonGenus(DateTimeUserMixin):
     taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
     taxon_genus = models.CharField("Genus", max_length=255, unique=True)
+    taxon_family_slug = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT)
+    taxon_family = models.CharField("Order", max_length=255)
+    taxon_order = models.CharField("Order", max_length=255)
+    taxon_class = models.CharField("Class", max_length=255)
+    taxon_phylum = models.CharField("Phylum", max_length=255)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_genus_slug = '{tax_genus}'.format(tax_genus=slugify(self.taxon_genus))
+        self.taxon_family = '{tax_family}'.format(tax_family=self.taxon_family_slug.taxon_family)
+        self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_family_slug.taxon_order)
+        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_family_slug.taxon_class)
+        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_family_slug.taxon_phylum)
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_family_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_family_slug.taxon_domain)
         super(TaxonGenus, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -174,14 +225,29 @@ class TaxonGenus(TaxonFamily):
         verbose_name_plural = 'Taxon Genera'
 
 
-class TaxonSpecies(TaxonGenus):
+class TaxonSpecies(DateTimeUserMixin):
     taxon_species_slug = models.SlugField("Species Slug", max_length=255)
     taxon_species = models.CharField("Species", max_length=255, unique=True)
     taxon_common_name = models.CharField("Common Name", max_length=255)
     is_endemic = models.IntegerField("Endemic to New England", choices=YesNo.choices, default=YesNo.YES)
+    taxon_genus_slug = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT)
+    taxon_genus = models.CharField("Genus", max_length=255)
+    taxon_family = models.CharField("Order", max_length=255)
+    taxon_order = models.CharField("Order", max_length=255)
+    taxon_class = models.CharField("Class", max_length=255)
+    taxon_phylum = models.CharField("Phylum", max_length=255)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_species_slug = '{tax_species}'.format(tax_species=slugify(self.taxon_species))
+        self.taxon_genus = '{tax_genus}'.format(tax_genus=self.taxon_genus_slug.taxon_genus)
+        self.taxon_family = '{tax_family}'.format(tax_family=self.taxon_genus_slug.taxon_family)
+        self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_genus_slug.taxon_order)
+        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_genus_slug.taxon_class)
+        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_genus_slug.taxon_phylum)
+        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_genus_slug.taxon_kingdom)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_genus_slug.taxon_domain)
         super(TaxonSpecies, self).save(*args, **kwargs)
 
     def __str__(self):
