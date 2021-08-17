@@ -405,6 +405,11 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
 admin.site.register(LibraryPrep, LibraryPrepAdmin)
 
 
+class LibraryPrepInline(admin.StackedInline):
+    model = PooledLibrary
+    filter_horizontal = 'library_prep'
+
+
 class PooledLibraryAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = PooledLibraryAdminResource
@@ -414,9 +419,10 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['pooled_lib_datetime', 'pooled_lib_label', 'process_location',
-                       'library_prep', 'quantification_method',
+                       'quantification_method',
                        'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                        'created_by']
+        self.inlines = [LibraryPrepInline]
         self.list_filter = (
             ('quantification_method', RelatedDropdownFilter)
         )
