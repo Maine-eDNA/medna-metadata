@@ -15,8 +15,7 @@ class ReferenceDatabase(DateTimeUserMixin):
                                      default="https://github.com/Maine-eDNA")
 
     def __str__(self):
-        return '{date}, {name} {version}, {coverage}%'.format(
-            date=self.refdb_datetime,
+        return '{name} {version}, {coverage}%'.format(
             name=self.refdb_name,
             version=self.refdb_version,
             coverage=self.redfb_coverage_score)
@@ -105,7 +104,7 @@ class TaxonClass(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_class_slug = '{tax_class}'.format(tax_class=slugify(self.taxon_class))
-        self.taxon_phylum = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_phylum)
+        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_phylum_slug.taxon_phylum)
         self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_kingdom)
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_phylum_slug.taxon_domain)
         super(TaxonClass, self).save(*args, **kwargs)
