@@ -438,6 +438,10 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
                        'library_prep', 'quantification_method',
                        'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                        'created_by']
+        self.inlines = (LibraryPrepInline, )
+        self.list_filter = (
+            ('quantification_method', RelatedDropdownFilter)
+        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PooledLibraryAdmin, self).change_view(request, object_id)
 
@@ -452,6 +456,11 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
 admin.site.register(PooledLibrary, PooledLibraryAdmin)
 
 
+class PooledLibraryInline(admin.TabularInline):
+    model = PooledLibraryToFinalPooledLibrary
+    extra = 1
+
+
 class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = FinalPooledLibraryAdminResource
@@ -460,11 +469,13 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label', 'process_location',
-                       'pooled_library', 'quantification_method',
+        self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label',
+                       'process_location',
+                       'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
                        'final_pooled_lib_notes', 'created_by']
+        self.inlines = (PooledLibraryInline, )
         self.list_filter = (
             ('quantification_method', RelatedDropdownFilter)
         )
@@ -476,11 +487,16 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label', 'process_location',
-                       'pooled_library', 'quantification_method',
+        self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label',
+                       'process_location',
+                       'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
                        'final_pooled_lib_notes', 'created_by']
+        self.inlines = (PooledLibraryInline, )
+        self.list_filter = (
+            ('quantification_method', RelatedDropdownFilter)
+        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FinalPooledLibraryAdmin, self).change_view(request, object_id)
 
