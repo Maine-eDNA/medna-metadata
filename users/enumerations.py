@@ -32,6 +32,7 @@ class VolUnits(models.IntegerChoices):
     MILLILITER = 1, _('milliliter (mL)')
     __empty__ = _('(Unknown)')
 
+
 class ConcentrationUnits(models.IntegerChoices):
     NGUL = 0, _('Nanograms per microliter (ng/µL)')
     NGML = 1, _('Nanograms per milliliter (ng/mL)')
@@ -82,10 +83,17 @@ class TargetGenes(models.IntegerChoices):
     __empty__ = _('(Unknown)')
 
 
-class PrepTypes(models.IntegerChoices):
-    AMPLICON = 0, _('Amplicon')
-    RNA = 1, _('RNA')
-    SHOTGUN = 2, _('Shotgun')
+class LibPrepTypes(models.IntegerChoices):
+    AMPLICON = 0, _('Amplicon Sequencing')
+    RNA = 1, _('16s rRNA Sequencing')
+    SHOTGUN = 2, _('Shotgun Sequencing')
+    WHOLE = 3, _('Whole-Genome Sequencing')
+    DENOVO = 4, _('De Novo Sequencing')
+    __empty__ = _('(Unknown)')
+
+
+class LibPrepKits(models.IntegerChoices):
+    NEXTERAXTV2 = 0, _('Nextera XT V2')
     __empty__ = _('(Unknown)')
 
 
