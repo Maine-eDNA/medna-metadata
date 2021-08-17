@@ -70,6 +70,7 @@ INSTALLED_APPS = [
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/
 # https://stackoverflow.com/questions/48293930/reorder-app-and-models-in-django-admin
 # custom app ordering
+"""
 APP_ORDER = OrderedDict([
     ("sites", ["site"]),
     ("auth", ["Group"]),
@@ -95,7 +96,7 @@ APP_ORDER = OrderedDict([
                        "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies", "AnnotationMethod",
                        "AnnotationMetadata", "TaxonomicAnnotation"]),
 ])
-
+"""
 # grab currently logged in user for reference in models
 # Adding the following line to the “settings.py” file will let Django know to use the new User class:
 AUTH_USER_MODEL = 'users.CustomUser'
