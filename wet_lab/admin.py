@@ -3,7 +3,7 @@
 from django.contrib.gis import admin
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
-    RunResult, FastqFile, LibraryPrepToPooledLibrary, PooledLibraryToFinalPooledLibrary
+    RunResult, FastqFile
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
@@ -409,8 +409,9 @@ admin.site.register(LibraryPrep, LibraryPrepAdmin)
 
 class LibraryPrepInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    model = LibraryPrepToPooledLibrary
-    extra = 1
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = PooledLibrary.library_prep.through
+    # extra = 1
 
 
 class PooledLibraryAdmin(ImportExportActionModelAdmin):
@@ -465,8 +466,9 @@ admin.site.register(PooledLibrary, PooledLibraryAdmin)
 
 class PooledLibraryInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    model = PooledLibraryToFinalPooledLibrary
-    extra = 1
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = FinalPooledLibrary.pooled_library.through
+    # extra = 1
 
 
 class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):

@@ -5,8 +5,8 @@ from django.utils.text import slugify
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
 from users.models import DateTimeUserMixin
-from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, PrepTypes, \
-    DdpcrUnits, QpcrUnits, ProcessLocations, YesNo
+from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, LibPrepTypes, \
+    DdpcrUnits, QpcrUnits, ProcessLocations, YesNo, LibPrepKits
 
 
 # Create your models here.
@@ -207,8 +207,10 @@ class LibraryPrep(DateTimeUserMixin):
     final_concentration_units = models.IntegerField("Library Prep Final Units",
                                                     choices=ConcentrationUnits.choices,
                                                     default=ConcentrationUnits.NM)
-    lib_prep_kit = models.CharField("Library Prep Kit", max_length=255)
-    lib_prep_type = models.IntegerField("Library Prep Type", choices=PrepTypes.choices)
+    lib_prep_kit = models.IntegerField("Library Prep Kit",
+                                       choices=LibPrepKits.choices,
+                                       default=LibPrepKits.NEXTERAXTV2)
+    lib_prep_type = models.IntegerField("Library Prep Type", choices=LibPrepTypes.choices)
     lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes")
 
@@ -226,9 +228,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
     process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
                                            default=ProcessLocations.CORE)
-    library_prep = models.ManyToManyField(LibraryPrep,
-                                          through='LibraryPrepToPooledLibrary',
-                                          related_name='libraryprep_to_pooledlibrary')
+    library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
     # nanomolar, nM
@@ -245,17 +245,17 @@ class PooledLibrary(DateTimeUserMixin):
         verbose_name_plural = 'Pooled Libraries'
 
 
-class LibraryPrepToPooledLibrary(DateTimeUserMixin):
-    '''
-    ManyToMany relationship table between LibraryPrep and PooledLibrary
-    '''
-    library_prep = models.ForeignKey(LibraryPrep, on_delete=models.RESTRICT)
-    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
+#class LibraryPrepToPooledLibrary(DateTimeUserMixin):
+#    '''
+#    ManyToMany relationship table between LibraryPrep and PooledLibrary
+#    '''
+#    library_prep = models.ForeignKey(LibraryPrep, on_delete=models.RESTRICT)
+#    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
 
-    class Meta:
-        app_label = 'wet_lab'
-        verbose_name = 'Library Prep to Pooled Library'
-        verbose_name_plural = 'Library Prep to Pooled Libraries'
+#    class Meta:
+#        app_label = 'wet_lab'
+#        verbose_name = 'Library Prep to Pooled Library'
+#        verbose_name_plural = 'Library Prep to Pooled Libraries'
 
 
 class FinalPooledLibrary(DateTimeUserMixin):
@@ -263,9 +263,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
     process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
                                            default=ProcessLocations.CORE)
-    pooled_library = models.ManyToManyField(PooledLibrary,
-                                            through='PooledLibraryToFinalPooledLibrary',
-                                            related_name='pooledlibrary_to_finalpooledlibrary')
+    pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_finalpooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
                                                          max_digits=15,
@@ -285,17 +283,17 @@ class FinalPooledLibrary(DateTimeUserMixin):
         verbose_name_plural = 'Final Pooled Libraries'
 
 
-class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
-    '''
-    ManyToMany relationship table between PooledLibrary and FinalPooledLibrary
-    '''
-    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
-    final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
+#class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
+#    '''
+#    ManyToMany relationship table between PooledLibrary and FinalPooledLibrary
+#    '''
+#    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
+#    final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
 
-    class Meta:
-        app_label = 'wet_lab'
-        verbose_name = 'Pooled Library to Final Pooled Library'
-        verbose_name_plural = 'Pooled Library to Final Pooled Libraries'
+#    class Meta:
+#        app_label = 'wet_lab'
+#        verbose_name = 'Pooled Library to Final Pooled Library'
+#        verbose_name_plural = 'Pooled Library to Final Pooled Libraries'
 
 
 class RunPrep(DateTimeUserMixin):
