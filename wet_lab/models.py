@@ -256,6 +256,11 @@ class LibraryPrepToPooledLibrary(DateTimeUserMixin):
     library_prep = models.ForeignKey(LibraryPrep, on_delete=models.RESTRICT)
     pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
 
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'Library Prep to Pooled Library'
+        verbose_name_plural = 'Library Prep to Pooled Libraries'
+
 
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
@@ -291,6 +296,11 @@ class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
     '''
     pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'Pooled Library to Final Pooled Library'
+        verbose_name_plural = 'Pooled Library to Final Pooled Libraries'
 
 
 class RunPrep(DateTimeUserMixin):
