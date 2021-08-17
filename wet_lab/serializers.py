@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
-from users.enumerations import TargetGenes, VolUnits, ConcentrationUnits, PrepTypes, \
+from users.enumerations import TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes, \
     ProcessLocations
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from users.enumerations import YesNo
@@ -220,7 +220,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     final_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     lib_prep_kit = serializers.CharField(max_length=255)
-    lib_prep_type = serializers.ChoiceField(choices=PrepTypes.choices)
+    lib_prep_type = serializers.ChoiceField(choices=LibPrepTypes.choices)
     lib_prep_thermal_sop_url = serializers.URLField(max_length=255)
     lib_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
