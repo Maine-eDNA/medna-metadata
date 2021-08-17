@@ -51,7 +51,7 @@ class TaxonKingdom(DateTimeUserMixin):
     taxon_kingdom_slug = models.SlugField("Kingdom Slug", max_length=255)
     taxon_kingdom = models.CharField("Kingdom", max_length=255, unique=True)
     taxon_domain_slug = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
@@ -73,8 +73,8 @@ class TaxonPhylum(DateTimeUserMixin):
     taxon_phylum_slug = models.SlugField("Phylum Slug", max_length=255)
     taxon_phylum = models.CharField("Phylum", max_length=255, unique=True)
     taxon_kingdom_slug = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT)
-    taxon_kingdom = models.CharField("Kingdom", max_length=255)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255, blank=True, null=True)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_phylum_slug = '{tax_phylum}'.format(tax_phylum=slugify(self.taxon_phylum))
@@ -98,9 +98,9 @@ class TaxonClass(DateTimeUserMixin):
     taxon_class_slug = models.SlugField("Class Slug", max_length=255)
     taxon_class = models.CharField("Class", max_length=255, unique=True)
     taxon_phylum_slug = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT)
-    taxon_phylum = models.CharField("Phylum", max_length=255)
-    taxon_kingdom = models.CharField("Kingdom", max_length=255)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_phylum = models.CharField("Phylum", max_length=255, blank=True, null=True)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255, blank=True, null=True)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_class_slug = '{tax_class}'.format(tax_class=slugify(self.taxon_class))
@@ -126,10 +126,10 @@ class TaxonOrder(DateTimeUserMixin):
     taxon_order_slug = models.SlugField("Order Slug", max_length=255)
     taxon_order = models.CharField("Order", max_length=255, unique=True)
     taxon_class_slug = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT)
-    taxon_class = models.CharField("Class", max_length=255)
-    taxon_phylum = models.CharField("Phylum", max_length=255)
-    taxon_kingdom = models.CharField("Kingdom", max_length=255)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_class = models.CharField("Class", max_length=255, blank=True, null=True)
+    taxon_phylum = models.CharField("Phylum", max_length=255, blank=True, null=True)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255, blank=True, null=True)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_order_slug = '{tax_order}'.format(tax_order=slugify(self.taxon_order))
@@ -157,11 +157,11 @@ class TaxonFamily(DateTimeUserMixin):
     taxon_family_slug = models.SlugField("Family Slug", max_length=255)
     taxon_family = models.CharField("Family", max_length=255, unique=True)
     taxon_order_slug = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT)
-    taxon_order = models.CharField("Order", max_length=255)
-    taxon_class = models.CharField("Class", max_length=255)
-    taxon_phylum = models.CharField("Phylum", max_length=255)
-    taxon_kingdom = models.CharField("Kingdom", max_length=255)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_order = models.CharField("Order", max_length=255, blank=True, null=True)
+    taxon_class = models.CharField("Class", max_length=255, blank=True, null=True)
+    taxon_phylum = models.CharField("Phylum", max_length=255, blank=True, null=True)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255, blank=True, null=True)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_family_slug = '{tax_family}'.format(tax_family=slugify(self.taxon_family))
@@ -191,12 +191,12 @@ class TaxonGenus(DateTimeUserMixin):
     taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
     taxon_genus = models.CharField("Genus", max_length=255, unique=True)
     taxon_family_slug = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT)
-    taxon_family = models.CharField("Order", max_length=255)
-    taxon_order = models.CharField("Order", max_length=255)
-    taxon_class = models.CharField("Class", max_length=255)
-    taxon_phylum = models.CharField("Phylum", max_length=255)
-    taxon_kingdom = models.CharField("Kingdom", max_length=255)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_family = models.CharField("Order", max_length=255, blank=True, null=True)
+    taxon_order = models.CharField("Order", max_length=255, blank=True, null=True)
+    taxon_class = models.CharField("Class", max_length=255, blank=True, null=True)
+    taxon_phylum = models.CharField("Phylum", max_length=255, blank=True, null=True)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255, blank=True, null=True)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_genus_slug = '{tax_genus}'.format(tax_genus=slugify(self.taxon_genus))
@@ -230,13 +230,13 @@ class TaxonSpecies(DateTimeUserMixin):
     taxon_common_name = models.CharField("Common Name", max_length=255)
     is_endemic = models.IntegerField("Endemic to New England", choices=YesNo.choices, default=YesNo.YES)
     taxon_genus_slug = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT)
-    taxon_genus = models.CharField("Genus", max_length=255)
-    taxon_family = models.CharField("Order", max_length=255)
-    taxon_order = models.CharField("Order", max_length=255)
-    taxon_class = models.CharField("Class", max_length=255)
-    taxon_phylum = models.CharField("Phylum", max_length=255)
-    taxon_kingdom = models.CharField("Kingdom", max_length=255)
-    taxon_domain = models.CharField("Domain", max_length=255)
+    taxon_genus = models.CharField("Genus", max_length=255, blank=True, null=True)
+    taxon_family = models.CharField("Order", max_length=255, blank=True, null=True)
+    taxon_order = models.CharField("Order", max_length=255, blank=True, null=True)
+    taxon_class = models.CharField("Class", max_length=255, blank=True, null=True)
+    taxon_phylum = models.CharField("Phylum", max_length=255, blank=True, null=True)
+    taxon_kingdom = models.CharField("Kingdom", max_length=255, blank=True, null=True)
+    taxon_domain = models.CharField("Domain", max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.taxon_species_slug = '{tax_species}'.format(tax_species=slugify(self.taxon_species))
