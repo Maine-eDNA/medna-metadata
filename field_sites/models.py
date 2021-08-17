@@ -27,7 +27,7 @@ class EnvoBiomeFirst(DateTimeUserMixin):
         verbose_name_plural = 'ENVO Biome 1st Tiers'
 
 
-class EnvoBiomeSecond(EnvoBiomeFirst):
+class EnvoBiomeSecond(DateTimeUserMixin):
     # alpine tundra, freshwater, marine, montane savanna, montane shrubland, mediterranean,
     # subtropical savanna, subtropical shrubland, subtropical woodland, temperate marginal sea,
     # temperate marine upwelling, temperate savanna, temperate shrubland, temperate woodland,
@@ -37,9 +37,15 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
     biome_second_tier_slug = models.SlugField("ENVO Biome 2nd Tier Slug",
                                               max_length=255)
     biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, unique=True)
+    biome_first_tier_slug = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
         self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
+        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_first_tier_slug.biome_first_tier)
+
         super(EnvoBiomeSecond, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -53,7 +59,7 @@ class EnvoBiomeSecond(EnvoBiomeFirst):
         verbose_name_plural = 'ENVO Biome 2nd Tiers'
 
 
-class EnvoBiomeThird(EnvoBiomeSecond):
+class EnvoBiomeThird(DateTimeUserMixin):
     # freshwater lake, freshwater river, xeric basin, epeiric sea, estuarine, marginal sea, marine benthic,
     # marine mud, marine pelagic, marine salt marsh, marine upwelling, marine water body, mediterranean sea,
     # ocean biome, mediterranean savanna, mediterranean shrubland, mediterranean woodland,
@@ -65,9 +71,16 @@ class EnvoBiomeThird(EnvoBiomeSecond):
     biome_third_tier_slug = models.SlugField("ENVO Biome 3rd Tier Slug",
                                              max_length=255)
     biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255, unique=True)
+    biome_second_tier_slug = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, unique=True)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
         self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
+        self.biome_second_tier = '{biome2}'.format(biome2=self.biome_second_tier_slug.biome_second_tier)
+        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_second_tier_slug.biome_first_tier)
         super(EnvoBiomeThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -83,7 +96,7 @@ class EnvoBiomeThird(EnvoBiomeSecond):
         verbose_name_plural = 'ENVO Biome 3rd Tiers'
 
 
-class EnvoBiomeFourth(EnvoBiomeThird):
+class EnvoBiomeFourth(DateTimeUserMixin):
     # large lake, small lake, large river, large river delta, large river headwater, small river,
     # temperate marginal sea, tropical marginal sea, area of attached mussel assemblages, marine abyssal zone,
     # marine bathyal zone, marine cold seep, marine hadal zone, marine hydrothermal vent, marine neritic benthic zone,
@@ -95,9 +108,18 @@ class EnvoBiomeFourth(EnvoBiomeThird):
     biome_fourth_tier_slug = models.SlugField("ENVO Biome 4th Tier Slug",
                                               max_length=255)
     biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", max_length=255, unique=True)
+    biome_third_tier_slug = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT)
+    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255, unique=True)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, unique=True)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
         self.biome_fourth_tier_slug = '{biome4}'.format(biome4=slugify(self.biome_fourth_tier))
+        self.biome_third_tier = '{biome3}'.format(biome3=self.biome_third_tier_slug.biome_third_tier)
+        self.biome_second_tier = '{biome2}'.format(biome2=self.biome_third_tier_slug.biome_second_tier)
+        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_third_tier_slug.biome_first_tier)
         super(EnvoBiomeFourth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -115,14 +137,26 @@ class EnvoBiomeFourth(EnvoBiomeThird):
         verbose_name_plural = 'ENVO Biome 4th Tiers'
 
 
-class EnvoBiomeFifth(EnvoBiomeFourth):
+class EnvoBiomeFifth(DateTimeUserMixin):
     # area of attached Modiolus assemblages, mussel reef, neritic mussel bed, coastal shrimp pond, rural settlement
     biome_fifth_tier_slug = models.SlugField("ENVO Biome 5th Tier Slug",
                                              max_length=255)
     biome_fifth_tier = models.CharField("ENVO Biome 5th Tier", max_length=255, unique=True)
+    biome_fourth_tier_slug = models.ForeignKey(EnvoBiomeFourth, on_delete=models.RESTRICT)
+    biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", max_length=255, unique=True)
+    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255, unique=True)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, unique=True)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
+
 
     def save(self, *args, **kwargs):
         self.biome_fifth_tier_slug = '{biome5}'.format(biome5=slugify(self.biome_fifth_tier))
+        self.biome_fourth_tier = '{biome4}'.format(biome4=self.biome_fourth_tier_slug.biome_fourth_tier)
+        self.biome_third_tier = '{biome3}'.format(biome3=self.biome_fourth_tier_slug.biome_third_tier)
+        self.biome_second_tier = '{biome2}'.format(biome2=self.biome_fourth_tier_slug.biome_second_tier)
+        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_fourth_tier_slug.biome_first_tier)
         super(EnvoBiomeFifth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -167,7 +201,7 @@ class EnvoFeatureFirst(DateTimeUserMixin):
         verbose_name_plural = 'ENVO Feature 1st Tiers'
 
 
-class EnvoFeatureSecond(EnvoFeatureFirst):
+class EnvoFeatureSecond(DateTimeUserMixin):
     # anthropogenic geographic feature, hydrographic feature, artificial harbor, nartural harbor, land bridge, arrugado,
     # badland, beach, cave, cave system, channel, cleft, cryoform, depression, desert, dirt cone, elevation,
     # geological fracture, igneous extrusion, intrusion, karst, landslide, marine hydrothermal vent chimney,
@@ -180,9 +214,14 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
     feature_second_tier_slug = models.SlugField("ENVO Feature 2nd Tier Slug",
                                                 max_length=255)
     feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_first_tier_slug = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+
+    ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
         self.feature_second_tier_slug = '{feature2}'.format(feature2=slugify(self.feature_second_tier))
+        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_first_tier_slug.feature_first_tier)
         super(EnvoFeatureSecond, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -196,7 +235,7 @@ class EnvoFeatureSecond(EnvoFeatureFirst):
         verbose_name_plural = 'ENVO Feature 2nd Tiers'
 
 
-class EnvoFeatureThird(EnvoFeatureSecond):
+class EnvoFeatureThird(DateTimeUserMixin):
     # anthropogenic contamination feature, campground, cut, fairground, garden, hedge, market, midden,
     # military training area, park, weapons test site, well, algal bloom, alluvial fan, bar, blowhole,
     # confluence, inlet, levee, marine pelagic feature, polder, rocky reef, saline hydrographic feature,
@@ -210,9 +249,17 @@ class EnvoFeatureThird(EnvoFeatureSecond):
     feature_third_tier_slug = models.SlugField("ENVO Feature 3rd Tier Slug",
                                                max_length=255)
     feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_second_tier_slug = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=slugify(self.feature_third_tier))
+        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_second_tier_slug.feature_second_tier)
+        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_second_tier_slug.feature_first_tier)
         super(EnvoFeatureThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -228,7 +275,7 @@ class EnvoFeatureThird(EnvoFeatureSecond):
         verbose_name_plural = 'ENVO Feature 3rd Tiers'
 
 
-class EnvoFeatureFourth(EnvoFeatureThird):
+class EnvoFeatureFourth(DateTimeUserMixin):
     # landfill, oil spill, dedicated campground, impromptu campground, road cut, agricultural fairground,
     # allotment garden, botanical garden, domestic garden, garden soil, zoological garden, playground, public park,
     # nuclear weapons test site, gas well, oil well, water well, marine algal bloom, freshwater algal bloom, bajada,
@@ -239,9 +286,18 @@ class EnvoFeatureFourth(EnvoFeatureThird):
     feature_fourth_tier_slug = models.SlugField("ENVO Feature 4th Tier Slug",
                                                 max_length=255)
     feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
+    feature_third_tier_slug = models.ForeignKey(EnvoFeatureThird, on_delete=models.RESTRICT)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
         self.feature_fourth_tier_slug = '{feature4}'.format(feature4=slugify(self.feature_fourth_tier))
+        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_third_tier_slug.feature_third_tier)
+        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_third_tier_slug.feature_second_tier)
+        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_third_tier_slug.feature_first_tier)
         super(EnvoFeatureFourth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -259,7 +315,7 @@ class EnvoFeatureFourth(EnvoFeatureThird):
         verbose_name_plural = 'ENVO Feature 4th Tiers'
 
 
-class EnvoFeatureFifth(EnvoFeatureFourth):
+class EnvoFeatureFifth(DateTimeUserMixin):
     # unexploded-ordnance dump, allotment garden soil, vegetable garden soil, petting zoo, bay, cove, fjord, sound,
     # deep ocean current, marine benthic storm, marine downwelling, marine streamer, marine surface current,
     # marine tidal flow, mesoscale marine eddy, ocean current, oceanic gyre, whirlpool, coastal water body,
@@ -271,9 +327,20 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
     feature_fifth_tier_slug = models.SlugField("ENVO Feature 5th Tier Slug",
                                                max_length=255)
     feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, unique=True)
+    feature_fourth_tier_slug = models.ForeignKey(EnvoFeatureFourth, on_delete=models.RESTRICT)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
         self.feature_fifth_tier_slug = '{feature5}'.format(feature5=slugify(self.feature_fifth_tier))
+        self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_fourth_tier_slug.feature_fourth_tier)
+        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_fourth_tier_slug.feature_third_tier)
+        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_fourth_tier_slug.feature_second_tier)
+        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_fourth_tier_slug.feature_first_tier)
         super(EnvoFeatureFifth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -293,14 +360,27 @@ class EnvoFeatureFifth(EnvoFeatureFourth):
         verbose_name_plural = 'ENVO Feature 5th Tiers'
 
 
-class EnvoFeatureSixth(EnvoFeatureFifth):
+class EnvoFeatureSixth(DateTimeUserMixin):
     # coastal shrimp pond, Bathymodiolus-dominated oceanic mussel reef, neritic mussel reef, oceanic mussel reef
     feature_sixth_tier_slug = models.SlugField("ENVO Feature 6th Tier Slug",
                                                max_length=255)
     feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255, unique=True)
+    feature_fifth_tier_slug = models.ForeignKey(EnvoFeatureFifth, on_delete=models.RESTRICT)
+    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, unique=True)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
         self.feature_sixth_tier_slug = '{feature6}'.format(feature6=slugify(self.feature_sixth_tier))
+        self.feature_fifth_tier = '{feature5}'.format(feature5=self.feature_fifth_tier_slug.feature_fifth_tier)
+        self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_fifth_tier_slug.feature_fourth_tier)
+        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_fifth_tier_slug.feature_third_tier)
+        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_fifth_tier_slug.feature_second_tier)
+        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_fifth_tier_slug.feature_first_tier)
         super(EnvoFeatureSixth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -322,14 +402,30 @@ class EnvoFeatureSixth(EnvoFeatureFifth):
         verbose_name_plural = 'ENVO Feature 6th Tiers'
 
 
-class EnvoFeatureSeventh(EnvoFeatureSixth):
+class EnvoFeatureSeventh(DateTimeUserMixin):
     # Bathymodiolus-dominated oceanic mussel reef
     feature_seventh_tier_slug = models.SlugField("ENVO Feature 7th Tier Slug",
                                                  max_length=255)
     feature_seventh_tier = models.CharField("ENVO Feature 7th Tier ", max_length=255, unique=True)
+    feature_sixth_tier_slug = models.ForeignKey(EnvoFeatureSixth, on_delete=models.RESTRICT)
+    feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255, unique=True)
+    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, unique=True)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+    ontology_url = models.URLField(max_length=255,
+                                   default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
+
 
     def save(self, *args, **kwargs):
         self.feature_seventh_tier_slug = '{feature7}'.format(feature7=slugify(self.feature_seventh_tier))
+        self.feature_sixth_tier = '{feature6}'.format(feature6=self.feature_sixth_tier_slug.feature_sixth_tier)
+        self.feature_fifth_tier = '{feature5}'.format(feature5=self.feature_sixth_tier_slug.feature_fifth_tier)
+        self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_sixth_tier_slug.feature_fourth_tier)
+        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_sixth_tier_slug.feature_third_tier)
+        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_sixth_tier_slug.feature_second_tier)
+        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_sixth_tier_slug.feature_first_tier)
         super(EnvoFeatureSeventh, self).save(*args, **kwargs)
 
     def __str__(self):
