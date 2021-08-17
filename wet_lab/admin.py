@@ -407,7 +407,7 @@ admin.site.register(LibraryPrep, LibraryPrepAdmin)
 
 class LibraryPrepInline(admin.StackedInline):
     model = PooledLibrary
-    filter_horizontal = 'library_prep'
+    filter_horizontal = ('library_prep', )
 
 
 class PooledLibraryAdmin(ImportExportActionModelAdmin):
