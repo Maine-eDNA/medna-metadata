@@ -3,7 +3,7 @@
 from django.contrib.gis import admin
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
-    RunResult, FastqFile
+    RunResult, FastqFile, LibraryPrepToPooledLibrary, PooledLibraryToFinalPooledLibrary
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
@@ -405,9 +405,9 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
 admin.site.register(LibraryPrep, LibraryPrepAdmin)
 
 
-class LibraryPrepInline(admin.StackedInline):
-    model = PooledLibrary
-    filter_horizontal = ('library_prep', )
+class LibraryPrepInline(admin.TabularInline):
+    model = LibraryPrepToPooledLibrary
+    extra = 1
 
 
 class PooledLibraryAdmin(ImportExportActionModelAdmin):
@@ -422,7 +422,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
                        'quantification_method',
                        'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                        'created_by']
-        self.inlines = [LibraryPrepInline]
+        self.inlines = (LibraryPrepInline, )
         self.list_filter = (
             ('quantification_method', RelatedDropdownFilter)
         )
