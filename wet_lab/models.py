@@ -234,7 +234,8 @@ class LibraryPrep(DateTimeUserMixin):
 class PooledLibrary(DateTimeUserMixin):
     pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
-    process_location = models.ForeignKey(ProcessLocation, default=DEFAULT_PROCESS_LOCATION_ID)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
@@ -269,7 +270,8 @@ class PooledLibrary(DateTimeUserMixin):
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
-    process_location = models.ForeignKey(ProcessLocation, default=DEFAULT_PROCESS_LOCATION_ID)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_finalpooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
@@ -306,7 +308,8 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 class RunPrep(DateTimeUserMixin):
     run_date = models.DateField("Run Date")
-    process_location = models.ForeignKey(ProcessLocation, default=DEFAULT_PROCESS_LOCATION_ID)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
