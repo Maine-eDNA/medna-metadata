@@ -271,8 +271,7 @@ class AnnotationMethod(DateTimeUserMixin):
     annotation_method_name = models.CharField("Denoising Method Name", max_length=255)
 
     def __str__(self):
-        return '{name}'.format(
-            name=self.annotation_method_name)
+        return '{name}'.format(name=self.annotation_method_name)
 
     class Meta:
         app_label = 'bioinfo_taxon'
@@ -291,9 +290,7 @@ class AnnotationMetadata(DateTimeUserMixin):
                                                default="https://github.com/Maine-eDNA")
 
     def __str__(self):
-        return '{date}, {method}'.format(
-            date=self.analysis_datetime,
-            method=self.annotation_method.annotation_method_name)
+        return '{method}'.format(method=self.annotation_method.annotation_method_name)
 
     class Meta:
         app_label = 'bioinfo_taxon'

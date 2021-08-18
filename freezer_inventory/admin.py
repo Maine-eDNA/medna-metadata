@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import FreezerAdminResource, FreezerRackAdminResource, FreezerBoxAdminResource, \
     FreezerInventoryAdminResource, FreezerCheckoutAdminResource
@@ -56,8 +56,8 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
                        'created_by']
-        self.list_filter = (
-            ('freezer', RelatedDropdownFilter))
+        #self.list_filter = (
+        #    ('freezer', RelatedDropdownFilter))
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -71,8 +71,6 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
                        'created_by']
-        self.list_filter = (
-            ('freezer', RelatedDropdownFilter))
         return super(FreezerRackAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -97,8 +95,6 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'created_by']
-        self.list_filter = (
-            ('freezer_rack', RelatedDropdownFilter))
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -110,8 +106,6 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'created_by']
-        self.list_filter = (
-            ('freezer_rack', RelatedDropdownFilter))
         return super(FreezerBoxAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -138,9 +132,6 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']
-        self.list_filter = (
-            ('freezer_box', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -153,9 +144,6 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']
-        self.list_filter = (
-            ('freezer_box', RelatedDropdownFilter)
-        )
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -184,8 +172,6 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
                        'freezer_return_vol_taken', 'freezer_return_vol_units',
                        'freezer_return_notes',
                        'created_by']
-        self.list_filter = (
-            ('freezer_inventory', RelatedDropdownFilter))
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -201,8 +187,6 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
                        'freezer_return_vol_taken', 'freezer_return_vol_units',
                        'freezer_return_notes',
                        'created_by']
-        self.list_filter = (
-            ('freezer_inventory', RelatedDropdownFilter))
         return super(FreezerCheckoutAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu

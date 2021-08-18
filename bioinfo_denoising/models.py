@@ -38,9 +38,7 @@ class DenoisingMetadata(DateTimeUserMixin):
         super(DenoisingMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{date} {method}'.format(
-            date=self.analysis_datetime,
-            method=self.denoising_slug)
+        return '{method}'.format(method=self.denoising_slug)
 
     class Meta:
         app_label = 'bioinfo_denoising'

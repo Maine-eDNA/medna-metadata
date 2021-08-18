@@ -5,7 +5,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     Project, System, Region, FieldSite, WorldBorder
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import EnvoBiomeFirstAdminResource, EnvoBiomeSecondAdminResource, \
     EnvoBiomeThirdAdminResource, EnvoBiomeFourthAdminResource, EnvoBiomeFifthAdminResource, \
@@ -52,15 +52,16 @@ class EnvoBiomeSecondAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoBiomeSecondAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_first_tier_slug', 'biome_second_tier']
+        self.fields = ['biome_first_tier_slug', 'biome_second_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
-        self.list_filter = (
-            ('biome_first_tier_slug', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('biome_first_tier_slug', RelatedDropdownFilter)
+        #)
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -68,10 +69,9 @@ class EnvoBiomeSecondAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['biome_first_tier_slug', 'biome_second_tier']
-        self.list_filter = (
-            ('biome_first_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['biome_first_tier_slug', 'biome_second_tier',
+                       'ontology_url', 'created_by']
+
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeSecondAdmin, self).change_view(request, object_id)
 
@@ -90,14 +90,12 @@ class EnvoBiomeThirdAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoBiomeThirdAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_second_tier_slug', 'biome_third_tier']
-        self.list_filter = (
-            ('biome_second_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['biome_second_tier_slug', 'biome_third_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -106,10 +104,8 @@ class EnvoBiomeThirdAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['biome_second_tier_slug', 'biome_third_tier']
-        self.list_filter = (
-            ('biome_second_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['biome_second_tier_slug', 'biome_third_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeThirdAdmin, self).change_view(request, object_id)
 
@@ -128,14 +124,12 @@ class EnvoBiomeFourthAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoBiomeFourthAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_third_tier_slug', 'biome_fourth_tier']
-        self.list_filter = (
-            ('biome_third_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['biome_third_tier_slug', 'biome_fourth_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -144,10 +138,8 @@ class EnvoBiomeFourthAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['biome_third_tier_slug', 'biome_fourth_tier']
-        self.list_filter = (
-            ('biome_third_tier_slug', RelatedDropdownFilter),
-        )
+        self.fields = ['biome_third_tier_slug', 'biome_fourth_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeFourthAdmin, self).change_view(request, object_id)
 
@@ -166,15 +158,13 @@ class EnvoBiomeFifthAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoBiomeFifthAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_fourth_tier_slug', 'biome_fifth_tier']
-        self.list_filter = (
-            ('biome_fourth_tier_slug', RelatedDropdownFilter)
-        )
-        self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        self.fields = ['biome_fourth_tier_slug', 'biome_fifth_tier',
+                       'ontology_url', 'created_by']
+        self.exclude = ('id', 'modified_datetime', 'created_datetime', )
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -182,10 +172,8 @@ class EnvoBiomeFifthAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['biome_fourth_tier_slug', 'biome_fifth_tier', ]
-        self.list_filter = (
-            ('biome_fourth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['biome_fourth_tier_slug', 'biome_fifth_tier',
+                       'ontology_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeFifthAdmin, self).change_view(request, object_id)
 
@@ -204,12 +192,12 @@ class EnvoFeatureFirstAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureFirstAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['feature_first_tier', 'ontology_url', 'created_by']
-        self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        self.exclude = ('id', 'modified_datetime', 'created_datetime',)
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -236,15 +224,13 @@ class EnvoFeatureSecondAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureSecondAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_first_tier_slug', 'feature_second_tier']
-        self.list_filter = (
-            ('feature_first_tier_slug', RelatedDropdownFilter)
-        )
-        self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        self.fields = ['feature_first_tier_slug', 'feature_second_tier',
+                       'ontology_url', 'created_by']
+        self.exclude = ('id', 'modified_datetime', 'created_datetime', )
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -252,10 +238,8 @@ class EnvoFeatureSecondAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_first_tier_slug', 'feature_second_tier']
-        self.list_filter = (
-            ('feature_first_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_first_tier_slug', 'feature_second_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureSecondAdmin, self).change_view(request, object_id)
 
@@ -274,14 +258,12 @@ class EnvoFeatureThirdAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureThirdAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_second_tier_slug', 'feature_third_tier']
-        self.list_filter = (
-            ('feature_second_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_second_tier_slug', 'feature_third_tier',
+                       'ontology_url', 'created_by']
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -290,10 +272,8 @@ class EnvoFeatureThirdAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_second_tier_slug', 'feature_third_tier']
-        self.list_filter = (
-            ('feature_second_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_second_tier_slug', 'feature_third_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureThirdAdmin, self).change_view(request, object_id)
 
@@ -312,14 +292,12 @@ class EnvoFeatureFourthAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureFourthAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_third_tier_slug', 'feature_fourth_tier']
-        self.list_filter = (
-            ('feature_third_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_third_tier_slug', 'feature_fourth_tier',
+                       'ontology_url', 'created_by']
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -328,10 +306,8 @@ class EnvoFeatureFourthAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_third_tier_slug', 'feature_fourth_tier']
-        self.list_filter = (
-            ('feature_third_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_third_tier_slug', 'feature_fourth_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureFourthAdmin, self).change_view(request, object_id)
 
@@ -350,14 +326,12 @@ class EnvoFeatureFifthAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureFifthAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_fourth_tier_slug', 'feature_fifth_tier']
-        self.list_filter = (
-            ('feature_fourth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_fourth_tier_slug', 'feature_fifth_tier',
+                       'ontology_url', 'created_by']
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -366,10 +340,8 @@ class EnvoFeatureFifthAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_fourth_tier_slug', 'feature_fifth_tier']
-        self.list_filter = (
-            ('feature_fourth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_fourth_tier_slug', 'feature_fifth_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureFifthAdmin, self).change_view(request, object_id)
 
@@ -388,14 +360,12 @@ class EnvoFeatureSixthAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureSixthAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_fifth_tier_slug', 'feature_sixth_tier']
-        self.list_filter = (
-            ('feature_fifth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_fifth_tier_slug', 'feature_sixth_tier',
+                       'ontology_url', 'created_by']
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -404,10 +374,8 @@ class EnvoFeatureSixthAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_fifth_tier_slug', 'feature_sixth_tier']
-        self.list_filter = (
-            ('feature_fifth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_fifth_tier_slug', 'feature_sixth_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureSixthAdmin, self).change_view(request, object_id)
 
@@ -426,14 +394,12 @@ class EnvoFeatureSeventhAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = EnvoFeatureSeventhAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_datetime', 'created_by',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_sixth_tier_slug', 'feature_seventh_tier']
-        self.list_filter = (
-            ('feature_sixth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_sixth_tier_slug', 'feature_seventh_tier',
+                       'ontology_url', 'created_by']
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -442,10 +408,8 @@ class EnvoFeatureSeventhAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['feature_sixth_tier_slug', 'feature_seventh_tier']
-        self.list_filter = (
-            ('feature_sixth_tier_slug', RelatedDropdownFilter)
-        )
+        self.fields = ['feature_sixth_tier_slug', 'feature_seventh_tier',
+                       'ontology_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureSeventhAdmin, self).change_view(request, object_id)
 
@@ -582,11 +546,11 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom', 'created_by']
-        self.list_filter = (
-            ('project', RelatedDropdownFilter),
-            ('system', RelatedDropdownFilter),
-            ('region', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('project', RelatedDropdownFilter),
+        #    ('system', RelatedDropdownFilter),
+        #    ('region', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user

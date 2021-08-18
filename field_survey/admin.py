@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import FieldSurveyAdminResource, FieldCrewAdminResource, EnvMeasurementAdminResource, \
     FieldCollectionAdminResource, FieldSampleAdminResource, \
@@ -28,7 +28,8 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
                        'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', 'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime',
+                       'record_editor', 'created_by']
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
 
@@ -73,8 +74,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'env_global_id', 'env_measure_datetime', 'env_measure_depth',
-                    'created_datetime', 'created_by')
+    list_display = ('survey_global_id', 'env_global_id', 'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
