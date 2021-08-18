@@ -9,6 +9,12 @@ class DenoisingMethod(DateTimeUserMixin):
     # DADA2, DEBLUR, PYRONOISE, UNOISE3
     denoising_method_name = models.CharField("Denoising Method Name", max_length=255)
     denoising_method_pipeline = models.CharField("Denoising Pipeline", max_length=255)
+    denoising_method_slug = models.SlugField("Denoising Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.denoising_method_slug = '{name}_{pipeline}'.format(name=slugify(self.denoising_method_name),
+                                                                pipeline=slugify(self.denoising_method_pipeline))
+        super(DenoisingMethod, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{pipeline}, {name}'.format(
@@ -16,6 +22,8 @@ class DenoisingMethod(DateTimeUserMixin):
             name=self.denoising_method_name)
 
     class Meta:
+        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        unique_together = ['denoising_method_name', 'denoising_method_pipeline']
         app_label = 'bioinfo_denoising'
         verbose_name = 'Denoising Method'
         verbose_name_plural = 'Denoising Methods'

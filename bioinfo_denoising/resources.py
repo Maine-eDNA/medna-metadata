@@ -9,9 +9,9 @@ class DenoisingMethodAdminResource(resources.ModelResource):
     class Meta:
         model = DenoisingMethod
         import_id_fields = ('denoising_method_name', 'denoising_method_pipeline', )
-        fields = ('id', 'denoising_method_name', 'denoising_method_pipeline',
+        fields = ('id', 'denoising_method_name', 'denoising_method_pipeline', 'denoising_method_slug',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'denoising_method_name', 'denoising_method_pipeline',
+        export_order = ('id', 'denoising_method_name', 'denoising_method_pipeline', 'denoising_method_slug',
                         'created_by', 'created_datetime', )
 
     created_by = fields.Field(
@@ -46,7 +46,7 @@ class DenoisingMetadataAdminResource(resources.ModelResource):
     denoising_method = fields.Field(
         column_name='denoising_method',
         attribute='denoising_method',
-        widget=ForeignKeyWidget(DenoisingMethod, 'denoising_method_name'))
+        widget=ForeignKeyWidget(DenoisingMethod, 'denoising_method_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -70,7 +70,7 @@ class AmpliconSequenceVariantAdminResource(resources.ModelResource):
     denoising_metadata = fields.Field(
         column_name='denoising_metadata',
         attribute='denoising_metadata',
-        widget=ForeignKeyWidget(DenoisingMethod, 'denoising_slug'))
+        widget=ForeignKeyWidget(DenoisingMetadata, 'denoising_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -94,7 +94,7 @@ class ASVReadAdminResource(resources.ModelResource):
     asv = fields.Field(
         column_name='asv',
         attribute='asv',
-        widget=ForeignKeyWidget(DenoisingMethod, 'asv_id'))
+        widget=ForeignKeyWidget(AmpliconSequenceVariant, 'asv_id'))
 
     extraction = fields.Field(
         column_name='extraction',

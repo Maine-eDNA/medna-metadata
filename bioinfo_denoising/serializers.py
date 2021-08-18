@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
+from rest_framework.validators import UniqueTogetherValidator
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -8,13 +9,20 @@ class DenoisingMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     denoising_method_name = serializers.CharField(max_length=255)
     denoising_method_pipeline = serializers.CharField(max_length=255)
+    denoising_method_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = DenoisingMethod
-        fields = ['id', 'denoising_method_name', 'denoising_method_pipeline',
+        fields = ['id', 'denoising_method_name', 'denoising_method_pipeline',  'denoising_method_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=DenoisingMethod.objects.all(),
+                fields=['denoising_method_name', 'denoising_method_pipeline']
+            )
+        ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
