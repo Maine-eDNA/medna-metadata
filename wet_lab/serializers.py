@@ -294,7 +294,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    lug_field='process_location_name')
+                                                    slug_field='process_location_name')
     library_prep = serializers.SlugRelatedField(many=True, read_only=True,
                                                 slug_field='lib_prep_experiment_name')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
