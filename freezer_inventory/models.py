@@ -27,7 +27,7 @@ class Freezer(DateTimeUserMixin):
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
     freezer_length = models.DecimalField("Freezer Length", max_digits=15,  decimal_places=10)
     freezer_width = models.DecimalField("Freezer Width", max_digits=15,  decimal_places=10)
-    freezer_dimension_units = models.IntegerField("Freezer Dimensions Units", choices=MeasureUnits.choices)
+    freezer_dimension_units = models.CharField("Freezer Dimensions Units", max_length=25, choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each
     freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
     freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
@@ -111,11 +111,12 @@ class FreezerInventory(DateTimeUserMixin):
                                         limit_choices_to={'is_extracted': YesNo.NO})
     extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,)
     barcode_slug = models.SlugField(max_length=27, null=True)
-    freezer_inventory_type = models.IntegerField("Freezer Inventory Type",
-                                                 choices=InvTypes.choices)
-    freezer_inventory_status = models.IntegerField("Freezer Inventory Status",
-                                                   choices=InvStatus.choices,
-                                                   default=InvStatus.IN)
+    freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=25,
+                                              choices=InvTypes.choices)
+    freezer_inventory_status = models.CharField("Freezer Inventory Status",
+                                                max_length=25,
+                                                choices=InvStatus.choices,
+                                                default=InvStatus.IN)
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
@@ -156,15 +157,15 @@ class FreezerCheckout(DateTimeUserMixin):
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
                                           limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
-    freezer_checkout_action = models.IntegerField("Freezer Checkout Action",
-                                                  choices=CheckoutActions.choices)
+    freezer_checkout_action = models.CharField("Freezer Checkout Action", max_length=25,
+                                               choices=CheckoutActions.choices)
     freezer_checkout_datetime = models.DateTimeField("Freezer Checkout DateTime", blank=True, null=True)
     freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True, null=True)
     freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10,
                                                    blank=True, null=True)
-    freezer_return_vol_units = models.IntegerField("Volume Units",
-                                                   choices=VolUnits.choices, blank=True, null=True)
+    freezer_return_vol_units = models.CharField("Volume Units", max_length=25,
+                                                choices=VolUnits.choices, blank=True, null=True)
     freezer_return_notes = models.TextField("Return Notes", blank=True)
 
     def __str__(self):

@@ -4,9 +4,12 @@ from django.utils.text import slugify
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
-from users.models import DateTimeUserMixin
+from users.models import DateTimeUserMixin, ProcessLocation
 from users.enumerations import TargetGenes, ConcentrationUnits, VolUnits, LibPrepTypes, \
-    DdpcrUnits, QpcrUnits, ProcessLocations, YesNo, LibPrepKits
+    DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
+
+# pk of eDNA CORE facility; should be 1
+DEFAULT_PROCESS_LOCATION_ID = 1
 
 
 # Create your models here.
@@ -14,7 +17,7 @@ class PrimerPair(DateTimeUserMixin):
     # mifishU, ElbrechtB1, ecoprimer, 16sV4V5, 18sV4, ...
     primer_set_name = models.TextField("Primer Set Name")
     # 12S, 16S, 18S, COI, ...
-    primer_target_gene = models.IntegerField("Target Gene", choices=TargetGenes.choices)
+    primer_target_gene = models.CharField("Target Gene", max_length=25, choices=TargetGenes.choices)
     primer_name_forward = models.CharField("Primer Name Forward", max_length=255)
     primer_name_reverse = models.CharField("Primer Name Reverse", max_length=255)
     primer_forward = models.TextField("Primer Forward")
@@ -115,13 +118,14 @@ class Extraction(DateTimeUserMixin):
     extraction_last_name = models.CharField("Last Name", max_length=255)
     extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=15, decimal_places=10)
     # microliter, ul
-    extraction_volume_units = models.IntegerField("Extraction Volume Units", choices=VolUnits.choices,
-                                                  default=VolUnits.MICROLITER)
+    extraction_volume_units = models.CharField("Extraction Volume Units", max_length=25, choices=VolUnits.choices,
+                                               default=VolUnits.MICROLITER)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
-    extraction_concentration_units = models.IntegerField("Concentration Units", choices=ConcentrationUnits.choices,
-                                                         default=ConcentrationUnits.NGUL)
+    extraction_concentration_units = models.CharField("Concentration Units", max_length=25,
+                                                      choices=ConcentrationUnits.choices,
+                                                      default=ConcentrationUnits.NGUL)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
@@ -150,8 +154,8 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_probe = models.TextField("ddPCR Probe")
     ddpcr_results = models.DecimalField("ddPCR Results", max_digits=15, decimal_places=10)
     # results will be in copy number or copies per microliter (copy/ul)
-    ddpcr_results_units = models.IntegerField("ddPCR Units", choices=DdpcrUnits.choices,
-                                              default=DdpcrUnits.CP)
+    ddpcr_results_units = models.CharField("ddPCR Units", max_length=25, choices=DdpcrUnits.choices,
+                                           default=DdpcrUnits.CP)
     ddpcr_notes = models.TextField("ddPCR Notes")
 
     def __str__(self):
@@ -173,8 +177,8 @@ class Qpcr(DateTimeUserMixin):
     qpcr_probe = models.TextField("qPCR Probe")
     qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
     # results are Cq value
-    qpcr_results_units = models.IntegerField("qPCR Units", choices=QpcrUnits.choices,
-                                             default=QpcrUnits.CQ)
+    qpcr_results_units = models.CharField("qPCR Units", max_length=25, choices=QpcrUnits.choices,
+                                          default=QpcrUnits.CQ)
     qpcr_notes = models.TextField("qPCR Notes")
 
     def __str__(self):
@@ -189,30 +193,32 @@ class Qpcr(DateTimeUserMixin):
 class LibraryPrep(DateTimeUserMixin):
     lib_prep_datetime = models.DateTimeField("Library Prep DateTime")
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
-    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
-                                           default=ProcessLocations.CORE)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10)
+    qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10, blank=True, null=True)
     # units will be in ng/ml
-    qubit_units = models.IntegerField("QuBit Units", choices=ConcentrationUnits.choices,
-                                      default=ConcentrationUnits.NGML)
-    qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
+    qubit_units = models.CharField("QuBit Units", max_length=25, choices=ConcentrationUnits.choices,
+                                   default=ConcentrationUnits.NGML, blank=True)
+    qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10, blank=True, null=True)
     # units will be nM or pM
-    qpcr_units = models.IntegerField("qPCR Units", choices=ConcentrationUnits.choices,
-                                     default=ConcentrationUnits.NM)
+    qpcr_units = models.CharField("qPCR Units", max_length=25, choices=ConcentrationUnits.choices,
+                                  default=ConcentrationUnits.NM, blank=True)
     final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=15, decimal_places=10)
-    final_concentration_units = models.IntegerField("Library Prep Final Units",
-                                                    choices=ConcentrationUnits.choices,
-                                                    default=ConcentrationUnits.NM)
-    lib_prep_kit = models.IntegerField("Library Prep Kit",
-                                       choices=LibPrepKits.choices,
-                                       default=LibPrepKits.NEXTERAXTV2)
-    lib_prep_type = models.IntegerField("Library Prep Type", choices=LibPrepTypes.choices)
+    final_concentration_units = models.CharField("Library Prep Final Units",
+                                                 max_length=25,
+                                                 choices=ConcentrationUnits.choices,
+                                                 default=ConcentrationUnits.NM)
+    lib_prep_kit = models.CharField("Library Prep Kit",
+                                    max_length=25,
+                                    choices=LibPrepKits.choices,
+                                    default=LibPrepKits.NEXTERAXTV2)
+    lib_prep_type = models.CharField("Library Prep Type", max_length=25, choices=LibPrepTypes.choices)
     lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes")
 
@@ -228,14 +234,14 @@ class LibraryPrep(DateTimeUserMixin):
 class PooledLibrary(DateTimeUserMixin):
     pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255)
-    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
-                                           default=ProcessLocations.CORE)
+    process_location = models.ForeignKey(ProcessLocation, default=DEFAULT_PROCESS_LOCATION_ID)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
     # nanomolar, nM
-    pooled_lib_concentration_units = models.IntegerField("Pooled Library Units", choices=ConcentrationUnits.choices,
-                                                         default=ConcentrationUnits.NM)
+    pooled_lib_concentration_units = models.CharField("Pooled Library Units", max_length=25,
+                                                      choices=ConcentrationUnits.choices,
+                                                      default=ConcentrationUnits.NM)
     pooled_lib_notes = models.TextField("Pooled Library Notes")
 
     def __str__(self):
@@ -263,17 +269,17 @@ class PooledLibrary(DateTimeUserMixin):
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255)
-    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
-                                           default=ProcessLocations.CORE)
+    process_location = models.ForeignKey(ProcessLocation, default=DEFAULT_PROCESS_LOCATION_ID)
     pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_finalpooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
                                                          max_digits=15,
                                                          decimal_places=10)
     # nanomolar, nM
-    final_pooled_lib_concentration_units = models.IntegerField("Final Pooled Library Units",
-                                                               choices=ConcentrationUnits.choices,
-                                                               default=ConcentrationUnits.NM)
+    final_pooled_lib_concentration_units = models.CharField("Final Pooled Library Units",
+                                                            max_length=25,
+                                                            choices=ConcentrationUnits.choices,
+                                                            default=ConcentrationUnits.NM)
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes")
 
     def __str__(self):
@@ -300,20 +306,21 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 class RunPrep(DateTimeUserMixin):
     run_date = models.DateField("Run Date")
-    process_location = models.IntegerField("Process Location", choices=ProcessLocations.choices,
-                                           default=ProcessLocations.CORE)
+    process_location = models.ForeignKey(ProcessLocation, default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
-    phix_spike_in_units = models.IntegerField("PhiX Spike In Units",
-                                              choices=ConcentrationUnits.choices,
-                                              default=ConcentrationUnits.PM)
+    phix_spike_in_units = models.CharField("PhiX Spike In Units",
+                                           max_length=25,
+                                           choices=ConcentrationUnits.choices,
+                                           default=ConcentrationUnits.PM)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
-    final_lib_concentration_units = models.IntegerField("Final Library Units",
-                                                        choices=ConcentrationUnits.choices,
-                                                        default=ConcentrationUnits.PM)
+    final_lib_concentration_units = models.CharField("Final Library Units",
+                                                     max_length=25,
+                                                     choices=ConcentrationUnits.choices,
+                                                     default=ConcentrationUnits.PM)
     run_prep_notes = models.TextField("Run Prep Notes")
 
     def __str__(self):

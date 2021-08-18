@@ -240,7 +240,7 @@ class TaxonSpecies(DateTimeUserMixin):
     taxon_species_slug = models.SlugField("Species Slug", max_length=255)
     taxon_species = models.CharField("Species", max_length=255, unique=True)
     taxon_common_name = models.CharField("Common Name", max_length=255)
-    is_endemic = models.IntegerField("Endemic to New England", choices=YesNo.choices, default=YesNo.YES)
+    is_endemic = models.CharField("Endemic to New England", max_length=25, choices=YesNo.choices, default=YesNo.YES)
     taxon_genus_slug = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT)
     taxon_genus = models.CharField("Genus", max_length=255, blank=True, null=True)
     taxon_family = models.CharField("Order", max_length=255, blank=True, null=True)
