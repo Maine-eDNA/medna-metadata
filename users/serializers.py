@@ -24,19 +24,25 @@ except ImportError:
 # django rest_framework
 class CustomUserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username',
+                  'created_by', 'created_datetime', 'modified_datetime',)
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username']
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
         read_only_fields = ('email',)
 
 

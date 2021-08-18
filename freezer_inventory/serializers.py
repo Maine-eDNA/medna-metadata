@@ -19,14 +19,15 @@ class FreezerSerializer(serializers.ModelSerializer):
     freezer_max_columns = serializers.IntegerField(min_value=1)
     freezer_max_rows = serializers.IntegerField(min_value=1)
     freezer_max_depth = serializers.IntegerField(min_value=1)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Freezer
         fields = ['id', 'freezer_label',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since created_by references a different table and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -44,7 +45,8 @@ class FreezerRackSerializer(serializers.ModelSerializer):
     freezer_rack_row_end = serializers.IntegerField(min_value=1)
     freezer_rack_depth_start = serializers.IntegerField(min_value=1)
     freezer_rack_depth_end = serializers.IntegerField(min_value=1)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FreezerRack
@@ -52,7 +54,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -69,13 +71,14 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
     freezer_box_depth = serializers.IntegerField(min_value=1)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FreezerBox
         fields = ['id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_rack and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -93,7 +96,8 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FreezerInventory
@@ -101,7 +105,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                   'barcode_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -124,7 +128,8 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
     freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices, allow_null=True)
     freezer_return_notes = serializers.CharField(allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FreezerCheckout
@@ -134,7 +139,7 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
                   'freezer_perm_removal_datetime',
                   'freezer_return_vol_taken', 'freezer_return_vol_units',
                   'freezer_return_notes',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

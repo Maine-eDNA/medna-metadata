@@ -12,7 +12,8 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_first_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
@@ -20,7 +21,8 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
         fields = ['id', 'biome_first_tier',
                   'ontology_url',
                   'created_by',
-                  'created_datetime']
+                  'created_datetime',
+                  'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -30,13 +32,14 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
 class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_second_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeSecond
         fields = ['id', 'biome_first_tier',
-                  'biome_second_tier']
+                  'biome_second_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -47,13 +50,14 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_third_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeThird
         fields = ['id', 'biome_second_tier',
-                  'biome_third_tier']
+                  'biome_third_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -64,14 +68,16 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFourth
         fields = ['id',
                   'biome_third_tier',
-                  'biome_fourth_tier']
+                  'biome_fourth_tier',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -82,13 +88,15 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFifth
         fields = ['id', 'biome_fourth_tier',
-                  'biome_fifth_tier']
+                  'biome_fifth_tier',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -99,7 +107,8 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
 class EnvoBiomeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
@@ -110,8 +119,7 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
                   'biome_fourth_tier',
                   'biome_fifth_tier',
                   'ontology_url',
-                  'created_by',
-                  'created_datetime']
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -125,13 +133,14 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_first_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFirst
         fields = ['id', 'feature_first_tier', 'ontology_url',
-                  'created_by', 'created_datetime']
+                  'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -142,12 +151,14 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_second_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSecond
-        fields = ['id', 'feature_first_tier', 'feature_second_tier']
+        fields = ['id', 'feature_first_tier', 'feature_second_tier',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -159,13 +170,14 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_third_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureThird
         fields = ['id', 'feature_second_tier',
-                  'feature_third_tier']
+                  'feature_third_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -177,13 +189,14 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFourth
         fields = ['id', 'feature_third_tier',
-                  'feature_fourth_tier']
+                  'feature_fourth_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -195,13 +208,14 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFifth
         fields = ['id', 'feature_fourth_tier',
-                  'feature_fifth_tier']
+                  'feature_fifth_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -213,13 +227,14 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_sixth_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSixth
         fields = ['id', 'feature_fifth_tier',
-                  'feature_sixth_tier']
+                  'feature_sixth_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -230,13 +245,14 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSeventh
         fields = ['id', 'feature_sixth_tier',
-                  'feature_seventh_tier']
+                  'feature_seventh_tier', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -248,7 +264,8 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
 
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
@@ -261,7 +278,7 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
                   'feature_sixth_tier',
                   'feature_seventh_tier',
                   'ontology_url',
-                  'created_by', 'created_datetime']
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -278,11 +295,12 @@ class ProjectSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     project_code = serializers.CharField(max_length=1)
     project_label = serializers.CharField(max_length=255)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Project
-        fields = ['id', 'project_code', 'project_label', 'created_by', 'created_datetime']
+        fields = ['id', 'project_code', 'project_label', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -293,11 +311,12 @@ class SystemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     system_code = serializers.CharField(max_length=1)
     system_label = serializers.CharField(max_length=255)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = System
-        fields = ['id', 'system_code', 'system_label', 'created_by', 'created_datetime']
+        fields = ['id', 'system_code', 'system_label', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -310,12 +329,13 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     lon = serializers.DecimalField(max_digits=22, decimal_places=16)
     site_id = serializers.CharField(max_length=7)
     srid = serializers.CharField()
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldSite
         fields = ['id', 'site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime']
+                  'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -341,12 +361,14 @@ class FieldSiteSerializer(serializers.ModelSerializer):
 
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldSite
         geo_field = 'geom'
         fields = ['id', 'site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'created_by', 'created_datetime']
+                  'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -358,12 +380,14 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
 
 class GeoRegionSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Region
         geo_field = 'geom'
         fields = ['id', 'region_label', 'huc8', 'states', 'lat', 'lon',
-                  'area_sqkm', 'area_acres', 'created_by', 'created_datetime']
+                  'area_sqkm', 'area_acres', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

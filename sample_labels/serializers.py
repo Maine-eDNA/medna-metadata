@@ -20,11 +20,14 @@ def delete_keys(keys, the_dict):
 
 # Django REST Framework to allow the automatic downloading of data!
 class SampleLabelSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = SampleLabel
         fields = ['id', 'sample_label_id', 'site_id', 'sample_type', 'sample_year',
-                  'purpose', 'created_by', 'created_datetime']
+                  'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
 #    id = serializers.IntegerField(read_only=True)
     # Since site_id, sample_type, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -37,11 +40,15 @@ class SampleLabelSerializer(serializers.ModelSerializer):
 
 
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
     class Meta:
         model = SampleLabelRequest
         fields = ['id', 'sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
                   'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_type',
-                  'purpose', 'created_by', 'created_datetime']
+                  'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
 #    id = serializers.IntegerField(read_only=True)
     # Since site_id, sample_type, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -88,8 +95,9 @@ class SampleLabelRequestSerializerTableExport(TableExport):
                         label_cap = samplelabel_siteid + "\n" + year_added + "\n" + sequence
                         self.dataset.append((samplelabel_id, sample_label, sample_label, label_cap, addedby_email,
                                              samplelabel_created_datetime))
-                        #row.values()
+                        # row.values()
                         sequence = str(int(sequence) + 1).zfill(4)
+
 
 class SampleLabelRequestSerializerExportMixin(SerializerExportMixin):
     def create_export(self, export_format):
