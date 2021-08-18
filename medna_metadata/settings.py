@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.gis',
     'users',
+    'utilities',
     'field_sites',
     'sample_labels',
     'field_survey',
