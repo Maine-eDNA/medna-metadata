@@ -11,7 +11,7 @@ from users.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, Clou
 
 # Django REST Framework to allow the automatic downloading of data!
 class FieldSurveySerializer(serializers.ModelSerializer):
-    survey_global_id = serializers.CharField()
+    survey_global_id = serializers.CharField(read_only=True)
     survey_datetime = serializers.DateTimeField()
     project_ids = serializers.ChoiceField(choices=GrantProjects.choices, blank=True, null=True)
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
@@ -73,7 +73,7 @@ class FieldSurveySerializer(serializers.ModelSerializer):
 
 
 class FieldCrewSerializer(serializers.ModelSerializer):
-    crew_global_id = serializers.CharField()
+    crew_global_id = serializers.CharField(read_only=True)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
@@ -90,7 +90,7 @@ class FieldCrewSerializer(serializers.ModelSerializer):
 
 
 class EnvMeasurementSerializer(serializers.ModelSerializer):
-    env_global_id = serializers.CharField()
+    env_global_id = serializers.CharField(read_only=True)
     env_measure_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_instrument = serializers.ChoiceField(choices=EnvInstruments.choices, blank=True, null=True)
@@ -146,7 +146,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
 
 
 class FieldCollectionSerializer(serializers.ModelSerializer):
-    collection_global_id = serializers.CharField()
+    collection_global_id = serializers.CharField(read_only=True)
     collection_type = serializers.ChoiceField(choices=CollectionTypes.choices, blank=True, null=True)
     water_control = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
     water_control_type = serializers.ChoiceField(choices=ControlTypes.choices, blank=True, null=True)
@@ -192,7 +192,7 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
 
 
 class FieldSampleSerializer(serializers.ModelSerializer):
-    sample_global_id = serializers.CharField()
+    sample_global_id = serializers.CharField(read_only=True)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
     is_prefilter = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)

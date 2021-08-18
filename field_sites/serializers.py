@@ -10,6 +10,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     biome_first_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -27,6 +28,7 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
 
 
 class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     biome_second_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -43,6 +45,7 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
 
 
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     biome_third_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -59,6 +62,7 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
 
 
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     biome_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -76,6 +80,7 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
 
 
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -92,6 +97,7 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
 
 
 class EnvoBiomeSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -117,6 +123,7 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_first_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -133,6 +140,7 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_second_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -149,6 +157,7 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_third_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -166,6 +175,7 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -183,6 +193,7 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -200,6 +211,7 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_sixth_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -216,6 +228,7 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField()
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -232,6 +245,7 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
 
 
 class EnvoFeatureSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
 
     created_datetime = serializers.DateTimeField()
@@ -261,6 +275,7 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     project_code = serializers.CharField(max_length=1)
     project_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
@@ -275,6 +290,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class SystemSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     system_code = serializers.CharField(max_length=1)
     system_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
@@ -289,6 +305,7 @@ class SystemSerializer(serializers.ModelSerializer):
 
 
 class FieldSiteSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     lat = serializers.DecimalField(max_digits=22, decimal_places=16)
     lon = serializers.DecimalField(max_digits=22, decimal_places=16)
     site_id = serializers.CharField(max_length=7)
@@ -322,8 +339,9 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = FieldSite
         geo_field = 'geom'
@@ -339,6 +357,8 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
 
 
 class GeoRegionSerializer(GeoFeatureModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Region
         geo_field = 'geom'

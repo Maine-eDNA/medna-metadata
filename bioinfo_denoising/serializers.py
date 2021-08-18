@@ -5,6 +5,7 @@ from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant,
 # Django REST Framework to allow the automatic downloading of data!
 class DenoisingMethodSerializer(serializers.ModelSerializer):
     # DADA2, DEBLUR, PYRONOISE, UNOISE3
+    id = serializers.IntegerField(read_only=True)
     denoising_method_name = serializers.CharField(max_length=255)
     denoising_method_pipeline = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
@@ -20,6 +21,7 @@ class DenoisingMethodSerializer(serializers.ModelSerializer):
 
 
 class DenoisingMetadataSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
@@ -42,6 +44,7 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
 
 
 class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     asv_id = serializers.CharField()
     asv_sequence = serializers.CharField()
     created_datetime = serializers.DateTimeField()
@@ -58,6 +61,7 @@ class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
 
 
 class ASVReadSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     number_reads = serializers.IntegerField(min_value=0)
     created_datetime = serializers.DateTimeField()
 

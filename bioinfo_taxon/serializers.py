@@ -10,6 +10,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 # Django REST Framework to allow the automatic downloading of data!
 class ReferenceDatabaseSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     refdb_name = serializers.CharField(max_length=255)
     refdb_version = serializers.CharField(max_length=255)
     refdb_datetime = serializers.DateTimeField()
@@ -28,6 +29,7 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
 
 
 class TaxonDomainSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_domain = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -41,6 +43,7 @@ class TaxonDomainSerializer(serializers.ModelSerializer):
 
 
 class TaxonKingdomSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_kingdom = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -55,6 +58,7 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
 
 
 class TaxonPhylumSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_phylum = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -69,6 +73,7 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
 
 
 class TaxonClassSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_class = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -83,6 +88,7 @@ class TaxonClassSerializer(serializers.ModelSerializer):
 
 
 class TaxonOrderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_order = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -97,6 +103,7 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
 
 
 class TaxonFamilySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_family = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -111,6 +118,7 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
 
 
 class TaxonGenusSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_genus = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -125,6 +133,7 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
 
 
 class TaxonSpeciesSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_species = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -139,6 +148,7 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
 
 
 class TaxonSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     taxon_species = serializers.CharField(max_length=255)
     taxon_common_name = serializers.CharField(max_length=255)
     is_endemic = serializers.ChoiceField(choices=YesNo.choices)
@@ -164,6 +174,7 @@ class TaxonSerializer(serializers.ModelSerializer):
 
 
 class AnnotationMethodSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     annotation_method_name = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField()
 
@@ -178,6 +189,7 @@ class AnnotationMethodSerializer(serializers.ModelSerializer):
 
 
 class AnnotationMetadataSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
@@ -199,6 +211,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
 
 
 class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     confidence = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     ta_taxon = serializers.CharField(allow_blank=True)
     ta_domain = serializers.CharField(max_length=255, allow_blank=True)

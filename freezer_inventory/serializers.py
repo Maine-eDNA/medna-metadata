@@ -9,6 +9,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 # Django REST Framework to allow the automatic downloading of data!
 class FreezerSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     freezer_label = serializers.CharField(max_length=255)
     freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -22,7 +23,7 @@ class FreezerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Freezer
-        fields = ['freezer_label',
+        fields = ['id', 'freezer_label',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                   'created_by', 'created_datetime', ]
@@ -34,6 +35,7 @@ class FreezerSerializer(serializers.ModelSerializer):
 
 
 class FreezerRackSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     freezer_rack_label = serializers.CharField(max_length=255)
     # location of rack in freezer
     freezer_rack_column_start = serializers.IntegerField(min_value=1)
@@ -46,7 +48,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerRack
-        fields = ['freezer', 'freezer_rack_label',
+        fields = ['id', 'freezer', 'freezer_rack_label',
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
@@ -61,6 +63,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     freezer_box_label = serializers.CharField(max_length=255)
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
@@ -70,7 +73,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerBox
-        fields = ['freezer_rack', 'freezer_box_label',
+        fields = ['id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                   'created_by', 'created_datetime', ]
     # Since freezer_rack and created_by reference different tables and we
@@ -83,6 +86,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     barcode_slug = serializers.SlugField(max_length=27, allow_blank=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices)
@@ -93,7 +97,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerInventory
-        fields = ['freezer_box', 'field_sample', 'extraction',
+        fields = ['id', 'freezer_box', 'field_sample', 'extraction',
                   'barcode_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
@@ -112,6 +116,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     freezer_checkout_action = serializers.ChoiceField(choices=CheckoutActions.choices)
     freezer_checkout_datetime = serializers.DateTimeField(allow_null=True)
     freezer_return_datetime = serializers.DateTimeField(allow_null=True)
@@ -123,7 +128,7 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerCheckout
-        fields = ['freezer_inventory', 'freezer_checkout_action',
+        fields = ['id', 'freezer_inventory', 'freezer_checkout_action',
                   'freezer_checkout_datetime',
                   'freezer_return_datetime',
                   'freezer_perm_removal_datetime',

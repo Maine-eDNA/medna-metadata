@@ -20,6 +20,7 @@ def delete_keys(keys, the_dict):
 
 # Django REST Framework to allow the automatic downloading of data!
 class SampleLabelSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = SampleLabel
         fields = ['id', 'sample_label_id', 'site_id', 'sample_type', 'sample_year',

@@ -23,16 +23,20 @@ except ImportError:
 
 # django rest_framework
 class CustomUserSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = CustomUser
-        fields = ('email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username')
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = CustomUser
-        fields = ['pk', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username']
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username']
         read_only_fields = ('email',)
 
 
