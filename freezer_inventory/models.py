@@ -23,7 +23,7 @@ def freezer_inv_status_update(inv_pk, freezer_checkout_action):
 # Create your models here.
 class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_label = models.CharField("Freezer Label", max_length=255)
+    freezer_label = models.CharField("Freezer Label", max_length=255, unique=True)
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
     freezer_length = models.DecimalField("Freezer Length", max_digits=15,  decimal_places=10)
     freezer_width = models.DecimalField("Freezer Width", max_digits=15,  decimal_places=10)
@@ -48,7 +48,7 @@ class Freezer(DateTimeUserMixin):
 class FreezerRack(DateTimeUserMixin):
     freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT)
     # freezer_rack_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_rack_label = models.CharField("Freezer Rack Label", max_length=255)
+    freezer_rack_label = models.CharField("Freezer Rack Label", max_length=255, unique=True)
     # location of rack in freezer
     freezer_rack_column_start = models.PositiveIntegerField("Freezer Rack Column Start")
     freezer_rack_column_end = models.PositiveIntegerField("Freezer Rack Column End")
@@ -77,7 +77,7 @@ class FreezerRack(DateTimeUserMixin):
 class FreezerBox(DateTimeUserMixin):
     freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT)
     # freezer_box_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_box_label = models.CharField("Freezer Box Label", max_length=255)
+    freezer_box_label = models.CharField("Freezer Box Label", max_length=255, unique=True)
     # location of box in freezer rack
     freezer_box_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_box_row = models.PositiveIntegerField("Freezer Box Row")
