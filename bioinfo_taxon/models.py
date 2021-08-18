@@ -9,10 +9,16 @@ from django.utils.text import slugify
 class ReferenceDatabase(DateTimeUserMixin):
     refdb_name = models.CharField("Reference Database Name", max_length=255)
     refdb_version = models.CharField("Reference Database Version", max_length=255)
+    refdb_slug = models.SlugField("Reference Database Slug", max_length=255)
     refdb_datetime = models.DateTimeField("Reference Database DateTime", blank=True, null=True)
     redfb_coverage_score = models.DecimalField("Coverage Score (Percentage)", max_digits=6, decimal_places=2)
     refdb_repo_url = models.URLField("Reference Database URL", max_length=255,
                                      default="https://github.com/Maine-eDNA")
+
+    def save(self, *args, **kwargs):
+        self.refdb_slug = '{name} v{version}'.format(name=slugify(self.refdb_name),
+                                                    version=slugify(self.refdb_version))
+        super(ReferenceDatabase, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{name} {version}, {coverage}%'.format(
@@ -21,6 +27,8 @@ class ReferenceDatabase(DateTimeUserMixin):
             coverage=self.redfb_coverage_score)
 
     class Meta:
+        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        unique_together = ['refdb_name', 'refdb_version']
         app_label = 'bioinfo_taxon'
         verbose_name = 'Reference Database'
         verbose_name_plural = 'Reference Databases'
@@ -282,7 +290,7 @@ class TaxonSpecies(DateTimeUserMixin):
 
 class AnnotationMethod(DateTimeUserMixin):
     # BLAST, BLASTPLUS, MNNAIVEBAYES
-    annotation_method_name = models.CharField("Denoising Method Name", max_length=255)
+    annotation_method_name = models.CharField("Denoising Method Name", max_length=255, unique=True)
 
     def __str__(self):
         return '{name}'.format(name=self.annotation_method_name)
