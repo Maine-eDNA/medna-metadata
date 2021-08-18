@@ -43,8 +43,6 @@ class FieldSurvey(DateTimeUserMixin):
     # prj_ids
     project_ids = models.ManyToManyField(GrantProject,
                                          verbose_name="Affiliated Project(s)",
-                                         blank=True,
-                                         null=True,
                                          related_name="project_ids")
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name="Supervisor",
