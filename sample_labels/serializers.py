@@ -3,6 +3,7 @@ from utility.serializers import SerializerExportMixin
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
 from .models import SampleLabel, SampleLabelRequest
+from django.core.validators import MinValueValidator
 
 try:
     from tablib import Dataset
@@ -21,10 +22,11 @@ def delete_keys(keys, the_dict):
 # Django REST Framework to allow the automatic downloading of data!
 class SampleLabelSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    sample_label_id = serializers.CharField(read_only=True)
+    sample_year = serializers.IntegerField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    # purpose = serializers.CharField(required=True, max_length=200)
-    # req_sample_label_num = serializers.IntegerField(required=True, default=1)
+    purpose = serializers.CharField(max_length=255)
 
     class Meta:
         model = SampleLabel
@@ -40,10 +42,16 @@ class SampleLabelSerializer(serializers.ModelSerializer):
 
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    purpose = serializers.CharField(max_length=255)
+    req_sample_label_num = serializers.IntegerField(default=1)
+    sample_year = serializers.IntegerField(validators=[MinValueValidator(2018)])
+    sample_label_prefix = serializers.CharField(read_only=True, max_length=11)
+    min_sample_label_num = serializers.IntegerField(read_only=True)
+    max_sample_label_num = serializers.IntegerField(read_only=True,)
+    min_sample_label_id = serializers.CharField(read_only=True, max_length=16)
+    max_sample_label_id = serializers.CharField(read_only=True, max_length=16)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    # purpose = serializers.CharField(required=True, max_length=200)
-    # req_sample_label_num = serializers.IntegerField(required=True, default=1)
 
     class Meta:
         model = SampleLabelRequest
