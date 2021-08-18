@@ -4,7 +4,7 @@ from django.contrib.gis import admin
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
     SizeSelectionMethodAdminResource, QuantificationMethodAdminResource, ExtractionMethodAdminResource, \
@@ -243,11 +243,11 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                        'extraction_notes', 'created_by']
-        self.list_filter = (
-            ('field_sample', RelatedDropdownFilter),
-            ('extraction_method', RelatedDropdownFilter),
-            ('quantification_method', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('field_sample', RelatedDropdownFilter),
+        #    ('extraction_method', RelatedDropdownFilter),
+        #    ('quantification_method', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -286,10 +286,6 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
         self.fields = ['ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                        'ddpcr_notes', 'created_by']
-        self.list_filter = (
-            ('extraction', RelatedDropdownFilter),
-            ('primer_set', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -326,10 +322,6 @@ class QpcrAdmin(ImportExportActionModelAdmin):
         self.fields = ['qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                        'qpcr_notes', 'created_by']
-        self.list_filter = (
-            ('primer_set', RelatedDropdownFilter),
-            ('extraction', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -370,14 +362,6 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'final_concentration', 'final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
                        'created_by']
-        self.list_filter = (
-            ('extraction', RelatedDropdownFilter),
-            ('primer_set', RelatedDropdownFilter),
-            ('index_pair', RelatedDropdownFilter),
-            ('index_removal_method', RelatedDropdownFilter),
-            ('size_selection_method', RelatedDropdownFilter),
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -429,9 +413,6 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
                        'pooled_lib_notes',
                        'created_by']
         self.inlines = (LibraryPrepInline, )
-        self.list_filter = (
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -447,9 +428,6 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
                        'pooled_lib_notes',
                        'created_by']
         self.inlines = (LibraryPrepInline, )
-        self.list_filter = (
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PooledLibraryAdmin, self).change_view(request, object_id)
 
@@ -486,9 +464,6 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
                        'final_pooled_lib_concentration_units',
                        'final_pooled_lib_notes', 'created_by']
         self.inlines = (PooledLibraryInline, )
-        self.list_filter = (
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -504,9 +479,6 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
                        'final_pooled_lib_concentration_units',
                        'final_pooled_lib_notes', 'created_by']
         self.inlines = (PooledLibraryInline, )
-        self.list_filter = (
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FinalPooledLibraryAdmin, self).change_view(request, object_id)
 
@@ -533,10 +505,6 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                        'run_prep_notes', 'created_by']
-        self.list_filter = (
-            ('final_pooled_library', RelatedDropdownFilter),
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -549,10 +517,6 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                        'run_prep_notes', 'created_by']
-        self.list_filter = (
-            ('final_pooled_library', RelatedDropdownFilter),
-            ('quantification_method', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunPrepAdmin, self).change_view(request, object_id)
 
@@ -578,9 +542,6 @@ class RunResultAdmin(ImportExportActionModelAdmin):
         self.fields = ['run_id', 'run_experiment_name', 'run_prep',
                        'run_completion_datetime', 'run_instrument',
                        'created_by']
-        self.list_filter = (
-            ('run_prep', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -616,10 +577,6 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                        'created_by']
-        self.list_filter = (
-            ('run_result', RelatedDropdownFilter),
-            ('extraction', RelatedDropdownFilter)
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
