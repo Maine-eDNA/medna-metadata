@@ -14,7 +14,6 @@ from utility.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, Cl
 class FieldSurveySerializer(serializers.ModelSerializer):
     survey_global_id = serializers.CharField(read_only=True)
     survey_datetime = serializers.DateTimeField()
-    project_ids = serializers.ChoiceField(choices=GrantProjects.choices, blank=True, null=True)
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
     recorder_lname = serializers.CharField(max_length=255, allow_blank=True)
     arrival_datetime = serializers.DateTimeField(allow_null=True)
@@ -64,12 +63,20 @@ class FieldSurveySerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    project_ids = serializers.SlugRelatedField(choices=GrantProjects.choices, many=True,
+                                               allow_blank=True, allow_null=True,
+                                               read_only=True, slug_field='process_location_name')
+    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
+                                            allow_blank=True, allow_null=True,)
+    supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
+                                              allow_blank=True, allow_null=True,)
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
-    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
+                                                 allow_blank=True, allow_null=True,)
+    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
+                                                  allow_blank=True, allow_null=True,)
+    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
+                                             allow_blank=True, allow_null=True,)
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
@@ -200,7 +207,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField(read_only=True)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
-    is_prefilter = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
+    is_prefilter = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)
     filter_lname = serializers.CharField(max_length=255, allow_blank=True)
     filter_sample_label = serializers.CharField(max_length=255, allow_blank=True)
