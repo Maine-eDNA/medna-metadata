@@ -4,7 +4,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
 from field_survey.models import FieldSample
-from users.models import CustomUser
+from users.models import CustomUser, ProcessLocation
 
 
 class PrimerPairAdminResource(resources.ModelResource):
@@ -256,6 +256,11 @@ class LibraryPrepAdminResource(resources.ModelResource):
                         'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
                         'created_by', 'created_datetime', )
 
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
+
     extraction = fields.Field(
         column_name='extraction',
         attribute='extraction',
@@ -311,6 +316,11 @@ class PooledLibraryAdminResource(resources.ModelResource):
                         'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                         'created_by', 'created_datetime', )
 
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
+
     library_prep = fields.Field(
         column_name='library_prep',
         attribute='library_prep',
@@ -348,6 +358,11 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
                         'final_pooled_lib_concentration_units',
                         'final_pooled_lib_notes', 'created_by', 'created_datetime', )
 
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
+
     pooled_library = fields.Field(
         column_name='pooled_library',
         attribute='pooled_library',
@@ -381,6 +396,11 @@ class RunPrepAdminResource(resources.ModelResource):
                         'phix_spike_in', 'phix_spike_in_units',
                         'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                         'run_prep_notes', 'created_by', 'created_datetime', )
+
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
 
     final_pooled_library = fields.Field(
         column_name='final_pooled_library',
