@@ -8,7 +8,7 @@ from .models import ProcessLocation
 # Django REST Framework to allow the automatic downloading of data!
 class ProcessLocationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    process_location_name = serializers.CharField(max_length=255, unique=True)
+    process_location_name = serializers.CharField(max_length=255)
     affiliation = serializers.CharField(max_length=255)
     process_location_url = serializers.URLField(max_length=255)
     email_address = serializers.EmailField(blank=True, null=True)
