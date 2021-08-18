@@ -11,8 +11,8 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
     process_location_name = serializers.CharField(max_length=255)
     affiliation = serializers.CharField(max_length=255)
     process_location_url = serializers.URLField(max_length=255)
-    email_address = serializers.EmailField(blank=True, null=True)
-    location_notes = serializers.CharField(blank=True)
+    email_address = serializers.EmailField(allow_blank=True, allow_null=True)
+    location_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
