@@ -8,7 +8,6 @@ import datetime
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
-from django_countries.fields import CountryField
 
 
 def get_sentinel_user():
