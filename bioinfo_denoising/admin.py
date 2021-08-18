@@ -2,7 +2,7 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import DenoisingMethodAdminResource, DenoisingMetadataAdminResource, \
     AmpliconSequenceVariantAdminResource, ASVReadAdminResource
@@ -14,7 +14,7 @@ class DenoisingMethodAdmin(ImportExportActionModelAdmin):
     resource_class = DenoisingMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_by', 'created_datetime',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -48,17 +48,17 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
     resource_class = DenoisingMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['run_result', 'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoising_method',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
-        self.list_filter = (
-            ('run_result', RelatedDropdownFilter),
-            ('denoising_method', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('run_result', RelatedDropdownFilter),
+        #    ('denoising_method', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -70,10 +70,10 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
         self.fields = ['run_result', 'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoising_method',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
-        self.list_filter = (
-            ('run_result', RelatedDropdownFilter),
-            ('denoising_method', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('run_result', RelatedDropdownFilter),
+        #    ('denoising_method', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoisingMetadataAdmin, self).change_view(request, object_id)
 
@@ -94,14 +94,14 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
     resource_class = AmpliconSequenceVariantAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['asv_id', 'asv_sequence', 'denoising_metadata', 'created_by']
-        self.list_filter = (
-            ('denoising_method', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('denoising_method', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -111,9 +111,9 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['asv_id', 'asv_sequence', 'denoising_metadata', 'created_by']
-        self.list_filter = (
-            ('denoising_method', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('denoising_method', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AmpliconSequenceVariantAdmin, self).change_view(request, object_id)
 
@@ -134,15 +134,15 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
     resource_class = ASVReadAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__', )
+    list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['asv', 'extraction', 'number_reads', 'created_by']
-        self.list_filter = (
-            ('asv', RelatedDropdownFilter),
-            ('extraction', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('asv', RelatedDropdownFilter),
+        #    ('extraction', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -152,10 +152,10 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['asv', 'extraction', 'number_reads', 'created_by']
-        self.list_filter = (
-            ('asv', RelatedDropdownFilter),
-            ('extraction', RelatedDropdownFilter)
-        )
+        #self.list_filter = (
+        #    ('asv', RelatedDropdownFilter),
+        #    ('extraction', RelatedDropdownFilter)
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ASVReadAdmin, self).change_view(request, object_id)
 
