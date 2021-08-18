@@ -16,7 +16,7 @@ class ReferenceDatabase(DateTimeUserMixin):
                                      default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
-        self.refdb_slug = '{name} v{version}'.format(name=slugify(self.refdb_name),
+        self.refdb_slug = '{name}v{version}'.format(name=slugify(self.refdb_name),
                                                     version=slugify(self.refdb_version))
         super(ReferenceDatabase, self).save(*args, **kwargs)
 
