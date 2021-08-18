@@ -4,7 +4,7 @@ import datetime
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from field_sites.models import FieldSite
-from users.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin
 from django.core.validators import MinValueValidator
 import numpy as np
 

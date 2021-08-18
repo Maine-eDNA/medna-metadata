@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from bioinfo_denoising.models import AmpliconSequenceVariant
-from users.models import DateTimeUserMixin
-from users.enumerations import YesNo
+from utility.models import DateTimeUserMixin
+from utility.enumerations import YesNo
 from django.utils.text import slugify
 
 

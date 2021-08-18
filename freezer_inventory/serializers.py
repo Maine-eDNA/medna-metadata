@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
-from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
+from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
+
+
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 

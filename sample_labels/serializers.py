@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.serializers import SerializerExportMixin
+from utility.serializers import SerializerExportMixin
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
 from .models import SampleLabel, SampleLabelRequest

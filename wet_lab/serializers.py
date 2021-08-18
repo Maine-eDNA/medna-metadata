@@ -2,9 +2,9 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
-from users.enumerations import TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from users.enumerations import YesNo
+from utility.enumerations import TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
+
+
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 

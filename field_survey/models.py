@@ -2,9 +2,9 @@ from django.contrib.gis.db import models
 from django.conf import settings
 from sample_labels.models import SampleLabel, SampleType
 from field_sites.models import FieldSite
-from users.models import DateTimeUserMixin, get_sentinel_user
+from utility.models import DateTimeUserMixin, get_sentinel_user
 from django.utils.text import slugify
-from users.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
+from utility.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, CoreMethods, SubCoreMethods

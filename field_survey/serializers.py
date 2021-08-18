@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from users.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
+from utility.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
-    BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
-    FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
+    BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
+    CoreMethods
+
+
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 

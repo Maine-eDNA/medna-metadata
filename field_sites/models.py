@@ -2,7 +2,7 @@
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-from users.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin
 from django.utils.text import slugify
 
 

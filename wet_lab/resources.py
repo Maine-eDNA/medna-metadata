@@ -4,7 +4,8 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
 from field_survey.models import FieldSample
-from users.models import CustomUser, ProcessLocation
+from utility.models import ProcessLocation
+from users.models import CustomUser
 
 
 class PrimerPairAdminResource(resources.ModelResource):

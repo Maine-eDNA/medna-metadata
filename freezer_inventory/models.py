@@ -4,8 +4,8 @@ import datetime
 from django.db.models import Q
 from field_survey.models import FieldSample
 from wet_lab.models import Extraction
-from users.models import DateTimeUserMixin
-from users.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
+from utility.models import DateTimeUserMixin
+from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 
 
 def freezer_inv_status_update(inv_pk, freezer_checkout_action):

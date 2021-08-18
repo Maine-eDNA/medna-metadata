@@ -2,8 +2,9 @@ from rest_framework import serializers
 from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
-from users.enumerations import YesNo
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from utility.enumerations import YesNo
+
+
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 

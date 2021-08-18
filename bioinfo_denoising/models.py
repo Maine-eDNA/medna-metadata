@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from wet_lab.models import RunResult, Extraction
-from users.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin
 from django.utils.text import slugify
 
 
