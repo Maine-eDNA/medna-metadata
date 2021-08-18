@@ -307,7 +307,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_species', 'taxon_genus_slug', 'created_by']
+        self.fields = ['taxon_species', 'taxon_genus_slug', 'taxon_common_name',
+                       'is_endemic', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -316,7 +317,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_species', 'taxon_genus_slug', 'created_by']
+        self.fields = ['taxon_species', 'taxon_genus_slug', 'taxon_common_name',
+                       'is_endemic', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonSpeciesAdmin, self).change_view(request, object_id)
 
