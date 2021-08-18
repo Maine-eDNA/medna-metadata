@@ -3,270 +3,272 @@ from django.utils.translation import gettext_lazy as _
 
 
 # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
-class YesNo(models.IntegerChoices):
-    NO = 0, _('No')
-    YES = 1, _('Yes')
+class YesNo(models.TextChoices):
+    NO = 'no', _('No')
+    YES = 'yes', _('Yes')
+    __empty__ = _('(Unknown)')
+
+# moved to model in users/models
+#class ProcessLocations(models.TextChoices):
+#    CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
+#    BIGELOW = 'Bigelow', _('Bigelow Laboratory')
+#    URI = 'URI', _('Rhode Island Genomics (URI)')
+#    UNH = 'UNH', _('Hubbard Center (UNH)')
+#    DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)')
+#    __empty__ = _('(Unknown)')
+
+
+# UNITS CHOICES
+class MeasureUnits(models.TextChoices):
+    METERS = 'meter', _('Meter (m)')
+    CENTIMETERS = 'centimeter', _('Centimeters (cm)')
+    FEET = 'feet', _('Feet (ft)')
+    INCHES = 'inch', _('Inches (in)')
     __empty__ = _('(Unknown)')
 
 
-class ProcessLocations(models.IntegerChoices):
-    CORE = 0, _('Maine-eDNA CORE')
-    BIGELOW = 1, _('Bigelow')
-    URI = 2, _('URI')
-    UNH = 3, _('UNH')
-    DALHOUSIEU = 4, _('Dalhousie U')
+class VolUnits(models.TextChoices):
+    MICROLITER = 'microliter', _('microliter (µL)')
+    MILLILITER = 'milliliter', _('milliliter (mL)')
     __empty__ = _('(Unknown)')
 
 
-# units choices
-class MeasureUnits(models.IntegerChoices):
-    METERS = 0, _('Meter (m)')
-    CENTIMETERS = 1, _('Centimeters (cm)')
-    FEET = 2, _('Feet (ft)')
-    INCHES = 3, _('Inches (in)')
+class ConcentrationUnits(models.TextChoices):
+    NGUL = 'nanograms_per_microliter', _('Nanograms per microliter (ng/µL)')
+    NGML = 'nanograms_per_milliliter', _('Nanograms per milliliter (ng/mL)')
+    PGUL = 'picograms_per_microliter', _('Picograms per microliter (pg/µL)')
+    NM = 'nanomolar', _('nanomolar (nM)')
+    PM = 'picomolar', _('picomolar (pM)')
+    PERC = 'percent', _('Percent (%)')
     __empty__ = _('(Unknown)')
 
 
-class VolUnits(models.IntegerChoices):
-    MICROLITER = 0, _('microliter (µL)')
-    MILLILITER = 1, _('milliliter (mL)')
+class DdpcrUnits(models.TextChoices):
+    CP = 'cp', _('Copy Number')
+    CPUL = 'cp_per_microliter', _('Copies per microliter (copy/µL)')
     __empty__ = _('(Unknown)')
 
 
-class ConcentrationUnits(models.IntegerChoices):
-    NGUL = 0, _('Nanograms per microliter (ng/µL)')
-    NGML = 1, _('Nanograms per milliliter (ng/mL)')
-    PGUL = 2, _('Picograms per microliter (pg/µL)')
-    NM = 3, _('nanomolar (nM)')
-    PM = 4, _('picomolar (pM)')
-    PERC = 5, _('Percent (%)')
+class QpcrUnits(models.TextChoices):
+    CQ = 'cq', _('Quantification Cycle (Cq)')
     __empty__ = _('(Unknown)')
 
 
-class DdpcrUnits(models.IntegerChoices):
-    CP = 0, _('Copy Number')
-    CPUL = 1, _('Copies per microliter (copy/µL)')
+# FREEZER_INVENTORY CHOICES
+class InvStatus(models.TextChoices):
+    IN = 'in', _('In Stock')
+    OUT = 'out', _('Checked Out')
+    REMOVED = 'perm_removed', _('Permanently Removed')
     __empty__ = _('(Unknown)')
 
 
-class QpcrUnits(models.IntegerChoices):
-    CQ = 0, _('Quantification Cycle (Cq)')
+class InvTypes(models.TextChoices):
+    FILTER = 'filter', _('Filter')
+    EXTRACTION = 'extraction', _('Extraction')
+
+
+class CheckoutActions(models.TextChoices):
+    CHECKOUT = 'checkout', _('Checkout')
+    RETURN = 'return', _('Return')
+    REMOVE = 'perm_removed', _('Permanent Removal')
+
+
+# WET_LAB CHOICES
+class TargetGenes(models.TextChoices):
+    TG_12S = '12s', _('12S')
+    TG_16S = '16s', _('16S')
+    TG_18S = '18s', _('18S')
+    TG_COI = 'coi', _('COI')
     __empty__ = _('(Unknown)')
 
 
-# Freezer choices
-class InvStatus(models.IntegerChoices):
-    IN = 0, _('In Stock')
-    OUT = 1, _('Checked Out')
-    REMOVED = 2, _('Permanently Removed')
+class LibPrepTypes(models.TextChoices):
+    AMPLICON = 'amplicon', _('Amplicon Sequencing')
+    RNA = 'rna', _('16s rRNA Sequencing')
+    SHOTGUN = 'shotgun', _('Shotgun Sequencing')
+    WHOLE = 'whole_genome', _('Whole-Genome Sequencing')
+    DENOVO = 'denovo', _('De Novo Sequencing')
     __empty__ = _('(Unknown)')
 
 
-class InvTypes(models.IntegerChoices):
-    FILTER = 0, _('Filter')
-    EXTRACTION = 1, _('Extraction')
-    # POOLEDLIBRARY = 2, _('Pooled Library')
-
-
-class CheckoutActions(models.IntegerChoices):
-    CHECKOUT = 0, _('Checkout')
-    RETURN = 1, _('Return')
-    REMOVE = 2, _('Permanent Removal')
-
-
-# wet lab choices
-class TargetGenes(models.IntegerChoices):
-    TG_12S = 0, _('12S')
-    TG_16S = 1, _('16S')
-    TG_18S = 2, _('18S')
-    TG_COI = 3, _('COI')
+class LibPrepKits(models.TextChoices):
+    NEXTERAXTV2 = 'nextera_xt_v2', _('Nextera XT V2')
     __empty__ = _('(Unknown)')
 
 
-class LibPrepTypes(models.IntegerChoices):
-    AMPLICON = 0, _('Amplicon Sequencing')
-    RNA = 1, _('16s rRNA Sequencing')
-    SHOTGUN = 2, _('Shotgun Sequencing')
-    WHOLE = 3, _('Whole-Genome Sequencing')
-    DENOVO = 4, _('De Novo Sequencing')
+# FIELD_SURVEY CHOICES
+# fieldsurvey
+class GrantProjects(models.TextChoices):
+    prj_medna = 'prj_medna', _('Maine eDNA')
+    prj_theme1 = 'prj_theme1', _('Theme 1')
+    prj_lbb = 'prj_lbb', _('Larval Black Box (T1)')
+    prj_ale = 'prj_ale', _('Alewife (T1)')
+    prj_fisheries = 'prj_fisheries', _('Fisheries eDNA (T1)')
+    prj_theme2 = 'prj_theme2', _('Theme 2')
+    prj_habs = 'prj_habs', _('Harmful algal blooms (T2)')
+    prj_spmove = 'prj_spmove', _('Species on the move (T2)')
+    prj_theme3 = 'prj_theme3', _('Theme 3')
+    prj_indexsites = 'prj_indexsites', _('Index Sites (T3)')
+    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
+    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
+    prj_commsci = 'prj_commsci', _('Community Science')
     __empty__ = _('(Unknown)')
 
 
-class LibPrepKits(models.IntegerChoices):
-    NEXTERAXTV2 = 0, _('Nextera XT V2')
+class WindSpeeds(models.TextChoices):
+    none = 'none', _('None')
+    light_wind = 'light_wind', _('Light breeze')
+    mod_wind = 'mod_wind', _('Moderate breeze')
+    strong_wind = 'strong_wind', _('Strong wind')
     __empty__ = _('(Unknown)')
 
 
-# field_survey
-class YsiModels(models.IntegerChoices):
-    exo2 = 0, _('EXO2')
-    exo_handheld = 1, _('EXO HANDHELD')
-    prodss = 2, _('ProDSS')
+class CloudCovers(models.TextChoices):
+    none = 'none', _('None')
+    partly_cloudy = 'partly_cloudy', _('Partly cloudy')
+    full_cloudy = 'full_cloudy', _('Full cloudy')
     __empty__ = _('(Unknown)')
 
 
-class GrantProjects(models.IntegerChoices):
-    prj_medna = 0, _('Maine eDNA')
-    prj_theme1 = 1, _('Theme 1')
-    prj_lbb = 2, _('Larval Black Box (T1)')
-    prj_ale = 3, _('Alewife (T1)')
-    prj_fisheries = 4, _('Fisheries eDNA (T1)')
-    prj_theme2 = 5, _('Theme 2')
-    prj_habs = 6, _('Harmful algal blooms (T2)')
-    prj_spmove = 7, _('Species on the move (T2)')
-    prj_theme3 = 8, _('Theme 3')
-    prj_indexsites = 9, _('Index Sites (T3)')
-    prj_macroint = 10, _('Macrosystem Integration (T3)')
-    prj_microbio = 11, _('Microbial biosensors (T3)')
-    prj_commsci = 12, _('Community Science')
+class PrecipTypes(models.TextChoices):
+    none = 'none', _('None')
+    drizzle = 'drizzle', _('Drizzle')
+    light_rain = 'light_rain', _('Light rain')
+    mod_rain = 'mod_rain', _('Moderate rain')
+    heavy_rain = 'heavy_rain', _('Heavy rain')
+    hail = 'hail', _('Hail')
+    sleet = 'sleet', _('Sleet')
+    light_snow = 'light_snow', _('Light snow')
+    mod_snow = 'mod_snow', _('Moderate snow')
+    heavy_snow = 'heavy_snow', _('Heavy snow')
     __empty__ = _('(Unknown)')
 
 
-class WindSpeeds(models.IntegerChoices):
-    none = 0, _('None')
-    light_wind = 1, _('Light breeze')
-    mod_wind = 2, _('Moderate breeze')
-    strong_wind = 3, _('Strong wind')
+class TurbidTypes(models.TextChoices):
+    none = 'none', _('None')
+    low = 'low', _('Low')
+    medium = 'medium', _('Medium')
+    high = 'high', _('High')
     __empty__ = _('(Unknown)')
 
 
-class CloudCovers(models.IntegerChoices):
-    none = 0, _('None')
-    partly_cloudy = 1, _('Partly cloudy')
-    full_cloudy = 2, _('Full cloudy')
+class EnvoMaterials(models.TextChoices):
+    water = 'water', _('Water')
+    soil = 'soil', _('Soil')
+    other = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
-class PrecipTypes(models.IntegerChoices):
-    none = 0, _('None')
-    drizzle = 1, _('Drizzle')
-    light_rain = 2, _('Light rain')
-    mod_rain = 3, _('Moderate rain')
-    heavy_rain = 4, _('Heavy rain')
-    hail = 5, _('Hail')
-    sleet = 6, _('Sleet')
-    light_snow = 7, _('Light snow')
-    mod_snow = 8, _('Moderate snow')
-    heavy_snow = 9, _('Heavy snow')
+class MeasureModes(models.TextChoices):
+    on_foot = 'on_foot', _('On Foot')
+    on_boat = 'on_boat', _('Boat')
     __empty__ = _('(Unknown)')
 
 
-class TurbidTypes(models.IntegerChoices):
-    none = 0, _('None')
-    low = 1, _('Low')
-    medium = 2, _('Medium')
-    high = 3, _('High')
+# envmeasurement
+class EnvInstruments(models.TextChoices):
+    env_ctd = 'env_ctd', _('CTD')
+    env_ysi = 'env_ysi', _('YSI')
+    env_secchi = 'env_secchi', _('Secchi Disk')
+    env_niskin = 'env_niskin', _('Niskin')
+    env_inst_other = 'env_inst_other', _('Other')
     __empty__ = _('(Unknown)')
 
 
-class EnvoMaterials(models.IntegerChoices):
-    water = 0, _('Water')
-    soil = 1, _('Soil')
-    other = 2, _('Other')
+class YsiModels(models.TextChoices):
+    exo2 = 'exo2', _('EXO2')
+    exo_handheld = 'exo_handheld', _('EXO HANDHELD')
+    prodss = 'prodss', _('ProDSS')
     __empty__ = _('(Unknown)')
 
 
-class MeasureModes(models.IntegerChoices):
-    on_foot = 0, _('On Foot')
-    on_boat = 1, _('Boat')
+class EnvMeasurements(models.TextChoices):
+    env_flow = 'env_flow', _('Flow')
+    env_water_temp = 'env_water_temp', _('Water Temp')
+    env_salinity = 'env_salinity', _('Salinity')
+    env_ph = 'env_ph', _('pH')
+    env_par1 = 'env_par1', _('PAR1')
+    env_par2 = 'env_par2', _('PAR2')
+    env_turbidity = 'env_turbidity', _('Turbidity')
+    env_conductivity = 'env_conductivity', _('Cond')
+    env_do = 'env_do', _('DO')
+    env_pheophytin = 'env_pheophytin', _('Pheo')
+    env_chla = 'env_chla', _('Chl-a')
+    env_no3no2 = 'env_no3no2', _('NO3NO2')
+    env_no2 = 'env_no2', _('NO2')
+    env_nh4 = 'env_nh4', _('NH4')
+    env_phosphate = 'env_phosphate', _('PO4')
+    env_substrate = 'env_substrate', _('Substrate')
+    env_labdatetime = 'env_labdatetime', _('Lab Date')
+    env_dnotes = 'env_dnotes', _('Notes')
     __empty__ = _('(Unknown)')
 
 
-class EnvInstruments(models.IntegerChoices):
-    env_ctd = 0, _('CTD')
-    env_ysi = 1, _('YSI')
-    env_secchi = 2, _('Secchi Disk')
-    env_niskin = 3, _('Niskin')
-    env_inst_other = 4, _('Other')
+class BottomSubstrates(models.TextChoices):
+    pebble = 'pebble', _('Pebble')
+    cobble = 'cobble', _('Cobble')
+    boulder = 'boulder', _('Boulder')
+    silt = 'silt', _('Silt')
+    clay = 'clay', _('Clay')
+    organic = 'organic', _('Organic')
     __empty__ = _('(Unknown)')
 
 
-class EnvMeasurements(models.IntegerChoices):
-    env_flow = 0, _('Flow')
-    env_water_temp = 1, _('Water Temp')
-    env_salinity = 2, _('Salinity')
-    env_ph = 3, _('pH')
-    env_par1 = 4, _('PAR1')
-    env_par2 = 5, _('PAR2')
-    env_turbidity = 6, _('Turbidity')
-    env_conductivity = 7, _('Cond')
-    env_do = 8, _('DO')
-    env_pheophytin = 9, _('Pheo')
-    env_chla = 10, _('Chl-a')
-    env_no3no2 = 11, _('NO3NO2')
-    env_no2 = 12, _('NO2')
-    env_nh4 = 13, _('NH4')
-    env_phosphate = 14, _('PO4')
-    env_substrate = 15, _('Substrate')
-    env_labdatetime = 16, _('Lab Date')
-    env_dnotes = 17, _('Notes')
+# fieldcollection
+class WaterCollectionModes(models.TextChoices):
+    hand = 'hand', _('By Hand')
+    niskin_handtoss = 'niskin_handtoss', _('By Hand-Tossed Niskin')
+    niskin_array = 'niskin_array', _('By Array Niskin')
     __empty__ = _('(Unknown)')
 
 
-class BottomSubstrates(models.IntegerChoices):
-    pebble = 0, _('Pebble')
-    cobble = 1, _('Cobble')
-    boulder = 2, _('Boulder')
-    silt = 3, _('Silt')
-    clay = 4, _('Clay')
-    organic = 5, _('Organic')
+class CollectionTypes(models.TextChoices):
+    water_sample = 'water_sample', _('Water Sample')
+    sed_sample = 'sed_sample', _('Sediment Sample')
     __empty__ = _('(Unknown)')
 
 
-class WaterCollectionModes(models.IntegerChoices):
-    hand = 0, _('By Hand')
-    niskin_handtoss = 1, _('By Hand-Tossed Niskin')
-    niskin_array = 2, _('By Array Niskin')
+class FilterLocations(models.TextChoices):
+    in_field = 'in_field', _('Field')
+    in_lab = 'in_lab', _('Lab')
     __empty__ = _('(Unknown)')
 
 
-class CollectionTypes(models.IntegerChoices):
-    water_sample = 0, _('Water Sample')
-    sed_sample = 1, _('Sediment Sample')
+class ControlTypes(models.TextChoices):
+    field = 'field', _('Field')
+    lab = 'lab', _('Lab')
     __empty__ = _('(Unknown)')
 
 
-class FilterLocations(models.IntegerChoices):
-    in_field = 0, _('Field')
-    in_lab = 1, _('Lab')
+class FilterMethods(models.TextChoices):
+    vacuum = 'vacuum', _('Vacuum')
+    gravity = 'gravity', _('Gravity')
+    peristaltic = 'peristaltic', _('Peristaltic')
+    other = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
-class ControlTypes(models.IntegerChoices):
-    field = 0, _('Field')
-    lab = 1, _('Lab')
+class FilterTypes(models.TextChoices):
+    nitex = 'nitex', _('Nitex')
+    gff = 'gff', _('Glass Fiber Filter (GF/F)')
+    supor = 'supor', _('Supor')
+    cn = 'cn', _('Cellulose Nitrate (CN)')
+    other = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
-class FilterMethods(models.IntegerChoices):
-    vacuum = 0, _('Vacuum')
-    gravity = 1, _('Gravity')
-    peristaltic = 2, _('Peristaltic')
-    other = 3, _('Other')
+class CoreMethods(models.TextChoices):
+    gravity = 'gravity', _('Gravity')
+    piston = 'piston', _('Piston')
+    wedge = 'wedge', _('Wedge')
+    other = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
-class FilterTypes(models.IntegerChoices):
-    nitex = 0, _('Nitex')
-    gff = 1, _('Glass Fiber Filter (GF/F)')
-    supor = 2, _('Supor')
-    cn = 3, _('Cellulose Nitrate (CN)')
-    other = 4, _('Other')
-    __empty__ = _('(Unknown)')
-
-
-class CoreMethods(models.IntegerChoices):
-    gravity = 0, _('Gravity')
-    piston = 1, _('Piston')
-    wedge = 2, _('Wedge')
-    other = 3, _('Other')
-    __empty__ = _('(Unknown)')
-
-
-class SubCoreMethods(models.IntegerChoices):
-    slices = 0, _('Slices')
-    syringe = 1, _('Syringe')
-    other = 2, _('Other')
+class SubCoreMethods(models.TextChoices):
+    slices = 'slices', _('Slices')
+    syringe = 'syringe', _('Syringe')
+    other = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 # class IndexRemovalMethods(models.IntegerChoices):
