@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -11,7 +12,8 @@ from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
 # Django REST Framework to allow the automatic downloading of data!
 class FreezerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_label = serializers.CharField(max_length=255)
+    freezer_label = serializers.CharField(max_length=255,
+                                          validators=[UniqueValidator(queryset=Freezer.objects.all())])
     freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_width = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -42,7 +44,8 @@ class FreezerSerializer(serializers.ModelSerializer):
 
 class FreezerRackSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_rack_label = serializers.CharField(max_length=255)
+    freezer_rack_label = serializers.CharField(max_length=255,
+                                               validators=[UniqueValidator(queryset=FreezerRack.objects.all())])
     # location of rack in freezer
     freezer_rack_column_start = serializers.IntegerField(min_value=1)
     freezer_rack_column_end = serializers.IntegerField(min_value=1)
@@ -64,6 +67,14 @@ class FreezerRackSerializer(serializers.ModelSerializer):
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FreezerRack.objects.all(),
+                fields=['freezer', 'freezer_rack_column_start', 'freezer_rack_column_end',
+                        'freezer_rack_row_start', 'freezer_rack_row_end',
+                        'freezer_rack_depth_start', 'freezer_rack_depth_end', ]
+            )
+        ]
     # Since freezer and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -75,7 +86,8 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_box_label = serializers.CharField(max_length=255)
+    freezer_box_label = serializers.CharField(max_length=255,
+                                              validators=[UniqueValidator(queryset=FreezerBox.objects.all())])
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
@@ -92,6 +104,12 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FreezerBox.objects.all(),
+                fields=['freezer_rack', 'freezer_box_column', 'freezer_box_row', 'freezer_box_depth', ]
+            )
+        ]
     # Since freezer_rack and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -103,7 +121,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    barcode_slug = serializers.SlugField(max_length=27, allow_blank=True)
+    barcode_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices)
     # location of inventory in freezer box
@@ -123,6 +141,13 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FreezerInventory.objects.all(),
+                fields=['freezer_box', 'freezer_inventory_status',
+                        'freezer_inventory_column', 'freezer_inventory_row', ]
+            )
+        ]
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

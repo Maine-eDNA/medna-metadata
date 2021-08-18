@@ -75,6 +75,11 @@ class FreezerRack(DateTimeUserMixin):
                                                     depth_end=self.freezer_rack_depth_end)
 
     class Meta:
+        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # racks cannot occupy the same space within a freezer
+        unique_together = ['freezer', 'freezer_rack_column_start', 'freezer_rack_column_end',
+                           'freezer_rack_row_start', 'freezer_rack_row_end', 'freezer_rack_depth_start',
+                           'freezer_rack_depth_end']
         app_label = 'freezer_inventory'
         verbose_name = 'Freezer Rack'
         verbose_name_plural = 'Freezer Racks'
@@ -99,6 +104,9 @@ class FreezerBox(DateTimeUserMixin):
                                                               depth=self.freezer_box_depth)
 
     class Meta:
+        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # boxes cannot occupy the same space within a rack
+        unique_together = ['freezer_rack', 'freezer_box_column', 'freezer_box_row', 'freezer_box_depth']
         app_label = 'freezer_inventory'
         verbose_name = 'Freezer Box'
         verbose_name_plural = 'Freezer Boxes'
@@ -110,7 +118,7 @@ class FreezerInventory(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True, null=True,
                                         limit_choices_to={'is_extracted': YesNo.NO})
     extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,)
-    barcode_slug = models.SlugField(max_length=27, null=True)
+    barcode_slug = models.SlugField(max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=25,
                                               choices=InvTypes.choices)
     freezer_inventory_status = models.CharField("Freezer Inventory Status",
@@ -147,6 +155,10 @@ class FreezerInventory(DateTimeUserMixin):
                                                            column=self.freezer_inventory_column)
 
     class Meta:
+        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # inventory with the same status cannot occupy the same space within a box
+        unique_together = ['freezer_box', 'freezer_inventory_column', 'freezer_inventory_row',
+                           'freezer_inventory_status']
         app_label = 'freezer_inventory'
         verbose_name = 'Freezer Inventory'
         verbose_name_plural = 'Freezer Inventory'
