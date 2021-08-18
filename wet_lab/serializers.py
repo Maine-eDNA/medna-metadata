@@ -325,7 +325,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    lug_field='process_location_name')
+                                                    slug_field='process_location_name')
     pooled_library = serializers.SlugRelatedField(many=True, read_only=True,
                                                   slug_field='pooled_lib_label')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
@@ -354,7 +354,7 @@ class RunPrepSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    lug_field='process_location_name')
+                                                    slug_field='process_location_name')
     final_pooled_library = serializers.SlugRelatedField(many=False, read_only=True,
                                                         slug_field='final_pooled_lib_label')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
