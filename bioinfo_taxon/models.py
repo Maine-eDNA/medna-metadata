@@ -55,7 +55,9 @@ class TaxonKingdom(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
         super(TaxonKingdom, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -78,8 +80,10 @@ class TaxonPhylum(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_phylum_slug = '{tax_phylum}'.format(tax_phylum=slugify(self.taxon_phylum))
-        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_kingdom_slug.taxon_kingdom)
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_kingdom_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_kingdom_slug.taxon_kingdom)
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_kingdom_slug.taxon_domain)
         super(TaxonPhylum, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -104,9 +108,11 @@ class TaxonClass(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_class_slug = '{tax_class}'.format(tax_class=slugify(self.taxon_class))
-        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_phylum_slug.taxon_phylum)
-        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_kingdom)
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_phylum_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_phylum_slug.taxon_phylum)
+            self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_kingdom)
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_phylum_slug.taxon_domain)
         super(TaxonClass, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -133,10 +139,12 @@ class TaxonOrder(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_order_slug = '{tax_order}'.format(tax_order=slugify(self.taxon_order))
-        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_class_slug.taxon_class)
-        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_class_slug.taxon_phylum)
-        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_class_slug.taxon_kingdom)
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_class_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_class_slug.taxon_class)
+            self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_class_slug.taxon_phylum)
+            self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_class_slug.taxon_kingdom)
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_class_slug.taxon_domain)
         super(TaxonOrder, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -165,11 +173,13 @@ class TaxonFamily(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_family_slug = '{tax_family}'.format(tax_family=slugify(self.taxon_family))
-        self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_order_slug.taxon_order)
-        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_order_slug.taxon_class)
-        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_order_slug.taxon_phylum)
-        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_order_slug.taxon_kingdom)
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_order_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_order_slug.taxon_order)
+            self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_order_slug.taxon_class)
+            self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_order_slug.taxon_phylum)
+            self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_order_slug.taxon_kingdom)
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_order_slug.taxon_domain)
         super(TaxonFamily, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -200,12 +210,14 @@ class TaxonGenus(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_genus_slug = '{tax_genus}'.format(tax_genus=slugify(self.taxon_genus))
-        self.taxon_family = '{tax_family}'.format(tax_family=self.taxon_family_slug.taxon_family)
-        self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_family_slug.taxon_order)
-        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_family_slug.taxon_class)
-        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_family_slug.taxon_phylum)
-        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_family_slug.taxon_kingdom)
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_family_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_family = '{tax_family}'.format(tax_family=self.taxon_family_slug.taxon_family)
+            self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_family_slug.taxon_order)
+            self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_family_slug.taxon_class)
+            self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_family_slug.taxon_phylum)
+            self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_family_slug.taxon_kingdom)
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_family_slug.taxon_domain)
         super(TaxonGenus, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -240,13 +252,15 @@ class TaxonSpecies(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_species_slug = '{tax_species}'.format(tax_species=slugify(self.taxon_species))
-        self.taxon_genus = '{tax_genus}'.format(tax_genus=self.taxon_genus_slug.taxon_genus)
-        self.taxon_family = '{tax_family}'.format(tax_family=self.taxon_genus_slug.taxon_family)
-        self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_genus_slug.taxon_order)
-        self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_genus_slug.taxon_class)
-        self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_genus_slug.taxon_phylum)
-        self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_genus_slug.taxon_kingdom)
-        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_genus_slug.taxon_domain)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.taxon_genus = '{tax_genus}'.format(tax_genus=self.taxon_genus_slug.taxon_genus)
+            self.taxon_family = '{tax_family}'.format(tax_family=self.taxon_genus_slug.taxon_family)
+            self.taxon_order = '{tax_order}'.format(tax_order=self.taxon_genus_slug.taxon_order)
+            self.taxon_class = '{tax_class}'.format(tax_class=self.taxon_genus_slug.taxon_class)
+            self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_genus_slug.taxon_phylum)
+            self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_genus_slug.taxon_kingdom)
+            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_genus_slug.taxon_domain)
         super(TaxonSpecies, self).save(*args, **kwargs)
 
     def __str__(self):

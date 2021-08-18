@@ -66,7 +66,7 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['run_result', 'analysis_datetime', 'analyst_first_name',
-                       'analyst_last_name', 'denoising_method',
+                       'analyst_last_name', 'denoising_method', 'denoising_slug',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoisingMetadataAdmin, self).change_view(request, object_id)

@@ -106,7 +106,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_kingdom', 'taxon_domain_slug', 'created_by']
+        self.fields = ['taxon_kingdom', 'taxon_domain', 'taxon_domain_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonKingdomAdmin, self).change_view(request, object_id)
 
@@ -141,7 +141,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_phylum', 'taxon_kingdom_slug', 'created_by']
+        self.fields = ['taxon_phylum', 'taxon_kingdom', 'taxon_domain', 'taxon_kingdom_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonPhylumAdmin, self).change_view(request, object_id)
 
@@ -167,7 +167,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class', 'taxon_phylum_slug', 'created_by']
+        self.fields = ['taxon_class',  'taxon_phylum_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -176,7 +176,8 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_class', 'taxon_phylum_slug', 'created_by']
+        self.fields = ['taxon_class', 'taxon_phylum', 'taxon_kingdom', 'taxon_domain',
+                       'taxon_phylum_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonClassAdmin, self).change_view(request, object_id)
 
@@ -211,7 +212,8 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_order', 'taxon_class_slug', 'created_by']
+        self.fields = ['taxon_order', 'taxon_class', 'taxon_phylum', 'taxon_kingdom',
+                       'taxon_domain', 'taxon_class_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonOrderAdmin, self).change_view(request, object_id)
 
@@ -246,7 +248,8 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_family', 'taxon_order_slug', 'created_by']
+        self.fields = ['taxon_family', 'taxon_order', 'taxon_class', 'taxon_phylum',
+                       'taxon_kingdom', 'taxon_domain', 'taxon_order_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonFamilyAdmin, self).change_view(request, object_id)
 
@@ -281,7 +284,8 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_genus', 'taxon_family_slug', 'created_by']
+        self.fields = ['taxon_genus', 'taxon_family', 'taxon_order', 'taxon_class',
+                       'taxon_phylum', 'taxon_kingdom', 'taxon_domain', 'taxon_family_slug', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonGenusAdmin, self).change_view(request, object_id)
 
@@ -318,8 +322,9 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_species', 'taxon_genus_slug', 'taxon_common_name',
-                       'is_endemic', 'created_by']
+        self.fields = ['taxon_common_name', 'is_endemic', 'taxon_species', 'taxon_genus', 'taxon_family',
+                       'taxon_order', 'taxon_class', 'taxon_phylum', 'taxon_kingdom', 'taxon_domain',
+                       'taxon_genus_slug',  'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonSpeciesAdmin, self).change_view(request, object_id)
 

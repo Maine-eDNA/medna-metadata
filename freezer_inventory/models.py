@@ -112,18 +112,20 @@ class FreezerInventory(DateTimeUserMixin):
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
 
     def save(self, *args, **kwargs):
-        if self.freezer_inventory_type == InvTypes.EXTRACTION:
-            # concatenate inventory_type and barcode,
-            # e.g., "Extraction-ePR_L01_21w_0001"
-            self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
-                                                          barcode=slugify(self.extraction.barcode_slug))
-        elif self.freezer_inventory_type == InvTypes.FILTER:
-            # concatenate inventory_type and barcode,
-            # e.g., "Filter-ePR_L01_21w_0001"
-            self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
-                                                          barcode=slugify(self.field_sample.barcode_slug))
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            if self.freezer_inventory_type == InvTypes.EXTRACTION:
+                # concatenate inventory_type and barcode,
+                # e.g., "Extraction-ePR_L01_21w_0001"
+                self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
+                                                              barcode=slugify(self.extraction.barcode_slug))
+            elif self.freezer_inventory_type == InvTypes.FILTER:
+                # concatenate inventory_type and barcode,
+                # e.g., "Filter-ePR_L01_21w_0001"
+                self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
+                                                              barcode=slugify(self.field_sample.barcode_slug))
 
-        # all done, time to save changes to the db
+            # all done, time to save changes to the db
         super(FreezerInventory, self).save(*args, **kwargs)
 
     def __str__(self):

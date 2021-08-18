@@ -256,7 +256,8 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['extraction_datetime', 'field_sample', 'extraction_method',
+        self.fields = ['extraction_datetime', 'field_sample', 'barcode_slug',
+                       'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',

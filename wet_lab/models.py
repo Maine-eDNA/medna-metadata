@@ -125,8 +125,10 @@ class Extraction(DateTimeUserMixin):
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        # just check if name or location.name has changed
-        self.barcode_slug = slugify(self.field_sample.barcode_slug)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            # just check if name or location.name has changed
+            self.barcode_slug = slugify(self.field_sample.barcode_slug)
         super(Extraction, self).save(*args, **kwargs)
 
     def __str__(self):

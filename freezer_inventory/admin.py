@@ -140,7 +140,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['freezer_box', 'field_sample', 'extraction',
+        self.fields = ['freezer_box', 'field_sample', 'extraction', 'barcode_slug'
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'created_by']

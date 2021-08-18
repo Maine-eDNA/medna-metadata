@@ -44,7 +44,9 @@ class EnvoBiomeSecond(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
-        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_first_tier_slug.biome_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.biome_first_tier = '{biome1}'.format(biome1=self.biome_first_tier_slug.biome_first_tier)
 
         super(EnvoBiomeSecond, self).save(*args, **kwargs)
 
@@ -79,8 +81,10 @@ class EnvoBiomeThird(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
-        self.biome_second_tier = '{biome2}'.format(biome2=self.biome_second_tier_slug.biome_second_tier)
-        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_second_tier_slug.biome_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.biome_second_tier = '{biome2}'.format(biome2=self.biome_second_tier_slug.biome_second_tier)
+            self.biome_first_tier = '{biome1}'.format(biome1=self.biome_second_tier_slug.biome_first_tier)
         super(EnvoBiomeThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -117,9 +121,11 @@ class EnvoBiomeFourth(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_fourth_tier_slug = '{biome4}'.format(biome4=slugify(self.biome_fourth_tier))
-        self.biome_third_tier = '{biome3}'.format(biome3=self.biome_third_tier_slug.biome_third_tier)
-        self.biome_second_tier = '{biome2}'.format(biome2=self.biome_third_tier_slug.biome_second_tier)
-        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_third_tier_slug.biome_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.biome_third_tier = '{biome3}'.format(biome3=self.biome_third_tier_slug.biome_third_tier)
+            self.biome_second_tier = '{biome2}'.format(biome2=self.biome_third_tier_slug.biome_second_tier)
+            self.biome_first_tier = '{biome1}'.format(biome1=self.biome_third_tier_slug.biome_first_tier)
         super(EnvoBiomeFourth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -153,10 +159,12 @@ class EnvoBiomeFifth(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_fifth_tier_slug = '{biome5}'.format(biome5=slugify(self.biome_fifth_tier))
-        self.biome_fourth_tier = '{biome4}'.format(biome4=self.biome_fourth_tier_slug.biome_fourth_tier)
-        self.biome_third_tier = '{biome3}'.format(biome3=self.biome_fourth_tier_slug.biome_third_tier)
-        self.biome_second_tier = '{biome2}'.format(biome2=self.biome_fourth_tier_slug.biome_second_tier)
-        self.biome_first_tier = '{biome1}'.format(biome1=self.biome_fourth_tier_slug.biome_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.biome_fourth_tier = '{biome4}'.format(biome4=self.biome_fourth_tier_slug.biome_fourth_tier)
+            self.biome_third_tier = '{biome3}'.format(biome3=self.biome_fourth_tier_slug.biome_third_tier)
+            self.biome_second_tier = '{biome2}'.format(biome2=self.biome_fourth_tier_slug.biome_second_tier)
+            self.biome_first_tier = '{biome1}'.format(biome1=self.biome_fourth_tier_slug.biome_first_tier)
         super(EnvoBiomeFifth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -221,7 +229,9 @@ class EnvoFeatureSecond(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_second_tier_slug = '{feature2}'.format(feature2=slugify(self.feature_second_tier))
-        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_first_tier_slug.feature_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.feature_first_tier = '{feature1}'.format(feature1=self.feature_first_tier_slug.feature_first_tier)
         super(EnvoFeatureSecond, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -258,8 +268,10 @@ class EnvoFeatureThird(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=slugify(self.feature_third_tier))
-        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_second_tier_slug.feature_second_tier)
-        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_second_tier_slug.feature_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.feature_second_tier = '{feature2}'.format(feature2=self.feature_second_tier_slug.feature_second_tier)
+            self.feature_first_tier = '{feature1}'.format(feature1=self.feature_second_tier_slug.feature_first_tier)
         super(EnvoFeatureThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -295,9 +307,11 @@ class EnvoFeatureFourth(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_fourth_tier_slug = '{feature4}'.format(feature4=slugify(self.feature_fourth_tier))
-        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_third_tier_slug.feature_third_tier)
-        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_third_tier_slug.feature_second_tier)
-        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_third_tier_slug.feature_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.feature_third_tier = '{feature3}'.format(feature3=self.feature_third_tier_slug.feature_third_tier)
+            self.feature_second_tier = '{feature2}'.format(feature2=self.feature_third_tier_slug.feature_second_tier)
+            self.feature_first_tier = '{feature1}'.format(feature1=self.feature_third_tier_slug.feature_first_tier)
         super(EnvoFeatureFourth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -337,10 +351,12 @@ class EnvoFeatureFifth(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_fifth_tier_slug = '{feature5}'.format(feature5=slugify(self.feature_fifth_tier))
-        self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_fourth_tier_slug.feature_fourth_tier)
-        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_fourth_tier_slug.feature_third_tier)
-        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_fourth_tier_slug.feature_second_tier)
-        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_fourth_tier_slug.feature_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_fourth_tier_slug.feature_fourth_tier)
+            self.feature_third_tier = '{feature3}'.format(feature3=self.feature_fourth_tier_slug.feature_third_tier)
+            self.feature_second_tier = '{feature2}'.format(feature2=self.feature_fourth_tier_slug.feature_second_tier)
+            self.feature_first_tier = '{feature1}'.format(feature1=self.feature_fourth_tier_slug.feature_first_tier)
         super(EnvoFeatureFifth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -376,11 +392,13 @@ class EnvoFeatureSixth(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_sixth_tier_slug = '{feature6}'.format(feature6=slugify(self.feature_sixth_tier))
-        self.feature_fifth_tier = '{feature5}'.format(feature5=self.feature_fifth_tier_slug.feature_fifth_tier)
-        self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_fifth_tier_slug.feature_fourth_tier)
-        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_fifth_tier_slug.feature_third_tier)
-        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_fifth_tier_slug.feature_second_tier)
-        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_fifth_tier_slug.feature_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.feature_fifth_tier = '{feature5}'.format(feature5=self.feature_fifth_tier_slug.feature_fifth_tier)
+            self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_fifth_tier_slug.feature_fourth_tier)
+            self.feature_third_tier = '{feature3}'.format(feature3=self.feature_fifth_tier_slug.feature_third_tier)
+            self.feature_second_tier = '{feature2}'.format(feature2=self.feature_fifth_tier_slug.feature_second_tier)
+            self.feature_first_tier = '{feature1}'.format(feature1=self.feature_fifth_tier_slug.feature_first_tier)
         super(EnvoFeatureSixth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -420,12 +438,14 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_seventh_tier_slug = '{feature7}'.format(feature7=slugify(self.feature_seventh_tier))
-        self.feature_sixth_tier = '{feature6}'.format(feature6=self.feature_sixth_tier_slug.feature_sixth_tier)
-        self.feature_fifth_tier = '{feature5}'.format(feature5=self.feature_sixth_tier_slug.feature_fifth_tier)
-        self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_sixth_tier_slug.feature_fourth_tier)
-        self.feature_third_tier = '{feature3}'.format(feature3=self.feature_sixth_tier_slug.feature_third_tier)
-        self.feature_second_tier = '{feature2}'.format(feature2=self.feature_sixth_tier_slug.feature_second_tier)
-        self.feature_first_tier = '{feature1}'.format(feature1=self.feature_sixth_tier_slug.feature_first_tier)
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            self.feature_sixth_tier = '{feature6}'.format(feature6=self.feature_sixth_tier_slug.feature_sixth_tier)
+            self.feature_fifth_tier = '{feature5}'.format(feature5=self.feature_sixth_tier_slug.feature_fifth_tier)
+            self.feature_fourth_tier = '{feature4}'.format(feature4=self.feature_sixth_tier_slug.feature_fourth_tier)
+            self.feature_third_tier = '{feature3}'.format(feature3=self.feature_sixth_tier_slug.feature_third_tier)
+            self.feature_second_tier = '{feature2}'.format(feature2=self.feature_sixth_tier_slug.feature_second_tier)
+            self.feature_first_tier = '{feature1}'.format(feature1=self.feature_sixth_tier_slug.feature_first_tier)
         super(EnvoFeatureSeventh, self).save(*args, **kwargs)
 
     def __str__(self):
