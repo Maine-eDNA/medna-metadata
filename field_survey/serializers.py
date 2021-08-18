@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from users.enumerations import YesNo
+from users.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
+    PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
+    BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
+    FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 
@@ -10,7 +13,7 @@ from users.enumerations import YesNo
 class FieldSurveySerializer(serializers.ModelSerializer):
     survey_global_id = serializers.CharField()
     survey_datetime = serializers.DateTimeField()
-    project_ids = serializers.CharField(allow_blank=True)
+    project_ids = serializers.ChoiceField(choices=GrantProjects.choices, blank=True, null=True)
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
     recorder_lname = serializers.CharField(max_length=255, allow_blank=True)
     arrival_datetime = serializers.DateTimeField(allow_null=True)
@@ -18,22 +21,22 @@ class FieldSurveySerializer(serializers.ModelSerializer):
     site_name = serializers.CharField(allow_blank=True)
     lat_manual = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     long_manual = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
-    env_obs_turbidity = serializers.CharField(max_length=255, allow_blank=True)
-    env_obs_precip = serializers.CharField(max_length=255, allow_blank=True)
-    env_obs_wind_speed = serializers.CharField(max_length=255, allow_blank=True)
-    env_obs_cloud_cover = serializers.CharField(max_length=255, allow_blank=True)
+    env_obs_turbidity = serializers.ChoiceField(choices=TurbidTypes.choices, blank=True, null=True)
+    env_obs_precip = serializers.ChoiceField(choices=PrecipTypes.choices, blank=True, null=True)
+    env_obs_wind_speed = serializers.ChoiceField(choices=WindSpeeds.choices, blank=True, null=True)
+    env_obs_cloud_cover = serializers.ChoiceField(choices=CloudCovers.choices, blank=True, null=True)
     env_biome = serializers.CharField(max_length=255, allow_blank=True)
     env_biome_other = serializers.CharField(max_length=255, allow_blank=True)
     env_feature = serializers.CharField(max_length=255, allow_blank=True)
     env_feature_other = serializers.CharField(max_length=255, allow_blank=True)
-    env_material = serializers.CharField(max_length=255, allow_blank=True)
+    env_material = serializers.ChoiceField(choices=EnvoMaterials.choices, blank=True, null=True)
     env_material_other = serializers.CharField(max_length=255, allow_blank=True)
     env_notes = serializers.CharField(allow_blank=True)
-    env_measure_mode = serializers.CharField(max_length=255, allow_blank=True)
+    env_measure_mode = serializers.ChoiceField(choices=MeasureModes.choices, blank=True, null=True)
     env_boat_type = serializers.CharField(max_length=255, allow_blank=True)
     env_bottom_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
-    measurements_taken = serializers.CharField(max_length=3, blank=True)
-    survey_complete = serializers.CharField(max_length=3, blank=True)
+    measurements_taken = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
+    survey_complete = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
     qa_datetime = serializers.DateTimeField(allow_null=True)
     qa_initial = serializers.CharField(allow_blank=True)
     gps_cap_lat = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
@@ -90,13 +93,13 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_global_id = serializers.CharField()
     env_measure_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
-    env_instrument = serializers.CharField(max_length=255, allow_blank=True)
+    env_instrument = serializers.ChoiceField(choices=EnvInstruments.choices, blank=True, null=True)
     # env_ctd_fname
     env_ctd_filename = serializers.CharField(max_length=255, allow_blank=True)
     env_ctd_notes = serializers.CharField(allow_blank=True)
     # env_ysi_fname
     env_ysi_filename = serializers.CharField(max_length=255, allow_blank=True)
-    env_ysi_model = serializers.CharField(max_length=255, allow_blank=True)
+    env_ysi_model = serializers.ChoiceField(choices=YsiModels.choices, blank=True, null=True)
     env_ysi_sn = serializers.CharField(max_length=255, allow_blank=True)
     env_ysi_notes = serializers.CharField(allow_blank=True)
     env_secchi_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
@@ -104,7 +107,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_niskin_number = serializers.IntegerField(allow_null=True)
     env_niskin_notes = serializers.CharField(allow_blank=True)
     env_inst_other = serializers.CharField(max_length=255, allow_blank=True)
-    env_measurement = serializers.CharField(max_length=255, allow_blank=True)
+    env_measurement = serializers.ChoiceField(choices=EnvMeasurements.choices, blank=True, null=True)
     env_flow_rate = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_water_temp = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     # env_sal
@@ -121,7 +124,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_no2 = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_nh4 = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_phosphate = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
-    env_substrate = serializers.CharField(max_length=255, allow_blank=True)
+    env_substrate = serializers.ChoiceField(choices=BottomSubstrates.choices, blank=True, null=True)
     env_lab_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField()
@@ -144,32 +147,32 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
 
 class FieldCollectionSerializer(serializers.ModelSerializer):
     collection_global_id = serializers.CharField()
-    collection_type = serializers.CharField(max_length=255, allow_blank=True)
-    water_control = serializers.CharField(max_length=3, blank=True)
-    water_control_type = serializers.CharField(max_length=255, allow_blank=True)
+    collection_type = serializers.ChoiceField(choices=CollectionTypes.choices, blank=True, null=True)
+    water_control = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
+    water_control_type = serializers.ChoiceField(choices=ControlTypes.choices, blank=True, null=True)
     water_vessel_label = serializers.CharField(max_length=255, allow_blank=True)
     water_collect_datetime = serializers.DateTimeField(allow_null=True)
     water_collect_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
-    water_collect_mode = serializers.CharField(max_length=255, allow_blank=True)
+    water_collect_mode = serializers.ChoiceField(choices=WaterCollectionModes.choices, blank=True, null=True)
     water_niskin_number = serializers.IntegerField(allow_null=True)
     water_niskin_vol = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     water_vessel_vol = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     water_vessel_material = serializers.CharField(max_length=255, allow_blank=True)
     water_vessel_color = serializers.CharField(max_length=255, allow_blank=True)
     water_collect_notes = serializers.CharField(allow_blank=True)
-    was_filtered = serializers.CharField(max_length=3, blank=True)
-    core_control = serializers.CharField(max_length=3, blank=True)
+    was_filtered = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
+    core_control = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
     core_label = serializers.CharField(max_length=255, allow_blank=True)
     core_datetime_start = serializers.DateTimeField(allow_null=True)
     core_datetime_end = serializers.DateTimeField(allow_null=True)
-    core_method = serializers.CharField(max_length=255, allow_blank=True)
+    core_method = serializers.ChoiceField(choices=CoreMethods.choices, blank=True, null=True)
     core_method_other = serializers.CharField(max_length=255, allow_blank=True)
     core_collect_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     core_length = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     core_diameter = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     core_purpose = serializers.CharField(max_length=255, allow_blank=True)
     core_notes = serializers.CharField(allow_blank=True)
-    subcores_taken = serializers.CharField(max_length=3, blank=True)
+    subcores_taken = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
     created_datetime = serializers.DateTimeField()
 
     class Meta:
@@ -190,9 +193,9 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
 
 class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField()
-    is_extracted = serializers.ChoiceField(choices=YesNo.choices)
+    is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
-    is_prefilter = serializers.CharField(max_length=3, blank=True)
+    is_prefilter = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)
     filter_lname = serializers.CharField(max_length=255, allow_blank=True)
     filter_sample_label = serializers.CharField(max_length=255, allow_blank=True)
