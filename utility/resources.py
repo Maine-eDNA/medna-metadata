@@ -1,7 +1,26 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import ProcessLocation
+from .models import ProcessLocation, GrantProject
 from users.models import CustomUser
+
+
+class GrantProjectAdminResource(resources.ModelResource):
+    class Meta:
+        # GrantProject
+        model = GrantProject
+        import_id_fields = ('project_name', 'grant_name', )
+        fields = ('project_name', 'grant_name',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('project_name', 'grant_name',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
 
 
 class ProcessLocationAdminResource(resources.ModelResource):

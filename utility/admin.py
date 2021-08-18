@@ -1,7 +1,32 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
-from .resources import ProcessLocationAdminResource
-from .models import ProcessLocation
+from .resources import ProcessLocationAdminResource, GrantProjectAdminResource
+from .models import ProcessLocation, GrantProject
+
+
+class GrantProjectAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = GrantProjectAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'created_by', 'created_datetime', )
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['project_name', 'grant_name', 'created_by', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(GrantProjectAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(GrantProject, GrantProjectAdmin)
 
 
 # Register your models here.

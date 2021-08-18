@@ -2,10 +2,29 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation
+from .models import ProcessLocation, GrantProject
+from .enumerations import GrantProjects
 
 
 # Django REST Framework to allow the automatic downloading of data!
+class GrantProjectSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    project_name = serializers.ChoiceField(max_length=255, choices=GrantProjects.choices)
+    grant_name = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = GrantProject
+        fields = ['id', 'project_name', 'grant_name',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+
+
 class ProcessLocationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     process_location_name = serializers.CharField(max_length=255)

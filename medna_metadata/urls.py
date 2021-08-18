@@ -33,10 +33,14 @@ from bioinfo_denoising.views import DenoisingMethodViewSet, DenoisingMetadataVie
     AmpliconSequenceVariantViewSet, ASVReadViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, AnnotationMethodViewSet, \
     AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
+from utility.views import GrantProjectViewSet, ProcessLocationViewSet
 
 router = routers.DefaultRouter()
 # users
 router.register(r'users', CustomUserViewSet, 'users')
+# utility
+router.register(r'grant_project', GrantProjectViewSet, 'grant_project')
+router.register(r'process_location', ProcessLocationViewSet, 'process_location')
 # field sites
 router.register(r'biome', BiomeViewSet, 'biome')
 router.register(r'feature', FeatureViewSet, 'feature')

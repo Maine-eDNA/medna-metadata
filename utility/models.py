@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
+from .enumerations import GrantProjects
 
 
 # Create your models here.
@@ -31,6 +32,19 @@ class DateTimeUserMixin(models.Model):
         abstract = True
 
 
+class GrantProject(DateTimeUserMixin):
+    project_name = models.CharField("Project Name", max_length=255, choices=GrantProjects.choices, unique=True)
+    grant_name = models.CharField("Grant Name", max_length=255)
+
+    def __str__(self):
+        return '{grant}: {project}'.format(grant=self.grant_name, project=self.project_name)
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Grant Project'
+        verbose_name_plural = 'Grant Projects'
+
+
 class ProcessLocation(DateTimeUserMixin):
     # CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
     # BIGELOW = 'Bigelow', _('Bigelow Laboratory')
@@ -49,6 +63,6 @@ class ProcessLocation(DateTimeUserMixin):
                                               name=self.process_location_name)
 
     class Meta:
-        app_label = 'users'
+        app_label = 'utility'
         verbose_name = 'Process Location'
         verbose_name_plural = 'Process Locations'
