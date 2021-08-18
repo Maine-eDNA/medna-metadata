@@ -46,7 +46,8 @@ class FieldSurveySerializer(serializers.ModelSerializer):
     gps_cap_vert_acc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     record_create_datetime = serializers.DateTimeField(allow_null=True)
     record_edit_datetime = serializers.DateTimeField(allow_null=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldSurvey
@@ -57,7 +58,7 @@ class FieldSurveySerializer(serializers.ModelSerializer):
                   'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
                   'survey_complete', 'qa_datetime', 'qa_initial', 'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
                   'gps_cap_horiz_acc', 'gps_cap_vert_acc', 'record_create_datetime', 'record_edit_datetime',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime',]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -76,12 +77,13 @@ class FieldCrewSerializer(serializers.ModelSerializer):
     crew_global_id = serializers.CharField(read_only=True)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldCrew
         fields = ['crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -127,7 +129,8 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_substrate = serializers.ChoiceField(choices=BottomSubstrates.choices, blank=True, null=True)
     env_lab_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_notes = serializers.CharField(allow_blank=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = EnvMeasurement
@@ -137,7 +140,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -173,7 +176,8 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
     core_purpose = serializers.CharField(max_length=255, allow_blank=True)
     core_notes = serializers.CharField(allow_blank=True)
     subcores_taken = serializers.ChoiceField(choices=YesNo.choices, blank=True, null=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldCollection
@@ -183,7 +187,7 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
                   'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
                   'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -218,7 +222,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     subcore_length = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     subcore_diameter = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     subcore_clayer = serializers.IntegerField(allow_null=True)
-    created_datetime = serializers.DateTimeField()
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldSample
@@ -227,7 +232,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname',
                   'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                   'subcore_datetime_end', 'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
-                  'created_by', 'created_datetime', ]
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
