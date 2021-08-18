@@ -4,6 +4,7 @@ from sample_labels.models import SampleLabel, SampleType
 from field_sites.models import FieldSite
 from users.models import DateTimeUserMixin, get_sentinel_user
 from django.utils.text import slugify
+from users.enumerations import YesNo
 
 
 ###########
@@ -295,7 +296,7 @@ class FieldSample(DateTimeUserMixin):
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
                                                 unique=True)
     barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
-    is_extracted = models.CharField("Extracted", max_length=3, default="No")
+    is_extracted = models.IntegerField("Extracted", choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True, null=True)
