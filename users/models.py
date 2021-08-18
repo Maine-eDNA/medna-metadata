@@ -56,10 +56,19 @@ class ProcessLocation(DateTimeUserMixin):
     # URI = 'URI', _('Rhode Island Genomics (URI)')
     # UNH = 'UNH', _('Hubbard Center (UNH)')
     # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
-    process_location_name = models.CharField("Location Name", max_length=255)
+    process_location_name = models.CharField("Location Name", max_length=255, unique=True)
     affiliation = models.CharField("Affiliation", max_length=255)
     process_location_url = models.URLField("Location URL", max_length=255)
     phone_number = PhoneNumberField("Phone Number", blank=True, null=True)
     email_address = models.EmailField(_('Email Address'), blank=True, null=True)
     location_notes = models.TextField("Notes", blank=True)
+
+    def __str__(self):
+        return '{affiliation}: {name}'.format(affiliation=self.affiliation,
+                                              name=self.process_location_name)
+
+    class Meta:
+        app_label = 'users'
+        verbose_name = 'Process Location'
+        verbose_name_plural = 'Process Locations'
 
