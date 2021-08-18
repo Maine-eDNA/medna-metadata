@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample
-from utility.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
+from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
     CoreMethods

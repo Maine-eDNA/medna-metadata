@@ -4,8 +4,7 @@ from django.contrib.gis import admin
 from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
+from import_export.admin import ImportExportActionModelAdmin
 from .resources import ReferenceDatabaseAdminResource, \
     TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonPhylumAdminResource, \
     TaxonClassAdminResource, TaxonOrderAdminResource, TaxonFamilyAdminResource, \

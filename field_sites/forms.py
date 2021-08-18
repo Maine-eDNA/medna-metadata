@@ -1,12 +1,14 @@
 # users/forms.py
-#from django import forms
+# from django import forms
 from django.contrib.gis import forms
 from leaflet.forms.widgets import LeafletWidget
 
 from .models import FieldSite
 
+
 class allowEditLeaflet(LeafletWidget):
     geometry_field_class = 'allowEditLeaflet'
+
 
 class AddFieldSiteForm(forms.ModelForm):
     class Meta:
@@ -17,7 +19,7 @@ class AddFieldSiteForm(forms.ModelForm):
                 attrs={
                     'map_width': 700,
                     'map_height': 600,
-                    #'display_raw':True, # remove viewable text box
+                    # 'display_raw':True, # remove viewable text box
                     'map_srid':4326,
                     'settings_overrides': {
                         'DEFAULT_CENTER': (44, -69),

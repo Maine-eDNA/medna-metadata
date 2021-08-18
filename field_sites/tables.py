@@ -2,6 +2,7 @@ import django_tables2 as tables
 from .models import FieldSite
 from django_tables2.utils import A
 
+
 class FieldSiteTable(tables.Table):
     #id = tables.CheckBoxColumn(accessor='pk')
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
@@ -15,6 +16,7 @@ class FieldSiteTable(tables.Table):
                                                     "input": {"class": "action-select"},
                                                     "th__input": {"id": "action-toggle"},
                                                     "th": {"class": "action-checkbox-column"}}, orderable=False)
+
     class Meta:
         model = FieldSite
         fields = ("_selected_action","site_id", "general_location_name", "project", "system", "region", "created_datetime")

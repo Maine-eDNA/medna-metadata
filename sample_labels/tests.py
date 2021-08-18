@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import SampleType, SampleLabel, SampleLabelRequest
 # Create your tests here.
 
+
 class SampleTypeTestCase(TestCase):
     def setUp(self):
         SampleType.objects.create(sample_type_label="Sediment", sample_type_code="s")
@@ -13,6 +14,7 @@ class SampleTypeTestCase(TestCase):
         water = SampleType.objects.get(sample_type_code="w")
         self.assertIs(sediment.was_added_recently(), False)
         self.assertIs(water.was_added_recently(), False)
+
 
 class SampleLabelRequestTestCase(TestCase):
     def setUp(self):

@@ -2,15 +2,17 @@ import django_tables2 as tables
 from .models import SampleLabelRequest
 from django_tables2.utils import A
 
+
 class SampleLabelRequestTable(tables.Table):
-    #id = tables.CheckBoxColumn(accessor='pk')
+    # id = tables.CheckBoxColumn(accessor='pk')
     # add hyperlinked column - this is to view the samplelabel detail
     # same as <a href="{% url 'users:samplelabel_detail' samplelabel.id %}"> {{ samplelabel.max_sample_label_id }}</a>
     max_sample_label_id = tables.LinkColumn('users:samplelabel_detail', args=[A('pk')],
                                             attrs={"th": {"class": "field-max_sample_label_id"}})
     # Change column header
     min_sample_label_num = tables.Column(verbose_name="Min Label Num", attrs={"th": {"class": "field-min_sample_label_num"}})
-    # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id samplelabel.sample_type.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
+    # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id
+    # samplelabel.sample_type.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn("users:samplelabel_samplelabel_add",
                                   attrs={"td": {"class": "addlink"}},
                                   text='Add', args=[A("site_id.id"), A("sample_type.id"), A("purpose")])
@@ -24,6 +26,7 @@ class SampleLabelRequestTable(tables.Table):
     #attrs = { "th__input":
     #{"onclick": "toggle(this)"},
     # "td__class": {"action-checkbox"}},
+
     class Meta:
         model = SampleLabelRequest
         fields = ("_selected_action", "max_sample_label_id", "min_sample_label_num", "sample_year", "sample_type", "purpose", "created_datetime")
@@ -32,6 +35,7 @@ class SampleLabelRequestTable(tables.Table):
         # this is NOT the template it writes to, this is the template it uses to load with
         # when using the 'render_table table' tag in html
         #template_name = "django_tables2/bootstrap4.html" # now set in settings.py
+
     def render_min_sample_label_num(self, value):
         # adds leading zeros to the sample label num
         return '{:04d}'.format(value)

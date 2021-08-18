@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import EnvoBiomeFirst, EnvoFeatureFirst, Project, System, Region, FieldSite
 # Create your tests here.
 
+
 class EnvoBiomeTestCase(TestCase):
     def setUp(self):
         EnvoBiomeFirst.objects.create(biome_first_tier="Large Lake", biome_first_tier_slug="large_lake")
@@ -13,6 +14,7 @@ class EnvoBiomeTestCase(TestCase):
         river = EnvoBiomeFirst.objects.get(biome_first_tier_slug="small_river")
         self.assertIs(lake.was_added_recently(), False)
         self.assertIs(river.was_added_recently(), False)
+
 
 class EnvoFeatureTestCase(TestCase):
     def setUp(self):
@@ -36,6 +38,7 @@ class ProjectTestCase(TestCase):
         # test if date is added correctly
         medna = Project.objects.get(sample_type_code="e")
         self.assertIs(medna.was_added_recently(), False)
+
 
 class SystemTestCase(TestCase):
     def setUp(self):
@@ -61,6 +64,7 @@ class RegionTestCase(TestCase):
         # test if date is added correctly
         nea = Region.objects.get(region_code="NE")
         self.assertIs(nea.was_added_recently(), False)
+
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
