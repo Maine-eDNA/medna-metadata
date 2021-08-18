@@ -4,28 +4,16 @@ from sample_labels.models import SampleLabel, SampleType
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 from django.utils.text import slugify
-from utility.enumerations import YesNo, YsiModels, GrantProjects, WindSpeeds, CloudCovers, \
+from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
+from utility.models import GrantProject
 
 
 ###########
 # Post Transform
 ###########
-class GrantProject(DateTimeUserMixin):
-    project_name = models.CharField("Project Name", max_length=255, choices=GrantProjects.choices, unique=True)
-    grant_name = models.CharField("Grant Name", max_length=255)
-
-    def __str__(self):
-        return '{grant}: {project}'.format(grant=self.grant_name, project=self.project_name)
-
-    class Meta:
-        app_label = 'field_survey'
-        verbose_name = 'Grant Project'
-        verbose_name_plural = 'Grant Projects'
-
-
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
