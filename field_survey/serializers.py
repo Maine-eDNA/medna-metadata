@@ -63,19 +63,13 @@ class FieldSurveySerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    project_ids = serializers.SlugRelatedField(many=True, allow_blank=True, allow_null=True,
-                                               read_only=True, slug_field='process_location_name')
-    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
-                                            allow_blank=True, allow_null=True,)
-    supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
-                                              allow_blank=True, allow_null=True,)
+    project_ids = serializers.SlugRelatedField(many=True, read_only=True, slug_field='process_location_name')
+    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
-    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
-                                                 allow_blank=True, allow_null=True,)
-    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
-                                                  allow_blank=True, allow_null=True,)
-    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
-                                             allow_blank=True, allow_null=True,)
+    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
