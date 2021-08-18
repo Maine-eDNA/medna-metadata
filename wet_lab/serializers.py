@@ -257,7 +257,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    lug_field='process_location_name')
+                                                    slug_field='process_location_name')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='barcode_slug')
     primer_set = serializers.SlugRelatedField(many=False, read_only=True,
