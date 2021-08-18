@@ -1,16 +1,49 @@
 from django.contrib import admin
 #from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
-from .resources import FieldSurveyAdminResource, FieldCrewAdminResource, EnvMeasurementAdminResource, \
+from .resources import GrantProjectAdminResource, FieldSurveyAdminResource, \
+    FieldCrewAdminResource, EnvMeasurementAdminResource, \
     FieldCollectionAdminResource, FieldSampleAdminResource, \
     FieldSurveyETLAdminResource, FieldCrewETLAdminResource, EnvMeasurementETLAdminResource, \
     FieldCollectionETLAdminResource, SampleFilterETLAdminResource
 
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample, \
+from .models import GrantProject, FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 
 
+class GrantProjectAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = GrantProjectAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'created_by', 'created_datetime', )
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['project_name', 'grant_name', 'created_by', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(GrantProjectAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(GrantProject, GrantProjectAdmin)
+
+
 # Register your models here.
+class GrantProjectInline(admin.TabularInline):
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = FieldSurvey.project_ids.through
+    # extra = 1
+
+
 class FieldSurveyAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleTypeAdminResource
@@ -30,6 +63,7 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime',
                        'record_editor', 'created_by']
+        self.inlines = (GrantProjectInline,)
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
 
