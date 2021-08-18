@@ -3,7 +3,7 @@ from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
 from utility.enumerations import YesNo
-from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -40,7 +40,8 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
 
 class TaxonDomainSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_domain = serializers.CharField(max_length=255)
+    taxon_domain = serializers.CharField(max_length=255,
+                                         validators=[UniqueValidator(queryset=TaxonDomain.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -55,7 +56,8 @@ class TaxonDomainSerializer(serializers.ModelSerializer):
 
 class TaxonKingdomSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_kingdom = serializers.CharField(max_length=255)
+    taxon_kingdom = serializers.CharField(max_length=255,
+                                          validators=[UniqueValidator(queryset=TaxonKingdom.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -71,7 +73,8 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
 
 class TaxonPhylumSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_phylum = serializers.CharField(max_length=255)
+    taxon_phylum = serializers.CharField(max_length=255,
+                                         validators=[UniqueValidator(queryset=TaxonPhylum.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -87,7 +90,8 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
 
 class TaxonClassSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_class = serializers.CharField(max_length=255)
+    taxon_class = serializers.CharField(max_length=255,
+                                        validators=[UniqueValidator(queryset=TaxonClass.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -103,7 +107,8 @@ class TaxonClassSerializer(serializers.ModelSerializer):
 
 class TaxonOrderSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_order = serializers.CharField(max_length=255)
+    taxon_order = serializers.CharField(max_length=255,
+                                        validators=[UniqueValidator(queryset=TaxonOrder.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -119,7 +124,8 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
 
 class TaxonFamilySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_family = serializers.CharField(max_length=255)
+    taxon_family = serializers.CharField(max_length=255,
+                                         validators=[UniqueValidator(queryset=TaxonFamily.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -135,7 +141,8 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
 
 class TaxonGenusSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_genus = serializers.CharField(max_length=255)
+    taxon_genus = serializers.CharField(max_length=255,
+                                        validators=[UniqueValidator(queryset=TaxonGenus.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -151,7 +158,8 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
 
 class TaxonSpeciesSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    taxon_species = serializers.CharField(max_length=255)
+    taxon_species = serializers.CharField(max_length=255,
+                                          validators=[UniqueValidator(queryset=TaxonSpecies.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -195,7 +203,8 @@ class TaxonSerializer(serializers.ModelSerializer):
 
 class AnnotationMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    annotation_method_name = serializers.CharField(max_length=255)
+    annotation_method_name = serializers.CharField(max_length=255,
+                                                   validators=[UniqueValidator(queryset=AnnotationMethod.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
