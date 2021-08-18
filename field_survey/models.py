@@ -45,7 +45,6 @@ class FieldSurvey(DateTimeUserMixin):
                                          verbose_name="Affiliated Project(s)",
                                          blank=True,
                                          null=True,
-                                         on_delete=models.RESTRICT,
                                          related_name="project_ids")
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name="Supervisor",
