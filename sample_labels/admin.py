@@ -1,7 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 from .models import SampleType, SampleLabelRequest, SampleLabel
-from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin
 from .resources import SampleLabelRequestAdminResource, SampleTypeAdminResource, \
     SampleLabelAdminResource
@@ -49,9 +49,9 @@ class SampleLabelRequestAdmin(ExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['site_id', 'sample_type', 'purpose', 'req_sample_label_num', 'created_by']
-        self.list_filter = (
-            ('sample_type', RelatedDropdownFilter),
-        )
+        #self.list_filter = (
+        #    ('sample_type', RelatedDropdownFilter),
+        #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -80,16 +80,12 @@ class SampleLabelAdmin(ExportActionModelAdmin):
     # below are import_export configs
     resource_class = SampleLabelAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__',)
+    list_display = ('__str__', 'created_datetime', 'created_by', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['sample_label_id', 'site_id', 'sample_type', 'sample_year', 'purpose',
                        'created_by']
-        self.list_filter = (
-            ('sample_type', RelatedDropdownFilter),
-            ('site_id', RelatedDropdownFilter),
-        )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
