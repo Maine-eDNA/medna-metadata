@@ -8,6 +8,7 @@ import datetime
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
+from django_countries.fields import CountryField
 
 
 def get_sentinel_user():
@@ -47,3 +48,18 @@ class DateTimeUserMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class ProcessLocation(DateTimeUserMixin):
+    # CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
+    # BIGELOW = 'Bigelow', _('Bigelow Laboratory')
+    # URI = 'URI', _('Rhode Island Genomics (URI)')
+    # UNH = 'UNH', _('Hubbard Center (UNH)')
+    # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
+    process_location_name = models.CharField("Location Name", max_length=255)
+    affiliation = models.CharField("Affiliation", max_length=255)
+    process_location_url = models.URLField("Location URL", max_length=255)
+    phone_number = PhoneNumberField("Phone Number", blank=True, null=True)
+    email_address = models.EmailField(_('Email Address'), blank=True, null=True)
+    location_notes = models.TextField("Notes", blank=True)
+
