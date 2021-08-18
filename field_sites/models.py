@@ -540,7 +540,7 @@ class FieldSite(DateTimeUserMixin):
         return self.geom.srid
 
     def __str__(self):
-        return self.site_id
+        return '{id}: {label}'.format(id=self.site_id, label=self.general_location_name)
 
     def save(self, *args, **kwargs):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
