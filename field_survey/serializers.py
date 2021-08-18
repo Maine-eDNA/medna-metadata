@@ -63,8 +63,7 @@ class FieldSurveySerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    project_ids = serializers.SlugRelatedField(choices=GrantProjects.choices, many=True,
-                                               allow_blank=True, allow_null=True,
+    project_ids = serializers.SlugRelatedField(many=True, allow_blank=True, allow_null=True,
                                                read_only=True, slug_field='process_location_name')
     username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username',
                                             allow_blank=True, allow_null=True,)
