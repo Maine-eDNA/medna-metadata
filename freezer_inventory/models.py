@@ -32,6 +32,9 @@ class Freezer(DateTimeUserMixin):
     freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
     freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
     freezer_max_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
+    # frontend CSS color
+    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
+    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def __str__(self):
         return '{label} [r{row}, c{column}, d{depth}]'.format(label=self.freezer_label,
@@ -56,6 +59,9 @@ class FreezerRack(DateTimeUserMixin):
     freezer_rack_row_end = models.PositiveIntegerField("Freezer Rack Row End")
     freezer_rack_depth_start = models.PositiveIntegerField("Freezer Rack Depth Start")
     freezer_rack_depth_end = models.PositiveIntegerField("Freezer Rack Depth End")
+    # frontend CSS color
+    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
+    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def __str__(self):
         return '{label} [r{row_start}:{row_end}, ' \
@@ -82,6 +88,9 @@ class FreezerBox(DateTimeUserMixin):
     freezer_box_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_box_row = models.PositiveIntegerField("Freezer Box Row")
     freezer_box_depth = models.PositiveIntegerField("Freezer Box Depth")
+    # frontend CSS color
+    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
+    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def __str__(self):
         return '{label} [r{row}, c{column}, d{depth}]'.format(label=self.freezer_box_label,
@@ -110,6 +119,9 @@ class FreezerInventory(DateTimeUserMixin):
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
+    # frontend CSS color
+    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
+    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def save(self, *args, **kwargs):
         # only create slug on INSERT, not UPDATE
@@ -158,7 +170,7 @@ class FreezerCheckout(DateTimeUserMixin):
     def __str__(self):
         return '{barcode}, ' \
                '{checkout_action}'.format(barcode=self.freezer_inventory.barcode_slug,
-                                  checkout_action=self.get_freezer_checkout_action_display())
+                                          checkout_action=self.get_freezer_checkout_action_display())
 
     def save(self, *args, **kwargs):
         if self.freezer_checkout_action == CheckoutActions.CHECKOUT:
