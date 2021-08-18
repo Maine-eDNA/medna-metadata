@@ -13,9 +13,9 @@ class ReferenceDatabaseAdminResource(resources.ModelResource):
         import_id_fields = ('refdb_name', 'refdb_version', 'refdb_datetime',
                             'redfb_coverage_score', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
+        fields = ('id', 'refdb_name', 'refdb_version', 'refdb_slug', 'refdb_datetime', 'redfb_coverage_score',
                   'refdb_repo_url', 'created_by', 'created_datetime',)
-        export_order = ('id', 'refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
+        export_order = ('id', 'refdb_name', 'refdb_version', 'refdb_slug', 'refdb_datetime', 'redfb_coverage_score',
                         'refdb_repo_url', 'created_by', 'created_datetime',)
 
     created_by = fields.Field(
@@ -364,7 +364,7 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
     reference_database = fields.Field(
         column_name='reference_database',
         attribute='reference_database',
-        widget=ForeignKeyWidget(ReferenceDatabase, 'refdb_name'))
+        widget=ForeignKeyWidget(ReferenceDatabase, 'refdb_slug'))
 
     manual_domain = fields.Field(
         column_name='manual_domain',

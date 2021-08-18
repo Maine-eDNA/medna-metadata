@@ -3,6 +3,7 @@ from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
 from utility.enumerations import YesNo
+from rest_framework.validators import UniqueTogetherValidator
 
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -14,6 +15,7 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     refdb_name = serializers.CharField(max_length=255)
     refdb_version = serializers.CharField(max_length=255)
+    refdb_slug = serializers.SlugField(read_only=True)
     refdb_datetime = serializers.DateTimeField()
     redfb_coverage_score = serializers.DecimalField(max_digits=6, decimal_places=2)
     refdb_repo_url = serializers.URLField(max_length=255)
@@ -22,8 +24,14 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReferenceDatabase
-        fields = ['id', 'refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
+        fields = ['id', 'refdb_name', 'refdb_version', 'refdb_slug', 'refdb_datetime', 'redfb_coverage_score',
                   'refdb_repo_url', 'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ReferenceDatabase.objects.all(),
+                fields=['refdb_name', 'refdb_version']
+            )
+        ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -259,7 +267,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     asv = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asv_id')
     annotation_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='annotation_slug')
-    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_name')
+    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_slug')
     manual_domain = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_domain')
     manual_kingdom = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_kingdom')
     manual_phylum = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_phylum')
