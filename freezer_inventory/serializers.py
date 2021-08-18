@@ -19,6 +19,9 @@ class FreezerSerializer(serializers.ModelSerializer):
     freezer_max_columns = serializers.IntegerField(min_value=1)
     freezer_max_rows = serializers.IntegerField(min_value=1)
     freezer_max_depth = serializers.IntegerField(min_value=1)
+    # color of CSS for frontend
+    css_background_color = serializers.CharField(max_length=255, default="orange")
+    css_text_color = serializers.CharField(max_length=255, default="white")
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -27,6 +30,7 @@ class FreezerSerializer(serializers.ModelSerializer):
         fields = ['id', 'freezer_label',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since created_by references a different table and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -45,6 +49,9 @@ class FreezerRackSerializer(serializers.ModelSerializer):
     freezer_rack_row_end = serializers.IntegerField(min_value=1)
     freezer_rack_depth_start = serializers.IntegerField(min_value=1)
     freezer_rack_depth_end = serializers.IntegerField(min_value=1)
+    # color of CSS for frontend
+    css_background_color = serializers.CharField(max_length=255, default="orange")
+    css_text_color = serializers.CharField(max_length=255, default="white")
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -54,6 +61,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
+                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -71,6 +79,9 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
     freezer_box_depth = serializers.IntegerField(min_value=1)
+    # color of CSS for frontend
+    css_background_color = serializers.CharField(max_length=255, default="orange")
+    css_text_color = serializers.CharField(max_length=255, default="white")
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -78,6 +89,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
         model = FreezerBox
         fields = ['id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
+                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_rack and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -96,6 +108,9 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
+    # color of CSS for frontend
+    css_background_color = serializers.CharField(max_length=255, default="orange")
+    css_text_color = serializers.CharField(max_length=255, default="white")
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -105,6 +120,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                   'barcode_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
+                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
