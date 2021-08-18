@@ -202,8 +202,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     filter_vol = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     filter_type = serializers.CharField(max_length=255, allow_blank=True)
     filter_type_other = serializers.CharField(max_length=255, allow_blank=True)
-    filter_pore = serializers.IntegerField(allow_null=True)
-    filter_size = serializers.IntegerField(allow_null=True)
+    filter_pore = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
+    filter_size = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     filter_notes = serializers.CharField(allow_blank=True)
     subcore_fname = serializers.CharField(max_length=255, allow_blank=True)
     subcore_lname = serializers.CharField(max_length=255, allow_blank=True)
@@ -219,8 +219,11 @@ class FieldSampleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldSample
-        fields = ['id', 'site_id', 'project', 'system', 'region', 'general_location_name',
-                  'purpose', 'lat', 'lon', 'srid',
+        fields = ['sample_global_id', 'is_extracted', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
+                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
+                  'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname',
+                  'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
+                  'subcore_datetime_end', 'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
                   'created_by', 'created_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add

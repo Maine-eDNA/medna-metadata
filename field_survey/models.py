@@ -310,8 +310,8 @@ class FieldSample(DateTimeUserMixin):
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
-    filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
-    filter_size = models.IntegerField("Filter Size", blank=True, null=True)
+    filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
+    filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
@@ -654,8 +654,8 @@ class SampleFilterETL(DateTimeUserMixin):
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
-    filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
-    filter_size = models.IntegerField("Filter Size", blank=True, null=True)
+    filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
+    filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
     collection_global_id = models.ForeignKey(FieldCollectionETL,
                                              db_column="collection_global_id",
@@ -692,8 +692,8 @@ class BlankSampleFilterETL(DateTimeUserMixin):
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
-    filter_pore = models.IntegerField("Filter Pore Size", blank=True, null=True)
-    filter_size = models.IntegerField("Filter Size", blank=True, null=True)
+    filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
+    filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
     collection_global_id = models.ForeignKey(FieldCollectionETL,
                                              db_column="collection_global_id",
