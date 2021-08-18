@@ -302,7 +302,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     resource_class = TaxonSpeciesAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
-    list_display = ('__str__', 'created_by', 'created_datetime', )
+    list_display = ('__str__', 'taxon_common_name', 'created_by', 'created_datetime', )
+    list_filter = ('is_endemic', )
     readonly_fields = ('taxon_species_slug', )
 
     def add_view(self, request, extra_content=None):
