@@ -2,10 +2,6 @@ from users.models import CustomUser
 from rest_framework import serializers
 from rest_auth.serializers import LoginSerializer
 from rest_auth.registration.serializers import RegisterSerializer
-from tablib import Dataset
-from django_tables2.export import ExportMixin
-from django_tables2.export.export import TableExport
-
 from django.utils.translation import gettext_lazy as _
 
 try:
@@ -24,25 +20,20 @@ except ImportError:
 # django rest_framework
 class CustomUserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'agol_username',
-                  'created_by', 'created_datetime', 'modified_datetime',)
+        fields = ('id', 'email', 'password', 'first_name', 'last_name',
+                  'phone_number', 'agol_username', )
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username', ]
         read_only_fields = ('email',)
 
 
@@ -92,55 +83,3 @@ class CustomRegisterSerializer(RegisterSerializer):
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
         return user
-
-
-# https://aldnav.com/blog/django-table-exporter/
-# allows for the combination of (SerializerExportMixin, SingleTableMixin, FilterView)
-# These mixed together equates to filtered views with downloadable data FROM the
-# backend dbase rather than the view of the table in HTML. Also -- this is restful API
-# so when I feel so inclined I could also set up R code to automatically download the
-# data: https://www.programmableweb.com/news/how-to-access-any-restful-api-using-r-language/how-to/2017/07/21
-
-class SerializerTableExport(TableExport):
-    def __init__(self, export_format, table, serializer=None, exclude_columns=None):
-        if not self.is_valid_format(export_format):
-            raise TypeError(
-                'Export format "{}" is not supported.'.format(export_format)
-            )
-        self.format = export_format
-        if serializer is None:
-            raise TypeError("Serializer should be provided for table {}".format(table))
-        self.dataset = Dataset()
-        serializer_data = serializer([x for x in table.data], many=True).data
-        if len(serializer_data) > 0:
-            self.dataset.headers = serializer_data[0].keys()
-        for row in serializer_data:
-            self.dataset.append(row.values())
-
-
-class SerializerExportMixin(ExportMixin):
-    # export_action_param = "action"
-
-    def create_export(self, export_format):
-        exporter = SerializerTableExport(
-            export_format=export_format,
-            table=self.get_table(**self.get_table_kwargs()),
-            serializer=self.serializer_class,
-            exclude_columns=self.exclude_columns,
-        )
-        return exporter.response(filename=self.get_export_filename(export_format))
-
-    def get_serializer(self, table):
-        if self.serializer_class is not None:
-            return self.serializer_class
-        else:
-            return getattr(
-                self, "{}Serializer".format(self.get_table().__class__.__name__), None
-            )
-
-    def get_table_data(self):
-        selected_column_ids = self.request.GET.get("_selected_column_ids", None)
-        if selected_column_ids:
-            selected_column_ids = map(int, selected_column_ids.split(","))
-            return super().get_table_data().filter(id__in=selected_column_ids)
-        return super().get_table_data()
