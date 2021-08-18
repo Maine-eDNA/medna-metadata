@@ -9,7 +9,7 @@ from .enumerations import GrantProjects
 # Django REST Framework to allow the automatic downloading of data!
 class GrantProjectSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    project_name = serializers.ChoiceField(max_length=255, choices=GrantProjects.choices)
+    project_name = serializers.ChoiceField(choices=GrantProjects.choices)
     grant_name = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
