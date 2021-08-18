@@ -4,6 +4,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     Project, System, FieldSite, Region
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from rest_framework.validators import UniqueValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 
@@ -11,7 +12,8 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_first_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_first_tier = serializers.CharField(max_length=255,
+                                             validators=[UniqueValidator(queryset=EnvoBiomeFirst.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -31,7 +33,8 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_second_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_second_tier = serializers.CharField(max_length=255,
+                                              validators=[UniqueValidator(queryset=EnvoBiomeSecond.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -49,7 +52,8 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_third_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_third_tier = serializers.CharField(max_length=255,
+                                             validators=[UniqueValidator(queryset=EnvoBiomeThird.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -67,7 +71,8 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fourth_tier = serializers.CharField(max_length=255,
+                                              validators=[UniqueValidator(queryset=EnvoBiomeFourth.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -87,7 +92,8 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fifth_tier = serializers.CharField(max_length=255,
+                                             validators=[UniqueValidator(queryset=EnvoBiomeFifth.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -106,7 +112,8 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    biome_fifth_tier = serializers.CharField(max_length=255,
+                                             validators=[UniqueValidator(queryset=EnvoBiomeFifth.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -132,7 +139,8 @@ class EnvoBiomeSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_first_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_first_tier = serializers.CharField(max_length=255,
+                                               validators=[UniqueValidator(queryset=EnvoFeatureFirst.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -150,7 +158,8 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_second_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_second_tier = serializers.CharField(max_length=255,
+                                                validators=[UniqueValidator(queryset=EnvoFeatureSecond.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -169,7 +178,8 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_third_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_third_tier = serializers.CharField(max_length=255,
+                                               validators=[UniqueValidator(queryset=EnvoFeatureThird.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -188,7 +198,8 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_fourth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_fourth_tier = serializers.CharField(max_length=255,
+                                                validators=[UniqueValidator(queryset=EnvoFeatureFourth.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -207,7 +218,8 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_fifth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_fifth_tier = serializers.CharField(max_length=255,
+                                               validators=[UniqueValidator(queryset=EnvoFeatureFifth.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -226,7 +238,8 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_sixth_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_sixth_tier = serializers.CharField(max_length=255,
+                                               validators=[UniqueValidator(queryset=EnvoFeatureSixth.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -244,7 +257,8 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
+    feature_seventh_tier = serializers.CharField(max_length=255,
+                                                 validators=[UniqueValidator(queryset=EnvoFeatureSeventh.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -262,8 +276,8 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_seventh_tier = serializers.CharField(max_length=255, allow_blank=True)
-
+    feature_seventh_tier = serializers.CharField(max_length=255,
+                                                 validators=[UniqueValidator(queryset=EnvoFeatureSeventh.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     ontology_url = serializers.CharField(max_length=255, allow_blank=True)
@@ -293,7 +307,7 @@ class EnvoFeatureSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    project_code = serializers.CharField(max_length=1)
+    project_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Project.objects.all())])
     project_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -309,7 +323,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 class SystemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    system_code = serializers.CharField(max_length=1)
+    system_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=System.objects.all())])
     system_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -327,7 +341,7 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     lat = serializers.DecimalField(max_digits=22, decimal_places=16)
     lon = serializers.DecimalField(max_digits=22, decimal_places=16)
-    site_id = serializers.CharField(max_length=7)
+    site_id = serializers.CharField(max_length=7, validators=[UniqueValidator(queryset=FieldSite.objects.all())])
     srid = serializers.CharField()
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -361,6 +375,7 @@ class FieldSiteSerializer(serializers.ModelSerializer):
 
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    site_id = serializers.CharField(max_length=7, validators=[UniqueValidator(queryset=FieldSite.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -380,13 +395,14 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
 
 class GeoRegionSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    region_code = serializers.CharField(max_length=7, validators=[UniqueValidator(queryset=Region.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Region
         geo_field = 'geom'
-        fields = ['id', 'region_label', 'huc8', 'states', 'lat', 'lon',
+        fields = ['id', 'region_label', 'region_code', 'huc8', 'states', 'lat', 'lon',
                   'area_sqkm', 'area_acres', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
