@@ -17,7 +17,6 @@ from utility.models import GrantProject
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    # id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
@@ -151,7 +150,6 @@ class FieldSurvey(DateTimeUserMixin):
 
 
 class FieldCrew(DateTimeUserMixin):
-    # id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
@@ -173,7 +171,6 @@ class FieldCrew(DateTimeUserMixin):
 
 
 class EnvMeasurement(DateTimeUserMixin):
-    # id = models.AutoField(unique=True)
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
@@ -313,8 +310,7 @@ class FieldSample(DateTimeUserMixin):
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
-    field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
-                                                unique=True)
+    field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
     barcode_slug = models.SlugField(max_length=16, unique=True, null=True)
     is_extracted = models.CharField("Extracted", max_length=25, choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
@@ -378,7 +374,6 @@ class FieldSample(DateTimeUserMixin):
 class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    # id = models.AutoField(unique=True)
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
@@ -497,7 +492,6 @@ class FieldSurveyETL(DateTimeUserMixin):
 
 
 class FieldCrewETL(DateTimeUserMixin):
-    # id = models.AutoField(unique=True)
     crew_global_id = models.TextField("Global ID", primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
@@ -519,7 +513,6 @@ class FieldCrewETL(DateTimeUserMixin):
 
 
 class EnvMeasurementETL(DateTimeUserMixin):
-    #id = models.AutoField(unique=True)
     env_global_id = models.TextField("Global ID", primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
@@ -594,7 +587,6 @@ class EnvMeasurementETL(DateTimeUserMixin):
 
 
 class FieldCollectionETL(DateTimeUserMixin):
-    # id = models.AutoField(unique=True)
     collection_global_id = models.TextField("Global ID", primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
@@ -663,7 +655,6 @@ class FieldCollectionETL(DateTimeUserMixin):
 
 
 class SampleFilterETL(DateTimeUserMixin):
-    # id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
@@ -701,7 +692,6 @@ class SampleFilterETL(DateTimeUserMixin):
 
 
 class BlankSampleFilterETL(DateTimeUserMixin):
-    # id = models.AutoField(unique=True)
     filter_global_id = models.TextField("Global ID", primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
