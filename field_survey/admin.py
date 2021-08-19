@@ -148,6 +148,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     list_display = ('collection_global_id', 'sample_global_id', 'is_extracted', 'field_sample_barcode',
                     'created_datetime', 'created_by')
     #readonly_fields = ('barcode_slug', )
+    exclude = ('barcode_slug', )
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
