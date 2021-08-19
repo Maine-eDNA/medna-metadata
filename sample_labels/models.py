@@ -1,12 +1,13 @@
 # Create your models here.
 import datetime
-#from django.db import models
+# from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin
 from django.core.validators import MinValueValidator
 import numpy as np
+from django.utils.text import slugify
 
 
 def current_year():
@@ -67,13 +68,14 @@ class SampleLabelRequest(DateTimeUserMixin):
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
-    purpose = models.CharField("Sample Label Purpose", max_length=200)
+    purpose = models.CharField("Sample Label Purpose", max_length=255)
     sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
     req_sample_label_num = models.IntegerField("Number Requested", default=1)
     min_sample_label_num = models.IntegerField(default=1)
     max_sample_label_num = models.IntegerField(default=1)
     min_sample_label_id = models.CharField("Min Sample Label ID", max_length=16)
     max_sample_label_id = models.CharField("Max Sample Label ID", max_length=16)
+    sample_label_request_slug = models.SlugField("Sample Label Request Slug", max_length=255)
 
     def __str__(self):
         return '{label}'.format(label=self.max_sample_label_id)
@@ -103,12 +105,19 @@ class SampleLabelRequest(DateTimeUserMixin):
             min_num_leading_zeros = str(self.min_sample_label_num).zfill(4)
             max_num_leading_zeros = str(self.max_sample_label_num).zfill(4)
             # format site_id, e.g., "eAL_L01"
-            self.min_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix, sitenum=min_num_leading_zeros)
-            self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix, sitenum=max_num_leading_zeros)
+            self.min_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
+                                                                        sitenum=min_num_leading_zeros)
+            self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
+                                                                        sitenum=max_num_leading_zeros)
             insert_update_sample_id_req(self.min_sample_label_id, self.max_sample_label_id,
                                         self.min_sample_label_num, self.max_sample_label_num,
                                         self.sample_label_prefix, self.site_id,
                                         self.sample_type, self.sample_year, self.purpose)
+
+        now = datetime.datetime.now()
+        now_fmt = now.strftime('%Y%m%d_%H%M%S')
+        self.sample_label_request_slug = '{name}_{date}'.format(name=slugify(self.sample_label_prefix),
+                                                                date=now_fmt)
         # all done, time to save changes to the db
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
@@ -119,13 +128,14 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleLabel(DateTimeUserMixin):
-    sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
+    sample_label_id = models.SlugField("Sample Label ID", max_length=16, unique=True)
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
-    sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
-    purpose = models.CharField("Sample Label Purpose", max_length=200)
+    sample_year = models.PositiveIntegerField("Sample Year", default=current_year(),
+                                              validators=[MinValueValidator(2018)])
+    purpose = models.CharField("Sample Label Purpose", max_length=255)
 
     def __str__(self):
         return '{label}'.format(label=self.sample_label_id)

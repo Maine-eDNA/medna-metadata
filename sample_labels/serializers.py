@@ -4,6 +4,7 @@ from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
 from .models import SampleLabel, SampleLabelRequest
 from django.core.validators import MinValueValidator
+from rest_framework.validators import UniqueValidator
 
 try:
     from tablib import Dataset
@@ -22,7 +23,8 @@ def delete_keys(keys, the_dict):
 # Django REST Framework to allow the automatic downloading of data!
 class SampleLabelSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_label_id = serializers.CharField(read_only=True)
+    sample_label_id = serializers.SlugField(max_length=16, read_only=True,
+                                            validators=[UniqueValidator(queryset=SampleLabel.objects.all())])
     sample_year = serializers.IntegerField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -36,7 +38,7 @@ class SampleLabelSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
-    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_label')
+    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -50,6 +52,7 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     max_sample_label_num = serializers.IntegerField(read_only=True,)
     min_sample_label_id = serializers.CharField(read_only=True, max_length=16)
     max_sample_label_id = serializers.CharField(read_only=True, max_length=16)
+    sample_label_request_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -57,12 +60,12 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
         model = SampleLabelRequest
         fields = ['id', 'sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
                   'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_type',
-                  'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'purpose', 'sample_label_request_slug', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since site_id, sample_type, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
-    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_label')
+    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
