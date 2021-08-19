@@ -7,7 +7,7 @@ from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation
 from utility.enumerations import TargetGenes, ConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
-from medna_metadata.settings import DATEFIELD_MODEL_FORMAT, DEFAULT_PROCESS_LOCATION_ID
+from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 
 
 # Create your models here.
@@ -357,7 +357,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
-    run_date = models.DateField("Run Date", format=DATEFIELD_MODEL_FORMAT)
+    run_date = models.DateField("Run Date", input_formats=['%Y%m%d'])
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
