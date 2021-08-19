@@ -113,11 +113,11 @@ class SampleLabelRequest(DateTimeUserMixin):
                                         self.min_sample_label_num, self.max_sample_label_num,
                                         self.sample_label_prefix, self.site_id,
                                         self.sample_type, self.sample_year, self.purpose)
-
-        now = datetime.datetime.now()
-        now_fmt = now.strftime('%Y%m%d_%H%M%S')
-        self.sample_label_request_slug = '{name}_{date}'.format(name=slugify(self.sample_label_prefix),
-                                                                date=now_fmt)
+        if self.pk is None:
+            now = datetime.datetime.now()
+            now_fmt = now.strftime('%Y%m%d_%H%M%S')
+            self.sample_label_request_slug = '{name}_{date}'.format(name=slugify(self.sample_label_prefix),
+                                                                    date=now_fmt)
         # all done, time to save changes to the db
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
