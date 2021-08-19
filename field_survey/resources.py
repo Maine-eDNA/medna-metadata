@@ -181,7 +181,7 @@ class FieldSampleAdminResource(resources.ModelResource):
         # SampleLabel
         model = FieldSample
         import_id_fields = ('sample_global_id', 'collection_global_id', )
-        fields = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
+        fields = ('sample_global_id', 'field_sample_barcode', 'is_extracted',
                   'sample_type', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
                   'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
