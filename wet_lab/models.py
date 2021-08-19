@@ -357,7 +357,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
-    run_date = models.DateField("Run Date", input_formats=['%Y%m%d'])
+    run_date = models.DateField("Run Date")
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
@@ -379,8 +379,10 @@ class RunPrep(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         if self.pk is None:
+            date = self.run_date
+            date_fmt = date.strftime('%Y%m%d')
             self.run_prep_slug = '{date}_{name}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
-                                                        date=self.run_date)
+                                                        date=date_fmt)
         super(RunPrep, self).save(*args, **kwargs)
 
     def __str__(self):
