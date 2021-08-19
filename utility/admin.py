@@ -82,8 +82,9 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['process_location_name', 'affiliation',
                        'process_location_url', 'phone_number',
-                       'email_address', 'location_notes',
-                       'created_by', ]
+                       'location_email_address', 'point_of_contact_email_address',
+                       'point_of_contact_first_name', 'point_of_contact_last_name',
+                       'location_notes', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -95,8 +96,9 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['process_location_name', 'affiliation',
                        'process_location_url', 'phone_number',
-                       'email_address', 'location_notes',
-                       'created_by', ]
+                       'location_email_address', 'point_of_contact_email_address',
+                       'point_of_contact_first_name', 'point_of_contact_last_name',
+                       'location_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProcessLocationAdmin, self).change_view(request, object_id)
 

@@ -286,7 +286,7 @@ class SubCoreMethods(models.TextChoices):
 
 
 # class QuantMethods(models.IntegerChoices):
-#    QBIT = 0, _('qbit')
+#    QUBIT = 0, _('qubit')
 #    NANODROP = 1, _('nanodrop')
 #    QPCR = 2, _('qPCR')
 #    BIOANALYZER = 3, _('Bioanalyzer')

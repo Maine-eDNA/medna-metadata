@@ -48,7 +48,10 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
     process_location_name = serializers.CharField(max_length=255)
     affiliation = serializers.CharField(max_length=255)
     process_location_url = serializers.URLField(max_length=255)
-    email_address = serializers.EmailField(allow_blank=True, allow_null=True)
+    location_email_address = serializers.EmailField(allow_blank=True, allow_null=True)
+    point_of_contact_email_address = serializers.EmailField(allow_blank=True, allow_null=True)
+    point_of_contact_first_name = serializers.CharField(allow_blank=True)
+    point_of_contact_last_name = serializers.CharField(allow_blank=True)
     location_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -57,8 +60,9 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
         model = ProcessLocation
         fields = ['id', 'process_location_name', 'affiliation',
                   'process_location_url', 'phone_number',
-                  'email_address', 'location_notes',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+                  'location_email_address', 'point_of_contact_email_address',
+                  'point_of_contact_first_name', 'point_of_contact_last_name',
+                  'location_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
