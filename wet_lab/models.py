@@ -157,7 +157,7 @@ class Extraction(DateTimeUserMixin):
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
             # just check if name or location.name has changed
-            self.barcode_slug = slugify(self.field_sample.barcode_slug)
+            self.barcode_slug = self.field_sample.barcode_slug
         super(Extraction, self).save(*args, **kwargs)
 
     def __str__(self):
