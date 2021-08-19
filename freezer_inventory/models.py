@@ -24,6 +24,7 @@ def freezer_inv_status_update(inv_pk, freezer_checkout_action):
 class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_label = models.CharField("Freezer Label", max_length=255, unique=True)
+    freezer_label_slug = models.SlugField("Freezer Label Slug", max_length=255)
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
     freezer_length = models.DecimalField("Freezer Length", max_digits=15,  decimal_places=10)
     freezer_width = models.DecimalField("Freezer Width", max_digits=15,  decimal_places=10)
@@ -35,6 +36,10 @@ class Freezer(DateTimeUserMixin):
     # frontend CSS color
     css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
     css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
+
+    def save(self, *args, **kwargs):
+        self.freezer_label_slug = '{name}'.format(name=slugify(self.freezer_label))
+        super(Freezer, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{label} [r{row}, c{column}, d{depth}]'.format(label=self.freezer_label,
@@ -52,6 +57,7 @@ class FreezerRack(DateTimeUserMixin):
     freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT)
     # freezer_rack_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_rack_label = models.CharField("Freezer Rack Label", max_length=255, unique=True)
+    freezer_rack_label_slug = models.SlugField("Freezer Rack Label Slug", max_length=255)
     # location of rack in freezer
     freezer_rack_column_start = models.PositiveIntegerField("Freezer Rack Column Start")
     freezer_rack_column_end = models.PositiveIntegerField("Freezer Rack Column End")
@@ -62,6 +68,10 @@ class FreezerRack(DateTimeUserMixin):
     # frontend CSS color
     css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
     css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
+
+    def save(self, *args, **kwargs):
+        self.freezer_rack_label_slug = '{name}'.format(name=slugify(self.freezer_rack_label))
+        super(FreezerRack, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{label} [r{row_start}:{row_end}, ' \
@@ -89,6 +99,7 @@ class FreezerBox(DateTimeUserMixin):
     freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT)
     # freezer_box_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box_label = models.CharField("Freezer Box Label", max_length=255, unique=True)
+    freezer_box_label_slug = models.SlugField("Freezer Box Label Slug", max_length=255)
     # location of box in freezer rack
     freezer_box_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_box_row = models.PositiveIntegerField("Freezer Box Row")
@@ -96,6 +107,10 @@ class FreezerBox(DateTimeUserMixin):
     # frontend CSS color
     css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
     css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
+
+    def save(self, *args, **kwargs):
+        self.freezer_box_label_slug = '{name}'.format(name=slugify(self.freezer_box_label))
+        super(FreezerBox, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{label} [r{row}, c{column}, d{depth}]'.format(label=self.freezer_box_label,
@@ -168,6 +183,7 @@ class FreezerCheckout(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
                                           limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
+    freezer_checkout_slug = models.SlugField("Freezer Checkout Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_checkout_action = models.CharField("Freezer Checkout Action", max_length=25,
                                                choices=CheckoutActions.choices)
@@ -197,6 +213,14 @@ class FreezerCheckout(DateTimeUserMixin):
 
         freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
 
+        if self.pk is None:
+            now = datetime.datetime.now()
+            now_fmt = now.strftime('%Y%m%d_%H%M%S')
+            self.freezer_checkout_slug = '{date}_' \
+                                         '{name}_' \
+                                         '{checkout_action}'.format(checkout_action=self.get_freezer_checkout_action_display(),
+                                                                    name=slugify(self.freezer_inventory.barcode_slug),
+                                                                    date=now_fmt)
         # all done, time to save changes to the db
         super(FreezerCheckout, self).save(*args, **kwargs)
 

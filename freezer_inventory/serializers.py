@@ -14,6 +14,7 @@ class FreezerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_label = serializers.CharField(max_length=255,
                                           validators=[UniqueValidator(queryset=Freezer.objects.all())])
+    freezer_label_slug = serializers.CharField(max_length=255, read_only=True)
     freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_width = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -30,7 +31,7 @@ class FreezerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Freezer
-        fields = ['id', 'freezer_label',
+        fields = ['id', 'freezer_label', 'freezer_label_slug',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                   'css_background_color', 'css_text_color',
@@ -46,6 +47,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_rack_label = serializers.CharField(max_length=255,
                                                validators=[UniqueValidator(queryset=FreezerRack.objects.all())])
+    freezer_rack_label_slug = serializers.SlugField(max_length=255, read_only=True)
     # location of rack in freezer
     freezer_rack_column_start = serializers.IntegerField(min_value=1)
     freezer_rack_column_end = serializers.IntegerField(min_value=1)
@@ -61,7 +63,7 @@ class FreezerRackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerRack
-        fields = ['id', 'freezer', 'freezer_rack_label',
+        fields = ['id', 'freezer', 'freezer_rack_label', 'freezer_rack_label_slug',
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
@@ -81,13 +83,14 @@ class FreezerRackSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     freezer = serializers.SlugRelatedField(many=False, read_only=True,
-                                           slug_field='freezer_label')
+                                           slug_field='freezer_label_slug')
 
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_box_label = serializers.CharField(max_length=255,
                                               validators=[UniqueValidator(queryset=FreezerBox.objects.all())])
+    freezer_box_label_slug = serializers.CharField(max_length=255, read_only=True)
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
@@ -100,7 +103,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerBox
-        fields = ['id', 'freezer_rack', 'freezer_box_label',
+        fields = ['id', 'freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -116,7 +119,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     freezer_rack = serializers.SlugRelatedField(many=False, read_only=True,
-                                                slug_field='freezer_rack_label')
+                                                slug_field='freezer_rack_label_slug')
 
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
@@ -154,7 +157,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     freezer_box = serializers.SlugRelatedField(many=False, read_only=True,
-                                               slug_field='freezer_box_label')
+                                               slug_field='freezer_box_label_slug')
     field_sample = serializers.SlugRelatedField(many=False, read_only=True,
                                                 slug_field='barcode_slug')
     extraction = serializers.SlugRelatedField(many=False, read_only=True,
@@ -163,6 +166,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    freezer_checkout_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_checkout_action = serializers.ChoiceField(choices=CheckoutActions.choices)
     freezer_checkout_datetime = serializers.DateTimeField(allow_null=True)
     freezer_return_datetime = serializers.DateTimeField(allow_null=True)
@@ -180,7 +184,7 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
                   'freezer_return_datetime',
                   'freezer_perm_removal_datetime',
                   'freezer_return_vol_taken', 'freezer_return_vol_units',
-                  'freezer_return_notes',
+                  'freezer_return_notes', 'freezer_checkout_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
