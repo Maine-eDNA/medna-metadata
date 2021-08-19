@@ -257,7 +257,7 @@ class FieldCollection(DateTimeUserMixin):
                                        choices=CollectionTypes.choices, max_length=25, blank=True)
     water_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=25, choices=ControlTypes.choices,
-                                          blank=True, null=True)
+                                          blank=True)
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
     water_collect_depth = models.DecimalField("Water Collection Depth",
