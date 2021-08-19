@@ -27,10 +27,15 @@ class ProjectAdminResource(resources.ModelResource):
         # Project
         model = Project
         import_id_fields = ('project_code', )
-        fields = ('project_code', 'project_label',
+        fields = ('project_code', 'project_label', 'grant_name',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('project_code', 'project_label',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    grant_name = fields.Field(
+        column_name='grant_name',
+        attribute='grant_name',
+        widget=ForeignKeyWidget(Grant, 'grant_label'))
 
     created_by = fields.Field(
         column_name='created_by',
