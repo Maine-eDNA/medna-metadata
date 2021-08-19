@@ -49,27 +49,27 @@ class FieldSurvey(DateTimeUserMixin):
     long_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # environmental observations
     env_obs_turbidity = models.CharField("Water Turbidity", max_length=25, choices=TurbidTypes.choices,
-                                         blank=True, null=True)
+                                         blank=True)
     env_obs_precip = models.CharField("Precipitation", max_length=25, choices=PrecipTypes.choices,
-                                      blank=True, null=True)
+                                      blank=True)
     env_obs_wind_speed = models.CharField("Wind Speed", max_length=25, choices=WindSpeeds.choices,
-                                          blank=True, null=True)
+                                          blank=True)
     env_obs_cloud_cover = models.CharField("Cloud Cover", max_length=25, choices=CloudCovers.choices,
-                                           blank=True, null=True)
+                                           blank=True)
     env_biome = models.CharField("Biome", max_length=255, blank=True)
     env_biome_other = models.CharField("Other Biome", max_length=255, blank=True)
     env_feature = models.CharField("Feature", max_length=255, blank=True)
     env_feature_other = models.CharField("Other Feature", max_length=255, blank=True)
-    env_material = models.CharField("Material", max_length=25, choices=EnvoMaterials.choices, blank=True, null=True)
+    env_material = models.CharField("Material", max_length=25, choices=EnvoMaterials.choices, blank=True)
     env_material_other = models.CharField("Other Material", max_length=255, blank=True)
     env_notes = models.TextField("Environmental Notes", blank=True)
     # by boat or by foot
     env_measure_mode = models.CharField("Collection Mode", max_length=25, choices=MeasureModes.choices,
-                                        blank=True, null=True)
+                                        blank=True)
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.DecimalField("Bottom Depth (m)", max_digits=15, decimal_places=10, blank=True, null=True)
     measurements_taken = models.CharField("Measurements Taken", max_length=25, choices=YesNo.choices,
-                                          blank=True, null=True)
+                                          blank=True)
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Designated Sub-corer",
                                       blank=True, null=True,
@@ -81,7 +81,7 @@ class FieldSurvey(DateTimeUserMixin):
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
     survey_complete = models.CharField("Survey Complete", max_length=25, choices=YesNo.choices,
-                                       blank=True, null=True)
+                                       blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name="Quality Editor",
                                   blank=True, null=True,
@@ -177,14 +177,14 @@ class EnvMeasurement(DateTimeUserMixin):
                                             max_digits=15, decimal_places=10,
                                             blank=True, null=True)
     env_instrument = models.CharField("Instruments Used", max_length=25, choices=EnvInstruments.choices,
-                                      blank=True, null=True)
+                                      blank=True)
     # env_ctd_fname
     env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
     env_ctd_notes = models.TextField("CTD Notes", blank=True)
     # env_ysi_fname
     env_ysi_filename = models.CharField("YSI File Name", max_length=255, blank=True)
     env_ysi_model = models.CharField("YSI Model", max_length=25, choices=YsiModels.choices,
-                                     blank=True, null=True)
+                                     blank=True)
     env_ysi_sn = models.CharField("YSI Serial Number", max_length=255, blank=True)
     env_ysi_notes = models.TextField("YSI Notes", blank=True)
     env_secchi_depth = models.DecimalField("Secchi Depth (m)", max_digits=15, decimal_places=10,
@@ -194,7 +194,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
     env_measurement = models.CharField("Environmental Measurements", max_length=25, choices=EnvMeasurements.choices,
-                                       blank=True, null=True)
+                                       blank=True)
     env_flow_rate = models.DecimalField("Flow Rate (m/s)",
                                         max_digits=15, decimal_places=10, blank=True, null=True)
     env_water_temp = models.DecimalField("Water Temperature (C)",
@@ -227,7 +227,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_phosphate = models.DecimalField("Phosphate (µM)",
                                         max_digits=15, decimal_places=10, blank=True, null=True)
     env_substrate = models.CharField("Bottom Substrate", max_length=25, choices=BottomSubstrates.choices,
-                                     blank=True, null=True)
+                                     blank=True)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
@@ -254,8 +254,8 @@ class FieldCollection(DateTimeUserMixin):
                                          related_name="fieldsurvey_to_fieldcollection",
                                          on_delete=models.CASCADE)
     collection_type = models.CharField("Collection Type (water or sediment)",
-                                       choices=CollectionTypes.choices, max_length=25, blank=True, null=True)
-    water_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True, null=True)
+                                       choices=CollectionTypes.choices, max_length=25, blank=True)
+    water_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=25, choices=ControlTypes.choices,
                                           blank=True, null=True)
     water_vessel_label = models.TextField("Water Vessel Label", blank=True)
@@ -263,7 +263,7 @@ class FieldCollection(DateTimeUserMixin):
     water_collect_depth = models.DecimalField("Water Collection Depth",
                                               max_digits=15, decimal_places=10, blank=True, null=True)
     water_collect_mode = models.CharField("Collection Mode", max_length=25, choices=WaterCollectionModes.choices,
-                                          blank=True, null=True)
+                                          blank=True)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     water_niskin_vol = models.DecimalField("Niskin Sample Volume",
                                            max_digits=15, decimal_places=10, blank=True, null=True)
@@ -273,12 +273,12 @@ class FieldCollection(DateTimeUserMixin):
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
     # wasfiltered
-    was_filtered = models.CharField("Filtered", max_length=25, choices=YesNo.choices, blank=True, null=True)
-    core_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True, null=True)
+    was_filtered = models.CharField("Filtered", max_length=25, choices=YesNo.choices, blank=True)
+    core_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True)
     core_label = models.TextField("Core Label", blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
-    core_method = models.CharField("Corer Method", max_length=25, choices=CoreMethods.choices, blank=True, null=True)
+    core_method = models.CharField("Corer Method", max_length=25, choices=CoreMethods.choices, blank=True)
     core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
     core_collect_depth = models.DecimalField("Core Depth (m)",
                                              max_digits=15, decimal_places=10, blank=True, null=True)
@@ -289,7 +289,7 @@ class FieldCollection(DateTimeUserMixin):
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=25, choices=YesNo.choices, blank=True, null=True)
+    subcores_taken = models.CharField("Sub-Cored", max_length=25, choices=YesNo.choices, blank=True)
 
     def __str__(self):
         return '{survey_global_id}, ' \
@@ -311,24 +311,24 @@ class FieldSample(DateTimeUserMixin):
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField(max_length=16)
+    barcode_slug = models.SlugField(max_length=25)
     is_extracted = models.CharField("Extracted", max_length=25, choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=25,
-                                       choices=FilterLocations.choices, blank=True, null=True)
+                                       choices=FilterLocations.choices, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=25,
-                                    choices=YesNo.choices, blank=True, null=True)
+                                    choices=YesNo.choices, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=25, choices=FilterMethods.choices,
-                                     blank=True, null=True)
+                                     blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=25,
-                                   choices=FilterTypes.choices, blank=True, null=True)
+                                   choices=FilterTypes.choices, blank=True)
     filter_type_other = models.TextField("Other Filter Type", blank=True)
     filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
@@ -336,7 +336,7 @@ class FieldSample(DateTimeUserMixin):
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=25,
-                                      choices=SubCoreMethods.choices, blank=True, null=True)
+                                      choices=SubCoreMethods.choices, blank=True)
     subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
