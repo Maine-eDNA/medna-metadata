@@ -3,7 +3,7 @@ from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Region, FieldSite
 # Create your tests here.
 
 
-class EnvoBiomeTestCase(TestCase):
+class EnvoBiomeFirstTestCase(TestCase):
     def setUp(self):
         EnvoBiomeFirst.objects.create(biome_first_tier="Large Lake", biome_first_tier_slug="large_lake")
         EnvoBiomeFirst.objects.create(biome_first_tier="Small River", biome_tier_slug="small_river")
@@ -16,11 +16,11 @@ class EnvoBiomeTestCase(TestCase):
         self.assertIs(river.was_added_recently(), False)
 
 
-class EnvoFeatureTestCase(TestCase):
+class EnvoFeatureFirstTestCase(TestCase):
     def setUp(self):
         EnvoFeatureFirst.objects.create(feature_first_tier="Lake Surface", feature_first_tier_slug="lake_surface")
         EnvoFeatureFirst.objects.create(feature_first_tier="Turbulent Aquatic Surface Layer",
-                                   feature_first_tier_slug="turbulet_aquatic_surface_layer")
+                                        feature_first_tier_slug="turbulet_aquatic_surface_layer")
 
     def test_was_added_recently(self):
         # test if date is added correctly
