@@ -137,7 +137,7 @@ class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
-    barcode_slug = models.SlugField(max_length=16)
+    barcode_slug = models.CharField(max_length=16)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
@@ -395,7 +395,7 @@ class RunPrep(DateTimeUserMixin):
 
 
 class RunResult(DateTimeUserMixin):
-    run_id = models.SlugField("Run ID", max_length=255, unique=True)
+    run_id = models.CharField("Run ID", max_length=255, unique=True)
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     run_completion_datetime = models.DateTimeField("Run Completion Time")

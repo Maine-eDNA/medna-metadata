@@ -156,7 +156,6 @@ class EnvoBiomeFifth(DateTimeUserMixin):
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
-
     def save(self, *args, **kwargs):
         self.biome_fifth_tier_slug = '{biome5}'.format(biome5=slugify(self.biome_fifth_tier))
         # only create slug on INSERT, not UPDATE

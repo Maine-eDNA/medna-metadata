@@ -153,7 +153,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_datetime = serializers.DateTimeField()
-    barcode_slug = serializers.SlugField(max_length=16, read_only=True)
+    barcode_slug = serializers.CharField(max_length=16, read_only=True)
     extraction_first_name = serializers.CharField(max_length=255)
     extraction_last_name = serializers.CharField(max_length=255)
     extraction_volume = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -305,7 +305,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_datetime = serializers.DateTimeField()
     pooled_lib_label = serializers.CharField(max_length=255,
                                              validators=[UniqueValidator(queryset=PooledLibrary.objects.all())])
-    pooled_lib_slug = serializers.SlugField(max_length=255)
+    pooled_lib_label_slug = serializers.SlugField(max_length=255)
     pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pooled_lib_notes = serializers.CharField(allow_blank=True)
@@ -314,7 +314,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'pooled_lib_slug', 'process_location',
+        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'pooled_lib_label_slug', 'process_location',
                   'library_prep', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]

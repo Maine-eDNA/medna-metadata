@@ -124,7 +124,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    barcode_slug = serializers.SlugField(max_length=27, read_only=True)
+    barcode_slug = serializers.CharField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices)
     # location of inventory in freezer box

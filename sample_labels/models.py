@@ -127,7 +127,7 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleLabel(DateTimeUserMixin):
-    sample_label_id = models.SlugField("Sample Label ID", max_length=16, unique=True)
+    sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
