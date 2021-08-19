@@ -357,7 +357,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
-    run_date = models.DateField("Run Date", input_formats=DATEFIELD_MODEL_FORMAT)
+    run_date = models.DateField("Run Date", format=DATEFIELD_MODEL_FORMAT)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
