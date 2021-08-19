@@ -311,7 +311,7 @@ class FieldSample(DateTimeUserMixin):
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField(max_length=25)
+    barcode_slug = models.SlugField("Barcode Slug", max_length=25, blank=True, null=True)
     is_extracted = models.CharField("Extracted", max_length=25, choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=25,
@@ -351,7 +351,8 @@ class FieldSample(DateTimeUserMixin):
         # just check if name or location.name has changed
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
-            self.barcode_slug = self.field_sample_barcode.sample_label_id
+            self.barcode_slug = '{slug}'.format(slug=self.field_sample_barcode.sample_label_id)
+
         super(FieldSample, self).save(*args, **kwargs)
 
     def __str__(self):
