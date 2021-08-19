@@ -151,7 +151,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type',
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted', 'sample_type',
                        'filter_location',
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
                        'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
@@ -167,7 +167,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type', 'filter_location',
+        self.fields = ['field_sample_barcode', 'is_extracted', 'sample_type', 'filter_location',
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
                        'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
                        'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
