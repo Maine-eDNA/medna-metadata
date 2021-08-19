@@ -204,8 +204,8 @@ WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 #es_formats.DATETIME_FORMAT = "b d, Y H:i a"
 #fr_formats.DATETIME_FORMAT = "b d, Y H:i a"
 # custom datefield format
-DATEFIELD_MODEL_INPUT_FORMAT = ['%Y%m%d']
-DATEFIELD_MODEL_FORMAT = '%Y%m%d'
+#DATEFIELD_MODEL_INPUT_FORMAT = ['%Y%m%d']
+#DATEFIELD_MODEL_FORMAT = '%Y%m%d'
 
 # CUSTOM MODEL DEFAULTS
 # pk of eDNA CORE facility; should be 1
