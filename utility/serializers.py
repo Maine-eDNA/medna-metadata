@@ -2,25 +2,43 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, GrantProject
-from .enumerations import GrantProjects
+from .models import ProcessLocation, Project, Grant
+from rest_framework.validators import UniqueValidator
 
 
 # Django REST Framework to allow the automatic downloading of data!
-class GrantProjectSerializer(serializers.ModelSerializer):
+class GrantSerializer(serializers.ModelSerializer):
+    # formerly Project in field_sites.models
     id = serializers.IntegerField(read_only=True)
-    project_name = serializers.ChoiceField(choices=GrantProjects.choices)
-    grant_name = serializers.CharField(max_length=255)
+    grant_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Grant.objects.all())])
+    grant_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = GrantProject
-        fields = ['id', 'project_name', 'grant_name',
+        model = Grant
+        fields = ['id', 'grant_code', 'grant_label', 'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    project_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Project.objects.all())])
+    project_label = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Project
+        fields = ['id', 'project_code', 'project_label', 'grant_name',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
+    grant_name = serializers.SlugRelatedField(many=False, read_only=True, slug_field='grant_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
 

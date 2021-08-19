@@ -1,13 +1,19 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import ProcessLocationSerializer, GrantProjectSerializer
-from .models import ProcessLocation, GrantProject
+from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer
+from .models import ProcessLocation, Project, Grant
 
 
 # Create your views here.
-class GrantProjectViewSet(viewsets.ModelViewSet):
-    serializer_class = GrantProjectSerializer
-    queryset = GrantProject.objects.all()
+class GrantViewSet(viewsets.ModelViewSet):
+    # formerly Project in field_sites.models
+    serializer_class = GrantSerializer
+    queryset = Grant.objects.all()
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    serializer_class = ProjectSerializer
+    queryset = Project.objects.all()
 
 
 class ProcessLocationViewSet(viewsets.ModelViewSet):

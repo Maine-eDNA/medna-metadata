@@ -8,7 +8,7 @@ class YesNo(models.TextChoices):
     YES = 'yes', _('Yes')
     __empty__ = _('(Unknown)')
 
-# moved to model in users/models
+# moved to model in utility/models
 #class ProcessLocations(models.TextChoices):
 #    CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
 #    BIGELOW = 'Bigelow', _('Bigelow Laboratory')
@@ -98,21 +98,22 @@ class LibPrepKits(models.TextChoices):
 
 # FIELD_SURVEY CHOICES
 # fieldsurvey
-class GrantProjects(models.TextChoices):
-    prj_medna = 'prj_medna', _('Maine eDNA')
-    prj_theme1 = 'prj_theme1', _('Theme 1')
-    prj_lbb = 'prj_lbb', _('Larval Black Box (T1)')
-    prj_ale = 'prj_ale', _('Alewife (T1)')
-    prj_fisheries = 'prj_fisheries', _('Fisheries eDNA (T1)')
-    prj_theme2 = 'prj_theme2', _('Theme 2')
-    prj_habs = 'prj_habs', _('Harmful algal blooms (T2)')
-    prj_spmove = 'prj_spmove', _('Species on the move (T2)')
-    prj_theme3 = 'prj_theme3', _('Theme 3')
-    prj_indexsites = 'prj_indexsites', _('Index Sites (T3)')
-    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
-    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
-    prj_commsci = 'prj_commsci', _('Community Science')
-    __empty__ = _('(Unknown)')
+#class GrantProjects(models.TextChoices):
+# moved to Project model in utility
+#    prj_medna = 'prj_medna', _('Maine eDNA')
+#    prj_theme1 = 'prj_theme1', _('Theme 1')
+#    prj_lbb = 'prj_lbb', _('Larval Black Box (T1)')
+#    prj_ale = 'prj_ale', _('Alewife (T1)')
+#    prj_fisheries = 'prj_fisheries', _('Fisheries eDNA (T1)')
+#    prj_theme2 = 'prj_theme2', _('Theme 2')
+#    prj_habs = 'prj_habs', _('Harmful algal blooms (T2)')
+#    prj_spmove = 'prj_spmove', _('Species on the move (T2)')
+#    prj_theme3 = 'prj_theme3', _('Theme 3')
+#    prj_indexsites = 'prj_indexsites', _('Index Sites (T3)')
+#    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
+#    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
+#    prj_commsci = 'prj_commsci', _('Community Science')
+#    __empty__ = _('(Unknown)')
 
 
 class WindSpeeds(models.TextChoices):
