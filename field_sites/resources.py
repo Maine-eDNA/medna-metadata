@@ -5,6 +5,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, Region, FieldSite, WorldBorder
 from users.models import CustomUser
+from utility.models import Grant
 
 
 class EnvoBiomeFirstAdminResource(resources.ModelResource):
