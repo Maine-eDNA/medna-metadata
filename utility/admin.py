@@ -51,7 +51,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(GrantAdmin, self).add_view(request)
+        return super(ProjectAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
