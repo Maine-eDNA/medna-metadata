@@ -64,7 +64,7 @@ class Project(DateTimeUserMixin):
     #    prj_commsci = 'prj_commsci', _('Community Science')
     project_code = models.CharField("Project Code", max_length=255, unique=True)
     project_label = models.CharField("Project Label", max_length=255)
-    grant_name = models.ForeignKey("Grant Name", max_length=255, on_delete=models.RESTRICT)
+    grant_name = models.ForeignKey(Grant, max_length=255, on_delete=models.RESTRICT)
 
     def __str__(self):
         return '{label}'.format(label=self.project_label)
