@@ -203,6 +203,12 @@ WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 #en_formats.DATETIME_FORMAT = "b d, Y H:i a"
 #es_formats.DATETIME_FORMAT = "b d, Y H:i a"
 #fr_formats.DATETIME_FORMAT = "b d, Y H:i a"
+# custom datefield format
+DATEFIELD_MODEL_FORMAT = ['%Y%m%d']
+
+# CUSTOM MODEL DEFAULTS
+# pk of eDNA CORE facility; should be 1
+DEFAULT_PROCESS_LOCATION_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
