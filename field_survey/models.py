@@ -311,7 +311,7 @@ class FieldSample(DateTimeUserMixin):
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField(max_length=16, unique=True)
+    barcode_slug = models.SlugField(max_length=16)
     is_extracted = models.CharField("Extracted", max_length=25, choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=25,
@@ -335,7 +335,6 @@ class FieldSample(DateTimeUserMixin):
     filter_notes = models.TextField("Filter Notes", blank=True)
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
-    subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=25,
                                       choices=SubCoreMethods.choices, blank=True, null=True)
     subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
