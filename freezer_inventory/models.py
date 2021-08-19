@@ -192,7 +192,7 @@ class FreezerCheckout(DateTimeUserMixin):
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10,
                                                    blank=True, null=True)
     freezer_return_vol_units = models.CharField("Volume Units", max_length=25,
-                                                choices=VolUnits.choices, blank=True, null=True)
+                                                choices=VolUnits.choices, blank=True)
     freezer_return_notes = models.TextField("Return Notes", blank=True)
 
     def __str__(self):
