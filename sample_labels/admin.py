@@ -15,7 +15,7 @@ class SampleTypeAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_type_label', 'created_by']
+        self.fields = ['sample_type_code', 'sample_type_label', 'created_by']
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
