@@ -33,7 +33,7 @@ class DenoisingMetadata(DateTimeUserMixin):
     analysis_datetime = models.DateTimeField("Analysis DateTime", blank=True, null=True)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
-    denoising_slug = models.SlugField(null=True)
+    denoising_slug = models.SlugField("Denoising Metadata Slug", max_length=255)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
@@ -60,6 +60,16 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
     asv_id = models.TextField("ASV ID")
     asv_sequence = models.TextField("ASV Sequence")
+    asv_slug = models.SlugField("ASV Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
+            analysis_date = self.denoising_metadata.analysis_datetime
+            analysis_date_fmt = analysis_date.strftime('%Y%m%d_%H%M%S')
+            self.asv_slug = '{asv}_{date}'.format(asv=slugify(self.asv_id),
+                                                  date=analysis_date_fmt)
+        super(AmpliconSequenceVariant, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{id}: {date}, {method}'.format(

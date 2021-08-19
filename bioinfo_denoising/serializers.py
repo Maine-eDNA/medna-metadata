@@ -32,6 +32,7 @@ class DenoisingMethodSerializer(serializers.ModelSerializer):
 class DenoisingMetadataSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     analysis_datetime = serializers.DateTimeField()
+    denoising_slug = serializers.SlugField(max_length=255, read_only=True)
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
     analysis_sop_url = serializers.URLField(max_length=255)
@@ -41,7 +42,8 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DenoisingMetadata
-        fields = ['id', 'analysis_datetime', 'run_result', 'denoising_method',
+        fields = ['id', 'analysis_datetime', 'denoising_slug',
+                  'run_result', 'denoising_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -50,25 +52,28 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     run_result = serializers.SlugRelatedField(many=False, read_only=True, slug_field='run_id')
-    denoising_method = serializers.SlugRelatedField(many=False, read_only=True, slug_field='denoising_method_name')
+    denoising_method = serializers.SlugRelatedField(many=False, read_only=True,
+                                                    slug_field='denoising_method_slug')
 
 
 class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     asv_id = serializers.CharField()
     asv_sequence = serializers.CharField()
+    asv_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = AmpliconSequenceVariant
-        fields = ['id', 'asv_id', 'asv_sequence', 'denoising_metadata',
+        fields = ['id', 'asv_id', 'asv_slug', 'asv_sequence', 'denoising_metadata',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    denoising_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='denoising_slug')
+    denoising_metadata = serializers.SlugRelatedField(many=False, read_only=True,
+                                                      slug_field='denoising_slug')
 
 
 class ASVReadSerializer(serializers.ModelSerializer):
@@ -86,4 +91,4 @@ class ASVReadSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
-    asv = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asv_id')
+    asv = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asv_slug')
