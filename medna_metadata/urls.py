@@ -19,7 +19,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from users.views import CustomUserViewSet
-from field_sites.views import BiomeViewSet, FeatureViewSet, FieldSitesViewSet
+from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
+    EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
+    EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
+    EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, FieldSitesViewSet
 from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import FieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     FieldSampleViewSet
@@ -42,8 +45,18 @@ router.register(r'users', CustomUserViewSet, 'users')
 router.register(r'grant_project', GrantProjectViewSet, 'grant_project')
 router.register(r'process_location', ProcessLocationViewSet, 'process_location')
 # field sites
-router.register(r'biome', BiomeViewSet, 'biome')
-router.register(r'feature', FeatureViewSet, 'feature')
+router.register(r'envo_biome_first', EnvoBiomeFirstViewSet, 'envo_biome_first')
+router.register(r'envo_biome_second', EnvoBiomeSecondViewSet, 'envo_biome_second')
+router.register(r'envo_biome_third', EnvoBiomeThirdViewSet, 'envo_biome_third')
+router.register(r'envo_biome_fourth', EnvoBiomeFourthViewSet, 'envo_biome_fourth')
+router.register(r'envo_biome_fifth', EnvoBiomeFifthViewSet, 'envo_biome_fifth')
+router.register(r'envo_feature_first', EnvoFeatureFirstViewSet, 'envo_feature_first')
+router.register(r'envo_feature_second', EnvoFeatureSecondViewSet, 'envo_feature_second')
+router.register(r'envo_feature_third', EnvoFeatureThirdViewSet, 'envo_feature_third')
+router.register(r'envo_feature_fourth', EnvoFeatureFourthViewSet, 'envo_feature_fourth')
+router.register(r'envo_feature_fifth', EnvoFeatureFifthViewSet, 'envo_feature_fifth')
+router.register(r'envo_feature_sixth', EnvoFeatureSixthViewSet, 'envo_feature_sixth')
+router.register(r'envo_feature_seventh', EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
 router.register(r'field_site', FieldSitesViewSet, 'field_site')
 # sample_labels
 router.register(r'sample_label_req', SampleLabelRequestViewSet, 'sample_label_req')
