@@ -8,14 +8,14 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
-from utility.models import GrantProject
+from utility.models import Project
 
 
 ###########
 # Post Transform
 ###########
 class FieldSurvey(DateTimeUserMixin):
-    # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -28,7 +28,7 @@ class FieldSurvey(DateTimeUserMixin):
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
 
     # prj_ids
-    project_ids = models.ManyToManyField(GrantProject,
+    project_ids = models.ManyToManyField(Project,
                                          verbose_name="Affiliated Project(s)",
                                          related_name="project_ids")
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -372,7 +372,7 @@ class FieldSample(DateTimeUserMixin):
 ###########
 
 class FieldSurveyETL(DateTimeUserMixin):
-    # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     survey_global_id = models.TextField("Global ID", primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,

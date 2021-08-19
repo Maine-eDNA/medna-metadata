@@ -2,7 +2,7 @@ from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
-from utility.models import GrantProject
+from utility.models import Project
 from users.models import CustomUser
 
 
@@ -35,7 +35,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
     project_ids = fields.Field(
         column_name='project_ids',
         attribute='project_ids',
-        widget=ManyToManyWidget(GrantProject, 'project_name'))
+        widget=ManyToManyWidget(Project, 'project_label'))
 
     username = fields.Field(
         column_name='username',

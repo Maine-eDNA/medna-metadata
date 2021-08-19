@@ -59,11 +59,11 @@ class FieldSurveySerializer(serializers.ModelSerializer):
                   'survey_complete', 'qa_datetime', 'qa_initial', 'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
                   'gps_cap_horiz_acc', 'gps_cap_vert_acc', 'record_create_datetime', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime',]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    project_ids = serializers.SlugRelatedField(many=True, read_only=True, slug_field='process_location_name')
+    project_ids = serializers.SlugRelatedField(many=True, read_only=True, slug_field='project_code')
     username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
@@ -85,7 +85,7 @@ class FieldCrewSerializer(serializers.ModelSerializer):
         model = FieldCrew
         fields = ['crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     survey_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='survey_global_id')
@@ -142,7 +142,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     survey_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='survey_global_id')
@@ -189,7 +189,7 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
                   'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     survey_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='survey_global_id')
@@ -234,7 +234,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
                   'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                   'subcore_datetime_end', 'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     collection_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='collection_global_id')
