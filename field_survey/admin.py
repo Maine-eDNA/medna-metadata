@@ -147,7 +147,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('collection_global_id', 'sample_global_id', 'is_extracted', 'field_sample_barcode',
                     'created_datetime', 'created_by')
-    readonly_fields = ('barcode_slug', )
+    #readonly_fields = ('barcode_slug', )
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view

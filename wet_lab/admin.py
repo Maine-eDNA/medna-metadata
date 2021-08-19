@@ -234,7 +234,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     resource_class = ExtractionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('barcode_slug', )
+    #readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
