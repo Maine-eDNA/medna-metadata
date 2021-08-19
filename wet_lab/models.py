@@ -393,7 +393,7 @@ class RunPrep(DateTimeUserMixin):
 
 
 class RunResult(DateTimeUserMixin):
-    run_id = models.CharField("Run ID", max_length=255, unique=True)
+    run_id = models.SlugField("Run ID", max_length=255, unique=True)
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     run_completion_datetime = models.DateTimeField("Run Completion Time")
