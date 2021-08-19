@@ -149,6 +149,22 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                     'created_datetime', 'created_by')
     readonly_fields = ('barcode_slug', )
 
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type',
+                       'filter_location',
+                       'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
+                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
+                       'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
+                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
+                       'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
+                       'created_by']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(FieldSampleAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type', 'filter_location',
