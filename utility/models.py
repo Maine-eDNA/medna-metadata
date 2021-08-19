@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -81,11 +82,16 @@ class ProcessLocation(DateTimeUserMixin):
     # UNH = 'UNH', _('Hubbard Center (UNH)')
     # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
     process_location_name = models.CharField("Location Name", max_length=255, unique=True)
+    process_location_name_slug = models.SlugField("Location Name Slug", max_length=255)
     affiliation = models.CharField("Affiliation", max_length=255)
     process_location_url = models.URLField("Location URL", max_length=255)
     phone_number = PhoneNumberField("Phone Number", blank=True, null=True)
     email_address = models.EmailField(_('Email Address'), blank=True, null=True)
     location_notes = models.TextField("Notes", blank=True)
+
+    def save(self, *args, **kwargs):
+        self.process_location_name_slug = '{name}'.format(name=slugify(self.process_location_name))
+        super(ProcessLocation, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{affiliation}: {name}'.format(affiliation=self.affiliation,
