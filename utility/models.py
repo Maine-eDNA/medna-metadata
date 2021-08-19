@@ -86,7 +86,10 @@ class ProcessLocation(DateTimeUserMixin):
     affiliation = models.CharField("Affiliation", max_length=255)
     process_location_url = models.URLField("Location URL", max_length=255)
     phone_number = PhoneNumberField("Phone Number", blank=True, null=True)
-    email_address = models.EmailField(_('Email Address'), blank=True, null=True)
+    location_email_address = models.EmailField(_('Location Email Address', blank=True, null=True))
+    point_of_contact_email_address = models.EmailField(_('Point of Contact Email Address', blank=True, null=True))
+    point_of_contact_first_name = models.CharField("Point of Contact First Name", blank=True)
+    point_of_contact_last_name = models.CharField("Point of contact Last Name", blank=True)
     location_notes = models.TextField("Notes", blank=True)
 
     def save(self, *args, **kwargs):
