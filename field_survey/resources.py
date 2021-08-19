@@ -4,6 +4,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, Fie
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 from utility.models import Project
 from users.models import CustomUser
+from sample_labels.models import SampleLabel, SampleType
 
 
 class FieldSurveyAdminResource(resources.ModelResource):
@@ -201,6 +202,16 @@ class FieldSampleAdminResource(resources.ModelResource):
         column_name='collection_global_id',
         attribute='collection_global_id',
         widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
+
+    sample_type = fields.Field(
+        column_name='sample_type',
+        attribute='sample_type',
+        widget=ForeignKeyWidget(SampleType, 'sample_type_label'))
+
+    field_sample_barcode = fields.Field(
+        column_name='field_sample_barcode',
+        attribute='field_sample_barcode',
+        widget=ForeignKeyWidget(SampleLabel, 'sample_label_id'))
 
     created_by = fields.Field(
         column_name='created_by',
