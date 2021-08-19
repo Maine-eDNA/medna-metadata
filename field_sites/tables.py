@@ -19,7 +19,8 @@ class FieldSiteTable(tables.Table):
 
     class Meta:
         model = FieldSite
-        fields = ("_selected_action","site_id", "general_location_name", "project", "system", "region", "created_datetime")
+        fields = ("_selected_action", "site_id", "general_location_name",
+                  "grant", "system", "region", "created_datetime")
         # set table css class to "result_lust"
         #attrs = {"class": "result_list"}
         # this is NOT the template it writes to, this is the template it uses to load with

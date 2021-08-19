@@ -69,7 +69,7 @@ class GeoRegionsListView(generics.ListAPIView):
 class FieldSiteDetailView(DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom',
+    fields = ['grant', 'system', 'region', 'general_location_name', 'purpose', 'geom',
               'created_by', 'created_datetime']
 
 #    def get_object(self, queryset=None):
@@ -88,9 +88,9 @@ class FieldSiteExportDetailView(DetailView):
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
             datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
-        writer.writerow(['id','site_id', 'project', 'system', 'region', 'general_location_name',
+        writer.writerow(['id','site_id', 'grant', 'system', 'region', 'general_location_name',
                          'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
-        writer.writerow([site.id, site.site_id, site.project.project_label, site.system.system_label,
+        writer.writerow([site.id, site.site_id, site.grant.grant_label, site.system.system_label,
                          site.region.region_label,
                          site.general_location_name, site.purpose, site.geom.y,
                          site.geom.x, site.geom.srid, site.created_by.email,site.created_datetime])
@@ -102,7 +102,7 @@ class AddFieldSiteView(LoginRequiredMixin,CreateView):
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     form_class = AddFieldSiteForm
     # model = Site
-    # fields = ['project', 'system', 'region', 'general_location_name', 'purpose', 'geom']
+    # fields = ['grant', 'system', 'region', 'general_location_name', 'purpose', 'geom']
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

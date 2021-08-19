@@ -3,7 +3,7 @@ from import_export.widgets import ForeignKeyWidget
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
-    Project, System, Region, FieldSite, WorldBorder
+    System, Region, FieldSite, WorldBorder
 from users.models import CustomUser
 
 
@@ -379,16 +379,6 @@ class EnvoFeatureAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
-class ProjectAdminResource(resources.ModelResource):
-    class Meta:
-        model = Project
-        import_id_fields = ('project_code',)
-
-    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
-    def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
-
-
 class SystemAdminResource(resources.ModelResource):
     class Meta:
         model = System
@@ -418,15 +408,15 @@ class FieldSiteAdminResource(resources.ModelResource):
         model = FieldSite
         import_id_fields = ('site_id',)
         exclude = ('site_prefix', 'site_num')
-        fields = ('site_id', 'project', 'system', 'region', 'general_location_name',
+        fields = ('site_id', 'grant', 'system', 'region', 'general_location_name',
                   'purpose', 'geom', 'created_by', 'created_datetime', )
-        export_order = ('site_id', 'project', 'system', 'region', 'general_location_name',
+        export_order = ('site_id', 'grant', 'system', 'region', 'general_location_name',
                         'purpose', 'geom', 'created_by', 'created_datetime', )
 
-    project = fields.Field(
-        column_name='project',
-        attribute='project',
-        widget=ForeignKeyWidget(Project, 'project_label'))
+    grant = fields.Field(
+        column_name='grant',
+        attribute='grant',
+        widget=ForeignKeyWidget(Grant, 'grant_label'))
 
     system = fields.Field(
         column_name='system',

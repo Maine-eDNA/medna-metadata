@@ -24,9 +24,9 @@
         <ul class="user-filter-year_added">
           <li>{% render_field filter.form.year_added class="form-control" %}</li>
         </ul>
-        <h3>{{ filter.form.project.label_tag }}</h3>
-        <ul class="user-filter-project">
-            {% for choice in filter.form.project %}
+        <h3>{{ filter.form.grant.label_tag }}</h3>
+        <ul class="user-filter-grant">
+            {% for choice in filter.form.grant %}
           <li>
             <label class="checkbox-inline">
                 {{ choice.tag }} {{ choice.choice_label }}

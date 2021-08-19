@@ -2,7 +2,7 @@
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-from utility.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
 
 
@@ -435,7 +435,6 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
-
     def save(self, *args, **kwargs):
         self.feature_seventh_tier_slug = '{feature7}'.format(feature7=slugify(self.feature_seventh_tier))
         # only create slug on INSERT, not UPDATE
@@ -469,15 +468,6 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
         verbose_name_plural = 'ENVO Feature 7th Tiers'
 
 
-class Project(DateTimeUserMixin):
-    project_code = models.CharField("Project Code", max_length=1, unique=True)
-    project_label = models.CharField("Project Label", max_length=255)
-
-    def __str__(self):
-        return '{code}: {label}'.format(code=self.project_code,
-                                        label=self.project_label)
-
-
 class System(DateTimeUserMixin):
     system_code = models.CharField("System Code", max_length=1, unique=True)
     system_label = models.CharField("System Label", max_length=255)
@@ -505,9 +495,9 @@ class Region(DateTimeUserMixin):
 
 
 class FieldSite(DateTimeUserMixin):
-    # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    project = models.ForeignKey(Project, on_delete=models.RESTRICT)
+    grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
     system = models.ForeignKey(System, on_delete=models.RESTRICT)
     region = models.ForeignKey(Region, on_delete=models.RESTRICT)
     general_location_name = models.CharField("General Location", max_length=255)
@@ -565,10 +555,10 @@ class FieldSite(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
-            # concatenate project, region, and system to create site_prefix, e.g., "eAL_L"
-            self.site_prefix = '{project}{region}_{system}'.format(project=self.project.project_code,
-                                                                   region=self.region.region_code,
-                                                                   system=self.system.system_code)
+            # concatenate grant, region, and system to create site_prefix, e.g., "eAL_L"
+            self.site_prefix = '{grant}{region}_{system}'.format(grant=self.grant.grant_code,
+                                                                 region=self.region.region_code,
+                                                                 system=self.system.system_code)
             # Retrieve a list of `Site` instances, group them by the site_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
             largest = FieldSite.objects.only('site_prefix', 'site_num').filter(site_prefix=self.site_prefix).order_by('site_num').last()

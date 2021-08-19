@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import EnvoBiomeFirst, EnvoFeatureFirst, Project, System, Region, FieldSite
+from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Region, FieldSite
 # Create your tests here.
 
 
@@ -30,16 +30,6 @@ class EnvoFeatureTestCase(TestCase):
         self.assertIs(tasl.was_added_recently(), False)
 
 
-class ProjectTestCase(TestCase):
-    def setUp(self):
-        Project.objects.create(project_label="Maine-eDNA", project_code="e")
-
-    def test_was_added_recently(self):
-        # test if date is added correctly
-        medna = Project.objects.get(sample_type_code="e")
-        self.assertIs(medna.was_added_recently(), False)
-
-
 class SystemTestCase(TestCase):
     def setUp(self):
         System.objects.create(system_label="Lake", system_code="L")
@@ -68,10 +58,10 @@ class RegionTestCase(TestCase):
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
-        FieldSite.objects.create(project=1, system=1, region=1, general_location_name="FieldSiteTest1",
+        FieldSite.objects.create(grant=1, system=1, region=1, general_location_name="FieldSiteTest1",
                                  purpose="FieldSiteTest1", envo_biome=1, envo_feature=1,
                                  geom="SRID=4326;POINT (-68.79667999999999 44.76535)")
-        FieldSite.objects.create(project=1, system=1, region=1, general_location_name="FieldSiteTest2",
+        FieldSite.objects.create(grant=1, system=1, region=1, general_location_name="FieldSiteTest2",
                                  purpose="FieldSiteTest2", envo_biome=2, envo_feature=2,
                                  geom="SRID=4326;POINT (-68.81489999999999 44.5925)")
 
