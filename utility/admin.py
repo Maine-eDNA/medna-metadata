@@ -46,7 +46,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['project_name', 'project_label', 'created_by', ]
+        self.fields = ['project_code', 'project_label', 'created_by', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -55,7 +55,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['project_name', 'grant_name', 'created_by', ]
+        self.fields = ['project_label', 'grant_name', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProjectAdmin, self).change_view(request, object_id)
 
