@@ -6,14 +6,21 @@ from django_filters import rest_framework as filters
 # import datetime
 from django.utils import timezone
 from utility.serializers import SerializerExportMixin
-from .models import EnvoBiomeFifth, EnvoFeatureSeventh, FieldSite, Region
+from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
+    EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
+    EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, FieldSite, Region
 # from django.shortcuts import render
 # from django.http import HttpResponse
 from django_filters.views import FilterView
 from .tables import FieldSiteTable
 from django_tables2.views import SingleTableMixin
 # from django_tables2.paginators import LazyPaginator
-from .serializers import EnvoBiomeSerializer, EnvoFeatureSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
+from .serializers import EnvoBiomeFirstSerializer, EnvoBiomeSecondSerializer,\
+    EnvoBiomeThirdSerializer, EnvoBiomeFourthSerializer, EnvoBiomeFifthSerializer,    \
+    EnvoFeatureFirstSerializer, EnvoFeatureSecondSerializer,\
+    EnvoFeatureThirdSerializer, EnvoFeatureFourthSerializer,\
+    EnvoFeatureFifthSerializer, EnvoFeatureSixthSerializer,\
+    EnvoFeatureSeventhSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
     GeoRegionSerializer
 import datetime
 import csv
@@ -23,13 +30,63 @@ from rest_framework import viewsets
 from .forms import AddFieldSiteForm
 
 
-class BiomeViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoBiomeSerializer
+class EnvoBiomeFirstViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoBiomeFirstSerializer
+    queryset = EnvoBiomeFirst.objects.all()
+
+
+class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoBiomeSecondSerializer
+    queryset = EnvoBiomeSecond.objects.all()
+
+
+class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoBiomeThirdSerializer
+    queryset = EnvoBiomeThird.objects.all()
+
+
+class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoBiomeFourthSerializer
+    queryset = EnvoBiomeFourth.objects.all()
+
+
+class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoBiomeFifthSerializer
     queryset = EnvoBiomeFifth.objects.all()
 
 
-class FeatureViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureSerializer
+class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureFirstSerializer
+    queryset = EnvoFeatureFirst.objects.all()
+
+
+class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureSecondSerializer
+    queryset = EnvoFeatureSecond.objects.all()
+
+
+class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureThirdSerializer
+    queryset = EnvoFeatureThird.objects.all()
+
+
+class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureFourthSerializer
+    queryset = EnvoFeatureFourth.objects.all()
+
+
+class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureFifthSerializer
+    queryset = EnvoFeatureFifth.objects.all()
+
+
+class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureSixthSerializer
+    queryset = EnvoFeatureSixth.objects.all()
+
+
+class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):
+    serializer_class = EnvoFeatureSeventhSerializer
     queryset = EnvoFeatureSeventh.objects.all()
 
 
