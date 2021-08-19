@@ -160,7 +160,6 @@ class FreezerInventory(DateTimeUserMixin):
                 # e.g., "Filter-ePR_L01_21w_0001"
                 self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
                                                               barcode=slugify(self.field_sample.barcode_slug))
-
             # all done, time to save changes to the db
         super(FreezerInventory, self).save(*args, **kwargs)
 
