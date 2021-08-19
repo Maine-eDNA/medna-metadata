@@ -158,6 +158,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                        'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
                        'created_by']
+        self.exclude = ('barcode_slug', )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
