@@ -552,7 +552,7 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
 
 
 class System(DateTimeUserMixin):
-    system_code = models.CharField("System Code", max_length=1, unique=True)
+    system_code = models.SlugField("System Code", max_length=1, unique=True)
     system_label = models.CharField("System Label", max_length=255)
 
     def __str__(self):
@@ -561,7 +561,7 @@ class System(DateTimeUserMixin):
 
 
 class Region(DateTimeUserMixin):
-    region_code = models.CharField("Region Code", max_length=2, unique=True)
+    region_code = models.SlugField("Region Code", max_length=2, unique=True)
     region_label = models.CharField("Region Label", max_length=255)
     huc8 = models.CharField("HUC8", max_length=255)
     states = models.CharField("States", max_length=255)
@@ -615,7 +615,7 @@ class FieldSite(DateTimeUserMixin):
     # lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
     site_prefix = models.CharField("Site Prefix", max_length=5)
     site_num = models.IntegerField(default=1)
-    site_id = models.CharField("Site ID", max_length=7, unique=True)
+    site_id = models.SlugField("Site ID", max_length=7, unique=True)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
