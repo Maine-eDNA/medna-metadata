@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
-    CheckoutActions
+    CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
-
+from field_survey.models import FieldSample
+from wet_lab.models import Extraction
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -82,8 +83,9 @@ class FreezerRackSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    freezer = serializers.SlugRelatedField(many=False, read_only=True,
-                                           slug_field='freezer_label_slug')
+    freezer = serializers.SlugRelatedField(many=False, read_only=False,
+                                           slug_field='freezer_label_slug',
+                                           queryset=Freezer.objects.all())
 
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
@@ -118,8 +120,9 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    freezer_rack = serializers.SlugRelatedField(many=False, read_only=True,
-                                                slug_field='freezer_rack_label_slug')
+    freezer_rack = serializers.SlugRelatedField(many=False, read_only=False,
+                                                slug_field='freezer_rack_label_slug',
+                                                queryset=FreezerRack.objects.all())
 
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
@@ -156,12 +159,15 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    freezer_box = serializers.SlugRelatedField(many=False, read_only=True,
-                                               slug_field='freezer_box_label_slug')
-    field_sample = serializers.SlugRelatedField(many=False, read_only=True,
-                                                slug_field='barcode_slug')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='barcode_slug')
+    freezer_box = serializers.SlugRelatedField(many=False, read_only=False,
+                                               slug_field='freezer_box_label_slug',
+                                               queryset=FreezerBox.objects.all())
+    field_sample = serializers.SlugRelatedField(many=False, read_only=False,
+                                                slug_field='barcode_slug',
+                                                queryset=FieldSample.objects.filter(is_extracted=YesNo.NO))
+    extraction = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='barcode_slug',
+                                              queryset=Extraction.objects.all())
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
@@ -191,5 +197,6 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    freezer_inventory = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='freezer_inventory_slug')
+    freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field='freezer_inventory_slug',
+                                                     queryset=FreezerInventory.objects.all())
