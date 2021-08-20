@@ -532,7 +532,16 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant', 'system', 'region', 'general_location_name', 'purpose', 'geom', 'created_by']
+        self.fields = ['grant', 'system', 'region',
+                       'general_location_name', 'purpose',
+                       'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+                       'envo_biome_second', 'envo_biome_first',
+                       'envo_feature_seventh', 'envo_feature_sixth',
+                       'envo_feature_fifth', 'envo_feature_fourth',
+                       'envo_feature_third', 'envo_feature_second',
+                       'envo_feature_first',
+                       'geom',
+                       'created_by']
         #self.list_filter = (
         #    ('grant', RelatedDropdownFilter),
         #    ('system', RelatedDropdownFilter),
@@ -546,7 +555,15 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['general_location_name', 'purpose', 'geom', 'created_by']
+        self.fields = ['general_location_name', 'purpose',
+                       'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+                       'envo_biome_second', 'envo_biome_first',
+                       'envo_feature_seventh', 'envo_feature_sixth',
+                       'envo_feature_fifth', 'envo_feature_fourth',
+                       'envo_feature_third', 'envo_feature_second',
+                       'envo_feature_first',
+                       'geom',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSiteAdmin, self).change_view(request, object_id)
 
