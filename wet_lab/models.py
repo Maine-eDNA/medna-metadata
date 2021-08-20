@@ -154,10 +154,7 @@ class Extraction(DateTimeUserMixin):
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        # only create slug on INSERT, not UPDATE
-        if self.pk is None:
-            # just check if name or location.name has changed
-            self.barcode_slug = self.field_sample.barcode_slug
+        self.barcode_slug = self.field_sample.barcode_slug
         super(Extraction, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -364,12 +361,11 @@ class RunPrep(DateTimeUserMixin):
                                          default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     run_prep_slug = models.SlugField("Run Prep Slug", max_length=255)
-    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10)
+    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, null=True)
     # can be reported as percent and picomolar, pM
     phix_spike_in_units = models.CharField("PhiX Spike In Units",
                                            max_length=25,
-                                           choices=ConcentrationUnits.choices,
-                                           default=ConcentrationUnits.PM)
+                                           choices=ConcentrationUnits.choices, blank=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
@@ -380,11 +376,10 @@ class RunPrep(DateTimeUserMixin):
     run_prep_notes = models.TextField("Run Prep Notes")
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            date = self.run_date
-            date_fmt = date.strftime('%Y%m%d')
-            self.run_prep_slug = '{date}_{name}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
-                                                        date=date_fmt)
+        date = self.run_date
+        date_fmt = date.strftime('%Y%m%d')
+        self.run_prep_slug = '{date}_{name}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
+                                                    date=date_fmt)
         super(RunPrep, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -426,9 +421,8 @@ class FastqFile(DateTimeUserMixin):
     fastq_datafile = models.FileField("FastQ Datafile", max_length=255)
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.fastq_slug = '{runid}_{fastq}'.format(runid=slugify(self.run_result.run_id),
-                                                       fastq=slugify(self.fastq_filename))
+        self.fastq_slug = '{runid}_{fastq}'.format(runid=slugify(self.run_result.run_id),
+                                                   fastq=slugify(self.fastq_filename))
         super(FastqFile, self).save(*args, **kwargs)
 
     def __str__(self):
