@@ -30,10 +30,10 @@ class DenoisingMethod(DateTimeUserMixin):
 
 
 class DenoisingMetadata(DateTimeUserMixin):
-    analysis_datetime = models.DateTimeField("Analysis DateTime", blank=True, null=True)
+    analysis_datetime = models.DateTimeField("Analysis DateTime")
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
-    denoising_slug = models.SlugField("Denoising Metadata Slug", max_length=255, blank=True, null=True)
+    denoising_slug = models.SlugField("Denoising Metadata Slug", max_length=255)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
@@ -41,7 +41,7 @@ class DenoisingMetadata(DateTimeUserMixin):
                                                default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
-        self.denoising_slug = '{run_id}-{method}'.format(run_id=slugify(self.run_result.run_id),
+        self.denoising_slug = '{run_id}_{method}'.format(run_id=slugify(self.run_result.run_id),
                                                          method=slugify(self.denoising_method.denoising_method_name))
         super(DenoisingMetadata, self).save(*args, **kwargs)
 
@@ -56,15 +56,15 @@ class DenoisingMetadata(DateTimeUserMixin):
 
 class AmpliconSequenceVariant(DateTimeUserMixin):
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
-    asv_id = models.TextField("ASV ID")
+    asv_id = models.CharField("ASV ID", max_length=255)
     asv_sequence = models.TextField("ASV Sequence")
-    asv_slug = models.SlugField("ASV Slug", max_length=255, blank=True, null=True)
+    asv_slug = models.SlugField("ASV Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         analysis_date = self.denoising_metadata.analysis_datetime
         analysis_date_fmt = analysis_date.strftime('%Y%m%d_%H%M%S')
         self.asv_slug = '{asv}_{date}'.format(asv=slugify(self.asv_id),
-                                              date=analysis_date_fmt)
+                                              date=slugify(analysis_date_fmt))
         super(AmpliconSequenceVariant, self).save(*args, **kwargs)
 
     def __str__(self):

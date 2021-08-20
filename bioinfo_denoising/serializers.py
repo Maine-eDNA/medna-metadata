@@ -58,7 +58,7 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
 
 class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    asv_id = serializers.CharField()
+    asv_id = serializers.CharField(max_length=255)
     asv_sequence = serializers.CharField()
     asv_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
