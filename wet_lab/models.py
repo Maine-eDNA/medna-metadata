@@ -23,7 +23,7 @@ class PrimerPair(DateTimeUserMixin):
     primer_reverse = models.TextField("Primer Reverse")
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
-    primer_pair_notes = models.TextField("Primer Pair Notes")
+    primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.primer_set_name_slug = '{name}'.format(name=slugify(self.primer_set_name))
@@ -137,7 +137,7 @@ class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
-    barcode_slug = models.SlugField(max_length=16)
+    barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
@@ -174,12 +174,12 @@ class Ddpcr(DateTimeUserMixin):
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     ddpcr_first_name = models.CharField("First Name", max_length=255)
     ddpcr_last_name = models.CharField("Last Name", max_length=255)
-    ddpcr_probe = models.TextField("ddPCR Probe")
+    ddpcr_probe = models.TextField("ddPCR Probe", blank=True)
     ddpcr_results = models.DecimalField("ddPCR Results", max_digits=15, decimal_places=10)
     # results will be in copy number or copies per microliter (copy/ul)
     ddpcr_results_units = models.CharField("ddPCR Units", max_length=25, choices=DdpcrUnits.choices,
                                            default=DdpcrUnits.CP)
-    ddpcr_notes = models.TextField("ddPCR Notes")
+    ddpcr_notes = models.TextField("ddPCR Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.ddpcr_experiment_name_slug = '{name}'.format(name=slugify(self.ddpcr_experiment_name))
@@ -202,12 +202,12 @@ class Qpcr(DateTimeUserMixin):
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     qpcr_first_name = models.CharField("First Name", max_length=255)
     qpcr_last_name = models.CharField("Last Name", max_length=255)
-    qpcr_probe = models.TextField("qPCR Probe")
+    qpcr_probe = models.TextField("qPCR Probe", blank=True)
     qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
     # results are Cq value
     qpcr_results_units = models.CharField("qPCR Units", max_length=25, choices=QpcrUnits.choices,
                                           default=QpcrUnits.CQ)
-    qpcr_notes = models.TextField("qPCR Notes")
+    qpcr_notes = models.TextField("qPCR Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.qpcr_experiment_name_slug = '{name}'.format(name=slugify(self.qpcr_experiment_name))
@@ -253,7 +253,7 @@ class LibraryPrep(DateTimeUserMixin):
                                     default=LibPrepKits.NEXTERAXTV2)
     lib_prep_type = models.CharField("Library Prep Type", max_length=25, choices=LibPrepTypes.choices)
     lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=255)
-    lib_prep_notes = models.TextField("Library Prep Notes")
+    lib_prep_notes = models.TextField("Library Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.lib_prep_slug = '{name}_{barcode}'.format(name=slugify(self.lib_prep_experiment_name),
@@ -271,7 +271,7 @@ class LibraryPrep(DateTimeUserMixin):
 
 
 class PooledLibrary(DateTimeUserMixin):
-    pooled_lib_datetime = models.DateTimeField("Pooled Library Date", blank=True, null=True)
+    pooled_lib_datetime = models.DateTimeField("Pooled Library Date")
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255, unique=True)
     pooled_lib_label_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
@@ -283,7 +283,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_concentration_units = models.CharField("Pooled Library Units", max_length=25,
                                                       choices=ConcentrationUnits.choices,
                                                       default=ConcentrationUnits.NM)
-    pooled_lib_notes = models.TextField("Pooled Library Notes")
+    pooled_lib_notes = models.TextField("Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.pooled_lib_label_slug = '{name}'.format(name=slugify(self.pooled_lib_label))
@@ -312,7 +312,7 @@ class PooledLibrary(DateTimeUserMixin):
 
 
 class FinalPooledLibrary(DateTimeUserMixin):
-    final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date", blank=True, null=True)
+    final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date")
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)
     final_pooled_lib_label_slug = models.SlugField("Final Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
@@ -327,7 +327,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
                                                             max_length=25,
                                                             choices=ConcentrationUnits.choices,
                                                             default=ConcentrationUnits.NM)
-    final_pooled_lib_notes = models.TextField("Final Pooled Library Notes")
+    final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.final_pooled_lib_label_slug = '{name}'.format(name=slugify(self.final_pooled_lib_label))
@@ -361,7 +361,7 @@ class RunPrep(DateTimeUserMixin):
                                          default=DEFAULT_PROCESS_LOCATION_ID)
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     run_prep_slug = models.SlugField("Run Prep Slug", max_length=255)
-    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, null=True)
+    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, blank=True, null=True)
     # can be reported as percent and picomolar, pM
     phix_spike_in_units = models.CharField("PhiX Spike In Units",
                                            max_length=25,
@@ -373,7 +373,7 @@ class RunPrep(DateTimeUserMixin):
                                                      max_length=25,
                                                      choices=ConcentrationUnits.choices,
                                                      default=ConcentrationUnits.PM)
-    run_prep_notes = models.TextField("Run Prep Notes")
+    run_prep_notes = models.TextField("Run Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
         date = self.run_date
