@@ -124,7 +124,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    barcode_slug = serializers.CharField(max_length=27, read_only=True)
+    freezer_inventory_slug = serializers.CharField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices)
     # location of inventory in freezer box
@@ -139,7 +139,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = FreezerInventory
         fields = ['id', 'freezer_box', 'field_sample', 'extraction',
-                  'barcode_slug',
+                  'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'css_background_color', 'css_text_color',
@@ -192,4 +192,4 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     freezer_inventory = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='barcode_slug')
+                                                     slug_field='freezer_inventory_slug')

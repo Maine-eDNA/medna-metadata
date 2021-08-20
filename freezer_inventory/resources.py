@@ -104,12 +104,12 @@ class FreezerInventoryAdminResource(resources.ModelResource):
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_box', 'field_sample', 'extraction',
-                  'barcode_slug', 'freezer_inventory_type', 'freezer_inventory_status',
+                  'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_box', 'field_sample', 'extraction',
-                        'barcode_slug', 'freezer_inventory_type', 'freezer_inventory_status',
+                        'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                         'freezer_inventory_column', 'freezer_inventory_row',
                         'css_background_color', 'css_text_color',
                         'created_by', 'created_datetime', )
@@ -163,7 +163,7 @@ class FreezerCheckoutAdminResource(resources.ModelResource):
     freezer_inventory = fields.Field(
         column_name='freezer_inventory',
         attribute='freezer_inventory',
-        widget=ForeignKeyWidget(FreezerInventory, 'barcode_slug'))
+        widget=ForeignKeyWidget(FreezerInventory, 'freezer_inventory_slug'))
 
     created_by = fields.Field(
         column_name='created_by',

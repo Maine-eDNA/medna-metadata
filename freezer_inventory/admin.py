@@ -130,7 +130,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerInventoryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'freezer_inventory_status', 'created_datetime', 'created_by',)
-    #readonly_fields = ('barcode_slug', )
+    readonly_fields = ('freezer_inventory_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -147,7 +147,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['freezer_box', 'field_sample', 'extraction', 'barcode_slug',
+        self.fields = ['freezer_box', 'field_sample', 'extraction', 'freezer_inventory_slug',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'css_background_color', 'css_text_color',
@@ -170,6 +170,7 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerCheckoutAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('freezer_checkout_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -189,6 +190,7 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['freezer_inventory', 'freezer_checkout_action',
+                       'freezer_checkout_slug',
                        'freezer_checkout_datetime',
                        'freezer_return_datetime',
                        'freezer_perm_removal_datetime',

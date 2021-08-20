@@ -133,7 +133,7 @@ class FreezerInventory(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True, null=True,
                                         limit_choices_to={'is_extracted': YesNo.NO})
     extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,)
-    barcode_slug = models.CharField("Barcode Slug", max_length=27, unique=True)
+    freezer_inventory_slug = models.CharField("Freezer Inventory Slug", max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=25,
                                               choices=InvTypes.choices)
     freezer_inventory_status = models.CharField("Freezer Inventory Status",
@@ -153,20 +153,20 @@ class FreezerInventory(DateTimeUserMixin):
             if self.freezer_inventory_type == InvTypes.EXTRACTION:
                 # concatenate inventory_type and barcode,
                 # e.g., "Extraction-ePR_L01_21w_0001"
-                self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
-                                                              barcode=slugify(self.extraction.barcode_slug))
+                self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
+                                                                        barcode=slugify(self.extraction.barcode_slug))
             elif self.freezer_inventory_type == InvTypes.FILTER:
                 # concatenate inventory_type and barcode,
                 # e.g., "Filter-ePR_L01_21w_0001"
-                self.barcode_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
-                                                              barcode=slugify(self.field_sample.barcode_slug))
+                self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
+                                                                        barcode=slugify(self.field_sample.barcode_slug))
             # all done, time to save changes to the db
         super(FreezerInventory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{barcode_slug} [r{row}, c{column}]'.format(barcode_slug=self.barcode_slug,
-                                                           row=self.freezer_inventory_row,
-                                                           column=self.freezer_inventory_column)
+        return '{inv_slug} [r{row}, c{column}]'.format(inv_slug=self.freezer_inventory_slug,
+                                                       row=self.freezer_inventory_row,
+                                                       column=self.freezer_inventory_column)
 
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
@@ -197,7 +197,7 @@ class FreezerCheckout(DateTimeUserMixin):
 
     def __str__(self):
         return '{barcode}, ' \
-               '{checkout_action}'.format(barcode=self.freezer_inventory.barcode_slug,
+               '{checkout_action}'.format(barcode=self.freezer_inventory.freezer_inventory_slug,
                                           checkout_action=self.get_freezer_checkout_action_display())
 
     def save(self, *args, **kwargs):
@@ -218,7 +218,7 @@ class FreezerCheckout(DateTimeUserMixin):
             self.freezer_checkout_slug = '{date}_' \
                                          '{name}_' \
                                          '{checkout_action}'.format(checkout_action=self.get_freezer_checkout_action_display(),
-                                                                    name=slugify(self.freezer_inventory.barcode_slug),
+                                                                    name=slugify(self.freezer_inventory.freezer_inventory_slug),
                                                                     date=created_date_fmt)
         # all done, time to save changes to the db
         super(FreezerCheckout, self).save(*args, **kwargs)
