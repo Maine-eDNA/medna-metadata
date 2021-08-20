@@ -358,19 +358,19 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
     process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='process_location_name')
+                                                    slug_field='process_location_name_slug')
     pooled_library = serializers.SlugRelatedField(many=True, read_only=True,
-                                                  slug_field='pooled_lib_label')
+                                                  slug_field='pooled_lib_label_slug')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='quant_method_name')
+                                                         slug_field='quant_method_name_slug')
 
 
 class RunPrepSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     run_date = serializers.DateField()
     run_prep_slug = serializers.SlugField(read_only=True, max_length=255)
-    phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10)
-    phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
+    phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_blank=True)
     final_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     final_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     run_prep_notes = serializers.CharField(allow_blank=True)
