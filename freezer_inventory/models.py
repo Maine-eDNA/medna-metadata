@@ -213,13 +213,13 @@ class FreezerCheckout(DateTimeUserMixin):
         freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
 
         if self.pk is None:
-            now = datetime.datetime.now()
-            now_fmt = now.strftime('%Y%m%d_%H%M%S')
+            created_date = self.created_datetime
+            created_date_fmt = created_date.strftime('%Y%m%d_%H%M%S')
             self.freezer_checkout_slug = '{date}_' \
                                          '{name}_' \
                                          '{checkout_action}'.format(checkout_action=self.get_freezer_checkout_action_display(),
                                                                     name=slugify(self.freezer_inventory.barcode_slug),
-                                                                    date=now_fmt)
+                                                                    date=created_date_fmt)
         # all done, time to save changes to the db
         super(FreezerCheckout, self).save(*args, **kwargs)
 
