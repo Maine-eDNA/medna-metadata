@@ -4,6 +4,12 @@
 from django.contrib.gis.db import models
 from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+def update_biome_first(biome_pk, biome_first):
+        EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=biome_first)
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
@@ -16,6 +22,7 @@ class EnvoBiomeFirst(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_first_tier_slug = '{biome1}'.format(biome1=slugify(self.biome_first_tier))
+        update_biome_first(self.pk, self.biome_first_tier)
         super(EnvoBiomeFirst, self).save(*args, **kwargs)
 
     def __str__(self):
