@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from bioinfo_denoising.models import AmpliconSequenceVariant
-from utility.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin, slug_date_format
 from utility.enumerations import YesNo
 from django.utils.text import slugify
 
@@ -360,7 +360,9 @@ class AnnotationMethod(DateTimeUserMixin):
     annotation_method_name_slug = models.SlugField("Annotation Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.annotation_method_name_slug = '{method}'.format(method=slugify(self.annotation_method_name))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.annotation_method_name_slug = '{method}_{date}'.format(method=slugify(self.annotation_method_name),
+                                                                    date=slugify(created_date_fmt))
         super(AnnotationMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -383,15 +385,13 @@ class AnnotationMetadata(DateTimeUserMixin):
                                                default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
-        analysis_date = self.analysis_datetime
-        analysis_date_fmt = analysis_date.strftime('%Y%m%d_%H%M%S')
+        analysis_date_fmt = slug_date_format(self.analysis_datetime)
         self.annotation_slug = '{method}_{date}'.format(method=slugify(self.annotation_method.annotation_method_name),
                                                         date=slugify(analysis_date_fmt))
         super(AnnotationMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        analysis_date = self.analysis_datetime
-        analysis_date_fmt = analysis_date.strftime('%Y%m%d_%H%M%S')
+        analysis_date_fmt = slug_date_format(self.analysis_datetime)
         return '{method} {date}'.format(method=self.annotation_method.annotation_method_name,
                                         date=analysis_date_fmt)
 
