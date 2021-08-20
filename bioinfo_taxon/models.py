@@ -5,6 +5,79 @@ from utility.enumerations import YesNo
 from django.utils.text import slugify
 
 
+def update_domain(taxa_pk, new_taxa):
+    # cascade update all proceeding models
+    taxa_obj = TaxonKingdom.objects.filter(taxon_domain_slug=taxa_pk).first()
+    old_taxa = taxa_obj.taxon_domain
+    TaxonKingdom.objects.filter(taxon_domain_slug=taxa_pk).update(taxon_domain=new_taxa)
+    # update remaining with new_taxa
+    TaxonPhylum.objects.filter(taxon_domain=old_taxa).update(taxon_domain=new_taxa)
+    TaxonClass.objects.filter(taxon_domain=old_taxa).update(taxon_domain=new_taxa)
+    TaxonOrder.objects.filter(taxon_domain=old_taxa).update(taxon_domain=new_taxa)
+    TaxonFamily.objects.filter(taxon_domain=old_taxa).update(taxon_domain=new_taxa)
+    TaxonGenus.objects.filter(taxon_domain=old_taxa).update(taxon_domain=new_taxa)
+    TaxonSpecies.objects.filter(taxon_domain=old_taxa).update(taxon_domain=new_taxa)
+
+
+def update_kingdom(taxa_pk, new_taxa):
+    # cascade update all proceeding models
+    taxa_obj = TaxonPhylum.objects.filter(taxon_kingdom_slug=taxa_pk).first()
+    old_taxa = taxa_obj.taxon_kingdom
+    TaxonPhylum.objects.filter(taxon_kingdom_slug=taxa_pk).update(taxon_kingdom=new_taxa)
+    # update remaining with new_taxa
+    TaxonClass.objects.filter(taxon_kingdom=old_taxa).update(taxon_kingdom=new_taxa)
+    TaxonOrder.objects.filter(taxon_kingdom=old_taxa).update(taxon_kingdom=new_taxa)
+    TaxonFamily.objects.filter(taxon_kingdom=old_taxa).update(taxon_kingdom=new_taxa)
+    TaxonGenus.objects.filter(taxon_kingdom=old_taxa).update(taxon_kingdom=new_taxa)
+    TaxonSpecies.objects.filter(taxon_kingdom=old_taxa).update(taxon_kingdom=new_taxa)
+
+
+def update_phylum(taxa_pk, new_taxa):
+    # cascade update all proceeding models
+    taxa_obj = TaxonClass.objects.filter(taxon_phylum_slug=taxa_pk).first()
+    old_taxa = taxa_obj.taxon_phylum
+    TaxonClass.objects.filter(taxon_phylum_slug=taxa_pk).update(taxon_phylum=new_taxa)
+    # update remaining with new_taxa
+    TaxonOrder.objects.filter(taxon_phylum=old_taxa).update(taxon_phylum=new_taxa)
+    TaxonFamily.objects.filter(taxon_phylum=old_taxa).update(taxon_phylum=new_taxa)
+    TaxonGenus.objects.filter(taxon_phylum=old_taxa).update(taxon_phylum=new_taxa)
+    TaxonSpecies.objects.filter(taxon_phylum=old_taxa).update(taxon_phylum=new_taxa)
+
+
+def update_class(taxa_pk, new_taxa):
+    # cascade update all proceeding models
+    taxa_obj = TaxonOrder.objects.filter(taxon_class_slug=taxa_pk).first()
+    old_taxa = taxa_obj.taxon_class
+    TaxonOrder.objects.filter(taxon_class_slug=taxa_pk).update(taxon_class=new_taxa)
+    # update remaining with new_taxa
+    TaxonFamily.objects.filter(taxon_class=old_taxa).update(taxon_class=new_taxa)
+    TaxonGenus.objects.filter(taxon_class=old_taxa).update(taxon_class=new_taxa)
+    TaxonSpecies.objects.filter(taxon_class=old_taxa).update(taxon_class=new_taxa)
+
+
+def update_order(taxa_pk, new_taxa):
+    # cascade update all proceeding models
+    taxa_obj = TaxonFamily.objects.filter(taxon_family_slug=taxa_pk).first()
+    old_taxa = taxa_obj.taxon_family
+    TaxonFamily.objects.filter(taxon_family_slug=taxa_pk).update(taxon_family=new_taxa)
+    # update remaining with new_taxa
+    TaxonGenus.objects.filter(taxon_family=old_taxa).update(taxon_family=new_taxa)
+    TaxonSpecies.objects.filter(taxon_family=old_taxa).update(taxon_family=new_taxa)
+
+
+def update_family(taxa_pk, new_taxa):
+    # cascade update all proceeding models
+    taxa_obj = TaxonGenus.objects.filter(taxon_genus_slug=taxa_pk).first()
+    old_taxa = taxa_obj.taxon_genus
+    TaxonGenus.objects.filter(taxon_genus_slug=taxa_pk).update(taxon_genus=new_taxa)
+    # update remaining with new_taxa
+    TaxonSpecies.objects.filter(taxon_genus=old_taxa).update(taxon_genus=new_taxa)
+
+
+def update_genus(taxa_pk, new_taxa):
+    TaxonGenus.objects.filter(taxon_genus_slug=taxa_pk).update(taxon_genus=new_taxa)
+
+
 # Create your models here.
 class ReferenceDatabase(DateTimeUserMixin):
     refdb_name = models.CharField("Reference Database Name", max_length=255)
@@ -43,6 +116,7 @@ class TaxonDomain(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_domain_slug = '{tax_domain}'.format(tax_domain=slugify(self.taxon_domain))
+        update_domain(self.pk, self.taxon_domain)
         super(TaxonDomain, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -64,6 +138,7 @@ class TaxonKingdom(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
+        update_kingdom(self.pk, self.taxon_kingdom)
         super(TaxonKingdom, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -88,6 +163,7 @@ class TaxonPhylum(DateTimeUserMixin):
         self.taxon_phylum_slug = '{tax_phylum}'.format(tax_phylum=slugify(self.taxon_phylum))
         self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_kingdom_slug.taxon_kingdom)
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_kingdom_slug.taxon_domain)
+        update_phylum(self.pk, self.taxon_phylum)
         super(TaxonPhylum, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -115,6 +191,7 @@ class TaxonClass(DateTimeUserMixin):
         self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_phylum_slug.taxon_phylum)
         self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_phylum_slug.taxon_kingdom)
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_phylum_slug.taxon_domain)
+        update_class(self.pk, self.taxon_class)
         super(TaxonClass, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -145,6 +222,7 @@ class TaxonOrder(DateTimeUserMixin):
         self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_class_slug.taxon_phylum)
         self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_class_slug.taxon_kingdom)
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_class_slug.taxon_domain)
+        update_order(self.pk, self.taxon_order)
         super(TaxonOrder, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -178,6 +256,7 @@ class TaxonFamily(DateTimeUserMixin):
         self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_order_slug.taxon_phylum)
         self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_order_slug.taxon_kingdom)
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_order_slug.taxon_domain)
+        update_family(self.pk, self.taxon_family)
         super(TaxonFamily, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -214,6 +293,7 @@ class TaxonGenus(DateTimeUserMixin):
         self.taxon_phylum = '{tax_phylum}'.format(tax_phylum=self.taxon_family_slug.taxon_phylum)
         self.taxon_kingdom = '{tax_kingdom}'.format(tax_kingdom=self.taxon_family_slug.taxon_kingdom)
         self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_family_slug.taxon_domain)
+        update_genus(self.pk, self.taxon_genus)
         super(TaxonGenus, self).save(*args, **kwargs)
 
     def __str__(self):
