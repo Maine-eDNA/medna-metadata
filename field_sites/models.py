@@ -134,7 +134,7 @@ class EnvoBiomeSecond(DateTimeUserMixin):
                                               max_length=255)
     biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, unique=True)
     biome_first_tier_slug = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT)
-    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
@@ -168,8 +168,8 @@ class EnvoBiomeThird(DateTimeUserMixin):
                                              max_length=255)
     biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255, unique=True)
     biome_second_tier_slug = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT)
-    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, blank=True, null=True)
-    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
@@ -206,9 +206,9 @@ class EnvoBiomeFourth(DateTimeUserMixin):
                                               max_length=255)
     biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", max_length=255, unique=True)
     biome_third_tier_slug = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT)
-    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255, blank=True, null=True)
-    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, blank=True, null=True)
-    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
@@ -241,10 +241,10 @@ class EnvoBiomeFifth(DateTimeUserMixin):
                                              max_length=255)
     biome_fifth_tier = models.CharField("ENVO Biome 5th Tier", max_length=255, unique=True)
     biome_fourth_tier_slug = models.ForeignKey(EnvoBiomeFourth, on_delete=models.RESTRICT)
-    biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", max_length=255, blank=True, null=True)
-    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255, blank=True, null=True)
-    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255, blank=True, null=True)
-    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255, blank=True, null=True)
+    biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", max_length=255)
+    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", max_length=255)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", max_length=255)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
@@ -313,7 +313,7 @@ class EnvoFeatureSecond(DateTimeUserMixin):
                                                 max_length=255)
     feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
     feature_first_tier_slug = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT)
-    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, blank=True, null=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
 
     ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
@@ -349,8 +349,8 @@ class EnvoFeatureThird(DateTimeUserMixin):
                                                max_length=255)
     feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
     feature_second_tier_slug = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT)
-    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, blank=True, null=True)
-    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, blank=True, null=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
 
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
@@ -387,9 +387,9 @@ class EnvoFeatureFourth(DateTimeUserMixin):
                                                 max_length=255)
     feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
     feature_third_tier_slug = models.ForeignKey(EnvoFeatureThird, on_delete=models.RESTRICT)
-    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, blank=True, null=True)
-    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, blank=True, null=True)
-    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, blank=True, null=True)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
@@ -429,10 +429,10 @@ class EnvoFeatureFifth(DateTimeUserMixin):
                                                max_length=255)
     feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, unique=True)
     feature_fourth_tier_slug = models.ForeignKey(EnvoFeatureFourth, on_delete=models.RESTRICT)
-    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, blank=True, null=True)
-    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, blank=True, null=True)
-    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, blank=True, null=True)
-    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, blank=True, null=True)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
@@ -468,11 +468,11 @@ class EnvoFeatureSixth(DateTimeUserMixin):
                                                max_length=255)
     feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255, unique=True)
     feature_fifth_tier_slug = models.ForeignKey(EnvoFeatureFifth, on_delete=models.RESTRICT)
-    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, blank=True, null=True)
-    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, blank=True, null=True)
-    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, blank=True, null=True)
-    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, blank=True, null=True)
-    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, blank=True, null=True)
+    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
@@ -511,12 +511,12 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
                                                  max_length=255)
     feature_seventh_tier = models.CharField("ENVO Feature 7th Tier ", max_length=255, unique=True)
     feature_sixth_tier_slug = models.ForeignKey(EnvoFeatureSixth, on_delete=models.RESTRICT)
-    feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255, blank=True, null=True)
-    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, blank=True, null=True)
-    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, blank=True, null=True)
-    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, blank=True, null=True)
-    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, blank=True, null=True)
-    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, blank=True, null=True)
+    feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255)
+    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
