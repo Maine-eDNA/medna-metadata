@@ -199,6 +199,7 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
 class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField(read_only=True)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
     is_prefilter = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)
