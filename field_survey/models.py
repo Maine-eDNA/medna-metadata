@@ -352,9 +352,7 @@ class FieldSample(DateTimeUserMixin):
                                              id=self.sample_global_id)
 
     def save(self, *args, **kwargs):
-        # on update won't work on fk, so only on insert
-        if self.pk is None:
-            self.barcode_slug = slugify(self.sample_global_id)
+        self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
