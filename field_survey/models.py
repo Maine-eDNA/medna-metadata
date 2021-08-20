@@ -347,17 +347,16 @@ class FieldSample(DateTimeUserMixin):
                                            max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
 
+    def __str__(self):
+        return '{collectionid}: {id}'.format(collectionid=self.collection_global_id.collection_global_id,
+                                             id=self.sample_global_id)
+
     def save(self, *args, **kwargs):
         # just check if name or location.name has changed
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
-            self.barcode_slug = slugify(self.field_sample_barcode.purpose)
+            self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
         super(FieldSample, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return '{collection_global_id}: ' \
-               '{field_sample_barcode}'.format(collection_global_id=self.collection_global_id.collection_global_id,
-                                               field_sample_barcode=self.field_sample_barcode.sample_label_id)
 
     class Meta:
         app_label = 'field_survey'

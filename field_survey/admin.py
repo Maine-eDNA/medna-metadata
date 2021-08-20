@@ -145,8 +145,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'sample_global_id', 'is_extracted', 'field_sample_barcode',
-                    'created_datetime', 'created_by')
+    list_display = ('__str__', 'is_extracted', 'field_sample_barcode', 'created_datetime', 'created_by', )
     readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
@@ -158,7 +157,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                        'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
                        'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
-                       'created_by']
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -173,7 +172,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                        'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
                        'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
-                       'created_by']
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
