@@ -64,6 +64,7 @@ class InvStatus(models.TextChoices):
 
 class InvTypes(models.TextChoices):
     FILTER = 'filter', _('Filter')
+    SUBCORE = 'subcore', _('SubCore')
     EXTRACTION = 'extraction', _('Extraction')
 
 
