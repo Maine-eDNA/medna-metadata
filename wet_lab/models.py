@@ -137,7 +137,7 @@ class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
-    barcode_slug = models.CharField(max_length=16)
+    barcode_slug = models.SlugField(max_length=16)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
@@ -227,8 +227,8 @@ class Qpcr(DateTimeUserMixin):
 
 class LibraryPrep(DateTimeUserMixin):
     lib_prep_datetime = models.DateTimeField("Library Prep DateTime")
-    lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255, unique=True)
-    lib_prep_experiment_name_slug = models.SlugField("Experiment Name Slug", max_length=255)
+    lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
+    lib_prep_slug = models.SlugField("Experiment Name Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
@@ -259,13 +259,15 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_notes = models.TextField("Library Prep Notes")
 
     def save(self, *args, **kwargs):
-        self.lib_prep_experiment_name_slug = '{name}'.format(name=slugify(self.lib_prep_experiment_name))
+        self.lib_prep_slug = '{name}_{barcode}'.format(name=slugify(self.lib_prep_experiment_name),
+                                                       barcode=slugify(self.extraction.barcode_slug))
         super(LibraryPrep, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{name}'.format(name=self.lib_prep_experiment_name)
 
     class Meta:
+        unique_together = ['lib_prep_experiment_name', 'extraction']
         app_label = 'wet_lab'
         verbose_name = 'Library Prep'
         verbose_name_plural = 'Library Preps'
