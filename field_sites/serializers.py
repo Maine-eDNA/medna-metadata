@@ -322,7 +322,7 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
 
 class SystemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    system_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=System.objects.all())])
+    system_code = serializers.SlugField(max_length=1, validators=[UniqueValidator(queryset=System.objects.all())])
     system_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -340,21 +340,23 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     lat = serializers.DecimalField(max_digits=22, decimal_places=16)
     lon = serializers.DecimalField(max_digits=22, decimal_places=16)
-    site_id = serializers.CharField(max_length=7, validators=[UniqueValidator(queryset=FieldSite.objects.all())])
+    site_id = serializers.SlugField(max_length=7, validators=[UniqueValidator(queryset=FieldSite.objects.all())])
+    general_location_name = serializers.CharField(max_length=255)
+    purpose = serializers.CharField(max_length=255)
     srid = serializers.CharField()
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldSite
-        fields = ['id', 'site_id', 'grant', 'system', 'region', 'general_location_name',
+        fields = ['id', 'site_id', 'grant', 'system', 'region', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
                   'envo_feature_fifth', 'envo_feature_fourth',
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first',
-                  'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'lat', 'lon', 'srid', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -392,15 +394,22 @@ class FieldSiteSerializer(serializers.ModelSerializer):
 
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    site_id = serializers.CharField(max_length=7, validators=[UniqueValidator(queryset=FieldSite.objects.all())])
+    site_id = serializers.SlugField(max_length=7, validators=[UniqueValidator(queryset=FieldSite.objects.all())])
+    general_location_name = serializers.CharField(max_length=255)
+    purpose = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldSite
         geo_field = 'geom'
-        fields = ['id', 'site_id', 'grant', 'system', 'region', 'general_location_name',
-                  'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
+        fields = ['id', 'site_id', 'grant', 'system', 'region', 'general_location_name', 'purpose',
+                  'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+                  'envo_biome_second', 'envo_biome_first',
+                  'envo_feature_seventh', 'envo_feature_sixth',
+                  'envo_feature_fifth', 'envo_feature_fourth',
+                  'envo_feature_third', 'envo_feature_second',
+                  'envo_feature_first', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -438,7 +447,14 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
 
 class GeoRegionSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    region_code = serializers.CharField(max_length=7, validators=[UniqueValidator(queryset=Region.objects.all())])
+    region_code = serializers.SlugField(max_length=7, validators=[UniqueValidator(queryset=Region.objects.all())])
+    region_label = serializers.CharField(max_length=255)
+    huc8 = serializers.CharField(max_length=255)
+    states = serializers.CharField(max_length=255)
+    lat = serializers.DecimalField(max_digits=22, decimal_places=16)
+    lon = serializers.DecimalField(max_digits=22, decimal_places=16)
+    area_sqkm = serializers.DecimalField(max_digits=18, decimal_places=2)
+    area_acres = serializers.DecimalField(max_digits=18, decimal_places=2)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
