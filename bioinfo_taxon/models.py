@@ -63,9 +63,7 @@ class TaxonKingdom(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.taxon_kingdom_slug = '{tax_kingdom}'.format(tax_kingdom=slugify(self.taxon_kingdom))
-        # only create slug on INSERT, not UPDATE
-        if self.pk is None:
-            self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
+        self.taxon_domain = '{tax_domain}'.format(tax_domain=self.taxon_domain_slug.taxon_domain)
         super(TaxonKingdom, self).save(*args, **kwargs)
 
     def __str__(self):
