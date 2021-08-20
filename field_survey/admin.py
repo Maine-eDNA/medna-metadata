@@ -37,7 +37,7 @@ class FieldSurveyAdmin(ImportExportActionModelAdmin):
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime',
                        'record_editor', 'created_by']
-        self.inlines = (ProjectInline,)
+        #self.inlines = (ProjectInline,)
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
 
