@@ -369,7 +369,7 @@ class RunPrepSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     run_date = serializers.DateField()
     run_prep_slug = serializers.SlugField(read_only=True, max_length=255)
-    phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10, allow_blank=True, allow_null=True)
+    phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_blank=True)
     final_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     final_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
