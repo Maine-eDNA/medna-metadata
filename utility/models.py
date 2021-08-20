@@ -9,6 +9,12 @@ from django.utils.text import slugify
 
 
 # Create your models here.
+def slug_date_format(date):
+    # so that date format can be changed in one spot
+    date_fmt = date
+    return date_fmt.strftime('%Y%m%d_%H%M%S')
+
+
 def get_sentinel_user():
     # if user is deleted, fill with 'deleted' username
     return get_user_model().objects.get_or_create(username='deleted')[0]
