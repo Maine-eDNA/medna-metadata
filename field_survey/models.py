@@ -348,8 +348,8 @@ class FieldSample(DateTimeUserMixin):
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
 
     def __str__(self):
-        return '{collectionid}: {id}'.format(collectionid=self.collection_global_id.collection_global_id,
-                                             id=self.sample_global_id)
+        return '{collectionid}: {barcode}'.format(collectionid=self.collection_global_id.collection_global_id,
+                                                  barcode=self.field_sample_barcode.sample_label_id)
 
     def save(self, *args, **kwargs):
         self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
