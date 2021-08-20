@@ -352,10 +352,10 @@ class FieldSample(DateTimeUserMixin):
                                              id=self.sample_global_id)
 
     def save(self, *args, **kwargs):
-        # just check if name or location.name has changed
-        # only create slug on INSERT, not UPDATE
+        # on update won't work on fk, so only on insert
         if self.pk is None:
             self.barcode_slug = slugify(self.sample_global_id)
+        # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
     class Meta:
