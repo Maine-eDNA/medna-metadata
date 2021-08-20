@@ -8,20 +8,26 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-def update_biome_second(biome_pk, biome):
-    EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=biome)
+def update_biome_second(biome_pk, new_biome):
+    # cascade update all proceeding models
+    biome_obj = EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).first()
+    old_biome = biome_obj.biome_first_tier
+    EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=new_biome)
+    EnvoBiomeThird.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
+    EnvoBiomeFourth.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
+    EnvoBiomeFifth.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
 
 
-def update_biome_third(biome_pk, biome):
-    EnvoBiomeThird.objects.filter(biome_second_tier_slug=biome_pk).update(biome_second_tier=biome)
+def update_biome_third(biome_pk, new_biome):
+    EnvoBiomeThird.objects.filter(biome_second_tier_slug=biome_pk).update(biome_second_tier=new_biome)
 
 
-def update_biome_fourth(biome_pk, biome):
-    EnvoBiomeFourth.objects.filter(biome_third_tier_slug=biome_pk).update(biome_third_tier=biome)
+def update_biome_fourth(biome_pk, new_biome):
+    EnvoBiomeFourth.objects.filter(biome_third_tier_slug=biome_pk).update(biome_third_tier=new_biome)
 
 
-def update_biome_fifth(biome_pk, biome):
-    EnvoBiomeFifth.objects.filter(biome_fourth_tier_slug=biome_pk).update(biome_fourth_tier=biome)
+def update_biome_fifth(biome_pk, new_biome):
+    EnvoBiomeFifth.objects.filter(biome_fourth_tier_slug=biome_pk).update(biome_fourth_tier=new_biome)
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
