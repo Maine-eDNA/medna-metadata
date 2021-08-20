@@ -90,7 +90,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_kingdom_slug', )
+    readonly_fields = ('taxon_kingdom_slug', 'taxon_domain')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
