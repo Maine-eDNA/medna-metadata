@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from wet_lab.models import RunResult, Extraction
-from utility.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin, slug_date_format
 from django.utils.text import slugify
 
 
@@ -12,8 +12,10 @@ class DenoisingMethod(DateTimeUserMixin):
     denoising_method_slug = models.SlugField("Denoising Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.denoising_method_slug = '{name}_{pipeline}'.format(name=slugify(self.denoising_method_name),
-                                                                pipeline=slugify(self.denoising_method_pipeline))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.denoising_method_slug = '{name}_{pipeline}_{date}'.format(name=slugify(self.denoising_method_name),
+                                                                       pipeline=slugify(self.denoising_method_pipeline),
+                                                                       date=slugify(created_date_fmt))
         super(DenoisingMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -61,8 +63,7 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
     asv_slug = models.SlugField("ASV Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        analysis_date = self.denoising_metadata.analysis_datetime
-        analysis_date_fmt = analysis_date.strftime('%Y%m%d_%H%M%S')
+        analysis_date_fmt = slug_date_format(self.denoising_metadata.analysis_datetime)
         self.asv_slug = '{asv}_{date}'.format(asv=slugify(self.asv_id),
                                               date=slugify(analysis_date_fmt))
         super(AmpliconSequenceVariant, self).save(*args, **kwargs)
