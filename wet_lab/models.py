@@ -88,8 +88,7 @@ class IndexRemovalMethod(DateTimeUserMixin):
         super(IndexRemovalMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        created_date = self.created_datetime
-        created_date_fmt = created_date.strftime('%Y%m%d_%H%M%S')
+        created_date_fmt = slug_date_format(self.created_datetime)
         return '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
                                       date=slugify(created_date_fmt))
 
