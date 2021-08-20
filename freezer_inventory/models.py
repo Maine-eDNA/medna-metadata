@@ -4,7 +4,7 @@ import datetime
 from django.db.models import Q
 from field_survey.models import FieldSample
 from wet_lab.models import Extraction
-from utility.models import DateTimeUserMixin
+from utility.models import DateTimeUserMixin, slug_date_format
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 
 
@@ -218,8 +218,7 @@ class FreezerCheckout(DateTimeUserMixin):
         freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
 
         if self.pk is None:
-            created_date = self.created_datetime
-            created_date_fmt = created_date.strftime('%Y%m%d_%H%M%S')
+            created_date_fmt = slug_date_format(self.created_datetime)
             self.freezer_checkout_slug = '{date}_' \
                                          '{name}_' \
                                          '{checkout_action}'.format(checkout_action=self.get_freezer_checkout_action_display(),
