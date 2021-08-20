@@ -310,7 +310,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'region']
     list_display = ('__str__', 'taxon_common_name', 'created_by', 'created_datetime', )
     list_filter = ('is_endemic', )
-    readonly_fields = ('taxon_species_slug', 'taxon_order', 'taxon_family',
+    readonly_fields = ('taxon_species_slug', 'taxon_genus', 'taxon_family',
                        'taxon_order', 'taxon_class', 'taxon_phylum', 'taxon_kingdom', 'taxon_domain',)
 
     def add_view(self, request, extra_content=None):
