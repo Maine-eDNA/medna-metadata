@@ -4,10 +4,28 @@ from django.utils.text import slugify
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
-from utility.models import DateTimeUserMixin, ProcessLocation
+from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format
 from utility.enumerations import TargetGenes, ConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
+
+
+def update_extraction_status(old_barcode, new_barcode_pk):
+    # update is_extracted status of FieldSample model when samples are added to
+    # Extraction model
+    if old_barcode is not None:
+        # if it is not a new barcode, update the new to is_extracted status to YES
+        # and old to is_extracted status to NO
+        sample_obj = FieldSample.objects.filter(pk=new_barcode_pk).first()
+        new_barcode = sample_obj.barcode_slug
+        if old_barcode != new_barcode:
+            # compare old barcode to new barcode; if they are equal then we do not need
+            # to update
+            FieldSample.objects.filter(barcode_slug=old_barcode).update(is_extracted=YesNo.NO)
+            FieldSample.objects.filter(pk=new_barcode_pk).update(is_extracted=YesNo.YES)
+    else:
+        # if it is a new barcode, update the is_extracted status to YES
+        FieldSample.objects.filter(pk=new_barcode_pk).update(is_extracted=YesNo.YES)
 
 
 # Create your models here.
@@ -26,7 +44,9 @@ class PrimerPair(DateTimeUserMixin):
     primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.primer_set_name_slug = '{name}'.format(name=slugify(self.primer_set_name))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.primer_set_name_slug = '{name}_{date}'.format(name=slugify(self.primer_set_name),
+                                                           date=slugify(created_date_fmt))
         super(PrimerPair, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -62,11 +82,16 @@ class IndexRemovalMethod(DateTimeUserMixin):
     index_removal_method_name_slug = models.SlugField("Index Removal Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.index_removal_method_name_slug = '{name}'.format(name=slugify(self.index_removal_method_name))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.index_removal_method_name_slug = '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
+                                                                     date=slugify(created_date_fmt))
         super(IndexRemovalMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.index_removal_method_name)
+        created_date = self.created_datetime
+        created_date_fmt = created_date.strftime('%Y%m%d_%H%M%S')
+        return '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
+                                      date=slugify(created_date_fmt))
 
     class Meta:
         app_label = 'wet_lab'
@@ -80,7 +105,9 @@ class SizeSelectionMethod(DateTimeUserMixin):
     size_selection_method_name_slug = models.SlugField("Size Selection Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.size_selection_method_name_slug = '{name}'.format(name=slugify(self.size_selection_method_name))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.size_selection_method_name_slug = '{name}_{date}'.format(name=slugify(self.size_selection_method_name),
+                                                                      date=slugify(created_date_fmt))
         super(SizeSelectionMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -98,7 +125,9 @@ class QuantificationMethod(DateTimeUserMixin):
     quant_method_name_slug = models.SlugField("Quantification Method Name", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.quant_method_name_slug = '{name}'.format(name=slugify(self.quant_method_name))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.quant_method_name_slug = '{name}_{date}'.format(name=slugify(self.quant_method_name),
+                                                             date=slugify(created_date_fmt))
         super(QuantificationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -118,8 +147,10 @@ class ExtractionMethod(DateTimeUserMixin):
     extraction_sop_url = models.URLField("Extraction SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.extraction_method_slug = '{manufacturer}_{name}'.format(manufacturer=slugify(self.extraction_method_manufacturer),
-                                                                     name=slugify(self.extraction_method_name))
+        created_date_fmt = slug_date_format(self.created_datetime)
+        self.extraction_method_slug = '{manufacturer}_{name}_{date}'.format(manufacturer=slugify(self.extraction_method_manufacturer),
+                                                                            name=slugify(self.extraction_method_name),
+                                                                            date=slugify(created_date_fmt))
         super(ExtractionMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -154,6 +185,9 @@ class Extraction(DateTimeUserMixin):
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
+        # update_extraction_method must come before creating barcode_slug
+        # because need to grab old barcode_slug value on updates
+        update_extraction_status(self.barcode_slug, self.field_sample.pk)
         self.barcode_slug = self.field_sample.barcode_slug
         super(Extraction, self).save(*args, **kwargs)
 
@@ -182,7 +216,9 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_notes = models.TextField("ddPCR Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.ddpcr_experiment_name_slug = '{name}'.format(name=slugify(self.ddpcr_experiment_name))
+        ddpcr_date_fmt = slug_date_format(self.ddpcr_datetime)
+        self.ddpcr_experiment_name_slug = '{name}_{date}'.format(name=slugify(self.ddpcr_experiment_name),
+                                                                 date=slugify(ddpcr_date_fmt))
         super(Ddpcr, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -210,7 +246,9 @@ class Qpcr(DateTimeUserMixin):
     qpcr_notes = models.TextField("qPCR Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.qpcr_experiment_name_slug = '{name}'.format(name=slugify(self.qpcr_experiment_name))
+        qpcr_date_fmt = slug_date_format(self.qpcr_datetime)
+        self.qpcr_experiment_name_slug = '{name}_{date}'.format(name=slugify(self.qpcr_experiment_name),
+                                                                date=slugify(qpcr_date_fmt))
         super(Qpcr, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -256,8 +294,10 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_notes = models.TextField("Library Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.lib_prep_slug = '{name}_{barcode}'.format(name=slugify(self.lib_prep_experiment_name),
-                                                       barcode=slugify(self.extraction.barcode_slug))
+        lp_date_fmt = slug_date_format(self.lib_prep_datetime)
+        self.lib_prep_slug = '{name}_{barcode}_{date}'.format(name=slugify(self.lib_prep_experiment_name),
+                                                              barcode=slugify(self.extraction.barcode_slug),
+                                                              date=slugify(lp_date_fmt))
         super(LibraryPrep, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -286,7 +326,9 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_notes = models.TextField("Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.pooled_lib_label_slug = '{name}'.format(name=slugify(self.pooled_lib_label))
+        pl_date_fmt = slug_date_format(self.pooled_lib_datetime)
+        self.pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.pooled_lib_label),
+                                                            date=slugify(pl_date_fmt))
         super(PooledLibrary, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -296,19 +338,6 @@ class PooledLibrary(DateTimeUserMixin):
         app_label = 'wet_lab'
         verbose_name = 'Pooled Library'
         verbose_name_plural = 'Pooled Libraries'
-
-
-#class LibraryPrepToPooledLibrary(DateTimeUserMixin):
-#    '''
-#    ManyToMany relationship table between LibraryPrep and PooledLibrary
-#    '''
-#    library_prep = models.ForeignKey(LibraryPrep, on_delete=models.RESTRICT)
-#    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
-
-#    class Meta:
-#        app_label = 'wet_lab'
-#        verbose_name = 'Library Prep to Pooled Library'
-#        verbose_name_plural = 'Library Prep to Pooled Libraries'
 
 
 class FinalPooledLibrary(DateTimeUserMixin):
@@ -330,7 +359,9 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.final_pooled_lib_label_slug = '{name}'.format(name=slugify(self.final_pooled_lib_label))
+        fpl_date_fmt = slug_date_format(self.final_pooled_lib_datetime)
+        self.final_pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.final_pooled_lib_label),
+                                                                  date=slugify(fpl_date_fmt))
         super(FinalPooledLibrary, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -340,19 +371,6 @@ class FinalPooledLibrary(DateTimeUserMixin):
         app_label = 'wet_lab'
         verbose_name = 'Final Pooled Library'
         verbose_name_plural = 'Final Pooled Libraries'
-
-
-#class PooledLibraryToFinalPooledLibrary(DateTimeUserMixin):
-#    '''
-#    ManyToMany relationship table between PooledLibrary and FinalPooledLibrary
-#    '''
-#    pooled_library = models.ForeignKey(PooledLibrary, on_delete=models.RESTRICT)
-#    final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
-
-#    class Meta:
-#        app_label = 'wet_lab'
-#        verbose_name = 'Pooled Library to Final Pooled Library'
-#        verbose_name_plural = 'Pooled Library to Final Pooled Libraries'
 
 
 class RunPrep(DateTimeUserMixin):
@@ -378,7 +396,7 @@ class RunPrep(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         date = self.run_date
         date_fmt = date.strftime('%Y%m%d')
-        self.run_prep_slug = '{date}_{name}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
+        self.run_prep_slug = '{name}_{date}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
                                                     date=date_fmt)
         super(RunPrep, self).save(*args, **kwargs)
 
