@@ -17,7 +17,7 @@ from utility.models import Project
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    survey_global_id = models.TextField("Global ID", primary_key=True)
+    survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
                                  blank=True,
@@ -44,7 +44,7 @@ class FieldSurvey(DateTimeUserMixin):
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
     site_id = models.ForeignKey(FieldSite, blank=True, null=True, on_delete=models.RESTRICT)
     site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
-    site_name = models.TextField("General Location Name", blank=True)
+    site_name = models.CharField("General Location Name", max_length=255, blank=True)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     long_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # environmental observations
@@ -150,7 +150,7 @@ class FieldSurvey(DateTimeUserMixin):
 
 
 class FieldCrew(DateTimeUserMixin):
-    crew_global_id = models.TextField("Global ID", primary_key=True)
+    crew_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurvey,
@@ -171,7 +171,7 @@ class FieldCrew(DateTimeUserMixin):
 
 
 class EnvMeasurement(DateTimeUserMixin):
-    env_global_id = models.TextField("Global ID", primary_key=True)
+    env_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
                                             max_digits=15, decimal_places=10,
@@ -248,7 +248,7 @@ class EnvMeasurement(DateTimeUserMixin):
 
 
 class FieldCollection(DateTimeUserMixin):
-    collection_global_id = models.TextField("Global ID", primary_key=True)
+    collection_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     survey_global_id = models.ForeignKey(FieldSurvey,
                                          db_column="survey_global_id",
                                          related_name="fieldsurvey_to_fieldcollection",
@@ -258,7 +258,7 @@ class FieldCollection(DateTimeUserMixin):
     water_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=25, choices=ControlTypes.choices,
                                           blank=True)
-    water_vessel_label = models.TextField("Water Vessel Label", blank=True)
+    water_vessel_label = models.CharField("Water Vessel Label", max_length=255, blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
     water_collect_depth = models.DecimalField("Water Collection Depth",
                                               max_digits=15, decimal_places=10, blank=True, null=True)
@@ -275,7 +275,7 @@ class FieldCollection(DateTimeUserMixin):
     # wasfiltered
     was_filtered = models.CharField("Filtered", max_length=25, choices=YesNo.choices, blank=True)
     core_control = models.CharField("Is Control", max_length=25, choices=YesNo.choices, blank=True)
-    core_label = models.TextField("Core Label", blank=True)
+    core_label = models.CharField("Core Label", max_length=255, blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
     core_method = models.CharField("Corer Method", max_length=25, choices=CoreMethods.choices, blank=True)
@@ -305,13 +305,13 @@ class FieldCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    sample_global_id = models.TextField("Global ID", primary_key=True)
+    sample_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     collection_global_id = models.ForeignKey(FieldCollection,
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField(max_length=16, null=True)
+    barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=25, choices=YesNo.choices, default=YesNo.NO)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     filter_location = models.CharField("Filter Location", max_length=25,
@@ -320,16 +320,16 @@ class FieldSample(DateTimeUserMixin):
                                     choices=YesNo.choices, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
-    filter_sample_label = models.TextField("Filter Sample Label", blank=True)
+    filter_sample_label = models.CharField("Filter Sample Label", max_length=255, blank=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=25,
                                      choices=FilterMethods.choices, blank=True)
-    filter_method_other = models.TextField("Other Filter Method", blank=True)
+    filter_method_other = models.CharField("Other Filter Method", max_length=255, blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=25,
                                    choices=FilterTypes.choices, blank=True)
-    filter_type_other = models.TextField("Other Filter Type", blank=True)
+    filter_type_other = models.CharField("Other Filter Type", max_length=255, blank=True)
     filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
@@ -337,7 +337,7 @@ class FieldSample(DateTimeUserMixin):
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=25,
                                       choices=SubCoreMethods.choices, blank=True)
-    subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
+    subcore_method_other = models.CharField("Other Sub-Core Method", max_length=255, blank=True)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
@@ -369,7 +369,7 @@ class FieldSample(DateTimeUserMixin):
 class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    survey_global_id = models.TextField("Global ID", primary_key=True)
+    survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  verbose_name="Username",
                                  blank=True, null=True,
@@ -380,7 +380,7 @@ class FieldSurveyETL(DateTimeUserMixin):
 
     # prj_ids
 
-    project_ids = models.TextField("Affiliated Project(s)", blank=True)
+    project_ids = models.CharField("Affiliated Project(s)", max_length=255, blank=True)
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name="Supervisor",
                                    blank=True,
@@ -393,7 +393,7 @@ class FieldSurveyETL(DateTimeUserMixin):
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
     site_id = models.CharField("Site ID", max_length=7, blank=True)
     site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
-    site_name = models.TextField("General Location Name", blank=True)
+    site_name = models.CharField("General Location Name", max_length=255, blank=True)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     long_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # environmental observations
@@ -487,7 +487,7 @@ class FieldSurveyETL(DateTimeUserMixin):
 
 
 class FieldCrewETL(DateTimeUserMixin):
-    crew_global_id = models.TextField("Global ID", primary_key=True)
+    crew_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL,
@@ -508,7 +508,7 @@ class FieldCrewETL(DateTimeUserMixin):
 
 
 class EnvMeasurementETL(DateTimeUserMixin):
-    env_global_id = models.TextField("Global ID", primary_key=True)
+    env_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
                                             max_digits=15, decimal_places=10, blank=True, null=True)
@@ -527,7 +527,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
-    env_measurement = models.TextField("Environmental Measurements", blank=True)
+    env_measurement = models.CharField("Environmental Measurements", max_length=255, blank=True)
     env_flow_rate = models.DecimalField("Flow Rate (m/s)",
                                         max_digits=15, decimal_places=10, blank=True, null=True)
     env_water_temp = models.DecimalField("Water Temperature (C)",
@@ -582,16 +582,16 @@ class EnvMeasurementETL(DateTimeUserMixin):
 
 
 class FieldCollectionETL(DateTimeUserMixin):
-    collection_global_id = models.TextField("Global ID", primary_key=True)
+    collection_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     # this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
     water_control = models.CharField("Is Control", max_length=3, blank=True, null=True)
     water_control_type = models.CharField("Water Control Type", max_length=255, blank=True)
-    water_vessel_label = models.TextField("Water Vessel Label", blank=True)
+    water_vessel_label = models.CharField("Water Vessel Label", max_length=255, blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
     water_collect_depth = models.DecimalField("Water Collection Depth",
                                               max_digits=15, decimal_places=10, blank=True, null=True)
-    water_collect_mode = models.TextField("Collection Mode", blank=True)
+    water_collect_mode = models.CharField("Collection Mode", max_length=255, blank=True)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     water_niskin_vol = models.DecimalField("Niskin Sample Volume",
                                            max_digits=15, decimal_places=10, blank=True, null=True)
@@ -602,7 +602,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
     was_filtered = models.CharField("Filtered", max_length=3, blank=True, null=True)
     core_control = models.CharField("Is Control", max_length=3, blank=True, null=True)
-    core_label = models.TextField("Core Label", blank=True)
+    core_label = models.CharField("Core Label", max_length=255, blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
     core_method = models.CharField("Corer Method", max_length=255, blank=True)
@@ -618,7 +618,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
-    subcore_method_other = models.TextField("Other Sub-Core Method", blank=True)
+    subcore_method_other = models.CharField("Other Sub-Core Method", max_length=255, blank=True)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
     subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, blank=True)
@@ -650,21 +650,21 @@ class FieldCollectionETL(DateTimeUserMixin):
 
 
 class SampleFilterETL(DateTimeUserMixin):
-    filter_global_id = models.TextField("Global ID", primary_key=True)
+    filter_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
-    filter_sample_label = models.TextField("Filter Sample Label", blank=True)
+    filter_sample_label = models.CharField("Filter Sample Label", max_length=255, blank=True)
     # needs to fk to samplelabels at some point
     filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, blank=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
-    filter_method_other = models.TextField("Other Filter Method", blank=True)
+    filter_method_other = models.CharField("Other Filter Method", max_length=255, blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
-    filter_type_other = models.TextField("Other Filter Type", blank=True)
+    filter_type_other = models.CharField("Other Filter Type", max_length=255, blank=True)
     filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
@@ -687,21 +687,21 @@ class SampleFilterETL(DateTimeUserMixin):
 
 
 class BlankSampleFilterETL(DateTimeUserMixin):
-    filter_global_id = models.TextField("Global ID", primary_key=True)
+    filter_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     filter_location = models.CharField("Filter Location", max_length=255, blank=True)
     is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
     filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
-    filter_sample_label = models.TextField("Filter Sample Label", blank=True)
+    filter_sample_label = models.CharField("Filter Sample Label", max_length=255, blank=True)
     # needs to fk to samplelabels at some point
     filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, blank=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", max_length=255, blank=True)
-    filter_method_other = models.TextField("Other Filter Method", blank=True)
+    filter_method_other = models.CharField("Other Filter Method", max_length=255, blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
                                      max_digits=15, decimal_places=10, blank=True, null=True)
     filter_type = models.CharField("Filter Type", max_length=255, blank=True)
-    filter_type_other = models.TextField("Other Filter Type", blank=True)
+    filter_type_other = models.CharField("Other Filter Type", max_length=255, blank=True)
     filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)

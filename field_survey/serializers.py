@@ -12,13 +12,13 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
 
 # Django REST Framework to allow the automatic downloading of data!
 class FieldSurveySerializer(serializers.ModelSerializer):
-    survey_global_id = serializers.CharField(read_only=True)
+    survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField()
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
     recorder_lname = serializers.CharField(max_length=255, allow_blank=True)
     arrival_datetime = serializers.DateTimeField(allow_null=True)
     site_id_other = serializers.CharField(max_length=255, allow_blank=True)
-    site_name = serializers.CharField(allow_blank=True)
+    site_name = serializers.CharField(max_length=255, allow_blank=True)
     lat_manual = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     long_manual = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     env_obs_turbidity = serializers.ChoiceField(choices=TurbidTypes.choices, allow_blank=True)
@@ -38,7 +38,7 @@ class FieldSurveySerializer(serializers.ModelSerializer):
     measurements_taken = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     survey_complete = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     qa_datetime = serializers.DateTimeField(allow_null=True)
-    qa_initial = serializers.CharField(allow_blank=True)
+    qa_initial = serializers.CharField(max_length=200, allow_blank=True)
     gps_cap_lat = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     gps_cap_long = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     gps_cap_alt = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
@@ -75,7 +75,7 @@ class FieldSurveySerializer(serializers.ModelSerializer):
 
 
 class FieldCrewSerializer(serializers.ModelSerializer):
-    crew_global_id = serializers.CharField(read_only=True)
+    crew_global_id = serializers.CharField(read_only=True, max_length=255)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -93,7 +93,7 @@ class FieldCrewSerializer(serializers.ModelSerializer):
 
 
 class EnvMeasurementSerializer(serializers.ModelSerializer):
-    env_global_id = serializers.CharField(read_only=True)
+    env_global_id = serializers.CharField(read_only=True, max_length=255)
     env_measure_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_instrument = serializers.ChoiceField(choices=EnvInstruments.choices, allow_blank=True)
@@ -150,7 +150,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
 
 
 class FieldCollectionSerializer(serializers.ModelSerializer):
-    collection_global_id = serializers.CharField(read_only=True)
+    collection_global_id = serializers.CharField(read_only=True, max_length=255)
     collection_type = serializers.ChoiceField(choices=CollectionTypes.choices, allow_blank=True)
     water_control = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     water_control_type = serializers.ChoiceField(choices=ControlTypes.choices, allow_blank=True)
@@ -197,7 +197,7 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
 
 
 class FieldSampleSerializer(serializers.ModelSerializer):
-    sample_global_id = serializers.CharField(read_only=True)
+    sample_global_id = serializers.CharField(read_only=True, max_length=255)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
