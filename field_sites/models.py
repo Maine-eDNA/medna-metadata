@@ -8,8 +8,20 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-def update_biome_first(biome_pk, biome_first):
-        EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=biome_first)
+def update_biome_second(biome_pk, biome):
+    EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=biome)
+
+
+def update_biome_third(biome_pk, biome):
+    EnvoBiomeThird.objects.filter(biome_second_tier_slug=biome_pk).update(biome_second_tier=biome)
+
+
+def update_biome_fourth(biome_pk, biome):
+    EnvoBiomeFourth.objects.filter(biome_third_tier_slug=biome_pk).update(biome_third_tier=biome)
+
+
+def update_biome_fifth(biome_pk, biome):
+    EnvoBiomeFifth.objects.filter(biome_fourth_tier_slug=biome_pk).update(biome_fourth_tier=biome)
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
@@ -22,7 +34,7 @@ class EnvoBiomeFirst(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_first_tier_slug = '{biome1}'.format(biome1=slugify(self.biome_first_tier))
-        update_biome_first(self.pk, self.biome_first_tier)
+        update_biome_second(self.pk, self.biome_first_tier)
         super(EnvoBiomeFirst, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -52,6 +64,7 @@ class EnvoBiomeSecond(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
         self.biome_first_tier = '{biome1}'.format(biome1=self.biome_first_tier_slug.biome_first_tier)
+        update_biome_third(self.pk, self.biome_second_tier)
         super(EnvoBiomeSecond, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -87,6 +100,7 @@ class EnvoBiomeThird(DateTimeUserMixin):
         self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
         self.biome_second_tier = '{biome2}'.format(biome2=self.biome_second_tier_slug.biome_second_tier)
         self.biome_first_tier = '{biome1}'.format(biome1=self.biome_second_tier_slug.biome_first_tier)
+        update_biome_fourth(self.pk, self.biome_third_tier)
         super(EnvoBiomeThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -126,6 +140,7 @@ class EnvoBiomeFourth(DateTimeUserMixin):
         self.biome_third_tier = '{biome3}'.format(biome3=self.biome_third_tier_slug.biome_third_tier)
         self.biome_second_tier = '{biome2}'.format(biome2=self.biome_third_tier_slug.biome_second_tier)
         self.biome_first_tier = '{biome1}'.format(biome1=self.biome_third_tier_slug.biome_first_tier)
+        update_biome_fifth(self.pk, self.biome_fourth_tier)
         super(EnvoBiomeFourth, self).save(*args, **kwargs)
 
     def __str__(self):
