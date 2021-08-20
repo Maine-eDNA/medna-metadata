@@ -254,7 +254,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_datetime = serializers.DateTimeField()
     lib_prep_experiment_name = serializers.CharField(max_length=255,
                                                      validators=[UniqueValidator(queryset=LibraryPrep.objects.all())])
-    lib_prep_experiment_name_slug = serializers.CharField(max_length=255, read_only=True)
+    lib_prep_slug = serializers.CharField(max_length=255, read_only=True)
     qubit_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     # units will be in ng/ml
     qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
@@ -273,7 +273,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     class Meta:
         model = LibraryPrep
         fields = ['id', 'lib_prep_datetime', 'lib_prep_experiment_name',
-                  'lib_prep_experiment_name_slug', 'process_location',
+                  'lib_prep_slug', 'process_location',
                   'extraction', 'index_pair', 'primer_set', 'index_removal_method', 'size_selection_method',
                   'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                   'final_concentration', 'final_concentration_units',
@@ -326,7 +326,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     process_location = serializers.SlugRelatedField(many=False, read_only=True,
                                                     slug_field='process_location_name_slug')
     library_prep = serializers.SlugRelatedField(many=True, read_only=True,
-                                                slug_field='lib_prep_experiment_name_slug')
+                                                slug_field='lib_prep_slug')
     quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
                                                          slug_field='quant_method_name_slug')
 
