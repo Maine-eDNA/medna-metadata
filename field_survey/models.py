@@ -322,8 +322,8 @@ class FieldSample(DateTimeUserMixin):
     filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
     filter_sample_label = models.TextField("Filter Sample Label", blank=True)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
-    filter_method = models.CharField("Filter Method", max_length=25, choices=FilterMethods.choices,
-                                     blank=True)
+    filter_method = models.CharField("Filter Method", max_length=25,
+                                     choices=FilterMethods.choices, blank=True)
     filter_method_other = models.TextField("Other Filter Method", blank=True)
     filter_vol = models.DecimalField("Water Volume Filtered",
                                      max_digits=15, decimal_places=10, blank=True, null=True)
@@ -351,7 +351,7 @@ class FieldSample(DateTimeUserMixin):
         # just check if name or location.name has changed
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
-            self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
+            self.barcode_slug = slugify(self.field_sample_barcode.purpose)
         super(FieldSample, self).save(*args, **kwargs)
 
     def __str__(self):
