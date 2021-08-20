@@ -228,7 +228,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldSample
-        fields = ['sample_global_id', 'is_extracted', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
+        fields = ['collection_global_id', 'sample_global_id', 'is_extracted', 'filter_location', 'is_prefilter',
+                  'filter_fname', 'filter_lname', 'sample_type', 'field_sample_barcode',
                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname',
                   'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
