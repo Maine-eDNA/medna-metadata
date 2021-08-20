@@ -137,12 +137,12 @@ class ExtractionAdminResource(resources.ModelResource):
         model = Extraction
         import_id_fields = ('extraction_datetime', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'extraction_datetime', 'field_sample', 'extraction_method',
+        fields = ('id', 'extraction_datetime', 'field_sample', 'barcode_slug', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name',
                   'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes',  'created_by', 'created_datetime', )
-        export_order = ('id', 'extraction_datetime', 'field_sample', 'extraction_method',
+        export_order = ('id', 'extraction_datetime', 'field_sample', 'barcode_slug', 'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
                         'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
