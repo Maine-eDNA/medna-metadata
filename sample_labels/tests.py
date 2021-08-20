@@ -4,6 +4,7 @@ from .models import SampleType, SampleLabel, SampleLabelRequest
 
 
 class SampleTypeTestCase(TestCase):
+    # fixtures = ['sample_labels_sampletype.json']
     def setUp(self):
         SampleType.objects.create(sample_type_label="Sediment", sample_type_code="s")
         SampleType.objects.create(sample_type_label="Water", sample_type_code="w")
@@ -17,6 +18,7 @@ class SampleTypeTestCase(TestCase):
 
 
 class SampleLabelRequestTestCase(TestCase):
+    # fixtures = ['sample_labels_samplelabelrequest.json']
     def setUp(self):
         SampleLabelRequest.objects.create(site_id=1, sample_type=1, sample_year=2021, purpose="SampleLabelTest1",
                                   req_sample_label_num=30)
@@ -30,8 +32,9 @@ class SampleLabelRequestTestCase(TestCase):
         self.assertIs(test1.was_added_recently(), False)
         self.assertIs(test2.was_added_recently(), False)
 
-"""
+
 class SampleLabelTestCase(TestCase):
+    # fixtures = ['sample_labels_samplelabel.json']
     def setUp(self):
         SampleLabel.objects.create(site_id=1, sample_type=1, sample_year=2021, purpose="SampleLabelTest1",
                                   req_sample_label_num=30)
@@ -44,4 +47,3 @@ class SampleLabelTestCase(TestCase):
         test2 = SampleLabel.objects.get(purpose="SampleLabelTest2")
         self.assertIs(test1.was_added_recently(), False)
         self.assertIs(test2.was_added_recently(), False)
-"""

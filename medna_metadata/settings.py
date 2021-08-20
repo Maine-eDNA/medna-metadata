@@ -265,9 +265,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # location for dump or load of initial data
-FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "dev"),
-                os.path.join(BASE_DIR, "fixtures", "prod"),)
-
+FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "dev"),)
 # FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "prod"), )
 
 
