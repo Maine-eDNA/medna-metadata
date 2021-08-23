@@ -14,7 +14,7 @@ class AccountExpiry:
     def __call__(self, request):
         current_user = request.user
         response = self.get_response(request)
-        expiry_path = reverse('users:account-expired')
+        expiry_path = reverse('rest-auth:user')
 
         if current_user.is_anonymous is False:
             if current_user.admin is False and current_user.staff is False:

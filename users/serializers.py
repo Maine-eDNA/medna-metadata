@@ -24,7 +24,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'email', 'password', 'first_name', 'last_name',
-                  'phone_number', 'agol_username', )
+                  'phone_number', 'agol_username', 'expiration_date',)
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
@@ -33,8 +33,9 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number', 'agol_username', ]
-        read_only_fields = ('email',)
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone_number',
+                  'agol_username', 'expiration_date', ]
+        read_only_fields = ('email', 'expiration_date',)
 
 
 # rest-auth login and registration forms
