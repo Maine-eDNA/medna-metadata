@@ -83,6 +83,7 @@ class Project(DateTimeUserMixin):
 
 class ProcessLocation(DateTimeUserMixin):
     # CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
+    # UMAINE = 'UMaine', _('UMaine (non-CORE)')
     # BIGELOW = 'Bigelow', _('Bigelow Laboratory')
     # URI = 'URI', _('Rhode Island Genomics (URI)')
     # UNH = 'UNH', _('Hubbard Center (UNH)')
