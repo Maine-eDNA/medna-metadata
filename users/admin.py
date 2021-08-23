@@ -34,4 +34,3 @@ class CustomUserAdmin(UserAdmin):
         return actions
 
 admin.site.register(CustomUser, CustomUserAdmin)
-
