@@ -4,6 +4,7 @@ from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonomicAnnotation
 from bioinfo_denoising.models import AmpliconSequenceVariant
 from utility.enumerations import YesNo
+from utility.models import ProcessLocation
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 
@@ -270,7 +271,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnnotationMetadata
-        fields = ['id', 'analysis_datetime', 'annotation_method',
+        fields = ['id', 'process_location', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -278,6 +279,9 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
     annotation_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                      slug_field='annotation_method_name_slug',
                                                      queryset=AnnotationMethod.objects.all())
