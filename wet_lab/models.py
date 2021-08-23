@@ -164,6 +164,8 @@ class ExtractionMethod(DateTimeUserMixin):
 
 
 class Extraction(DateTimeUserMixin):
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
@@ -200,6 +202,8 @@ class Extraction(DateTimeUserMixin):
 
 
 class Ddpcr(DateTimeUserMixin):
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
     ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255, unique=True)
     ddpcr_experiment_name_slug = models.SlugField("ddPCR Experiment Name Slug", max_length=255)
@@ -230,6 +234,8 @@ class Ddpcr(DateTimeUserMixin):
 
 
 class Qpcr(DateTimeUserMixin):
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     qpcr_datetime = models.DateTimeField("qPCR DateTime")
     qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255, unique=True)
     qpcr_experiment_name_slug = models.SlugField("qPCR Experiment Name Slug", max_length=255)
@@ -409,6 +415,8 @@ class RunPrep(DateTimeUserMixin):
 
 
 class RunResult(DateTimeUserMixin):
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
+                                         default=DEFAULT_PROCESS_LOCATION_ID)
     run_id = models.CharField("Run ID", max_length=255, unique=True)
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
