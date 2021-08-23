@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block head_title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'utility/css/base.css' %}{% endblock %}">
+    {% if not is_popup and is_nav_sidebar_enabled %}
+      <link rel="stylesheet" type="text/css" href="{% static 'utility/css/nav_sidebar.css' %}">
+      <script src="{% static 'utility/js/nav_sidebar.js' %}" defer></script>
+    {% endif %}
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static 'utility/css/rtl.css' %}{% endblock %}">{% endif %}
+    {% block extrahead %}{% endblock %}
+    {% block extrastyle %}{% endblock %}
+    {% block responsive %}
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'utility/css/responsive.css' %}">
+        {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static 'utility/css/responsive_rtl.css' %}">{% endif %}
+    {% endblock %}
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <div>
+      <strong>Menu:</strong>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+        {% else %}
+        <li><a href="{% url 'account_login' %}">Sign In</a></li>
+        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+  </body>
+</html>
