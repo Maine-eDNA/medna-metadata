@@ -102,6 +102,10 @@ APP_ORDER = OrderedDict([
 # Adding the following line to the “settings.py” file will let Django know to use the new User class:
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# default account tenure in DAYS - permissions will expire after the designated number of days
+# from account creation
+DEFAULT_TEMP_TENURE = 365
+
 # The list of authentication backends to use is specified in the AUTHENTICATION_BACKENDS setting.
 # This should be a list of Python path names that point to Python classes that know how to authenticate.
 # These classes can be anywhere on your Python path.
@@ -153,6 +157,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.AccountExpiry',
 ]
 
 # https://github.com/adamchainz/django-cors-headers#configuration
