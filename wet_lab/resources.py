@@ -137,16 +137,21 @@ class ExtractionAdminResource(resources.ModelResource):
         model = Extraction
         import_id_fields = ('extraction_datetime', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'extraction_datetime', 'field_sample', 'barcode_slug', 'extraction_method',
+        fields = ('id', 'process_location', 'extraction_datetime', 'field_sample', 'barcode_slug', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name',
                   'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes',  'created_by', 'created_datetime', )
-        export_order = ('id', 'extraction_datetime', 'field_sample', 'barcode_slug', 'extraction_method',
+        export_order = ('id', 'process_location', 'extraction_datetime', 'field_sample', 'barcode_slug', 'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
                         'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                         'extraction_notes',  'created_by', 'created_datetime', )
+
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
 
     field_sample = fields.Field(
         column_name='field_sample',
@@ -178,12 +183,17 @@ class DdpcrAdminResource(resources.ModelResource):
         model = Ddpcr
         import_id_fields = ('ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
+        fields = ('id', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime',)
-        export_order = ('id', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
+        export_order = ('id', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                         'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                         'ddpcr_notes', 'created_by', 'created_datetime',)
+
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
 
     extraction = fields.Field(
         column_name='extraction',
@@ -210,12 +220,17 @@ class QpcrAdminResource(resources.ModelResource):
         model = Qpcr
         import_id_fields = ('qpcr_datetime', 'qpcr_experiment_name', 'extraction', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
+        fields = ('id', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                   'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                   'qpcr_notes', 'created_by', 'created_datetime', )
-        export_order = ('id', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
+        export_order = ('id', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                         'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                         'qpcr_notes', 'created_by', 'created_datetime', )
+
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
 
     extraction = fields.Field(
         column_name='extraction',
@@ -428,12 +443,17 @@ class RunResultAdminResource(resources.ModelResource):
         model = RunResult
         import_id_fields = ('run_id', 'run_experiment_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'run_id', 'run_experiment_name', 'run_prep',
+        fields = ('id', 'process_location', 'run_id', 'run_experiment_name', 'run_prep',
                   'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'run_id', 'run_experiment_name', 'run_prep',
+        export_order = ('id', 'process_location', 'run_id', 'run_experiment_name', 'run_prep',
                         'run_completion_datetime', 'run_instrument',
                         'created_by', 'created_datetime', )
+
+    process_location = fields.Field(
+        column_name='process_location',
+        attribute='process_location',
+        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
 
     run_prep = fields.Field(
         column_name='run_prep',

@@ -238,7 +238,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['extraction_datetime', 'field_sample', 'extraction_method',
+        self.fields = ['process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
@@ -256,7 +256,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['extraction_datetime', 'field_sample', 'barcode_slug',
+        self.fields = ['process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
                        'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
@@ -284,7 +284,7 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
+        self.fields = ['process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                        'ddpcr_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -295,7 +295,7 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
+        self.fields = ['process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                        'ddpcr_notes', 'created_by']
 
@@ -320,7 +320,7 @@ class QpcrAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
+        self.fields = ['process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                        'qpcr_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -331,7 +331,7 @@ class QpcrAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
+        self.fields = ['process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                        'qpcr_notes', 'created_by']
 
@@ -540,7 +540,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['run_id', 'run_experiment_name', 'run_prep',
+        self.fields = ['process_location', 'run_id', 'run_experiment_name', 'run_prep',
                        'run_completion_datetime', 'run_instrument',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -551,7 +551,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['run_id', 'run_experiment_name', 'run_prep',
+        self.fields = ['process_location', 'run_id', 'run_experiment_name', 'run_prep',
                        'run_completion_datetime', 'run_instrument',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
