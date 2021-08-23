@@ -5,7 +5,7 @@ from django.utils.text import slugify
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format
-from utility.enumerations import TargetGenes, ConcentrationUnits, VolUnits, LibPrepTypes, \
+from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 
@@ -77,7 +77,7 @@ class IndexPair(DateTimeUserMixin):
 
 
 class IndexRemovalMethod(DateTimeUserMixin):
-    # exo-sap, beads, ...
+    # exo-sap, beads, gel extraction, spin column, ...
     index_removal_method_name = models.CharField("Index Removal Method", max_length=255, unique=True)
     index_removal_method_name_slug = models.SlugField("Index Removal Method Slug", max_length=255)
 
@@ -99,7 +99,7 @@ class IndexRemovalMethod(DateTimeUserMixin):
 
 
 class SizeSelectionMethod(DateTimeUserMixin):
-    # beads, gel cuts, spin column
+    # beads, gel extraction, spin column, ...
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255, unique=True)
     size_selection_method_name_slug = models.SlugField("Size Selection Method Slug", max_length=255)
 
@@ -171,9 +171,9 @@ class Extraction(DateTimeUserMixin):
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
-    extraction_volume = models.DecimalField("Total Extraction Volume", max_digits=15, decimal_places=10)
+    extraction_volume = models.DecimalField("Total Extraction Elution Volume", max_digits=15, decimal_places=10)
     # microliter, ul
-    extraction_volume_units = models.CharField("Extraction Volume Units", max_length=25, choices=VolUnits.choices,
+    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=25, choices=VolUnits.choices,
                                                default=VolUnits.MICROLITER)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10)
@@ -382,7 +382,7 @@ class RunPrep(DateTimeUserMixin):
     # can be reported as percent and picomolar, pM
     phix_spike_in_units = models.CharField("PhiX Spike In Units",
                                            max_length=25,
-                                           choices=ConcentrationUnits.choices, blank=True)
+                                           choices=PhiXConcentrationUnits.choices, blank=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM

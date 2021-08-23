@@ -39,7 +39,16 @@ class ConcentrationUnits(models.TextChoices):
     PGUL = 'picograms_per_microliter', _('Picograms per microliter (pg/µL)')
     NM = 'nanomolar', _('nanomolar (nM)')
     PM = 'picomolar', _('picomolar (pM)')
+    __empty__ = _('(Unknown)')
+
+
+class PhiXConcentrationUnits(models.TextChoices):
     PERC = 'percent', _('Percent (%)')
+    NGUL = 'nanograms_per_microliter', _('Nanograms per microliter (ng/µL)')
+    NGML = 'nanograms_per_milliliter', _('Nanograms per milliliter (ng/mL)')
+    PGUL = 'picograms_per_microliter', _('Picograms per microliter (pg/µL)')
+    NM = 'nanomolar', _('nanomolar (nM)')
+    PM = 'picomolar', _('picomolar (pM)')
     __empty__ = _('(Unknown)')
 
 
