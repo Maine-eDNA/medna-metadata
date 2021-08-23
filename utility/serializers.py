@@ -38,9 +38,10 @@ class ProjectSerializer(serializers.ModelSerializer):
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    grant_name = serializers.SlugRelatedField(many=False, read_only=True, slug_field='grant_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
+    grant_name = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code',
+                                              queryset=Grant.objects.all())
 
 
 class ProcessLocationSerializer(serializers.ModelSerializer):

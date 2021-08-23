@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
+from field_survey.models import FieldSample
+from utility.models import ProcessLocation
 from utility.enumerations import TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -166,7 +168,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Extraction
-        fields = ['id', 'extraction_date', 'barcode_slug', 'field_sample', 'extraction_method',
+        fields = ['id', 'process_location', 'extraction_date', 'barcode_slug', 'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
@@ -175,12 +177,18 @@ class ExtractionSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    field_sample = serializers.SlugRelatedField(many=False, read_only=True,
-                                                slug_field='barcode_slug')
-    extraction_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='extraction_method_slug')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='quant_method_name_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    field_sample = serializers.SlugRelatedField(many=False, read_only=False,
+                                                slug_field='barcode_slug',
+                                                queryset=FieldSample.objects.all())
+    extraction_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field='extraction_method_slug',
+                                                     queryset=ExtractionMethod.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='quant_method_name_slug',
+                                                         queryset=QuantificationMethod.objects.all())
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -201,7 +209,7 @@ class DdpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ddpcr
-        fields = ['id', 'ddpcr_datetime', 'ddpcr_experiment_name', 'ddpcr_experiment_name_slug',
+        fields = ['id', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'ddpcr_experiment_name_slug',
                   'extraction', 'primer_set', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
@@ -210,10 +218,15 @@ class DdpcrSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='barcode_slug')
-    primer_set = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='primer_set_name_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='barcode_slug',
+                                              queryset=Extraction.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='primer_set_name_slug',
+                                              queryset=PrimerPair.objects.all())
 
 
 class QpcrSerializer(serializers.ModelSerializer):
@@ -222,7 +235,6 @@ class QpcrSerializer(serializers.ModelSerializer):
     qpcr_experiment_name = serializers.CharField(max_length=255,
                                                  validators=[UniqueValidator(queryset=Qpcr.objects.all())])
     qpcr_experiment_name_slug = serializers.SlugField(max_length=255, read_only=True)
-
     qpcr_first_name = serializers.CharField(max_length=255)
     qpcr_last_name = serializers.CharField(max_length=255)
     qpcr_probe = serializers.CharField(allow_blank=True)
@@ -234,7 +246,7 @@ class QpcrSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Qpcr
-        fields = ['id', 'qpcr_datetime', 'qpcr_experiment_name', 'qpcr_experiment_name_slug',
+        fields = ['id', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'qpcr_experiment_name_slug',
                   'extraction', 'primer_set', 'qpcr_first_name',
                   'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                   'qpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
@@ -243,10 +255,15 @@ class QpcrSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='barcode_slug')
-    primer_set = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='primer_set_name_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='barcode_slug',
+                                              queryset=Extraction.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='primer_set_name_slug',
+                                              queryset=PrimerPair.objects.all())
 
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
@@ -284,20 +301,25 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='process_location_name_slug')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='barcode_slug')
-    primer_set = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='primer_set_name_slug')
-    index_pair = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='id')
-    index_removal_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                        slug_field='index_removal_method_name_slug')
-    size_selection_method = serializers.SlugRelatedField(many=False, read_only=True,
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='barcode_slug',
+                                              queryset=Extraction.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='primer_set_name_slug',
+                                              queryset=PrimerPair.objects.all())
+    index_pair = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='id', queryset=IndexPair.objects.all())
+    index_removal_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                        slug_field='index_removal_method_name_slug',
+                                                        queryset=IndexRemovalMethod.objects.all())
+    size_selection_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                          slug_field='size_selection_method_name_slug')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='quant_method_name_slug')
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='quant_method_name_slug',
+                                                         queryset=QuantificationMethod.objects.all())
 
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
@@ -323,12 +345,15 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='process_location_name_slug')
-    library_prep = serializers.SlugRelatedField(many=True, read_only=True,
-                                                slug_field='lib_prep_slug')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='quant_method_name_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    library_prep = serializers.SlugRelatedField(many=True, read_only=False,
+                                                slug_field='lib_prep_slug',
+                                                queryset=LibraryPrep.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='quant_method_name_slug',
+                                                         queryset=QuantificationMethod.objects.all())
 
 
 class FinalPooledLibrarySerializer(serializers.ModelSerializer):
@@ -357,12 +382,15 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='process_location_name_slug')
-    pooled_library = serializers.SlugRelatedField(many=True, read_only=True,
-                                                  slug_field='pooled_lib_label_slug')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='quant_method_name_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    pooled_library = serializers.SlugRelatedField(many=True, read_only=False,
+                                                  slug_field='pooled_lib_label_slug',
+                                                  queryset=PooledLibrary.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='quant_method_name_slug',
+                                                         queryset=QuantificationMethod.objects.all())
 
 
 class RunPrepSerializer(serializers.ModelSerializer):
@@ -387,12 +415,15 @@ class RunPrepSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='process_location_name_slug')
-    final_pooled_library = serializers.SlugRelatedField(many=False, read_only=True,
-                                                        slug_field='final_pooled_lib_label_slug')
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='quant_method_name_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    final_pooled_library = serializers.SlugRelatedField(many=False, read_only=False,
+                                                        slug_field='final_pooled_lib_label_slug',
+                                                        queryset=FinalPooledLibrary.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='quant_method_name_slug',
+                                                         queryset=QuantificationMethod.objects.all())
 
 
 class RunResultSerializer(serializers.ModelSerializer):
@@ -407,15 +438,19 @@ class RunResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RunResult
-        fields = ['id', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
+        fields = ['id', 'process_location', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    run_prep = serializers.SlugRelatedField(many=False, read_only=True,
-                                            slug_field='run_prep_slug')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
+    run_prep = serializers.SlugRelatedField(many=False, read_only=False,
+                                            slug_field='run_prep_slug',
+                                            queryset=RunPrep.objects.all())
 
 
 class FastqFileSerializer(serializers.ModelSerializer):
@@ -436,7 +471,9 @@ class FastqFileSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
-    run_result = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='run_id')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='barcode_slug')
+    run_result = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='run_id',
+                                              queryset=RunResult.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False,
+                                              slug_field='barcode_slug',
+                                              queryset=Extraction.objects.all())

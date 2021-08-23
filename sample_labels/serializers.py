@@ -2,7 +2,8 @@ from rest_framework import serializers
 from utility.serializers import SerializerExportMixin
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
-from .models import SampleLabel, SampleLabelRequest
+from .models import SampleType, SampleLabel, SampleLabelRequest
+from field_sites.models import FieldSite
 from django.core.validators import MinValueValidator
 from rest_framework.validators import UniqueValidator
 
@@ -37,9 +38,12 @@ class SampleLabelSerializer(serializers.ModelSerializer):
     # Since site_id, sample_type, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
-    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
+                                           queryset=FieldSite.objects.all())
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False,
+                                               slug_field='sample_type_code',
+                                               queryset=SampleType.objects.all())
 
 
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
@@ -64,9 +68,12 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     # Since site_id, sample_type, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
-    sample_type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_type_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
+                                           queryset=FieldSite.objects.all())
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False,
+                                               slug_field='sample_type_code',
+                                               queryset=SampleType.objects.all())
 
 
 class SampleLabelRequestSerializerTableExport(TableExport):

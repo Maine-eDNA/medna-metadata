@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
+from wet_lab.models import RunResult, Extraction
 from rest_framework.validators import UniqueTogetherValidator
 
 
@@ -51,9 +52,11 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    run_result = serializers.SlugRelatedField(many=False, read_only=True, slug_field='run_id')
-    denoising_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='denoising_method_slug')
+    run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id',
+                                              queryset=RunResult.objects.all())
+    denoising_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='denoising_method_slug',
+                                                    queryset=DenoisingMethod.objects.all())
 
 
 class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
@@ -72,8 +75,9 @@ class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    denoising_metadata = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field='denoising_slug')
+    denoising_metadata = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field='denoising_slug',
+                                                      queryset=DenoisingMetadata.objects.all())
 
 
 class ASVReadSerializer(serializers.ModelSerializer):
@@ -90,5 +94,7 @@ class ASVReadSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
-    asv = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asv_slug')
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
+                                              queryset=Extraction.objects.all())
+    asv = serializers.SlugRelatedField(many=False, read_only=False, slug_field='asv_slug',
+                                       queryset=AmpliconSequenceVariant.objects.all())
