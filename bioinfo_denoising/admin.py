@@ -54,7 +54,7 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['run_result', 'analysis_datetime', 'analyst_first_name',
+        self.fields = ['process_location', 'run_result', 'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoising_method',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -65,7 +65,7 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['run_result', 'analysis_datetime', 'analyst_first_name',
+        self.fields = ['process_location','run_result', 'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoising_method', 'denoising_slug',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

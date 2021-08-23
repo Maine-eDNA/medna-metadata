@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
 from wet_lab.models import RunResult, Extraction
+from utility.models import ProcessLocation
 from rest_framework.validators import UniqueTogetherValidator
 
 
@@ -43,7 +44,7 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DenoisingMetadata
-        fields = ['id', 'analysis_datetime', 'denoising_slug',
+        fields = ['id', 'process_location', 'analysis_datetime', 'denoising_slug',
                   'run_result', 'denoising_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
@@ -52,6 +53,9 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='process_location_name_slug',
+                                                    queryset=ProcessLocation.objects.all())
     run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id',
                                               queryset=RunResult.objects.all())
     denoising_method = serializers.SlugRelatedField(many=False, read_only=False,
