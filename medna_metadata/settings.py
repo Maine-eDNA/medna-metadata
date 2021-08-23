@@ -53,19 +53,18 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoising',
     'bioinfo_taxon',
-    'corsheaders',
+    'corsheaders', # corsheaders to whitelist urls for backend=>frontend api
     'import_export', # django-import-export
     'allauth', # django-allauth handles user registration as well as social authentication.
     'allauth.account', # Good for email address verification, resetting passwords, etc.
-    'allauth.socialaccount',
+    # 'allauth.socialaccount', # https://www.section.io/engineering-education/django-google-oauth/
     # 'allauth.socialaccount.providers.google', # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
     'rest_auth', # django-rest-auth provides API endpoints for user reg, login/logout,
     'rest_auth.registration', # password change/reset, social auth, etc
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
     'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
-    'rest_framework.authtoken',  # for the creation of api tokens
+    'rest_framework.authtoken', # for the creation of api tokens
     'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
-
 ]
 
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/
@@ -278,6 +277,8 @@ FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "dev"),)
 # https://learndjango.com/tutorials/django-custom-user-model
 # LOGIN_REDIRECT_URL = 'users:home' # default to /accounts/profile .. which doesn't exist
 # ACCOUNT_LOGOUT_REDIRECT_URL = 'users:home'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -291,8 +292,19 @@ PHONENUMBER_DEFAULT_REGION = 'US'
 # settings for import-export to allow exporting data via csv
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-SITE_ID = 1
-
+# Django oauth allauth settings:
+# https://www.section.io/engineering-education/django-google-oauth/
+#SOCIALACCOUNT_PROVIDERS = {
+#    'google': {
+#        'SCOPE': [
+#            'profile',
+#            'email',
+#        ],
+#        'AUTH_PARAMS': {
+#            'access_type': 'online',
+#        }
+#    }
+#}
 # Django rest-auth and allauth settings:
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -309,7 +321,7 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 
-
+SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Django SMTP Email Settings:
@@ -320,7 +332,7 @@ EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
 
 
-# Logging Configuration
+# Logging Configuration for Docker
 # Clear prev config
 LOGGING_CONFIG = None
 
