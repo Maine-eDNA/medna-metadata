@@ -14,9 +14,9 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'phone_number', 'agol_username')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_temporary',
                                        'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined', 'expiration_date')}),
     )
     add_fieldsets = (
         (None, {
@@ -34,3 +34,4 @@ class CustomUserAdmin(UserAdmin):
         return actions
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
