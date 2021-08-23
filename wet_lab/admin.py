@@ -502,7 +502,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['run_date', 'process_location', 'final_pooled_library',
+        self.fields = ['run_prep_date', 'process_location', 'final_pooled_library',
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                        'run_prep_notes', 'created_by']
@@ -514,7 +514,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['run_date', 'process_location', 'final_pooled_library',
+        self.fields = ['run_prep_date', 'process_location', 'final_pooled_library',
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                        'run_prep_notes', 'created_by']
@@ -540,7 +540,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'run_id', 'run_experiment_name', 'run_prep',
+        self.fields = ['process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep',
                        'run_completion_datetime', 'run_instrument',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -551,7 +551,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['process_location', 'run_id', 'run_experiment_name', 'run_prep',
+        self.fields = ['process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep',
                        'run_completion_datetime', 'run_instrument',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

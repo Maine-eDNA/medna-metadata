@@ -61,6 +61,7 @@ class PrimerPair(DateTimeUserMixin):
 
 
 class IndexPair(DateTimeUserMixin):
+    # SampleSheet.csv
     index_i7 = models.CharField("i7 Index", max_length=16)
     i7_index_id = models.CharField("i7 Index ID", max_length=12)
     index_i5 = models.CharField("i5 Index", max_length=16)
@@ -379,9 +380,9 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
-    run_date = models.DateField("Run Date")
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
+    run_prep_date = models.DateTimeField("Run Prep Date")
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     run_prep_slug = models.SlugField("Run Prep Slug", max_length=255)
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, blank=True, null=True)
@@ -399,8 +400,7 @@ class RunPrep(DateTimeUserMixin):
     run_prep_notes = models.TextField("Run Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        date = self.run_date
-        date_fmt = date.strftime('%Y%m%d')
+        date_fmt = slug_date_format(self.run_prep_date)
         self.run_prep_slug = '{name}_{date}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
                                                     date=date_fmt)
         super(RunPrep, self).save(*args, **kwargs)
@@ -417,10 +417,16 @@ class RunPrep(DateTimeUserMixin):
 class RunResult(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
+    # RunInfo.xml %Y%m%d
+    run_date = models.DateField("Run Date")
+    # RunInfo.xml
     run_id = models.CharField("Run ID", max_length=255, unique=True)
+    # SampleSheet.csv
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
+    # CompletedJobInfo.xml
     run_completion_datetime = models.DateTimeField("Run Completion Time")
+    # CompletedJobInfo.xml
     run_instrument = models.CharField("Instrument", max_length=255)
 
     def __str__(self):

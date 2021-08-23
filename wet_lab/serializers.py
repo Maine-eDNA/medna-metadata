@@ -395,7 +395,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 
 class RunPrepSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    run_date = serializers.DateField()
+    run_prep_date = serializers.DateTimeField()
     run_prep_slug = serializers.SlugField(read_only=True, max_length=255)
     phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_blank=True)
@@ -407,7 +407,7 @@ class RunPrepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RunPrep
-        fields = ['id', 'run_date', 'final_pooled_library', 'run_prep_slug', 'phix_spike_in', 'phix_spike_in_units',
+        fields = ['id', 'run_prep_date', 'final_pooled_library', 'run_prep_slug', 'phix_spike_in', 'phix_spike_in_units',
                   'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                   'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -428,6 +428,7 @@ class RunPrepSerializer(serializers.ModelSerializer):
 
 class RunResultSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    run_date = serializers.DateField()
     run_id = serializers.CharField(max_length=255,
                                    validators=[UniqueValidator(queryset=RunResult.objects.all())])
     run_experiment_name = serializers.CharField(max_length=255)
@@ -438,7 +439,7 @@ class RunResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RunResult
-        fields = ['id', 'process_location', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
+        fields = ['id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add

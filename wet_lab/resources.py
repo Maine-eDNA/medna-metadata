@@ -402,13 +402,13 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
 class RunPrepAdminResource(resources.ModelResource):
     class Meta:
         model = RunPrep
-        import_id_fields = ('run_date', 'final_pooled_library', )
+        import_id_fields = ('run_prep_date', 'final_pooled_library', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'run_date', 'process_location', 'final_pooled_library',
+        fields = ('id', 'run_prep_date', 'process_location', 'final_pooled_library',
                   'phix_spike_in', 'phix_spike_in_units',
                   'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                   'run_prep_notes', 'created_by', 'created_datetime', )
-        export_order = ('id', 'run_date', 'process_location', 'final_pooled_library',
+        export_order = ('id', 'run_prep_date', 'process_location', 'final_pooled_library',
                         'phix_spike_in', 'phix_spike_in_units',
                         'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                         'run_prep_notes', 'created_by', 'created_datetime', )
@@ -443,10 +443,10 @@ class RunResultAdminResource(resources.ModelResource):
         model = RunResult
         import_id_fields = ('run_id', 'run_experiment_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'run_id', 'run_experiment_name', 'run_prep',
+        fields = ('id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep',
                   'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'run_id', 'run_experiment_name', 'run_prep',
+        export_order = ('id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep',
                         'run_completion_datetime', 'run_instrument',
                         'created_by', 'created_datetime', )
 
@@ -458,7 +458,7 @@ class RunResultAdminResource(resources.ModelResource):
     run_prep = fields.Field(
         column_name='run_prep',
         attribute='run_prep',
-        widget=ForeignKeyWidget(RunPrep, 'run_date'))
+        widget=ForeignKeyWidget(RunPrep, 'run_prep_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
