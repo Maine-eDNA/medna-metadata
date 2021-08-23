@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .serializers import CustomUserSerializer, CustomLoginSerializer
+from .serializers import CustomUserSerializer
 from .models import CustomUser
 
 
