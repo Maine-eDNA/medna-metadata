@@ -3,6 +3,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Region
+from utility.models import Grant
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework.validators import UniqueValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -50,8 +51,9 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    biome_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='biome_first_tier_slug')
+    biome_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='biome_first_tier_slug',
+                                                         queryset=EnvoBiomeFirst.objects.all())
 
 
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
@@ -75,8 +77,9 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    biome_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                          slug_field='biome_second_tier_slug')
+    biome_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                          slug_field='biome_second_tier_slug',
+                                                          queryset=EnvoBiomeSecond.objects.all())
 
 
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
@@ -101,8 +104,9 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    biome_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                         slug_field='biome_third_tier_slug')
+    biome_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                         slug_field='biome_third_tier_slug',
+                                                         queryset=EnvoBiomeThird.objects.all())
 
 
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
@@ -128,8 +132,9 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    biome_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                          slug_field='biome_fourth_tier_slug')
+    biome_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                          slug_field='biome_fourth_tier_slug',
+                                                          queryset=EnvoBiomeFourth.objects.all())
 
 
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
@@ -172,8 +177,9 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                           slug_field='feature_first_tier_slug')
+    feature_first_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                           slug_field='feature_first_tier_slug',
+                                                           queryset=EnvoFeatureFirst.objects.all())
 
 
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
@@ -198,8 +204,9 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                            slug_field='feature_second_tier_slug')
+    feature_second_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                            slug_field='feature_second_tier_slug',
+                                                            queryset=EnvoFeatureSecond.objects.all())
 
 
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
@@ -226,8 +233,9 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                           slug_field='feature_third_tier_slug')
+    feature_third_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                           slug_field='feature_third_tier_slug',
+                                                           queryset=EnvoFeatureThird.objects.all())
 
 
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
@@ -255,8 +263,9 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                            slug_field='feature_fourth_tier_slug')
+    feature_fourth_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                            slug_field='feature_fourth_tier_slug',
+                                                            queryset=EnvoFeatureFourth.objects.all())
 
 
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
@@ -285,8 +294,9 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_fifth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                           slug_field='feature_fifth_tier_slug')
+    feature_fifth_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                           slug_field='feature_fifth_tier_slug',
+                                                           queryset=EnvoFeatureFifth.objects.all())
 
 
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
@@ -316,8 +326,9 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    feature_sixth_tier_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                           slug_field='feature_sixth_tier_slug')
+    feature_sixth_tier_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                           slug_field='feature_sixth_tier_slug',
+                                                           queryset=EnvoFeatureSixth.objects.all())
 
 
 class SystemSerializer(serializers.ModelSerializer):
@@ -361,35 +372,50 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant = serializers.SlugRelatedField(many=False, read_only=True, slug_field='grant_code')
-    system = serializers.SlugRelatedField(many=False, read_only=True, slug_field='system_code')
-    region = serializers.SlugRelatedField(many=False, read_only=True, slug_field='region_code')
+    grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code',
+                                         queryset=Grant.objects.all())
+    system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code',
+                                          queryset=System.objects.all())
+    region = serializers.SlugRelatedField(many=False, read_only=False, slug_field='region_code',
+                                          queryset=Region.objects.all())
     # ENVO biomes are hierarchical trees
-    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field="biome_first_tier_slug")
-    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field="biome_second_tier_slug")
-    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field="biome_third_tier_slug")
-    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field="biome_fourth_tier_slug")
-    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field="biome_fifth_tier_slug")
+    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field="biome_first_tier_slug",
+                                                    queryset=EnvoBiomeFirst.objects.all())
+    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field="biome_second_tier_slug",
+                                                     queryset=EnvoBiomeSecond.objects.all())
+    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field="biome_third_tier_slug",
+                                                    queryset=EnvoBiomeThird.objects.all())
+    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field="biome_fourth_tier_slug",
+                                                     queryset=EnvoBiomeFourth.objects.all())
+    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field="biome_fifth_tier_slug",
+                                                    queryset=EnvoBiomeFifth.objects.all())
     # ENVO Features are hierarchical trees
-    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_first_tier_slug")
-    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=True,
-                                                       slug_field="feature_second_tier_slug")
-    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_third_tier_slug")
-    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                       slug_field="feature_fourth_tier_slug")
-    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_fifth_tier_slug")
-    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_sixth_tier_slug")
-    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=True,
-                                                        slug_field="feature_seventh_tier_slug")
+    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_first_tier_slug",
+                                                      queryset=EnvoFeatureFirst.objects.all())
+    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=False,
+                                                       slug_field="feature_second_tier_slug",
+                                                       queryset=EnvoFeatureSecond.objects.all())
+    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_third_tier_slug",
+                                                      queryset=EnvoFeatureThird.objects.all())
+    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                       slug_field="feature_fourth_tier_slug",
+                                                       queryset=EnvoFeatureFourth.objects.all())
+    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_fifth_tier_slug",
+                                                      queryset=EnvoFeatureFifth.objects.all())
+    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_sixth_tier_slug",
+                                                      queryset=EnvoFeatureSixth.objects.all())
+    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=False,
+                                                        slug_field="feature_seventh_tier_slug",
+                                                        queryset=EnvoFeatureSeventh.objects.all())
 
 
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
@@ -414,35 +440,50 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant = serializers.SlugRelatedField(many=False, read_only=True, slug_field='grant_code')
-    system = serializers.SlugRelatedField(many=False, read_only=True, slug_field='system_code')
-    region = serializers.SlugRelatedField(many=False, read_only=True, slug_field='region_code')
+    grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code',
+                                         queryset=Grant.objects.all())
+    system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code',
+                                          queryset=System.objects.all())
+    region = serializers.SlugRelatedField(many=False, read_only=False, slug_field='region_code',
+                                          queryset=Region.objects.all())
     # ENVO biomes are hierarchical trees
-    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field="biome_first_tier_slug")
-    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field="biome_second_tier_slug")
-    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field="biome_third_tier_slug")
-    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field="biome_fourth_tier_slug")
-    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field="biome_fifth_tier_slug")
+    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field="biome_first_tier_slug",
+                                                    queryset=EnvoBiomeFirst.objects.all())
+    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field="biome_second_tier_slug",
+                                                     queryset=EnvoBiomeSecond.objects.all())
+    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field="biome_third_tier_slug",
+                                                    queryset=EnvoBiomeThird.objects.all())
+    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field="biome_fourth_tier_slug",
+                                                     queryset=EnvoBiomeFourth.objects.all())
+    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field="biome_fifth_tier_slug",
+                                                    queryset=EnvoBiomeFifth.objects.all())
     # ENVO Features are hierarchical trees
-    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_first_tier_slug")
-    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=True,
-                                                       slug_field="feature_second_tier_slug")
-    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_third_tier_slug")
-    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                       slug_field="feature_fourth_tier_slug")
-    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_fifth_tier_slug")
-    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field="feature_sixth_tier_slug")
-    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=True,
-                                                        slug_field="feature_seventh_tier_slug")
+    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_first_tier_slug",
+                                                      queryset=EnvoFeatureFirst.objects.all())
+    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=False,
+                                                       slug_field="feature_second_tier_slug",
+                                                       queryset=EnvoFeatureSecond.objects.all())
+    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_third_tier_slug",
+                                                      queryset=EnvoFeatureThird.objects.all())
+    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                       slug_field="feature_fourth_tier_slug",
+                                                       queryset=EnvoFeatureFourth.objects.all())
+    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_fifth_tier_slug",
+                                                      queryset=EnvoFeatureFifth.objects.all())
+    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field="feature_sixth_tier_slug",
+                                                      queryset=EnvoFeatureSixth.objects.all())
+    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=False,
+                                                        slug_field="feature_seventh_tier_slug",
+                                                        queryset=EnvoFeatureSeventh.objects.all())
 
 
 class GeoRegionSerializer(GeoFeatureModelSerializer):

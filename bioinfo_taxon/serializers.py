@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
+from bioinfo_denoising.models import AmpliconSequenceVariant
 from utility.enumerations import YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
@@ -72,8 +73,9 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_domain_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='taxon_domain_slug')
+    taxon_domain_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field='taxon_domain_slug',
+                                                     queryset=TaxonDomain.objects.all())
 
 
 class TaxonPhylumSerializer(serializers.ModelSerializer):
@@ -95,8 +97,9 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_kingdom_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                      slug_field='taxon_kingdom_slug')
+    taxon_kingdom_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field='taxon_kingdom_slug',
+                                                      queryset=TaxonKingdom.objects.all())
 
 
 class TaxonClassSerializer(serializers.ModelSerializer):
@@ -119,8 +122,9 @@ class TaxonClassSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_phylum_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='taxon_phylum_slug')
+    taxon_phylum_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field='taxon_phylum_slug',
+                                                     queryset=TaxonPhylum.objects.all())
 
 
 class TaxonOrderSerializer(serializers.ModelSerializer):
@@ -144,8 +148,9 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_class_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='taxon_class_slug')
+    taxon_class_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='taxon_class_slug',
+                                                    queryset=TaxonClass.objects.all())
 
 
 class TaxonFamilySerializer(serializers.ModelSerializer):
@@ -171,8 +176,9 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_order_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='taxon_order_slug')
+    taxon_order_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='taxon_order_slug',
+                                                    queryset=TaxonOrder.objects.all())
 
 
 class TaxonGenusSerializer(serializers.ModelSerializer):
@@ -199,8 +205,9 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_family_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='taxon_family_slug')
+    taxon_family_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field='taxon_family_slug',
+                                                     queryset=TaxonFamily.objects.all())
 
 
 class TaxonSpeciesSerializer(serializers.ModelSerializer):
@@ -228,8 +235,9 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    taxon_genus_slug = serializers.SlugRelatedField(many=False, read_only=True,
-                                                    slug_field='taxon_genus_slug')
+    taxon_genus_slug = serializers.SlugRelatedField(many=False, read_only=False,
+                                                    slug_field='taxon_genus_slug',
+                                                    queryset=TaxonGenus.objects.all())
 
 
 class AnnotationMethodSerializer(serializers.ModelSerializer):
@@ -270,8 +278,9 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    annotation_method = serializers.SlugRelatedField(many=False, read_only=True,
-                                                     slug_field='annotation_method_name_slug')
+    annotation_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                     slug_field='annotation_method_name_slug',
+                                                     queryset=AnnotationMethod.objects.all())
 
 
 class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
@@ -307,14 +316,25 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    asv = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asv_slug')
-    annotation_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='annotation_slug')
-    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_slug')
-    manual_domain = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_domain_slug')
-    manual_kingdom = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_kingdom_slug')
-    manual_phylum = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_phylum_slug')
-    manual_class = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_class_slug')
-    manual_order = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_order_slug')
-    manual_family = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_family_slug')
-    manual_genus = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_genus_slug')
-    manual_species = serializers.SlugRelatedField(many=False, read_only=True, slug_field='taxon_species_slug')
+    asv = serializers.SlugRelatedField(many=False, read_only=False, slug_field='asv_slug',
+                                       queryset=AmpliconSequenceVariant.objects.all())
+    annotation_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='annotation_slug',
+                                                       queryset=AnnotationMetadata.objects.all())
+    reference_database = serializers.SlugRelatedField(many=False, read_only=False, slug_field='refdb_slug',
+                                                      queryset=ReferenceDatabase.objects.all())
+    manual_domain = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_domain_slug',
+                                                 queryset=TaxonDomain.objects.all())
+    manual_kingdom = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_kingdom_slug',
+                                                  queryset=TaxonKingdom.objects.all())
+    manual_phylum = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_phylum_slug',
+                                                 queryset=TaxonPhylum.objects.all())
+    manual_class = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_class_slug',
+                                                queryset=TaxonClass.objects.all())
+    manual_order = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_order_slug',
+                                                queryset=TaxonOrder.objects.all())
+    manual_family = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_family_slug',
+                                                 queryset=TaxonFamily.objects.all())
+    manual_genus = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_genus_slug',
+                                                queryset=TaxonGenus.objects.all())
+    manual_species = serializers.SlugRelatedField(many=False, read_only=False, slug_field='taxon_species_slug',
+                                                  queryset=TaxonSpecies.objects.all())
