@@ -88,6 +88,8 @@ class ProcessLocation(DateTimeUserMixin):
     # URI = 'URI', _('Rhode Island Genomics (URI)')
     # UNH = 'UNH', _('Hubbard Center (UNH)')
     # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
+    # TACC = 'TACC', _('Texas Advanced Computing Center (TACC)')
+    # OSC = 'OSC', _('Ohio Supercomputer Center (OSC)')
     process_location_name = models.CharField("Location Name", max_length=255, unique=True)
     process_location_name_slug = models.SlugField("Location Name Slug", max_length=255)
     affiliation = models.CharField("Affiliation", max_length=255)
