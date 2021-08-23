@@ -1,21 +1,21 @@
-{% extends "users/base_site.html" %}
+{% extends "utility/base_site.html" %}
 {% load i18n static %}
 
 {% block extrastyle %}{{ block.super }}
     <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'users/css/changelists.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'users/css/forms.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'users/css/widgets.css' %}">
-    <script src="{% static 'users/js/vendor/jquery/jquery.js' %}"></script>
-    <script src="{% static 'users/js/jquery.init.js' %}"></script>
-    <script src="{% static 'users/js/core.js' %}"></script>
-    <script src="{% static 'users/js/admin/RelatedObjectLookups.js' %}"></script>
-    <script src="{% static 'users/js/actions.js' %}"></script>
-    <script src="{% static 'users/js/urlify.js' %}"></script>
-    <script src="{% static 'users/js/prepopulate.js' %}"></script>
-    <script src="{% static 'users/js/vendor/xregexp/xregexp.js' %}"></script>
-    <script src="{% static 'users/js/selectbox_all.js' %}"></script>
-    <script src="{% url 'users:jsi18n' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'utility/css/changelists.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'utility/css/forms.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'utility/css/widgets.css' %}">
+    <script src="{% static 'utility/js/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'utility/js/jquery.init.js' %}"></script>
+    <script src="{% static 'utility/js/core.js' %}"></script>
+    <script src="{% static 'utility/js/admin/RelatedObjectLookups.js' %}"></script>
+    <script src="{% static 'utility/js/actions.js' %}"></script>
+    <script src="{% static 'utility/js/urlify.js' %}"></script>
+    <script src="{% static 'utility/js/prepopulate.js' %}"></script>
+    <script src="{% static 'utility/js/vendor/xregexp/xregexp.js' %}"></script>
+    <script src="{% static 'utility/js/selectbox_all.js' %}"></script>
+    <script src="{% url 'utility:jsi18n' %}"></script>
   {{ media.css }}
   {% if not actions_on_top and not actions_on_bottom %}
     <style>

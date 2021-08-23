@@ -4,18 +4,18 @@
 <!-- Head -->
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'users/css/base.css' %}{% endblock %}">
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'utility/css/base.css' %}{% endblock %}">
     {% if not is_popup and is_nav_sidebar_enabled %}
-      <link rel="stylesheet" type="text/css" href="{% static 'users/css/nav_sidebar.css' %}">
-      <script src="{% static 'users/js/nav_sidebar.js' %}" defer></script>
+      <link rel="stylesheet" type="text/css" href="{% static 'utility/css/nav_sidebar.css' %}">
+      <script src="{% static 'utility/js/nav_sidebar.js' %}" defer></script>
     {% endif %}
-    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static 'users/css/rtl.css' %}{% endblock %}">{% endif %}
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static 'utility/css/rtl.css' %}{% endblock %}">{% endif %}
     {% block extrahead %}{% endblock %}
     {% block extrastyle %}{% endblock %}
     {% block responsive %}
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="{% static 'users/css/responsive.css' %}">
-        {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static 'users/css/responsive_rtl.css' %}">{% endif %}
+        <link rel="stylesheet" type="text/css" href="{% static 'utility/css/responsive.css' %}">
+        {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static 'utility/css/responsive_rtl.css' %}">{% endif %}
     {% endblock %}
     {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
 </head>
@@ -63,7 +63,7 @@
     <div class="main shifted" id="main">
       {% if not is_popup and is_nav_sidebar_enabled %}
         {% block nav-sidebar %}
-          {% include "users/nav_sidebar.html" %}
+          {% include "utility/nav_sidebar.html" %}
         {% endblock %}
       {% endif %}
       <div class="content">

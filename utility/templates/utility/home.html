@@ -1,8 +1,8 @@
-{% extends "users/base_site.html" %}
+{% extends "utility/base_site.html" %}
 
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'users/css/dashboard.css' %}">{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'utility/css/dashboard.css' %}">{% endblock %}
 
 {% block coltype %}colMS{% endblock %}
 
@@ -14,6 +14,6 @@
 
 {% block content %}
 <div id="content-main">
-    {% include "users/app_list.html" with app_list=True show_changelinks=True %}
+    {% include "utility/app_list.html" with app_list=True show_changelinks=True %}
 </div>
 {% endblock %}
