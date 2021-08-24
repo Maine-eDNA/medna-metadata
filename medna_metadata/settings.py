@@ -156,7 +156,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'users.middleware.AccountExpiry',
+    'utility.middleware.AccountExpiry',
 ]
 
 # https://github.com/adamchainz/django-cors-headers#configuration
