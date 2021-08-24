@@ -103,7 +103,7 @@ class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
 #    table_pagination = {
 #        'paginator_class': LazyPaginator,
 #    }
-    export_name = 'site_' + str(datetime.datetime.now().replace(microsecond=0).isoformat())
+    export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = FieldSiteSerializer
     filter_backends = (filters.DjangoFilterBackend,)
 
@@ -143,7 +143,7 @@ class FieldSiteExportDetailView(DetailView):
         file_name = 'site'
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
-            datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
+            timezone.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
         writer.writerow(['id','site_id', 'grant', 'system', 'region', 'general_location_name',
                          'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
