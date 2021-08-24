@@ -3,6 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
+# enums cannot be longer than 50 characters
+
 class YesNo(models.TextChoices):
     NO = 'no', _('No')
     YES = 'yes', _('Yes')

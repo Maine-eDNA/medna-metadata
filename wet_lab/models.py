@@ -34,7 +34,7 @@ class PrimerPair(DateTimeUserMixin):
     primer_set_name = models.CharField("Primer Set Name", max_length=255, unique=True)
     primer_set_name_slug = models.SlugField("Primer Set Name Slug", max_length=255)
     # 12S, 16S, 18S, COI, ...
-    primer_target_gene = models.CharField("Target Gene", max_length=25, choices=TargetGenes.choices)
+    primer_target_gene = models.CharField("Target Gene", max_length=50, choices=TargetGenes.choices)
     primer_name_forward = models.CharField("Primer Name Forward", max_length=255)
     primer_name_reverse = models.CharField("Primer Name Reverse", max_length=255)
     primer_forward = models.TextField("Primer Forward")
@@ -176,12 +176,12 @@ class Extraction(DateTimeUserMixin):
     extraction_last_name = models.CharField("Last Name", max_length=255)
     extraction_volume = models.DecimalField("Total Extraction Elution Volume", max_digits=15, decimal_places=10)
     # microliter, ul
-    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=25, choices=VolUnits.choices,
+    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=50, choices=VolUnits.choices,
                                                default=VolUnits.MICROLITER)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
-    extraction_concentration_units = models.CharField("Concentration Units", max_length=25,
+    extraction_concentration_units = models.CharField("Concentration Units", max_length=50,
                                                       choices=ConcentrationUnits.choices,
                                                       default=ConcentrationUnits.NGUL)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
@@ -215,7 +215,7 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_probe = models.TextField("ddPCR Probe", blank=True)
     ddpcr_results = models.DecimalField("ddPCR Results", max_digits=15, decimal_places=10)
     # results will be in copy number or copies per microliter (copy/ul)
-    ddpcr_results_units = models.CharField("ddPCR Units", max_length=25, choices=DdpcrUnits.choices,
+    ddpcr_results_units = models.CharField("ddPCR Units", max_length=50, choices=DdpcrUnits.choices,
                                            default=DdpcrUnits.CP)
     ddpcr_notes = models.TextField("ddPCR Notes", blank=True)
 
@@ -247,7 +247,7 @@ class Qpcr(DateTimeUserMixin):
     qpcr_probe = models.TextField("qPCR Probe", blank=True)
     qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
     # results are Cq value
-    qpcr_results_units = models.CharField("qPCR Units", max_length=25, choices=QpcrUnits.choices,
+    qpcr_results_units = models.CharField("qPCR Units", max_length=50, choices=QpcrUnits.choices,
                                           default=QpcrUnits.CQ)
     qpcr_notes = models.TextField("qPCR Notes", blank=True)
 
@@ -280,22 +280,22 @@ class LibraryPrep(DateTimeUserMixin):
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10, blank=True, null=True)
     # units will be in ng/ml
-    qubit_units = models.CharField("QuBit Units", max_length=25, choices=ConcentrationUnits.choices,
+    qubit_units = models.CharField("QuBit Units", max_length=50, choices=ConcentrationUnits.choices,
                                    default=ConcentrationUnits.NGML, blank=True)
     qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10, blank=True, null=True)
     # units will be nM or pM
-    qpcr_units = models.CharField("qPCR Units", max_length=25, choices=ConcentrationUnits.choices,
+    qpcr_units = models.CharField("qPCR Units", max_length=50, choices=ConcentrationUnits.choices,
                                   default=ConcentrationUnits.NM, blank=True)
     final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=15, decimal_places=10)
     final_concentration_units = models.CharField("Library Prep Final Units",
-                                                 max_length=25,
+                                                 max_length=50,
                                                  choices=ConcentrationUnits.choices,
                                                  default=ConcentrationUnits.NM)
     lib_prep_kit = models.CharField("Library Prep Kit",
-                                    max_length=25,
+                                    max_length=50,
                                     choices=LibPrepKits.choices,
                                     default=LibPrepKits.NEXTERAXTV2)
-    lib_prep_type = models.CharField("Library Prep Type", max_length=25, choices=LibPrepTypes.choices)
+    lib_prep_type = models.CharField("Library Prep Type", max_length=50, choices=LibPrepTypes.choices)
     lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes", blank=True)
 
@@ -326,7 +326,7 @@ class PooledLibrary(DateTimeUserMixin):
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
     # nanomolar, nM
-    pooled_lib_concentration_units = models.CharField("Pooled Library Units", max_length=25,
+    pooled_lib_concentration_units = models.CharField("Pooled Library Units", max_length=50,
                                                       choices=ConcentrationUnits.choices,
                                                       default=ConcentrationUnits.NM)
     pooled_lib_notes = models.TextField("Pooled Library Notes", blank=True)
@@ -359,7 +359,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
                                                          decimal_places=10)
     # nanomolar, nM
     final_pooled_lib_concentration_units = models.CharField("Final Pooled Library Units",
-                                                            max_length=25,
+                                                            max_length=50,
                                                             choices=ConcentrationUnits.choices,
                                                             default=ConcentrationUnits.NM)
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
@@ -388,13 +388,13 @@ class RunPrep(DateTimeUserMixin):
     phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, blank=True, null=True)
     # can be reported as percent and picomolar, pM
     phix_spike_in_units = models.CharField("PhiX Spike In Units",
-                                           max_length=25,
+                                           max_length=50,
                                            choices=PhiXConcentrationUnits.choices, blank=True)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=15, decimal_places=10)
     # can be reported as percent and picomolar, pM
     final_lib_concentration_units = models.CharField("Final Library Units",
-                                                     max_length=25,
+                                                     max_length=50,
                                                      choices=ConcentrationUnits.choices,
                                                      default=ConcentrationUnits.PM)
     run_prep_notes = models.TextField("Run Prep Notes", blank=True)
