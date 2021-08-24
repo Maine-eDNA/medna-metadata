@@ -10,6 +10,13 @@ import datetime
 from django.utils import timezone
 
 
+def now_plus_max():
+    # maximum possible datetime
+    now = timezone.now()
+    max_date = now + datetime.timedelta(days=999999)
+    return max_date
+
+
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
@@ -22,26 +29,13 @@ class CustomUser(AbstractUser):
     phone_number = PhoneNumberField(blank=True, null=True)
     # blank and null = True here so that unique can also = True even if
     # there are blank entries elsewhere
-    agol_username = models.CharField("ArcGIS Online Username", max_length=255,
-                                     null=True, blank=True, unique=True)
-    is_temporary = models.BooleanField(_('temporary status'), default=False,
-                                       help_text=_('Designates whether the user is temporary.'),)
-    expiration_date = models.DateTimeField("Expiration Date")
+    agol_username = models.CharField("ArcGIS Online Username", max_length=255, blank=True)
+    expiration_date = models.DateTimeField("Expiration Date", default=now_plus_max)
 
     @property
     def is_expired(self):
         now = timezone.now()
         return self.expiration_date <= now
-
-    def save(self, *args, **kwargs):
-        if not self.expiration_date:
-            if self.is_temporary is True:
-                now = timezone.now()
-                self.expiration_date = now + datetime.timedelta(days=DEFAULT_TEMP_TENURE)
-            else:
-                # maximum possible datetime
-                now = timezone.now()
-                self.expiration_date = now + datetime.timedelta(days=999999)
 
     def __str__(self):
         return self.email
