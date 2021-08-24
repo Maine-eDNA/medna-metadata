@@ -362,13 +362,13 @@ class AnnotationMethod(DateTimeUserMixin):
     annotation_method_name_slug = models.SlugField("Annotation Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        if self.created_datetime is None:
+        if not self.created_datetime:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
         self.annotation_method_name_slug = '{method}_{date}'.format(method=slugify(self.annotation_method_name),
                                                                     date=slugify(created_date_fmt))
-        super(AnnotationMetadata, self).save(*args, **kwargs)
+        super(AnnotationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{name}'.format(name=self.annotation_method_name)
