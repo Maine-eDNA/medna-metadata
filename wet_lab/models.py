@@ -8,6 +8,7 @@ from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format
 from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
+from django.utils import timezone
 
 
 def update_extraction_status(old_barcode, new_barcode_pk):
@@ -44,7 +45,10 @@ class PrimerPair(DateTimeUserMixin):
     primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if not self.created_datetime:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.primer_set_name_slug = '{name}_{date}'.format(name=slugify(self.primer_set_name),
                                                            date=slugify(created_date_fmt))
         super(PrimerPair, self).save(*args, **kwargs)
@@ -83,7 +87,10 @@ class IndexRemovalMethod(DateTimeUserMixin):
     index_removal_method_name_slug = models.SlugField("Index Removal Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if not self.created_datetime:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.index_removal_method_name_slug = '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
                                                                      date=slugify(created_date_fmt))
         super(IndexRemovalMethod, self).save(*args, **kwargs)
@@ -105,7 +112,10 @@ class SizeSelectionMethod(DateTimeUserMixin):
     size_selection_method_name_slug = models.SlugField("Size Selection Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if not self.created_datetime:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.size_selection_method_name_slug = '{name}_{date}'.format(name=slugify(self.size_selection_method_name),
                                                                       date=slugify(created_date_fmt))
         super(SizeSelectionMethod, self).save(*args, **kwargs)
@@ -125,7 +135,10 @@ class QuantificationMethod(DateTimeUserMixin):
     quant_method_name_slug = models.SlugField("Quantification Method Name", max_length=255)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if not self.created_datetime:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.quant_method_name_slug = '{name}_{date}'.format(name=slugify(self.quant_method_name),
                                                              date=slugify(created_date_fmt))
         super(QuantificationMethod, self).save(*args, **kwargs)
@@ -147,7 +160,10 @@ class ExtractionMethod(DateTimeUserMixin):
     extraction_sop_url = models.URLField("Extraction SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if not self.created_datetime:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.extraction_method_slug = '{manufacturer}_{name}_{date}'.format(manufacturer=slugify(self.extraction_method_manufacturer),
                                                                             name=slugify(self.extraction_method_name),
                                                                             date=slugify(created_date_fmt))
