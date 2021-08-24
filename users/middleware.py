@@ -18,7 +18,7 @@ class AccountExpiry:
         expiry_path = reverse('account_inactive')
 
         if current_user.is_anonymous is False:
-            if current_user.admin is False and current_user.staff is False:
+            if current_user.is_superuser is False and current_user.is_staff is False:
                 if request.path not in [expiry_path]:
                     if current_user.is_expired is True:
                         return HttpResponseRedirect(expiry_path)
