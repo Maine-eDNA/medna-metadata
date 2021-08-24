@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from django.contrib.auth.models import User, Group , Permission
+from django.contrib.auth.models import Group, Permission
 import logging
 
 GROUPS = {
