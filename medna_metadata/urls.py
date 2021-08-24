@@ -103,7 +103,7 @@ router.register(r'annotation_metadata', AnnotationMetadataViewSet, 'annotation_m
 router.register(r'taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_annotation')
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    #path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
