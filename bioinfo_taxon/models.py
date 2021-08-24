@@ -4,6 +4,7 @@ from utility.models import DateTimeUserMixin, slug_date_format, ProcessLocation
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 from utility.enumerations import YesNo
 from django.utils.text import slugify
+from django.utils import timezone
 
 
 def update_domain(taxa_pk, new_taxa):
@@ -361,7 +362,10 @@ class AnnotationMethod(DateTimeUserMixin):
     annotation_method_name_slug = models.SlugField("Annotation Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if not self.created_datetime:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.annotation_method_name_slug = '{method}_{date}'.format(method=slugify(self.annotation_method_name),
                                                                     date=slugify(created_date_fmt))
         super(AnnotationMetadata, self).save(*args, **kwargs)
