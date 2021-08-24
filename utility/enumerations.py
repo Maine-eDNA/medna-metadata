@@ -4,20 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 # In addition, Django provides enumeration types that you can subclass to define choices in a concise way:
 # enums cannot be longer than 50 characters
-
+# GENERIC CHOICES
 class YesNo(models.TextChoices):
     NO = 'no', _('No')
     YES = 'yes', _('Yes')
     __empty__ = _('(Unknown)')
-
-# moved to model in utility/models
-#class ProcessLocations(models.TextChoices):
-#    CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
-#    BIGELOW = 'Bigelow', _('Bigelow Laboratory')
-#    URI = 'URI', _('Rhode Island Genomics (URI)')
-#    UNH = 'UNH', _('Hubbard Center (UNH)')
-#    DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)')
-#    __empty__ = _('(Unknown)')
 
 
 # UNITS CHOICES
@@ -65,96 +56,8 @@ class QpcrUnits(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-# FREEZER_INVENTORY CHOICES
-class InvStatus(models.TextChoices):
-    IN = 'in', _('In Stock')
-    OUT = 'out', _('Checked Out')
-    REMOVED = 'perm_removed', _('Permanently Removed')
-    __empty__ = _('(Unknown)')
-
-
-class InvTypes(models.TextChoices):
-    FILTER = 'filter', _('Filter')
-    SUBCORE = 'subcore', _('SubCore')
-    EXTRACTION = 'extraction', _('Extraction')
-
-
-class CheckoutActions(models.TextChoices):
-    CHECKOUT = 'checkout', _('Checkout')
-    RETURN = 'return', _('Return')
-    REMOVE = 'perm_removed', _('Permanent Removal')
-
-
-# WET_LAB CHOICES
-class TargetGenes(models.TextChoices):
-    TG_12S = '12s', _('12S')
-    TG_16S = '16s', _('16S')
-    TG_18S = '18s', _('18S')
-    TG_COI = 'coi', _('COI')
-    __empty__ = _('(Unknown)')
-
-
-class LibPrepTypes(models.TextChoices):
-    AMPLICON = 'amplicon', _('Amplicon Sequencing')
-    RNA = 'rna', _('16s rRNA Sequencing')
-    SHOTGUN = 'shotgun', _('Shotgun Sequencing')
-    WHOLE = 'whole_genome', _('Whole-Genome Sequencing')
-    DENOVO = 'denovo', _('De Novo Sequencing')
-    __empty__ = _('(Unknown)')
-
-
-class LibPrepKits(models.TextChoices):
-    IDTILMNTRUSEQ24 = 'idt-ilmn_truseq_dna-rna_ud_24_indexes', _('IDT-ILMN TruSeq DNA-RNA UD 24 indexes')
-    IDTILMNTRUSEQ96 = 'idt-ilmn_truseq_dna-rna_ud_96_indexes', _('IDT-ILMN TruSeq DNA-RNA UD 96 indexes')
-    NEXTERADNA = 'nextera_dna', _('Nextera DNA')
-    NEXTERADNA24 = 'nextera_dna_cd_indexes_24_indexes', _('Nextera DNA CD INdexes 24 indexes')
-    NEXTERADNA96 = 'nextera_dna_cd_indexes_96_indexes', _('Nextera DNA CD INdexes 96 indexes')
-    NEXTERAMATEPAIR = 'nextera_mate_pair', _('Nextera Mate Pair')
-    NEXTERARAPID = 'nextera_rapid_capture_enrichment', _('Nextera Rapid Capture Enrichment')
-    NEXTERAXT = 'nextera_xt', _('Nextera XT')
-    NEXTERAXTV2 = 'nextera_xt_v2', _('Nextera XT V2')
-    SCRIPTSEQCOMPLETE = 'scriptseq_complete', _('ScriptSeq Complete')
-    SCRIPTSEQV2 = 'scriptseq_v2', _('ScriptSeq V2')
-    SURECELLSINGLERNA1 = 'surecell_single_cell_rna_1', _('SureCell Single Cell RNA 1.0')
-    SURECELLWTA3 = 'surecell_wta_3', _('SureCell WTA 3')
-    TRUSEQAMPLICON = 'truseq_amplicon', _('TruSeq Amplicon')
-    TRUSEQDNAMETH = 'truseq_dna_methylation', _('TruSeq DNA Methylation')
-    TRUSEQDNARNACD96 = 'truseq_dna-rna_cd_indexes_96_indexes', _('TruSeq DNA-RNA CD Indexes 96 Indexes')
-    TRUSEQDNARNASINGLEAB = 'truseq_dna-rna_single_indexes_set_ab', _('TruSeq DNA-RNA Single Indexes Set A&B')
-    TRUSEQMETHEPIC = 'truseq_methyl_capture_epic', _('TruSeq Methyl Capture EPIC')
-    TRUSEQRIBOPROFIL = 'truseq_ribo_profil', _('TruSeq Ribo Profil')
-    TRUSEQSMALLRNA = 'truseq_small_rna', _('TruSeq Small RNA')
-    TRUSEQTRGTEDRNAEXPR = 'truseq_targeted_rna_expression', _('TruSeq Targeted RNA Expression')
-    TRUSIGHTAMPLICONPANEL = 'trusight_amplicon_panels', _('TruSight Amplicon Panels')
-    TRUSIGHTENRICHMENTPANEL = 'trusight_enrichment_panels', _('TruSight Enrichment Panels')
-    TRUSIGHTRNAFUSION = 'trusight_rna_fusion', _('TruSight RNA Fusion')
-    TRUSIGHTTUMOR15 = 'trusight_tumor_15', _('TruSight Tumor 15')
-    TRUSIGHTTUMOR126 = 'trusight_tumor_126', _('TruSight Tumor 126')
-    AMPLISEQLIBPLUS96 = 'ampliseq_library_plus_for_illumina_96', _('AmpliSeq Library PLUS for Illumina (96)')
-    CUSTOM = 'custom', _('Custom')
-    __empty__ = _('(Unknown)')
-
-
 # FIELD_SURVEY CHOICES
-# fieldsurvey
-#class GrantProjects(models.TextChoices):
-# moved to Project model in utility
-#    prj_medna = 'prj_medna', _('Maine eDNA')
-#    prj_theme1 = 'prj_theme1', _('Theme 1')
-#    prj_lbb = 'prj_lbb', _('Larval Black Box (T1)')
-#    prj_ale = 'prj_ale', _('Alewife (T1)')
-#    prj_fisheries = 'prj_fisheries', _('Fisheries eDNA (T1)')
-#    prj_theme2 = 'prj_theme2', _('Theme 2')
-#    prj_habs = 'prj_habs', _('Harmful algal blooms (T2)')
-#    prj_spmove = 'prj_spmove', _('Species on the move (T2)')
-#    prj_theme3 = 'prj_theme3', _('Theme 3')
-#    prj_indexsites = 'prj_indexsites', _('Index Sites (T3)')
-#    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
-#    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
-#    prj_commsci = 'prj_commsci', _('Community Science')
-#    __empty__ = _('(Unknown)')
-
-
+# FIELD_SURVEY:FieldSurvey
 class WindSpeeds(models.TextChoices):
     none = 'none', _('None')
     light_wind = 'light_wind', _('Light breeze')
@@ -205,7 +108,7 @@ class MeasureModes(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-# envmeasurement
+# FIELD_SURVEY:EnvMeasurement
 class EnvInstruments(models.TextChoices):
     env_ctd = 'env_ctd', _('CTD')
     env_ysi = 'env_ysi', _('YSI')
@@ -254,7 +157,7 @@ class BottomSubstrates(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-# fieldcollection
+# FIELD_SURVEY:FieldCollection
 class WaterCollectionModes(models.TextChoices):
     hand = 'hand', _('By Hand')
     niskin_handtoss = 'niskin_handtoss', _('By Hand-Tossed Niskin')
@@ -311,18 +214,115 @@ class SubCoreMethods(models.TextChoices):
     other = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
+
+# WET_LAB CHOICES
+class TargetGenes(models.TextChoices):
+    TG_12S = '12s', _('12S')
+    TG_16S = '16s', _('16S')
+    TG_18S = '18s', _('18S')
+    TG_COI = 'coi', _('COI')
+    __empty__ = _('(Unknown)')
+
+
+class LibPrepTypes(models.TextChoices):
+    AMPLICON = 'amplicon', _('Amplicon Sequencing')
+    RNA = 'rna', _('16s rRNA Sequencing')
+    SHOTGUN = 'shotgun', _('Shotgun Sequencing')
+    WHOLE = 'whole_genome', _('Whole-Genome Sequencing')
+    DENOVO = 'denovo', _('De Novo Sequencing')
+    __empty__ = _('(Unknown)')
+
+
+class LibPrepKits(models.TextChoices):
+    IDTILMNTRUSEQ24 = 'idt-ilmn_truseq_dna-rna_ud_24_indexes', _('IDT-ILMN TruSeq DNA-RNA UD 24 indexes')
+    IDTILMNTRUSEQ96 = 'idt-ilmn_truseq_dna-rna_ud_96_indexes', _('IDT-ILMN TruSeq DNA-RNA UD 96 indexes')
+    NEXTERADNA = 'nextera_dna', _('Nextera DNA')
+    NEXTERADNA24 = 'nextera_dna_cd_indexes_24_indexes', _('Nextera DNA CD INdexes 24 indexes')
+    NEXTERADNA96 = 'nextera_dna_cd_indexes_96_indexes', _('Nextera DNA CD INdexes 96 indexes')
+    NEXTERAMATEPAIR = 'nextera_mate_pair', _('Nextera Mate Pair')
+    NEXTERARAPID = 'nextera_rapid_capture_enrichment', _('Nextera Rapid Capture Enrichment')
+    NEXTERAXT = 'nextera_xt', _('Nextera XT')
+    NEXTERAXTV2 = 'nextera_xt_v2', _('Nextera XT V2')
+    SCRIPTSEQCOMPLETE = 'scriptseq_complete', _('ScriptSeq Complete')
+    SCRIPTSEQV2 = 'scriptseq_v2', _('ScriptSeq V2')
+    SURECELLSINGLERNA1 = 'surecell_single_cell_rna_1', _('SureCell Single Cell RNA 1.0')
+    SURECELLWTA3 = 'surecell_wta_3', _('SureCell WTA 3')
+    TRUSEQAMPLICON = 'truseq_amplicon', _('TruSeq Amplicon')
+    TRUSEQDNAMETH = 'truseq_dna_methylation', _('TruSeq DNA Methylation')
+    TRUSEQDNARNACD96 = 'truseq_dna-rna_cd_indexes_96_indexes', _('TruSeq DNA-RNA CD Indexes 96 Indexes')
+    TRUSEQDNARNASINGLEAB = 'truseq_dna-rna_single_indexes_set_ab', _('TruSeq DNA-RNA Single Indexes Set A&B')
+    TRUSEQMETHEPIC = 'truseq_methyl_capture_epic', _('TruSeq Methyl Capture EPIC')
+    TRUSEQRIBOPROFIL = 'truseq_ribo_profil', _('TruSeq Ribo Profil')
+    TRUSEQSMALLRNA = 'truseq_small_rna', _('TruSeq Small RNA')
+    TRUSEQTRGTEDRNAEXPR = 'truseq_targeted_rna_expression', _('TruSeq Targeted RNA Expression')
+    TRUSIGHTAMPLICONPANEL = 'trusight_amplicon_panels', _('TruSight Amplicon Panels')
+    TRUSIGHTENRICHMENTPANEL = 'trusight_enrichment_panels', _('TruSight Enrichment Panels')
+    TRUSIGHTRNAFUSION = 'trusight_rna_fusion', _('TruSight RNA Fusion')
+    TRUSIGHTTUMOR15 = 'trusight_tumor_15', _('TruSight Tumor 15')
+    TRUSIGHTTUMOR126 = 'trusight_tumor_126', _('TruSight Tumor 126')
+    AMPLISEQLIBPLUS96 = 'ampliseq_library_plus_for_illumina_96', _('AmpliSeq Library PLUS for Illumina (96)')
+    CUSTOM = 'custom', _('Custom')
+    __empty__ = _('(Unknown)')
+
+
+# FREEZER_INVENTORY CHOICES
+class InvStatus(models.TextChoices):
+    IN = 'in', _('In Stock')
+    OUT = 'out', _('Checked Out')
+    REMOVED = 'perm_removed', _('Permanently Removed')
+    __empty__ = _('(Unknown)')
+
+
+class InvTypes(models.TextChoices):
+    FILTER = 'filter', _('Filter')
+    SUBCORE = 'subcore', _('SubCore')
+    EXTRACTION = 'extraction', _('Extraction')
+
+
+class CheckoutActions(models.TextChoices):
+    CHECKOUT = 'checkout', _('Checkout')
+    RETURN = 'return', _('Return')
+    REMOVE = 'perm_removed', _('Permanent Removal')
+
+
+# CHOICES MOVED TO MODELS
+# moved to model in utility/models
+# class ProcessLocations(models.TextChoices):
+#    CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
+#    BIGELOW = 'Bigelow', _('Bigelow Laboratory')
+#    URI = 'URI', _('Rhode Island Genomics (URI)')
+#    UNH = 'UNH', _('Hubbard Center (UNH)')
+#    DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)')
+#    __empty__ = _('(Unknown)')
+
+# moved to Project model in utility
+# class GrantProjects(models.TextChoices):
+#    prj_medna = 'prj_medna', _('Maine eDNA')
+#    prj_theme1 = 'prj_theme1', _('Theme 1')
+#    prj_lbb = 'prj_lbb', _('Larval Black Box (T1)')
+#    prj_ale = 'prj_ale', _('Alewife (T1)')
+#    prj_fisheries = 'prj_fisheries', _('Fisheries eDNA (T1)')
+#    prj_theme2 = 'prj_theme2', _('Theme 2')
+#    prj_habs = 'prj_habs', _('Harmful algal blooms (T2)')
+#    prj_spmove = 'prj_spmove', _('Species on the move (T2)')
+#    prj_theme3 = 'prj_theme3', _('Theme 3')
+#    prj_indexsites = 'prj_indexsites', _('Index Sites (T3)')
+#    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
+#    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
+#    prj_commsci = 'prj_commsci', _('Community Science')
+#    __empty__ = _('(Unknown)')
+
+# moved to wet_lab/models
 # class IndexRemovalMethods(models.IntegerChoices):
 #    EXOSAP = 0, _('exo-sap')
 #    BEADS = 1, _('beads')
 #    __empty__ = _('(Unknown)')
-
 
 # class SizeSelectionMethods(models.IntegerChoices):
 #    BEADS = 0, _('Beads')
 #    GELCUTS = 1, _('Gel Cuts')
 #    SPINCOL = 2, _('Spin Column')
 #    __empty__ = _('(Unknown)')
-
 
 # class QuantMethods(models.IntegerChoices):
 #    QUBIT = 0, _('qubit')
@@ -332,14 +332,13 @@ class SubCoreMethods(models.TextChoices):
 #    TAPESTATION = 4, _('Tape Station')
 #    __empty__ = _('(Unknown)')
 
-
 # class ExtrMethods(models.IntegerChoices):
 #    BLOODTISSUE = 0, _('Qiagen Blood and Tissue')
 #    POWERSOIL = 1, _('Qiagen Power Soil Pro')
 #    POWERWATER = 2, _('')
 #    __empty__ = _('(Unknown)')
 
-
+# moved to bioinfo_denoising/models
 # class DenoisingMethods(models.IntegerChoices):
 #    DADA2 = 0, _('DADA2')
 #    DEBLUR = 1, _('DeBlur')
@@ -347,7 +346,7 @@ class SubCoreMethods(models.TextChoices):
 #    UNOISE3 = 3, _('UNoise3')
 #    __empty__ = _('(Unknown)')
 
-
+# moved to bioinfo_taxon/models
 # class TaxonMethods(models.IntegerChoices):
 #    BLAST = 0, _('BLAST')
 #    BLASTPLUS = 1, _('BLAST+')
