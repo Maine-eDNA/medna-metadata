@@ -3,6 +3,7 @@ from wet_lab.models import RunResult, Extraction
 from utility.models import DateTimeUserMixin, slug_date_format, ProcessLocation
 from django.utils.text import slugify
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
+from django.utils import timezone
 
 
 # Create your models here.
@@ -13,7 +14,10 @@ class DenoisingMethod(DateTimeUserMixin):
     denoising_method_slug = models.SlugField("Denoising Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        created_date_fmt = slug_date_format(self.created_datetime)
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
         self.denoising_method_slug = '{name}_{pipeline}_{date}'.format(name=slugify(self.denoising_method_name),
                                                                        pipeline=slugify(self.denoising_method_pipeline),
                                                                        date=slugify(created_date_fmt))

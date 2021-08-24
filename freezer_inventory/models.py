@@ -218,7 +218,7 @@ class FreezerCheckout(DateTimeUserMixin):
         freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
 
         if self.pk is None:
-            if not self.created_datetime:
+            if self.created_datetime is None:
                 created_date_fmt = slug_date_format(timezone.now())
             else:
                 created_date_fmt = slug_date_format(self.created_datetime)

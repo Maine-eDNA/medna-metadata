@@ -45,7 +45,7 @@ class PrimerPair(DateTimeUserMixin):
     primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.created_datetime:
+        if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
@@ -87,7 +87,7 @@ class IndexRemovalMethod(DateTimeUserMixin):
     index_removal_method_name_slug = models.SlugField("Index Removal Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        if not self.created_datetime:
+        if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
@@ -112,7 +112,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
     size_selection_method_name_slug = models.SlugField("Size Selection Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        if not self.created_datetime:
+        if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
@@ -135,7 +135,7 @@ class QuantificationMethod(DateTimeUserMixin):
     quant_method_name_slug = models.SlugField("Quantification Method Name", max_length=255)
 
     def save(self, *args, **kwargs):
-        if not self.created_datetime:
+        if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
@@ -160,7 +160,7 @@ class ExtractionMethod(DateTimeUserMixin):
     extraction_sop_url = models.URLField("Extraction SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
-        if not self.created_datetime:
+        if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
