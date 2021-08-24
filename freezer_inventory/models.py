@@ -1,11 +1,11 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
-import datetime
 from django.db.models import Q
 from field_survey.models import FieldSample
 from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
+from django.utils import timezone
 
 
 def freezer_inv_status_update(inv_pk, freezer_checkout_action):
@@ -208,17 +208,20 @@ class FreezerCheckout(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         if self.freezer_checkout_action == CheckoutActions.CHECKOUT:
             # if the freezer action is checkout, update freezer_checkout_datetime
-            self.freezer_checkout_datetime = datetime.datetime.now()
+            self.freezer_checkout_datetime = timezone.now()
         elif self.freezer_checkout_action == CheckoutActions.RETURN:
             # if the freezer action is checkout, update freezer_return_datetime
-            self.freezer_return_datetime = datetime.datetime.now()
+            self.freezer_return_datetime = timezone.now()
         elif self.freezer_checkout_action == CheckoutActions.REMOVE:
-            self.freezer_remove_datetime = datetime.datetime.now()
+            self.freezer_perm_removal_datetime = timezone.now()
 
         freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
 
         if self.pk is None:
-            created_date_fmt = slug_date_format(self.created_datetime)
+            if not self.created_datetime:
+                created_date_fmt = slug_date_format(timezone.now())
+            else:
+                created_date_fmt = slug_date_format(self.created_datetime)
             self.freezer_checkout_slug = '{date}_' \
                                          '{name}_' \
                                          '{checkout_action}'.format(checkout_action=self.get_freezer_checkout_action_display(),
