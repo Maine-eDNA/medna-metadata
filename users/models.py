@@ -35,12 +35,13 @@ class CustomUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         if not self.expiration_date:
-            if self.is_temporary:
+            if self.is_temporary is True:
                 now = timezone.now()
                 self.expiration_date = now + datetime.timedelta(days=DEFAULT_TEMP_TENURE)
             else:
                 # maximum possible datetime
-                self.expiration_date = datetime.datetime.max
+                now = timezone.now()
+                self.expiration_date = now + datetime.timedelta(days=999999)
 
     def __str__(self):
         return self.email
