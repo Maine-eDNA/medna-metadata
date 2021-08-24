@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer
 from .models import ProcessLocation, Project, Grant
+from django.views.generic.base import TemplateView
+
 
 
 # Create your views here.
@@ -19,3 +21,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class ProcessLocationViewSet(viewsets.ModelViewSet):
     serializer_class = ProcessLocationSerializer
     queryset = ProcessLocation.objects.all()
+
+
+class IndexView(TemplateView):
+    template_name = "utility/index.html"

@@ -36,7 +36,7 @@ from bioinfo_denoising.views import DenoisingMethodViewSet, DenoisingMetadataVie
     AmpliconSequenceVariantViewSet, ASVReadViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, AnnotationMethodViewSet, \
     AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
-from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet
+from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, IndexView
 
 router = routers.DefaultRouter()
 # users
@@ -103,6 +103,7 @@ router.register(r'annotation_metadata', AnnotationMetadataViewSet, 'annotation_m
 router.register(r'taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_annotation')
 
 urlpatterns = [
+    path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

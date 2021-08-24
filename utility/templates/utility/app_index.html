@@ -1,4 +1,4 @@
-{% extends "utility/home.html" %}
+{% extends "utility/index.html" %}
 {% load i18n %}
 
 {% block bodyclass %}{{ block.super }} app-{{ app_label }}{% endblock %}
@@ -6,7 +6,7 @@
 {% if not is_popup %}
 {% block breadcrumbs %}
 <div class="breadcrumbs">
-<a href="{% url 'utility:home' %}">{% translate 'Home' %}</a>
+<a href="{% url 'utility:index' %}">{% translate 'Home' %}</a>
 &rsaquo;
     {% include "utility/app_list.html" with app_list=True show_changelinks=True %}
 
