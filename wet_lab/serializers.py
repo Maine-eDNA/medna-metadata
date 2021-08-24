@@ -316,7 +316,8 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
                                                         slug_field='index_removal_method_name_slug',
                                                         queryset=IndexRemovalMethod.objects.all())
     size_selection_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                         slug_field='size_selection_method_name_slug')
+                                                         slug_field='size_selection_method_name_slug',
+                                                         queryset=SizeSelectionMethod.objects.all())
     quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                          slug_field='quant_method_name_slug',
                                                          queryset=QuantificationMethod.objects.all())
