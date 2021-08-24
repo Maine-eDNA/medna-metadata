@@ -46,7 +46,7 @@ class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTable
     #    'paginator_class': LazyPaginator,
     # }
     # the name of the exported file
-    export_name = 'samplelabel_' + str(datetime.datetime.now().replace(microsecond=0).isoformat())
+    export_name = 'samplelabel_' + str(timezone.now().replace(microsecond=0).isoformat())
     # where the data is coming from when it is being exported -- foreign keys to grab the appropriate columns
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
@@ -80,7 +80,7 @@ class SampleLabelExportDetailView(DetailView):
         file_name = 'samplelabel'
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
-            datetime.datetime.now().replace(microsecond=0).isoformat()) + '.csv'
+            timezone.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
         writer.writerow(['id', 'sample_label', 'sample_barcode', 'sample_label_cap', 'created_by', 'created_datetime'])
 
