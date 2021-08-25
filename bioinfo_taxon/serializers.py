@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
-from bioinfo_denoising.models import AmpliconSequenceVariant
+from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
 from utility.enumerations import YesNo
 from utility.models import ProcessLocation
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
@@ -281,7 +281,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnnotationMetadata
-        fields = ['id', 'process_location', 'analysis_datetime', 'annotation_method',
+        fields = ['id', 'process_location', 'denoising_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -292,6 +292,9 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
+    denoising_metadata = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field='denoising_slug',
+                                                      queryset=DenoisingMetadata.objects.all())
     annotation_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                      slug_field='annotation_method_name_slug',
                                                      queryset=AnnotationMethod.objects.all())

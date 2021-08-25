@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from bioinfo_denoising.models import AmpliconSequenceVariant
+from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
 from utility.models import DateTimeUserMixin, slug_date_format, ProcessLocation
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 from utility.enumerations import YesNo
@@ -382,6 +382,7 @@ class AnnotationMethod(DateTimeUserMixin):
 class AnnotationMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=DEFAULT_PROCESS_LOCATION_ID)
+    denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     annotation_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)
     annotation_slug = models.SlugField("Annotation Metadata Slug", max_length=255)

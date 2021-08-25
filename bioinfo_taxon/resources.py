@@ -4,7 +4,7 @@ from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, \
     AnnotationMetadata, TaxonomicAnnotation
 from utility.models import ProcessLocation
-from bioinfo_denoising.models import AmpliconSequenceVariant
+from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
 from users.models import CustomUser
 
 
@@ -301,14 +301,19 @@ class AnnotationMetadataAdminResource(resources.ModelResource):
         import_id_fields = ('analysis_datetime', 'annotation_method',
                             'analyst_first_name', 'analyst_last_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'analysis_datetime', 'annotation_method',
+        fields = ('id', 'process_location', 'denoising_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'analysis_datetime', 'annotation_method',
+        export_order = ('id', 'process_location', 'denoising_metadata', 'analysis_datetime', 'annotation_method',
                         'analyst_first_name', 'analyst_last_name',
                         'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', )
+
+    denoising_metadata = fields.Field(
+        column_name='denoising_metadata',
+        attribute='denoising_metadata',
+        widget=ForeignKeyWidget(DenoisingMetadata, 'denoising_slug'))
 
     process_location = fields.Field(
         column_name='process_location',
