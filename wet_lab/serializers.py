@@ -155,7 +155,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_datetime = serializers.DateTimeField()
-    barcode_slug = serializers.CharField(max_length=16, read_only=True)
+    barcode_slug = serializers.SlugField(max_length=16, read_only=True)
     extraction_first_name = serializers.CharField(max_length=255)
     extraction_last_name = serializers.CharField(max_length=255)
     extraction_volume = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -271,7 +271,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_datetime = serializers.DateTimeField()
     lib_prep_experiment_name = serializers.CharField(max_length=255,
                                                      validators=[UniqueValidator(queryset=LibraryPrep.objects.all())])
-    lib_prep_slug = serializers.CharField(max_length=255, read_only=True)
+    lib_prep_slug = serializers.SlugField(max_length=255, read_only=True)
     qubit_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     # units will be in ng/ml
     qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
@@ -328,7 +328,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_datetime = serializers.DateTimeField()
     pooled_lib_label = serializers.CharField(max_length=255,
                                              validators=[UniqueValidator(queryset=PooledLibrary.objects.all())])
-    pooled_lib_label_slug = serializers.SlugField(max_length=255)
+    pooled_lib_label_slug = serializers.SlugField(read_only=True, max_length=255)
     pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pooled_lib_notes = serializers.CharField(allow_blank=True)
