@@ -42,8 +42,7 @@ class SampleTypeSerializer(serializers.ModelSerializer):
 
 class SampleLabelSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_label_id = serializers.CharField(max_length=16, read_only=True,
-                                            validators=[UniqueValidator(queryset=SampleLabel.objects.all())])
+    sample_label_id = serializers.CharField(max_length=16, read_only=True)
     sample_year = serializers.IntegerField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
