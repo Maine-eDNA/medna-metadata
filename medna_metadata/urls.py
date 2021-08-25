@@ -85,7 +85,7 @@ router.register(r'run_prep', RunPrepViewSet, 'run_prep')
 router.register(r'run_result', RunResultViewSet, 'run_result')
 router.register(r'fastq', FastqFileViewSet, 'fastq')
 # freezer_inventory
-router.register(r'freezer/(?P<created_by>\w+)?', FreezerViewSet, 'freezer')
+router.register(r'freezer/(?P<created_by>[a-z0-9]+)', FreezerViewSet, 'freezer')
 router.register(r'rack/<created_by>/<freezer>', FreezerRackViewSet, 'rack')
 router.register(r'box/<created_by>/<freezer_rack>', FreezerBoxViewSet, 'box')
 router.register(r'inventory/<created_by>/<freezer_box>/<extraction>/<field_sample>',
