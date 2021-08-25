@@ -23,7 +23,7 @@ from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, Env
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
     EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
     EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, SystemViewSet, FieldSitesViewSet
-from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
+from sample_labels.views import SampleTypeViewSet, SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import FieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     FieldSampleViewSet
 from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMethodViewSet, SizeSelectionMethodViewSet, \
@@ -64,6 +64,7 @@ router.register(r'envo_feature_seventh', EnvoFeatureSeventhViewSet, 'envo_featur
 router.register(r'system', SystemViewSet, 'system')
 router.register(r'field_site', FieldSitesViewSet, 'field_site')
 # sample_labels
+router.register(r'sample_type', SampleTypeViewSet, 'sample_type')
 router.register(r'sample_label_req', SampleLabelRequestViewSet, 'sample_label_req')
 router.register(r'sample_label', SampleLabelViewSet, 'sample_label')
 # field_survey
