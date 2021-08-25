@@ -133,7 +133,7 @@ class FreezerInventory(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True, null=True,
                                         limit_choices_to={'is_extracted': YesNo.NO})
     extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,)
-    freezer_inventory_slug = models.CharField("Freezer Inventory Slug", max_length=27, unique=True)
+    freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50,
                                               choices=InvTypes.choices)
     freezer_inventory_status = models.CharField("Freezer Inventory Status",

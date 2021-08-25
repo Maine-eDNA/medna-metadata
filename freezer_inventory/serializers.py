@@ -15,7 +15,7 @@ class FreezerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_label = serializers.CharField(max_length=255,
                                           validators=[UniqueValidator(queryset=Freezer.objects.all())])
-    freezer_label_slug = serializers.CharField(max_length=255, read_only=True)
+    freezer_label_slug = serializers.SlugField(max_length=255, read_only=True)
     freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_width = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -92,7 +92,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_box_label = serializers.CharField(max_length=255,
                                               validators=[UniqueValidator(queryset=FreezerBox.objects.all())])
-    freezer_box_label_slug = serializers.CharField(max_length=255, read_only=True)
+    freezer_box_label_slug = serializers.SlugField(max_length=255, read_only=True)
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
@@ -127,7 +127,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_inventory_slug = serializers.CharField(max_length=27, read_only=True)
+    freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices)
     # location of inventory in freezer box
