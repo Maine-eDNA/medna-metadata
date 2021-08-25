@@ -15,6 +15,7 @@ import csv
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 def year_choices():
@@ -28,11 +29,15 @@ def current_year():
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
     queryset = SampleLabelRequest.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'site_id', 'sample_type']
 
 
 class SampleLabelViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelSerializer
     queryset = SampleLabel.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'site_id', 'sample_type']
 
 
 class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
@@ -50,7 +55,7 @@ class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTable
     # where the data is coming from when it is being exported -- foreign keys to grab the appropriate columns
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = [DjangoFilterBackend]
 
 
 class SampleLabelListView(generics.ListAPIView):
@@ -60,6 +65,8 @@ class SampleLabelListView(generics.ListAPIView):
     # access via the url == login only
     # this is now hard-coded in settings under: 'DEFAULT_PERMISSION_CLASSES'
     # permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'site_id', 'sample_type']
 
 
 class SampleLabelDetailView(DetailView):
@@ -105,7 +112,7 @@ class SampleLabelExportDetailView(DetailView):
         return response
 
 
-class AddSampleLabelView(LoginRequiredMixin,CreateView):
+class AddSampleLabelView(LoginRequiredMixin, CreateView):
     """View sample label create view"""
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().

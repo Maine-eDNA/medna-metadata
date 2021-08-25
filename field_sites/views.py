@@ -2,13 +2,13 @@ from django.urls import reverse
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django_filters import rest_framework as filters
 # import datetime
 from django.utils import timezone
 from utility.serializers import SerializerExportMixin
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
-    EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, FieldSite, Region
+    EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
+    System, FieldSite, Region
 # from django.shortcuts import render
 # from django.http import HttpResponse
 from django_filters.views import FilterView
@@ -20,7 +20,8 @@ from .serializers import EnvoBiomeFirstSerializer, EnvoBiomeSecondSerializer,\
     EnvoFeatureFirstSerializer, EnvoFeatureSecondSerializer,\
     EnvoFeatureThirdSerializer, EnvoFeatureFourthSerializer,\
     EnvoFeatureFifthSerializer, EnvoFeatureSixthSerializer,\
-    EnvoFeatureSeventhSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
+    EnvoFeatureSeventhSerializer, \
+    SystemSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
     GeoRegionSerializer
 import datetime
 import csv
@@ -28,71 +29,110 @@ from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
 from .forms import AddFieldSiteForm
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class EnvoBiomeFirstViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoBiomeFirstSerializer
     queryset = EnvoBiomeFirst.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
 
 
 class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoBiomeSecondSerializer
     queryset = EnvoBiomeSecond.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'biome_first_tier_slug']
 
 
 class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoBiomeThirdSerializer
     queryset = EnvoBiomeThird.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'biome_second_tier_slug']
 
 
 class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoBiomeFourthSerializer
     queryset = EnvoBiomeFourth.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'biome_third_tier_slug']
 
 
 class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoBiomeFifthSerializer
     queryset = EnvoBiomeFifth.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'biome_fourth_tier_slug']
 
 
 class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureFirstSerializer
     queryset = EnvoFeatureFirst.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
 
 
 class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureSecondSerializer
     queryset = EnvoFeatureSecond.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'feature_first_tier_slug']
 
 
 class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureThirdSerializer
     queryset = EnvoFeatureThird.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'feature_second_tier_slug']
 
 
 class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureFourthSerializer
     queryset = EnvoFeatureFourth.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'feature_third_tier_slug']
 
 
 class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureFifthSerializer
     queryset = EnvoFeatureFifth.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'feature_fourth_tier_slug']
 
 
 class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureSixthSerializer
     queryset = EnvoFeatureSixth.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'feature_fifth_tier_slug']
 
 
 class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):
     serializer_class = EnvoFeatureSeventhSerializer
     queryset = EnvoFeatureSeventh.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'feature_sixth_tier_slug']
+
+
+class SystemViewSet(viewsets.ModelViewSet):
+    serializer_class = SystemSerializer
+    queryset = System.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
 
 
 class FieldSitesViewSet(viewsets.ModelViewSet):
     serializer_class = FieldSiteSerializer
     queryset = FieldSite.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'grant', 'system',
+                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+                        'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
+                        'envo_feature_seventh']
 
 
 class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
@@ -105,22 +145,44 @@ class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
 #    }
     export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = FieldSiteSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'grant', 'system',
+                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+                        'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
+                        'envo_feature_seventh']
 
 
 class FieldSitesListView(generics.ListAPIView):
     queryset = FieldSite.objects.all()
     serializer_class = FieldSiteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'grant', 'system',
+                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+                        'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
+                        'envo_feature_seventh']
 
 
 class GeoFieldSitesListView(generics.ListAPIView):
     queryset = FieldSite.objects.all()
     serializer_class = GeoFieldSiteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by', 'grant', 'system',
+                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+                        'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
+                        'envo_feature_seventh']
 
 
 class GeoRegionsListView(generics.ListAPIView):
     queryset = Region.objects.all()
     serializer_class = GeoRegionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
 
 
 class FieldSiteDetailView(DetailView):
@@ -128,6 +190,7 @@ class FieldSiteDetailView(DetailView):
     context_object_name = 'site'
     fields = ['grant', 'system', 'region', 'general_location_name', 'purpose', 'geom',
               'created_by', 'created_datetime']
+
 
 #    def get_object(self, queryset=None):
 #        return queryset.get(self.kwargs['pk'])
@@ -154,7 +217,7 @@ class FieldSiteExportDetailView(DetailView):
         return response
 
 
-class AddFieldSiteView(LoginRequiredMixin,CreateView):
+class AddFieldSiteView(LoginRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     form_class = AddFieldSiteForm

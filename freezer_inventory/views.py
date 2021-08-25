@@ -10,33 +10,33 @@ from rest_framework import viewsets
 class FreezerViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerSerializer
     queryset = Freezer.objects.all()
-    filterset_fields = ['created_by']
     filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
 
 
 class FreezerRackViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerRackSerializer
     queryset = FreezerRack.objects.all()
-    filterset_fields = ['freezer', 'created_by']
     filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['freezer', 'created_by']
 
 
 class FreezerBoxViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerBoxSerializer
     queryset = FreezerBox.objects.all()
-    filterset_fields = ['freezer_rack', 'created_by']
     filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['freezer_rack', 'created_by']
 
 
 class FreezerInventoryViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerInventorySerializer
     queryset = FreezerInventory.objects.all()
-    filterset_fields = ['freezer_box', 'field_sample', 'extraction', 'created_by']
     filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['freezer_box', 'field_sample', 'extraction', 'created_by']
 
 
 class FreezerCheckoutViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerCheckoutSerializer
     queryset = FreezerCheckout.objects.all()
-    filterset_fields = ['freezer_inventory', 'created_by']
     filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['freezer_inventory', 'created_by']
