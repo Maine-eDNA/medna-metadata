@@ -52,7 +52,7 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
 
 class SampleType(DateTimeUserMixin):
     sample_type_code = models.CharField("Sample Code", max_length=1, unique=True)
-    sample_type_label = models.CharField("Sample Label", max_length=200)
+    sample_type_label = models.CharField("Sample Label", max_length=255)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)

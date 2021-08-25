@@ -7,9 +7,9 @@ from django_tables2.views import SingleTableMixin
 from django.utils import timezone
 from .serializers import SampleLabelRequestSerializerExportMixin
 from django_filters import rest_framework as filters
-from .models import SampleLabelRequest, SampleLabel
+from .models import SampleType, SampleLabelRequest, SampleLabel
 from .tables import SampleLabelRequestTable
-from .serializers import SampleLabelRequestSerializer, SampleLabelSerializer
+from .serializers import SampleTypeSerializer, SampleLabelRequestSerializer, SampleLabelSerializer
 import datetime
 import csv
 from django.http import HttpResponse
@@ -24,6 +24,13 @@ def year_choices():
 
 def current_year():
     return datetime.date.today().year
+
+
+class SampleTypeViewSet(viewsets.ModelViewSet):
+    serializer_class = SampleTypeSerializer
+    queryset = SampleType.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
 
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):

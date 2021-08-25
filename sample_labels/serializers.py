@@ -22,6 +22,24 @@ def delete_keys(keys, the_dict):
 
 
 # Django REST Framework to allow the automatic downloading of data!
+class SampleTypeSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    sample_type_code = serializers.CharField(max_length=1,
+                                             validators=[UniqueValidator(queryset=SampleType.objects.all())])
+    sample_type_label = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = SampleType
+        fields = ['id', 'sample_type_code', 'sample_type_label',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since site_id, sample_type, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
 class SampleLabelSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     sample_label_id = serializers.CharField(max_length=16, read_only=True,
