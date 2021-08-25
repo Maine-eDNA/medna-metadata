@@ -66,6 +66,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class ProcessLocationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     process_location_name = serializers.CharField(max_length=255)
+    process_location_name_slug = serializers.SlugField(read_only=True, max_length=255)
     affiliation = serializers.CharField(max_length=255)
     process_location_url = serializers.URLField(max_length=255)
     location_email_address = serializers.EmailField(allow_blank=True)
@@ -78,7 +79,8 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProcessLocation
-        fields = ['id', 'process_location_name', 'affiliation',
+        fields = ['id', 'process_location_name', 'process_location_name_slug',
+                  'affiliation',
                   'process_location_url', 'phone_number',
                   'location_email_address', 'point_of_contact_email_address',
                   'point_of_contact_first_name', 'point_of_contact_last_name',
