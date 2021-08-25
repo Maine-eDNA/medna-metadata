@@ -85,11 +85,12 @@ router.register(r'run_prep', RunPrepViewSet, 'run_prep')
 router.register(r'run_result', RunResultViewSet, 'run_result')
 router.register(r'fastq', FastqFileViewSet, 'fastq')
 # freezer_inventory
-router.register(r'freezer', FreezerViewSet, 'freezer')
-router.register(r'rack', FreezerRackViewSet, 'rack')
-router.register(r'box', FreezerBoxViewSet, 'box')
-router.register(r'inventory', FreezerInventoryViewSet, 'inventory')
-router.register(r'checkout', FreezerCheckoutViewSet, 'checkout')
+router.register(r'^freezer/(?P<created_by>\d+)/$', FreezerViewSet, 'freezer')
+router.register(r'^rack/(?P<created_by>\d+)/(?P<freezer>\d+)/$', FreezerRackViewSet, 'rack')
+router.register(r'^box/(?P<created_by>\d+)/(?P<freezer_rack>\d+)/$', FreezerBoxViewSet, 'box')
+router.register(r'^inventory/(?P<created_by>\d+)/(?P<freezer_box>\d+)/(?P<field_sample>\d+)/(?P<extraction>\d+)/$',
+                FreezerInventoryViewSet, 'inventory')
+router.register(r'^checkout/(?P<created_by>\d+)/(?P<freezer_inventory>\d+)/$', FreezerCheckoutViewSet, 'checkout')
 # bioinfo_denoising
 router.register(r'denoising_method', DenoisingMethodViewSet, 'denoising_method')
 router.register(r'denoising_metadata', DenoisingMetadataViewSet, 'denoising_metadata')
