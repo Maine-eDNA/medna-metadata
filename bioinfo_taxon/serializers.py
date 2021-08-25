@@ -45,12 +45,14 @@ class TaxonDomainSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_domain = serializers.CharField(max_length=255,
                                          validators=[UniqueValidator(queryset=TaxonDomain.objects.all())])
+    taxon_domain_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = TaxonDomain
-        fields = ['id', 'taxon_domain', 'created_by', 'created_datetime', 'modified_datetime', ]
+        fields = ['id', 'taxon_domain', 'taxon_domain_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -61,6 +63,7 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_kingdom = serializers.CharField(max_length=255,
                                           validators=[UniqueValidator(queryset=TaxonKingdom.objects.all())])
+    taxon_kingdom_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_domain = serializers.CharField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -68,7 +71,7 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonKingdom
         fields = ['id',
-                  'taxon_kingdom', 'taxon_domain',
+                  'taxon_kingdom', 'taxon_kingdom_slug', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -83,6 +86,7 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_phylum = serializers.CharField(max_length=255,
                                          validators=[UniqueValidator(queryset=TaxonPhylum.objects.all())])
+    taxon_phylum_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_kingdom = serializers.CharField(read_only=True, max_length=255)
     taxon_domain = serializers.CharField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -91,7 +95,7 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonPhylum
         fields = ['id',
-                  'taxon_phylum',
+                  'taxon_phylum', 'taxon_phylum_slug',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -107,6 +111,7 @@ class TaxonClassSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_class = serializers.CharField(max_length=255,
                                         validators=[UniqueValidator(queryset=TaxonClass.objects.all())])
+    taxon_class_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_phylum = serializers.CharField(read_only=True, max_length=255)
     taxon_kingdom = serializers.CharField(read_only=True, max_length=255)
     taxon_domain = serializers.CharField(read_only=True, max_length=255)
@@ -116,7 +121,7 @@ class TaxonClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonClass
         fields = ['id',
-                  'taxon_class', 'taxon_phylum',
+                  'taxon_class', 'taxon_class_slug', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -132,6 +137,7 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_order = serializers.CharField(max_length=255,
                                         validators=[UniqueValidator(queryset=TaxonOrder.objects.all())])
+    taxon_order_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_class = serializers.CharField(read_only=True, max_length=255)
     taxon_phylum = serializers.CharField(read_only=True, max_length=255)
     taxon_kingdom = serializers.CharField(read_only=True, max_length=255)
@@ -142,7 +148,7 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonOrder
         fields = ['id',
-                  'taxon_order', 'taxon_class', 'taxon_phylum',
+                  'taxon_order', 'taxon_order_slug', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -158,6 +164,7 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_family = serializers.CharField(max_length=255,
                                          validators=[UniqueValidator(queryset=TaxonFamily.objects.all())])
+    taxon_family_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_order = serializers.CharField(read_only=True, max_length=255)
     taxon_class = serializers.CharField(read_only=True, max_length=255)
     taxon_phylum = serializers.CharField(read_only=True, max_length=255)
@@ -169,7 +176,7 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonFamily
         fields = ['id',
-                  'taxon_family',
+                  'taxon_family', 'taxon_family_slug'
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -186,6 +193,7 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_genus = serializers.CharField(max_length=255,
                                         validators=[UniqueValidator(queryset=TaxonGenus.objects.all())])
+    taxon_genus_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_family = serializers.CharField(read_only=True, max_length=255)
     taxon_order = serializers.CharField(read_only=True, max_length=255)
     taxon_class = serializers.CharField(read_only=True, max_length=255)
@@ -198,7 +206,7 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonGenus
         fields = ['id',
-                  'taxon_genus', 'taxon_family',
+                  'taxon_genus', 'taxon_genus_slug', 'taxon_family',
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -215,6 +223,7 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     taxon_species = serializers.CharField(max_length=255,
                                           validators=[UniqueValidator(queryset=TaxonSpecies.objects.all())])
+    taxon_species_slug = serializers.SlugField(max_length=255, read_only=True)
     taxon_genus = serializers.CharField(read_only=True, max_length=255)
     taxon_family = serializers.CharField(read_only=True, max_length=255)
     taxon_order = serializers.CharField(read_only=True, max_length=255)
@@ -228,7 +237,7 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonSpecies
         fields = ['id', 'is_endemic', 'taxon_common_name',
-                  'taxon_species', 'taxon_genus', 'taxon_family',
+                  'taxon_species', 'taxon_species_slug', 'taxon_genus', 'taxon_family',
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -266,6 +275,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
     analyst_last_name = serializers.CharField(max_length=255)
     analysis_sop_url = serializers.URLField(max_length=255)
     analysis_script_repo_url = serializers.URLField(max_length=255)
+    annotation_slug = serializers.SlugField(max_length=255, read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -273,7 +283,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
         model = AnnotationMetadata
         fields = ['id', 'process_location', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url',
+                  'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add

@@ -22,7 +22,7 @@ from users.views import CustomUserViewSet
 from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
     EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
-    EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, FieldSitesViewSet
+    EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, SystemViewSet, FieldSitesViewSet
 from sample_labels.views import SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import FieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     FieldSampleViewSet
@@ -34,8 +34,11 @@ from freezer_inventory.views import FreezerViewSet, FreezerRackViewSet, FreezerB
     FreezerInventoryViewSet, FreezerCheckoutViewSet
 from bioinfo_denoising.views import DenoisingMethodViewSet, DenoisingMetadataViewSet, \
     AmpliconSequenceVariantViewSet, ASVReadViewSet
-from bioinfo_taxon.views import ReferenceDatabaseViewSet, TaxonSpeciesViewSet, AnnotationMethodViewSet, \
-    AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
+from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
+    TaxonDomainViewSet, TaxonKingdomViewSet, TaxonPhylumViewSet, \
+    TaxonClassViewSet, TaxonOrderViewSet, TaxonFamilyViewSet, \
+    TaxonGenusViewSet, TaxonSpeciesViewSet, \
+    AnnotationMethodViewSet, AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
 from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, IndexView
 
 router = routers.DefaultRouter()
@@ -58,6 +61,7 @@ router.register(r'envo_feature_fourth', EnvoFeatureFourthViewSet, 'envo_feature_
 router.register(r'envo_feature_fifth', EnvoFeatureFifthViewSet, 'envo_feature_fifth')
 router.register(r'envo_feature_sixth', EnvoFeatureSixthViewSet, 'envo_feature_sixth')
 router.register(r'envo_feature_seventh', EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
+router.register(r'system', SystemViewSet, 'system')
 router.register(r'field_site', FieldSitesViewSet, 'field_site')
 # sample_labels
 router.register(r'sample_label_req', SampleLabelRequestViewSet, 'sample_label_req')
@@ -88,8 +92,7 @@ router.register(r'fastq', FastqFileViewSet, 'fastq')
 router.register(r'freezer', FreezerViewSet, 'freezer')
 router.register(r'rack', FreezerRackViewSet, 'rack')
 router.register(r'box', FreezerBoxViewSet, 'box')
-router.register(r'inventory',
-                FreezerInventoryViewSet, 'inventory')
+router.register(r'inventory', FreezerInventoryViewSet, 'inventory')
 router.register(r'checkout', FreezerCheckoutViewSet, 'checkout')
 # bioinfo_denoising
 router.register(r'denoising_method', DenoisingMethodViewSet, 'denoising_method')
@@ -98,7 +101,14 @@ router.register(r'asv', AmpliconSequenceVariantViewSet, 'asv')
 router.register(r'asv_read', ASVReadViewSet, 'asv_read')
 # bioinfo_taxon
 router.register(r'refdb', ReferenceDatabaseViewSet, 'refdb')
-router.register(r'taxon', TaxonSpeciesViewSet, 'taxon')
+router.register(r'domain', TaxonDomainViewSet, 'domain')
+router.register(r'kingdom', TaxonKingdomViewSet, 'kingdom')
+router.register(r'phylum', TaxonPhylumViewSet, 'phylum')
+router.register(r'class', TaxonClassViewSet, 'class')
+router.register(r'order', TaxonOrderViewSet, 'order')
+router.register(r'family', TaxonFamilyViewSet, 'family')
+router.register(r'genus', TaxonGenusViewSet, 'genus')
+router.register(r'species', TaxonSpeciesViewSet, 'species')
 router.register(r'annotation_method', AnnotationMethodViewSet, 'annotation_method')
 router.register(r'annotation_metadata', AnnotationMetadataViewSet, 'annotation_metadata')
 router.register(r'taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_annotation')
