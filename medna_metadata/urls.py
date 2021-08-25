@@ -85,12 +85,12 @@ router.register(r'run_prep', RunPrepViewSet, 'run_prep')
 router.register(r'run_result', RunResultViewSet, 'run_result')
 router.register(r'fastq', FastqFileViewSet, 'fastq')
 # freezer_inventory
-router.register(r'freezer/(?P<created_by>\d+)/$', FreezerViewSet, 'freezer')
-router.register(r'rack/(?P<created_by>\d+)/(?P<freezer>\d+)/$', FreezerRackViewSet, 'rack')
-router.register(r'box/(?P<created_by>\d+)/(?P<freezer_rack>\d+)/$', FreezerBoxViewSet, 'box')
-router.register(r'inventory/(?P<created_by>\d+)/(?P<freezer_box>\d+)/(?P<field_sample>\d+)/(?P<extraction>\d+)/$',
+router.register(r'freezer/(?P<int:created_by>\d+)/$', FreezerViewSet, 'freezer')
+router.register(r'rack/(?P<int:created_by>\d+)/(?P<str:freezer>\d+)/$', FreezerRackViewSet, 'rack')
+router.register(r'box/(?P<int:created_by>\d+)/(?P<str:freezer_rack>\d+)/$', FreezerBoxViewSet, 'box')
+router.register(r'inventory/(?P<int:created_by>\d+)/(?P<str:freezer_box>\d+)/(?P<str:field_sample>\d+)/(?P<str:extraction>\d+)/$',
                 FreezerInventoryViewSet, 'inventory')
-router.register(r'checkout/(?P<created_by>\d+)/(?P<freezer_inventory>\d+)/$', FreezerCheckoutViewSet, 'checkout')
+router.register(r'checkout/(?P<int:created_by>\d+)/(?P<str:freezer_inventory>\d+)/$', FreezerCheckoutViewSet, 'checkout')
 # bioinfo_denoising
 router.register(r'denoising_method', DenoisingMethodViewSet, 'denoising_method')
 router.register(r'denoising_metadata', DenoisingMetadataViewSet, 'denoising_metadata')
