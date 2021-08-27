@@ -4,6 +4,7 @@ from rest_auth.serializers import LoginSerializer
 from rest_auth.registration.serializers import RegisterSerializer
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
 from random import choice
 try:
     from allauth.account import app_settings as allauth_settings
@@ -19,13 +20,20 @@ except ImportError:
 
 
 # django rest_framework
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('name',)
+
+
 class CustomUserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = CustomUser
         fields = ('id', 'email', 'first_name', 'last_name',
-                  'phone_number', 'agol_username', 'expiration_date',)
+                  'phone_number', 'agol_username', 'expiration_date', 'groups')
+    groups = GroupSerializer(many=True, read_only=True)
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
@@ -35,8 +43,9 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name', 'phone_number',
-                  'agol_username', 'expiration_date', ]
-        read_only_fields = ('email', 'expiration_date',)
+                  'agol_username', 'expiration_date', 'groups']
+        read_only_fields = ('email', 'expiration_date', 'groups')
+    groups = GroupSerializer(many=True, read_only=True)
 
 
 # rest-auth login and registration forms
