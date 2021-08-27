@@ -39,51 +39,51 @@ from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
     TaxonClassViewSet, TaxonOrderViewSet, TaxonFamilyViewSet, \
     TaxonGenusViewSet, TaxonSpeciesViewSet, \
     AnnotationMethodViewSet, AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
-from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, YesNoChoicesAPIView, \
-    MeasureUnitsChoicesAPIView, VolUnitsChoicesAPIView, ConcentrationUnitsChoicesAPIView, \
-    PhiXConcentrationUnitsChoicesAPIView, DdpcrUnitsChoicesAPIView, QpcrUnitsChoicesAPIView, \
-    WindSpeedsChoicesAPIView, CloudCoversChoicesAPIView, PrecipTypesChoicesAPIView, \
-    TurbidTypesChoicesAPIView, EnvoMaterialsChoicesAPIView, MeasureModesChoicesAPIView, \
-    EnvInstrumentsChoicesAPIView, YsiModelsChoicesAPIView, EnvMeasurementsChoicesAPIView, \
-    BottomSubstratesChoicesAPIView, WaterCollectionModesChoicesAPIView, CollectionTypesChoicesAPIView, \
-    FilterLocationsChoicesAPIView, ControlTypesChoicesAPIView, FilterMethodsChoicesAPIView, \
-    FilterTypesChoicesAPIView, CoreMethodsChoicesAPIView, SubCoreMethodsChoicesAPIView, \
-    TargetGenesChoicesAPIView, LibPrepTypesChoicesAPIView, LibPrepKitsChoicesAPIView, \
-    InvStatusChoicesAPIView, InvTypesChoicesAPIView, CheckoutActionsChoicesAPIView
+from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, YesNoChoicesViewSet, \
+    MeasureUnitsChoicesViewSet, VolUnitsChoicesViewSet, ConcentrationUnitsChoicesViewSet, \
+    PhiXConcentrationUnitsChoicesViewSet, DdpcrUnitsChoicesViewSet, QpcrUnitsChoicesViewSet, \
+    WindSpeedsChoicesViewSet, CloudCoversChoicesViewSet, PrecipTypesChoicesViewSet, \
+    TurbidTypesChoicesViewSet, EnvoMaterialsChoicesViewSet, MeasureModesChoicesViewSet, \
+    EnvInstrumentsChoicesViewSet, YsiModelsChoicesViewSet, EnvMeasurementsChoicesViewSet, \
+    BottomSubstratesChoicesViewSet, WaterCollectionModesChoicesViewSet, CollectionTypesChoicesViewSet, \
+    FilterLocationsChoicesViewSet, ControlTypesChoicesViewSet, FilterMethodsChoicesViewSet, \
+    FilterTypesChoicesViewSet, CoreMethodsChoicesViewSet, SubCoreMethodsChoicesViewSet, \
+    TargetGenesChoicesViewSet, LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
+    InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet
 
 router = routers.DefaultRouter()
 # users
-router.register(r'choices_yes_no', YesNoChoicesAPIView, 'choices_yes_no')
-router.register(r'choices_measure_units', MeasureUnitsChoicesAPIView, 'choices_measure_units')
-router.register(r'choices_vol_units', VolUnitsChoicesAPIView, 'choices_vol_units')
-router.register(r'choices_concentration_units', ConcentrationUnitsChoicesAPIView, 'choices_concentration_units')
-router.register(r'choices_phix_concentration_units', PhiXConcentrationUnitsChoicesAPIView, 'choices_phix_concentration_units')
-router.register(r'choices_ddpcr_units', DdpcrUnitsChoicesAPIView, 'choices_ddpcr_units')
-router.register(r'choices_qpcr_units', QpcrUnitsChoicesAPIView, 'choices_qpcr_units')
-router.register(r'choices_wind_speeds', WindSpeedsChoicesAPIView, 'choices_wind_speeds')
-router.register(r'choices_cloud_covers', CloudCoversChoicesAPIView, 'choices_cloud_covers')
-router.register(r'choices_precip_types', PrecipTypesChoicesAPIView, 'choices_precip_types')
-router.register(r'choices_turbid_types', TurbidTypesChoicesAPIView, 'choices_turbid_types')
-router.register(r'choices_envo_materials', EnvoMaterialsChoicesAPIView, 'choices_envo_materials')
-router.register(r'choices_measure_modes', MeasureModesChoicesAPIView, 'choices_measure_modes')
-router.register(r'choices_env_instruments', EnvInstrumentsChoicesAPIView, 'choices_env_instruments')
-router.register(r'choices_ysi_models', YsiModelsChoicesAPIView, 'choices_ysi_models')
-router.register(r'choices_env_measurements', EnvMeasurementsChoicesAPIView, 'choices_env_measurements')
-router.register(r'choices_bottom_substrates', BottomSubstratesChoicesAPIView, 'choices_bottom_substrates')
-router.register(r'choices_water_collection_modes', WaterCollectionModesChoicesAPIView, 'choices_water_collection_modes')
-router.register(r'choices_collection_types', CollectionTypesChoicesAPIView, 'choices_collection_types')
-router.register(r'choices_filter_locations', FilterLocationsChoicesAPIView, 'choices_filter_locations')
-router.register(r'choices_control_types', ControlTypesChoicesAPIView, 'choices_control_types')
-router.register(r'choices_filter_methods', FilterMethodsChoicesAPIView, 'choices_filter_methods')
-router.register(r'choices_filter_types', FilterTypesChoicesAPIView, 'choices_filter_types')
-router.register(r'choices_core_methods', CoreMethodsChoicesAPIView, 'choices_core_methods')
-router.register(r'choices_subcore_methods', SubCoreMethodsChoicesAPIView, 'choices_subcore_methods')
-router.register(r'choices_target_genes', TargetGenesChoicesAPIView, 'choices_target_genes')
-router.register(r'choices_lib_prep_types', LibPrepTypesChoicesAPIView, 'choices_lib_prep_types')
-router.register(r'choices_lib_prep_kits', LibPrepKitsChoicesAPIView, 'choices_lib_prep_kits')
-router.register(r'choices_inv_status', InvStatusChoicesAPIView, 'choices_inv_status')
-router.register(r'choices_inv_types', InvTypesChoicesAPIView, 'choices_inv_types')
-router.register(r'choices_checkout_actions', CheckoutActionsChoicesAPIView, 'choices_checkout_actions')
+router.register(r'choices_yes_no', YesNoChoicesViewSet, 'choices_yes_no')
+router.register(r'choices_measure_units', MeasureUnitsChoicesViewSet, 'choices_measure_units')
+router.register(r'choices_vol_units', VolUnitsChoicesViewSet, 'choices_vol_units')
+router.register(r'choices_concentration_units', ConcentrationUnitsChoicesViewSet, 'choices_concentration_units')
+router.register(r'choices_phix_concentration_units', PhiXConcentrationUnitsChoicesViewSet, 'choices_phix_concentration_units')
+router.register(r'choices_ddpcr_units', DdpcrUnitsChoicesViewSet, 'choices_ddpcr_units')
+router.register(r'choices_qpcr_units', QpcrUnitsChoicesViewSet, 'choices_qpcr_units')
+router.register(r'choices_wind_speeds', WindSpeedsChoicesViewSet, 'choices_wind_speeds')
+router.register(r'choices_cloud_covers', CloudCoversChoicesViewSet, 'choices_cloud_covers')
+router.register(r'choices_precip_types', PrecipTypesChoicesViewSet, 'choices_precip_types')
+router.register(r'choices_turbid_types', TurbidTypesChoicesViewSet, 'choices_turbid_types')
+router.register(r'choices_envo_materials', EnvoMaterialsChoicesViewSet, 'choices_envo_materials')
+router.register(r'choices_measure_modes', MeasureModesChoicesViewSet, 'choices_measure_modes')
+router.register(r'choices_env_instruments', EnvInstrumentsChoicesViewSet, 'choices_env_instruments')
+router.register(r'choices_ysi_models', YsiModelsChoicesViewSet, 'choices_ysi_models')
+router.register(r'choices_env_measurements', EnvMeasurementsChoicesViewSet, 'choices_env_measurements')
+router.register(r'choices_bottom_substrates', BottomSubstratesChoicesViewSet, 'choices_bottom_substrates')
+router.register(r'choices_water_collection_modes', WaterCollectionModesChoicesViewSet, 'choices_water_collection_modes')
+router.register(r'choices_collection_types', CollectionTypesChoicesViewSet, 'choices_collection_types')
+router.register(r'choices_filter_locations', FilterLocationsChoicesViewSet, 'choices_filter_locations')
+router.register(r'choices_control_types', ControlTypesChoicesViewSet, 'choices_control_types')
+router.register(r'choices_filter_methods', FilterMethodsChoicesViewSet, 'choices_filter_methods')
+router.register(r'choices_filter_types', FilterTypesChoicesViewSet, 'choices_filter_types')
+router.register(r'choices_core_methods', CoreMethodsChoicesViewSet, 'choices_core_methods')
+router.register(r'choices_subcore_methods', SubCoreMethodsChoicesViewSet, 'choices_subcore_methods')
+router.register(r'choices_target_genes', TargetGenesChoicesViewSet, 'choices_target_genes')
+router.register(r'choices_lib_prep_types', LibPrepTypesChoicesViewSet, 'choices_lib_prep_types')
+router.register(r'choices_lib_prep_kits', LibPrepKitsChoicesViewSet, 'choices_lib_prep_kits')
+router.register(r'choices_inv_status', InvStatusChoicesViewSet, 'choices_inv_status')
+router.register(r'choices_inv_types', InvTypesChoicesViewSet, 'choices_inv_types')
+router.register(r'choices_checkout_actions', CheckoutActionsChoicesViewSet, 'choices_checkout_actions')
 
 router.register(r'users', CustomUserViewSet, 'users')
 # utility
