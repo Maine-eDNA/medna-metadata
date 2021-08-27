@@ -62,6 +62,12 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
                     _("A user is already registered with this e-mail address."))
         return email
 
+    def validate_password1(self, password):
+        pass
+
+    def validate(self, data):
+        pass
+
     def custom_signup(self, request, user):
         pass
 
