@@ -23,7 +23,7 @@ class YesNoChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
@@ -33,7 +33,7 @@ class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class VolUnitsChoicesAPIView(viewsets.ViewSet):
@@ -43,7 +43,7 @@ class VolUnitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class ConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
@@ -53,7 +53,7 @@ class ConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class PhiXConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
@@ -63,7 +63,7 @@ class PhiXConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class DdpcrUnitsChoicesAPIView(viewsets.ViewSet):
@@ -73,7 +73,7 @@ class DdpcrUnitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class QpcrUnitsChoicesAPIView(viewsets.ViewSet):
@@ -83,7 +83,7 @@ class QpcrUnitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class WindSpeedsChoicesAPIView(viewsets.ViewSet):
@@ -93,7 +93,7 @@ class WindSpeedsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class CloudCoversChoicesAPIView(viewsets.ViewSet):
@@ -103,7 +103,7 @@ class CloudCoversChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class PrecipTypesChoicesAPIView(viewsets.ViewSet):
@@ -113,7 +113,7 @@ class PrecipTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class TurbidTypesChoicesAPIView(viewsets.ViewSet):
@@ -123,7 +123,7 @@ class TurbidTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class EnvoMaterialsChoicesAPIView(viewsets.ViewSet):
@@ -133,7 +133,7 @@ class EnvoMaterialsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class MeasureModesChoicesAPIView(viewsets.ViewSet):
@@ -143,7 +143,7 @@ class MeasureModesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class EnvInstrumentsChoicesAPIView(viewsets.ViewSet):
@@ -153,7 +153,7 @@ class EnvInstrumentsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class YsiModelsChoicesAPIView(viewsets.ViewSet):
@@ -163,7 +163,7 @@ class YsiModelsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class EnvMeasurementsChoicesAPIView(viewsets.ViewSet):
@@ -173,7 +173,7 @@ class EnvMeasurementsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class BottomSubstratesChoicesAPIView(viewsets.ViewSet):
@@ -183,7 +183,7 @@ class BottomSubstratesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class WaterCollectionModesChoicesAPIView(viewsets.ViewSet):
@@ -193,7 +193,7 @@ class WaterCollectionModesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class CollectionTypesChoicesAPIView(viewsets.ViewSet):
@@ -203,7 +203,7 @@ class CollectionTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class FilterLocationsChoicesAPIView(viewsets.ViewSet):
@@ -213,7 +213,7 @@ class FilterLocationsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class ControlTypesChoicesAPIView(viewsets.ViewSet):
@@ -223,7 +223,7 @@ class ControlTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class FilterMethodsChoicesAPIView(viewsets.ViewSet):
@@ -233,7 +233,7 @@ class FilterMethodsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class FilterTypesChoicesAPIView(viewsets.ViewSet):
@@ -243,7 +243,7 @@ class FilterTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class CoreMethodsChoicesAPIView(viewsets.ViewSet):
@@ -253,7 +253,7 @@ class CoreMethodsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class SubCoreMethodsChoicesAPIView(viewsets.ViewSet):
@@ -263,7 +263,7 @@ class SubCoreMethodsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class TargetGenesChoicesAPIView(viewsets.ViewSet):
@@ -273,7 +273,7 @@ class TargetGenesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class LibPrepTypesChoicesAPIView(viewsets.ViewSet):
@@ -283,7 +283,7 @@ class LibPrepTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class LibPrepKitsChoicesAPIView(viewsets.ViewSet):
@@ -293,7 +293,7 @@ class LibPrepKitsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class InvStatusChoicesAPIView(viewsets.ViewSet):
@@ -303,7 +303,7 @@ class InvStatusChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class InvTypesChoicesAPIView(viewsets.ViewSet):
@@ -313,7 +313,7 @@ class InvTypesChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class CheckoutActionsChoicesAPIView(viewsets.ViewSet):
@@ -323,7 +323,7 @@ class CheckoutActionsChoicesAPIView(viewsets.ViewSet):
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response({my_choices}, status=status.HTTP_200_OK)
 
 
 class GrantViewSet(viewsets.ModelViewSet):
