@@ -16,7 +16,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
-class YesNoChoicesAPIView(views.APIView):
+class YesNoChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(YesNo)
@@ -26,7 +26,7 @@ class YesNoChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class MeasureUnitsChoicesAPIView(views.APIView):
+class MeasureUnitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(MeasureUnits)
@@ -36,7 +36,7 @@ class MeasureUnitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class VolUnitsChoicesAPIView(views.APIView):
+class VolUnitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(VolUnits)
@@ -46,7 +46,7 @@ class VolUnitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class ConcentrationUnitsChoicesAPIView(views.APIView):
+class ConcentrationUnitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(ConcentrationUnits)
@@ -56,7 +56,7 @@ class ConcentrationUnitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class PhiXConcentrationUnitsChoicesAPIView(views.APIView):
+class PhiXConcentrationUnitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(PhiXConcentrationUnits)
@@ -66,7 +66,7 @@ class PhiXConcentrationUnitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class DdpcrUnitsChoicesAPIView(views.APIView):
+class DdpcrUnitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(DdpcrUnits)
@@ -76,7 +76,7 @@ class DdpcrUnitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class QpcrUnitsChoicesAPIView(views.APIView):
+class QpcrUnitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(QpcrUnits)
@@ -86,7 +86,7 @@ class QpcrUnitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class WindSpeedsChoicesAPIView(views.APIView):
+class WindSpeedsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(WindSpeeds)
@@ -96,7 +96,7 @@ class WindSpeedsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class CloudCoversChoicesAPIView(views.APIView):
+class CloudCoversChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(CloudCovers)
@@ -106,7 +106,7 @@ class CloudCoversChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class PrecipTypesChoicesAPIView(views.APIView):
+class PrecipTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(PrecipTypes)
@@ -116,7 +116,7 @@ class PrecipTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class TurbidTypesChoicesAPIView(views.APIView):
+class TurbidTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(TurbidTypes)
@@ -126,7 +126,7 @@ class TurbidTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class EnvoMaterialsChoicesAPIView(views.APIView):
+class EnvoMaterialsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(EnvoMaterials)
@@ -136,7 +136,7 @@ class EnvoMaterialsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class MeasureModesChoicesAPIView(views.APIView):
+class MeasureModesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(MeasureModes)
@@ -146,7 +146,7 @@ class MeasureModesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class EnvInstrumentsChoicesAPIView(views.APIView):
+class EnvInstrumentsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(EnvInstruments)
@@ -156,7 +156,7 @@ class EnvInstrumentsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class YsiModelsChoicesAPIView(views.APIView):
+class YsiModelsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(YsiModels)
@@ -166,7 +166,7 @@ class YsiModelsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class EnvMeasurementsChoicesAPIView(views.APIView):
+class EnvMeasurementsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(EnvMeasurements)
@@ -176,7 +176,7 @@ class EnvMeasurementsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class BottomSubstratesChoicesAPIView(views.APIView):
+class BottomSubstratesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(BottomSubstrates)
@@ -186,7 +186,7 @@ class BottomSubstratesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class WaterCollectionModesChoicesAPIView(views.APIView):
+class WaterCollectionModesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(WaterCollectionModes)
@@ -196,7 +196,7 @@ class WaterCollectionModesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class CollectionTypesChoicesAPIView(views.APIView):
+class CollectionTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(CollectionTypes)
@@ -206,7 +206,7 @@ class CollectionTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class FilterLocationsChoicesAPIView(views.APIView):
+class FilterLocationsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(FilterLocations)
@@ -216,7 +216,7 @@ class FilterLocationsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class ControlTypesChoicesAPIView(views.APIView):
+class ControlTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(ControlTypes)
@@ -226,7 +226,7 @@ class ControlTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class FilterMethodsChoicesAPIView(views.APIView):
+class FilterMethodsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(FilterMethods)
@@ -236,7 +236,7 @@ class FilterMethodsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class FilterTypesChoicesAPIView(views.APIView):
+class FilterTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(FilterTypes)
@@ -246,7 +246,7 @@ class FilterTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class CoreMethodsChoicesAPIView(views.APIView):
+class CoreMethodsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(CoreMethods)
@@ -256,7 +256,7 @@ class CoreMethodsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class SubCoreMethodsChoicesAPIView(views.APIView):
+class SubCoreMethodsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(SubCoreMethods)
@@ -266,7 +266,7 @@ class SubCoreMethodsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class TargetGenesChoicesAPIView(views.APIView):
+class TargetGenesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(TargetGenes)
@@ -276,7 +276,7 @@ class TargetGenesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class LibPrepTypesChoicesAPIView(views.APIView):
+class LibPrepTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(LibPrepTypes)
@@ -286,7 +286,7 @@ class LibPrepTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class LibPrepKitsChoicesAPIView(views.APIView):
+class LibPrepKitsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(LibPrepKits)
@@ -296,7 +296,7 @@ class LibPrepKitsChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class InvStatusChoicesAPIView(views.APIView):
+class InvStatusChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(InvStatus)
@@ -306,7 +306,7 @@ class InvStatusChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class InvTypesChoicesAPIView(views.APIView):
+class InvTypesChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(InvTypes)
@@ -316,7 +316,7 @@ class InvTypesChoicesAPIView(views.APIView):
         return Response(my_choices, status=status.HTTP_200_OK)
 
 
-class CheckoutActionsChoicesAPIView(views.APIView):
+class CheckoutActionsChoicesAPIView(viewsets.GenericViewSet):
     def get(self, request, format=None):
         my_choices = []
         choice_dict = dict(CheckoutActions)
