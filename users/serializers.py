@@ -48,10 +48,10 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
     # this is currently disabled
     username = None
     email = serializers.EmailField(required=allauth_settings.EMAIL_REQUIRED)
-    password1 = None
-    password2 = None
+    password1 = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
+    password2 = password1
 
-    password = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
+    # password = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
     # pw_hash = make_password(password)
 
     def validate_email(self, email):
@@ -63,10 +63,12 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
         return email
 
     def validate_password1(self, password):
-        pass
+        return get_adapter().clean_password(password)
 
     def validate(self, data):
-        pass
+        if data['password1'] != data['password2']:
+            raise serializers.ValidationError(_("The two password fields didn't match."))
+        return data
 
     def custom_signup(self, request, user):
         pass
@@ -74,7 +76,7 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
     def get_cleaned_data(self):
         super(CustomAutoPasswordRegisterSerializer, self).get_cleaned_data()
         return {
-            'password1': self.password,
+            'password1': self.validated_data.get('password1', ''),
             'email': self.validated_data.get('email', '')
         }
 
