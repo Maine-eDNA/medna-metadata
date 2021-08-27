@@ -11,6 +11,7 @@ from .enumerations import YesNo, MeasureUnits, VolUnits, ConcentrationUnits, Phi
     InvStatus, InvTypes, CheckoutActions
 from django.views.generic.base import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
+import json
 import ast
 
 
@@ -19,12 +20,11 @@ import ast
 # enum serializers to return choices
 class YesNoChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
-        #my_choices = []
-        #choice_dict = ast.literal_eval(YesNo)
-        #for key, value in ast.iter_fields(choice_dict):
-        #    itered_dict = {"key": key, "value": value}
-        #    my_choices.append(itered_dict)
-        return Response(YesNo, status=status.HTTP_200_OK)
+        choices = []
+        for choice in YesNo:
+            choices.append(choice.value)
+        initial_data = {'choices': [choices]}
+        return Response(json.dumps(initial_data), status=status.HTTP_200_OK)
 
 
 class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
