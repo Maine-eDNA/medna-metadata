@@ -23,7 +23,7 @@ class YesNoChoicesAPIView(viewsets.ViewSet):
         choices = []
         for choice in YesNo:
             choices.append(choice.value)
-        initial_data = {'choices': {choices}}
+        initial_data = {'choices': [choices]}
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
