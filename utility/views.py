@@ -20,11 +20,11 @@ import ast
 class YesNoChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = ast.literal_eval(str(YesNo))
+        choice_dict = ast.literal_eval(YesNo)
         for key, value in ast.iter_fields(choice_dict):
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        return Response(YesNo, status=status.HTTP_200_OK)
 
 
 class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
