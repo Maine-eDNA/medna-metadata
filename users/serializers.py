@@ -48,11 +48,13 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
     # this is currently disabled
     username = None
     email = serializers.EmailField(required=allauth_settings.EMAIL_REQUIRED)
-    password1 = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
-    password2 = password1
 
-    # password = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
-    # pw_hash = make_password(password)
+    password = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
+    pw_hash = make_password(password)
+    password1 = pw_hash
+    password2 = pw_hash
+
+
 
     def validate_email(self, email):
         email = get_adapter().clean_email(email)
