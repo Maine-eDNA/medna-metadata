@@ -20,7 +20,7 @@ import ast
 class YesNoChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = ast.literal_eval(YesNo)
+        choice_dict = ast.literal_eval(str(YesNo))
         for key, value in ast.iter_fields(choice_dict):
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
