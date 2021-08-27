@@ -11,7 +11,7 @@ from .enumerations import YesNo, MeasureUnits, VolUnits, ConcentrationUnits, Phi
     InvStatus, InvTypes, CheckoutActions
 from django.views.generic.base import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
-
+import ast
 
 # Create your views here.
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
@@ -19,7 +19,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 class YesNoChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(YesNo)
+        choice_dict = ast.literal_eval(YesNo)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -29,7 +29,7 @@ class YesNoChoicesAPIView(viewsets.ViewSet):
 class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
      def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(MeasureUnits)
+        choice_dict = ast.literal_eval(MeasureUnits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -39,7 +39,7 @@ class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
 class VolUnitsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(VolUnits)
+        choice_dict = ast.literal_eval(VolUnits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -49,7 +49,7 @@ class VolUnitsChoicesAPIView(viewsets.ViewSet):
 class ConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(ConcentrationUnits)
+        choice_dict = ast.literal_eval(ConcentrationUnits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -59,7 +59,7 @@ class ConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
 class PhiXConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(PhiXConcentrationUnits)
+        choice_dict = ast.literal_eval(PhiXConcentrationUnits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -69,7 +69,7 @@ class PhiXConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
 class DdpcrUnitsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(DdpcrUnits)
+        choice_dict = ast.literal_eval(DdpcrUnits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -79,7 +79,7 @@ class DdpcrUnitsChoicesAPIView(viewsets.ViewSet):
 class QpcrUnitsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(QpcrUnits)
+        choice_dict = ast.literal_eval(QpcrUnits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -89,7 +89,7 @@ class QpcrUnitsChoicesAPIView(viewsets.ViewSet):
 class WindSpeedsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(WindSpeeds)
+        choice_dict = ast.literal_eval(WindSpeeds)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -99,7 +99,7 @@ class WindSpeedsChoicesAPIView(viewsets.ViewSet):
 class CloudCoversChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(CloudCovers)
+        choice_dict = ast.literal_eval(CloudCovers)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -109,7 +109,7 @@ class CloudCoversChoicesAPIView(viewsets.ViewSet):
 class PrecipTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(PrecipTypes)
+        choice_dict = ast.literal_eval(PrecipTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -119,7 +119,7 @@ class PrecipTypesChoicesAPIView(viewsets.ViewSet):
 class TurbidTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(TurbidTypes)
+        choice_dict = ast.literal_eval(TurbidTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -129,7 +129,7 @@ class TurbidTypesChoicesAPIView(viewsets.ViewSet):
 class EnvoMaterialsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(EnvoMaterials)
+        choice_dict = ast.literal_eval(EnvoMaterials)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -139,7 +139,7 @@ class EnvoMaterialsChoicesAPIView(viewsets.ViewSet):
 class MeasureModesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(MeasureModes)
+        choice_dict = ast.literal_eval(MeasureModes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -149,7 +149,7 @@ class MeasureModesChoicesAPIView(viewsets.ViewSet):
 class EnvInstrumentsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(EnvInstruments)
+        choice_dict = ast.literal_eval(EnvInstruments)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -159,7 +159,7 @@ class EnvInstrumentsChoicesAPIView(viewsets.ViewSet):
 class YsiModelsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(YsiModels)
+        choice_dict = ast.literal_eval(YsiModels)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -169,7 +169,7 @@ class YsiModelsChoicesAPIView(viewsets.ViewSet):
 class EnvMeasurementsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(EnvMeasurements)
+        choice_dict = ast.literal_eval(EnvMeasurements)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -179,7 +179,7 @@ class EnvMeasurementsChoicesAPIView(viewsets.ViewSet):
 class BottomSubstratesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(BottomSubstrates)
+        choice_dict = ast.literal_eval(BottomSubstrates)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -189,7 +189,7 @@ class BottomSubstratesChoicesAPIView(viewsets.ViewSet):
 class WaterCollectionModesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(WaterCollectionModes)
+        choice_dict = ast.literal_eval(WaterCollectionModes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -199,7 +199,7 @@ class WaterCollectionModesChoicesAPIView(viewsets.ViewSet):
 class CollectionTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(CollectionTypes)
+        choice_dict = ast.literal_eval(CollectionTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -209,7 +209,7 @@ class CollectionTypesChoicesAPIView(viewsets.ViewSet):
 class FilterLocationsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(FilterLocations)
+        choice_dict = ast.literal_eval(FilterLocations)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -219,7 +219,7 @@ class FilterLocationsChoicesAPIView(viewsets.ViewSet):
 class ControlTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(ControlTypes)
+        choice_dict = ast.literal_eval(ControlTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -229,7 +229,7 @@ class ControlTypesChoicesAPIView(viewsets.ViewSet):
 class FilterMethodsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(FilterMethods)
+        choice_dict = ast.literal_eval(FilterMethods)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -239,7 +239,7 @@ class FilterMethodsChoicesAPIView(viewsets.ViewSet):
 class FilterTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(FilterTypes)
+        choice_dict = ast.literal_eval(FilterTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -249,7 +249,7 @@ class FilterTypesChoicesAPIView(viewsets.ViewSet):
 class CoreMethodsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(CoreMethods)
+        choice_dict = ast.literal_eval(CoreMethods)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -259,7 +259,7 @@ class CoreMethodsChoicesAPIView(viewsets.ViewSet):
 class SubCoreMethodsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(SubCoreMethods)
+        choice_dict = ast.literal_eval(SubCoreMethods)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -269,7 +269,7 @@ class SubCoreMethodsChoicesAPIView(viewsets.ViewSet):
 class TargetGenesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(TargetGenes)
+        choice_dict = ast.literal_eval(TargetGenes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -279,7 +279,7 @@ class TargetGenesChoicesAPIView(viewsets.ViewSet):
 class LibPrepTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(LibPrepTypes)
+        choice_dict = ast.literal_eval(LibPrepTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -289,7 +289,7 @@ class LibPrepTypesChoicesAPIView(viewsets.ViewSet):
 class LibPrepKitsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(LibPrepKits)
+        choice_dict = ast.literal_eval(LibPrepKits)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -299,7 +299,7 @@ class LibPrepKitsChoicesAPIView(viewsets.ViewSet):
 class InvStatusChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(InvStatus)
+        choice_dict = ast.literal_eval(InvStatus)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -309,7 +309,7 @@ class InvStatusChoicesAPIView(viewsets.ViewSet):
 class InvTypesChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(InvTypes)
+        choice_dict = ast.literal_eval(InvTypes)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
@@ -319,7 +319,7 @@ class InvTypesChoicesAPIView(viewsets.ViewSet):
 class CheckoutActionsChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
-        choice_dict = dict(CheckoutActions)
+        choice_dict = ast.literal_eval(CheckoutActions)
         for key, value in choice_dict.items():
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
