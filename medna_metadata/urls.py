@@ -18,7 +18,6 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework import views
 from users.views import CustomUserViewSet
 from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
@@ -54,6 +53,38 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
 
 router = routers.DefaultRouter()
 # users
+router.register(r'choices_yes_no', YesNoChoicesAPIView, 'choices_yes_no')
+router.register(r'choices_measure_units', MeasureUnitsChoicesAPIView, 'choices_measure_units')
+router.register(r'choices_vol_units', VolUnitsChoicesAPIView, 'choices_vol_units')
+router.register(r'choices_concentration_units', ConcentrationUnitsChoicesAPIView, 'choices_concentration_units')
+router.register(r'choices_phix_concentration_units', PhiXConcentrationUnitsChoicesAPIView, 'choices_phix_concentration_units')
+router.register(r'choices_ddpcr_units', DdpcrUnitsChoicesAPIView, 'choices_ddpcr_units')
+router.register(r'choices_qpcr_units', QpcrUnitsChoicesAPIView, 'choices_qpcr_units')
+router.register(r'choices_wind_speeds', WindSpeedsChoicesAPIView, 'choices_wind_speeds')
+router.register(r'choices_cloud_covers', CloudCoversChoicesAPIView, 'choices_cloud_covers')
+router.register(r'choices_precip_types', PrecipTypesChoicesAPIView, 'choices_precip_types')
+router.register(r'choices_turbid_types', TurbidTypesChoicesAPIView, 'choices_turbid_types')
+router.register(r'choices_envo_materials', EnvoMaterialsChoicesAPIView, 'choices_envo_materials')
+router.register(r'choices_measure_modes', MeasureModesChoicesAPIView, 'choices_measure_modes')
+router.register(r'choices_env_instruments', EnvInstrumentsChoicesAPIView, 'choices_env_instruments')
+router.register(r'choices_ysi_models', YsiModelsChoicesAPIView, 'choices_ysi_models')
+router.register(r'choices_env_measurements', EnvMeasurementsChoicesAPIView, 'choices_env_measurements')
+router.register(r'choices_bottom_substrates', BottomSubstratesChoicesAPIView, 'choices_bottom_substrates')
+router.register(r'choices_water_collection_modes', WaterCollectionModesChoicesAPIView, 'choices_water_collection_modes')
+router.register(r'choices_collection_types', CollectionTypesChoicesAPIView, 'choices_collection_types')
+router.register(r'choices_filter_locations', FilterLocationsChoicesAPIView, 'choices_filter_locations')
+router.register(r'choices_control_types', ControlTypesChoicesAPIView, 'choices_control_types')
+router.register(r'choices_filter_methods', FilterMethodsChoicesAPIView, 'choices_filter_methods')
+router.register(r'choices_filter_types', FilterTypesChoicesAPIView, 'choices_filter_types')
+router.register(r'choices_core_methods', CoreMethodsChoicesAPIView, 'choices_core_methods')
+router.register(r'choices_subcore_methods', SubCoreMethodsChoicesAPIView, 'choices_subcore_methods')
+router.register(r'choices_target_genes', TargetGenesChoicesAPIView, 'choices_target_genes')
+router.register(r'choices_lib_prep_types', LibPrepTypesChoicesAPIView, 'choices_lib_prep_types')
+router.register(r'choices_lib_prep_kits', LibPrepKitsChoicesAPIView, 'choices_lib_prep_kits')
+router.register(r'choices_inv_status', InvStatusChoicesAPIView, 'choices_inv_status')
+router.register(r'choices_inv_types', InvTypesChoicesAPIView, 'choices_inv_types')
+router.register(r'choices_checkout_actions', CheckoutActionsChoicesAPIView, 'choices_checkout_actions')
+
 router.register(r'users', CustomUserViewSet, 'users')
 # utility
 router.register(r'grant', GrantViewSet, 'grant')
@@ -135,35 +166,4 @@ urlpatterns = [
     url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$',
         confirm_email, name='account_confirm_email'),
     path('api/', include(router.urls)),
-    path('api/choices_yes_no/', views.YesNoChoicesAPIView.as_view(), name='choices_yes_no'),
-    path('api/choices_measure_units/', views.MeasureUnitsChoicesAPIView.as_view(), name='choices_measure_units'),
-    path('api/choices_vol_units/', views.VolUnitsChoicesAPIView.as_view(), name='choices_vol_units'),
-    path('api/choices_concentration_units/', views.ConcentrationUnitsChoicesAPIView.as_view(), name='choices_concentration_units'),
-    path('api/choices_phix_concentration_units/', views.PhiXConcentrationUnitsChoicesAPIView.as_view(), name='choices_phix_concentration_units'),
-    path('api/choices_ddpcr_units/', views.DdpcrUnitsChoicesAPIView.as_view(), name='choices_ddpcr_units'),
-    path('api/choices_qpcr_units/', views.QpcrUnitsChoicesAPIView.as_view(), name='choices_qpcr_units'),
-    path('api/choices_wind_speeds/', views.WindSpeedsChoicesAPIView.as_view(), name='choices_wind_speeds'),
-    path('api/choices_cloud_covers/', views.CloudCoversChoicesAPIView.as_view(), name='choices_cloud_covers'),
-    path('api/choices_precip_types/', views.PrecipTypesChoicesAPIView.as_view(), name='choices_precip_types'),
-    path('api/choices_turbid_types/', views.TurbidTypesChoicesAPIView.as_view(), name='choices_turbid_types'),
-    path('api/choices_envo_materials/', views.EnvoMaterialsChoicesAPIView.as_view(), name='choices_envo_materials'),
-    path('api/choices_measure_modes/', views.MeasureModesChoicesAPIView.as_view(), name='choices_measure_modes'),
-    path('api/choices_env_instruments/', views.EnvInstrumentsChoicesAPIView.as_view(), name='choices_env_instruments'),
-    path('api/choices_ysi_models/', views.YsiModelsChoicesAPIView.as_view(), name='choices_ysi_models'),
-    path('api/choices_env_measurements/', views.EnvMeasurementsChoicesAPIView.as_view(), name='choices_env_measurements'),
-    path('api/choices_bottom_substrates/', views.BottomSubstratesChoicesAPIView.as_view(), name='choices_bottom_substrates'),
-    path('api/choices_water_collection_modes/', views.WaterCollectionModesChoicesAPIView.as_view(), name='choices_water_collection_modes'),
-    path('api/choices_collection_types/', views.CollectionTypesChoicesAPIView.as_view(), name='choices_collection_types'),
-    path('api/choices_filter_locations/', views.FilterLocationsChoicesAPIView.as_view(), name='choices_filter_locations'),
-    path('api/choices_control_types/', views.ControlTypesChoicesAPIView.as_view(), name='choices_control_types'),
-    path('api/choices_filter_methods/', views.FilterMethodsChoicesAPIView.as_view(), name='choices_filter_methods'),
-    path('api/choices_filter_types/', views.FilterTypesChoicesAPIView.as_view(), name='choices_filter_types'),
-    path('api/choices_core_methods/', views.CoreMethodsChoicesAPIView.as_view(), name='choices_core_methods'),
-    path('api/choices_subcore_methods/', views.SubCoreMethodsChoicesAPIView.as_view(), name='choices_subcore_methods'),
-    path('api/choices_target_genes/', views.TargetGenesChoicesAPIView.as_view(), name='choices_target_genes'),
-    path('api/choices_lib_prep_types/', views.LibPrepTypesChoicesAPIView.as_view(), name='choices_lib_prep_types'),
-    path('api/choices_lib_prep_kits/', views.LibPrepKitsChoicesAPIView.as_view(), name='choices_lib_prep_kits'),
-    path('api/choices_inv_status/', views.InvStatusChoicesAPIView.as_view(), name='choices_inv_status'),
-    path('api/choices_inv_types/', views.InvTypesChoicesAPIView.as_view(), name='choices_inv_types'),
-    path('api/choices_checkout_actions/', views.CheckoutActionsChoicesAPIView.as_view(), name='choices_checkout_actions'),
 ]
