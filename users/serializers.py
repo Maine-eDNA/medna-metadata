@@ -3,7 +3,8 @@ from rest_framework import serializers
 from rest_auth.serializers import LoginSerializer
 from rest_auth.registration.serializers import RegisterSerializer
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.hashers import make_password
+from random import choice
 try:
     from allauth.account import app_settings as allauth_settings
     from allauth.utils import (email_address_exists,
@@ -43,8 +44,46 @@ class CustomLoginSerializer(LoginSerializer):
     username = None
 
 
-class CustomRegisterSerializer(RegisterSerializer):
+class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
     # this is currently disabled
+    username = None
+    email = serializers.EmailField(required=allauth_settings.EMAIL_REQUIRED)
+    password1 = None
+    password2 = None
+
+    password = ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(15)])
+    # pw_hash = make_password(password)
+
+    def validate_email(self, email):
+        email = get_adapter().clean_email(email)
+        if allauth_settings.UNIQUE_EMAIL:
+            if email and email_address_exists(email):
+                raise serializers.ValidationError(
+                    _("A user is already registered with this e-mail address."))
+        return email
+
+    def custom_signup(self, request, user):
+        pass
+
+    def get_cleaned_data(self):
+        super(CustomAutoPasswordRegisterSerializer, self).get_cleaned_data()
+        return {
+            'password1': self.password,
+            'email': self.validated_data.get('email', '')
+        }
+
+    def save(self, request):
+        adapter = get_adapter()
+        user = adapter.new_user(request)
+        self.cleaned_data = self.get_cleaned_data()
+        adapter.save_user(request, user, self)
+        self.custom_signup(request, user)
+        setup_user_email(request, user, [])
+        return user
+
+
+class CustomRegisterSerializer(RegisterSerializer):
+    # https://learndjango.com/tutorials/django-log-in-email-not-username
     username = None
     email = serializers.EmailField(required=allauth_settings.EMAIL_REQUIRED)
     password1 = serializers.CharField(write_only=True)

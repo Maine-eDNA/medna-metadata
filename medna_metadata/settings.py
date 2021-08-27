@@ -137,6 +137,12 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
     'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
+    'REGISTER_SERIALIZER': 'users.serializers.CustomAutoPasswordRegisterSerializer',
+}
+
+# allauth default forms
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.CustomSignupForm',
 }
 
 #  You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE,
@@ -277,8 +283,9 @@ FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "dev"),)
 # https://learndjango.com/tutorials/django-custom-user-model
 # LOGIN_REDIRECT_URL = 'users:home' # default to /accounts/profile .. which doesn't exist
 # ACCOUNT_LOGOUT_REDIRECT_URL = 'users:home'
-#LOGIN_REDIRECT_URL = '/'
-#LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
