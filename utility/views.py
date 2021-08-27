@@ -18,7 +18,7 @@ import ast
 # Create your views here.
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
-class YesNoChoicesAPIView(viewsets.ViewSet):
+class YesNoChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
         choices = []
         for choice in YesNo:
@@ -27,304 +27,274 @@ class YesNoChoicesAPIView(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
-     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(MeasureUnits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
-
-
-class VolUnitsChoicesAPIView(viewsets.ViewSet):
+class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(VolUnits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in MeasureUnits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class ConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
+class VolUnitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(ConcentrationUnits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in VolUnits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class PhiXConcentrationUnitsChoicesAPIView(viewsets.ViewSet):
+class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(PhiXConcentrationUnits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in ConcentrationUnits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class DdpcrUnitsChoicesAPIView(viewsets.ViewSet):
+class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(DdpcrUnits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in PhiXConcentrationUnits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class QpcrUnitsChoicesAPIView(viewsets.ViewSet):
+class DdpcrUnitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(QpcrUnits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in DdpcrUnits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class WindSpeedsChoicesAPIView(viewsets.ViewSet):
+class QpcrUnitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(WindSpeeds)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in QpcrUnits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class CloudCoversChoicesAPIView(viewsets.ViewSet):
+class WindSpeedsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(CloudCovers)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in WindSpeeds:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class PrecipTypesChoicesAPIView(viewsets.ViewSet):
+class CloudCoversChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(PrecipTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in CloudCovers:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class TurbidTypesChoicesAPIView(viewsets.ViewSet):
+class PrecipTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(TurbidTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in PrecipTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class EnvoMaterialsChoicesAPIView(viewsets.ViewSet):
+class TurbidTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(EnvoMaterials)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in TurbidTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class MeasureModesChoicesAPIView(viewsets.ViewSet):
+class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(MeasureModes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in EnvoMaterials:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class EnvInstrumentsChoicesAPIView(viewsets.ViewSet):
+class MeasureModesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(EnvInstruments)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in MeasureModes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class YsiModelsChoicesAPIView(viewsets.ViewSet):
+class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(YsiModels)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in EnvInstruments:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class EnvMeasurementsChoicesAPIView(viewsets.ViewSet):
+class YsiModelsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(EnvMeasurements)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in YsiModels:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class BottomSubstratesChoicesAPIView(viewsets.ViewSet):
+class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(BottomSubstrates)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in EnvMeasurements:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class WaterCollectionModesChoicesAPIView(viewsets.ViewSet):
+class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(WaterCollectionModes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in BottomSubstrates:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class CollectionTypesChoicesAPIView(viewsets.ViewSet):
+class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(CollectionTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in WaterCollectionModes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class FilterLocationsChoicesAPIView(viewsets.ViewSet):
+class CollectionTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(FilterLocations)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in CollectionTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class ControlTypesChoicesAPIView(viewsets.ViewSet):
+class FilterLocationsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(ControlTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in FilterLocations:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class FilterMethodsChoicesAPIView(viewsets.ViewSet):
+class ControlTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(FilterMethods)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in ControlTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class FilterTypesChoicesAPIView(viewsets.ViewSet):
+class FilterMethodsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(FilterTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in FilterMethods:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class CoreMethodsChoicesAPIView(viewsets.ViewSet):
+class FilterTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(CoreMethods)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in FilterTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class SubCoreMethodsChoicesAPIView(viewsets.ViewSet):
+class CoreMethodsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(SubCoreMethods)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in CoreMethods:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class TargetGenesChoicesAPIView(viewsets.ViewSet):
+class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(TargetGenes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in SubCoreMethods:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class LibPrepTypesChoicesAPIView(viewsets.ViewSet):
+class TargetGenesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(LibPrepTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in TargetGenes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class LibPrepKitsChoicesAPIView(viewsets.ViewSet):
+class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(LibPrepKits)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in LibPrepTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class InvStatusChoicesAPIView(viewsets.ViewSet):
+class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(InvStatus)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in LibPrepKits:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class InvTypesChoicesAPIView(viewsets.ViewSet):
+class InvStatusChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(InvTypes)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in InvStatus:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class CheckoutActionsChoicesAPIView(viewsets.ViewSet):
+class InvTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
-        my_choices = []
-        choice_dict = ast.literal_eval(CheckoutActions)
-        for key, value in choice_dict.items():
-            itered_dict = {"key": key, "value": value}
-            my_choices.append(itered_dict)
-        return Response(my_choices, status=status.HTTP_200_OK)
+        choices = []
+        for choice in InvTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
+    def list(self, request, format=None):
+        choices = []
+        for choice in CheckoutActions:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
 class GrantViewSet(viewsets.ModelViewSet):
