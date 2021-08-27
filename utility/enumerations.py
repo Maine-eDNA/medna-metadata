@@ -57,7 +57,7 @@ class QpcrUnits(models.TextChoices):
 
 
 # FIELD_SURVEY CHOICES
-# FIELD_SURVEY:FieldSurvey
+# FIELD_SURVEY.FieldSurvey
 class WindSpeeds(models.TextChoices):
     none = 'none', _('None')
     light_wind = 'light_wind', _('Light breeze')
@@ -108,7 +108,7 @@ class MeasureModes(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-# FIELD_SURVEY:EnvMeasurement
+# FIELD_SURVEY.EnvMeasurement
 class EnvInstruments(models.TextChoices):
     env_ctd = 'env_ctd', _('CTD')
     env_ysi = 'env_ysi', _('YSI')
@@ -157,7 +157,7 @@ class BottomSubstrates(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-# FIELD_SURVEY:FieldCollection
+# FIELD_SURVEY.FieldCollection
 class WaterCollectionModes(models.TextChoices):
     hand = 'hand', _('By Hand')
     niskin_handtoss = 'niskin_handtoss', _('By Hand-Tossed Niskin')
