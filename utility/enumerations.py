@@ -285,6 +285,11 @@ class CheckoutActions(models.TextChoices):
     REMOVE = 'perm_removed', _('Permanent Removal')
 
 
+# class InvCategories(models.TextChoices):
+#    FIELDSAMPLE = 'fieldsample', _('Field Sample')
+#    LABSAMPLE = 'labsample', _('Lab Sample')
+
+
 # CHOICES MOVED TO MODELS
 # moved to model in utility/models
 # class ProcessLocations(models.TextChoices):
