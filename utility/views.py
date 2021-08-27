@@ -13,6 +13,7 @@ from django.views.generic.base import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
 import ast
 
+
 # Create your views here.
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
@@ -20,7 +21,7 @@ class YesNoChoicesAPIView(viewsets.ViewSet):
     def list(self, request, format=None):
         my_choices = []
         choice_dict = ast.literal_eval(YesNo)
-        for key, value in choice_dict.items():
+        for key, value in ast.iter_fields(choice_dict):
             itered_dict = {"key": key, "value": value}
             my_choices.append(itered_dict)
         return Response(my_choices, status=status.HTTP_200_OK)
