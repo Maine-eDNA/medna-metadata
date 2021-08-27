@@ -24,7 +24,7 @@ class YesNoChoicesAPIView(viewsets.ViewSet):
         for choice in YesNo:
             choices.append(choice.value)
         initial_data = {'choices': [choices]}
-        return Response({'initial_data': json.dumps(initial_data)}, status=status.HTTP_200_OK)
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 
 class MeasureUnitsChoicesAPIView(viewsets.ViewSet):
