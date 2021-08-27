@@ -54,8 +54,6 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
     password1 = pw_hash
     password2 = pw_hash
 
-
-
     def validate_email(self, email):
         email = get_adapter().clean_email(email)
         if allauth_settings.UNIQUE_EMAIL:
@@ -68,7 +66,7 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
         return get_adapter().clean_password(password)
 
     def validate(self, data):
-        if data['password1'] != data['password2']:
+        if self.password1 != self.password2:
             raise serializers.ValidationError(_("The two password fields didn't match."))
         return data
 
