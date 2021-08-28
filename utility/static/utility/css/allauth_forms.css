@@ -37,6 +37,10 @@
     width: 100%;
 }
 
+.allauth_forms #content-main a {
+    font-weight: bold;
+}
+
 .allauth_forms .form-row {
     padding: 4px 0;
     float: left;
