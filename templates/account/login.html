@@ -2,6 +2,9 @@
 {% load i18n static %}
 {% load crispy_forms_tags %}
 
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{% endblock %}
+
 {% block usertools %}{% endblock %}
 
 {% block nav-global %}{% endblock %}
