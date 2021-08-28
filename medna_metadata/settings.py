@@ -291,6 +291,13 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
+# crispy forms template packs: bootstrap, bootstrap3, bootstrap4, and uni-form
+# https://django-crispy-forms.readthedocs.io/en/latest/install.html
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# delete this line when done debugging
+CRISPY_FAIL_SILENTLY = not DEBUG
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -371,3 +378,7 @@ logging.config.dictConfig({
         },
     },
 })
+
+# Django-tables2 default formatting settings for tables
+DJANGO_TABLES2_TEMPLATE = 'django_tables2/semantic.html'
+DJANGO_TABLES2_PAGE_RANGE = 5
