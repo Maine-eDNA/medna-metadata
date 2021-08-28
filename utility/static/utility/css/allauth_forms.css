@@ -20,11 +20,10 @@
 
 .allauth_forms #content {
     padding: 20px 20px 0;
-    background: #f8f8f8;
 }
 
 .allauth_forms #container {
-    background: none;
+    background: #f8f8f8;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     overflow: hidden;
