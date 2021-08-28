@@ -22,49 +22,49 @@
   </head>
   {% load i18n %}
   <body data-admin-utc-offset="{% now "Z" %}">
-
-       <!-- Header -->
+    <!-- Container -->
+    <div id="container">
+      <!-- Header -->
       <div id="header">
         <div id="branding">
           <h1 id="site-name"><a href="{{ site_url }}">{{ site_header|default:_('Maine-eDNA Metadata') }}</a></h1>
         </div>
+        <!-- begin usertools -->
         {% block usertools %}
-
-          <div id="user-tools">
-            {% if has_permission %}
-              {% block welcome-msg %}
-                {% translate 'Welcome,' %}
-                <strong>{% firstof user.get_short_name user.get_username %}</strong>.
-              {% endblock %}
-            {% endif %}
-
-            {% block userlinks %}
-              {% if site_url %}
-                <a href="{{ site_url }}">{% translate 'View site' %}</a> |
-              {% endif %}
-              {% if user.is_active and user.is_staff %}
-                {% url 'django-admindocs-docroot' as docsroot %}
-                {% if docsroot %}
-                  <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> |
-                {% endif %}
-              {% endif %}
-              {% if user.is_authenticated %}
-                <a href="{% url 'account_email' %}">Change E-mail</a> |
-                <a href="{% url 'account_logout' %}">Sign Out</a> |
-              {% else %}
-                <a href="{% url 'account_login' %}">Sign In</a> |
-                <a href="{% url 'account_signup' %}">Sign Up</a> |
-              {% endif %}
+        <div id="user-tools">
+          {% if has_permission %}
+            {% block welcome-msg %}
+              {% translate 'Welcome,' %}
+              <strong>{% firstof user.get_short_name user.get_username %}</strong>.
             {% endblock %}
-          </div>
+          {% endif %}
+          {% block userlinks %}
+            {% if site_url %}
+              <a href="{{ site_url }}">{% translate 'View site' %}</a> |
+            {% endif %}
+            {% if user.is_active and user.is_staff %}
+              {% url 'django-admindocs-docroot' as docsroot %}
+              {% if docsroot %}
+                <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> |
+              {% endif %}
+            {% endif %}
+            {% if user.is_authenticated %}
+              <a href="{% url 'account_email' %}">Change E-mail</a> |
+              <a href="{% url 'account_logout' %}">Sign Out</a> |
+            {% else %}
+              <a href="{% url 'account_login' %}">Sign In</a> |
+              <a href="{% url 'account_signup' %}">Sign Up</a> |
+            {% endif %}
+            {% endblock %}
+        </div>
         {% endblock %}
-      {% block nav-global %}{% endblock %}
+        <!-- end usertools -->
+        {% block nav-global %}{% endblock %}
       </div>
       <!-- END Header -->
-
       <div class="{% block contentclass %}{% endblock %}">
-        <!-- Container -->
-        <div id="container">
+        <!-- Content Container -->
+        <div id="contentcontainer">
           {% block breadcrumbs %}
             <div class="breadcrumbs">
               <a href="{{ site_url }}">{% translate 'Home' %}</a>
@@ -95,11 +95,11 @@
               <br class="clear">
             </div>
           </div>
-        <!-- END Content -->
-
-        {% block footer %}<div id="footer"></div>{% endblock %}
+          <!-- END Content -->
+          {% block footer %}<div id="footer"></div>{% endblock %}
+        </div>
       </div>
+    <!-- END Content Container -->
     </div>
-  <!-- END Container -->
   </body>
 </html>
