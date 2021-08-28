@@ -62,15 +62,15 @@
         {% block nav-global %}{% endblock %}
       </div>
       <!-- END Header -->
+      {% block breadcrumbs %}
+        <div class="breadcrumbs">
+          <a href="{{ site_url }}">{% translate 'Home' %}</a>
+          {% if title %} &rsaquo; {{ title }}{% endif %}
+        </div>
+      {% endblock %}
       <div class="{% block contentclass %}{% endblock %}">
         <!-- Content Container -->
         <div id="contentcontainer">
-          {% block breadcrumbs %}
-            <div class="breadcrumbs">
-              <a href="{{ site_url }}">{% translate 'Home' %}</a>
-              {% if title %} &rsaquo; {{ title }}{% endif %}
-            </div>
-          {% endblock %}
           <div class="content">
             {% block messages %}
               {% if messages %}
@@ -98,8 +98,9 @@
           <!-- END Content -->
           {% block footer %}<div id="footer"></div>{% endblock %}
         </div>
+        <!-- END Content Container -->
       </div>
-    <!-- END Content Container -->
     </div>
+    <!-- END Container -->
   </body>
 </html>
