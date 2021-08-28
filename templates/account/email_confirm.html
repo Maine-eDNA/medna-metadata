@@ -1,31 +1,68 @@
 {% extends "account/base.html" %}
+{% load i18n static %}
 
-{% load i18n %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{{ form.media }}
+{% endblock %}
+
+{% block contentclass %}{{ block.super }}allauth_forms{% endblock %}
+
 {% load account %}
 
-{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
+{% block usertools %}{% endblock %}
 
+{% block nav-global %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Confirm E-mail Address" %}</h1>
+  <!-- begin errors -->
+  {% if form.errors and not form.non_field_errors %}
+  <p class="errornote">
+  {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
+  </p>
+  {% endif %}
+  {% if form.non_field_errors %}
+  {% for error in form.non_field_errors %}
+  <p class="errornote">
+      {{ error }}
+  </p>
+  {% endfor %}
+  {% endif %}
+  <!-- end errors -->
+  <div id="content-main">
+    {% if user.is_authenticated %}
+      <p class="errornote">
+        {% blocktranslate trimmed %}
+          You are authenticated as {{ username }}, but are not authorized to
+          access this page. Would you like to login to a different account?
+        {% endblocktranslate %}
+      </p>
+    {% endif %}
 
-{% if confirmation %}
+    <h1>{% trans "Confirm E-mail Address" %}</h1>
 
-{% user_display confirmation.email_address.user as user_display %}
+    {% if confirmation %}
 
-<p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>
+    {% user_display confirmation.email_address.user as user_display %}
 
-<form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-{% csrf_token %}
-    <button type="submit">{% trans 'Confirm' %}</button>
-</form>
+    <p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>
 
-{% else %}
+    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">{% trans 'Confirm' %}</button>
+    </form>
 
-{% url 'account_email' as email_url %}
+    {% else %}
 
-<p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
+    {% url 'account_email' as email_url %}
 
-{% endif %}
+    <p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
 
+    {% endif %}
+  </div>
 {% endblock %}
