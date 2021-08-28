@@ -23,7 +23,7 @@
 }
 
 .allauth_forms #container {
-    background: rgba(192,192,192,.75);
+    background: rgba(255,255,255,.75);
     border: 1px solid #eaeaea;
     border-radius: 4px;
     overflow: hidden;
