@@ -1,15 +1,7 @@
 /* LOGIN FORM */
 
-html {
-    height: 100%;
-}
-
-.content {
-    background: rgba(255,255,255,.75);
-}
-
 .login {
-    background: none;
+    background: #f8f8f8;
     height: auto;
 }
 
