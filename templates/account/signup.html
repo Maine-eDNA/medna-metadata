@@ -6,8 +6,6 @@
 {{ form.media }}
 {% endblock %}
 
-{% block bodyclass %}{{ block.super }} allauth_forms{% endblock %}
-
 {% block usertools %}{% endblock %}
 
 {% block nav-global %}{% endblock %}
@@ -18,6 +16,7 @@
 
 {% block breadcrumbs %}{% endblock %}
 
+{% block bodyclass %}{{ block.super }} allauth_forms{% endblock %}
 
 {% block content %}
   <!-- begin errors -->
