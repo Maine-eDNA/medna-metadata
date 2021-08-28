@@ -4,6 +4,7 @@
     height: auto;
 }
 
+/*
 .allauth_forms #header {
     height: auto;
     padding: 15px 16px;
@@ -17,7 +18,7 @@
 .allauth_forms #header h1 a {
     color: #fff;
 }
-
+*/
 .allauth_forms #content {
     padding: 20px 20px 0;
 }
