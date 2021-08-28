@@ -1,7 +1,6 @@
 /* ALLAUTH FORMS */
 
 .allauth_forms {
-    /*background: #f8f8f8;*/
     height: auto;
 }
 
@@ -21,6 +20,7 @@
 
 .allauth_forms #content {
     padding: 20px 20px 0;
+    background: #f8f8f8;
 }
 
 .allauth_forms #container {
