@@ -1,23 +1,19 @@
 {% load i18n static %}<!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
-<html lang="{{ LANGUAGE_CODE|default:'en-us' }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
   <head>
-    {% block title %}{{ title }} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}
-    {% block branding %}
-      <title>{{ site_header|default:_('Maine-eDNA Metadata') }}</title>
-    {% endblock %}
-
+    <title>{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}</title>
     <!-- base css -->
-    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'utility/css/base.css' %}{% endblock %}">
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "utility/css/base.css" %}{% endblock %}">
     <!-- Bootstrap, JQuery, and Popper -- for form structure -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="{% static 'utility/js/jquery-3.5.1.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'utility/css/bootstrap-4.5.2-dist/bootstrap.min.css' %}">
-    <script src="{% static 'utility/js/bootstrap-4.5.2-dist/bootstrap.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'utility/css/login.css' %}">
+    <script src="{% static "utility/js/jquery-3.5.1.min.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "utility/css/bootstrap-4.5.2-dist/bootstrap.min.css" %}">
+    <script src="{% static "utility/js/bootstrap-4.5.2-dist/bootstrap.min.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "utility/css/login.css" %}">
     {% block extrastyle %}{% endblock %}
     {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
-    {% block extra_head %}{% endblock %}
+    {% block extrahead %}{% endblock %}
     {% block responsive %}
       <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
       <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
@@ -26,36 +22,83 @@
     {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
   </head>
   {% load i18n %}
-  <body>
-    {% block body %}
 
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+  <body class="{% block bodyclass %}{% endblock %}"data-admin-utc-offset="{% now "Z" %}">
 
-    <div>
-      <strong>Menu:</strong>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-        {% endif %}
-      </ul>
+    <!-- Container -->
+    <div id="container">
+
+       <!-- Header -->
+      <div id="header">
+        <div id="branding">
+          <h1 id="site-name"><a href="{{ site_url }}">{{ site_header|default:_('Maine-eDNA Metadata') }}</a></h1>
+        </div>
+        {% block usertools %}
+
+          <div id="user-tools">
+            {% if has_permission %}
+              {% block welcome-msg %}
+                {% translate 'Welcome,' %}
+                <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+              {% endblock %}
+            {% endif %}
+
+            {% block userlinks %}
+              {% if site_url %}
+                <a href="{{ site_url }}">{% translate 'View site' %}</a> /
+              {% endif %}
+              {% if user.is_active and user.is_staff %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                  <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> /
+                {% endif %}
+              {% endif %}
+              {% if user.is_authenticated %}
+                <a href="{% url 'account_email' %}">Change E-mail</a> /
+                <a href="{% url 'account_logout' %}">Sign Out</a> /
+              {% else %}
+                <a href="{% url 'account_login' %}">Sign In</a> /
+                <a href="{% url 'account_signup' %}">Sign Up</a> /
+              {% endif %}
+            </div>
+        {% endblock %}
+      {% block nav-global %}{% endblock %}
+      </div>
+      <!-- END Header -->
+      {% block breadcrumbs %}
+      <div class="breadcrumbs">
+        <a href="{{ site_url }}">{% translate 'Home' %}</a>
+        {% if title %} &rsaquo; {{ title }}{% endif %}
+      </div>
+      {% endblock %}
+
+      <div class="content">
+        {% block messages %}
+          {% if messages %}
+              <ul class="messagelist">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+                {% endfor %}
+              </ul>
+          {% endif %}
+        {% endblock messages %}
+         <!-- Content -->
+        <div id="content" class="{% block coltype %}colM{% endblock %}">
+          {% block pretitle %}{% endblock %}
+          {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+          {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
+          {% block content %}
+            {% block object-tools %}{% endblock %}
+            {{ content }}
+          {% endblock %}
+          {% block extra_body %}
+          {% endblock %}
+          <br class="clear">
+        </div>
+      </div>
+      <!-- END Content -->
+      {% block footer %}<div id="footer"></div>{% endblock %}
     </div>
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
+  <!-- END Container -->
   </body>
 </html>
