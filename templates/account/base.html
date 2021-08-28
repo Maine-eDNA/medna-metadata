@@ -23,9 +23,6 @@
   {% load i18n %}
   <body data-admin-utc-offset="{% now "Z" %}">
 
-    <!-- Container -->
-    <div id="container">
-
        <!-- Header -->
       <div id="header">
         <div id="branding">
@@ -64,6 +61,11 @@
       {% block nav-global %}{% endblock %}
       </div>
       <!-- END Header -->
+
+      <div class="{% block contentclass %}{% endblock %}">
+    <!-- Container -->
+    <div id="container">
+
       {% block breadcrumbs %}
       <div class="breadcrumbs">
         <a href="{{ site_url }}">{% translate 'Home' %}</a>
@@ -71,7 +73,7 @@
       </div>
       {% endblock %}
 
-      <div class="{% block contentclass %}{% endblock %}">
+
         <div class="content">
           {% block messages %}
             {% if messages %}
