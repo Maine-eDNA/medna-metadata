@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{{ form.media }}
 {% endblock %}
 
 {% block contentclass %}{{ block.super }}allauth_forms{% endblock %}
