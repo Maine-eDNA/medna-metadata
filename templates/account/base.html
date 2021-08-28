@@ -60,7 +60,8 @@
                 <a href="{% url 'account_login' %}">Sign In</a> /
                 <a href="{% url 'account_signup' %}">Sign Up</a> /
               {% endif %}
-            </div>
+            {% endblock %}
+          </div>
         {% endblock %}
       {% block nav-global %}{% endblock %}
       </div>
