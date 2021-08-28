@@ -71,7 +71,7 @@
       </div>
       {% endblock %}
 
-      <div class="content">
+      <div class="{% block contentclass %}{% endblock %}">
         {% block messages %}
           {% if messages %}
               <ul class="messagelist">
