@@ -63,42 +63,40 @@
       <!-- END Header -->
 
       <div class="{% block contentclass %}{% endblock %}">
-    <!-- Container -->
-    <div id="container">
-
-      {% block breadcrumbs %}
-      <div class="breadcrumbs">
-        <a href="{{ site_url }}">{% translate 'Home' %}</a>
-        {% if title %} &rsaquo; {{ title }}{% endif %}
-      </div>
-      {% endblock %}
-
-
-        <div class="content">
-          {% block messages %}
-            {% if messages %}
-                <ul class="messagelist">
-                  {% for message in messages %}
-                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
-                  {% endfor %}
-                </ul>
-            {% endif %}
-          {% endblock messages %}
-           <!-- Content -->
-          <div id="content" class="{% block coltype %}colM{% endblock %}">
-            {% block pretitle %}{% endblock %}
-            {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
-            {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
-            {% block content %}
+        <!-- Container -->
+        <div id="container">
+          {% block breadcrumbs %}
+            <div class="breadcrumbs">
+              <a href="{{ site_url }}">{% translate 'Home' %}</a>
+              {% if title %} &rsaquo; {{ title }}{% endif %}
+            </div>
+          {% endblock %}
+          <div class="content">
+            {% block messages %}
+              {% if messages %}
+              <ul class="messagelist">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            {% endblock messages %}
+            <!-- Content -->
+            <div id="content" class="{% block coltype %}colM{% endblock %}">
+              {% block pretitle %}{% endblock %}
+              {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+              {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
+              {% block content %}
               {% block object-tools %}{% endblock %}
-              {{ content }}
-            {% endblock %}
-            {% block extra_body %}
-            {% endblock %}
-            <br class="clear">
+                {{ content }}
+              {% endblock %}
+              {% block extra_body %}
+              {% endblock %}
+              <br class="clear">
+            </div>
           </div>
-        </div>
         <!-- END Content -->
+
         {% block footer %}<div id="footer"></div>{% endblock %}
       </div>
     </div>
