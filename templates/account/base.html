@@ -52,10 +52,10 @@
             {% endif %}
             {% if user.is_authenticated %}
               <a href="{% url 'account_email' %}">Change E-mail</a> |
-              <a href="{% url 'account_logout' %}">Sign Out</a> |
+              <a href="{% url 'account_logout' %}">Sign Out</a>
             {% else %}
               <a href="{% url 'account_login' %}">Sign In</a> |
-              <a href="{% url 'account_signup' %}">Sign Up</a> |
+              <a href="{% url 'account_signup' %}">Sign Up</a>
             {% endif %}
             {% endblock %}
         </div>
