@@ -264,7 +264,7 @@ logging.config.dictConfig({
     'loggers': {
         '': {
             'level': LOGLEVEL,
-            'handlers': ['console',],
+            'handlers': ['console', ],
         },
     },
 })
@@ -276,7 +276,7 @@ logging.config.dictConfig({
 # The list of directories to search for fixtures
 # location for dump or load of initial data
 # django\conf\global_settings.py
-FIXTURE_DIRS = [os.path.join(BASE_DIR, "fixtures", "dev"),]
+FIXTURE_DIRS = [os.path.join(BASE_DIR, "fixtures", "dev"), ]
 # FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "prod"), )
 
 ########################################
@@ -349,22 +349,21 @@ ACCOUNT_FORMS = {
 }
 
 # Django rest-auth and allauth settings:
-# the settings that are commented out are not located anywhere else
 ACCOUNT_USERNAME_REQUIRED = False
-#ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-#ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-#ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
-#ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'account_reset_password'
-#ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'account_reset_password'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
 # Controls the life time of the session. Set to None to ask the user (“Remember me?”),
 # False to not remember, and True to always remember.
-#ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-#ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 
 # Django oauth allauth settings:
 # https://www.section.io/engineering-education/django-google-oauth/
