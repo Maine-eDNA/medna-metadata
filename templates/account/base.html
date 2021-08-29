@@ -29,20 +29,14 @@
       <!-- Header -->
       <div id="header">
         <div id="branding">
-          <h1 id="site-name"><a href="{{ site_url }}">{{ site_header|default:_('Maine-eDNA Metadata') }}</a></h1>
+          <h1 id="site-name"><a href="{% url '' %}">{{ site_header|default:_('Maine-eDNA Metadata') }}</a></h1>
         </div>
         <!-- begin usertools -->
         {% block usertools %}
         <div id="user-tools">
           {% block userlinks %}
-            {% if site_url %}
-              <a href="{{ site_url }}">{% translate 'View site' %}</a> |
-            {% endif %}
             {% if user.is_active and user.is_staff %}
-              {% url 'django-admindocs-docroot' as docsroot %}
-              {% if docsroot %}
-                <a href="{{ docsroot }}">{% translate 'Documentation' %}</a> |
-              {% endif %}
+              <a href="{% url 'admin:index' %}">{% translate 'Admin page' %}</a> /
             {% endif %}
             {% if user.is_authenticated %}
               <a href="{% url 'account_email' %}">Change E-mail</a> |
