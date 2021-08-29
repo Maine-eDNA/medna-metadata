@@ -34,12 +34,6 @@
         <!-- begin usertools -->
         {% block usertools %}
         <div id="user-tools">
-          {% if has_permission %}
-            {% block welcome-msg %}
-              {% translate 'Welcome,' %}
-              <strong>{% firstof user.get_short_name user.get_username %}</strong>.
-            {% endblock %}
-          {% endif %}
           {% block userlinks %}
             {% if site_url %}
               <a href="{{ site_url }}">{% translate 'View site' %}</a> |
@@ -63,12 +57,6 @@
         <!-- end usertools -->
       </div>
       <!-- END Header -->
-      {% block breadcrumbs %}
-        <div class="breadcrumbs">
-          <a href="{{ site_url }}">{% translate 'Home' %}</a>
-          {% if title %} &rsaquo; {{ title }}{% endif %}
-        </div>
-      {% endblock %}
       <div class="{% block contentclass %}{% endblock %}">
         <!-- Content Container -->
         <div id="contentcontainer">
