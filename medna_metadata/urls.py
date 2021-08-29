@@ -13,7 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from allauth.account.views import confirm_email
+from allauth.account.views import confirm_email, signup, login, logout, password_change, \
+    password_set, account_inactive, email, email_verification_sent, password_reset, \
+    password_reset_done, password_reset_from_key, password_reset_from_key_done
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
@@ -159,11 +161,35 @@ router.register(r'taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_annotati
 
 urlpatterns = [
     #path('', IndexView.as_view(), name='index'),
+    # admin urls
     path('admin/', admin.site.urls),
+    # API router
+    path('api/', include(router.urls)),
+    # rest_auth urls
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    url(r'^account/', include('allauth.urls')),
+    # allauth urls - added all to remove signup url
+    # url(r'^account/', include('allauth.urls')),
+    # url(r'^account/signup/', signup, name='account_signup'),
+    url(r'^account/login/', login, name='account_login'),
+    url(r'^account/logout/', logout, name='account_logout'),
+    url(r'^account/password/change/', password_change, name='account_change_password',),
+    url(r'^account/password/set/', password_set, name='account_set_password'),
+    url(r'^account/inactive/', account_inactive, name='account_inactive'),
+    # allauth E-mail
+    url(r'^account/email/', email, name='account_email'),
+    url(r'^account/confirm-email/', email_verification_sent,
+        name='account_email_verification_sent',),
+    # restauth and allauth email confirmation
     url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$',
         confirm_email, name='account_confirm_email'),
-    path('api/', include(router.urls)),
+    # allauth password reset
+    url(r'^account/password/reset/', password_reset, name='account_reset_password'),
+    url(r'^account/password/reset/done/', password_reset_done,
+        name='account_reset_password_done',),
+    url(r'^account/password/reset/key/(?P<uidb36>[0-9A-Za-z]+)-(?P<key>.+)/$',
+        password_reset_from_key,
+        name='account_reset_password_from_key',),
+    url(r'^account/password/reset/key/done/', password_reset_from_key_done,
+        name='account_reset_password_from_key_done',),
 ]
