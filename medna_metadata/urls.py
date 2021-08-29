@@ -170,7 +170,7 @@ urlpatterns = [
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     # allauth urls - added all to remove signup url
     # url(r'^account/', include('allauth.urls')),
-    # url(r'^account/signup/', signup, name='account_signup'),
+    url(r'^account/disabled/signup/', signup, name='account_signup'),
     url(r'^account/login/', login, name='account_login'),
     url(r'^account/logout/', logout, name='account_logout'),
     url(r'^account/password/change/', password_change, name='account_change_password',),
