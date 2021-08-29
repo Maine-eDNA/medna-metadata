@@ -10,9 +10,9 @@
     <script src="{% static "utility/js/jquery-3.5.1.min.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "utility/css/bootstrap-4.5.2-dist/bootstrap.min.css" %}">
     <script src="{% static "utility/js/bootstrap-4.5.2-dist/bootstrap.min.js" %}"></script>
+    {% block extrastyle %}{% endblock %}
     {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
     {% block extrahead %}{% endblock %}
-    {% block extrastyle %}{% endblock %}
     {% block responsive %}
       <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
       <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
@@ -22,7 +22,7 @@
   </head>
   {% load i18n %}
 
-  <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  <body class="{% block bodyclass %}{% endblock %}"
     data-admin-utc-offset="{% now "Z" %}">
     <!-- Container -->
     <div id="container">
@@ -61,7 +61,6 @@
         </div>
         {% endblock %}
         <!-- end usertools -->
-        {% block nav-global %}{% endblock %}
       </div>
       <!-- END Header -->
       {% block breadcrumbs %}
@@ -89,16 +88,15 @@
               {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
               {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
               {% block content %}
-              {% block object-tools %}{% endblock %}
                 {{ content }}
               {% endblock %}
               {% block extra_body %}
               {% endblock %}
               <br class="clear">
             </div>
+            <!-- END Content -->
+            {% block footer %}<div id="footer"></div>{% endblock %}
           </div>
-          <!-- END Content -->
-          {% block footer %}<div id="footer"></div>{% endblock %}
         </div>
         <!-- END Content Container -->
       </div>
