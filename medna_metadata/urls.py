@@ -180,7 +180,7 @@ urlpatterns = [
     url(r'^account/email/', email, name='account_email'),
     url(r'^account/confirm-email/', email_verification_sent,
         name='account_email_verification_sent',),
-    # restauth and allauth email confirmation
+    # rest_auth and allauth email confirmation
     url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$',
         confirm_email, name='account_confirm_email'),
     # allauth password reset
