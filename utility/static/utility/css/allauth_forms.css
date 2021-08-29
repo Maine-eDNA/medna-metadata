@@ -1,6 +1,5 @@
 /* ALLAUTH FORMS */
 
-/*
 .allauth_forms {
     height: auto;
 }
@@ -18,7 +17,7 @@
 .allauth_forms #header h1 a {
     color: #fff;
 }
-*/
+
 .allauth_forms #content {
     padding: 20px 20px 0;
 }
