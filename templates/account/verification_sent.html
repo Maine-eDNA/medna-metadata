@@ -1,12 +1,20 @@
 {% extends "account/base.html" %}
+{% load i18n static %}
 
-{% load i18n %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{{ form.media }}
+{% endblock %}
 
-{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+{% block title %}{% trans "Verify Your E-mail Address" %} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}
+
+{% block bodyclass %}{{ block.super }} {% endblock %}
+
+{% block contentclass %}{{ block.super }}allauth_forms{% endblock %}
 
 {% block content %}
+<div id="content-main">
     <h1>{% trans "Verify Your E-mail Address" %}</h1>
 
     <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
-
+</div>
 {% endblock %}

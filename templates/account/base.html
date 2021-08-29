@@ -2,7 +2,7 @@
 {% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
   <head>
-    <title>{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <!-- base css -->
     <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "utility/css/base.css" %}{% endblock %}">
     <!-- Bootstrap, JQuery, and Popper -- for form structure -->
@@ -87,9 +87,7 @@
               {% block pretitle %}{% endblock %}
               {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
               {% block content_subtitle %}{% if subtitle %}<h2>{{ subtitle }}</h2>{% endif %}{% endblock %}
-              {% block content %}
-                {{ content }}
-              {% endblock %}
+              {% block content %}{% endblock %}
               {% block extra_body %}
               {% endblock %}
               <br class="clear">

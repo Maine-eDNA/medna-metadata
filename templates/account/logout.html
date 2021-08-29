@@ -6,6 +6,8 @@
 {{ form.media }}
 {% endblock %}
 
+{% block title %}{% trans "Sign Out" %} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}
+
 {% block bodyclass %}{{ block.super }} {% endblock %}
 
 {% block contentclass %}{{ block.super }}allauth_forms{% endblock %}
