@@ -15,7 +15,7 @@ class AccountExpiry:
         current_user = request.user
         response = self.get_response(request)
         # allauth account_inactive
-        expiry_path = reverse('account_login')
+        expiry_path = reverse('account_logout')
 
         if current_user.is_anonymous is False:
             if current_user.is_superuser is False and current_user.is_staff is False:

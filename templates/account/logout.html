@@ -29,7 +29,14 @@
   <!-- end errors -->
 
   <div id="content-main">
-
+    {% if user.is_expired %}
+      <p class="errornote">
+      {% blocktranslate trimmed %}
+          You are authenticated as {{ username }}, but your account is currently
+          inactive. Logout to to login to a different account.
+      {% endblocktranslate %}
+      </p>
+    {% endif %}
     <h1>{% trans "Sign Out" %}</h1>
     <p>{% trans 'Are you sure you want to sign out?' %}</p>
     <form method="post" action="{% url 'account_logout' %}">
