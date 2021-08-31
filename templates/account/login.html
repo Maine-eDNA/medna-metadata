@@ -29,11 +29,23 @@
   <!-- end errors -->
 
   <div id="content-main">
+    {% if user.is_expired %}
+      <p class="errornote">
+      {% blocktranslate trimmed %}
+          You are authenticated as {{ username }}, but your account is currently
+          inactive. Would you like to login to a different account?
+      {% endblocktranslate %}
+      </p>
+    {% endif %}
 
     <h1>{% trans "Sign In" %}</h1>
 
-    <p>{% blocktrans %}If you have not created an account yet, then please
-    <a href="mailto: mednametadata@gmail.com">email a request</a> first.{% endblocktrans %}</p>
+    <p>
+      {% blocktrans %}
+        If you have not created an account yet, then please
+        <a href="mailto: mednametadata@gmail.com">email a request</a> first.
+      {% endblocktrans %}
+    </p>
 
     <form class="login" method="POST" action="{% url 'account_login' %}">
       {% csrf_token %}
