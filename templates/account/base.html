@@ -39,7 +39,7 @@
             {% if user.is_active and user.is_staff %}
               <a href="{% url 'admin:index' %}">{% translate 'Admin page' %}</a> |
             {% endif %}
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and not user.is_expired %}
               <a href="{% url 'account_email' %}">Change E-mail</a> |
               <a href="{% url 'account_logout' %}">Sign Out</a>
             {% else %}
