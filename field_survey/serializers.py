@@ -54,14 +54,18 @@ class FieldSurveySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldSurvey
-        fields = ['survey_global_id', 'survey_datetime', 'project_ids', 'recorder_fname', 'recorder_lname',
+        fields = ['survey_global_id', 'survey_datetime', 'project_ids', 'supervisor', 'username',
+                  'recorder_fname', 'recorder_lname',
                   'arrival_datetime', 'site_id_other', 'site_name', 'lat_manual', 'long_manual', 'env_obs_turbidity',
                   'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
                   'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
                   'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
-                  'survey_complete', 'qa_datetime', 'qa_initial', 'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
-                  'gps_cap_horiz_acc', 'gps_cap_vert_acc', 'record_create_datetime', 'record_edit_datetime',
-                  'created_by', 'created_datetime', 'modified_datetime',]
+                  'core_subcorer', 'water_filterer',
+                  'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
+                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
+                  'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
