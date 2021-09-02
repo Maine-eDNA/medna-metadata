@@ -381,6 +381,23 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 #}
 
 ########################################
+# DRF-YASG CONFIG                      #
+########################################
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
+
+########################################
 # DJANGO-CRISPY-FORMS CONFIG           #
 ########################################
 
