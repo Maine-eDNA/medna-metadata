@@ -260,7 +260,7 @@ class AnnotationMethodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnnotationMethod
-        fields = ['id', 'annotation_method_name',
+        fields = ['id', 'annotation_method_name', 'annotation_method_name_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
