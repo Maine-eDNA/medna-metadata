@@ -168,7 +168,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Extraction
-        fields = ['id', 'process_location', 'extraction_date', 'barcode_slug', 'field_sample', 'extraction_method',
+        fields = ['id', 'process_location', 'extraction_datetime', 'barcode_slug', 'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
