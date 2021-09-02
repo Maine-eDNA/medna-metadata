@@ -52,7 +52,9 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     FilterTypesChoicesViewSet, CoreMethodsChoicesViewSet, SubCoreMethodsChoicesViewSet, \
     TargetGenesChoicesViewSet, LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet
+from rest_framework_swagger.views import get_swagger_view
 
+schema_view = get_swagger_view(title='Pastebin API')
 router = routers.DefaultRouter()
 # users
 router.register(r'choices_yes_no', YesNoChoicesViewSet, 'choices_yes_no')
@@ -175,4 +177,5 @@ urlpatterns = [
     # rest_auth and allauth email confirmation
     url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$',
         confirm_email, name='account_confirm_email'),
+    url(r'^swagger/$', schema_view),
 ]
