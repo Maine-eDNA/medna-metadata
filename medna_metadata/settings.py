@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoising',
     'bioinfo_taxon',
-    'rest_framework_swagger', # django-rest-swagger automatically creates api documentation
+    'drf_yasg', # drf-yasg creates swagger documentation for all apis
     'corsheaders', # corsheaders to whitelist urls for backend=>frontend api
     'import_export', # django-import-export
     'allauth', # django-allauth handles user registration as well as social authentication.
