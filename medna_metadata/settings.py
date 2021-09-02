@@ -389,11 +389,11 @@ SWAGGER_SETTINGS = {
       'Basic': {
             'type': 'basic'
       },
-      'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-      }
+       'api_key': {
+           'type': 'apiKey',
+           'in': 'header',
+           'name': 'Authorization'
+       }
    }
 }
 
