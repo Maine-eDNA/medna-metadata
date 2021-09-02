@@ -466,7 +466,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+        fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
