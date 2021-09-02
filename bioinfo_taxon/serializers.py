@@ -71,7 +71,7 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonKingdom
         fields = ['id',
-                  'taxon_kingdom', 'taxon_kingdom_slug', 'taxon_domain',
+                  'taxon_kingdom', 'taxon_kingdom_slug', 'taxon_domain_slug', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -95,7 +95,7 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonPhylum
         fields = ['id',
-                  'taxon_phylum', 'taxon_phylum_slug',
+                  'taxon_phylum', 'taxon_phylum_slug', 'taxon_kingdom_slug',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -121,7 +121,7 @@ class TaxonClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonClass
         fields = ['id',
-                  'taxon_class', 'taxon_class_slug', 'taxon_phylum',
+                  'taxon_class', 'taxon_class_slug', 'taxon_phylum_slug', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -148,7 +148,8 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonOrder
         fields = ['id',
-                  'taxon_order', 'taxon_order_slug', 'taxon_class', 'taxon_phylum',
+                  'taxon_order', 'taxon_order_slug', 'taxon_class_slug',
+                  'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -176,7 +177,7 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonFamily
         fields = ['id',
-                  'taxon_family', 'taxon_family_slug'
+                  'taxon_family', 'taxon_family_slug', 'taxon_order_slug',
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -206,7 +207,7 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonGenus
         fields = ['id',
-                  'taxon_genus', 'taxon_genus_slug', 'taxon_family',
+                  'taxon_genus', 'taxon_genus_slug', 'taxon_family_slug', 'taxon_family',
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -237,7 +238,8 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaxonSpecies
         fields = ['id', 'is_endemic', 'taxon_common_name',
-                  'taxon_species', 'taxon_species_slug', 'taxon_genus', 'taxon_family',
+                  'taxon_species', 'taxon_species_slug', 'taxon_genus_slug',
+                  'taxon_genus', 'taxon_family',
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
