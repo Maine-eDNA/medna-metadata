@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoising',
     'bioinfo_taxon',
+    'drf_yasg', # drf-yasg creates swagger documentation for all apis
     'corsheaders', # corsheaders to whitelist urls for backend=>frontend api
     'import_export', # django-import-export
     'allauth', # django-allauth handles user registration as well as social authentication.
@@ -378,6 +379,23 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 #        }
 #    }
 #}
+
+########################################
+# DRF-YASG CONFIG                      #
+########################################
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },
+       'api_key': {
+           'type': 'apiKey',
+           'in': 'header',
+           'name': 'Authorization'
+       }
+   }
+}
 
 ########################################
 # DJANGO-CRISPY-FORMS CONFIG           #

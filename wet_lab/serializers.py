@@ -168,7 +168,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Extraction
-        fields = ['id', 'process_location', 'extraction_date', 'barcode_slug', 'field_sample', 'extraction_method',
+        fields = ['id', 'process_location', 'extraction_datetime', 'barcode_slug', 'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
@@ -408,7 +408,8 @@ class RunPrepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RunPrep
-        fields = ['id', 'run_prep_date', 'final_pooled_library', 'run_prep_slug', 'phix_spike_in', 'phix_spike_in_units',
+        fields = ['id', 'process_location', 'run_prep_date', 'final_pooled_library', 'run_prep_slug',
+                  'phix_spike_in', 'phix_spike_in_units',
                   'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                   'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
@@ -466,7 +467,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+        fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
