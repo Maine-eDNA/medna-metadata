@@ -391,6 +391,7 @@ class SubCoreSample(models.Model):
     subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
                                            max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
+    # TODO - add subcore_notes field to app?
 
     class Meta:
         app_label = 'field_survey'

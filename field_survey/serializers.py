@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample
+from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+    FieldCollection, WaterCollection, SedimentCollection, \
+    FieldSample, FilterSample, SubCoreSample
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
@@ -171,6 +173,22 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
 class FieldCollectionSerializer(serializers.ModelSerializer):
     collection_global_id = serializers.CharField(read_only=True, max_length=255)
     collection_type = serializers.ChoiceField(choices=CollectionTypes.choices, allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FieldCollection
+        fields = ['survey_global_id', 'collection_global_id', 'collection_type',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
+                                                    queryset=FieldSurvey.objects.all())
+
+
+class WaterCollectionSerializer(serializers.ModelSerializer):
     water_control = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     water_control_type = serializers.ChoiceField(choices=ControlTypes.choices, allow_blank=True)
     water_vessel_label = serializers.CharField(max_length=255, allow_blank=True)
@@ -184,6 +202,21 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
     water_vessel_color = serializers.CharField(max_length=255, allow_blank=True)
     water_collect_notes = serializers.CharField(allow_blank=True)
     was_filtered = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
+
+    class Meta:
+        model = WaterCollection
+        fields = ['water_control', 'water_control_type',
+                  'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+                  'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+                  'water_vessel_color', 'water_collect_notes', 'was_filtered', ]
+    # Since grant, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    field_collection = serializers.SlugRelatedField(many=False, read_only=False, slug_field='field_collection',
+                                                    queryset=FieldCollection.objects.all())
+
+
+class SedimentCollectionSerializer(serializers.ModelSerializer):
     core_control = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     core_label = serializers.CharField(max_length=255, allow_blank=True)
     core_datetime_start = serializers.DateTimeField(allow_null=True)
@@ -196,30 +229,44 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
     core_purpose = serializers.CharField(max_length=255, allow_blank=True)
     core_notes = serializers.CharField(allow_blank=True)
     subcores_taken = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = FieldCollection
-        fields = ['survey_global_id', 'collection_global_id', 'collection_type', 'water_control', 'water_control_type',
-                  'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
-                  'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                  'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
+        model = SedimentCollection
+        fields = ['field_collection', 'core_control', 'core_label',
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
-                  'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+                  'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken', ]
     # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
-                                                    queryset=FieldSurvey.objects.all())
+    field_collection = serializers.SlugRelatedField(many=False, read_only=False, slug_field='field_collection',
+                                                    queryset=FieldCollection.objects.all())
 
 
 class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField(read_only=True, max_length=255)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FieldSample
+        fields = ['collection_global_id', 'sample_global_id', 'sample_type', 'is_extracted',
+                  'field_sample_barcode', 'barcode_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    collection_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='collection_global_id',
+                                                        queryset=FieldCollection.objects.all())
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
+                                               queryset=SampleType.objects.all())
+    field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_label_id',
+                                                        queryset=SampleLabel.objects.all())
+
+
+class FilterSampleSerializer(serializers.ModelSerializer):
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
     is_prefilter = serializers.ChoiceField(choices=YesNo.choices, allow_blank=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)
@@ -234,6 +281,21 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     filter_pore = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     filter_size = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     filter_notes = serializers.CharField(allow_blank=True)
+
+    class Meta:
+        model = FilterSample
+        fields = ['field_sample', 'filter_location', 'is_prefilter',
+                  'filter_fname', 'filter_lname',
+                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
+                  'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', ]
+    # Since grant, system, region, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    field_sample = serializers.SlugRelatedField(many=False, read_only=False, slug_field='field_sample',
+                                                queryset=FieldSample.objects.all())
+
+
+class SubCoreSampleSerializer(serializers.ModelSerializer):
     subcore_fname = serializers.CharField(max_length=255, allow_blank=True)
     subcore_lname = serializers.CharField(max_length=255, allow_blank=True)
     subcore_method = serializers.CharField(max_length=255, allow_blank=True)
@@ -244,25 +306,15 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     subcore_length = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     subcore_diameter = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     subcore_clayer = serializers.IntegerField(allow_null=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = FieldSample
-        fields = ['collection_global_id', 'sample_global_id', 'is_extracted', 'filter_location', 'is_prefilter',
-                  'filter_fname', 'filter_lname', 'sample_type', 'field_sample_barcode', 'barcode_slug',
-                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
-                  'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname',
-                  'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
-                  'subcore_datetime_end', 'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+        model = SubCoreSample
+        fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+                  'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
+                  'subcore_diameter', 'subcore_clayer', ]
     # Since grant, system, region, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    collection_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='collection_global_id',
-                                                        queryset=FieldCollection.objects.all())
-    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
-                                               queryset=SampleType.objects.all())
-    field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_label_id',
-                                                        queryset=SampleLabel.objects.all())
+    field_sample = serializers.SlugRelatedField(many=False, read_only=False, slug_field='field_sample',
+                                                queryset=FieldSample.objects.all())
+

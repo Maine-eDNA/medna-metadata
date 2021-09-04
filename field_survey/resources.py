@@ -1,6 +1,8 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample, \
+from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+    FieldCollection, WaterCollection, SedimentCollection, \
+    FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 from utility.models import Project
 from users.models import CustomUser
@@ -176,26 +178,62 @@ class FieldCollectionAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
+class WaterCollectionAdminResource(resources.ModelResource):
+    class Meta:
+        # SampleLabel
+        model = WaterCollection
+        import_id_fields = ('field_collection', )
+        fields = ('field_collection', 'water_control', 'water_control_type',
+                  'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+                  'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+                  'water_vessel_color', 'water_collect_notes', 'was_filtered', )
+        export_order = ('field_collection', 'water_control', 'water_control_type',
+                        'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+                        'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+                        'water_vessel_color', 'water_collect_notes', 'was_filtered', )
+
+    field_collection = fields.Field(
+        column_name='field_collection',
+        attribute='field_collection',
+        widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
+
+class SedimentCollectionAdminResource(resources.ModelResource):
+    class Meta:
+        # SampleLabel
+        model = SedimentCollection
+        import_id_fields = ('field_collection', )
+        fields = ('field_collection', 'core_control', 'core_label',
+                  'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                  'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
+                  'subcores_taken', )
+        export_order = ('field_collection', 'core_control', 'core_label',
+                        'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                        'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
+                        'subcores_taken', )
+
+    field_collection = fields.Field(
+        column_name='field_collection',
+        attribute='field_collection',
+        widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
+
 class FieldSampleAdminResource(resources.ModelResource):
     class Meta:
         # SampleLabel
         model = FieldSample
         import_id_fields = ('sample_global_id', 'collection_global_id', )
         fields = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
-                  'sample_type', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
-                  'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                  'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
-                  'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
-                  'subcore_diameter', 'subcore_clayer', 'collection_global_id',
+                  'sample_type', 'collection_global_id',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
-                        'sample_type', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
-                        'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                        'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
-                        'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
-                        'subcore_diameter', 'subcore_clayer', 'collection_global_id',
+                        'sample_type', 'collection_global_id',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     collection_global_id = fields.Field(
@@ -217,6 +255,50 @@ class FieldSampleAdminResource(resources.ModelResource):
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
+
+class FilterSampleAdminResource(resources.ModelResource):
+    class Meta:
+        # SampleLabel
+        model = FilterSample
+        import_id_fields = ('field_sample', )
+        fields = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
+                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
+                  'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
+                  'filter_notes', )
+        export_order = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
+                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
+                        'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
+                        'filter_notes', )
+
+    field_sample = fields.Field(
+        column_name='field_sample',
+        attribute='field_sample',
+        widget=ForeignKeyWidget(FieldSample, 'field_sample'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
+
+class SubCoreSampleAdminResource(resources.ModelResource):
+    class Meta:
+        # SampleLabel
+        model = SubCoreSample
+        import_id_fields = ('field_sample', )
+        fields = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+                  'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
+                  'subcore_diameter', 'subcore_clayer', )
+        export_order = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+                        'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
+                        'subcore_diameter', 'subcore_clayer', )
+
+    field_sample = fields.Field(
+        column_name='field_sample',
+        attribute='field_sample',
+        widget=ForeignKeyWidget(FieldSample, 'field_sample'))
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id

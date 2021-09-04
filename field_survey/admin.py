@@ -1,12 +1,15 @@
 from django.contrib import admin
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import FieldSurveyAdminResource, \
     FieldCrewAdminResource, EnvMeasurementAdminResource, \
-    FieldCollectionAdminResource, FieldSampleAdminResource, \
+    FieldCollectionAdminResource, WaterCollectionAdminResource, SedimentCollectionAdminResource, \
+    FieldSampleAdminResource, FilterSampleAdminResource, SubCoreSampleAdminResource, \
     FieldSurveyETLAdminResource, FieldCrewETLAdminResource, EnvMeasurementETLAdminResource, \
     FieldCollectionETLAdminResource, SampleFilterETLAdminResource
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, FieldCollection, FieldSample, \
+from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+    FieldCollection, WaterCollection, SedimentCollection, \
+    FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 
 
@@ -118,13 +121,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['collection_type', 'water_control', 'water_control_type',
-                       'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
-                       'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                       'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
-                       'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
-                       'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
-                       'subcores_taken', 'survey_global_id', 'created_by']
+        self.fields = ['collection_type', 'survey_global_id', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
@@ -140,6 +137,62 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
 admin.site.register(FieldCollection, FieldCollectionAdmin)
 
 
+class WaterCollectionAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = WaterCollectionAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', )
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['field_collection', 'water_control', 'water_control_type',
+                       'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+                       'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+                       'water_vessel_color', 'water_collect_notes', 'was_filtered', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(WaterCollectionAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(WaterCollection, WaterCollectionAdmin)
+
+
+class SedimentCollectionAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = SedimentCollectionAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', )
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['field_collection', 'core_control', 'core_label',
+                       'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                       'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
+                       'subcores_taken', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(SedimentCollectionAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(SedimentCollection, SedimentCollectionAdmin)
+
+
 class FieldSampleAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleLabelAdminResource
@@ -151,13 +204,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted', 'sample_type',
-                       'filter_location',
-                       'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
-                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
-                       'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
-                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
-                       'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
-                       'created_by', ]
+                       'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -166,13 +213,8 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type', 'filter_location',
-                       'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
-                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
-                       'filter_pore', 'filter_size', 'filter_notes', 'subcore_fname', 'subcore_lname', 'subcore_method',
-                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
-                       'subcore_length', 'subcore_diameter', 'subcore_clayer', 'collection_global_id',
-                       'created_by', ]
+        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type',
+                       'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
@@ -186,6 +228,84 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(FieldSample, FieldSampleAdmin)
+
+
+class FilterSampleAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = FilterSampleAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', )
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['field_sample', 'filter_location',
+                       'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
+                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
+                       'filter_pore', 'filter_size', 'filter_notes', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(FilterSampleAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['field_sample', 'filter_location',
+                       'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
+                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
+                       'filter_pore', 'filter_size', 'filter_notes', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(FilterSampleAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(FilterSample, FilterSampleAdmin)
+
+
+class SubCoreSampleAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = SubCoreSampleAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', )
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method',
+                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
+                       'subcore_length', 'subcore_diameter', 'subcore_clayer', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(SubCoreSampleAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method',
+                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
+                       'subcore_length', 'subcore_diameter', 'subcore_clayer', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(SubCoreSampleAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(SubCoreSample, SubCoreSampleAdmin)
 
 ###########
 # Pre Transform
