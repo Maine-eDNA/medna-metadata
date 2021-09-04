@@ -442,7 +442,7 @@ class RunResult(DateTimeUserMixin):
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     # CompletedJobInfo.xml
     run_completion_datetime = models.DateTimeField("Run Completion Time")
-    # CompletedJobInfo.xml
+    # RunInfo.xml
     run_instrument = models.CharField("Instrument", max_length=255)
 
     def __str__(self):
