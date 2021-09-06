@@ -11,9 +11,11 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
 from utility.models import Project
 
 
-###########
-# Post Transform
-###########
+#################################
+# POST TRANSFORM                #
+#################################
+
+
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
@@ -339,6 +341,10 @@ class FieldSample(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
+        if self.collection_global_id.collection_type == CollectionTypes.water_sample:
+            self.sample_type = 2
+        elif self.collection_global_id.collection_type == CollectionTypes.sed_sample:
+            self.sample_type = 1
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
@@ -399,30 +405,21 @@ class SubCoreSample(models.Model):
         verbose_name_plural = 'SubCore Samples'
 
 
-###########
-# Pre Transform
-###########
+#################################
+# PRE TRANSFORM                 #
+#################################
+
 
 class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    username = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 verbose_name="Username",
-                                 blank=True, null=True,
-                                 on_delete=models.SET(get_sentinel_user),
-                                 related_name="username_etl")
+    username = models.CharField("Username", max_length=255, blank=True)
     # date
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
-
     # prj_ids
-
     project_ids = models.CharField("Affiliated Project(s)", max_length=255, blank=True)
-    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name="Supervisor",
-                                   blank=True,
-                                   on_delete=models.SET(get_sentinel_user),
-                                   related_name="supervisor_etl")
+    supervisor = models.CharField("Supervisor", max_length=255, blank=True)
     # recdr_fname
     recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
     # recdr_lname
@@ -446,27 +443,15 @@ class FieldSurveyETL(DateTimeUserMixin):
     env_material_other = models.CharField("Other Material", max_length=255, blank=True)
     env_notes = models.TextField("Environmental Notes", blank=True)
     # by boat or by foot
-    env_measure_mode = models.CharField("Collection Mode", max_length=255,blank=True)
+    env_measure_mode = models.CharField("Collection Mode", max_length=255, blank=True)
     env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
     env_bottom_depth = models.DecimalField("Bottom Depth (m)",
                                            max_digits=15, decimal_places=10, blank=True, null=True)
     measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
-    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Designated Sub-corer",
-                                      blank=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="core_subcorer_etl")
-    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Designated Filterer",
-                                       blank=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="water_filterer_etl")
-    survey_complete = models.CharField("Survey Complete", max_length=3, blank=True, null=True)
-    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  verbose_name="Quality Editor",
-                                  blank=True,
-                                  on_delete=models.SET(get_sentinel_user),
-                                  related_name="qa_editor_etl")
+    core_subcorer = models.CharField("Designated Sub-corer", max_length=255, blank=True)
+    water_filterer = models.CharField("Designated Filterer", max_length=255, blank=True)
+    survey_complete = models.CharField("Survey Complete", max_length=3, blank=True)
+    qa_editor = models.CharField("Quality Editor", max_length=255, blank=True)
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
     gps_cap_lat = models.DecimalField("Captured Latitude (DD)",
@@ -479,17 +464,9 @@ class FieldSurveyETL(DateTimeUserMixin):
     gps_cap_horiz_acc = models.DecimalField("Captured Horizontal Accuracy (m)", max_digits=22, decimal_places=16, blank=True, null=True)
     gps_cap_vert_acc = models.DecimalField("Captured Vertical Accuracy (m)", max_digits=22, decimal_places=16, blank=True, null=True)
     record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Survey Creator",
-                                       blank=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="record_creator_etl")
+    record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
     record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Survey Editor",
-                                      blank=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="record_editor_etl")
+    record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
@@ -620,9 +597,8 @@ class EnvMeasurementETL(DateTimeUserMixin):
 
 class FieldCollectionETL(DateTimeUserMixin):
     collection_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    # TODO this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
     collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
-    water_control = models.CharField("Is Control", max_length=3, blank=True, null=True)
+    water_control = models.CharField("Is Control", max_length=3, blank=True)
     water_control_type = models.CharField("Water Control Type", max_length=255, blank=True)
     water_vessel_label = models.CharField("Water Vessel Label", max_length=255, blank=True)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
@@ -637,8 +613,8 @@ class FieldCollectionETL(DateTimeUserMixin):
     water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
     water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
-    was_filtered = models.CharField("Filtered", max_length=3, blank=True, null=True)
-    core_control = models.CharField("Is Control", max_length=3, blank=True, null=True)
+    was_filtered = models.CharField("Filtered", max_length=3, blank=True)
+    core_control = models.CharField("Is Control", max_length=3, blank=True)
     core_label = models.CharField("Core Label", max_length=255, blank=True)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
@@ -651,7 +627,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     core_diameter = models.DecimalField("Core Diameter (cm)",
                                         max_digits=15, decimal_places=10, blank=True, null=True)
     # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True, null=True)
+    subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True)
     subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
     subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
     subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
@@ -684,48 +660,6 @@ class FieldCollectionETL(DateTimeUserMixin):
         app_label = 'field_survey'
         verbose_name = 'FieldCollectionETL'
         verbose_name_plural = 'FieldCollectionETLs'
-
-
-class QuarantineSubCoreCollectionETL(DateTimeUserMixin):
-    # blank or duplicate barcodes [subcore_min_barcode, subcore_max_barcode]
-    collection_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    # TODO this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
-    # if collection_type is null, indicator that the data was app duplication error
-    collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
-    # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True, null=True)
-    subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
-    subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
-    subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
-    subcore_method_other = models.CharField("Other Sub-Core Method", max_length=255, blank=True)
-    subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
-    subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
-    subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, blank=True)
-    subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, blank=True)
-    subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
-    subcore_length = models.DecimalField("Sub-Core Length (cm)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
-    subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
-    core_purpose = models.TextField("Purpose of Other Cores", blank=True)
-    core_notes = models.TextField("Core Notes", blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL,
-                                         db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcollection_etl",
-                                         on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{survey_global_id}, ' \
-               '{collection_global_id}, ' \
-               '{collection_type}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                          collection_global_id=self.collection_global_id,
-                                          collection_type=self.collection_type)
-
-    class Meta:
-        app_label = 'field_survey'
-        verbose_name = 'QuarantineFieldCollectionETL'
-        verbose_name_plural = 'QuarantineFieldCollectionETLs'
 
 
 class SampleFilterETL(DateTimeUserMixin):
@@ -763,49 +697,3 @@ class SampleFilterETL(DateTimeUserMixin):
         app_label = 'field_survey'
         verbose_name = 'SampleFilterETL'
         verbose_name_plural = 'SampleFilterETLs'
-
-
-class QuarantineSampleFilterETL(DateTimeUserMixin):
-    # blank or duplicate barcodes [filter_barcode]
-    filter_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    # TODO this should be a fk to sample_labels, but I need to change the option labels in survey123 for it to work
-    # if collection_type is null, indicator that the data was app duplication error
-    collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
-    filter_location = models.CharField("Filter Location", max_length=255, blank=True)
-    is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
-    filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
-    filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
-    filter_sample_label = models.CharField("Filter Sample Label", max_length=255, blank=True)
-    # needs to fk to samplelabels at some point
-    filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, blank=True)
-    filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
-    filter_method = models.CharField("Filter Method", max_length=255, blank=True)
-    filter_method_other = models.CharField("Other Filter Method", max_length=255, blank=True)
-    filter_vol = models.DecimalField("Water Volume Filtered",
-                                     max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_type = models.CharField("Filter Type", max_length=255, blank=True)
-    filter_type_other = models.CharField("Other Filter Type", max_length=255, blank=True)
-    filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_notes = models.TextField("Filter Notes", blank=True)
-    collection_global_id = models.ForeignKey(FieldCollectionETL,
-                                             db_column="collection_global_id",
-                                             related_name="fieldcollection_to_blanksamplefilter_etl",
-                                             on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{collection_global_id}, ' \
-               '{filter_sample_label}, ' \
-               '{filter_barcode}'.format(collection_global_id=self.collection_global_id.collection_global_id,
-                                         filter_sample_label=self.filter_sample_label,
-                                         filter_barcode=self.filter_barcode)
-
-    def save(self, *args, **kwargs):
-        self.collection_type = self.collection_global_id.collection_type
-        # all done, time to save changes to the db
-        super(QuarantineSampleFilterETL, self).save(*args, **kwargs)
-
-    class Meta:
-        app_label = 'field_survey'
-        verbose_name = 'QuarantineSampleFilterETL'
-        verbose_name_plural = 'QuarantineSampleFilterETLs'
