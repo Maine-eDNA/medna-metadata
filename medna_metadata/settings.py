@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoising',
     'bioinfo_taxon',
+    'storages', # django-storages for s3 storage backends e.g., wasabi
     'drf_yasg', # drf-yasg creates swagger documentation for all apis
     'corsheaders', # corsheaders to whitelist urls for backend=>frontend api
     'import_export', # django-import-export
@@ -153,7 +154,7 @@ MEDIA_URL = "/media/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # URL that handles the static files served from STATIC_ROOT.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/' # set by django-storages
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -286,7 +287,7 @@ FIXTURE_DIRS = [os.path.join(BASE_DIR, "fixtures", "dev"), ]
 
 # A list of locations of additional static files
 # django\conf\global_settings.py
-STATICFILES_DIRS = []
+# STATICFILES_DIRS = [] # set by django-storages
 
 ########################################
 # DJANGO-CORS-HEADERS CONFIG           #
@@ -393,6 +394,36 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+########################################
+# DJANGO-STORAGES CONFIG               #
+########################################
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.us-east-2.wasabisys.com')
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.us-east-2.wasabisys.com' % AWS_STORAGE_BUCKET_NAME)
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_STATIC_LOCATION = 'static'
+STATICFILES_STORAGE = 'medna_metadata.backends.s3boto3.StaticStorage'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
+
+AWS_PRIVATE_MEDIA_LOCATION = 'media/private'
+PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
+
+AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+]
 
 ########################################
 # DJANGO-CRISPY-FORMS CONFIG           #
