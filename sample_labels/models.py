@@ -24,10 +24,12 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
         sample_label_id = min_sample_label_id
         SampleLabel.objects.update_or_create(
             sample_label_id=sample_label_id,
-            site_id=site_id,
-            sample_type=sample_type,
-            sample_year=sample_year,
-            purpose=purpose
+            defaults={
+                'site_id': site_id,
+                'sample_type': sample_type,
+                'sample_year': sample_year,
+                'purpose': purpose,
+            }
         )
     else:
         # more than one label requested, so need to interate to insert into SampleLabel
@@ -43,14 +45,15 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
             # number and min/max; this table is necessary for joining proceeding tables
             SampleLabel.objects.update_or_create(
                 sample_label_id=sample_label_id,
-                site_id=site_id,
-                sample_type=sample_type,
-                sample_year=sample_year,
-                purpose=purpose
+                defaults={
+                    'site_id': site_id,
+                    'sample_type': sample_type,
+                    'sample_year': sample_year,
+                    'purpose': purpose,
+                }
             )
 
 
-# TODO model => choices?
 class SampleType(DateTimeUserMixin):
     sample_type_code = models.CharField("Sample Code", max_length=1, unique=True)
     sample_type_label = models.CharField("Sample Label", max_length=255)
