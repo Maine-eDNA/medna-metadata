@@ -9,7 +9,8 @@ from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrat
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 from django.utils import timezone
-
+# custom private media S3 backend storage
+from medna_metadata.storage_backends import PrivateSequencingStorage
 
 def update_extraction_status(old_barcode, new_barcode_pk):
     # update is_extracted status of FieldSample model when samples are added to
@@ -462,10 +463,17 @@ class FastqFile(DateTimeUserMixin):
     # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
+    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
-    fastq_filename = models.CharField("FastQ Filename", max_length=255)
-    fastq_datafile = models.FileField("FastQ Datafile", max_length=255)
+    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=PrivateSequencingStorage())
+
+    @property
+    def fastq_filename(self):
+        return self.fastq_datafile.name
+
+    @property
+    def fastq_url(self):
+        return self.fastq_datafile.url
 
     def save(self, *args, **kwargs):
         self.fastq_slug = '{runid}_{fastq}'.format(runid=slugify(self.run_result.run_id),
@@ -474,7 +482,7 @@ class FastqFile(DateTimeUserMixin):
 
     def __str__(self):
         return '{runid}: {fastq}'.format(runid=self.run_result.run_id,
-                                         fastq=self.fastq_filename)
+                                         fastq=self.fastq_datafile.name)
 
     class Meta:
         app_label = 'wet_lab'
