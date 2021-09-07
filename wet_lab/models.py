@@ -12,6 +12,7 @@ from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import PrivateSequencingStorage
 
+
 def update_extraction_status(old_barcode, new_barcode_pk):
     # update is_extracted status of FieldSample model when samples are added to
     # Extraction model
