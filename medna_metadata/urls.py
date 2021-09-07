@@ -25,7 +25,8 @@ from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, Env
     EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, SystemViewSet, FieldSitesViewSet
 from sample_labels.views import SampleTypeViewSet, SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
-    FieldSampleViewSet
+    FieldSampleViewSet, GeoFieldSurveyETLViewSet, FieldCrewETLViewSet, EnvMeasurementETLViewSet, \
+    FieldCollectionETLViewSet, SampleFilterETLViewSet
 from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMethodViewSet, SizeSelectionMethodViewSet, \
     QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, DdpcrViewSet, QpcrViewSet, \
     LibraryPrepViewSet, PooledLibraryViewSet, FinalPooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
@@ -53,6 +54,7 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -126,12 +128,18 @@ router.register(r'/field_sites/field_site', FieldSitesViewSet, 'field_site')
 router.register(r'/sample_labels/sample_type', SampleTypeViewSet, 'sample_type')
 router.register(r'/sample_labels/sample_label_req', SampleLabelRequestViewSet, 'sample_label_req')
 router.register(r'/sample_labels/sample_label', SampleLabelViewSet, 'sample_label')
-# field_survey
+# field_survey:post-transform
 router.register(r'/field_survey/field_survey', GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'/field_survey/field_crew', FieldCrewViewSet, 'field_crew')
 router.register(r'/field_survey/env_measurement', EnvMeasurementViewSet, 'env_measurement')
 router.register(r'/field_survey/field_collection', FieldCollectionViewSet, 'field_collection')
 router.register(r'/field_survey/field_sample', FieldSampleViewSet, 'field_sample')
+# field_survey:pre-transform
+router.register(r'/field_survey/field_survey_etl', GeoFieldSurveyETLViewSet, 'field_survey_etl')
+router.register(r'/field_survey/field_crew_etl', FieldCrewETLViewSet, 'field_crew_etl')
+router.register(r'/field_survey/env_measurement_etl', EnvMeasurementETLViewSet, 'env_measurement_etl')
+router.register(r'/field_survey/field_collection_etl', FieldCollectionETLViewSet, 'field_collection_etl')
+router.register(r'/field_survey/sample_filter_etl', SampleFilterETLViewSet, 'sample_filter_etl')
 # wet_lab
 router.register(r'/wet_lab/primer_pair', PrimerPairViewSet, 'primer_pair')
 router.register(r'/wet_lab/index_pair', IndexPairViewSet, 'index_pair')
