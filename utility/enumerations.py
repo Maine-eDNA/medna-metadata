@@ -11,12 +11,6 @@ class YesNo(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-# TODO model => choices?
-class SampleTypes(models.TextChoices):
-    W = 'w', _('Water')
-    S = 's', _('Sediment')
-
-
 # UNITS CHOICES
 class MeasureUnits(models.TextChoices):
     METERS = 'meter', _('Meter (m)')
