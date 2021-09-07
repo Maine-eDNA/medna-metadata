@@ -8,7 +8,7 @@ from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, Ch
 from django.utils import timezone
 
 
-def freezer_inv_status_update(inv_pk, freezer_checkout_action):
+def update_freezer_inv_status(inv_pk, freezer_checkout_action):
     if freezer_checkout_action == CheckoutActions.CHECKOUT:
         # Checkout, so change inventory status to Checked Out
         FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.OUT)
@@ -215,7 +215,7 @@ class FreezerCheckout(DateTimeUserMixin):
         elif self.freezer_checkout_action == CheckoutActions.REMOVE:
             self.freezer_perm_removal_datetime = timezone.now()
 
-        freezer_inv_status_update(self.freezer_inventory.pk, self.freezer_checkout_action)
+        update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_checkout_action)
 
         if self.pk is None:
             if self.created_datetime is None:
