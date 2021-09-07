@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeometrySerializerMethodField
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -23,6 +23,7 @@ from sample_labels.models import SampleType, SampleLabel
 # Django REST Framework to allow the automatic downloading of data!
 class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
+    geom = GeometrySerializerMethodField()
     survey_datetime = serializers.DateTimeField()
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
     recorder_lname = serializers.CharField(max_length=255, allow_blank=True)
@@ -332,6 +333,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
 
 class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
+    geom = GeometrySerializerMethodField()
     username = serializers.CharField(max_length=255, allow_blank=True)
     survey_datetime = serializers.DateTimeField(allow_null=True)
     project_ids = serializers.CharField( max_length=255, allow_blank=True)
