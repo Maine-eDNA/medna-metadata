@@ -303,7 +303,6 @@ def update_queryset_subcore(queryset):
                         # count for subcore
                         created_count += 1
 
-
         else:
             # more than one barcode label requested, so need to interate to insert into Field Sample and
             # SubCoreSample
