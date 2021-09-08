@@ -333,6 +333,7 @@ class FieldSample(DateTimeUserMixin):
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=50, choices=YesNo.choices, default=YesNo.NO)
+    # TODO - change sample_type to "sample_material" to be consistent with ENVO
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
 
     def __str__(self):
