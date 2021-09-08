@@ -334,41 +334,6 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
                         'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
-    username = fields.Field(
-        column_name='username',
-        attribute='username',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
-    supervisor = fields.Field(
-        column_name='supervisor',
-        attribute='supervisor',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
-    core_subcorer = fields.Field(
-        column_name='core_subcorer',
-        attribute='core_subcorer',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
-    water_filterer = fields.Field(
-        column_name='water_filterer',
-        attribute='water_filterer',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
-    qa_editor = fields.Field(
-        column_name='qa_editor',
-        attribute='qa_editor',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
-    record_creator = fields.Field(
-        column_name='record_creator',
-        attribute='record_creator',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
-    record_editor = fields.Field(
-        column_name='record_editor',
-        attribute='record_editor',
-        widget=ForeignKeyWidget(CustomUser, 'agol_username'))
-
     created_by = fields.Field(
         column_name='created_by',
         attribute='created_by',
