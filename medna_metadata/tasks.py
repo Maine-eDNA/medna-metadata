@@ -20,6 +20,33 @@ from django.contrib.gis.geos import Point
 logger = get_task_logger(__name__)
 
 
+def get_filter_etl_duplicates():
+    filter_duplicates = SampleFilterETL.objects.values(
+        'filter_barcode'
+    ).annotate(filter_barcode_count=Count(
+        'filter_barcode'
+    )).filter(filter_barcode_count__gt=1)
+    return filter_duplicates
+
+
+def get_min_subcore_etl_duplicates():
+    subcore_min_duplicates = FieldCollectionETL.objects.values(
+        'subcore_min_barcode'
+    ).annotate(subcore_min_barcode_count=Count(
+        'subcore_min_barcode'
+    )).filter(subcore_min_barcode__gt=1)
+    return subcore_min_duplicates
+
+
+def get_max_subcore_etl_duplicates():
+    subcore_max_duplicates = FieldCollectionETL.objects.values(
+        'subcore_max_barcode'
+    ).annotate(subcore_max_barcode_count=Count(
+        'subcore_max_barcode'
+    )).filter(subcore_max_barcode__gt=1)
+    return subcore_max_duplicates
+
+
 def update_record_field_survey(record, pk):
     prj_list = []
     prjs = record['project_ids'].split(',')
@@ -85,7 +112,7 @@ def update_record_field_survey(record, pk):
     return field_survey, created
 
 
-def update_record_crew(record, pk):
+def update_record_field_crew(record, pk):
     field_crew, created = FieldCrew.objects.update_or_create(
         crew_global_id=pk,
         defaults={
@@ -194,7 +221,7 @@ def update_record_field_collection(record, pk):
     return field_collection, created
 
 
-def update_record_filter(record, pk):
+def update_record_filter_sample(record, pk):
     filter_sample, created = FilterSample.objects.update_or_create(
         filter_global_id=pk,
         defaults={
@@ -237,7 +264,7 @@ def update_record_subcore(record, pk):
     return subcore_sample, created
 
 
-def update_queryset_survey(queryset):
+def update_queryset_field_survey(queryset):
     update_count = 0
     for record in queryset:
         pk = record['survey_global_id']
@@ -251,7 +278,7 @@ def update_queryset_field_crew(queryset):
     update_count = 0
     for record in queryset:
         pk = record['crew_global_id']
-        field_crew, created = update_record_crew(record, pk)
+        field_crew, created = update_record_field_crew(record, pk)
         if created:
             update_count += 1
     return update_count
@@ -360,7 +387,7 @@ def update_queryset_subcore(queryset):
     return created_count
 
 
-def update_queryset_filter(queryset):
+def update_queryset_filter_sample(queryset):
     created_count = 0
     for record in queryset:
         filter_barcode = record['filter_barcode']
@@ -382,14 +409,14 @@ def update_queryset_filter(queryset):
                 if created:
                     # count for field_sample
                     created_count += 1
-                filter_sample, created = update_record_filter(record, field_sample.pk)
+                filter_sample, created = update_record_filter_sample(record, field_sample.pk)
                 if created:
                     # count for filter_sample
                     created_count += 1
     return created_count
 
 
-def transform_all_field_survey(queryset):
+def transform_field_survey_etls(queryset):
     update_count = 0
     for record in queryset:
         survey_global_id = record['survey_global_id']
@@ -421,7 +448,7 @@ def transform_all_field_survey(queryset):
                     non_dup_survey_records = related_survey_records.filter(
                         survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
                     if non_dup_survey_records:
-                        count = update_queryset_survey(non_dup_survey_records)
+                        count = update_queryset_field_survey(non_dup_survey_records)
                         update_count = update_count + count
 
                 if related_crew_records:
@@ -457,7 +484,7 @@ def transform_all_field_survey(queryset):
                     non_dup_survey_records = related_survey_records.filter(
                         survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
                     if non_dup_survey_records:
-                        count = update_queryset_survey(non_dup_survey_records)
+                        count = update_queryset_field_survey(non_dup_survey_records)
                         update_count = update_count + count
 
                 if related_crew_records:
@@ -474,36 +501,9 @@ def transform_all_field_survey(queryset):
                         count = update_queryset_env_measurement(non_dup_env_records)
                         update_count = update_count + count
 
-                count = update_queryset_filter(nondup_related_filters)
+                count = update_queryset_filter_sample(nondup_related_filters)
                 update_count = update_count + count
     return update_count
-
-
-def get_filter_etl_duplicates():
-    filter_duplicates = SampleFilterETL.objects.values(
-        'filter_barcode'
-    ).annotate(filter_barcode_count=Count(
-        'filter_barcode'
-    )).filter(filter_barcode_count__gt=1)
-    return filter_duplicates
-
-
-def get_min_subcore_etl_duplicates():
-    subcore_min_duplicates = FieldCollectionETL.objects.values(
-        'subcore_min_barcode'
-    ).annotate(subcore_min_barcode_count=Count(
-        'subcore_min_barcode'
-    )).filter(subcore_min_barcode__gt=1)
-    return subcore_min_duplicates
-
-
-def get_max_subcore_etl_duplicates():
-    subcore_max_duplicates = FieldCollectionETL.objects.values(
-        'subcore_max_barcode'
-    ).annotate(subcore_max_barcode_count=Count(
-        'subcore_max_barcode'
-    )).filter(subcore_max_barcode__gt=1)
-    return subcore_max_duplicates
 
 
 # https://stackoverflow.com/questions/54899320/what-is-the-meaning-of-bind-true-keyword-in-celery
@@ -516,24 +516,23 @@ def add(self, x, y):
 
 
 @app.task(bind=True)
-def transform_new_records(self):
+def transform_new_records_field_survey(self):
     now = timezone.now()
     last_run = PeriodicTaskRun.objects.filter(task=self.name)
     new_records = FieldSurveyETL.objects.filter(
         record_edit_datetime__range=[last_run.task_datetime, now])
     if new_records:
-        updated_count = transform_all_field_survey(new_records)
+        updated_count = transform_field_survey_etls(new_records)
         logger.info('Update count: ' + str(updated_count))
     PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
 
 
 @app.task(bind=True)
-def transform_all_records(self):
-    now = timezone.now()
+def transform_all_records_field_survey(self):
     last_run = PeriodicTaskRun.objects.filter(task=self.name)
     all_records = FieldSurveyETL.objects.all()
     if all_records:
-        updated_count = transform_all_field_survey(all_records)
+        updated_count = transform_field_survey_etls(all_records)
         logger.info('Update count: ' + str(updated_count))
     PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
 
