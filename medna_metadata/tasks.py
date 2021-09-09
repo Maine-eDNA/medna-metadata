@@ -221,47 +221,63 @@ def update_record_field_collection(record, pk):
     return field_collection, created
 
 
-def update_record_filter_sample(record, pk):
-    filter_sample, created = FilterSample.objects.update_or_create(
-        filter_global_id=pk,
+def update_record_field_sample(record, collection_type, field_sample_pk, sample_label_pk):
+    update_count = 0
+    # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
+    field_sample, created = FieldSample.objects.update_or_create(
+        sample_global_id=field_sample_pk,
         defaults={
-            'field_sample': record['filter_global_id'],
-            'filter_location': record['filter_location'],
-            'is_prefilter': record['is_prefilter'],
-            'filter_fname': record['filter_fname'],
-            'filter_lname': record['filter_lname'],
-            'filter_sample_label': record['filter_sample_label'],
-            'filter_datetime': record['filter_datetime'],
-            'filter_method': record['filter_method'],
-            'filter_method_other': record['filter_method_other'],
-            'filter_vol': record['filter_vol'],
-            'filter_type': record['filter_type'],
-            'filter_type_other': record['filter_type_other'],
-            'filter_pore': record['filter_pore'],
-            'filter_size': record['filter_size'],
-            'filter_notes': record['filter_notes'],
+            'collection_global_id': record['collection_global_id'],
+            'field_sample_barcode': sample_label_pk,
         }
     )
-    return filter_sample, created
 
+    if created:
+        update_count += 1
 
-def update_record_subcore(record, pk):
-    subcore_sample, created = SubCoreSample.objects.update_or_create(
-        field_sample=pk,
-        defaults={
-            'subcore_fname': record['subcore_fname'],
-            'subcore_lname': record['subcore_lname'],
-            'subcore_method': record['subcore_method'],
-            'subcore_method_other': record['subcore_method_other'],
-            'subcore_datetime_start': record['subcore_datetime_start'],
-            'subcore_datetime_end': record['subcore_datetime_end'],
-            'subcore_number': record['subcore_number'],
-            'subcore_length': record['subcore_length'],
-            'subcore_diameter': record['subcore_diameter'],
-            'subcore_clayer': record['subcore_clayer'],
-        }
-    )
-    return subcore_sample, created
+    if collection_type == CollectionTypes.water_sample:
+        filter_sample, created = FilterSample.objects.update_or_create(
+            filter_global_id=field_sample.pk,
+            defaults={
+                'field_sample': record['filter_global_id'],
+                'filter_location': record['filter_location'],
+                'is_prefilter': record['is_prefilter'],
+                'filter_fname': record['filter_fname'],
+                'filter_lname': record['filter_lname'],
+                'filter_sample_label': record['filter_sample_label'],
+                'filter_datetime': record['filter_datetime'],
+                'filter_method': record['filter_method'],
+                'filter_method_other': record['filter_method_other'],
+                'filter_vol': record['filter_vol'],
+                'filter_type': record['filter_type'],
+                'filter_type_other': record['filter_type_other'],
+                'filter_pore': record['filter_pore'],
+                'filter_size': record['filter_size'],
+                'filter_notes': record['filter_notes'],
+            }
+        )
+        if created:
+            update_count += 1
+
+    elif collection_type == CollectionTypes.sed_sample:
+        subcore_sample, created = SubCoreSample.objects.update_or_create(
+            field_sample=field_sample.pk,
+            defaults={
+                'subcore_fname': record['subcore_fname'],
+                'subcore_lname': record['subcore_lname'],
+                'subcore_method': record['subcore_method'],
+                'subcore_method_other': record['subcore_method_other'],
+                'subcore_datetime_start': record['subcore_datetime_start'],
+                'subcore_datetime_end': record['subcore_datetime_end'],
+                'subcore_number': record['subcore_number'],
+                'subcore_length': record['subcore_length'],
+                'subcore_diameter': record['subcore_diameter'],
+                'subcore_clayer': record['subcore_clayer'],
+            }
+        )
+        if created:
+            update_count += 1
+    return update_count
 
 
 def update_queryset_field_survey(queryset):
@@ -294,7 +310,7 @@ def update_queryset_env_measurement(queryset):
     return update_count
 
 
-def update_queryset_subcore(queryset):
+def update_queryset_subcore_sample(queryset):
     created_count = 0
     for record in queryset:
         collection_global_id = record['collection_global_id']
@@ -313,22 +329,13 @@ def update_queryset_subcore(queryset):
                     # gid to create a unique gid
                     new_gid = record['collection_global_id'] + '-' + subcore_min_barcode
 
-                    # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
-                    field_sample, created = FieldSample.objects.update_or_create(
-                        sample_global_id=new_gid,
-                        defaults={
-                            'collection_global_id': collection_global_id,
-                            'field_sample_barcode': sample_label.pk,
-                        }
-                    )
-                    if created:
-                        # count for field_sample
-                        created_count += 1
+                    count = update_record_field_sample(record=record,
+                                                       collection_type=record['collection_type'],
+                                                       field_sample_pk=new_gid,
+                                                       sample_label_pk=sample_label.pk)
 
-                    subcore_sample, created = update_record_subcore(record, field_sample.pk)
-                    if created:
-                        # count for subcore
-                        created_count += 1
+                    # count for subcore
+                    created_count = created_count+count
 
         else:
             # more than one barcode label requested, so need to interate to insert into Field Sample and
@@ -365,24 +372,12 @@ def update_queryset_subcore(queryset):
                         # gid to create a unique gid
                         new_gid = collection_global_id + '-' + subcore_barcode
 
-                        # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
-                        field_sample, created = FieldSample.objects.update_or_create(
-                            sample_global_id=new_gid,
-                            defaults={
-                                'collection_global_id': collection_global_id,
-                                'field_sample_barcode': sample_label.pk,
-                            }
-                        )
+                        count = update_record_field_sample(record=record,
+                                                           collection_type=record['collection_type'],
+                                                           field_sample_pk=new_gid,
+                                                           sample_label_pk=sample_label.pk)
 
-                        if created:
-                            # count for field_sample
-                            created_count += 1
-
-                        subcore_sample, created = update_record_subcore(record, field_sample.pk)
-
-                        if created:
-                            # count for subcore_sample
-                            created_count += 1
+                        created_count = created_count+count
 
     return created_count
 
@@ -394,25 +389,15 @@ def update_queryset_filter_sample(queryset):
         if filter_barcode:
             # only proceed if filter_barcode exists
             sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)
+            field_collection = FieldCollectionETL.objects.filter(collection_global_id=record['collection_global_id'])
             if sample_label:
                 # only proceed if sample_label exists
+                count = update_record_field_sample(record=record,
+                                                   collection_type=field_collection.collection_type,
+                                                   field_sample_pk=record['filter_global_id'],
+                                                   sample_label_pk=sample_label.pk)
 
-                # only proceed if sample_label exists
-                # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
-                field_sample, created = FieldSample.objects.update_or_create(
-                    sample_global_id=record['filter_global_id'],
-                    defaults={
-                        'collection_global_id': record['collection_global_id'],
-                        'field_sample_barcode': sample_label.pk,
-                    }
-                )
-                if created:
-                    # count for field_sample
-                    created_count += 1
-                filter_sample, created = update_record_filter_sample(record, field_sample.pk)
-                if created:
-                    # count for filter_sample
-                    created_count += 1
+                created_count = created_count+count
     return created_count
 
 
@@ -465,7 +450,7 @@ def transform_field_survey_etls(queryset):
                         count = update_queryset_env_measurement(non_dup_env_records)
                         update_count = update_count + count
 
-                count = update_queryset_subcore(nondup_related_collect)
+                count = update_queryset_subcore_sample(nondup_related_collect)
                 update_count = update_count + count
 
         if related_filter_records:
