@@ -23,8 +23,10 @@ class SampleLabelRequestTestCase(TestCase):
     # fixtures = ['sample_labels_samplelabelrequest.json']
     def setUp(self):
         # get first record in queryset
-        FieldSiteTestCase.setUp()
-        SampleTypeTestCase.setUp()
+        field_site = FieldSiteTestCase()
+        sample_type = SampleTypeTestCase()
+        field_site.setUp()
+        sample_type.setUp()
         site_id = FieldSite.objects.filter()[:1].get()
         sample_type = SampleType.objects.filter()[:1].get()
         # insert into db

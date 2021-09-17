@@ -59,11 +59,16 @@ class RegionTestCase(TestCase):
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
-        RegionTestCase.setUp()
-        SystemTestCase.setUp()
-        GrantTestCase.setUp()
-        EnvoBiomeFirstTestCase.setUp()
-        EnvoFeatureFirstTestCase.setUp()
+        region = RegionTestCase()
+        system = SystemTestCase()
+        grant = GrantTestCase()
+        biome_first = EnvoBiomeFirstTestCase()
+        feature_first = EnvoFeatureFirstTestCase()
+        region.setUp()
+        system.setUp()
+        grant.setUp()
+        biome_first.setUp()
+        feature_first.setUp()
         grant = Grant.objects.filter()[:1].get()
         system = System.objects.filter()[:1].get()
         region = Region.objects.filter()[:1].get()
