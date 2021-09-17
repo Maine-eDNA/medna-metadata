@@ -132,7 +132,7 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 class SampleLabel(DateTimeUserMixin):
     # TODO - change sample_label_id to PK
-    sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
+    sample_label_id = models.CharField("Sample Label ID", max_length=16, primary_key=True)
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
