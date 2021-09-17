@@ -410,7 +410,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 
 AWS_STATIC_LOCATION = 'medna_metadata/static'
-STATICFILES_STORAGE = 'medna_metadata.backends.s3boto3.StaticStorage'
+STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
 AWS_PUBLIC_MEDIA_LOCATION = 'medna_metadata/media/public'
