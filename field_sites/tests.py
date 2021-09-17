@@ -59,16 +59,16 @@ class RegionTestCase(TestCase):
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
-        region = RegionTestCase()
-        system = SystemTestCase()
-        grant = GrantTestCase()
-        biome_first = EnvoBiomeFirstTestCase()
-        feature_first = EnvoFeatureFirstTestCase()
-        region.setUp()
-        system.setUp()
-        grant.setUp()
-        biome_first.setUp()
-        feature_first.setUp()
+        region_test = RegionTestCase()
+        system_test = SystemTestCase()
+        grant_test = GrantTestCase()
+        biome_first_test = EnvoBiomeFirstTestCase()
+        feature_first_test = EnvoFeatureFirstTestCase()
+        region_test.setUp()
+        system_test.setUp()
+        grant_test.setUp()
+        biome_first_test.setUp()
+        feature_first_test.setUp()
         grant = Grant.objects.filter()[:1].get()
         system = System.objects.filter()[:1].get()
         region = Region.objects.filter()[:1].get()
@@ -76,18 +76,20 @@ class FieldSiteTestCase(TestCase):
         river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        FieldSite.objects.update_or_create(grant=grant, system=system, region=region, general_location_name="FieldSiteTest1",
+        FieldSite.objects.update_or_create(grant=grant, system=system, region=region,
+                                           general_location_name="FieldSiteTest1",
                                            purpose="FieldSiteTest1",
                                            envo_biome_first=lake, envo_feature_first=ls,
                                            geom="SRID=4326;POINT (-68.79667999999999 44.76535)")
-        FieldSite.objects.update_or_create(grant=grant, system=system, region=region, general_location_name="FieldSiteTest2",
+        FieldSite.objects.update_or_create(grant=grant, system=system, region=region,
+                                           general_location_name="FieldSiteTest2",
                                            purpose="FieldSiteTest2",
                                            envo_biome_first=river, envo_feature_first=tasl,
                                            geom="SRID=4326;POINT (-68.81489999999999 44.5925)")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test1 = FieldSite.objects.get(purpose="SampleLabelTest1")
-        test2 = FieldSite.objects.get(purpose="SampleLabelTest2")
+        test1 = FieldSite.objects.get(purpose="FieldSiteTest1")
+        test2 = FieldSite.objects.get(purpose="FieldSiteTest2")
         self.assertIs(test1.was_added_recently(), True)
         self.assertIs(test2.was_added_recently(), True)

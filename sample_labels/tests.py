@@ -23,10 +23,10 @@ class SampleLabelRequestTestCase(TestCase):
     # fixtures = ['sample_labels_samplelabelrequest.json']
     def setUp(self):
         # get first record in queryset
-        field_site = FieldSiteTestCase()
-        sample_type = SampleTypeTestCase()
-        field_site.setUp()
-        sample_type.setUp()
+        field_site_test = FieldSiteTestCase()
+        sample_type_test = SampleTypeTestCase()
+        field_site_test.setUp()
+        sample_type_test.setUp()
         site_id = FieldSite.objects.filter()[:1].get()
         sample_type = SampleType.objects.filter()[:1].get()
         # insert into db
@@ -48,7 +48,7 @@ class SampleLabelTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test1 = SampleLabel.objects.filter(purpose="SampleLabelTest1").first()
-        test2 = SampleLabel.objects.filter(purpose="SampleLabelTest2").first()
+        test1 = SampleLabel.objects.filter(purpose="SampleLabelTest1")[:1].get()
+        test2 = SampleLabel.objects.filter(purpose="SampleLabelTest2")[:1].get()
         self.assertIs(test1.was_added_recently(), True)
         self.assertIs(test2.was_added_recently(), True)
