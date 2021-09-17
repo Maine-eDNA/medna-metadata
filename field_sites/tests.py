@@ -12,8 +12,8 @@ class EnvoBiomeFirstTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        lake = EnvoBiomeFirst.objects.filter()[:1].get()
-        river = EnvoBiomeFirst.objects.filter()[:2].get()
+        lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
+        river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         self.assertIs(lake.was_added_recently(), True)
         self.assertIs(river.was_added_recently(), True)
 
@@ -25,8 +25,8 @@ class EnvoFeatureFirstTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        ls = EnvoFeatureFirst.objects.filter()[:1].get()
-        tasl = EnvoFeatureFirst.objects.filter()[:2].get()
+        ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
+        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
         self.assertIs(ls.was_added_recently(), True)
         self.assertIs(tasl.was_added_recently(), True)
 
@@ -67,17 +67,17 @@ class FieldSiteTestCase(TestCase):
         grant = Grant.objects.filter()[:1].get()
         system = System.objects.filter()[:1].get()
         region = Region.objects.filter()[:1].get()
-        envo_biome_first_1 = EnvoBiomeFirst.objects.filter()[:1].get()
-        envo_biome_first_2 = EnvoBiomeFirst.objects.filter()[:2].get()
-        envo_feature_first_1 = EnvoFeatureFirst.objects.filter()[:1].get()
-        envo_feature_first_2 = EnvoFeatureFirst.objects.filter()[:2].get()
+        lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
+        river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
+        ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
+        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
         FieldSite.objects.create(grant=grant, system=system, region=region, general_location_name="FieldSiteTest1",
                                  purpose="FieldSiteTest1",
-                                 envo_biome_first=envo_biome_first_1, envo_feature_first=envo_feature_first_1,
+                                 envo_biome_first=lake, envo_feature_first=ls,
                                  geom="SRID=4326;POINT (-68.79667999999999 44.76535)")
         FieldSite.objects.create(grant=grant, system=system, region=region, general_location_name="FieldSiteTest2",
                                  purpose="FieldSiteTest2",
-                                 envo_biome_first=envo_biome_first_2, envo_feature_first=envo_feature_first_2,
+                                 envo_biome_first=river, envo_feature_first=tasl,
                                  geom="SRID=4326;POINT (-68.81489999999999 44.5925)")
 
     def test_was_added_recently(self):
