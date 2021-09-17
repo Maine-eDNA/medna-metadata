@@ -479,7 +479,7 @@ class EnvMeasurementETLSerializer(serializers.ModelSerializer):
 
 
 class FieldCollectionETLSerializer(serializers.ModelSerializer):
-    collection_global_id = serializers.CharField(max_length=255, primary_key=True)
+    collection_global_id = serializers.CharField(max_length=255)
     collection_type = serializers.CharField(max_length=255, allow_blank=True)
     water_control = serializers.CharField(max_length=3, allow_blank=True)
     water_control_type = serializers.CharField(max_length=255, allow_blank=True)
@@ -544,7 +544,7 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
 
 
 class SampleFilterETLSerializer(serializers.ModelSerializer):
-    filter_global_id = serializers.CharField(max_length=255, primary_key=True)
+    filter_global_id = serializers.CharField(max_length=255)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
     is_prefilter = serializers.CharField(max_length=3, allow_blank=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)
