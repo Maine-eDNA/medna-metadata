@@ -11,7 +11,7 @@ class GrantTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         medna = Grant.objects.get(grant_code="e")
-        self.assertIs(medna.was_added_recently(), False)
+        self.assertIs(medna.was_added_recently(), True)
 
 
 class ProjectTestCase(TestCase):
@@ -23,7 +23,7 @@ class ProjectTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         medna = Project.objects.get(project_code="e")
-        self.assertIs(medna.was_added_recently(), False)
+        self.assertIs(medna.was_added_recently(), True)
 
 
 class ProcessLocationTestCase(TestCase):
@@ -42,4 +42,4 @@ class ProcessLocationTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         medna = ProcessLocation.objects.get(process_location_name="CORE")
-        self.assertIs(medna.was_added_recently(), False)
+        self.assertIs(medna.was_added_recently(), True)

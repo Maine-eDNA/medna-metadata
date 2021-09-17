@@ -12,8 +12,8 @@ class EnvoBiomeFirstTestCase(TestCase):
         # test if date is added correctly
         lake = EnvoBiomeFirst.objects.get(biome_first_tier_slug="large_lake")
         river = EnvoBiomeFirst.objects.get(biome_first_tier_slug="small_river")
-        self.assertIs(lake.was_added_recently(), False)
-        self.assertIs(river.was_added_recently(), False)
+        self.assertIs(lake.was_added_recently(), True)
+        self.assertIs(river.was_added_recently(), True)
 
 
 class EnvoFeatureFirstTestCase(TestCase):
@@ -26,8 +26,8 @@ class EnvoFeatureFirstTestCase(TestCase):
         # test if date is added correctly
         ls = EnvoFeatureFirst.objects.get(feature_first_tier_slug="lake_surface")
         tasl = EnvoFeatureFirst.objects.get(feature_first_tier_slug="turbulet_aquatic_surface_layer")
-        self.assertIs(ls.was_added_recently(), False)
-        self.assertIs(tasl.was_added_recently(), False)
+        self.assertIs(ls.was_added_recently(), True)
+        self.assertIs(tasl.was_added_recently(), True)
 
 
 class SystemTestCase(TestCase):
@@ -39,8 +39,8 @@ class SystemTestCase(TestCase):
         # test if date is added correctly
         lake = System.objects.get(sample_type_code="L")
         stream = System.objects.get(sample_type_code="S")
-        self.assertIs(lake.was_added_recently(), False)
-        self.assertIs(stream.was_added_recently(), False)
+        self.assertIs(lake.was_added_recently(), True)
+        self.assertIs(stream.was_added_recently(), True)
 
 
 class RegionTestCase(TestCase):
@@ -53,7 +53,7 @@ class RegionTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         nea = Region.objects.get(region_code="NE")
-        self.assertIs(nea.was_added_recently(), False)
+        self.assertIs(nea.was_added_recently(), True)
 
 
 class FieldSiteTestCase(TestCase):
@@ -69,5 +69,5 @@ class FieldSiteTestCase(TestCase):
         # test if date is added correctly
         test1 = FieldSite.objects.get(purpose="SampleLabelTest1")
         test2 = FieldSite.objects.get(purpose="SampleLabelTest2")
-        self.assertIs(test1.was_added_recently(), False)
-        self.assertIs(test2.was_added_recently(), False)
+        self.assertIs(test1.was_added_recently(), True)
+        self.assertIs(test2.was_added_recently(), True)
