@@ -17,12 +17,13 @@ class GrantTestCase(TestCase):
 class ProjectTestCase(TestCase):
     # formerly Project in field_sites.models
     def setUp(self):
-        Grant.objects.create(grant_label="Maine-eDNA", grant_code="e")
-        Project.objects.create(project_label="Maine-eDNA", project_code="e", grant_name=1)
+        # Grant.objects.create(grant_label="Maine-eDNA", grant_code="e")
+        grant_name = Grant.objects.filter()[:1].get()
+        Project.objects.create(project_label="Community Science", project_code="prj_commsci", grant_name=grant_name)
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = Project.objects.get(project_code="e")
+        medna = Project.objects.get(project_code="prj_commsci")
         self.assertIs(medna.was_added_recently(), True)
 
 

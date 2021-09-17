@@ -5,27 +5,26 @@ from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Region, FieldSite
 
 class EnvoBiomeFirstTestCase(TestCase):
     def setUp(self):
-        EnvoBiomeFirst.objects.create(biome_first_tier="Large Lake", biome_first_tier_slug="large_lake")
-        EnvoBiomeFirst.objects.create(biome_first_tier="Small River", biome_tier_slug="small_river")
+        EnvoBiomeFirst.objects.create(biome_first_tier="Large Lake")
+        EnvoBiomeFirst.objects.create(biome_first_tier="Small River")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        lake = EnvoBiomeFirst.objects.get(biome_first_tier_slug="large_lake")
-        river = EnvoBiomeFirst.objects.get(biome_first_tier_slug="small_river")
+        lake = EnvoBiomeFirst.objects.get(biome_first_tier="Large Lake")
+        river = EnvoBiomeFirst.objects.get(biome_first_tier="Small River")
         self.assertIs(lake.was_added_recently(), True)
         self.assertIs(river.was_added_recently(), True)
 
 
 class EnvoFeatureFirstTestCase(TestCase):
     def setUp(self):
-        EnvoFeatureFirst.objects.create(feature_first_tier="Lake Surface", feature_first_tier_slug="lake_surface")
-        EnvoFeatureFirst.objects.create(feature_first_tier="Turbulent Aquatic Surface Layer",
-                                        feature_first_tier_slug="turbulet_aquatic_surface_layer")
+        EnvoFeatureFirst.objects.create(feature_first_tier="Lake Surface")
+        EnvoFeatureFirst.objects.create(feature_first_tier="Turbulent Aquatic Surface Layer")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        ls = EnvoFeatureFirst.objects.get(feature_first_tier_slug="lake_surface")
-        tasl = EnvoFeatureFirst.objects.get(feature_first_tier_slug="turbulet_aquatic_surface_layer")
+        ls = EnvoFeatureFirst.objects.get(feature_first_tier="Lake Surface")
+        tasl = EnvoFeatureFirst.objects.get(feature_first_tier="Turbulent Aquatic Surface Layer")
         self.assertIs(ls.was_added_recently(), True)
         self.assertIs(tasl.was_added_recently(), True)
 
@@ -37,8 +36,8 @@ class SystemTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        lake = System.objects.get(sample_type_code="L")
-        stream = System.objects.get(sample_type_code="S")
+        lake = System.objects.get(system_code="L")
+        stream = System.objects.get(system_code="S")
         self.assertIs(lake.was_added_recently(), True)
         self.assertIs(stream.was_added_recently(), True)
 
