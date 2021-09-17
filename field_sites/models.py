@@ -11,31 +11,34 @@ from django.dispatch import receiver
 def update_biome_first(biome_pk, new_biome):
     # cascade update all proceeding models
     biome_obj = EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).first()
-    old_biome = biome_obj.biome_first_tier
-    EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=new_biome)
-    # update remaining with new_biome
-    EnvoBiomeThird.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
-    EnvoBiomeFourth.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
-    EnvoBiomeFifth.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
+    if biome_obj:
+        old_biome = biome_obj.biome_first_tier
+        EnvoBiomeSecond.objects.filter(biome_first_tier_slug=biome_pk).update(biome_first_tier=new_biome)
+        # update remaining with new_biome
+        EnvoBiomeThird.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
+        EnvoBiomeFourth.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
+        EnvoBiomeFifth.objects.filter(biome_first_tier=old_biome).update(biome_first_tier=new_biome)
 
 
 def update_biome_second(biome_pk, new_biome):
     # cascade update all proceeding models
     biome_obj = EnvoBiomeThird.objects.filter(biome_second_tier_slug=biome_pk).first()
-    old_biome = biome_obj.biome_second_tier
-    EnvoBiomeThird.objects.filter(biome_second_tier_slug=biome_pk).update(biome_second_tier=new_biome)
-    # update remaining with new_biome
-    EnvoBiomeFourth.objects.filter(biome_second_tier=old_biome).update(biome_second_tier=new_biome)
-    EnvoBiomeFifth.objects.filter(biome_second_tier=old_biome).update(biome_second_tier=new_biome)
+    if biome_obj:
+        old_biome = biome_obj.biome_second_tier
+        EnvoBiomeThird.objects.filter(biome_second_tier_slug=biome_pk).update(biome_second_tier=new_biome)
+        # update remaining with new_biome
+        EnvoBiomeFourth.objects.filter(biome_second_tier=old_biome).update(biome_second_tier=new_biome)
+        EnvoBiomeFifth.objects.filter(biome_second_tier=old_biome).update(biome_second_tier=new_biome)
 
 
 def update_biome_third(biome_pk, new_biome):
     # cascade update all proceeding models
     biome_obj = EnvoBiomeFourth.objects.filter(biome_third_tier_slug=biome_pk).first()
-    old_biome = biome_obj.biome_third_tier
-    EnvoBiomeFourth.objects.filter(biome_third_tier_slug=biome_pk).update(biome_third_tier=new_biome)
-    # update remaining with new_biome
-    EnvoBiomeFifth.objects.filter(biome_third_tier=old_biome).update(biome_third_tier=new_biome)
+    if biome_obj:
+        old_biome = biome_obj.biome_third_tier
+        EnvoBiomeFourth.objects.filter(biome_third_tier_slug=biome_pk).update(biome_third_tier=new_biome)
+        # update remaining with new_biome
+        EnvoBiomeFifth.objects.filter(biome_third_tier=old_biome).update(biome_third_tier=new_biome)
 
 
 def update_biome_fourth(biome_pk, new_biome):
@@ -45,56 +48,61 @@ def update_biome_fourth(biome_pk, new_biome):
 def update_feature_first(feature_pk, new_feature):
     # cascade update all proceeding models
     feature_obj = EnvoFeatureSecond.objects.filter(feature_first_tier_slug=feature_pk).first()
-    old_feature = feature_obj.feature_first_tier
-    EnvoFeatureSecond.objects.filter(feature_first_tier_slug=feature_pk).update(feature_first_tier=new_feature)
-    # update remaining with new_feature
-    EnvoFeatureThird.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
-    EnvoFeatureFourth.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
-    EnvoFeatureFifth.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
-    EnvoFeatureSixth.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
-    EnvoFeatureSeventh.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
+    if feature_obj:
+        old_feature = feature_obj.feature_first_tier
+        EnvoFeatureSecond.objects.filter(feature_first_tier_slug=feature_pk).update(feature_first_tier=new_feature)
+        # update remaining with new_feature
+        EnvoFeatureThird.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
+        EnvoFeatureFourth.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
+        EnvoFeatureFifth.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
+        EnvoFeatureSixth.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
+        EnvoFeatureSeventh.objects.filter(feature_first_tier=old_feature).update(feature_first_tier=new_feature)
 
 
 def update_feature_second(feature_pk, new_feature):
     # cascade update all proceeding models
     feature_obj = EnvoFeatureThird.objects.filter(feature_second_tier_slug=feature_pk).first()
-    old_feature = feature_obj.feature_second_tier
-    EnvoFeatureThird.objects.filter(feature_second_tier_slug=feature_pk).update(feature_second_tier=new_feature)
-    # update remaining with new_feature
-    EnvoFeatureFourth.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
-    EnvoFeatureFifth.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
-    EnvoFeatureSixth.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
-    EnvoFeatureSeventh.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
+    if feature_obj:
+        old_feature = feature_obj.feature_second_tier
+        EnvoFeatureThird.objects.filter(feature_second_tier_slug=feature_pk).update(feature_second_tier=new_feature)
+        # update remaining with new_feature
+        EnvoFeatureFourth.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
+        EnvoFeatureFifth.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
+        EnvoFeatureSixth.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
+        EnvoFeatureSeventh.objects.filter(feature_second_tier=old_feature).update(feature_second_tier=new_feature)
 
 
 def update_feature_third(feature_pk, new_feature):
     # cascade update all proceeding models
     feature_obj = EnvoFeatureFourth.objects.filter(feature_third_tier_slug=feature_pk).first()
-    old_feature = feature_obj.feature_third_tier
-    EnvoFeatureFourth.objects.filter(feature_third_tier_slug=feature_pk).update(feature_third_tier=new_feature)
-    # update remaining with new_feature
-    EnvoFeatureFifth.objects.filter(feature_third_tier=old_feature).update(feature_third_tier=new_feature)
-    EnvoFeatureSixth.objects.filter(feature_third_tier=old_feature).update(feature_third_tier=new_feature)
-    EnvoFeatureSeventh.objects.filter(feature_third_tier=old_feature).update(feature_third_tier=new_feature)
+    if feature_obj:
+        old_feature = feature_obj.feature_third_tier
+        EnvoFeatureFourth.objects.filter(feature_third_tier_slug=feature_pk).update(feature_third_tier=new_feature)
+        # update remaining with new_feature
+        EnvoFeatureFifth.objects.filter(feature_third_tier=old_feature).update(feature_third_tier=new_feature)
+        EnvoFeatureSixth.objects.filter(feature_third_tier=old_feature).update(feature_third_tier=new_feature)
+        EnvoFeatureSeventh.objects.filter(feature_third_tier=old_feature).update(feature_third_tier=new_feature)
 
 
 def update_feature_fourth(feature_pk, new_feature):
     # cascade update all proceeding models
     feature_obj = EnvoFeatureFifth.objects.filter(feature_fourth_tier_slug=feature_pk).first()
-    old_feature = feature_obj.feature_fourth_tier
-    EnvoFeatureFifth.objects.filter(feature_fourth_tier_slug=feature_pk).update(feature_fourth_tier=new_feature)
-    # update remaining with new_feature
-    EnvoFeatureSixth.objects.filter(feature_fourth_tier=old_feature).update(feature_fourth_tier=new_feature)
-    EnvoFeatureSeventh.objects.filter(feature_fourth_tier=old_feature).update(feature_fourth_tier=new_feature)
+    if feature_obj:
+        old_feature = feature_obj.feature_fourth_tier
+        EnvoFeatureFifth.objects.filter(feature_fourth_tier_slug=feature_pk).update(feature_fourth_tier=new_feature)
+        # update remaining with new_feature
+        EnvoFeatureSixth.objects.filter(feature_fourth_tier=old_feature).update(feature_fourth_tier=new_feature)
+        EnvoFeatureSeventh.objects.filter(feature_fourth_tier=old_feature).update(feature_fourth_tier=new_feature)
 
 
 def update_feature_fifth(feature_pk, new_feature):
     # cascade update all proceeding models
     feature_obj = EnvoFeatureSixth.objects.filter(feature_fifth_tier_slug=feature_pk).first()
-    old_feature = feature_obj.feature_fifth_tier
-    EnvoFeatureSixth.objects.filter(feature_fifth_tier_slug=feature_pk).update(feature_fifth_tier=new_feature)
-    # update remaining with new_feature
-    EnvoFeatureSeventh.objects.filter(feature_fifth_tier=old_feature).update(feature_fifth_tier=new_feature)
+    if feature_obj:
+        old_feature = feature_obj.feature_fifth_tier
+        EnvoFeatureSixth.objects.filter(feature_fifth_tier_slug=feature_pk).update(feature_fifth_tier=new_feature)
+        # update remaining with new_feature
+        EnvoFeatureSeventh.objects.filter(feature_fifth_tier=old_feature).update(feature_fifth_tier=new_feature)
 
 
 def update_feature_sixth(feature_pk, new_feature):
