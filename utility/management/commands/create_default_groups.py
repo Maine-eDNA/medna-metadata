@@ -58,7 +58,6 @@ GROUPS = {
         "EnvMeasurementETL": ["view"],
         "FieldCollectionETL": ["view"],
         "SampleFilterETL": ["view"],
-        "BlankSampleFilterETL": ["view"],
 
         # wet_lab
         "Primer Pair": ["add", "delete", "change", "view"],
@@ -305,4 +304,3 @@ class Command(BaseCommand):
                         logging.warning("Permission not found with name '{}'.".format(name))
                         continue
                     new_group.permissions.add(model_add_perm)
-
