@@ -17,7 +17,6 @@ class SampleTypeAdminResource(resources.ModelResource):
 class SampleLabelRequestAdminResource(resources.ModelResource):
     class Meta:
         model = SampleLabelRequest
-        import_id_fields = ('min_sample_label_id', 'max_sample_label_id')
         fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
                   'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_type',
                   'purpose', 'created_by', 'created_datetime',)
