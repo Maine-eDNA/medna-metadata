@@ -4,7 +4,6 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 class StaticStorage(S3Boto3Storage):
     location = settings.AWS_STATIC_LOCATION
-    # endpoint_url = settings.AWS_S3_ENDPOINT_URL
     file_overwrite = True
     default_acl = 'public-read'
 
