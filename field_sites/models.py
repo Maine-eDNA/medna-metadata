@@ -578,6 +578,7 @@ class Region(DateTimeUserMixin):
 
 
 class FieldSite(DateTimeUserMixin):
+    site_id = models.SlugField("Site ID", max_length=7, primary_key=True)
     # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
@@ -615,7 +616,6 @@ class FieldSite(DateTimeUserMixin):
     # lon = models.DecimalField("Longitude (DD)", max_digits=22, decimal_places=16)
     site_prefix = models.CharField("Site Prefix", max_length=5)
     site_num = models.IntegerField(default=1)
-    site_id = models.SlugField("Site ID", max_length=7, unique=True)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     geom = models.PointField("Latitude, Longitude (DD WGS84)")
