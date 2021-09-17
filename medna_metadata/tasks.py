@@ -201,7 +201,7 @@ def update_record_field_crew(record, pk):
         field_crew, created = FieldCrew.objects.update_or_create(
             crew_global_id=pk,
             defaults={
-                'survey_global_id': record['survey_global_id'],
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record['survey_global_id']),
                 'crew_fname': record['crew_fname'],
                 'crew_lname': record['crew_lname'],
             }
@@ -216,7 +216,7 @@ def update_record_env_measurement(record, pk):
         env_measurement, created = EnvMeasurement.objects.update_or_create(
             env_global_id=pk,
             defaults={
-                'survey_global_id': record['survey_global_id'],
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record['survey_global_id']),
                 'env_measure_datetime': record['env_measure_datetime'],
                 'env_measure_depth': record['env_measure_depth'],
                 'env_instrument': record['env_instrument'],
@@ -263,7 +263,7 @@ def update_record_field_collection(record, pk):
         field_collection, created = FieldCollection.objects.update_or_create(
             collection_global_id=pk,
             defaults={
-                'survey_global_id': record['survey_global_id'],
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record['survey_global_id']),
                 'collection_type': record['collection_type'],
             }
         )
@@ -272,7 +272,6 @@ def update_record_field_collection(record, pk):
             water_collection, created = WaterCollection.objects.update_or_create(
                 field_collection=field_collection.pk,
                 defaults={
-                    'field_collection': record['field_collection'],
                     'water_control': record['water_control'],
                     'water_control_type': record['water_control_type'],
                     'water_vessel_label': record['water_vessel_label'],
@@ -293,7 +292,6 @@ def update_record_field_collection(record, pk):
             sediment_collection, created = SedimentCollection.objects.update_or_create(
                 field_collection=field_collection.pk,
                 defaults={
-                    'field_collection': record['field_collection'],
                     'core_control': record['core_control'],
                     'core_label': record['core_label'],
                     'core_datetime_start': record['core_datetime_start'],
@@ -321,7 +319,7 @@ def update_record_field_sample(record, collection_type, field_sample_pk, sample_
         field_sample, created = FieldSample.objects.update_or_create(
             sample_global_id=field_sample_pk,
             defaults={
-                'collection_global_id': record['collection_global_id'],
+                'collection_global_id': FieldCollection.objects.get(collection_global_id=record['collection_global_id']),
                 'field_sample_barcode': sample_label_pk,
             }
         )
@@ -331,9 +329,8 @@ def update_record_field_sample(record, collection_type, field_sample_pk, sample_
 
         if collection_type == CollectionTypes.water_sample:
             filter_sample, created = FilterSample.objects.update_or_create(
-                filter_global_id=field_sample.pk,
+                field_sample=field_sample.pk,
                 defaults={
-                    'field_sample': record['filter_global_id'],
                     'filter_location': record['filter_location'],
                     'is_prefilter': record['is_prefilter'],
                     'filter_fname': record['filter_fname'],
