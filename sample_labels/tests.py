@@ -8,8 +8,8 @@ from field_sites.tests import FieldSiteTestCase
 class SampleTypeTestCase(TestCase):
     # fixtures = ['sample_labels_sampletype.json']
     def setUp(self):
-        SampleType.objects.create(sample_type_label="Sediment", sample_type_code="s")
-        SampleType.objects.create(sample_type_label="Water", sample_type_code="w")
+        SampleType.objects.update_or_create(sample_type_label="Sediment", sample_type_code="s")
+        SampleType.objects.update_or_create(sample_type_label="Water", sample_type_code="w")
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -30,10 +30,10 @@ class SampleLabelRequestTestCase(TestCase):
         site_id = FieldSite.objects.filter()[:1].get()
         sample_type = SampleType.objects.filter()[:1].get()
         # insert into db
-        SampleLabelRequest.objects.create(site_id=site_id, sample_type=sample_type, sample_year=2021,
-                                          purpose="SampleLabelTest1", req_sample_label_num=30)
-        SampleLabelRequest.objects.create(site_id=site_id, sample_type=sample_type, sample_year=2021,
-                                          purpose="SampleLabelTest2", req_sample_label_num=30)
+        SampleLabelRequest.objects.update_or_create(site_id=site_id, sample_type=sample_type, sample_year=2021,
+                                                    purpose="SampleLabelTest1", req_sample_label_num=30)
+        SampleLabelRequest.objects.update_or_create(site_id=site_id, sample_type=sample_type, sample_year=2021,
+                                                    purpose="SampleLabelTest2", req_sample_label_num=30)
 
     def test_was_added_recently(self):
         # test if date is added correctly
