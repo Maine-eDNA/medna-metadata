@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import SampleType, SampleLabel, SampleLabelRequest
 from field_sites.models import FieldSite
+from field_sites.tests import FieldSiteTestCase
 # Create your tests here.
 
 
@@ -22,6 +23,8 @@ class SampleLabelRequestTestCase(TestCase):
     # fixtures = ['sample_labels_samplelabelrequest.json']
     def setUp(self):
         # get first record in queryset
+        FieldSiteTestCase.setUp()
+        SampleTypeTestCase.setUp()
         site_id = FieldSite.objects.filter()[:1].get()
         sample_type = SampleType.objects.filter()[:1].get()
         # insert into db

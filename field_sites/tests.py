@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Region, FieldSite
 from utility.models import Grant
+from utility.tests import GrantTestCase
 # Create your tests here.
 
 
@@ -58,6 +59,11 @@ class RegionTestCase(TestCase):
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
+        RegionTestCase.setUp()
+        SystemTestCase.setUp()
+        GrantTestCase.setUp()
+        EnvoBiomeFirstTestCase.setUp()
+        EnvoFeatureFirstTestCase.setUp()
         grant = Grant.objects.filter()[:1].get()
         system = System.objects.filter()[:1].get()
         region = Region.objects.filter()[:1].get()

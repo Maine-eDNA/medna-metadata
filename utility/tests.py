@@ -17,7 +17,7 @@ class GrantTestCase(TestCase):
 class ProjectTestCase(TestCase):
     # formerly Project in field_sites.models
     def setUp(self):
-        # Grant.objects.create(grant_label="Maine-eDNA", grant_code="e")
+        GrantTestCase.setUp()
         grant_name = Grant.objects.filter()[:1].get()
         Project.objects.create(project_label="Community Science", project_code="prj_commsci", grant_name=grant_name)
 
