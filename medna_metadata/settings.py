@@ -151,7 +151,7 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 # Absolute path to the directory static files should be collected to.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # URL that handles the static files served from STATIC_ROOT.
 # Example: "http://example.com/static/", "http://static.example.com/"
 # STATIC_URL = '/static/' # set by django-storages
