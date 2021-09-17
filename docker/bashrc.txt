@@ -11,12 +11,6 @@ export DJANGO_DATABASE_PORT=''
 export DJANGO_EMAIL_HOST_USER='youremail@domain.com'
 export DJANGO_EMAIL_HOST_PASSWORD='your_email_password'
 
-# virtualenv settings
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/medna-metadata
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-source /usr/local/bin/virtualenvwrapper.sh
-
 # S3 settings
 export AWS_ACCESS_KEY_ID='your_access_key_id'
 export AWS_SECRET_ACCESS_KEY='your_secret_access_key'
@@ -24,3 +18,10 @@ export AWS_STORAGE_BUCKET_NAME='your_bucket'
 
 # celery settings
 export CELERY_BROKER_URL=your_broker_url
+
+# virtualenv settings
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/medna-metadata
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/local/bin/virtualenvwrapper.sh
+
