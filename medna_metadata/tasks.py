@@ -78,22 +78,6 @@ def get_s3_fastq_keys(run_keys):
         raise RuntimeError("** Error: get_s3_fastq_keys Failed (" + str(err) + ")")
 
 
-def get_fastq_by_s3_key(s3_key):
-    try:
-        fastq_file = FastqFile.objects.get(fastq_datafile=s3_key)
-        return fastq_file
-    except Exception as err:
-        raise RuntimeError("** Error: get_fastq_by_s3_key Failed (" + str(err) + ")")
-
-
-def get_run_by_run_id(run_id):
-    try:
-        run_result = FastqFile.objects.get(run_id=run_id)
-        return run_result
-    except Exception as err:
-        raise RuntimeError("** Error: get_run_by_run_id Failed (" + str(err) + ")")
-
-
 def get_filter_etl_duplicates():
     try:
         filter_duplicates = SampleFilterETL.objects.values(
@@ -397,10 +381,10 @@ def create_fastq_files(runs_in_s3):
         update_count = 0
         for s3_run in runs_in_s3:
             run_id = get_runid_from_key(s3_run)
-            run_result = get_run_by_run_id(run_id)
+            run_result = FastqFile.objects.get(run_id=run_id)
             s3_fastq_keys = get_s3_fastq_keys(s3_run)
             for s3_fastq_key in s3_fastq_keys:
-                fastq_file = get_fastq_by_s3_key(s3_fastq_key)
+                fastq_file = FastqFile.objects.get(fastq_datafile=s3_fastq_key)
                 if not fastq_file:
                     fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result.pk,
                                                                              fastq_datafile=s3_fastq_key)
