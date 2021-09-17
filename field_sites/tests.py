@@ -89,7 +89,7 @@ class FieldSiteTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test1 = FieldSite.objects.get(purpose="FieldSiteTest1")
-        test2 = FieldSite.objects.get(purpose="FieldSiteTest2")
+        test1 = FieldSite.objects.get(general_location_name="FieldSiteTest1")
+        test2 = FieldSite.objects.get(general_location_name="FieldSiteTest2")
         self.assertIs(test1.was_added_recently(), True)
         self.assertIs(test2.was_added_recently(), True)
