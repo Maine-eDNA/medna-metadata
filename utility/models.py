@@ -17,11 +17,11 @@ def slug_date_format(date):
 
 def get_sentinel_user():
     # if user is deleted, fill with 'deleted' username
-    return get_user_model().objects.get_or_create(username='deleted')[0]
+    return get_user_model().objects.get_or_create(email='deleted@user.com')[0]
 
 
 def get_default_user():
-    return CustomUser.objects.get(id=1)
+    return get_user_model().objects.get_or_create(email='default@user.com')[0]
 
 
 class DateTimeUserMixin(models.Model):
