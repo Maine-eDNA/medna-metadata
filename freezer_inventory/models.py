@@ -29,7 +29,8 @@ class Freezer(DateTimeUserMixin):
     freezer_length = models.DecimalField("Freezer Length", max_digits=15,  decimal_places=10)
     freezer_width = models.DecimalField("Freezer Width", max_digits=15,  decimal_places=10)
     freezer_dimension_units = models.CharField("Freezer Dimensions Units", max_length=50, choices=MeasureUnits.choices)
-    # maximum number of columns, rows, and depth based on the number of boxes that can fit in each
+    # maximum number of columns, rows, and depth based on the number of boxes that can fit in each freezer
+    # (e.g., if 10x10x10, then the freezer can fit 1000 boxes)
     freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
     freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
     freezer_max_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
@@ -104,6 +105,10 @@ class FreezerBox(DateTimeUserMixin):
     freezer_box_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_box_row = models.PositiveIntegerField("Freezer Box Row")
     freezer_box_depth = models.PositiveIntegerField("Freezer Box Depth")
+    # maximum number of columns and rows based on the number of inventory that can fit in each box
+    # (e.g., if we have 10x10, then the box can fit 100 inventory samples)
+    freezer_box_max_column = models.PositiveIntegerField("Max Box Columns (Inventory)")
+    freezer_box_max_row = models.PositiveIntegerField("Max Box Rows (Inventory)")
     # frontend CSS color
     css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
     css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
