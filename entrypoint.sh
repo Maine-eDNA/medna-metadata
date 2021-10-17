@@ -42,7 +42,7 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 	python manage.py loaddata fixtures/field_sites_system.json
 	python manage.py loaddata fixtures/field_sites_region.json
 	python manage.py loaddata fixtures/field_sites_fieldsite.json
-	python manage.py loaddata fixtures/sample_labels_sampletype.json
+	python manage.py loaddata fixtures/sample_labels_SampleMaterial.json
 	python manage.py loaddata fixtures/sample_labels_samplelabelrequest.json
 
 fi
