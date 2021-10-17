@@ -11,7 +11,7 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
-from wet_lab.models import RunResult, FastqFile
+from wet_lab.models import RunResult, FastqFile, Extraction
 from sample_labels.models import SampleLabel
 from django.utils import timezone
 from django.db.models import Max, Count
