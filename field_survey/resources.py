@@ -6,12 +6,12 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 from utility.models import Project
 from users.models import CustomUser
-from sample_labels.models import SampleLabel, SampleType
+from sample_labels.models import SampleLabel, SampleMaterial
 
 
 class FieldSurveyAdminResource(resources.ModelResource):
     class Meta:
-        # SampleType
+        # SampleMaterial
         model = FieldSurvey
         import_id_fields = ('survey_global_id', )
         fields = ('survey_global_id', 'username', 'survey_datetime', 'project_ids', 'supervisor',
@@ -230,10 +230,10 @@ class FieldSampleAdminResource(resources.ModelResource):
         model = FieldSample
         import_id_fields = ('sample_global_id', 'collection_global_id', )
         fields = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
-                  'sample_type', 'collection_global_id',
+                  'sample_material', 'collection_global_id',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
-                        'sample_type', 'collection_global_id',
+                        'sample_material', 'collection_global_id',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     collection_global_id = fields.Field(
@@ -241,10 +241,10 @@ class FieldSampleAdminResource(resources.ModelResource):
         attribute='collection_global_id',
         widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
 
-    sample_type = fields.Field(
-        column_name='sample_type',
-        attribute='sample_type',
-        widget=ForeignKeyWidget(SampleType, 'sample_type_label'))
+    sample_material = fields.Field(
+        column_name='sample_material',
+        attribute='sample_material',
+        widget=ForeignKeyWidget(SampleMaterial, 'sample_material_label'))
 
     field_sample_barcode = fields.Field(
         column_name='field_sample_barcode',
@@ -310,7 +310,7 @@ class SubCoreSampleAdminResource(resources.ModelResource):
 
 class FieldSurveyETLAdminResource(resources.ModelResource):
     class Meta:
-        # SampleType
+        # SampleMaterial
         model = FieldSurveyETL
         import_id_fields = ('survey_global_id', )
         fields = ('survey_global_id', 'username', 'survey_datetime', 'project_ids', 'supervisor',

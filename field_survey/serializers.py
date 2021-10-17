@@ -11,7 +11,7 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
 from utility.models import Project
 from field_sites.models import FieldSite
 from users.models import CustomUser
-from sample_labels.models import SampleType, SampleLabel
+from sample_labels.models import SampleMaterial, SampleLabel
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -258,7 +258,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldSample
-        fields = ['collection_global_id', 'sample_global_id', 'sample_type', 'is_extracted',
+        fields = ['collection_global_id', 'sample_global_id', 'sample_material', 'is_extracted',
                   'field_sample_barcode', 'barcode_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, region, and created_by reference different tables and we
@@ -267,8 +267,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     collection_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='collection_global_id',
                                                         queryset=FieldCollection.objects.all())
-    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
-                                               queryset=SampleType.objects.all())
+    sample_material = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_material_code',
+                                                   queryset=SampleMaterial.objects.all())
     field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_label_id',
                                                         queryset=SampleLabel.objects.all())
 

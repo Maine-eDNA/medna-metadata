@@ -23,7 +23,7 @@ class ProjectInline(admin.TabularInline):
 
 class FieldSurveyAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    # SampleTypeAdminResource
+    # SampleMaterialAdminResource
     resource_class = FieldSurveyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
@@ -203,7 +203,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted', 'sample_type',
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted', 'sample_material',
                        'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -213,7 +213,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_type',
+        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_material',
                        'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
@@ -315,7 +315,7 @@ admin.site.register(SubCoreSample, SubCoreSampleAdmin)
 # Register your models here.
 class FieldSurveyETLAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    # SampleTypeAdminResource
+    # SampleMaterialAdminResource
     resource_class = FieldSurveyETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')

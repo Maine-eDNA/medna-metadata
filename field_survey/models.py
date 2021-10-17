@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-from sample_labels.models import SampleLabel, SampleType
+from sample_labels.models import SampleLabel, SampleMaterial
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 from django.utils.text import slugify
@@ -334,7 +334,7 @@ class FieldSample(DateTimeUserMixin):
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=50, choices=YesNo.choices, default=YesNo.NO)
     # TODO - change sample_type to "sample_material" to be consistent with ENVO
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
+    sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
 
     def __str__(self):
         return '{collectionid}: {barcode}'.format(collectionid=self.collection_global_id.collection_global_id,
@@ -343,9 +343,9 @@ class FieldSample(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
-            self.sample_type = 2
+            self.sample_material = 2
         elif self.collection_global_id.collection_type == CollectionTypes.sed_sample:
-            self.sample_type = 1
+            self.sample_material = 1
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
