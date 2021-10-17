@@ -16,7 +16,7 @@ def current_year():
 
 
 def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sample_label_num,
-                                max_sample_label_num, sample_label_prefix, site_id, sample_type, sample_year,
+                                max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_year,
                                 purpose):
     if min_sample_label_id == max_sample_label_id:
         # only one label request, so min and max label id will be the same; only need to enter
@@ -26,7 +26,7 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
             sample_label_id=sample_label_id,
             defaults={
                 'site_id': site_id,
-                'sample_type': sample_type,
+                'sample_material': sample_material,
                 'sample_year': sample_year,
                 'purpose': purpose,
             }
@@ -47,7 +47,7 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
                 sample_label_id=sample_label_id,
                 defaults={
                     'site_id': site_id,
-                    'sample_type': sample_type,
+                    'sample_material': sample_material,
                     'sample_year': sample_year,
                     'purpose': purpose,
                 }
@@ -55,8 +55,8 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
 
 
 class SampleType(DateTimeUserMixin):
-    sample_type_code = models.CharField("Sample Code", max_length=1, unique=True)
-    sample_type_label = models.CharField("Sample Label", max_length=255)
+    sample_type_code = models.CharField("Sample Type Code", max_length=1, unique=True)
+    sample_type_label = models.CharField("Sample Type Label", max_length=255)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
@@ -67,11 +67,24 @@ class SampleType(DateTimeUserMixin):
         verbose_name_plural = 'Sample Types'
 
 
+class SampleMaterial(DateTimeUserMixin):
+    sample_material_code = models.CharField("Sample Material Code", max_length=1, unique=True)
+    sample_material_label = models.CharField("Sample Material Label", max_length=255)
+
+    def __str__(self):
+        return '{code}: {label}'.format(code=self.sample_material_code, label=self.sample_material_label)
+
+    class Meta:
+        app_label = 'sample_labels'
+        verbose_name = 'Sample Material'
+        verbose_name_plural = 'Sample Materials'
+
+
 class SampleLabelRequest(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
+    sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
     sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
@@ -90,9 +103,9 @@ class SampleLabelRequest(DateTimeUserMixin):
         if self.pk is None:
             last_twosigits_year = str(self.sample_year)[-2:]
             # concatenate project, region, and system to create sample_label_prefix, e.g., "eAL_L"
-            self.sample_label_prefix = '{site}_{twosigits_year}{sample_type}'.format(site=self.site_id.site_id,
+            self.sample_label_prefix = '{site}_{twosigits_year}{sample_material}'.format(site=self.site_id.site_id,
                                                                                      twosigits_year=last_twosigits_year,
-                                                                                     sample_type=self.sample_type.sample_type_code)
+                                                                                     sample_material=self.sample_material.sample_material_code)
             # Retrieve a list of `Site` instances, group them by the sample_label_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
             largest = SampleLabelRequest.objects.only('sample_label_prefix', 'max_sample_label_num').filter(sample_label_prefix=self.sample_label_prefix).order_by('max_sample_label_num').last()
@@ -117,7 +130,7 @@ class SampleLabelRequest(DateTimeUserMixin):
             insert_update_sample_id_req(self.min_sample_label_id, self.max_sample_label_id,
                                         self.min_sample_label_num, self.max_sample_label_num,
                                         self.sample_label_prefix, self.site_id,
-                                        self.sample_type, self.sample_year, self.purpose)
+                                        self.sample_material, self.sample_year, self.purpose)
             now_fmt = slug_date_format(timezone.now())
             self.sample_label_request_slug = '{name}_{date}'.format(name=slugify(self.sample_label_prefix),
                                                                     date=now_fmt)
@@ -136,7 +149,7 @@ class SampleLabel(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
+    sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(),
                                               validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
