@@ -100,12 +100,12 @@ class FieldSurvey(DateTimeUserMixin):
     gps_cap_alt = models.DecimalField("Captured Altitude (m)",
                                       max_digits=22, decimal_places=16,
                                       blank=True, null=True)
-    gps_cap_horiz_acc = models.DecimalField("Captured Horizontal Accuracy (m)",
-                                            max_digits=22, decimal_places=16,
-                                            blank=True, null=True)
-    gps_cap_vert_acc = models.DecimalField("Captured Vertical Accuracy (m)",
-                                           max_digits=22, decimal_places=16,
-                                           blank=True, null=True)
+    gps_cap_horacc = models.DecimalField("Captured Horizontal Accuracy (m)",
+                                          max_digits=22, decimal_places=16,
+                                          blank=True, null=True)
+    gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)",
+                                          max_digits=22, decimal_places=16,
+                                          blank=True, null=True)
     record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Survey Creator",
@@ -462,8 +462,10 @@ class FieldSurveyETL(DateTimeUserMixin):
                                        max_digits=22, decimal_places=16,
                                        blank=True, null=True)
     gps_cap_alt = models.DecimalField("Captured Altitude (m)", max_digits=22, decimal_places=16, blank=True, null=True)
-    gps_cap_horiz_acc = models.DecimalField("Captured Horizontal Accuracy (m)", max_digits=22, decimal_places=16, blank=True, null=True)
-    gps_cap_vert_acc = models.DecimalField("Captured Vertical Accuracy (m)", max_digits=22, decimal_places=16, blank=True, null=True)
+    gps_cap_horacc = models.DecimalField("Captured Horizontal Accuracy (m)", max_digits=22,
+                                         decimal_places=16, blank=True, null=True)
+    gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)", max_digits=22,
+                                          decimal_places=16, blank=True, null=True)
     record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
     record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
     record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
