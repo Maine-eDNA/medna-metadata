@@ -586,7 +586,7 @@ class Region(DateTimeUserMixin):
 
 
 class FieldSite(DateTimeUserMixin):
-    site_id = models.SlugField("Site ID", max_length=7, primary_key=True)
+    site_id = models.SlugField("Site ID", max_length=7, unique=True)
     # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
