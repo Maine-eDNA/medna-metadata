@@ -48,21 +48,24 @@ class FieldCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCollectionSerializer
     queryset = FieldCollection.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'survey_global_id']
+    filterset_fields = ['created_by', 'survey_global_id',
+                        'collection_type']
 
 
 class WaterCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = WaterCollectionSerializer
     queryset = WaterCollection.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_collection']
+    filterset_fields = ['field_collection', 'water_control',
+                        'water_vessel_label', 'was_filtered']
 
 
 class SedimentCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = SedimentCollectionSerializer
     queryset = SedimentCollection.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_collection']
+    filterset_fields = ['field_collection', 'core_control',
+                        'core_label', 'subcores_taken']
 
 
 class FieldSampleViewSet(viewsets.ModelViewSet):
@@ -70,14 +73,14 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     queryset = FieldSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id',
-                        'sample_type', 'field_sample_barcode']
+                        'sample_material', 'field_sample_barcode']
 
 
 class FilterSampleViewSet(viewsets.ModelViewSet):
     serializer_class = FilterSampleSerializer
     queryset = FilterSample.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_sample']
+    filterset_fields = ['field_sample', 'is_extracted']
 
 
 class SubCoreSampleViewSet(viewsets.ModelViewSet):
