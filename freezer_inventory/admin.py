@@ -98,6 +98,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
+                       'freezer_box_max_column', 'freezer_box_max_row',
                        'css_background_color', 'css_text_color',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -110,6 +111,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
+                       'freezer_box_max_column', 'freezer_box_max_row',
                        'css_background_color', 'css_text_color',
                        'created_by']
         return super(FreezerBoxAdmin, self).change_view(request, object_id)

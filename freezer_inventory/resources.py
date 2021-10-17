@@ -75,10 +75,12 @@ class FreezerBoxAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
+                  'freezer_box_max_column', 'freezer_box_max_row',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_rack', 'freezer_box_label',
                         'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
+                        'freezer_box_max_column', 'freezer_box_max_row',
                         'css_background_color', 'css_text_color',
                         'created_by', 'created_datetime',)
 

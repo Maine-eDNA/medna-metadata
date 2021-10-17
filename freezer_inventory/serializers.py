@@ -97,6 +97,8 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
     freezer_box_depth = serializers.IntegerField(min_value=1)
+    freezer_box_max_column = serializers.IntegerField(min_value=1)
+    freezer_box_max_row = serializers.IntegerField(min_value=1)
     # color of CSS for frontend
     css_background_color = serializers.CharField(max_length=255, default="orange")
     css_text_color = serializers.CharField(max_length=255, default="white")
@@ -107,6 +109,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
         model = FreezerBox
         fields = ['id', 'freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
+                  'freezer_box_max_column', 'freezer_box_max_row',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
