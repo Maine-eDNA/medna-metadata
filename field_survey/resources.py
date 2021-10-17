@@ -21,7 +21,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
                   'env_feature_other', 'env_material', 'env_material_other', 'env_notes',
                   'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                   'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
-                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('survey_global_id', 'username', 'survey_datetime', 'project_ids', 'supervisor',
@@ -31,7 +31,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
                         'env_feature_other', 'env_material', 'env_material_other', 'env_notes',
                         'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                         'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
-                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                         'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
@@ -320,7 +320,7 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
                   'env_feature_other', 'env_material', 'env_material_other', 'env_notes',
                   'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                   'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
-                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('survey_global_id','username', 'survey_datetime', 'project_ids', 'supervisor',
@@ -330,7 +330,7 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
                         'env_feature_other', 'env_material', 'env_material_other', 'env_notes',
                         'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                         'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
-                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                         'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                         'created_by', 'created_datetime', 'modified_datetime', )
 

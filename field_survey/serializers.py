@@ -53,8 +53,8 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     gps_cap_lat = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     gps_cap_long = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     gps_cap_alt = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
-    gps_cap_horiz_acc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
-    gps_cap_vert_acc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_horacc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_vertacc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     record_create_datetime = serializers.DateTimeField(allow_null=True)
     record_edit_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -73,7 +73,7 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
                   'core_subcorer', 'water_filterer',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
-                  'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                  'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, region, and created_by reference different tables and we
@@ -370,8 +370,8 @@ class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
     gps_cap_lat = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     gps_cap_long = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     gps_cap_alt = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
-    gps_cap_horiz_acc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
-    gps_cap_vert_acc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_horacc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_vertacc = serializers.DecimalField(max_digits=22, decimal_places=16, allow_null=True)
     record_create_datetime = serializers.DateTimeField(allow_null=True)
     record_creator = serializers.CharField(max_length=255, allow_blank=True)
     record_edit_datetime = serializers.DateTimeField(allow_null=True)
@@ -392,7 +392,7 @@ class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
                   'core_subcorer', 'water_filterer',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
-                  'gps_cap_horiz_acc', 'gps_cap_vert_acc',
+                  'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, region, and created_by reference different tables and we
