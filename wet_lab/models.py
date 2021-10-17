@@ -202,8 +202,6 @@ class Extraction(DateTimeUserMixin):
     extraction_concentration_units = models.CharField("Concentration Units", max_length=50,
                                                       choices=ConcentrationUnits.choices,
                                                       default=ConcentrationUnits.NGUL)
-    # TODO - add sop url to serializers
-    extraction_sop_url = models.URLField("Extraction SOP URL", max_length=255)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
