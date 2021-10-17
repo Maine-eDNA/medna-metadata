@@ -1,6 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from .models import SampleMaterial, SampleLabelRequest, SampleLabel
+from .models import SampleType, SampleMaterial, SampleLabelRequest, SampleLabel
 #from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin
 from .resources import SampleLabelRequestAdminResource, SampleMaterialAdminResource, \
