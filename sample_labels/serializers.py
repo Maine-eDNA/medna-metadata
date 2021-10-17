@@ -2,7 +2,7 @@ from rest_framework import serializers
 from utility.serializers import SerializerExportMixin
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
-from .models import SampleType, SampleLabel, SampleLabelRequest
+from .models import SampleMaterial, SampleLabel, SampleLabelRequest, SampleType
 from field_sites.models import FieldSite
 from django.core.validators import MinValueValidator
 from rest_framework.validators import UniqueValidator
@@ -34,7 +34,25 @@ class SampleTypeSerializer(serializers.ModelSerializer):
         model = SampleType
         fields = ['id', 'sample_type_code', 'sample_type_label',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since site_id, sample_type, and created_by reference different tables and we
+    # Since site_id, sample_material, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class SampleMaterialSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    sample_material_code = serializers.CharField(max_length=1,
+                                                 validators=[UniqueValidator(queryset=SampleMaterial.objects.all())])
+    sample_material_label = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = SampleMaterial
+        fields = ['id', 'sample_material_code', 'sample_material_label',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since site_id, sample_material, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -50,17 +68,17 @@ class SampleLabelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SampleLabel
-        fields = ['id', 'sample_label_id', 'site_id', 'sample_type', 'sample_year',
+        fields = ['id', 'sample_label_id', 'site_id', 'sample_material', 'sample_year',
                   'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since site_id, sample_type, and created_by reference different tables and we
+    # Since site_id, sample_material, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
-    sample_type = serializers.SlugRelatedField(many=False, read_only=False,
-                                               slug_field='sample_type_code',
-                                               queryset=SampleType.objects.all())
+    sample_material = serializers.SlugRelatedField(many=False, read_only=False,
+                                               slug_field='sample_material_code',
+                                               queryset=SampleMaterial.objects.all())
 
 
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
@@ -80,17 +98,17 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = SampleLabelRequest
         fields = ['id', 'sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
-                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_type',
+                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
                   'purpose', 'sample_label_request_slug', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since site_id, sample_type, and created_by reference different tables and we
+    # Since site_id, sample_material, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
-    sample_type = serializers.SlugRelatedField(many=False, read_only=False,
-                                               slug_field='sample_type_code',
-                                               queryset=SampleType.objects.all())
+    sample_material = serializers.SlugRelatedField(many=False, read_only=False,
+                                               slug_field='sample_material_code',
+                                               queryset=SampleMaterial.objects.all())
 
 
 class SampleLabelRequestSerializerTableExport(TableExport):
