@@ -7,9 +7,10 @@ from django_tables2.views import SingleTableMixin
 from django.utils import timezone
 from .serializers import SampleLabelRequestSerializerExportMixin
 from django_filters import rest_framework as filters
-from .models import SampleType, SampleLabelRequest, SampleLabel
+from .models import SampleMaterial, SampleLabelRequest, SampleLabel, SampleType
 from .tables import SampleLabelRequestTable
-from .serializers import SampleTypeSerializer, SampleLabelRequestSerializer, SampleLabelSerializer
+from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
+    SampleLabelSerializer, SampleTypeSerializer
 import datetime
 import csv
 from django.http import HttpResponse
@@ -33,18 +34,25 @@ class SampleTypeViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by']
 
 
+class SampleMaterialViewSet(viewsets.ModelViewSet):
+    serializer_class = SampleMaterialSerializer
+    queryset = SampleMaterial.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by']
+
+
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
     queryset = SampleLabelRequest.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_type']
+    filterset_fields = ['created_by', 'site_id', 'sample_material']
 
 
 class SampleLabelViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelSerializer
     queryset = SampleLabel.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_type']
+    filterset_fields = ['created_by', 'site_id', 'sample_material']
 
 
 class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
@@ -73,7 +81,7 @@ class SampleLabelListView(generics.ListAPIView):
     # this is now hard-coded in settings under: 'DEFAULT_PERMISSION_CLASSES'
     # permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_type']
+    filterset_fields = ['created_by', 'site_id', 'sample_material']
 
 
 class SampleLabelDetailView(DetailView):
@@ -124,7 +132,7 @@ class AddSampleLabelView(LoginRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     model = SampleLabelRequest
-    fields = ['site_id', 'sample_year', 'sample_type', 'purpose', 'req_sample_label_num']
+    fields = ['site_id', 'sample_year', 'sample_material', 'purpose', 'req_sample_label_num']
     # sample_year = forms.TypedChoiceField(coerce=int, choices=year_choices, initial=current_year)
 
     def form_valid(self, form):
@@ -135,7 +143,7 @@ class AddSampleLabelView(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
         return{"site_id": self.kwargs.get("site_id"),
-               "sample_type": self.kwargs.get("sample_type"),
+               "sample_material": self.kwargs.get("sample_material"),
                "purpose": self.kwargs.get("purpose"),}
 
     def get_success_url(self):
