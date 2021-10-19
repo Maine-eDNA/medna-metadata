@@ -13,7 +13,7 @@ class DenoisingMethodAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = DenoisingMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     #list_filter = ('denoising_method_pipeline', )
 
@@ -48,7 +48,7 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = DenoisingMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     #list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
 
@@ -87,7 +87,7 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = AmpliconSequenceVariantAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     #list_filter = ('denoising_metadata__denoising_slug', )
 
@@ -122,7 +122,7 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = ASVReadAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):

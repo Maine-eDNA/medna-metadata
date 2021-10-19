@@ -37,7 +37,7 @@ class GrantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grant
         fields = ['id', 'grant_code', 'grant_label', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -54,7 +54,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = ['id', 'project_code', 'project_label', 'grant_name',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -85,7 +85,7 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
                   'location_email_address', 'point_of_contact_email_address',
                   'point_of_contact_first_name', 'point_of_contact_last_name',
                   'location_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,

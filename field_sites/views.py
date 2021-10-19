@@ -8,7 +8,7 @@ from utility.serializers import SerializerExportMixin
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
-    System, FieldSite, Region
+    System, FieldSite, Watershed
 # from django.shortcuts import render
 # from django.http import HttpResponse
 from django_filters.views import FilterView
@@ -22,7 +22,7 @@ from .serializers import EnvoBiomeFirstSerializer, EnvoBiomeSecondSerializer,\
     EnvoFeatureFifthSerializer, EnvoFeatureSixthSerializer,\
     EnvoFeatureSeventhSerializer, \
     SystemSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
-    GeoRegionSerializer
+    GeoWatershedSerializer
 import datetime
 import csv
 from django.http import HttpResponse
@@ -128,7 +128,7 @@ class FieldSitesViewSet(viewsets.ModelViewSet):
     queryset = FieldSite.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'grant', 'system',
-                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'watershed', 'envo_biome_first', 'envo_biome_second',
                         'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
@@ -147,7 +147,7 @@ class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
     serializer_class = FieldSiteSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'grant', 'system',
-                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'watershed', 'envo_biome_first', 'envo_biome_second',
                         'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
@@ -159,7 +159,7 @@ class FieldSitesListView(generics.ListAPIView):
     serializer_class = FieldSiteSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'grant', 'system',
-                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'watershed', 'envo_biome_first', 'envo_biome_second',
                         'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
@@ -171,16 +171,16 @@ class GeoFieldSitesListView(generics.ListAPIView):
     serializer_class = GeoFieldSiteSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'grant', 'system',
-                        'region', 'envo_biome_first', 'envo_biome_second',
+                        'watershed', 'envo_biome_first', 'envo_biome_second',
                         'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
                         'envo_feature_seventh']
 
 
-class GeoRegionsListView(generics.ListAPIView):
-    queryset = Region.objects.all()
-    serializer_class = GeoRegionSerializer
+class GeoWatershedListView(generics.ListAPIView):
+    queryset = Watershed.objects.all()
+    serializer_class = GeoWatershedSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
 
@@ -188,7 +188,7 @@ class GeoRegionsListView(generics.ListAPIView):
 class FieldSiteDetailView(DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['grant', 'system', 'region', 'general_location_name', 'purpose', 'geom',
+    fields = ['grant', 'system', 'watershed', 'general_location_name', 'purpose', 'geom',
               'created_by', 'created_datetime']
 
 
@@ -208,10 +208,10 @@ class FieldSiteExportDetailView(DetailView):
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
             timezone.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
-        writer.writerow(['id','site_id', 'grant', 'system', 'region', 'general_location_name',
+        writer.writerow(['id','site_id', 'grant', 'system', 'watershed', 'general_location_name',
                          'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
         writer.writerow([site.id, site.site_id, site.grant.grant_label, site.system.system_label,
-                         site.region.region_label,
+                         site.watershed.watershed_label,
                          site.general_location_name, site.purpose, site.geom.y,
                          site.geom.x, site.geom.srid, site.created_by.email,site.created_datetime])
         return response
@@ -222,7 +222,7 @@ class AddFieldSiteView(LoginRequiredMixin, CreateView):
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     form_class = AddFieldSiteForm
     # model = Site
-    # fields = ['grant', 'system', 'region', 'general_location_name', 'purpose', 'geom']
+    # fields = ['grant', 'system', 'watershed', 'general_location_name', 'purpose', 'geom']
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

@@ -3,8 +3,8 @@ $(window).on('map:init', function (e) {
     var detail = e.originalEvent ?
                  e.originalEvent.detail : e.detail;
     drawnItems = L.featureGroup().addTo(detail.map);
-    // draw region layer on map
-    regionLayer = L.geoJson(regionData);
+    // draw watershed layer on map
+    watershedLayer = L.geoJson(watershedData);
 
     // subclass L.GeometryField.extend in leaflet.forms.js within django-leaflet app to allow
     // edit of drawnItems. This makes it so that markers can be programmatically
@@ -39,15 +39,15 @@ $(window).on('map:init', function (e) {
         //grab number of layers at lat, lon location
         var num_layers = drawnItems.getLayers().length;
         if (num_layers>0) {
-            // if the number of layers is greater than 0, then there is a region
+            // if the number of layers is greater than 0, then there is a watershed
             // at the point
             //console.log(num_layers);
             //console.log([lat,lng]);
             drawnItems.eachLayer(function(layer){
                 layer.setLatLng([lat,lng]);
                 content = getPopupContent(layer);
-                region_content = getRegionContent(layer);
-                combined_content = content + '<br> ' + region_content;
+                watershed_content = getWatershedContent(layer);
+                combined_content = content + '<br> ' + watershed_content;
                 layer.setPopupContent(combined_content);
                 // update geom submission based on user supplied lat/lngs
                 geom_txt = '{"type":"Point","coordinates":['+lng+','+lat+']}';
@@ -62,8 +62,8 @@ $(window).on('map:init', function (e) {
                 drawnItems.addLayer(marker);
                 drawnItems.eachLayer(function(layer){
                     var content = getPopupContent(layer);
-                    var region_content = getRegionContent(layer);
-                    var combined_content = content + '<br> ' + region_content;
+                    var watershed_content = getWatershedContent(layer);
+                    var combined_content = content + '<br> ' + watershed_content;
                     layer.bindPopup(combined_content);
                     // update geom submission based on user supplied lat/lngs
                     geom_txt = '{"type":"Point","coordinates":['+lng+','+lat+']}';
@@ -122,25 +122,25 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
-    var getRegionContent = function(layer) {
+    var getWatershedContent = function(layer) {
         // get latitude and longitude of point
         var latlng = layer.getLatLng();
-        // find all intersections with the point within the regionLayer
-        var region_results = leafletPip.pointInLayer(latlng, regionLayer);
+        // find all intersections with the point within the watershedLayer
+        var watershed_results = leafletPip.pointInLayer(latlng, watershedLayer);
         var reg_click = "---------";
-        var num_results = region_results.length;
+        var num_results = watershed_results.length;
         //console.log(num_results);
         if (num_results>0) {
-            //if(detail.map.hasLayer(regionLayer)){
-            // find the feature (region) that the point intersects
-            var click_reg_code = region_results[0].feature.properties.region_code.toString();
-            var click_reg_lab = region_results[0].feature.properties.region_label.toString();
+            //if(detail.map.hasLayer(watershedLayer)){
+            // find the feature (watershed) that the point intersects
+            var click_reg_code = watershed_results[0].feature.properties.watershed_code.toString();
+            var click_reg_lab = watershed_results[0].feature.properties.watershed_label.toString();
             reg_click = click_reg_code + ": " + click_reg_lab;
             //}
 
             // find the id of the drop-down menu that matches the label based
             // on clicking on the map
-            var dd = document.getElementById('id_region');
+            var dd = document.getElementById('id_watershed');
             for (var i = 0; i < dd.options.length; i++) {
                 if (dd.options[i].text === reg_click) {
                     dd.selectedIndex = i;
@@ -148,14 +148,14 @@ $(window).on('map:init', function (e) {
                 }
             }
         } else {
-            clearSelectedRegion();
-            reg_click = "NR: No Region";
+            clearSelectedWatershed();
+            reg_click = "NW: No Watershed";
         }
        return(reg_click);
     }
 
-    var clearSelectedRegion = function(){
-        var dd = document.getElementById('id_region');
+    var clearSelectedWatershed = function(){
+        var dd = document.getElementById('id_watershed');
         for (var i = 0; i < dd.options.length; i++) {
           dd.options[i].selected = false;
         }
@@ -168,8 +168,8 @@ $(window).on('map:init', function (e) {
         }
         var layer = e.layer;
         var content = getPopupContent(layer);
-        var region_content = getRegionContent(layer);
-        var combined_content = content + '<br> ' + region_content
+        var watershed_content = getWatershedContent(layer);
+        var combined_content = content + '<br> ' + watershed_content
         if (content !== null) {
             layer.bindPopup(combined_content);
             var lat = _round(layer.getLatLng().lat, 6);
@@ -189,13 +189,13 @@ $(window).on('map:init', function (e) {
     detail.map.on('draw:edited', function (e) {
         var layers = e.layers,
             content = null,
-            region_content = null,
+            watershed_content = null,
             combined_content = null;
         layers.eachLayer(function(layer) {
         // if a layer is edited, update the content of the popup
             content = getPopupContent(layer);
-            region_content = getRegionContent(layer);
-            combined_content = content + '<br> ' + region_content
+            watershed_content = getWatershedContent(layer);
+            combined_content = content + '<br> ' + watershed_content
             if (content !== null) {
                 layer.setPopupContent(combined_content);
                 var lat = _round(layer.getLatLng().lat, 6);
@@ -213,12 +213,12 @@ $(window).on('map:init', function (e) {
     detail.map.on('draw:deleted', function(e) {
         var layers = e.layers,
             content = null,
-            region_content = null,
+            watershed_content = null,
             combined_content = null;
         layers.eachLayer(function(layer){
-            // if the drawn point is deleted, then clear the region selection
+            // if the drawn point is deleted, then clear the watershed selection
             // from the drop-down menu. If save with no delete, do nothing.
-            clearSelectedRegion();
+            clearSelectedWatershed();
             document.getElementById('id_lat').value = null;
             document.getElementById('id_lng').value = null;
             document.getElementById('readonly_id_geom').value = null;
@@ -228,21 +228,21 @@ $(window).on('map:init', function (e) {
     });
 
     function onEachFeature(feature, layer) {
-        // on hover show region code and region label
-        var hover_reg_code = feature.properties.region_code.toString();
-        var hover_reg_lab = feature.properties.region_label.toString();
+        // on hover show watershed code and watershed label
+        var hover_reg_code = feature.properties.watershed_code.toString();
+        var hover_reg_lab = feature.properties.watershed_label.toString();
         var reg_hover = hover_reg_code + ": " + hover_reg_lab;
         layer.bindTooltip(reg_hover);
         /*
         //bind click
         layer.on('click', function (e) {
           // e = event
-          var click_reg_code = e.target.feature.properties.region_code.toString();
-          var click_reg_lab = e.target.feature.properties.region_label.toString();
+          var click_reg_code = e.target.feature.properties.watershed_code.toString();
+          var click_reg_lab = e.target.feature.properties.watershed_label.toString();
           var reg_click = click_reg_code + ": " + click_reg_lab;
           // find the id of the drop-down menu that matches the label based
           // on clicking on the map
-          var dd = document.getElementById('id_region');
+          var dd = document.getElementById('id_watershed');
           for (var i = 0; i < dd.options.length; i++) {
             if (dd.options[i].text === reg_click) {
                 dd.selectedIndex = i;
@@ -256,7 +256,7 @@ $(window).on('map:init', function (e) {
         */
     }
 
-    L.geoJson(regionData, {
+    L.geoJson(watershedData, {
     style: style,
     onEachFeature: onEachFeature
     }).addTo(detail.map);

@@ -4,7 +4,7 @@ from django.contrib.gis import admin
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
-    System, Region, FieldSite, WorldBorder
+    System, Watershed, FieldSite, WorldBorder
 #from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import EnvoBiomeFirstAdminResource, EnvoBiomeSecondAdminResource, \
@@ -13,7 +13,7 @@ from .resources import EnvoBiomeFirstAdminResource, EnvoBiomeSecondAdminResource
     EnvoFeatureFourthAdminResource, EnvoFeatureFifthAdminResource, EnvoFeatureSixthAdminResource, \
     EnvoFeatureSeventhAdminResource, \
     SystemAdminResource, \
-    RegionAdminResource, FieldSiteAdminResource, WorldBorderAdminResource
+    WatershedAdminResource, FieldSiteAdminResource, WorldBorderAdminResource
 
 
 class EnvoBiomeFirstAdmin(ImportExportActionModelAdmin):
@@ -474,18 +474,18 @@ class SystemAdmin(ImportExportActionModelAdmin):
 admin.site.register(System, SystemAdmin)
 
 
-class RegionAdmin(ExportActionMixin, admin.OSMGeoAdmin):
+class WatershedAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # import_export configs
-    resource_class = RegionAdminResource
+    resource_class = WatershedAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        # self.fields = ['region_label','created_by']
-        self.readonly_fields = ['region_code', 'huc8', 'states', 'lat', 'lon', 'area_sqkm', 'area_acres']
+        # self.fields = ['watershed_label','created_by']
+        self.readonly_fields = ['watershed_code', 'huc8', 'states', 'lat', 'lon', 'area_sqkm', 'area_acres']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(RegionAdmin, self).change_view(request, object_id)
+        return super(WatershedAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -495,7 +495,7 @@ class RegionAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         return actions
 
 
-admin.site.register(Region, RegionAdmin)
+admin.site.register(Watershed, WatershedAdmin)
 
 
 class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
@@ -506,7 +506,7 @@ class WorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        # self.fields = ['region_label','created_by']
+        # self.fields = ['watershed_label','created_by']
         self.readonly_fields = ['area', 'fips', 'iso2', 'iso3', 'un', 'region', 'subregion', 'lat', 'lon']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(WorldBorderAdmin, self).change_view(request, object_id)
@@ -526,13 +526,13 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # import_export configs - export ONLY
     resource_class = FieldSiteAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['grant', 'system', 'region']
-    list_display = ('__str__', 'grant', 'system', 'region')
-    #list_filter = ('grant', 'system', 'region', )
+    # search_fields = ['grant', 'system', 'watershed']
+    list_display = ('__str__', 'grant', 'system', 'watershed')
+    #list_filter = ('grant', 'system', 'watershed', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant', 'system', 'region',
+        self.fields = ['grant', 'system', 'watershed',
                        'general_location_name', 'purpose',
                        'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                        'envo_biome_second', 'envo_biome_first',
@@ -545,7 +545,7 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         #self.list_filter = (
         #    ('grant', RelatedDropdownFilter),
         #    ('system', RelatedDropdownFilter),
-        #    ('region', RelatedDropdownFilter)
+        #    ('watershed', RelatedDropdownFilter)
         #)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()

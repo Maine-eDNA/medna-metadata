@@ -35,7 +35,7 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
                 fields=['refdb_name', 'refdb_version']
             )
         ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -53,7 +53,7 @@ class TaxonDomainSerializer(serializers.ModelSerializer):
         model = TaxonDomain
         fields = ['id', 'taxon_domain', 'taxon_domain_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -73,7 +73,7 @@ class TaxonKingdomSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'taxon_kingdom', 'taxon_kingdom_slug', 'taxon_domain_slug', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -98,7 +98,7 @@ class TaxonPhylumSerializer(serializers.ModelSerializer):
                   'taxon_phylum', 'taxon_phylum_slug', 'taxon_kingdom_slug',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -124,7 +124,7 @@ class TaxonClassSerializer(serializers.ModelSerializer):
                   'taxon_class', 'taxon_class_slug', 'taxon_phylum_slug', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -152,7 +152,7 @@ class TaxonOrderSerializer(serializers.ModelSerializer):
                   'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -181,7 +181,7 @@ class TaxonFamilySerializer(serializers.ModelSerializer):
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -211,7 +211,7 @@ class TaxonGenusSerializer(serializers.ModelSerializer):
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -243,7 +243,7 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
                   'taxon_order', 'taxon_class', 'taxon_phylum',
                   'taxon_kingdom', 'taxon_domain',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -264,7 +264,7 @@ class AnnotationMethodSerializer(serializers.ModelSerializer):
         model = AnnotationMethod
         fields = ['id', 'annotation_method_name', 'annotation_method_name_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -287,7 +287,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -331,7 +331,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
                   'manual_family', 'manual_genus',
                   'manual_species',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

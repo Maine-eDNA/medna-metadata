@@ -568,9 +568,9 @@ class System(DateTimeUserMixin):
                                         label=self.system_label)
 
 
-class Region(DateTimeUserMixin):
-    region_code = models.SlugField("Region Code", max_length=2, unique=True)
-    region_label = models.CharField("Region Label", max_length=255)
+class Watershed(DateTimeUserMixin):
+    watershed_code = models.SlugField("Watershed Code", max_length=2, unique=True)
+    watershed_label = models.CharField("Watershed Label", max_length=255)
     huc8 = models.CharField("HUC8", max_length=255)
     states = models.CharField("States", max_length=255)
     lat = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
@@ -581,17 +581,17 @@ class Region(DateTimeUserMixin):
     geom = models.MultiPolygonField()
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.region_code,
-                                        label=self.region_label)
+        return '{code}: {label}'.format(code=self.watershed_code,
+                                        label=self.watershed_label)
 
 
 class FieldSite(DateTimeUserMixin):
     site_id = models.SlugField("Site ID", max_length=7, unique=True)
-    # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
     system = models.ForeignKey(System, on_delete=models.RESTRICT)
-    region = models.ForeignKey(Region, on_delete=models.RESTRICT)
+    watershed = models.ForeignKey(Watershed, on_delete=models.RESTRICT)
     general_location_name = models.CharField("General Location", max_length=255)
     purpose = models.CharField("Site Purpose", max_length=255)
     # ENVO biomes are hierarchical trees
@@ -646,9 +646,9 @@ class FieldSite(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
-            # concatenate grant, region, and system to create site_prefix, e.g., "eAL_L"
-            self.site_prefix = '{grant}{region}_{system}'.format(grant=self.grant.grant_code,
-                                                                 region=self.region.region_code,
+            # concatenate grant, watershed, and system to create site_prefix, e.g., "eAL_L"
+            self.site_prefix = '{grant}{watershed}_{system}'.format(grant=self.grant.grant_code,
+                                                                 watershed=self.watershed.watershed_code,
                                                                  system=self.system.system_code)
             # Retrieve a list of `Site` instances, group them by the site_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field

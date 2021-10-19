@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Region, FieldSite
+from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Watershed, FieldSite
 from utility.models import Grant
 from utility.tests import GrantTestCase
 # Create your tests here.
@@ -44,44 +44,44 @@ class SystemTestCase(TestCase):
         self.assertIs(stream.was_added_recently(), True)
 
 
-class RegionTestCase(TestCase):
+class WatershedTestCase(TestCase):
     def setUp(self):
-        Region.objects.update_or_create(region_code="NE", region_label="New England Aquarium", huc8="01090001",
+        Watershed.objects.update_or_create(watershed_code="NE", watershed_label="New England Aquarium", huc8="01090001",
                               states="New England Aquarium",
                               lat=42.359134, lon=-71.051942, area_sqkm="0.26", area_acres="63.17",
                               geom="SRID=4326;MULTIPOLYGON (((-71.05364798510502 42.36019291476734, -71.04779004061702 42.361350361539, -71.04482888186529 42.36017705918428, -71.04493617022527 42.35809994318362, -71.04802607501057 42.35711685671112, -71.05233906710548 42.35713271306636, -71.05364798510502 42.36019291476734)))")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        nea = Region.objects.get(region_code="NE")
+        nea = Watershed.objects.get(watershed_code="NE")
         self.assertIs(nea.was_added_recently(), True)
 
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
-        region_test = RegionTestCase()
+        watershed_test = WatershedTestCase()
         system_test = SystemTestCase()
         grant_test = GrantTestCase()
         biome_first_test = EnvoBiomeFirstTestCase()
         feature_first_test = EnvoFeatureFirstTestCase()
-        region_test.setUp()
+        watershed_test.setUp()
         system_test.setUp()
         grant_test.setUp()
         biome_first_test.setUp()
         feature_first_test.setUp()
         grant = Grant.objects.filter()[:1].get()
         system = System.objects.filter()[:1].get()
-        region = Region.objects.filter()[:1].get()
+        watershed = Watershed.objects.filter()[:1].get()
         lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
         river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        FieldSite.objects.update_or_create(grant=grant, system=system, region=region,
+        FieldSite.objects.update_or_create(grant=grant, system=system, watershed=watershed,
                                            general_location_name="FieldSiteTest1",
                                            purpose="FieldSiteTest1",
                                            envo_biome_first=lake, envo_feature_first=ls,
                                            geom="SRID=4326;POINT (-68.79667999999999 44.76535)")
-        FieldSite.objects.update_or_create(grant=grant, system=system, region=region,
+        FieldSite.objects.update_or_create(grant=grant, system=system, watershed=watershed,
                                            general_location_name="FieldSiteTest2",
                                            purpose="FieldSiteTest2",
                                            envo_biome_first=river, envo_feature_first=tasl,

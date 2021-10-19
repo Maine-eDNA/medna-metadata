@@ -3,7 +3,7 @@ from import_export.widgets import ForeignKeyWidget
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
-    System, Region, FieldSite, WorldBorder
+    System, Watershed, FieldSite, WorldBorder
 from users.models import CustomUser
 from utility.models import Grant
 
@@ -288,10 +288,10 @@ class SystemAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
-class RegionAdminResource(resources.ModelResource):
+class WatershedAdminResource(resources.ModelResource):
     class Meta:
-        model = Region
-        import_id_fields = ('region_code',)
+        model = Watershed
+        import_id_fields = ('watershed_code',)
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -308,7 +308,7 @@ class FieldSiteAdminResource(resources.ModelResource):
         model = FieldSite
         import_id_fields = ('site_id',)
         exclude = ('site_prefix', 'site_num')
-        fields = ('site_id', 'grant', 'system', 'region', 'general_location_name',
+        fields = ('site_id', 'grant', 'system', 'watershed', 'general_location_name',
                   'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
@@ -317,7 +317,7 @@ class FieldSiteAdminResource(resources.ModelResource):
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first',
                   'geom', 'created_by', 'created_datetime', )
-        export_order = ('site_id', 'grant', 'system', 'region', 'general_location_name',
+        export_order = ('site_id', 'grant', 'system', 'watershed', 'general_location_name',
                         'purpose',
                         'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                         'envo_biome_second', 'envo_biome_first',
@@ -337,10 +337,10 @@ class FieldSiteAdminResource(resources.ModelResource):
         attribute='system',
         widget=ForeignKeyWidget(System, 'system_label'))
 
-    region = fields.Field(
-        column_name='region',
-        attribute='region',
-        widget=ForeignKeyWidget(Region, 'region_label'))
+    watershed = fields.Field(
+        column_name='watershed',
+        attribute='watershed',
+        widget=ForeignKeyWidget(Watershed, 'watershed_label'))
 
     envo_biome_first = fields.Field(
         column_name='envo_biome_first',

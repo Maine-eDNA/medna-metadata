@@ -81,7 +81,7 @@ class SampleMaterial(DateTimeUserMixin):
 
 
 class SampleLabelRequest(DateTimeUserMixin):
-    # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
@@ -102,7 +102,7 @@ class SampleLabelRequest(DateTimeUserMixin):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
             last_twosigits_year = str(self.sample_year)[-2:]
-            # concatenate project, region, and system to create sample_label_prefix, e.g., "eAL_L"
+            # concatenate project, watershed, and system to create sample_label_prefix, e.g., "eAL_L"
             self.sample_label_prefix = '{site}_{twosigits_year}{sample_material}'.format(site=self.site_id.site_id,
                                                                                      twosigits_year=last_twosigits_year,
                                                                                      sample_material=self.sample_material.sample_material_code)
@@ -145,7 +145,7 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 class SampleLabel(DateTimeUserMixin):
     sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
-    # With RESTRICT, if project is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)

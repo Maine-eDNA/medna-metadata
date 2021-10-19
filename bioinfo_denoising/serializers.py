@@ -25,7 +25,7 @@ class DenoisingMethodSerializer(serializers.ModelSerializer):
                 fields=['denoising_method_name', 'denoising_method_pipeline']
             )
         ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -49,7 +49,7 @@ class DenoisingMetadataSerializer(serializers.ModelSerializer):
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -75,7 +75,7 @@ class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
         model = AmpliconSequenceVariant
         fields = ['id', 'asv_id', 'asv_slug', 'asv_sequence', 'denoising_metadata',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -94,7 +94,7 @@ class ASVReadSerializer(serializers.ModelSerializer):
         model = ASVRead
         fields = ['id', 'asv', 'extraction', 'number_reads',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

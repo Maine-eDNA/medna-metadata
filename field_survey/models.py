@@ -17,7 +17,7 @@ from utility.models import Project
 
 
 class FieldSurvey(DateTimeUserMixin):
-    # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -412,7 +412,7 @@ class SubCoreSample(models.Model):
 
 
 class FieldSurveyETL(DateTimeUserMixin):
-    # With RESTRICT, if grant is deleted but system and region still exists, it will not cascade delete
+    # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     username = models.CharField("Username", max_length=255, blank=True)

@@ -16,7 +16,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = ReferenceDatabaseAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('refdb_slug', )
 
@@ -53,7 +53,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonDomainAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_domain_slug', )
 
@@ -88,7 +88,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonKingdomAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_kingdom_slug', 'taxon_domain',)
 
@@ -126,7 +126,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonPhylumAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_phylum_slug', 'taxon_kingdom', 'taxon_domain',)
 
@@ -161,7 +161,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonClassAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_class_slug', 'taxon_phylum', 'taxon_kingdom', 'taxon_domain', )
 
@@ -197,7 +197,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonOrderAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_order_slug', 'taxon_class', 'taxon_phylum', 'taxon_kingdom', 'taxon_domain',)
 
@@ -233,7 +233,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonFamilyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_family_slug', 'taxon_order', 'taxon_class',
                        'taxon_phylum', 'taxon_kingdom', 'taxon_domain',)
@@ -270,7 +270,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonGenusAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('taxon_genus_slug', 'taxon_family', 'taxon_order',
                        'taxon_class', 'taxon_phylum', 'taxon_kingdom', 'taxon_domain',)
@@ -307,7 +307,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonSpeciesAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'taxon_common_name', 'created_by', 'created_datetime', )
     list_filter = ('is_endemic', )
     readonly_fields = ('taxon_species_slug', 'taxon_genus', 'taxon_family',
@@ -347,7 +347,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = AnnotationMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -381,7 +381,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = AnnotationMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'analysis_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -419,7 +419,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
     resource_class = TaxonomicAnnotationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['project', 'system', 'region']
+    # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):

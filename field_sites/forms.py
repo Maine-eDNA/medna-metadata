@@ -13,7 +13,7 @@ class allowEditLeaflet(LeafletWidget):
 class AddFieldSiteForm(forms.ModelForm):
     class Meta:
         model = FieldSite
-        fields = ['grant', 'system', 'general_location_name', 'purpose', 'geom', 'region', ]
+        fields = ['grant', 'system', 'general_location_name', 'purpose', 'geom', 'watershed', ]
         widgets = { # leaflet widget
             'geom': allowEditLeaflet(
                 attrs={

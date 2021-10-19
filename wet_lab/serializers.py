@@ -35,7 +35,7 @@ class PrimerPairSerializer(serializers.ModelSerializer):
                   'primer_target_gene', 'primer_set_name', 'primer_set_name_slug', 'primer_amplicon_length_min',
                   'primer_amplicon_length_max', 'primer_pair_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -57,7 +57,7 @@ class IndexPairSerializer(serializers.ModelSerializer):
         model = IndexPair
         fields = ['id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -77,7 +77,7 @@ class IndexRemovalMethodSerializer(serializers.ModelSerializer):
         model = IndexRemovalMethod
         fields = ['id', 'index_removal_method_name', 'index_removal_method_name_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -97,7 +97,7 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
         model = SizeSelectionMethod
         fields = ['id', 'size_selection_method_name', 'size_selection_method_name_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -117,7 +117,7 @@ class QuantificationMethodSerializer(serializers.ModelSerializer):
         model = QuantificationMethod
         fields = ['id', 'quant_method_name', 'quant_method_name_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -144,7 +144,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
                 fields=['extraction_method_name', 'extraction_method_manufacturer']
             )
         ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -172,7 +172,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -213,7 +213,7 @@ class DdpcrSerializer(serializers.ModelSerializer):
                   'extraction', 'primer_set', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -250,7 +250,7 @@ class QpcrSerializer(serializers.ModelSerializer):
                   'extraction', 'primer_set', 'qpcr_first_name',
                   'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                   'qpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -296,7 +296,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
                   'final_concentration', 'final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -341,7 +341,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
                   'library_prep', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -378,7 +378,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
                   'final_pooled_lib_concentration',
                   'final_pooled_lib_concentration_units',
                   'final_pooled_lib_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -412,7 +412,7 @@ class RunPrepSerializer(serializers.ModelSerializer):
                   'phix_spike_in', 'phix_spike_in_units',
                   'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                   'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -443,7 +443,7 @@ class RunResultSerializer(serializers.ModelSerializer):
         model = RunResult
         fields = ['id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
@@ -469,7 +469,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
         model = FastqFile
         fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, region, and created_by reference different tables and we
+    # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
