@@ -410,7 +410,7 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
-AWS_STATIC_LOCATION = 'medna_metadata_dev/static'
+AWS_STATIC_LOCATION = 'medna-metadata-dev-static'
 STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
@@ -422,9 +422,9 @@ PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
 AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
 
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'static/'),
-#]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+]
 
 ########################################
 # DJANGO-CRISPY-FORMS CONFIG           #
