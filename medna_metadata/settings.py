@@ -422,9 +422,9 @@ PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
 AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static/'),
+#]
 
 ########################################
 # DJANGO-CRISPY-FORMS CONFIG           #
