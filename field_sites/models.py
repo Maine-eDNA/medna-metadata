@@ -578,6 +578,7 @@ class Watershed(DateTimeUserMixin):
     area_sqkm = models.DecimalField('Area (sqkm)', max_digits=18, decimal_places=2)
     area_acres = models.DecimalField('Area (acres)', max_digits=18, decimal_places=2)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
+    # django srid defaults to 4326 (WGS84)
     geom = models.MultiPolygonField()
 
     def __str__(self):
@@ -626,7 +627,9 @@ class FieldSite(DateTimeUserMixin):
     site_num = models.IntegerField(default=1)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
-    geom = models.PointField("Latitude, Longitude (DD WGS84)")
+    # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
+    # django srid defaults to 4326 (WGS84)
+    geom = models.PointField("Latitude, Longitude (DD WGS84)", srid=4326)
 
     @property
     def lat(self):
@@ -691,6 +694,7 @@ class WorldBorder(models.Model):
     lat = models.DecimalField(max_digits=22, decimal_places=16)
 
     # GeoDjango-specific: a geometry field (MultiPolygonField)
+    # django srid defaults to 4326 (WGS84)
     geom = models.MultiPolygonField()
 
     # Returns the string representation of the model.
