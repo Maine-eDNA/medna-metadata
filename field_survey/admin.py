@@ -1,4 +1,5 @@
-from django.contrib import admin
+# from django.contrib import admin
+from django.contrib.gis import admin
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from .resources import FieldSurveyAdminResource, \
     FieldCrewAdminResource, EnvMeasurementAdminResource, \
