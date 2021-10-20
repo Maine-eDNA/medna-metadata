@@ -1,6 +1,5 @@
 from django.contrib import admin
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from import_export.admin import ImportExportActionModelAdmin
 from .resources import FieldSurveyAdminResource, \
     FieldCrewAdminResource, EnvMeasurementAdminResource, \
     FieldCollectionAdminResource, WaterCollectionAdminResource, SedimentCollectionAdminResource, \
@@ -11,6 +10,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
+from import_export.admin import ImportExportActionModelAdmin, ExportActionMixin
 
 
 # Register your models here.
@@ -21,7 +21,7 @@ class ProjectInline(admin.TabularInline):
     # extra = 1
 
 
-class FieldSurveyAdmin(ImportExportActionModelAdmin):
+class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # below are import_export configs
     # SampleMaterialAdminResource
     resource_class = FieldSurveyAdminResource
@@ -313,7 +313,7 @@ admin.site.register(SubCoreSample, SubCoreSampleAdmin)
 
 
 # Register your models here.
-class FieldSurveyETLAdmin(ImportExportActionModelAdmin):
+class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # below are import_export configs
     # SampleMaterialAdminResource
     resource_class = FieldSurveyETLAdminResource
