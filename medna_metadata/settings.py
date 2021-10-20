@@ -414,10 +414,10 @@ AWS_STATIC_LOCATION = 'medna-metadata-dev/static'
 STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
-AWS_PUBLIC_MEDIA_LOCATION = 'medna_metadata/media/public'
+AWS_PUBLIC_MEDIA_LOCATION = 'medna-metadata-dev/media/public'
 DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
 
-AWS_PRIVATE_MEDIA_LOCATION = 'medna_metadata/media/private'
+AWS_PRIVATE_MEDIA_LOCATION = 'medna-metadata-dev/media/private'
 PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
 AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
