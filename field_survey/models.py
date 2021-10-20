@@ -120,7 +120,8 @@ class FieldSurvey(DateTimeUserMixin):
                                       related_name="record_editor")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
-    geom = models.PointField("Latitude, Longitude (DD WGS84)", srid=4269)
+    # django srid defaults to 4326 (WGS84)
+    geom = models.PointField("Latitude, Longitude (DD WGS84)", srid=4326)
 
     @property
     def lat(self):
@@ -471,8 +472,9 @@ class FieldSurveyETL(DateTimeUserMixin):
     record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
     record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
-    # gps_loc
-    geom = models.PointField("Latitude, Longitude (DD WGS84)", srid=4269)
+    # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
+    # django srid defaults to 4326 (WGS84)
+    geom = models.PointField("Latitude, Longitude (DD WGS84)", srid=4326)
 
     @property
     def lat(self):
