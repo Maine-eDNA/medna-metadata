@@ -135,7 +135,7 @@ def update_record_field_survey(record, pk):
 
         lat_manual = record['lat_manual']
         long_manual = record['long_manual']
-
+        # django srid defaults to 4326 (WGS84)
         geom = Point(long_manual, lat_manual)
 
         for prj in prjs:
