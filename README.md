@@ -1,4 +1,8 @@
 # Maine-eDNA metadata - a data management system for tracking environmental DNA samples
+This repository contains the backend components of Maine-eDNA metadata (API, database) and was built with the [Django web framework](https://www.djangoproject.com/). 
+The frontend components are located in the [medna-metadata-frontend repository](https://github.com/Maine-eDNA/medna-metadata-frontend), which is written with the [ReactJS library](https://reactjs.org/).
+The frontend communicates with the backend through the API, built with the [Django REST Framework](https://www.django-rest-framework.org/).
+
 *The Dockerfiles in /docker are not yet fully tested. Once they are this message will be updated and users can use the docker steps to deploy the django app.*
 ## How to setup on Ubuntu 20.04
 
