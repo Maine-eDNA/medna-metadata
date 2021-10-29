@@ -1,23 +1,6 @@
 # Maine-eDNA metadata - a data management system for tracking environmental DNA samples
-
-## Docker Setup
-*The modules in Maine-eDNA metadata have not yet been fully tested and migrated. 
-This message will be updated after successful implementation with the following Docker commands.*
-
-The `/docker` directory has `medna.env.db.txt`, `medna.env.txt`, and `nginx.proxycompanion.env.txt` which contain 
-all environmental variables for docker deployment. Make a copy of these files with the `.txt` extension removed 
-(e.g., `medna.env.db`, `medna.env`, `nginx.proxycompanion.env`) and variables updated with desired settings. 
-These files are necessary for docker. Other files that affect docker are:
-* `entrypoint.sh`
-* `.dockerignore`
-* contents of `/docker` directory
-* settings in `medna_metadata/settings.py`
-
-
-Once settings are verified, run `sudo docker-compose up -d` to build and deploy medna-metadata, PostgreSQL with PostGIS, 
-and NGINX with LetsEncrypt.
-
-## How to setup without Docker on Ubuntu 20.04
+*The Dockerfiles in /docker are not yet fully tested. Once they are this message will be updated and users can use the docker steps to deploy the django app.*
+## How to setup on Ubuntu 20.04
 
 If you've never set up a server before, DigitalOcean provides an extensive variety of tutorials that we highly recommend:
 * https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04
@@ -433,3 +416,21 @@ git pull && python manage.py collectstatic --noinput --clear && sudo systemctl d
 ```
 
 You should now be good to go and running with your desired server and domain.
+
+## Docker Setup
+*The modules in Maine-eDNA metadata have not yet been fully tested and migrated for the Dockerfile. 
+This message will be updated after successful implementation with the following Docker commands.*
+
+The `/docker` directory has `medna.env.db.txt`, `medna.env.txt`, and `nginx.proxycompanion.env.txt` which contain 
+all environmental variables for docker deployment. Make a copy of these files with the `.txt` extension removed 
+(e.g., `medna.env.db`, `medna.env`, `nginx.proxycompanion.env`) and variables updated with desired settings. 
+These files are necessary for docker. Other files that affect docker are:
+* `entrypoint.sh`
+* `.dockerignore`
+* contents of `/docker` directory
+* settings in `medna_metadata/settings.py`
+
+
+Once settings are verified, run `sudo docker-compose up -d` to build and deploy medna-metadata, PostgreSQL with PostGIS, 
+and NGINX with LetsEncrypt.
+
