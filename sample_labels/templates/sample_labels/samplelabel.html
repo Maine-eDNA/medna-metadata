@@ -28,9 +28,9 @@
         <ul class="user-filter-sample_year">
           <li>{% render_field filter.form.sample_year class="form-control" %}</li>
         </ul>
-        <h3> {{ filter.form.sample_type.label_tag }} </h3>
-        <ul class="user-filter-sample_type">
-          {% for choice in filter.form.sample_type %}
+        <h3> {{ filter.form.sample_material.label_tag }} </h3>
+        <ul class="user-filter-sample_material">
+          {% for choice in filter.form.sample_material %}
           <li>
             <label class="checkbox-inline">
               {{ choice.tag }} {{ choice.choice_label }}

@@ -13,7 +13,7 @@
       </tr>
       <tr>
           <th>{% translate 'Sample Type:' %}</th>
-          <td>{{ samplelabel.sample_type }}</td>
+          <td>{{ samplelabel.sample_material }}</td>
       </tr>
       <tr>
           <th>{% translate 'Min Label:' %}</th>
@@ -43,5 +43,5 @@
 <br>
 <a class="btn btn-outline-primary" href="{% url 'users:samplelabel' %}">{% translate 'Back to list' %}</a>
 <a class="btn btn-outline-primary" href="{% url 'users:samplelabel_detail_export' samplelabel.id %}">{% translate 'Export .csv' %}</a>
-<a class="btn btn-warning" href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id samplelabel.sample_type.id samplelabel.purpose %}">{% translate 'Add another label' %}</a>
+<a class="btn btn-warning" href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id samplelabel.sample_material.id samplelabel.purpose %}">{% translate 'Add another label' %}</a>
 {% endblock %}
