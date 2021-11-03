@@ -72,7 +72,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     serializer_class = FieldSampleSerializer
     queryset = FieldSample.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'collection_global_id',
+    filterset_fields = ['created_by', 'collection_global_id', 'is_extracted',
                         'sample_material', 'field_sample_barcode']
 
 
@@ -80,7 +80,7 @@ class FilterSampleViewSet(viewsets.ModelViewSet):
     serializer_class = FilterSampleSerializer
     queryset = FilterSample.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_sample', 'is_extracted']
+    filterset_fields = ['field_sample']
 
 
 class SubCoreSampleViewSet(viewsets.ModelViewSet):
