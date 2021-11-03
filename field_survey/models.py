@@ -334,7 +334,6 @@ class FieldSample(DateTimeUserMixin):
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=50, choices=YesNo.choices, default=YesNo.NO)
-    # TODO - change sample_type to "sample_material" to be consistent with ENVO
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
 
     def __str__(self):
@@ -344,9 +343,9 @@ class FieldSample(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
-            self.sample_material = 2
+            self.sample_material = SampleMaterial.objects.get(pk=2)
         elif self.collection_global_id.collection_type == CollectionTypes.sed_sample:
-            self.sample_material = 1
+            self.sample_material = SampleMaterial.objects.get(pk=1)
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
