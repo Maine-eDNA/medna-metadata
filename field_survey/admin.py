@@ -204,7 +204,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted', 'sample_material',
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted',
                        'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
