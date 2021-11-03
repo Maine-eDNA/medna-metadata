@@ -167,10 +167,12 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                                                queryset=FreezerBox.objects.all())
     field_sample = serializers.SlugRelatedField(many=False, read_only=False,
                                                 slug_field='barcode_slug',
-                                                queryset=FieldSample.objects.filter(is_extracted=YesNo.NO))
+                                                queryset=FieldSample.objects.filter(is_extracted=YesNo.NO),
+                                                allow_null=True)
     extraction = serializers.SlugRelatedField(many=False, read_only=False,
                                               slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all())
+                                              queryset=Extraction.objects.all(),
+                                              allow_null=True)
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
