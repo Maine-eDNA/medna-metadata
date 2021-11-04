@@ -17,15 +17,24 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	# Run and apply database migrations
 	#echo "${0}: Creating database migrations"
 	#python manage.py makemigrations users
+	#python manage.py makemigrations utility
 	#python manage.py makemigrations field_sites
 	#python manage.py makemigrations sample_labels
+	#python manage.py makemigrations field_survey
+	#python manage.py makemigrations wet_lab
+	#python manage.py makemigrations freezer_inventory
+	#python manage.py makemigrations bioinfo_denoising
+	#python manage.py makemigrations bioinfo_taxon
 	echo "${0}: Applying database migrations"
 	python manage.py migrate users
+	python manage.py migrate utility
 	python manage.py migrate field_sites
 	python manage.py migrate sample_labels
-	#python manage.py migrate field_survey
-	#python manage.py migrate freezer_inventory
-	#python manage.py migrate wet_lab
+	python manage.py migrate field_survey
+	python manage.py migrate wet_lab
+	python manage.py migrate freezer_inventory
+	python manage.py migrate bioinfo_denoising
+	python manage.py migrate bioinfo_taxon
 	python manage.py migrate
 fi
 
@@ -36,15 +45,89 @@ if [ "x$DJANGO_SUPERUSER_CREATE" = 'xon' ]; then
 fi
 
 if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
-	# Apply createsuperuser
+	# Load fixtures
 	echo "${0}: Loading fixtures"
-	python manage.py loaddata fixtures/field_sites_project.json
-	python manage.py loaddata fixtures/field_sites_system.json
-	python manage.py loaddata fixtures/field_sites_region.json
-	python manage.py loaddata fixtures/field_sites_fieldsite.json
-	python manage.py loaddata fixtures/sample_labels_SampleMaterial.json
-	python manage.py loaddata fixtures/sample_labels_samplelabelrequest.json
+	# utility
+	python manage.py loaddata fixtures/dev/utility_grant.json
+  python manage.py loaddata fixtures/dev/utility_project.json
+  python manage.py loaddata fixtures/dev/utility_processlocation.json
+  # field_sites
+  python manage.py loaddata fixtures/dev/field_sites_envobiomefirst.json
+  python manage.py loaddata fixtures/dev/field_sites_envobiomesecond.json
+  python manage.py loaddata fixtures/dev/field_sites_envobiomethird.json
+  python manage.py loaddata fixtures/dev/field_sites_envobiomefourth.json
+  python manage.py loaddata fixtures/dev/field_sites_envobiomefifth.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeaturefirst.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeaturesecond.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeaturethird.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeaturefourth.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeaturefifth.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeaturesixth.json
+  python manage.py loaddata fixtures/dev/field_sites_envofeatureseventh.json
+  python manage.py loaddata fixtures/dev/field_sites_system.json
+  python manage.py loaddata fixtures/dev/field_sites_watershed.json
+  python manage.py loaddata fixtures/dev/field_sites_fieldsite.json
+  # sample_labels
+  python manage.py loaddata fixtures/dev/sample_labels_samplematerial.json
+  python manage.py loaddata fixtures/dev/sample_labels_samplelabelrequest.json
+  python manage.py loaddata fixtures/dev/sample_labels_samplelabel.json
+  # field_survey
+  python manage.py loaddata fixtures/dev/field_survey_fieldsurveyetl.json
+  python manage.py loaddata fixtures/dev/field_survey_fieldcrewetl.json
+  python manage.py loaddata fixtures/dev/field_survey_envmeasurementetl.json
+  python manage.py loaddata fixtures/dev/field_survey_fieldcollectionetl.json
+  python manage.py loaddata fixtures/dev/field_survey_samplefilteretl.json
+  python manage.py loaddata fixtures/dev/field_survey_fieldsurvey.json
+  python manage.py loaddata fixtures/dev/field_survey_fieldcrew.json
+  python manage.py loaddata fixtures/dev/field_survey_envmeasurement.json
+  python manage.py loaddata fixtures/dev/field_survey_fieldcollection.json
+  python manage.py loaddata fixtures/dev/field_survey_watercollection.json
+  python manage.py loaddata fixtures/dev/field_survey_sedimentcollection.json
+  python manage.py loaddata fixtures/dev/field_survey_fieldsample.json
+  python manage.py loaddata fixtures/dev/field_survey_filtersample.json
+  python manage.py loaddata fixtures/dev/field_survey_subcoresample.json
+  # wet_lab
+  python manage.py loaddata fixtures/dev/wet_lab_primerpair.json
+  python manage.py loaddata fixtures/dev/wet_lab_indexpair.json
+  python manage.py loaddata fixtures/dev/wet_lab_indexremovalmethod.json
+  python manage.py loaddata fixtures/dev/wet_lab_sizeselectionmethod.json
+  python manage.py loaddata fixtures/dev/wet_lab_quantificationmethod.json
+  python manage.py loaddata fixtures/dev/wet_lab_extractionmethod.json
+  python manage.py loaddata fixtures/dev/wet_lab_extraction.json
+  python manage.py loaddata fixtures/dev/wet_lab_libraryprep.json
+  python manage.py loaddata fixtures/dev/wet_lab_pooledlibrary.json
+  python manage.py loaddata fixtures/dev/wet_lab_finalpooledlibrary.json
+  python manage.py loaddata fixtures/dev/wet_lab_runprep.json
+  python manage.py loaddata fixtures/dev/wet_lab_runresult.json
+  # freezer_inventory
+  python manage.py loaddata fixtures/dev/freezer_inventory_freezer.json
+  python manage.py loaddata fixtures/dev/freezer_inventory_freezerrack.json
+  python manage.py loaddata fixtures/dev/freezer_inventory_freezerbox.json
+  python manage.py loaddata fixtures/dev/freezer_inventory_freezerinventory.json
+  python manage.py loaddata fixtures/dev/freezer_inventory_freezercheckout.json
+  # bioinfo_denoising
+  python manage.py loaddata fixtures/dev/bioinfo_denoising_denoisingmethod.json
+  python manage.py loaddata fixtures/dev/bioinfo_denoising_denoisingmetadata.json
+  python manage.py loaddata fixtures/dev/bioinfo_denoising_ampliconsequencevariant.json
+  python manage.py loaddata fixtures/dev/bioinfo_denoising_asvread.json
+  # bioinfo_taxon
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_referencedatabase.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxondomain.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonkingdom.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonphylum.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonclass.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonorder.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonfamily.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxongenus.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonspecies.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_annotationmethod.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_annotationmetadata.json
+  python manage.py loaddata fixtures/dev/bioinfo_taxon_taxonomicannotation.json
+fi
 
+if [ "x$DJANGO_DEFAULT_GROUPS_CREATE" = 'xon' ]; then
+ 	echo "${0}: Creating permissions groups"
+ 	python manage.py create_default_groups
 fi
 
 # Start server
