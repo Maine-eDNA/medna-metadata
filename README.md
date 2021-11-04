@@ -141,23 +141,13 @@ Install python requirements to the virtualenv:
 pip install -U -r /home/youruser/medna-metadata/requirements/prod.txt
 ```
 
-### Make and migrate the database schema to PostgreSQL from within the same directory as `manage.py`
-
-```commandline
-python manage.py makemigrations users
-python manage.py makemigrations field_sites
-python manage.py makemigrations sample_labels
-python manage.py makemigrations field_survey
-python manage.py makemigrations wet_lab
-python manage.py makemigrations freezer_inventory
-python manage.py makemigrations bioinfo_denoising
-python manage.py makemigrations bioinfo_taxon
-```
-
-Resolve any error messages before proceeding.
-
+### Migrate the database schema to PostgreSQL from within the same directory as `manage.py`
+Within each app there is a migration directory which contains files which tell the database how to 
+create the database tables. These have been pre-generated and added to this repository to simplify the 
+process of deplying the Maine-eDNA Metadata application.
 ```commandline
 python manage.py migrate users
+python manage.py migrate utility
 python manage.py migrate field_sites
 python manage.py migrate sample_labels
 python manage.py migrate field_survey
@@ -165,10 +155,9 @@ python manage.py migrate wet_lab
 python manage.py migrate freezer_inventory
 python manage.py migrate bioinfo_denoising
 python manage.py migrate bioinfo_taxon
-Resolve any error messages before proceeding.
 ```
 
-Now, if everything looked good, makemigrations again and migrate
+Now, if everything looked good (e.g., no error messages), makemigrations again and migrate
 python manage.py makemigrations
 
 ```commandline
