@@ -268,7 +268,7 @@ class Migration(migrations.Migration):
                 ('record_creator', models.CharField(blank=True, max_length=255, verbose_name='Survey Creator')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey Edit DateTime')),
                 ('record_editor', models.CharField(blank=True, max_length=255, verbose_name='Survey Editor')),
-                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4269, verbose_name='Latitude, Longitude (DD WGS84)')),
+                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326, verbose_name='Latitude, Longitude (DD WGS84)')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -315,7 +315,7 @@ class Migration(migrations.Migration):
                 ('gps_cap_vertacc', models.DecimalField(blank=True, decimal_places=16, max_digits=22, null=True, verbose_name='Captured Vertical Accuracy (m)')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey Edit DateTime')),
-                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4269, verbose_name='Latitude, Longitude (DD WGS84)')),
+                ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326, verbose_name='Latitude, Longitude (DD WGS84)')),
                 ('core_subcorer', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='core_subcorer', to=settings.AUTH_USER_MODEL, verbose_name='Designated Sub-corer')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('project_ids', models.ManyToManyField(related_name='project_ids', to='utility.Project', verbose_name='Affiliated Project(s)')),
