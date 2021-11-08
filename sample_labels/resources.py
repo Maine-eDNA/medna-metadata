@@ -27,9 +27,9 @@ class SampleLabelRequestAdminResource(resources.ModelResource):
     class Meta:
         model = SampleLabelRequest
         import_id_fields = ('site_id', 'sample_material', 'purpose', 'sample_year', 'req_sample_label_num',)
-        fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
-                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
-                  'purpose', 'created_by', 'created_datetime',)
+        #fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
+        #          'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
+        #          'purpose', 'created_by', 'created_datetime',)
         export_order = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num',
                         'max_sample_label_num', 'min_sample_label_id', 'max_sample_label_id', 'site_id',
                         'sample_year', 'sample_material', 'purpose', 'created_by', 'created_datetime',)
