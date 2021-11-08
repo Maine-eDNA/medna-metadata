@@ -46,6 +46,9 @@ class SampleLabelRequestAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].id
+
 
 class SampleLabelAdminResource(resources.ModelResource):
     class Meta:
