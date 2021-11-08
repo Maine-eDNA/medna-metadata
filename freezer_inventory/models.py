@@ -10,6 +10,7 @@ import re
 
 BARCODE_PATTERN = "[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]"
 
+
 def update_freezer_inv_status(inv_pk, freezer_checkout_action):
     if freezer_checkout_action == CheckoutActions.CHECKOUT:
         # Checkout, so change inventory status to Checked Out
