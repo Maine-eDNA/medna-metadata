@@ -6,7 +6,9 @@ from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
+import re
 
+BARCODE_PATTERN = "[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]"
 
 def update_freezer_inv_status(inv_pk, freezer_checkout_action):
     if freezer_checkout_action == CheckoutActions.CHECKOUT:
@@ -18,6 +20,42 @@ def update_freezer_inv_status(inv_pk, freezer_checkout_action):
     elif freezer_checkout_action == CheckoutActions.REMOVE:
         # Removed, so change inventory status to Permanently Removed
         FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.REMOVED)
+
+
+def update_fs_in_freezer_status(old_barcode, new_barcode_pk):
+    # update in_freezer status of FieldSample model when samples are added to
+    # FreezerInventory model
+    if old_barcode is not None:
+        # if it is not a new barcode, update the new to is_extracted status to YES
+        # and old to is_extracted status to NO
+        sample_obj = FieldSample.objects.filter(pk=new_barcode_pk).first()
+        new_barcode = sample_obj.barcode_slug
+        if old_barcode != new_barcode:
+            # compare old barcode to new barcode; if they are equal then we do not need
+            # to update
+            FieldSample.objects.filter(barcode_slug=old_barcode).update(in_freezer=YesNo.NO)
+            FieldSample.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+    else:
+        # if it is a new barcode, update the is_extracted status to YES
+        FieldSample.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+
+
+def update_extr_in_freezer_status(old_barcode, new_barcode_pk):
+    # update in_freezer status of FieldSample model when samples are added to
+    # FreezerInventory model
+    if old_barcode is not None:
+        # if it is not a new barcode, update the new to is_extracted status to YES
+        # and old to is_extracted status to NO
+        sample_obj = Extraction.objects.filter(pk=new_barcode_pk).first()
+        new_barcode = sample_obj.barcode_slug
+        if old_barcode != new_barcode:
+            # compare old barcode to new barcode; if they are equal then we do not need
+            # to update
+            Extraction.objects.filter(barcode_slug=old_barcode).update(in_freezer=YesNo.NO)
+            Extraction.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+    else:
+        # if it is a new barcode, update the is_extracted status to YES
+        Extraction.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
 
 
 # Create your models here.
@@ -136,8 +174,9 @@ class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True, null=True,
-                                        limit_choices_to={'is_extracted': YesNo.NO})
-    extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,)
+                                        limit_choices_to=Q(is_extracted=YesNo.NO) | Q(in_freezer=YesNo.NO))
+    extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,
+                                      limit_choices_to={'in_freezer': YesNo.NO})
     freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50,
                                               choices=InvTypes.choices)
@@ -170,7 +209,15 @@ class FreezerInventory(DateTimeUserMixin):
                 # e.g., "subcore-epr_l01_21w_0001"
                 self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
                                                                         barcode=slugify(self.field_sample.barcode_slug))
-            # all done, time to save changes to the db
+        if self.field_sample:
+            # if field_sample is being added/changed to freezer_inventory, update the field_sample's in_freezer status
+            old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
+            update_fs_in_freezer_status(old_barcode, self.field_sample.pk)
+        if self.extraction:
+            # if extraction is being added/changed to freezer_inventory, update the extraction's in_freezer status
+            old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
+            update_extr_in_freezer_status(old_barcode, self.extraction.pk)
+        # all done, time to save changes to the db
         super(FreezerInventory, self).save(*args, **kwargs)
 
     def __str__(self):
