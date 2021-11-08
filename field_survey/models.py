@@ -493,7 +493,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                '{date}, ' \
                '{location}, ' \
                '{creator}, ' \
-               'Complete: {survey_complete}'.format(survey_global_id=self.survey_global_id.survey_global_id,
+               'Complete: {survey_complete}'.format(survey_global_id=self.survey_global_id,
                                                     date=self.survey_datetime,
                                                     location=self.site_name,
                                                     creator=self.record_creator,
