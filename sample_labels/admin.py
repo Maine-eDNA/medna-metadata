@@ -73,7 +73,7 @@ class SampleMaterialAdmin(ImportExportActionModelAdmin):
 admin.site.register(SampleMaterial, SampleMaterialAdmin)
 
 
-class SampleLabelRequestAdmin(ExportActionModelAdmin):
+class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = SampleLabelRequestAdminResource
     # changes the order of how the tables are displayed and specifies what to display
