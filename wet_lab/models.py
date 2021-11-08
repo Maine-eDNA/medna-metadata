@@ -189,6 +189,7 @@ class Extraction(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
+    in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)

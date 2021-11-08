@@ -59,6 +59,7 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     queryset = Extraction.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location', 'field_sample',
+                        'in_freezer',
                         'extraction_method', 'quantification_method']
 
 

@@ -4,6 +4,8 @@ from django.contrib.gis import admin
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
+from field_survey.models import FieldSample
+from utility.enumerations import YesNo
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
@@ -11,6 +13,7 @@ from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRem
     ExtractionAdminResource, DdpcrAdminResource, QpcrAdminResource, LibraryPrepAdminResource, \
     PooledLibraryAdminResource, FinalPooledLibraryAdminResource, RunPrepAdminResource, RunResultAdminResource, \
     FastqFileAdminResource
+from django.db.models import Exists, OuterRef
 
 
 class PrimerPairAdmin(ImportExportActionModelAdmin):
@@ -257,7 +260,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                       'extraction_method',
+                       'in_freezer', 'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
@@ -271,6 +274,14 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
+
+#    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+#        if db_field.name == "field_sample":
+#            #
+#            kwargs["queryset"] = FieldSample.objects.filter(
+#                ~Exists(Extraction.objects.filter(field_sample=OuterRef('pk')))
+#            )
+#        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(Extraction, ExtractionAdmin)

@@ -4,7 +4,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
     RunResult, FastqFile
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
-from utility.enumerations import TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
+from utility.enumerations import YesNo, TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -156,6 +156,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_datetime = serializers.DateTimeField()
     barcode_slug = serializers.SlugField(max_length=16, read_only=True)
+    in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     extraction_first_name = serializers.CharField(max_length=255)
     extraction_last_name = serializers.CharField(max_length=255)
     extraction_volume = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -168,7 +169,8 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Extraction
-        fields = ['id', 'process_location', 'extraction_datetime', 'barcode_slug', 'field_sample', 'extraction_method',
+        fields = ['id', 'process_location', 'extraction_datetime', 'barcode_slug', 'in_freezer',
+                  'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
@@ -182,7 +184,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
                                                     queryset=ProcessLocation.objects.all())
     field_sample = serializers.SlugRelatedField(many=False, read_only=False,
                                                 slug_field='barcode_slug',
-                                                queryset=FieldSample.objects.all())
+                                                queryset=FieldSample.objects.filter(is_extracted=YesNo.NO))
     extraction_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                      slug_field='extraction_method_slug',
                                                      queryset=ExtractionMethod.objects.all())
