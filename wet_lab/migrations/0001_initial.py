@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('extraction_datetime', models.DateTimeField(verbose_name='Extraction DateTime')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Extraction Barcode Slug')),
+                ('in_freezer', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='In Freezer')),
                 ('extraction_first_name', models.CharField(max_length=255, verbose_name='First Name')),
                 ('extraction_last_name', models.CharField(max_length=255, verbose_name='Last Name')),
                 ('extraction_volume', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='Total Extraction Elution Volume')),
