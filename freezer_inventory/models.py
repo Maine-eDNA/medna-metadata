@@ -212,12 +212,19 @@ class FreezerInventory(DateTimeUserMixin):
                                                                         barcode=slugify(self.field_sample.barcode_slug))
         if self.field_sample:
             # if field_sample is being added/changed to freezer_inventory, update the field_sample's in_freezer status
-            old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
-            update_fs_in_freezer_status(old_barcode, self.field_sample.pk)
+            if self.freezer_inventory_slug is None:
+                update_fs_in_freezer_status(self.freezer_inventory_slug, self.field_sample.pk)
+            else:
+                old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
+                update_fs_in_freezer_status(old_barcode, self.field_sample.pk)
+
         if self.extraction:
             # if extraction is being added/changed to freezer_inventory, update the extraction's in_freezer status
-            old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
-            update_extr_in_freezer_status(old_barcode, self.extraction.pk)
+            if self.freezer_inventory_slug is None:
+                update_extr_in_freezer_status(self.freezer_inventory_slug, self.extraction.pk)
+            else:
+                old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
+                update_extr_in_freezer_status(old_barcode, self.extraction.pk)
         # all done, time to save changes to the db
         super(FreezerInventory, self).save(*args, **kwargs)
 
