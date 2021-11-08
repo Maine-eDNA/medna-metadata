@@ -204,8 +204,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_global_id', 'field_sample_barcode', 'is_extracted',
-                       'collection_global_id', 'created_by', ]
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -214,8 +213,8 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'sample_material',
-                       'collection_global_id', 'created_by', ]
+        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted', 'in_freezer',
+                       'sample_material', 'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 

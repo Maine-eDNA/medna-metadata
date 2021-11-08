@@ -333,7 +333,8 @@ class FieldSample(DateTimeUserMixin):
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
-    is_extracted = models.CharField("Extracted", max_length=50, choices=YesNo.choices, default=YesNo.NO)
+    is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
 
     def __str__(self):

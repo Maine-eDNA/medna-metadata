@@ -252,6 +252,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
 class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField(read_only=True, max_length=255)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -259,7 +260,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = FieldSample
         fields = ['collection_global_id', 'sample_global_id', 'sample_material', 'is_extracted',
-                  'field_sample_barcode', 'barcode_slug',
+                  'in_freezer', 'field_sample_barcode', 'barcode_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
