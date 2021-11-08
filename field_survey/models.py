@@ -497,7 +497,7 @@ class FieldSurveyETL(DateTimeUserMixin):
                                                     date=self.survey_datetime,
                                                     location=self.site_name,
                                                     creator=self.record_creator,
-                                                    survey_complete=self.get_survey_complete_display())
+                                                    survey_complete=self.survey_complete)
 
     class Meta:
         app_label = 'field_survey'
