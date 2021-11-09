@@ -26,7 +26,7 @@ class SampleMaterialAdminResource(resources.ModelResource):
 class SampleLabelRequestAdminResource(resources.ModelResource):
     class Meta:
         model = SampleLabelRequest
-        #import_id_fields = ('site_id', 'sample_year', 'sample_material', 'req_sample_label_num',)
+        import_id_fields = ('site_id', 'sample_year', 'sample_material', 'req_sample_label_num',)
         #exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
         #           'min_sample_label_id', 'max_sample_label_id', 'sample_label_request_slug',)
         fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
