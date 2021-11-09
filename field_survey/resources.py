@@ -312,6 +312,8 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
     class Meta:
         # SampleMaterial
         model = FieldSurveyETL
+        skip_unchanged = True
+        report_skipped = False
         import_id_fields = ('survey_global_id', )
         fields = ('survey_global_id', 'username', 'survey_datetime', 'project_ids', 'supervisor',
                   'recorder_fname', 'recorder_lname', 'arrival_datetime', 'site_id', 'site_id_other',
@@ -347,6 +349,8 @@ class FieldCrewETLAdminResource(resources.ModelResource):
     class Meta:
         # SampleLabel
         model = FieldCrewETL
+        skip_unchanged = True
+        report_skipped = False
         import_id_fields = ('crew_global_id', 'survey_global_id',)
         fields = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                   'created_by', 'created_datetime', 'modified_datetime', )
@@ -370,6 +374,8 @@ class EnvMeasurementETLAdminResource(resources.ModelResource):
     class Meta:
         # SampleLabel
         model = EnvMeasurementETL
+        skip_unchanged = True
+        report_skipped = False
         import_id_fields = ('env_global_id', 'survey_global_id', )
         fields = ('env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
                   'env_ctd_filename', 'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn',
@@ -406,6 +412,8 @@ class FieldCollectionETLAdminResource(resources.ModelResource):
     class Meta:
         # SampleLabel
         model = FieldCollectionETL
+        skip_unchanged = True
+        report_skipped = False
         import_id_fields = ('collection_global_id', 'survey_global_id', )
         fields = ('collection_global_id', 'collection_type', 'water_control', 'water_control_type',
                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
@@ -446,6 +454,8 @@ class SampleFilterETLAdminResource(resources.ModelResource):
     class Meta:
         # SampleLabel
         model = SampleFilterETL
+        skip_unchanged = True
+        report_skipped = False
         import_id_fields = ('filter_global_id', 'collection_global_id', )
         fields = ('filter_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname',
                   'filter_lname', 'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
