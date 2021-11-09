@@ -29,9 +29,9 @@ class SampleLabelRequestAdminResource(resources.ModelResource):
         import_id_fields = ('site_id', 'sample_year', 'sample_material', 'req_sample_label_num',)
         #exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
         #           'min_sample_label_id', 'max_sample_label_id', 'sample_label_request_slug',)
-        #fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
-        #          'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
-        #          'purpose', 'created_by', 'created_datetime', 'modified_datetime',)
+        fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
+                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
+                  'purpose', 'created_by', 'created_datetime', 'modified_datetime',)
         export_order = ('site_id', 'sample_year', 'sample_material', 'purpose', 'req_sample_label_num',
                         'created_by', 'created_datetime', 'modified_datetime',)
 
@@ -74,4 +74,4 @@ class SampleLabelAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email

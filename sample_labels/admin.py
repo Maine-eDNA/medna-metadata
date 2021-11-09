@@ -85,8 +85,8 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
         #self.list_filter = (
         #    ('sample_material', RelatedDropdownFilter),
         #)
-        self.exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
-                        'min_sample_label_id', 'max_sample_label_id', 'created_datetime', 'modified_datetime')
+        #self.exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
+        #                'min_sample_label_id', 'max_sample_label_id', 'created_datetime', 'modified_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
