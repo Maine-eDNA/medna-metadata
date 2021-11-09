@@ -26,14 +26,14 @@ class SampleMaterialAdminResource(resources.ModelResource):
 class SampleLabelRequestAdminResource(resources.ModelResource):
     class Meta:
         model = SampleLabelRequest
-        import_id_fields = ('site_id', 'sample_material', 'sample_year', 'req_sample_label_num',)
+        import_id_fields = ('site_id', 'sample_year', 'sample_material', 'req_sample_label_num',)
         exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
                    'min_sample_label_id', 'max_sample_label_id',)
         #fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
         #          'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
         #          'purpose', 'created_by', 'created_datetime',)
-        export_order = ('sample_label_prefix', 'req_sample_label_num', 'site_id',
-                        'sample_year', 'sample_material', 'purpose', 'created_by', 'created_datetime',)
+        export_order = ('site_id', 'sample_year', 'sample_material', 'purpose', 'req_sample_label_num',
+                        'created_by', 'created_datetime', 'modified_datetime',)
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -59,7 +59,7 @@ class SampleLabelAdminResource(resources.ModelResource):
         #fields = ('sample_label_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
         #          'created_by', 'created_datetime', )
         export_order = ('sample_label_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
     site_id = fields.Field(
         column_name='site_id',
         attribute='site_id',
