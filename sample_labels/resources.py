@@ -36,7 +36,7 @@ class SampleLabelRequestAdminResource(resources.ModelResource):
                         'created_by', 'created_datetime', 'modified_datetime',)
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
     site_id = fields.Field(
         column_name='site_id',
