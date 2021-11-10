@@ -335,11 +335,11 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         return super(FieldSurveyETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+#    def get_actions(self, request):
+#        actions = super().get_actions(request)
+#        if 'delete_selected' in actions:
+#            del actions['delete_selected']
+#        return actions
 
 
 admin.site.register(FieldSurveyETL, FieldSurveyETLAdmin)
@@ -359,11 +359,11 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
         return super(FieldCrewETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+#    def get_actions(self, request):
+#        actions = super().get_actions(request)
+#        if 'delete_selected' in actions:
+#            del actions['delete_selected']
+#        return actions
     # below are import_export configs
 
 
@@ -392,11 +392,11 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
         return super(EnvMeasurementETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+#    def get_actions(self, request):
+#        actions = super().get_actions(request)
+#        if 'delete_selected' in actions:
+#            del actions['delete_selected']
+#        return actions
     # below are import_export configs
 
 
@@ -426,11 +426,11 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
         return super(FieldCollectionETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+#    def get_actions(self, request):
+#        actions = super().get_actions(request)
+#        if 'delete_selected' in actions:
+#            del actions['delete_selected']
+#        return actions
     # below are import_export configs
 
 
@@ -455,11 +455,11 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
         return super(SampleFilterETLAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
+#    def get_actions(self, request):
+#        actions = super().get_actions(request)
+#        if 'delete_selected' in actions:
+#            del actions['delete_selected']
+#        return actions
     # below are import_export configs
 
 
