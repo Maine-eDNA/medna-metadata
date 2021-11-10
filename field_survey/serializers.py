@@ -22,7 +22,7 @@ from sample_labels.models import SampleMaterial, SampleLabel
 
 # Django REST Framework to allow the automatic downloading of data!
 class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
-    survey_global_id = serializers.CharField(read_only=True, max_length=255)
+    survey_global_id = serializers.CharField(read_only=False, max_length=255)
     #geom = GeometrySerializerMethodField()
     survey_datetime = serializers.DateTimeField()
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
@@ -101,7 +101,7 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
 
 
 class FieldCrewSerializer(serializers.ModelSerializer):
-    crew_global_id = serializers.CharField(read_only=True, max_length=255)
+    crew_global_id = serializers.CharField(read_only=False, max_length=255)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -120,7 +120,7 @@ class FieldCrewSerializer(serializers.ModelSerializer):
 
 
 class EnvMeasurementSerializer(serializers.ModelSerializer):
-    env_global_id = serializers.CharField(read_only=True, max_length=255)
+    env_global_id = serializers.CharField(read_only=False, max_length=255)
     env_measure_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_instrument = serializers.ChoiceField(choices=EnvInstruments.choices, allow_blank=True)
@@ -178,7 +178,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
 
 
 class FieldCollectionSerializer(serializers.ModelSerializer):
-    collection_global_id = serializers.CharField(read_only=True, max_length=255)
+    collection_global_id = serializers.CharField(read_only=False, max_length=255)
     collection_type = serializers.ChoiceField(choices=CollectionTypes.choices, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -250,7 +250,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
 
 
 class FieldSampleSerializer(serializers.ModelSerializer):
-    sample_global_id = serializers.CharField(read_only=True, max_length=255)
+    sample_global_id = serializers.CharField(read_only=False, max_length=255)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
@@ -333,7 +333,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
 #################################
 
 class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
-    survey_global_id = serializers.CharField(read_only=True, max_length=255)
+    survey_global_id = serializers.CharField(read_only=False, max_length=255)
     #geom = GeometrySerializerMethodField()
     username = serializers.CharField(max_length=255, allow_blank=True)
     survey_datetime = serializers.DateTimeField(allow_null=True)
@@ -403,7 +403,7 @@ class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
 
 
 class FieldCrewETLSerializer(serializers.ModelSerializer):
-    crew_global_id = serializers.CharField(read_only=True, max_length=255)
+    crew_global_id = serializers.CharField(read_only=False, max_length=255)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -422,7 +422,7 @@ class FieldCrewETLSerializer(serializers.ModelSerializer):
 
 
 class EnvMeasurementETLSerializer(serializers.ModelSerializer):
-    env_global_id = serializers.CharField(read_only=True, max_length=255)
+    env_global_id = serializers.CharField(read_only=False, max_length=255)
     env_measure_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_instrument = serializers.CharField(max_length=255, allow_blank=True)
@@ -480,7 +480,7 @@ class EnvMeasurementETLSerializer(serializers.ModelSerializer):
 
 
 class FieldCollectionETLSerializer(serializers.ModelSerializer):
-    collection_global_id = serializers.CharField(max_length=255)
+    collection_global_id = serializers.CharField(read_only=False, max_length=255)
     collection_type = serializers.CharField(max_length=255, allow_blank=True)
     water_control = serializers.CharField(max_length=3, allow_blank=True)
     water_control_type = serializers.CharField(max_length=255, allow_blank=True)
@@ -545,7 +545,7 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
 
 
 class SampleFilterETLSerializer(serializers.ModelSerializer):
-    filter_global_id = serializers.CharField(max_length=255)
+    filter_global_id = serializers.CharField(read_only=False, max_length=255)
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
     is_prefilter = serializers.CharField(max_length=3, allow_blank=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)
