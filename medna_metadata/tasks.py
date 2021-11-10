@@ -149,10 +149,7 @@ def update_record_field_survey(record, pk):
         prj_list = []
         prjs = record.project_ids.split(',')
 
-        lat_manual = record.lat_manual
-        long_manual = record.long_manual
-        # django srid defaults to 4326 (WGS84)
-        geom = Point(long_manual, lat_manual)
+        # survey123 srid defaults to 4326 (WGS84)
 
         for prj in prjs:
             project = Project.objects.get(project_code=prj)
@@ -171,8 +168,8 @@ def update_record_field_survey(record, pk):
                 'site_id': FieldSite.objects.get(site_id=record.site_id),
                 'site_id_other': record.site_id_other,
                 'site_name': record.site_name,
-                'lat_manual': lat_manual,
-                'long_manual': long_manual,
+                'lat_manual': record.lat_manual,
+                'long_manual': record.long_manual,
                 'env_obs_turbidity': record.env_obs_turbidity,
                 'env_obs_precip': record.env_obs_precip,
                 'env_obs_wind_speed': record.env_obs_wind_speed,
@@ -203,7 +200,7 @@ def update_record_field_survey(record, pk):
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
                 'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
-                'geom': geom,
+                'geom': record.geom,
             }
         )
 
