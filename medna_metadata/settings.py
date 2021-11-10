@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken', # for the creation of api tokens
     'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
     'crispy_forms', # crispy forms for pretty forms
+    #'django_extensions', # generating schema pngs
 ]
 
 # Internationalization
