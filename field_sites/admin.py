@@ -527,7 +527,7 @@ class FieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     resource_class = FieldSiteAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['grant', 'system', 'watershed']
-    list_display = ('__str__', 'grant', 'system', 'watershed')
+    list_display = ('site_id', 'general_location_name', 'grant', 'system', 'watershed')
     #list_filter = ('grant', 'system', 'watershed', )
 
     def add_view(self, request, extra_content=None):
