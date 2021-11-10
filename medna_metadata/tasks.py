@@ -78,6 +78,14 @@ def get_s3_fastq_keys(run_keys):
         raise RuntimeError("** Error: get_s3_fastq_keys Failed (" + str(err) + ")")
 
 
+def get_filter_etl_delete_labels():
+    try:
+        filter_deletes = SampleFilterETL.objects.filter(filter_sample_label__icontains='delete')
+        return filter_deletes
+    except Exception as err:
+        raise RuntimeError("** Error: get_filter_etl_delete_labels Failed (" + str(err) + ")")
+
+
 def get_filter_etl_duplicates():
     try:
         filter_duplicates = SampleFilterETL.objects.values(
@@ -88,6 +96,14 @@ def get_filter_etl_duplicates():
         return filter_duplicates
     except Exception as err:
         raise RuntimeError("** Error: get_filter_etl_duplicates Failed (" + str(err) + ")")
+
+
+def get_core_etl_delete_labels():
+    try:
+        core_deletes = FieldCollectionETL.objects.filter(core_label__icontains='delete')
+        return core_deletes
+    except Exception as err:
+        raise RuntimeError("** Error: get_core_etl_delete_labels Failed (" + str(err) + ")")
 
 
 def get_min_subcore_etl_duplicates():
@@ -119,8 +135,8 @@ def update_record_fastq(record, pk):
         fastq_file, created = FastqFile.objects.update_or_create(
             uuid=pk,
             defaults={
-                'run_result': record['run_result'],
-                'fastq_datafile': record['fastq_datafile'],
+                'run_result': record.run_result,
+                'fastq_datafile': record.fastq_datafile,
             }
         )
         return fastq_file, created
@@ -131,10 +147,10 @@ def update_record_fastq(record, pk):
 def update_record_field_survey(record, pk):
     try:
         prj_list = []
-        prjs = record['project_ids'].split(',')
+        prjs = record.project_ids.split(',')
 
-        lat_manual = record['lat_manual']
-        long_manual = record['long_manual']
+        lat_manual = record.lat_manual
+        long_manual = record.long_manual
         # django srid defaults to 4326 (WGS84)
         geom = Point(long_manual, lat_manual)
 
@@ -145,48 +161,48 @@ def update_record_field_survey(record, pk):
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
             defaults={
-                'username': CustomUser.objects.get(agol_username=record['username']),
-                'survey_datetime': record['survey_datetime'],
+                'username': CustomUser.objects.get(agol_username=record.username),
+                'survey_datetime': record.survey_datetime,
                 'project_ids': prj_list,
-                'supervisor': CustomUser.objects.get(agol_username=record['supervisor']),
-                'recorder_fname': record['recorder_fname'],
-                'recorder_lname': record['recorder_lname'],
-                'arrival_datetime': record['arrival_datetime'],
-                'site_id': FieldSite.objects.get(site_id=record['site_id']),
-                'site_id_other': record['site_id_other'],
-                'site_name': record['site_name'],
+                'supervisor': CustomUser.objects.get(agol_username=record.supervisor),
+                'recorder_fname': record.recorder_fname,
+                'recorder_lname': record.recorder_lname,
+                'arrival_datetime': record.arrival_datetime,
+                'site_id': FieldSite.objects.get(site_id=record.site_id),
+                'site_id_other': record.site_id_other,
+                'site_name': record.site_name,
                 'lat_manual': lat_manual,
                 'long_manual': long_manual,
-                'env_obs_turbidity': record['env_obs_turbidity'],
-                'env_obs_precip': record['env_obs_precip'],
-                'env_obs_wind_speed': record['env_obs_wind_speed'],
-                'env_obs_cloud_cover': record['env_obs_cloud_cover'],
-                'env_biome': record['env_biome'],
-                'env_biome_other': record['env_biome_other'],
-                'env_feature': record['env_feature'],
-                'env_feature_other': record['env_feature_other'],
-                'env_material': record['env_material'],
-                'env_material_other': record['env_material_other'],
-                'env_notes': record['env_notes'],
-                'env_measure_mode': record['env_measure_mode'],
-                'env_boat_type': record['env_boat_type'],
-                'env_bottom_depth': record['env_bottom_depth'],
-                'measurements_taken': record['measurements_taken'],
-                'core_subcorer': CustomUser.objects.get(agol_username=record['core_subcorer']),
-                'water_filterer': CustomUser.objects.get(agol_username=record['water_filterer']),
-                'survey_complete': record['survey_complete'],
-                'qa_editor': CustomUser.objects.get(agol_username=record['qa_editor']),
-                'qa_datetime': record['qa_datetime'],
-                'qa_initial': record['qa_initial'],
-                'gps_cap_lat': record['gps_cap_lat'],
-                'gps_cap_long': record['gps_cap_long'],
-                'gps_cap_alt': record['gps_cap_alt'],
-                'gps_cap_horacc': record['gps_cap_horacc'],
-                'gps_cap_vertacc': record['gps_cap_vertacc'],
-                'record_create_datetime': record['record_create_datetime'],
-                'record_creator': CustomUser.objects.get(agol_username=record['record_creator']),
-                'record_edit_datetime': record['record_edit_datetime'],
-                'record_editor': CustomUser.objects.get(agol_username=record['record_editor']),
+                'env_obs_turbidity': record.env_obs_turbidity,
+                'env_obs_precip': record.env_obs_precip,
+                'env_obs_wind_speed': record.env_obs_wind_speed,
+                'env_obs_cloud_cover': record.env_obs_cloud_cover,
+                'env_biome': record.env_biome,
+                'env_biome_other': record.env_biome_other,
+                'env_feature': record.env_feature,
+                'env_feature_other': record.env_feature_other,
+                'env_material': record.env_material,
+                'env_material_other': record.env_material_other,
+                'env_notes': record.env_notes,
+                'env_measure_mode': record.env_measure_mode,
+                'env_boat_type': record.env_boat_type,
+                'env_bottom_depth': record.env_bottom_depth,
+                'measurements_taken': record.measurements_taken,
+                'core_subcorer': CustomUser.objects.get(agol_username=record.core_subcorer),
+                'water_filterer': CustomUser.objects.get(agol_username=record.water_filterer),
+                'survey_complete': record.survey_complete,
+                'qa_editor': CustomUser.objects.get(agol_username=record.qa_editor),
+                'qa_datetime': record.qa_datetime,
+                'qa_initial': record.qa_initial,
+                'gps_cap_lat': record.gps_cap_lat,
+                'gps_cap_long': record.gps_cap_long,
+                'gps_cap_alt': record.gps_cap_alt,
+                'gps_cap_horacc': record.gps_cap_horacc,
+                'gps_cap_vertacc': record.gps_cap_vertacc,
+                'record_create_datetime': record.record_create_datetime,
+                'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
+                'record_edit_datetime': record.record_edit_datetime,
+                'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
                 'geom': geom,
             }
         )
@@ -201,9 +217,9 @@ def update_record_field_crew(record, pk):
         field_crew, created = FieldCrew.objects.update_or_create(
             crew_global_id=pk,
             defaults={
-                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record['survey_global_id']),
-                'crew_fname': record['crew_fname'],
-                'crew_lname': record['crew_lname'],
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id),
+                'crew_fname': record.crew_fname,
+                'crew_lname': record.crew_lname,
             }
         )
         return field_crew, created
@@ -216,40 +232,40 @@ def update_record_env_measurement(record, pk):
         env_measurement, created = EnvMeasurement.objects.update_or_create(
             env_global_id=pk,
             defaults={
-                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record['survey_global_id']),
-                'env_measure_datetime': record['env_measure_datetime'],
-                'env_measure_depth': record['env_measure_depth'],
-                'env_instrument': record['env_instrument'],
-                'env_ctd_filename': record['env_ctd_filename'],
-                'env_ctd_notes': record['env_ctd_notes'],
-                'env_ysi_filename': record['env_ysi_filename'],
-                'env_ysi_model': record['env_ysi_model'],
-                'env_ysi_sn': record['env_ysi_sn'],
-                'env_ysi_notes': record['env_ysi_notes'],
-                'env_secchi_depth': record['env_secchi_depth'],
-                'env_secchi_notes': record['env_secchi_notes'],
-                'env_niskin_number': record['env_niskin_number'],
-                'env_niskin_notes': record['env_niskin_notes'],
-                'env_inst_other': record['env_inst_other'],
-                'env_measurement': record['env_measurement'],
-                'env_flow_rate': record['env_flow_rate'],
-                'env_water_temp': record['env_water_temp'],
-                'env_salinity': record['env_salinity'],
-                'env_ph_scale': record['env_ph_scale'],
-                'env_par1': record['env_par1'],
-                'env_par2': record['env_par2'],
-                'env_turbidity': record['env_turbidity'],
-                'env_conductivity': record['env_conductivity'],
-                'env_do': record['env_do'],
-                'env_pheophytin': record['env_pheophytin'],
-                'env_chla': record['env_chla'],
-                'env_no3no2': record['env_no3no2'],
-                'env_no2': record['env_no2'],
-                'env_nh4': record['env_nh4'],
-                'env_phosphate': record['env_phosphate'],
-                'env_substrate': record['env_substrate'],
-                'env_lab_datetime': record['env_lab_datetime'],
-                'env_measure_notes': record['env_measure_notes'],
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id),
+                'env_measure_datetime': record.env_measure_datetime,
+                'env_measure_depth': record.env_measure_depth,
+                'env_instrument': record.env_instrument,
+                'env_ctd_filename': record.env_ctd_filename,
+                'env_ctd_notes': record.env_ctd_notes,
+                'env_ysi_filename': record.env_ysi_filename,
+                'env_ysi_model': record.env_ysi_model,
+                'env_ysi_sn': record.env_ysi_sn,
+                'env_ysi_notes': record.env_ysi_notes,
+                'env_secchi_depth': record.env_secchi_depth,
+                'env_secchi_notes': record.env_secchi_notes,
+                'env_niskin_number': record.env_niskin_number,
+                'env_niskin_notes': record.env_niskin_notes,
+                'env_inst_other': record.env_inst_other,
+                'env_measurement': record.env_measurement,
+                'env_flow_rate': record.env_flow_rate,
+                'env_water_temp': record.env_water_temp,
+                'env_salinity': record.env_salinity,
+                'env_ph_scale': record.env_ph_scale,
+                'env_par1': record.env_par1,
+                'env_par2': record.env_par2,
+                'env_turbidity': record.env_turbidity,
+                'env_conductivity': record.env_conductivity,
+                'env_do': record.env_do,
+                'env_pheophytin': record.env_pheophytin,
+                'env_chla': record.env_chla,
+                'env_no3no2': record.env_no3no2,
+                'env_no2': record.env_no2,
+                'env_nh4': record.env_nh4,
+                'env_phosphate': record.env_phosphate,
+                'env_substrate': record.env_substrate,
+                'env_lab_datetime': record.env_lab_datetime,
+                'env_measure_notes': record.env_measure_notes,
             }
         )
 
@@ -263,8 +279,8 @@ def update_record_field_collection(record, pk):
         field_collection, created = FieldCollection.objects.update_or_create(
             collection_global_id=pk,
             defaults={
-                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record['survey_global_id']),
-                'collection_type': record['collection_type'],
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id),
+                'collection_type': record.collection_type,
             }
         )
 
@@ -272,19 +288,19 @@ def update_record_field_collection(record, pk):
             water_collection, created = WaterCollection.objects.update_or_create(
                 field_collection=field_collection.pk,
                 defaults={
-                    'water_control': record['water_control'],
-                    'water_control_type': record['water_control_type'],
-                    'water_vessel_label': record['water_vessel_label'],
-                    'water_collect_datetime': record['water_collect_datetime'],
-                    'water_collect_depth': record['water_collect_depth'],
-                    'water_collect_mode': record['water_collect_mode'],
-                    'water_niskin_number': record['water_niskin_number'],
-                    'water_niskin_vol': record['water_niskin_vol'],
-                    'water_vessel_vol': record['water_vessel_vol'],
-                    'water_vessel_material': record['water_vessel_material'],
-                    'water_vessel_color': record['water_vessel_color'],
-                    'water_collect_notes': record['water_collect_notes'],
-                    'was_filtered': record['was_filtered'],
+                    'water_control': record.water_control,
+                    'water_control_type': record.water_control_type,
+                    'water_vessel_label': record.water_vessel_label,
+                    'water_collect_datetime': record.water_collect_datetime,
+                    'water_collect_depth': record.water_collect_depth,
+                    'water_collect_mode': record.water_collect_mode,
+                    'water_niskin_number': record.water_niskin_number,
+                    'water_niskin_vol': record.water_niskin_vol,
+                    'water_vessel_vol': record.water_vessel_vol,
+                    'water_vessel_material': record.water_vessel_material,
+                    'water_vessel_color': record.water_vessel_color,
+                    'water_collect_notes': record.water_collect_notes,
+                    'was_filtered': record.was_filtered,
                 }
             )
 
@@ -292,18 +308,18 @@ def update_record_field_collection(record, pk):
             sediment_collection, created = SedimentCollection.objects.update_or_create(
                 field_collection=field_collection.pk,
                 defaults={
-                    'core_control': record['core_control'],
-                    'core_label': record['core_label'],
-                    'core_datetime_start': record['core_datetime_start'],
-                    'core_datetime_end': record['core_datetime_end'],
-                    'core_method': record['core_method'],
-                    'core_method_other': record['core_method_other'],
-                    'core_collect_depth': record['core_collect_depth'],
-                    'core_length': record['core_length'],
-                    'core_diameter': record['core_diameter'],
-                    'core_purpose': record['core_purpose'],
-                    'core_notes': record['core_notes'],
-                    'subcores_taken': record['subcores_taken'],
+                    'core_control': record.core_control,
+                    'core_label': record.core_label,
+                    'core_datetime_start': record.core_datetime_start,
+                    'core_datetime_end': record.core_datetime_end,
+                    'core_method': record.core_method,
+                    'core_method_other': record.core_method_other,
+                    'core_collect_depth': record.core_collect_depth,
+                    'core_length': record.core_length,
+                    'core_diameter': record.core_diameter,
+                    'core_purpose': record.core_purpose,
+                    'core_notes': record.core_notes,
+                    'subcores_taken': record.subcores_taken,
                 }
             )
 
@@ -319,7 +335,7 @@ def update_record_field_sample(record, collection_type, field_sample_pk, sample_
         field_sample, created = FieldSample.objects.update_or_create(
             sample_global_id=field_sample_pk,
             defaults={
-                'collection_global_id': FieldCollection.objects.get(collection_global_id=record['collection_global_id']),
+                'collection_global_id': FieldCollection.objects.get(collection_global_id=record.collection_global_id),
                 'field_sample_barcode': sample_label_pk,
             }
         )
@@ -331,20 +347,20 @@ def update_record_field_sample(record, collection_type, field_sample_pk, sample_
             filter_sample, created = FilterSample.objects.update_or_create(
                 field_sample=field_sample.pk,
                 defaults={
-                    'filter_location': record['filter_location'],
-                    'is_prefilter': record['is_prefilter'],
-                    'filter_fname': record['filter_fname'],
-                    'filter_lname': record['filter_lname'],
-                    'filter_sample_label': record['filter_sample_label'],
-                    'filter_datetime': record['filter_datetime'],
-                    'filter_method': record['filter_method'],
-                    'filter_method_other': record['filter_method_other'],
-                    'filter_vol': record['filter_vol'],
-                    'filter_type': record['filter_type'],
-                    'filter_type_other': record['filter_type_other'],
-                    'filter_pore': record['filter_pore'],
-                    'filter_size': record['filter_size'],
-                    'filter_notes': record['filter_notes'],
+                    'filter_location': record.filter_location,
+                    'is_prefilter': record.is_prefilter,
+                    'filter_fname': record.filter_fname,
+                    'filter_lname': record.filter_lname,
+                    'filter_sample_label': record.filter_sample_label,
+                    'filter_datetime': record.filter_datetime,
+                    'filter_method': record.filter_method,
+                    'filter_method_other': record.filter_method_other,
+                    'filter_vol': record.filter_vol,
+                    'filter_type': record.filter_type,
+                    'filter_type_other': record.filter_type_other,
+                    'filter_pore': record.filter_pore,
+                    'filter_size': record.filter_size,
+                    'filter_notes': record.filter_notes,
                 }
             )
             if created:
@@ -354,16 +370,16 @@ def update_record_field_sample(record, collection_type, field_sample_pk, sample_
             subcore_sample, created = SubCoreSample.objects.update_or_create(
                 field_sample=field_sample.pk,
                 defaults={
-                    'subcore_fname': record['subcore_fname'],
-                    'subcore_lname': record['subcore_lname'],
-                    'subcore_method': record['subcore_method'],
-                    'subcore_method_other': record['subcore_method_other'],
-                    'subcore_datetime_start': record['subcore_datetime_start'],
-                    'subcore_datetime_end': record['subcore_datetime_end'],
-                    'subcore_number': record['subcore_number'],
-                    'subcore_length': record['subcore_length'],
-                    'subcore_diameter': record['subcore_diameter'],
-                    'subcore_clayer': record['subcore_clayer'],
+                    'subcore_fname': record.subcore_fname,
+                    'subcore_lname': record.subcore_lname,
+                    'subcore_method': record.subcore_method,
+                    'subcore_method_other': record.subcore_method_other,
+                    'subcore_datetime_start': record.subcore_datetime_start,
+                    'subcore_datetime_end': record.subcore_datetime_end,
+                    'subcore_number': record.subcore_number,
+                    'subcore_length': record.subcore_length,
+                    'subcore_diameter': record.subcore_diameter,
+                    'subcore_clayer': record.subcore_clayer,
                 }
             )
             if created:
@@ -396,7 +412,7 @@ def update_queryset_fastq_file(queryset):
     try:
         update_count = 0
         for record in queryset:
-            pk = record['uuid']
+            pk = record.uuid
             fastq_file, created = update_record_fastq(record, pk)
             if created:
                 update_count += 1
@@ -409,7 +425,7 @@ def update_queryset_field_survey(queryset):
     try:
         update_count = 0
         for record in queryset:
-            pk = record['survey_global_id']
+            pk = record.survey_global_id
             field_survey, created = update_record_field_survey(record, pk)
             if created:
                 update_count += 1
@@ -422,7 +438,7 @@ def update_queryset_field_crew(queryset):
     try:
         update_count = 0
         for record in queryset:
-            pk = record['crew_global_id']
+            pk = record.crew_global_id
             field_crew, created = update_record_field_crew(record, pk)
             if created:
                 update_count += 1
@@ -435,7 +451,7 @@ def update_queryset_env_measurement(queryset):
     try:
         update_count = 0
         for record in queryset:
-            pk = record['env_global_id']
+            pk = record.env_global_id
             env_measurements, created = update_record_env_measurement(record, pk)
             if created:
                 update_count += 1
@@ -448,9 +464,9 @@ def update_queryset_subcore_sample(queryset):
     try:
         created_count = 0
         for record in queryset:
-            collection_global_id = record['collection_global_id']
-            subcore_min_barcode = record['subcore_min_barcode']
-            subcore_max_barcode = record['subcore_max_barcode']
+            collection_global_id = record.collection_global_id
+            subcore_min_barcode = record.subcore_min_barcode
+            subcore_max_barcode = record.subcore_max_barcode
             # only one barcode used
             if subcore_min_barcode == subcore_max_barcode or not subcore_max_barcode:
                 # if min and max are equal or there is no max barcode
@@ -462,10 +478,10 @@ def update_queryset_subcore_sample(queryset):
                         # since we put a "min" and "max" field, rather than a separate record
                         # for each subcore barcode, here we're appending the barcode to the
                         # gid to create a unique gid
-                        new_gid = record['collection_global_id'] + '-' + subcore_min_barcode
+                        new_gid = record.collection_global_id + '-' + subcore_min_barcode
 
                         count = update_record_field_sample(record=record,
-                                                           collection_type=record['collection_type'],
+                                                           collection_type=record.collection_type,
                                                            field_sample_pk=new_gid,
                                                            sample_label_pk=sample_label.pk)
 
@@ -508,7 +524,7 @@ def update_queryset_subcore_sample(queryset):
                             new_gid = collection_global_id + '-' + subcore_barcode
 
                             count = update_record_field_sample(record=record,
-                                                               collection_type=record['collection_type'],
+                                                               collection_type=record.collection_type,
                                                                field_sample_pk=new_gid,
                                                                sample_label_pk=sample_label.pk)
 
@@ -523,16 +539,16 @@ def update_queryset_filter_sample(queryset):
     try:
         created_count = 0
         for record in queryset:
-            filter_barcode = record['filter_barcode']
+            filter_barcode = record.filter_barcode
             if filter_barcode:
                 # only proceed if filter_barcode exists
                 sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)
-                field_collection = FieldCollectionETL.objects.filter(collection_global_id=record['collection_global_id'])
+                field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id)
                 if sample_label:
                     # only proceed if sample_label exists
                     count = update_record_field_sample(record=record,
                                                        collection_type=field_collection.collection_type,
-                                                       field_sample_pk=record['filter_global_id'],
+                                                       field_sample_pk=record.filter_global_id,
                                                        sample_label_pk=sample_label.pk)
 
                     created_count = created_count+count
@@ -545,8 +561,8 @@ def transform_field_survey_etls(queryset):
     try:
         update_count = 0
         for record in queryset:
-            survey_global_id = record['survey_global_id']
-            # grab related records
+            survey_global_id = record.survey_global_id
+            # grab related records based on each item in queryset
             related_survey_records = FieldSurveyETL.objects.filter(
                 survey_global_id=survey_global_id)
             related_crew_records = FieldCrewETL.objects.filter(
@@ -565,28 +581,28 @@ def transform_field_survey_etls(queryset):
                 # remove any present duplicate min_barcodes
                 nondup_min_related_collect = related_collect_records.exclude(
                     subcore_min_barcode__in=[item['subcore_min_barcode'] for item in subcore_min_duplicates])
-                # remove any present duplicate max barcodes
+                # remove any present duplicate max barcodes from the min-exclude subset
                 nondup_related_collect = nondup_min_related_collect.exclude(
                     subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates])
 
                 if nondup_related_collect:
                     if related_survey_records:
                         non_dup_survey_records = related_survey_records.filter(
-                            survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
+                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
                         if non_dup_survey_records:
                             count = update_queryset_field_survey(non_dup_survey_records)
                             update_count = update_count + count
 
                     if related_crew_records:
                         non_dup_crew_records = related_crew_records.filter(
-                            survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
+                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
                         if non_dup_crew_records:
                             count = update_queryset_field_crew(non_dup_crew_records)
                             update_count = update_count + count
 
                     if related_env_records:
                         non_dup_env_records = related_env_records.filter(
-                            survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
+                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
                         if non_dup_env_records:
                             count = update_queryset_env_measurement(non_dup_env_records)
                             update_count = update_count + count
@@ -595,6 +611,8 @@ def transform_field_survey_etls(queryset):
                     update_count = update_count + count
 
             if related_filter_records:
+                # get_filter_etl_duplicates returns a list, so subscript is different
+                # in query filter than when filtering from a list of a queryset
                 filter_duplicates = get_filter_etl_duplicates()
                 # remove any present duplicate filter_barcodes
                 nondup_related_filters = related_filter_records.exclude(
@@ -603,26 +621,27 @@ def transform_field_survey_etls(queryset):
                     # since SampleFilter is fk to FieldCollection, and we want the survey_global_id,
                     # need to grab nondup records from related_collect_records
                     nondup_related_collect = related_collect_records.filter(
-                        collection_global_id__in=[item['collection_global_id'] for item in nondup_related_filters]
-                    )
+                        collection_global_id__in=[record.collection_global_id.collection_global_id for record in
+                                                  nondup_related_filters])
+
                     # now take collection ids and update their related records
                     if related_survey_records:
                         non_dup_survey_records = related_survey_records.filter(
-                            survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
+                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
                         if non_dup_survey_records:
                             count = update_queryset_field_survey(non_dup_survey_records)
                             update_count = update_count + count
 
                     if related_crew_records:
                         non_dup_crew_records = related_crew_records.filter(
-                            survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
+                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
                         if non_dup_crew_records:
                             count = update_queryset_field_crew(non_dup_crew_records)
                             update_count = update_count + count
 
                     if related_env_records:
                         non_dup_env_records = related_env_records.filter(
-                            survey_global_id__in=[item['survey_global_id'] for item in nondup_related_collect])
+                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
                         if non_dup_env_records:
                             count = update_queryset_env_measurement(non_dup_env_records)
                             update_count = update_count + count
