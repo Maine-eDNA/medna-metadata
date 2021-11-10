@@ -1,0 +1,2 @@
+[{"model": "bioinfo_taxon.annotationmethod", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-20T07:49:28.975Z", "created_datetime": "2021-08-20T07:49:28.975Z",
+  "annotation_method_name": "BLASTPlus", "annotation_method_name_slug": "blastplus_20210823_074928"}}]
