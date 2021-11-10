@@ -30,7 +30,7 @@ class FreezerAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FreezerRackAdminResource(resources.ModelResource):
@@ -64,7 +64,7 @@ class FreezerRackAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FreezerBoxAdminResource(resources.ModelResource):
@@ -96,7 +96,7 @@ class FreezerBoxAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FreezerInventoryAdminResource(resources.ModelResource):
@@ -138,7 +138,7 @@ class FreezerInventoryAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FreezerCheckoutAdminResource(resources.ModelResource):
@@ -174,4 +174,4 @@ class FreezerCheckoutAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email

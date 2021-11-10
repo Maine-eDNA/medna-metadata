@@ -30,7 +30,7 @@ class PrimerPairAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class IndexPairAdminResource(resources.ModelResource):
@@ -49,7 +49,7 @@ class IndexPairAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class IndexRemovalMethodAdminResource(resources.ModelResource):
@@ -68,7 +68,7 @@ class IndexRemovalMethodAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class SizeSelectionMethodAdminResource(resources.ModelResource):
@@ -87,7 +87,7 @@ class SizeSelectionMethodAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class QuantificationMethodAdminResource(resources.ModelResource):
@@ -106,7 +106,7 @@ class QuantificationMethodAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class ExtractionMethodAdminResource(resources.ModelResource):
@@ -129,7 +129,7 @@ class ExtractionMethodAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class ExtractionAdminResource(resources.ModelResource):
@@ -177,7 +177,7 @@ class ExtractionAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class DdpcrAdminResource(resources.ModelResource):
@@ -214,7 +214,7 @@ class DdpcrAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class QpcrAdminResource(resources.ModelResource):
@@ -251,7 +251,7 @@ class QpcrAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class LibraryPrepAdminResource(resources.ModelResource):
@@ -316,7 +316,7 @@ class LibraryPrepAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class PooledLibraryAdminResource(resources.ModelResource):
@@ -356,7 +356,7 @@ class PooledLibraryAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FinalPooledLibraryAdminResource(resources.ModelResource):
@@ -398,7 +398,7 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class RunPrepAdminResource(resources.ModelResource):
@@ -437,7 +437,7 @@ class RunPrepAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class RunResultAdminResource(resources.ModelResource):
@@ -469,7 +469,7 @@ class RunResultAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FastqFileAdminResource(resources.ModelResource):
@@ -499,5 +499,5 @@ class FastqFileAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 

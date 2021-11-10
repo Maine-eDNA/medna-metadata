@@ -21,7 +21,7 @@ class EnvoBiomeFirstAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoBiomeSecondAdminResource(resources.ModelResource):
@@ -44,7 +44,7 @@ class EnvoBiomeSecondAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoBiomeThirdAdminResource(resources.ModelResource):
@@ -67,7 +67,7 @@ class EnvoBiomeThirdAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoBiomeFourthAdminResource(resources.ModelResource):
@@ -93,7 +93,7 @@ class EnvoBiomeFourthAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoBiomeFifthAdminResource(resources.ModelResource):
@@ -119,7 +119,7 @@ class EnvoBiomeFifthAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureFirstAdminResource(resources.ModelResource):
@@ -135,7 +135,7 @@ class EnvoFeatureFirstAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureSecondAdminResource(resources.ModelResource):
@@ -156,7 +156,7 @@ class EnvoFeatureSecondAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureThirdAdminResource(resources.ModelResource):
@@ -177,7 +177,7 @@ class EnvoFeatureThirdAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureFourthAdminResource(resources.ModelResource):
@@ -201,7 +201,7 @@ class EnvoFeatureFourthAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureFifthAdminResource(resources.ModelResource):
@@ -225,7 +225,7 @@ class EnvoFeatureFifthAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureSixthAdminResource(resources.ModelResource):
@@ -249,7 +249,7 @@ class EnvoFeatureSixthAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class EnvoFeatureSeventhAdminResource(resources.ModelResource):
@@ -276,7 +276,7 @@ class EnvoFeatureSeventhAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class SystemAdminResource(resources.ModelResource):
@@ -408,4 +408,4 @@ class FieldSiteAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email

@@ -15,7 +15,7 @@ class GrantAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
     created_by = fields.Field(
         column_name='created_by',
@@ -44,7 +44,7 @@ class ProjectAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class ProcessLocationAdminResource(resources.ModelResource):
@@ -71,4 +71,4 @@ class ProcessLocationAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email

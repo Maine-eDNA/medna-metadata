@@ -25,7 +25,7 @@ class ReferenceDatabaseAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonDomainAdminResource(resources.ModelResource):
@@ -44,7 +44,7 @@ class TaxonDomainAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonKingdomAdminResource(resources.ModelResource):
@@ -68,7 +68,7 @@ class TaxonKingdomAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonPhylumAdminResource(resources.ModelResource):
@@ -92,7 +92,7 @@ class TaxonPhylumAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonClassAdminResource(resources.ModelResource):
@@ -116,7 +116,7 @@ class TaxonClassAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonOrderAdminResource(resources.ModelResource):
@@ -141,7 +141,7 @@ class TaxonOrderAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonFamilyAdminResource(resources.ModelResource):
@@ -168,7 +168,7 @@ class TaxonFamilyAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonGenusAdminResource(resources.ModelResource):
@@ -195,7 +195,7 @@ class TaxonGenusAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonSpeciesAdminResource(resources.ModelResource):
@@ -224,7 +224,7 @@ class TaxonSpeciesAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonAdminResource(resources.ModelResource):
@@ -292,7 +292,7 @@ class AnnotationMethodAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class AnnotationMetadataAdminResource(resources.ModelResource):
@@ -331,7 +331,7 @@ class AnnotationMetadataAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class TaxonomicAnnotationAdminResource(resources.ModelResource):
@@ -423,4 +423,4 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email

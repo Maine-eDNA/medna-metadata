@@ -22,7 +22,7 @@ class DenoisingMethodAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class DenoisingMetadataAdminResource(resources.ModelResource):
@@ -61,7 +61,7 @@ class DenoisingMetadataAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class AmpliconSequenceVariantAdminResource(resources.ModelResource):
@@ -85,7 +85,7 @@ class AmpliconSequenceVariantAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class ASVReadAdminResource(resources.ModelResource):
@@ -114,4 +114,4 @@ class ASVReadAdminResource(resources.ModelResource):
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
