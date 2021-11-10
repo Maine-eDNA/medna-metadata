@@ -1,7 +1,7 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
 from .celery import app
-import settings
 from celery.utils.log import get_task_logger
+import settings
 from utility.models import PeriodicTaskRun, Project
 from utility.enumerations import CollectionTypes
 from users.models import CustomUser
@@ -16,8 +16,8 @@ from sample_labels.models import SampleLabel
 from django.utils import timezone
 from django.db.models import Max, Count
 import numpy as np
-import re
-from django.contrib.gis.geos import Point
+#import re
+#from django.contrib.gis.geos import Point
 import boto3
 
 logger = get_task_logger(__name__)
@@ -149,6 +149,11 @@ def update_record_field_survey(record, pk):
         prj_list = []
         prjs = record.project_ids.split(',')
 
+        if record.site_id == "other":
+            record_site_id = "eOT_O01"
+        else:
+            record_site_id = record.site_id
+
         # survey123 srid defaults to 4326 (WGS84)
 
         for prj in prjs:
@@ -165,7 +170,7 @@ def update_record_field_survey(record, pk):
                 'recorder_fname': record.recorder_fname,
                 'recorder_lname': record.recorder_lname,
                 'arrival_datetime': record.arrival_datetime,
-                'site_id': FieldSite.objects.get(site_id=record.site_id),
+                'site_id': FieldSite.objects.get(site_id=record_site_id),
                 'site_id_other': record.site_id_other,
                 'site_name': record.site_name,
                 'lat_manual': record.lat_manual,
