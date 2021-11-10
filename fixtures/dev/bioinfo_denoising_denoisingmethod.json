@@ -1,0 +1,1 @@
+[{"model": "bioinfo_denoising.denoisingmethod", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-20T07:47:32.788Z", "created_datetime": "2021-08-20T07:47:32.788Z", "denoising_method_name": "DADA2", "denoising_method_pipeline": "DADA2", "denoising_method_slug": "dada2_dada2"}}]
