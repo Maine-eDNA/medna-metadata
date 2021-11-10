@@ -52,17 +52,17 @@ class ProcessLocationAdminResource(resources.ModelResource):
         model = ProcessLocation
         import_id_fields = ('affiliation', 'process_location_name', )
         fields = ('id', 'process_location_name', 'affiliation',
+                  'process_location_url', 'phone_number',
                   'location_email_address', 'point_of_contact_email_address',
                   'point_of_contact_first_name', 'point_of_contact_last_name',
-                  'phone_number',
-                  'email_address', 'location_notes',
-                  'created_by', 'created_datetime', )
+                  'location_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'process_location_name', 'affiliation',
                         'process_location_url', 'phone_number',
                         'location_email_address', 'point_of_contact_email_address',
                         'point_of_contact_first_name', 'point_of_contact_last_name',
                         'location_notes',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
