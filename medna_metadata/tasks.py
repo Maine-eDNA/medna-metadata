@@ -165,7 +165,6 @@ def update_record_field_survey(record, pk):
             defaults={
                 'username': CustomUser.objects.get(agol_username=record.username),
                 'survey_datetime': record.survey_datetime,
-                'project_ids': prj_list,
                 'supervisor': CustomUser.objects.get(agol_username=record.supervisor),
                 'recorder_fname': record.recorder_fname,
                 'recorder_lname': record.recorder_lname,
@@ -208,6 +207,8 @@ def update_record_field_survey(record, pk):
                 'geom': record.geom,
             }
         )
+        # ManyToManyFields must be added separately though set(). clear=True clears the fields first
+        field_survey.project_ids.set(prj_list, clear=True)
 
         return field_survey, created
     except Exception as err:
