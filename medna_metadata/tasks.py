@@ -550,7 +550,6 @@ def update_queryset_filter_sample(queryset):
                 if sample_label:
                     # only proceed if sample_label exists
                     count = update_record_field_sample(record=record,
-                                                       collection_type=field_collection.collection_type,
                                                        field_sample_pk=record.filter_global_id,
                                                        sample_label_pk=sample_label.pk)
 
