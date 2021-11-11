@@ -289,7 +289,7 @@ def update_record_field_collection(record, pk):
 
         if field_collection.collection_type == CollectionTypes.water_sample:
             water_collection, created = WaterCollection.objects.update_or_create(
-                field_collection=field_collection.pk,
+                field_collection=field_collection,
                 defaults={
                     'water_control': record.water_control,
                     'water_control_type': record.water_control_type,
@@ -309,7 +309,7 @@ def update_record_field_collection(record, pk):
 
         elif field_collection.collection_type == CollectionTypes.sed_sample:
             sediment_collection, created = SedimentCollection.objects.update_or_create(
-                field_collection=field_collection.pk,
+                field_collection=field_collection,
                 defaults={
                     'core_control': record.core_control,
                     'core_label': record.core_label,
