@@ -569,7 +569,7 @@ def transform_field_survey_etls(queryset):
         for record in queryset:
             survey_global_id = record.survey_global_id
             # grab related records based on each item in queryset
-            related_survey_records = record
+            related_survey_records = FieldSurveyETL.objects.filter(survey_global_id=survey_global_id)
             related_crew_records = FieldCrewETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id).exclude(
                 crew_fname__iexact='', crew_lname__iexact='').exclude(
