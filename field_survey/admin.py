@@ -28,7 +28,8 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     resource_class = FieldSurveyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
-                    'record_create_datetime', 'record_edit_datetime')
+                    'record_create_datetime', 'record_edit_datetime',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -62,7 +63,8 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCrewAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'crew_fname', 'crew_lname')
+    list_display = ('survey_global_id', 'crew_fname', 'crew_lname',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -87,7 +89,8 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'env_global_id', 'created_datetime', 'created_by')
+    list_display = ('survey_global_id', 'env_global_id', 'env_measure_datetime',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -119,7 +122,8 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'collection_global_id', 'collection_type', 'created_by', 'created_datetime')
+    list_display = ('survey_global_id', 'collection_global_id', 'collection_type',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -144,7 +148,7 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = WaterCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'water_collect_datetime', 'was_filtered',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -172,7 +176,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SedimentCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'core_datetime_start', 'subcores_taken',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -200,7 +204,8 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('field_sample_barcode', 'is_extracted', 'in_freezer', 'collection_global_id', 'created_datetime', )
+    list_display = ('field_sample_barcode', 'is_extracted', 'in_freezer', 'collection_global_id',
+                    'created_datetime', 'modified_datetime',)
     readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
@@ -320,7 +325,8 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     resource_class = FieldSurveyETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
-                    'record_create_datetime', 'record_edit_datetime')
+                    'record_create_datetime', 'record_edit_datetime',
+                    'created_datetime', 'modified_datetime', )
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -352,7 +358,8 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCrewETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'crew_fname', 'crew_lname')
+    list_display = ('survey_global_id', 'crew_fname', 'crew_lname',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -378,7 +385,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
     resource_class = EnvMeasurementETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('survey_global_id', 'env_global_id', 'env_measure_datetime', 'env_measure_depth',
-                    'created_datetime', 'created_by')
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -410,7 +417,8 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCollectionETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'collection_type', 'survey_global_id', 'created_datetime')
+    list_display = ('collection_global_id', 'collection_type', 'survey_global_id',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -444,8 +452,8 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SampleFilterETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'filter_global_id', 'filter_barcode', 'created_datetime',
-                    'created_by')
+    list_display = ('collection_global_id', 'filter_global_id', 'filter_barcode', 'filter_datetime',
+                    'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
