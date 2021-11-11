@@ -331,7 +331,7 @@ def update_record_field_collection(record, pk):
         raise RuntimeError("** Error: update_record_field_collection Failed (" + str(err) + ")")
 
 
-def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_label_pk):
+def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_label_record):
     try:
         update_count = 0
         # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
@@ -339,7 +339,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
             sample_global_id=field_sample_pk,
             defaults={
                 'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
-                'field_sample_barcode': sample_label_pk,
+                'field_sample_barcode': sample_label_record,
             }
         )
 
@@ -348,7 +348,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
 
         if collection_type == CollectionTypes.water_sample:
             filter_sample, created = FilterSample.objects.update_or_create(
-                field_sample=field_sample.pk,
+                field_sample=field_sample,
                 defaults={
                     'filter_location': record.filter_location,
                     'is_prefilter': record.is_prefilter,
@@ -371,7 +371,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
 
         elif collection_type == CollectionTypes.sed_sample:
             subcore_sample, created = SubCoreSample.objects.update_or_create(
-                field_sample=field_sample.pk,
+                field_sample=field_sample,
                 defaults={
                     'subcore_fname': record.subcore_fname,
                     'subcore_lname': record.subcore_lname,
@@ -500,7 +500,7 @@ def update_queryset_subcore_sample(queryset):
                                                            collection_type=record.collection_type,
                                                            collection_global_id=collection_global_id,
                                                            field_sample_pk=new_gid,
-                                                           sample_label_pk=sample_label.pk)
+                                                           sample_label_record=sample_label)
 
                         # count for subcore
                         created_count = created_count+count
@@ -544,7 +544,7 @@ def update_queryset_subcore_sample(queryset):
                                                                collection_type=record.collection_type,
                                                                collection_global_id=collection_global_id,
                                                                field_sample_pk=new_gid,
-                                                               sample_label_pk=sample_label.pk)
+                                                               sample_label_record=sample_label)
 
                             created_count = created_count+count
 
@@ -561,7 +561,7 @@ def update_queryset_filter_sample(queryset):
             if filter_barcode:
                 # only proceed if filter_barcode exists
                 sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)[0]
-                if not sample_label.pk:
+                if not sample_label:
                     continue
                 else:
                     #field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id.collection_global_id)
@@ -571,7 +571,7 @@ def update_queryset_filter_sample(queryset):
                                                            collection_type=record.collection_global_id.collection_type,
                                                            collection_global_id=record.collection_global_id.collection_global_id,
                                                            field_sample_pk=record.filter_global_id,
-                                                           sample_label_pk=sample_label.pk)
+                                                           sample_label_record=sample_label)
 
                         created_count = created_count+count
         return created_count
