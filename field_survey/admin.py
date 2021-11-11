@@ -27,7 +27,8 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # SampleMaterialAdminResource
     resource_class = FieldSurveyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
+    list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
+                    'record_create_datetime', 'record_edit_datetime')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -318,7 +319,8 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # SampleMaterialAdminResource
     resource_class = FieldSurveyETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
+    list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
+                    'record_create_datetime', 'record_edit_datetime')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
