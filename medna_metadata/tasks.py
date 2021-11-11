@@ -146,7 +146,6 @@ def update_record_fastq(record, pk):
 
 def update_record_field_survey(record, pk):
     try:
-        print(record.project_ids)
         prj_list = []
         prjs = record.project_ids.split(',')
 
@@ -158,6 +157,8 @@ def update_record_field_survey(record, pk):
         # survey123 srid defaults to 4326 (WGS84)
 
         for prj in prjs:
+            if not prj.strip():
+                prj = 'prj_medna'
             project = Project.objects.get(project_code=prj)
             prj_list.append(project)
 
