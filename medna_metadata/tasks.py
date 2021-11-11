@@ -338,7 +338,7 @@ def update_record_field_sample(record, collection_type, field_sample_pk, sample_
         field_sample, created = FieldSample.objects.update_or_create(
             sample_global_id=field_sample_pk,
             defaults={
-                'collection_global_id': FieldCollection.objects.get(collection_global_id=record.collection_global_id),
+                'collection_global_id': FieldCollection.objects.get(collection_global_id=record.collection_global_id.collection_global_id),
                 'field_sample_barcode': sample_label_pk,
             }
         )
@@ -546,9 +546,7 @@ def update_queryset_filter_sample(queryset):
             if filter_barcode:
                 # only proceed if filter_barcode exists
                 sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)
-                field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id)
-                if not field_collection.collection_type:
-                    continue
+                field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id.collection_global_id)
                 if sample_label:
                     # only proceed if sample_label exists
                     count = update_record_field_sample(record=record,
