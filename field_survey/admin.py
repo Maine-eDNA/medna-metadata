@@ -200,7 +200,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('field_sample_barcode', 'is_extracted', 'collection_global_id', 'created_datetime', )
+    list_display = ('field_sample_barcode', 'is_extracted', 'in_freezer', 'collection_global_id', 'created_datetime', )
     readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
