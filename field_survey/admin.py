@@ -410,7 +410,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCollectionETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'collection_global_id', 'collection_type', 'created_by', 'created_datetime')
+    list_display = ('collection_global_id', 'collection_type', 'survey_global_id', 'created_datetime')
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
