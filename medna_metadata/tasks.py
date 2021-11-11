@@ -572,19 +572,19 @@ def transform_field_survey_etls(queryset):
             related_survey_records = record
             related_crew_records = FieldCrewETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id).exclude(
-                crew_fname__exact='', crew_lname__exact='').exclude(
-                crew_fname__exact__isnull=True, crew_lname__isnull=True)
+                crew_fname__iexact='', crew_lname__iexact='').exclude(
+                crew_fname__isnull=True, crew_lname__isnull=True)
             related_env_records = EnvMeasurementETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id)
             related_collect_records = FieldCollectionETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id).exclude(
                 core_label__icontains='delete').exclude(
-                collection_type__exact='').exclude(
+                collection_type__iexact='').exclude(
                 collection_type__isnull=True)
             related_filter_records = SampleFilterETL.objects.filter(
                 collection_global_id__survey_global_id__survey_global_id=survey_global_id).exclude(
                 filter_sample_label__icontains='delete').exclude(
-                filter_barcode__exact='').exclude(
+                filter_barcode__iexact='').exclude(
                 filter_barcode__isnull=True)
 
             if related_collect_records:
@@ -597,7 +597,7 @@ def transform_field_survey_etls(queryset):
                 # remove any present duplicate max barcodes from the min-exclude subset
                 nondup_related_collect = nondup_min_related_collect.exclude(
                     subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates]).exclude(
-                    subcore_min_barcode__exact='', subcore_max_barcode__exact='').exclude(
+                    subcore_min_barcode__iexact='', subcore_max_barcode__iexact='').exclude(
                     subcore_min_barcode__isnull=True, subcore_max_barcode__isnull=True)
 
                 if nondup_related_collect:
