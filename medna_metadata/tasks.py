@@ -331,14 +331,14 @@ def update_record_field_collection(record, pk):
         raise RuntimeError("** Error: update_record_field_collection Failed (" + str(err) + ")")
 
 
-def update_record_field_sample(record, collection_type, field_sample_pk, sample_label_pk):
+def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_label_pk):
     try:
         update_count = 0
         # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
         field_sample, created = FieldSample.objects.update_or_create(
             sample_global_id=field_sample_pk,
             defaults={
-                'collection_global_id': FieldCollection.objects.get(collection_global_id=record.collection_global_id.collection_global_id),
+                'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
                 'field_sample_barcode': sample_label_pk,
             }
         )
@@ -485,6 +485,7 @@ def update_queryset_subcore_sample(queryset):
 
                         count = update_record_field_sample(record=record,
                                                            collection_type=record.collection_type,
+                                                           collection_global_id=collection_global_id,
                                                            field_sample_pk=new_gid,
                                                            sample_label_pk=sample_label.pk)
 
@@ -528,6 +529,7 @@ def update_queryset_subcore_sample(queryset):
 
                             count = update_record_field_sample(record=record,
                                                                collection_type=record.collection_type,
+                                                               collection_global_id=collection_global_id,
                                                                field_sample_pk=new_gid,
                                                                sample_label_pk=sample_label.pk)
 
@@ -546,11 +548,12 @@ def update_queryset_filter_sample(queryset):
             if filter_barcode:
                 # only proceed if filter_barcode exists
                 sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)
-                field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id.collection_global_id)
+                #field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id.collection_global_id)
                 if sample_label:
                     # only proceed if sample_label exists
                     count = update_record_field_sample(record=record,
-                                                       collection_type=field_collection.collection_type,
+                                                       collection_type=record.collection_global_id.collection_type,
+                                                       collection_global_id=record.collection_global_id.collection_global_id,
                                                        field_sample_pk=record.filter_global_id,
                                                        sample_label_pk=sample_label.pk)
 
@@ -566,22 +569,23 @@ def transform_field_survey_etls(queryset):
         for record in queryset:
             survey_global_id = record.survey_global_id
             # grab related records based on each item in queryset
-            related_survey_records = FieldSurveyETL.objects.filter(
-                survey_global_id=survey_global_id)
+            related_survey_records = record
             related_crew_records = FieldCrewETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id).exclude(
-                crew_fname__exact='', crew_lname__exact='')
+                crew_fname__exact='', crew_lname__exact='').exclude(
+                crew_fname__exact__isnull=True, crew_lname__isnull=True)
             related_env_records = EnvMeasurementETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id)
             related_collect_records = FieldCollectionETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id).exclude(
                 core_label__icontains='delete').exclude(
                 collection_type__exact='').exclude(
-                subcore_min_barcode__exact='', subcore_max_barcode__exact='')
+                collection_type__isnull=True)
             related_filter_records = SampleFilterETL.objects.filter(
                 collection_global_id__survey_global_id__survey_global_id=survey_global_id).exclude(
                 filter_sample_label__icontains='delete').exclude(
-                filter_barcode__exact='')
+                filter_barcode__exact='').exclude(
+                filter_barcode__isnull=True)
 
             if related_collect_records:
                 subcore_min_duplicates = get_min_subcore_etl_duplicates()
@@ -592,7 +596,9 @@ def transform_field_survey_etls(queryset):
                     subcore_min_barcode__in=[item['subcore_min_barcode'] for item in subcore_min_duplicates])
                 # remove any present duplicate max barcodes from the min-exclude subset
                 nondup_related_collect = nondup_min_related_collect.exclude(
-                    subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates])
+                    subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates]).exclude(
+                    subcore_min_barcode__exact='', subcore_max_barcode__exact='').exclude(
+                    subcore_min_barcode__isnull=True, subcore_max_barcode__isnull=True)
 
                 if nondup_related_collect:
                     if related_survey_records:
