@@ -548,7 +548,6 @@ def update_queryset_filter_sample(queryset):
             if filter_barcode:
                 # only proceed if filter_barcode exists
                 sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)[0]
-                print(sample_label.pk)
                 if not sample_label.pk:
                     continue
                 else:
