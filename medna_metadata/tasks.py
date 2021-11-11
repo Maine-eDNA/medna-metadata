@@ -220,7 +220,7 @@ def update_record_field_crew(record, pk):
         field_crew, created = FieldCrew.objects.update_or_create(
             crew_global_id=pk,
             defaults={
-                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id),
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id.survey_global_id),
                 'crew_fname': record.crew_fname,
                 'crew_lname': record.crew_lname,
             }
@@ -235,7 +235,7 @@ def update_record_env_measurement(record, pk):
         env_measurement, created = EnvMeasurement.objects.update_or_create(
             env_global_id=pk,
             defaults={
-                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id),
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id.survey_global_id),
                 'env_measure_datetime': record.env_measure_datetime,
                 'env_measure_depth': record.env_measure_depth,
                 'env_instrument': record.env_instrument,
@@ -282,7 +282,7 @@ def update_record_field_collection(record, pk):
         field_collection, created = FieldCollection.objects.update_or_create(
             collection_global_id=pk,
             defaults={
-                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id),
+                'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id.survey_global_id),
                 'collection_type': record.collection_type,
             }
         )
