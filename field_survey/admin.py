@@ -89,7 +89,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('survey_global_id', 'env_global_id', 'env_measure_datetime',
+    list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
