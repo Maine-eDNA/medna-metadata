@@ -693,15 +693,15 @@ def transform_field_survey_etls(queryset):
 
 
 # https://stackoverflow.com/questions/54899320/what-is-the-meaning-of-bind-true-keyword-in-celery
-@app.task(bind=True)
-def add_test(self, x, y):
-    try:
-        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
-        logger.info('Adding {0} + {1}'.format(x, y))
-        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
-        return x + y
-    except Exception as err:
-        raise RuntimeError("** Error: add_test Failed (" + str(err) + ")")
+#@app.task(bind=True)
+#def add_test(self, x, y):
+#    try:
+#        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
+#        logger.info('Adding {0} + {1}'.format(x, y))
+#        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+#        return x + y
+#    except Exception as err:
+#        raise RuntimeError("** Error: add_test Failed (" + str(err) + ")")
 
 
 @app.task(bind=True)
@@ -710,7 +710,7 @@ def transform_new_records_field_survey(self):
         now = timezone.now()
         last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
         new_records = FieldSurveyETL.objects.filter(
-            record_edit_datetime__range=[last_run.task_datetime, now])
+            modified_datetime__range=[last_run.task_datetime, now])
         if new_records:
             updated_count = transform_field_survey_etls(new_records)
             logger.info('Update count: ' + str(updated_count))
@@ -719,21 +719,21 @@ def transform_new_records_field_survey(self):
         raise RuntimeError("** Error: transform_new_records_field_survey Failed (" + str(err) + ")")
 
 
-@app.task(bind=True)
-def transform_all_records_field_survey(self):
-    try:
-        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
-        all_records = FieldSurveyETL.objects.all()
-        if all_records:
-            updated_count = transform_field_survey_etls(all_records)
-            logger.info('Update count: ' + str(updated_count))
-        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
-    except Exception as err:
-        raise RuntimeError("** Error: transform_all_records_field_survey Failed (" + str(err) + ")")
+#@app.task(bind=True)
+#def transform_all_records_field_survey(self):
+#    try:
+#        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
+#        all_records = FieldSurveyETL.objects.all()
+#        if all_records:
+#            updated_count = transform_field_survey_etls(all_records)
+#            logger.info('Update count: ' + str(updated_count))
+#        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+#    except Exception as err:
+#        raise RuntimeError("** Error: transform_all_records_field_survey Failed (" + str(err) + ")")
 
 
-@app.task(bind=True)
-def create_fastq_from_s3(self):
+#@app.task(bind=True)
+#def create_fastq_from_s3(self):
     # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
     # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
     # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
@@ -746,21 +746,21 @@ def create_fastq_from_s3(self):
     # https://stackoverflow.com/questions/51357955/access-url-of-s3-files-using-boto
     # https://stackoverflow.com/questions/37087203/retrieve-s3-file-as-object-instead-of-downloading-to-absolute-system-path
     # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
-    try:
-        now = timezone.now()
-        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
-        new_records = RunResult.objects.filter(
-            created_datetime__range=[last_run.task_datetime, now])
-        if new_records:
+#    try:
+#        now = timezone.now()
+#        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
+#        new_records = RunResult.objects.filter(
+#            created_datetime__range=[last_run.task_datetime, now])
+#        if new_records:
             # there are new run_ids, so create list of ids
-            run_ids = new_records.values_list('run_id', flat=True).order_by('run_id')
+#            run_ids = new_records.values_list('run_id', flat=True).order_by('run_id')
             # get list of run folders in s3
-            s3_run_keys = get_s3_run_dirs()
+#            s3_run_keys = get_s3_run_dirs()
             # check if any run_ids are in s3
-            runs_in_s3 = [s for s in s3_run_keys if any(xs in s for xs in run_ids)]
-            if runs_in_s3:
-                created_count = create_fastq_files(runs_in_s3)
-            logger.info('Update count: ' + str(created_count))
-        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
-    except Exception as err:
-        raise RuntimeError("** Error: create_fastq_from_s3 Failed (" + str(err) + ")")
+#            runs_in_s3 = [s for s in s3_run_keys if any(xs in s for xs in run_ids)]
+#            if runs_in_s3:
+#                created_count = create_fastq_files(runs_in_s3)
+#            logger.info('Update count: ' + str(created_count))
+#        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+#    except Exception as err:
+#        raise RuntimeError("** Error: create_fastq_from_s3 Failed (" + str(err) + ")")

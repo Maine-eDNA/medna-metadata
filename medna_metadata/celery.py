@@ -11,8 +11,9 @@ app = Celery('medna_metadata')
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
-# app.config_from_object('django.conf:settings', namespace='CELERY')
-app.config_from_object('celeryconfig')
+app.config_from_object('django.conf:settings', namespace='CELERY')
+#app.config_from_object('celeryconfig')
+
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
