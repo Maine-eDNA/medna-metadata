@@ -200,7 +200,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'is_extracted', 'field_sample_barcode', 'created_datetime', 'created_by', )
+    list_display = ('field_sample_barcode', 'is_extracted', 'collection_global_id', 'created_datetime', )
     readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
@@ -236,7 +236,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FilterSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('filter_sample_label', 'filter_type', 'filter_datetime')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -276,7 +276,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SubCoreSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', )
+    list_display = ('__str__', 'subcore_datetime_start')
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
