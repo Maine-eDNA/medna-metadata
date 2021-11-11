@@ -487,8 +487,8 @@ def update_queryset_subcore_sample(queryset):
             if subcore_min_barcode == subcore_max_barcode or not subcore_max_barcode:
                 # if min and max are equal or there is no max barcode
                 if subcore_min_barcode:
-                    sample_label = SampleLabel.objects.filter(sample_label_id=subcore_min_barcode)[0]
-                    if sample_label:
+                    if SampleLabel.objects.filter(sample_label_id=subcore_min_barcode).exists():
+                        sample_label = SampleLabel.objects.filter(sample_label_id=subcore_min_barcode)[0]
                         # only proceed if sample_label exists
 
                         # since we put a "min" and "max" field, rather than a separate record
@@ -518,11 +518,8 @@ def update_queryset_subcore_sample(queryset):
                 if subcore_prefix_min == subcore_prefix_max:
                     subcore_prefix = subcore_prefix_min
 
-                    sample_label = SampleLabel.objects.filter(sample_label_id=subcore_min_barcode)[0]
-
-                    if sample_label:
+                    if SampleLabel.objects.filter(sample_label_id=subcore_min_barcode).exists():
                         # only proceed if sample_label exists
-
                         # only proceed if the prefix of the subcores match
                         for num in np.arange(subcore_min_num, subcore_max_num + 1, 1):
 
@@ -533,20 +530,22 @@ def update_queryset_subcore_sample(queryset):
                             subcore_barcode = '{labelprefix}{sitenum}'.format(labelprefix=subcore_prefix,
                                                                               sitenum=num_leading_zeros)
 
-                            sample_label = SampleLabel.objects.filter(sample_label_id=subcore_barcode)[0]
+                            if SampleLabel.objects.filter(sample_label_id=subcore_barcode).exists():
+                                # only proceed if barcode exists
+                                sample_label = SampleLabel.objects.filter(sample_label_id=subcore_barcode)[0]
 
-                            # since we put a "min" and "max" field, rather than a separate record
-                            # for each subcore barcode, here we're appending the barcode to the
-                            # gid to create a unique gid
-                            new_gid = collection_global_id + '-' + subcore_barcode
+                                # since we put a "min" and "max" field, rather than a separate record
+                                # for each subcore barcode, here we're appending the barcode to the
+                                # gid to create a unique gid
+                                new_gid = collection_global_id + '-' + subcore_barcode
 
-                            count = update_record_field_sample(record=record,
-                                                               collection_type=record.collection_type,
-                                                               collection_global_id=collection_global_id,
-                                                               field_sample_pk=new_gid,
-                                                               sample_label_record=sample_label)
+                                count = update_record_field_sample(record=record,
+                                                                   collection_type=record.collection_type,
+                                                                   collection_global_id=collection_global_id,
+                                                                   field_sample_pk=new_gid,
+                                                                   sample_label_record=sample_label)
 
-                            created_count = created_count+count
+                                created_count = created_count+count
 
         return created_count
     except Exception as err:
@@ -560,20 +559,17 @@ def update_queryset_filter_sample(queryset):
             filter_barcode = record.filter_barcode
             if filter_barcode:
                 # only proceed if filter_barcode exists
-                sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)[0]
-                if not sample_label:
-                    continue
-                else:
+                # only proceed if sample_label exists
+                if SampleLabel.objects.filter(sample_label_id=filter_barcode).exists():
+                    sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)[0]
                     #field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id.collection_global_id)
-                    if sample_label:
-                        # only proceed if sample_label exists
-                        count = update_record_field_sample(record=record,
-                                                           collection_type=record.collection_global_id.collection_type,
-                                                           collection_global_id=record.collection_global_id.collection_global_id,
-                                                           field_sample_pk=record.filter_global_id,
-                                                           sample_label_record=sample_label)
+                    count = update_record_field_sample(record=record,
+                                                       collection_type=record.collection_global_id.collection_type,
+                                                       collection_global_id=record.collection_global_id.collection_global_id,
+                                                       field_sample_pk=record.filter_global_id,
+                                                       sample_label_record=sample_label)
 
-                        created_count = created_count+count
+                    created_count = created_count+count
         return created_count
     except Exception as err:
         raise RuntimeError("** Error: update_queryset_filter_sample Failed (" + str(err) + ")")
