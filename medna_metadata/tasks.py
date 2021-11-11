@@ -146,6 +146,7 @@ def update_record_fastq(record, pk):
 
 def update_record_field_survey(record, pk):
     try:
+        print(record.project_ids)
         prj_list = []
         prjs = record.project_ids.split(',')
 
@@ -578,111 +579,109 @@ def update_queryset_filter_sample(queryset):
 def transform_field_survey_etls(queryset):
     try:
         update_count = 0
-        for record in queryset:
-            survey_global_id = record.survey_global_id
-            # grab related records based on each item in queryset
-            related_survey_records = FieldSurveyETL.objects.filter(survey_global_id=survey_global_id)
-            related_crew_records = FieldCrewETL.objects.filter(
-                survey_global_id__survey_global_id=survey_global_id).exclude(
-                crew_fname__iexact='', crew_lname__iexact='').exclude(
-                crew_fname__isnull=True, crew_lname__isnull=True)
-            related_env_records = EnvMeasurementETL.objects.filter(
-                survey_global_id__survey_global_id=survey_global_id)
-            related_collect_records = FieldCollectionETL.objects.filter(
-                survey_global_id__survey_global_id=survey_global_id).exclude(
-                core_label__icontains='delete').exclude(
-                collection_type__iexact='').exclude(
-                collection_type__isnull=True)
-            related_filter_records = SampleFilterETL.objects.filter(
-                collection_global_id__survey_global_id__survey_global_id=survey_global_id).exclude(
-                filter_sample_label__icontains='delete').exclude(
-                filter_barcode__iexact='').exclude(
-                filter_barcode__isnull=True)
+        # grab related records based on each item in queryset
+        related_survey_records = FieldSurveyETL.objects.filter(survey_global_id__in=[record.survey_global_id for record in queryset])
+        related_crew_records = FieldCrewETL.objects.filter(
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            crew_fname__iexact='', crew_lname__iexact='').exclude(
+            crew_fname__isnull=True, crew_lname__isnull=True)
+        related_env_records = EnvMeasurementETL.objects.filter(
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset])
+        related_collect_records = FieldCollectionETL.objects.filter(
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            core_label__icontains='delete').exclude(
+            collection_type__iexact='').exclude(
+            collection_type__isnull=True)
+        related_filter_records = SampleFilterETL.objects.filter(
+            collection_global_id__survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            filter_sample_label__icontains='delete').exclude(
+            filter_barcode__iexact='').exclude(
+            filter_barcode__isnull=True)
 
-            if related_collect_records:
-                subcore_min_duplicates = get_min_subcore_etl_duplicates()
-                subcore_max_duplicates = get_max_subcore_etl_duplicates()
+        if related_collect_records:
+            subcore_min_duplicates = get_min_subcore_etl_duplicates()
+            subcore_max_duplicates = get_max_subcore_etl_duplicates()
 
-                # remove any present duplicate min_barcodes
-                nondup_min_related_collect = related_collect_records.exclude(
-                    subcore_min_barcode__in=[item['subcore_min_barcode'] for item in subcore_min_duplicates])
-                # remove any present duplicate max barcodes from the min-exclude subset
-                nondup_related_collect = nondup_min_related_collect.exclude(
-                    subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates]).exclude(
-                    subcore_min_barcode__iexact='', subcore_max_barcode__iexact='').exclude(
-                    subcore_min_barcode__isnull=True, subcore_max_barcode__isnull=True)
+            # remove any present duplicate min_barcodes
+            nondup_min_related_collect = related_collect_records.exclude(
+                subcore_min_barcode__in=[item['subcore_min_barcode'] for item in subcore_min_duplicates])
+            # remove any present duplicate max barcodes from the min-exclude subset
+            nondup_related_collect = nondup_min_related_collect.exclude(
+                subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates]).exclude(
+                subcore_min_barcode__iexact='', subcore_max_barcode__iexact='').exclude(
+                subcore_min_barcode__isnull=True, subcore_max_barcode__isnull=True)
 
-                if nondup_related_collect:
-                    if related_survey_records:
-                        non_dup_survey_records = related_survey_records.filter(
-                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
-                        if non_dup_survey_records:
-                            count = update_queryset_field_survey(non_dup_survey_records)
-                            update_count = update_count + count
+            if nondup_related_collect:
+                if related_survey_records:
+                    non_dup_survey_records = related_survey_records.filter(
+                        survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
+                    if non_dup_survey_records:
+                        count = update_queryset_field_survey(non_dup_survey_records)
+                        update_count = update_count + count
 
-                    if related_crew_records:
-                        non_dup_crew_records = related_crew_records.filter(
-                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
-                        if non_dup_crew_records:
-                            count = update_queryset_field_crew(non_dup_crew_records)
-                            update_count = update_count + count
+                if related_crew_records:
+                    non_dup_crew_records = related_crew_records.filter(
+                        survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
+                    if non_dup_crew_records:
+                        count = update_queryset_field_crew(non_dup_crew_records)
+                        update_count = update_count + count
 
-                    if related_env_records:
-                        non_dup_env_records = related_env_records.filter(
-                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
-                        if non_dup_env_records:
-                            count = update_queryset_env_measurement(non_dup_env_records)
-                            update_count = update_count + count
+                if related_env_records:
+                    non_dup_env_records = related_env_records.filter(
+                        survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
+                    if non_dup_env_records:
+                        count = update_queryset_env_measurement(non_dup_env_records)
+                        update_count = update_count + count
 
-                    # transform field_collection
-                    count = update_queryset_field_collection(nondup_related_collect)
-                    update_count = update_count + count
-                    # transform subcores
-                    count = update_queryset_subcore_sample(nondup_related_collect)
-                    update_count = update_count + count
+                # transform field_collection
+                count = update_queryset_field_collection(nondup_related_collect)
+                update_count = update_count + count
+                # transform subcores
+                count = update_queryset_subcore_sample(nondup_related_collect)
+                update_count = update_count + count
 
-            if related_filter_records:
-                # get_filter_etl_duplicates returns a list, so subscript is different
-                # in query filter than when filtering from a list of a queryset
-                filter_duplicates = get_filter_etl_duplicates()
-                # remove any present duplicate filter_barcodes
-                nondup_related_filters = related_filter_records.exclude(
-                    filter_barcode__in=[item['filter_barcode'] for item in filter_duplicates])
-                if nondup_related_filters:
-                    # since SampleFilter is fk to FieldCollection, and we want the survey_global_id,
-                    # need to grab nondup records from related_collect_records
-                    nondup_related_collect = related_collect_records.filter(
-                        collection_global_id__in=[record.collection_global_id.collection_global_id for record in
-                                                  nondup_related_filters])
+        if related_filter_records:
+            # get_filter_etl_duplicates returns a list, so subscript is different
+            # in query filter than when filtering from a list of a queryset
+            filter_duplicates = get_filter_etl_duplicates()
+            # remove any present duplicate filter_barcodes
+            nondup_related_filters = related_filter_records.exclude(
+                filter_barcode__in=[item['filter_barcode'] for item in filter_duplicates])
+            if nondup_related_filters:
+                # since SampleFilter is fk to FieldCollection, and we want the survey_global_id,
+                # need to grab nondup records from related_collect_records
+                nondup_related_collect = related_collect_records.filter(
+                    collection_global_id__in=[record.collection_global_id.collection_global_id for record in
+                                              nondup_related_filters])
 
-                    # now take collection ids and update their related records
-                    if related_survey_records:
-                        non_dup_survey_records = related_survey_records.filter(
-                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
-                        if non_dup_survey_records:
-                            count = update_queryset_field_survey(non_dup_survey_records)
-                            update_count = update_count + count
+                # now take collection ids and update their related records
+                if related_survey_records:
+                    non_dup_survey_records = related_survey_records.filter(
+                        survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
+                    if non_dup_survey_records:
+                        count = update_queryset_field_survey(non_dup_survey_records)
+                        update_count = update_count + count
 
-                    if related_crew_records:
-                        non_dup_crew_records = related_crew_records.filter(
-                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
-                        if non_dup_crew_records:
-                            count = update_queryset_field_crew(non_dup_crew_records)
-                            update_count = update_count + count
+                if related_crew_records:
+                    non_dup_crew_records = related_crew_records.filter(
+                        survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
+                    if non_dup_crew_records:
+                        count = update_queryset_field_crew(non_dup_crew_records)
+                        update_count = update_count + count
 
-                    if related_env_records:
-                        non_dup_env_records = related_env_records.filter(
-                            survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
-                        if non_dup_env_records:
-                            count = update_queryset_env_measurement(non_dup_env_records)
-                            update_count = update_count + count
+                if related_env_records:
+                    non_dup_env_records = related_env_records.filter(
+                        survey_global_id__in=[record.survey_global_id.survey_global_id for record in nondup_related_collect])
+                    if non_dup_env_records:
+                        count = update_queryset_env_measurement(non_dup_env_records)
+                        update_count = update_count + count
 
-                    # transform field_collection
-                    count = update_queryset_field_collection(nondup_related_collect)
-                    update_count = update_count + count
-                    # transform filters
-                    count = update_queryset_filter_sample(nondup_related_filters)
-                    update_count = update_count + count
+                # transform field_collection
+                count = update_queryset_field_collection(nondup_related_collect)
+                update_count = update_count + count
+                # transform filters
+                count = update_queryset_filter_sample(nondup_related_filters)
+                update_count = update_count + count
         return update_count
     except Exception as err:
         raise RuntimeError("** Error: transform_field_survey_etls Failed (" + str(err) + ")")
