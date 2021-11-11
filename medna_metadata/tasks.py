@@ -156,8 +156,12 @@ def update_record_field_survey(record, pk):
 
         # survey123 srid defaults to 4326 (WGS84)
 
+        #print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
+        #      " "+record.qa_editor+" "+record.record_creator+" "+record.record_editor)
+
         for prj in prjs:
             if not prj.strip():
+                # if project is blank, replace it with prj_medna, the default base project
                 prj = 'prj_medna'
             project = Project.objects.get(project_code=prj)
             prj_list.append(project)
