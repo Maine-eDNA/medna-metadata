@@ -571,13 +571,19 @@ def transform_field_survey_etls(queryset):
             related_survey_records = FieldSurveyETL.objects.filter(
                 survey_global_id=survey_global_id)
             related_crew_records = FieldCrewETL.objects.filter(
-                survey_global_id__survey_global_id=survey_global_id)
+                survey_global_id__survey_global_id=survey_global_id).exclude(
+                crew_fname__exact='', crew_lname__exact='')
             related_env_records = EnvMeasurementETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id)
             related_collect_records = FieldCollectionETL.objects.filter(
-                survey_global_id__survey_global_id=survey_global_id).exclude(core_label__icontains='delete')
+                survey_global_id__survey_global_id=survey_global_id).exclude(
+                core_label__icontains='delete').exclude(
+                collection_type__exact='').exclude(
+                subcore_min_barcode__exact='', subcore_max_barcode__exact='')
             related_filter_records = SampleFilterETL.objects.filter(
-                collection_global_id__survey_global_id__survey_global_id=survey_global_id).exclude(filter_sample_label__icontains='delete')
+                collection_global_id__survey_global_id__survey_global_id=survey_global_id).exclude(
+                filter_sample_label__icontains='delete').exclude(
+                filter_barcode__exact='')
 
             if related_collect_records:
                 subcore_min_duplicates = get_min_subcore_etl_duplicates()
