@@ -179,7 +179,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
                                             max_digits=15, decimal_places=10,
                                             blank=True, null=True)
-    env_instrument = models.CharField("Instruments Used", max_length=50, choices=EnvInstruments.choices,
+    env_instrument = models.TextField("Instruments Used", choices=EnvInstruments.choices,
                                       blank=True)
     # env_ctd_fname
     env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
@@ -196,7 +196,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
-    env_measurement = models.CharField("Environmental Measurements", max_length=50, choices=EnvMeasurements.choices,
+    env_measurement = models.TextField("Environmental Measurements", choices=EnvMeasurements.choices,
                                        blank=True)
     env_flow_rate = models.DecimalField("Flow Rate (m/s)",
                                         max_digits=15, decimal_places=10, blank=True, null=True)
@@ -531,7 +531,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
     env_measure_depth = models.DecimalField("Measurement Depth (m)",
                                             max_digits=15, decimal_places=10, blank=True, null=True)
-    env_instrument = models.CharField("Instruments Used", max_length=255, blank=True)
+    env_instrument = models.TextField("Instruments Used", blank=True)
     # env_ctd_fname
     env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
     env_ctd_notes = models.TextField("CTD Notes", blank=True)
@@ -546,7 +546,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
-    env_measurement = models.CharField("Environmental Measurements", max_length=255, blank=True)
+    env_measurement = models.TextField("Environmental Measurements", blank=True)
     env_flow_rate = models.DecimalField("Flow Rate (m/s)",
                                         max_digits=15, decimal_places=10, blank=True, null=True)
     env_water_temp = models.DecimalField("Water Temperature (C)",
