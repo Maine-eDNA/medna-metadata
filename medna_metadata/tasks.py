@@ -547,6 +547,8 @@ def update_queryset_filter_sample(queryset):
                 # only proceed if filter_barcode exists
                 sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)
                 field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id)
+                if not field_collection.collection_type:
+                    continue
                 if sample_label:
                     # only proceed if sample_label exists
                     count = update_record_field_sample(record=record,
@@ -573,9 +575,9 @@ def transform_field_survey_etls(queryset):
             related_env_records = EnvMeasurementETL.objects.filter(
                 survey_global_id__survey_global_id=survey_global_id)
             related_collect_records = FieldCollectionETL.objects.filter(
-                survey_global_id__survey_global_id=survey_global_id)
+                survey_global_id__survey_global_id=survey_global_id).exclude(core_label__icontains='delete')
             related_filter_records = SampleFilterETL.objects.filter(
-                collection_global_id__survey_global_id__survey_global_id=survey_global_id)
+                collection_global_id__survey_global_id__survey_global_id=survey_global_id).exclude(filter_sample_label__icontains='delete')
 
             if related_collect_records:
                 subcore_min_duplicates = get_min_subcore_etl_duplicates()
