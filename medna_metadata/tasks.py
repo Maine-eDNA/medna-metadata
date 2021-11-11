@@ -463,6 +463,19 @@ def update_queryset_env_measurement(queryset):
         raise RuntimeError("** Error: update_queryset_env_measurement Failed (" + str(err) + ")")
 
 
+def update_queryset_field_collection(queryset):
+    try:
+        update_count = 0
+        for record in queryset:
+            pk = record.collection_global_id
+            field_collection, created = update_record_field_collection(record, pk)
+            if created:
+                update_count += 1
+        return update_count
+    except Exception as err:
+        raise RuntimeError("** Error: update_queryset_field_collection Failed (" + str(err) + ")")
+
+
 def update_queryset_subcore_sample(queryset):
     try:
         created_count = 0
@@ -625,6 +638,10 @@ def transform_field_survey_etls(queryset):
                             count = update_queryset_env_measurement(non_dup_env_records)
                             update_count = update_count + count
 
+                    # transform field_collection
+                    count = update_queryset_field_collection(nondup_related_collect)
+                    update_count = update_count + count
+                    # transform subcores
                     count = update_queryset_subcore_sample(nondup_related_collect)
                     update_count = update_count + count
 
@@ -664,6 +681,10 @@ def transform_field_survey_etls(queryset):
                             count = update_queryset_env_measurement(non_dup_env_records)
                             update_count = update_count + count
 
+                    # transform field_collection
+                    count = update_queryset_field_collection(nondup_related_collect)
+                    update_count = update_count + count
+                    # transform filters
                     count = update_queryset_filter_sample(nondup_related_filters)
                     update_count = update_count + count
         return update_count
