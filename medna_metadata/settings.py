@@ -14,7 +14,9 @@ from pathlib import Path
 import logging.config
 import os
 from django.core.management.utils import get_random_secret_key
-from collections import OrderedDict
+from celery.schedules import crontab
+
+#from collections import OrderedDict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -426,6 +428,20 @@ AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
 ]
+
+########################################
+# CELERY CONFIG                        #
+########################################
+
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
+BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+
+CELERYBEAT_SCHEDULE = {
+    'transform-new-records': {
+       'task': 'tasks.transform_new_records_field_survey',
+       'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
+    },
+}
 
 ########################################
 # DJANGO-CRISPY-FORMS CONFIG           #
