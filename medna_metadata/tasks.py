@@ -1,5 +1,6 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
 from .celery import app
+from celery import Task
 from celery.utils.log import get_task_logger
 import settings
 from utility.models import PeriodicTaskRun, Project
@@ -21,6 +22,12 @@ import numpy as np
 import boto3
 
 logger = get_task_logger(__name__)
+
+
+class BaseTaskWithRetry(Task):
+    autoretry_for = (Exception, KeyError)
+    retry_kwargs = {'max_retries': 5}
+    retry_backoff = True
 
 
 def get_runid_from_key(run_key):
@@ -704,7 +711,7 @@ def transform_field_survey_etls(queryset):
 #        raise RuntimeError("** Error: add_test Failed (" + str(err) + ")")
 
 
-@app.task(bind=True)
+@app.task(bind=True, base=BaseTaskWithRetry)
 def transform_new_records_field_survey(self):
     try:
         now = timezone.now()
