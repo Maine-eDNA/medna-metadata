@@ -7,7 +7,8 @@ apt update && apt -y install \
 # GDAL, GEOS, PROJ.4, python deps
 apt-get -y install \
  binutils libproj-dev gdal-bin \
- python3-dev python3-pip python3-venv python3-wheel
+ python3-dev python3-pip python3-venv python3-wheel \
+ rabbitmq-server
 # PostGIS
 apt -y install \
  postgis postgresql-12-postgis-3
