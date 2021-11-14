@@ -1,8 +1,9 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
-from field_survey.models import FieldSample
-from wet_lab.models import Extraction
+from sample_labels.models import SampleLabel
+#from field_survey.models import FieldSample
+#from wet_lab.models import Extraction
 from users.models import CustomUser
 
 
@@ -102,15 +103,15 @@ class FreezerBoxAdminResource(resources.ModelResource):
 class FreezerInventoryAdminResource(resources.ModelResource):
     class Meta:
         model = FreezerInventory
-        import_id_fields = ('id', 'freezer_box', 'field_sample', 'extraction', )
+        import_id_fields = ('id', 'freezer_box', 'sample_barcode', )
 
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'freezer_box', 'field_sample', 'extraction',
+        fields = ('id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'freezer_box', 'field_sample', 'extraction',
+        export_order = ('id', 'freezer_box', 'sample_barcode',
                         'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                         'freezer_inventory_column', 'freezer_inventory_row',
                         'css_background_color', 'css_text_color',
@@ -121,15 +122,10 @@ class FreezerInventoryAdminResource(resources.ModelResource):
         attribute='freezer_box',
         widget=ForeignKeyWidget(FreezerBox, 'freezer_box_label'))
 
-    field_sample = fields.Field(
-        column_name='field_sample',
-        attribute='field_sample',
-        widget=ForeignKeyWidget(FieldSample, 'barcode_slug'))
-
-    extraction = fields.Field(
-        column_name='extraction',
-        attribute='extraction',
-        widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
+    sample_barcode = fields.Field(
+        column_name='sample_barcode',
+        attribute='sample_barcode',
+        widget=ForeignKeyWidget(SampleLabel, 'barcode_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
