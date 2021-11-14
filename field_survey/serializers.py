@@ -269,8 +269,9 @@ class FieldSampleSerializer(serializers.ModelSerializer):
                                                         queryset=FieldCollection.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_material_code',
                                                    queryset=SampleMaterial.objects.all())
-    field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_label_id',
-                                                        queryset=SampleLabel.objects.all())
+    field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
+                                                        queryset=SampleLabel.objects.filter(
+                                                            sample_type__sample_type_label__icontains='field sample'))
 
 
 class FilterSampleSerializer(serializers.ModelSerializer):

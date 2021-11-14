@@ -341,10 +341,10 @@ class FieldSample(DateTimeUserMixin):
 
     def __str__(self):
         return '{collectionid}: {barcode}'.format(collectionid=self.collection_global_id.collection_global_id,
-                                                  barcode=self.field_sample_barcode.sample_label_id)
+                                                  barcode=self.barcode_slug)
 
     def save(self, *args, **kwargs):
-        self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
+        self.barcode_slug = self.field_sample_barcode.barcode_slug
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains="water").first()
         elif self.collection_global_id.collection_type == CollectionTypes.sed_sample:
