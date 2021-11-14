@@ -249,7 +249,7 @@ class FieldSampleAdminResource(resources.ModelResource):
     field_sample_barcode = fields.Field(
         column_name='field_sample_barcode',
         attribute='field_sample_barcode',
-        widget=ForeignKeyWidget(SampleLabel, 'sample_label_id'))
+        widget=ForeignKeyWidget(SampleLabel, 'barcode_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
