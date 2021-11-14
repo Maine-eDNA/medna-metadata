@@ -73,7 +73,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     queryset = FieldSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id', 'is_extracted',
-                        'in_freezer', 'sample_material', 'field_sample_barcode']
+                        'sample_material', 'barcode_slug']
 
 
 class FilterSampleViewSet(viewsets.ModelViewSet):

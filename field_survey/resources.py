@@ -230,10 +230,10 @@ class FieldSampleAdminResource(resources.ModelResource):
         model = FieldSample
         import_id_fields = ('sample_global_id', 'collection_global_id', )
         fields = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
-                  'in_freezer', 'sample_material', 'collection_global_id',
+                  'sample_material', 'collection_global_id',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
-                        'in_freezer', 'sample_material', 'collection_global_id',
+                        'sample_material', 'collection_global_id',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     collection_global_id = fields.Field(
