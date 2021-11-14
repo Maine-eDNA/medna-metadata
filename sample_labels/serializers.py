@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from utility.serializers import SerializerExportMixin
+from utility.enumerations import YesNo
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
 from .models import SampleMaterial, SampleLabel, SampleLabelRequest, SampleType
@@ -62,6 +63,7 @@ class SampleLabelSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     sample_label_id = serializers.CharField(max_length=16, read_only=True)
     sample_year = serializers.IntegerField(read_only=True)
+    in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
     purpose = serializers.CharField(max_length=255)
