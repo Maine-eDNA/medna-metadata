@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.conf import settings
+from django.db.models import Q
 from sample_labels.models import SampleLabel, SampleMaterial
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
@@ -331,10 +332,11 @@ class FieldSample(DateTimeUserMixin):
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
-    field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT)
+    field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+                                                limit_choices_to=Q(sample_type__sample_type_label__icontains='field sample'))
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    #in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
 
     def __str__(self):
@@ -344,9 +346,9 @@ class FieldSample(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.barcode_slug = slugify(self.field_sample_barcode.sample_label_id)
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
-            self.sample_material = SampleMaterial.objects.get(pk=2)
+            self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains="water").first()
         elif self.collection_global_id.collection_type == CollectionTypes.sed_sample:
-            self.sample_material = SampleMaterial.objects.get(pk=1)
+            self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains="sediment").first()
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
