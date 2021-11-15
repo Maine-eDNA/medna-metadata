@@ -1,1 +1,0 @@
-[{"model": "bioinfo_taxon.taxonclass", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-17T08:37:53.647Z", "created_datetime": "2021-08-17T08:37:53.647Z", "taxon_class_slug": "actinopterygii", "taxon_class": "Actinopterygii", "taxon_phylum_slug": 1, "taxon_phylum": "Chordata", "taxon_kingdom": "Animalia", "taxon_domain": "Eukaryote"}}]

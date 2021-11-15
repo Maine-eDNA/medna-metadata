@@ -1,1 +1,0 @@
-[{"model": "bioinfo_taxon.taxonphylum", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-17T08:37:42.426Z", "created_datetime": "2021-08-17T08:37:42.426Z", "taxon_phylum_slug": "chordata", "taxon_phylum": "Chordata", "taxon_kingdom_slug": 1, "taxon_kingdom": "Animalia", "taxon_domain": "Eukaryote"}}]
