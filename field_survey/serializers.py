@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeometrySerializerMethodField
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -13,17 +13,15 @@ from field_sites.models import FieldSite
 from users.models import CustomUser
 from sample_labels.models import SampleMaterial, SampleLabel
 
-# would have to add another serializer that uses GeoFeatureModelSerializer class
-# and a separate button for downloading GeoJSON format along with CSV
+
 #################################
-# POST TRANSFORM                 #
+# POST TRANSFORM                #
 #################################
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=False, max_length=255)
-    #geom = GeometrySerializerMethodField()
     survey_datetime = serializers.DateTimeField()
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
     recorder_lname = serializers.CharField(max_length=255, allow_blank=True)
@@ -104,12 +102,15 @@ class FieldCrewSerializer(serializers.ModelSerializer):
     crew_global_id = serializers.CharField(read_only=False, max_length=255)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldCrew
         fields = ['crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -117,6 +118,10 @@ class FieldCrewSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
                                                     queryset=FieldSurvey.objects.all())
+    record_creator = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                  queryset=CustomUser.objects.all())
+    record_editor = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                 queryset=CustomUser.objects.all())
 
 
 class EnvMeasurementSerializer(serializers.ModelSerializer):
@@ -157,6 +162,8 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_substrate = serializers.ChoiceField(choices=BottomSubstrates.choices, allow_blank=True)
     env_lab_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_notes = serializers.CharField(allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -168,6 +175,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -175,17 +183,24 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
                                                     queryset=FieldSurvey.objects.all())
+    record_creator = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                  queryset=CustomUser.objects.all())
+    record_editor = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                 queryset=CustomUser.objects.all())
 
 
 class FieldCollectionSerializer(serializers.ModelSerializer):
     collection_global_id = serializers.CharField(read_only=False, max_length=255)
     collection_type = serializers.ChoiceField(choices=CollectionTypes.choices, allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldCollection
         fields = ['survey_global_id', 'collection_global_id', 'collection_type',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -193,6 +208,10 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
                                                     queryset=FieldSurvey.objects.all())
+    record_creator = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                  queryset=CustomUser.objects.all())
+    record_editor = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                 queryset=CustomUser.objects.all())
 
 
 class WaterCollectionSerializer(serializers.ModelSerializer):
@@ -253,6 +272,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField(read_only=False, max_length=255)
     is_extracted = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -260,6 +281,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
         model = FieldSample
         fields = ['collection_global_id', 'sample_global_id', 'sample_material', 'is_extracted',
                   'field_sample_barcode', 'barcode_slug',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -272,6 +294,10 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
                                                         queryset=SampleLabel.objects.filter(
                                                             sample_type__sample_type_label__icontains='field sample'))
+    record_creator = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                  queryset=CustomUser.objects.all())
+    record_editor = serializers.SlugRelatedField(many=False, read_only=False, slug_field='agol_username',
+                                                 queryset=CustomUser.objects.all())
 
 
 class FilterSampleSerializer(serializers.ModelSerializer):
@@ -334,7 +360,6 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
 
 class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=False, max_length=255)
-    #geom = GeometrySerializerMethodField()
     username = serializers.CharField(max_length=255, allow_blank=True)
     survey_datetime = serializers.DateTimeField(allow_null=True)
     project_ids = serializers.CharField( max_length=255, allow_blank=True)
@@ -406,12 +431,17 @@ class FieldCrewETLSerializer(serializers.ModelSerializer):
     crew_global_id = serializers.CharField(read_only=False, max_length=255)
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_creator = serializers.CharField(max_length=255, allow_blank=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
+    record_editor = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FieldCrewETL
         fields = ['crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -459,6 +489,10 @@ class EnvMeasurementETLSerializer(serializers.ModelSerializer):
     env_substrate = serializers.CharField(max_length=255, allow_blank=True)
     env_lab_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_notes = serializers.CharField(allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_creator = serializers.CharField(max_length=255, allow_blank=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
+    record_editor = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -470,6 +504,7 @@ class EnvMeasurementETLSerializer(serializers.ModelSerializer):
                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -520,6 +555,10 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
     subcore_clayer = serializers.IntegerField(allow_null=True)
     core_purpose = serializers.CharField(max_length=255, allow_blank=True)
     core_notes = serializers.CharField(max_length=255, allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_creator = serializers.CharField(max_length=255, allow_blank=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
+    record_editor = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -535,7 +574,8 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode',
                   'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose',
                   'core_notes', 'survey_global_id',
-                  'created_by', 'created_datetime', 'modified_datetime',]
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -561,6 +601,10 @@ class SampleFilterETLSerializer(serializers.ModelSerializer):
     filter_pore = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     filter_size = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     filter_notes = serializers.CharField(allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(allow_null=True)
+    record_creator = serializers.CharField(max_length=255, allow_blank=True)
+    record_edit_datetime = serializers.DateTimeField(allow_null=True)
+    record_editor = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -570,7 +614,8 @@ class SampleFilterETLSerializer(serializers.ModelSerializer):
                   'filter_sample_label', 'filter_barcode', 'filter_datetime', 'filter_method',
                   'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
                   'filter_pore', 'filter_size', 'filter_notes', 'collection_global_id',
-                  'created_by', 'created_datetime', 'modified_datetime',]
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
 
     # foreign keys
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

@@ -63,12 +63,15 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCrewAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+    list_display = ('record_creator', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['crew_fname', 'crew_lname', 'created_by']
+        self.fields = ['crew_fname', 'crew_lname',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewAdmin, self).change_view(request, object_id)
 
@@ -89,7 +92,8 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
+    list_display = ('record_creator', 'env_global_id', 'env_measure_datetime', 'survey_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
@@ -101,6 +105,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                        'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementAdmin, self).change_view(request, object_id)
@@ -122,12 +127,15 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'collection_type', 'survey_global_id',
+    list_display = ('record_creator', 'collection_global_id', 'collection_type', 'survey_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['collection_type', 'survey_global_id', 'created_by']
+        self.fields = ['collection_type', 'survey_global_id',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
@@ -204,13 +212,17 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('sample_global_id', 'field_sample_barcode', 'is_extracted', 'collection_global_id',
+    list_display = ('record_creator', 'sample_global_id', 'field_sample_barcode',
+                    'is_extracted', 'collection_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
     readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_global_id', 'field_sample_barcode', 'collection_global_id', 'created_by', ]
+        self.fields = ['sample_global_id', 'field_sample_barcode', 'collection_global_id',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -220,6 +232,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'sample_material', 'collection_global_id', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
@@ -358,12 +371,15 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCrewETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+    list_display = ('record_creator', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['crew_fname', 'crew_lname', 'created_by']
+        self.fields = ['crew_fname', 'crew_lname',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewETLAdmin, self).change_view(request, object_id)
 
@@ -384,7 +400,8 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasurementETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
+    list_display = ('record_creator', 'env_global_id', 'env_measure_datetime', 'survey_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
@@ -396,6 +413,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                        'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementETLAdmin, self).change_view(request, object_id)
@@ -417,7 +435,8 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = FieldCollectionETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('collection_global_id', 'collection_type', 'survey_global_id',
+    list_display = ('record_creator', 'collection_global_id', 'collection_type', 'survey_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
@@ -431,6 +450,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'survey_global_id', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionETLAdmin, self).change_view(request, object_id)
@@ -452,7 +472,8 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SampleFilterETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('filter_global_id', 'filter_barcode', 'filter_datetime', 'collection_global_id',
+    list_display = ('record_creator', 'filter_global_id', 'filter_barcode', 'filter_datetime', 'collection_global_id',
+                    'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
 
     def change_view(self, request, object_id, extra_content=None):
@@ -460,6 +481,7 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
         self.fields = ['filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'collection_global_id', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleFilterETLAdmin, self).change_view(request, object_id)
