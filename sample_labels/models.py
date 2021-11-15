@@ -1,62 +1,15 @@
 # Create your models here.
-import datetime
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from field_sites.models import FieldSite
-from utility.models import DateTimeUserMixin, slug_date_format
+from utility.models import DateTimeUserMixin, slug_date_format, current_year
 from django.core.validators import MinValueValidator
 import numpy as np
 from django.utils.text import slugify
 from django.utils import timezone
 from utility.enumerations import YesNo
-
-
-def current_year():
-    return datetime.date.today().year
-
-
-def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
-                                max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_type,
-                                sample_year, purpose):
-    if min_sample_label_id == max_sample_label_id:
-        # only one label request, so min and max label id will be the same; only need to enter
-        # one new label into SampleLabel
-        sample_label_id = min_sample_label_id
-        SampleLabel.objects.update_or_create(
-            sample_label_id=sample_label_id,
-            defaults={
-                'sample_label_request': sample_label_request,
-                'site_id': site_id,
-                'sample_material': sample_material,
-                'sample_type': sample_type,
-                'sample_year': sample_year,
-                'purpose': purpose,
-            }
-        )
-    else:
-        # more than one label requested, so need to interate to insert into SampleLabel
-        # arrange does not include max value, hence max+1
-        for num in np.arange(min_sample_label_num, max_sample_label_num + 1, 1):
-            # add leading zeros to site_num, e.g., 1 to 01
-            num_leading_zeros = str(num).zfill(4)
-
-            # format site_id, e.g., "eAL_L01"
-            sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=sample_label_prefix,
-                                                               sitenum=num_leading_zeros)
-            # enter each new label into SampleLabel - request only has a single row with the requested
-            # number and min/max; this table is necessary for joining proceeding tables
-            SampleLabel.objects.update_or_create(
-                sample_label_id=sample_label_id,
-                defaults={
-                    'sample_label_request': sample_label_request,
-                    'site_id': site_id,
-                    'sample_material': sample_material,
-                    'sample_type': sample_type,
-                    'sample_year': sample_year,
-                    'purpose': purpose,
-                }
-            )
+from utility.updates import insert_update_sample_id_req
 
 
 class SampleType(DateTimeUserMixin):

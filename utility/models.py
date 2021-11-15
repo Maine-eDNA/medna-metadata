@@ -9,6 +9,10 @@ from django.utils.text import slugify
 
 
 # Create your models here.
+def current_year():
+    return datetime.date.today().year
+
+
 def slug_date_format(date):
     # so that date format can be changed in one spot
     date_fmt = date
