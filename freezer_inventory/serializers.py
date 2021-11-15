@@ -3,8 +3,9 @@ from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerC
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
-from field_survey.models import FieldSample
-from wet_lab.models import Extraction
+from sample_labels.models import SampleLabel
+#from field_survey.models import FieldSample
+#from wet_lab.models import Extraction
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -144,7 +145,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerInventory
-        fields = ['id', 'freezer_box', 'field_sample', 'extraction',
+        fields = ['id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
@@ -165,14 +166,9 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     freezer_box = serializers.SlugRelatedField(many=False, read_only=False,
                                                slug_field='freezer_box_label_slug',
                                                queryset=FreezerBox.objects.all())
-    field_sample = serializers.SlugRelatedField(many=False, read_only=False,
-                                                slug_field='barcode_slug',
-                                                queryset=FieldSample.objects.filter(is_extracted=YesNo.NO),
-                                                allow_null=True)
-    extraction = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all(),
-                                              allow_null=True)
+    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False,
+                                                  slug_field='barcode_slug',
+                                                  queryset=SampleLabel.objects.all(in_freezer=YesNo.NO))
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):

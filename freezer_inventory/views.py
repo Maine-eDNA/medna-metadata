@@ -32,7 +32,8 @@ class FreezerInventoryViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerInventorySerializer
     queryset = FreezerInventory.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'created_by']
+    filterset_fields = ['freezer_box', 'freezer_inventory_type', 'freezer_inventory_status',
+                        'sample_barcode', 'created_by']
 
 
 class FreezerCheckoutViewSet(viewsets.ModelViewSet):

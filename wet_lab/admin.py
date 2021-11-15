@@ -260,7 +260,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                       'in_freezer', 'extraction_method',
+                       'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
@@ -470,7 +470,7 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label',
-                       'process_location',
+                       'final_pooled_lib_barcode', 'process_location',
                        'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
@@ -485,7 +485,7 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label',
-                       'process_location',
+                       'final_pooled_lib_barcode', 'process_location',
                        'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',

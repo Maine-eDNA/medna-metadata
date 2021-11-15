@@ -15,10 +15,8 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
 from wet_lab.models import RunResult, FastqFile, Extraction
 from sample_labels.models import SampleLabel
 from django.utils import timezone
-from django.db.models import Max, Count
+from django.db.models import Count
 import numpy as np
-#import re
-#from django.contrib.gis.geos import Point
 import boto3
 
 logger = get_task_logger(__name__)
@@ -163,7 +161,7 @@ def update_record_field_survey(record, pk):
 
         # survey123 srid defaults to 4326 (WGS84)
 
-        #print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
+        # print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
         #      " "+record.qa_editor+" "+record.record_creator+" "+record.record_editor)
 
         for prj in prjs:
@@ -236,6 +234,10 @@ def update_record_field_crew(record, pk):
                 'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id.survey_global_id),
                 'crew_fname': record.crew_fname,
                 'crew_lname': record.crew_lname,
+                'record_create_datetime': record.record_create_datetime,
+                'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
+                'record_edit_datetime': record.record_edit_datetime,
+                'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
             }
         )
         return field_crew, created
@@ -282,6 +284,10 @@ def update_record_env_measurement(record, pk):
                 'env_substrate': record.env_substrate,
                 'env_lab_datetime': record.env_lab_datetime,
                 'env_measure_notes': record.env_measure_notes,
+                'record_create_datetime': record.record_create_datetime,
+                'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
+                'record_edit_datetime': record.record_edit_datetime,
+                'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
             }
         )
 
@@ -297,6 +303,10 @@ def update_record_field_collection(record, pk):
             defaults={
                 'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id.survey_global_id),
                 'collection_type': record.collection_type,
+                'record_create_datetime': record.record_create_datetime,
+                'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
+                'record_edit_datetime': record.record_edit_datetime,
+                'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
             }
         )
 
@@ -353,6 +363,10 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
             defaults={
                 'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
                 'field_sample_barcode': sample_label_record,
+                'record_create_datetime': record.record_create_datetime,
+                'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
+                'record_edit_datetime': record.record_edit_datetime,
+                'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
             }
         )
 
@@ -572,10 +586,8 @@ def update_queryset_filter_sample(queryset):
             filter_barcode = record.filter_barcode
             if filter_barcode:
                 # only proceed if filter_barcode exists
-                # only proceed if sample_label exists
                 if SampleLabel.objects.filter(sample_label_id=filter_barcode).exists():
                     sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)[0]
-                    #field_collection = FieldCollectionETL.objects.filter(collection_global_id=record.collection_global_id.collection_global_id)
                     count = update_record_field_sample(record=record,
                                                        collection_type=record.collection_global_id.collection_type,
                                                        collection_global_id=record.collection_global_id.collection_global_id,

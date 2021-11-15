@@ -1,8 +1,10 @@
 from django.contrib.gis.db import models
 import uuid
 from django.utils.text import slugify
+from django.db.models import Q
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
+from sample_labels.models import SampleLabel
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format
 from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
@@ -188,8 +190,10 @@ class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
+    extraction_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+                                              limit_choices_to=Q(sample_type__sample_type_label__icontains='extraction'))
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
-    in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    #in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
@@ -209,7 +213,7 @@ class Extraction(DateTimeUserMixin):
         # update_extraction_method must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         update_extraction_status(self.barcode_slug, self.field_sample.pk)
-        self.barcode_slug = self.field_sample.barcode_slug
+        self.barcode_slug = self.extraction_barcode.barcode_slug
         super(Extraction, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -367,6 +371,9 @@ class PooledLibrary(DateTimeUserMixin):
 
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date")
+    final_pooled_lib_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+                                                    limit_choices_to=Q(sample_type__sample_type_label__icontains='pooled library'))
+    barcode_slug = models.SlugField("Final Pooled Library Barcode Slug", max_length=16)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)
     final_pooled_lib_label_slug = models.SlugField("Final Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
@@ -384,6 +391,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
+        self.barcode_slug = self.final_pooled_lib_barcode.barcode_slug
         fpl_date_fmt = slug_date_format(self.final_pooled_lib_datetime)
         self.final_pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.final_pooled_lib_label),
                                                                   date=slugify(fpl_date_fmt))

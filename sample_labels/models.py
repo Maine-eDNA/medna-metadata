@@ -9,15 +9,16 @@ from django.core.validators import MinValueValidator
 import numpy as np
 from django.utils.text import slugify
 from django.utils import timezone
+from utility.enumerations import YesNo
 
 
 def current_year():
     return datetime.date.today().year
 
 
-def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sample_label_num,
-                                max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_year,
-                                purpose):
+def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
+                                max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_type,
+                                sample_year, purpose):
     if min_sample_label_id == max_sample_label_id:
         # only one label request, so min and max label id will be the same; only need to enter
         # one new label into SampleLabel
@@ -25,8 +26,10 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
         SampleLabel.objects.update_or_create(
             sample_label_id=sample_label_id,
             defaults={
+                'sample_label_request': sample_label_request,
                 'site_id': site_id,
                 'sample_material': sample_material,
+                'sample_type': sample_type,
                 'sample_year': sample_year,
                 'purpose': purpose,
             }
@@ -46,8 +49,10 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
             SampleLabel.objects.update_or_create(
                 sample_label_id=sample_label_id,
                 defaults={
+                    'sample_label_request': sample_label_request,
                     'site_id': site_id,
                     'sample_material': sample_material,
+                    'sample_type': sample_type,
                     'sample_year': sample_year,
                     'purpose': purpose,
                 }
@@ -55,7 +60,10 @@ def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sa
 
 
 class SampleType(DateTimeUserMixin):
-    sample_type_code = models.CharField("Sample Type Code", max_length=1, unique=True)
+    # fs: Field Sample
+    # ex: Extraction
+    # pl: Pooled Library
+    sample_type_code = models.CharField("Sample Type Code", max_length=2, unique=True)
     sample_type_label = models.CharField("Sample Type Label", max_length=255)
 
     def __str__(self):
@@ -68,6 +76,8 @@ class SampleType(DateTimeUserMixin):
 
 
 class SampleMaterial(DateTimeUserMixin):
+    # w: Water
+    # s: Sediment
     sample_material_code = models.CharField("Sample Material Code", max_length=1, unique=True)
     sample_material_label = models.CharField("Sample Material Label", max_length=255)
 
@@ -85,6 +95,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
     sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
@@ -127,10 +138,11 @@ class SampleLabelRequest(DateTimeUserMixin):
                                                                         sitenum=min_num_leading_zeros)
             self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
                                                                         sitenum=max_num_leading_zeros)
-            insert_update_sample_id_req(self.min_sample_label_id, self.max_sample_label_id,
+            insert_update_sample_id_req(self, self.min_sample_label_id, self.max_sample_label_id,
                                         self.min_sample_label_num, self.max_sample_label_num,
                                         self.sample_label_prefix, self.site_id,
-                                        self.sample_material, self.sample_year, self.purpose)
+                                        self.sample_material, self.sample_type,
+                                        self.sample_year, self.purpose)
             now_fmt = slug_date_format(timezone.now())
             self.sample_label_request_slug = '{name}_{date}'.format(name=slugify(self.sample_label_prefix),
                                                                     date=now_fmt)
@@ -144,17 +156,25 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleLabel(DateTimeUserMixin):
+    sample_label_request = models.ForeignKey("Sample Label Request", on_delete=models.RESTRICT)
     sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
+    barcode_slug = models.CharField("Sample Barcode Slug", max_length=16)
+    in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(),
                                               validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
 
     def __str__(self):
         return '{label}'.format(label=self.sample_label_id)
+
+    def save(self, *args, **kwargs):
+        self.barcode_slug = slugify(self.sample_label_id)
+        super(SampleLabel, self).save(*args, **kwargs)
 
     class Meta:
         app_label = 'sample_labels'

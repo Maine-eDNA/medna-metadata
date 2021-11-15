@@ -3,6 +3,7 @@ from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
+from sample_labels.models import SampleLabel
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from users.models import CustomUser
@@ -138,13 +139,13 @@ class ExtractionAdminResource(resources.ModelResource):
         import_id_fields = ('extraction_datetime', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                  'in_freezer', 'extraction_method',
+                  'extraction_method',
                   'extraction_first_name', 'extraction_last_name',
                   'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes',  'created_by', 'created_datetime', )
         export_order = ('id', 'process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                        'in_freezer', 'extraction_method',
+                        'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
                         'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
@@ -363,18 +364,26 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
     class Meta:
         model = FinalPooledLibrary
         import_id_fields = ('final_pooled_lib_datetime', 'final_pooled_lib_label',
+                            'final_pooled_lib_barcode',
                             'pooled_library', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'final_pooled_lib_datetime', 'final_pooled_lib_label', 'process_location',
+        fields = ('id', 'final_pooled_lib_datetime', 'final_pooled_lib_label', 'final_pooled_lib_barcode',
+                  'process_location',
                   'pooled_library', 'quantification_method',
                   'final_pooled_lib_concentration',
                   'final_pooled_lib_concentration_units',
                   'final_pooled_lib_notes', 'created_by', 'created_datetime', )
-        export_order = ('id', 'final_pooled_lib_datetime', 'final_pooled_lib_label', 'process_location',
+        export_order = ('id', 'final_pooled_lib_datetime', 'final_pooled_lib_label', 'final_pooled_lib_barcode',
+                        'process_location',
                         'pooled_library', 'quantification_method',
                         'final_pooled_lib_concentration',
                         'final_pooled_lib_concentration_units',
                         'final_pooled_lib_notes', 'created_by', 'created_datetime', )
+
+    final_pooled_lib_barcode = fields.Field(
+        column_name='final_pooled_lib_barcode',
+        attribute='final_pooled_lib_barcode',
+        widget=ForeignKeyWidget(SampleLabel, 'barcode_slug'))
 
     process_location = fields.Field(
         column_name='process_location',

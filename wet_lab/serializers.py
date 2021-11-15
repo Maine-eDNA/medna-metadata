@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
+from sample_labels.models import SampleLabel
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from utility.enumerations import YesNo, TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
@@ -156,7 +157,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_datetime = serializers.DateTimeField()
     barcode_slug = serializers.SlugField(max_length=16, read_only=True)
-    in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    #in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     extraction_first_name = serializers.CharField(max_length=255)
     extraction_last_name = serializers.CharField(max_length=255)
     extraction_volume = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -169,7 +170,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Extraction
-        fields = ['id', 'process_location', 'extraction_datetime', 'barcode_slug', 'in_freezer',
+        fields = ['id', 'process_location', 'extraction_datetime', 'barcode_slug',
                   'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
@@ -179,6 +180,10 @@ class ExtractionSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
+    extraction_barcode = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field='barcode_slug',
+                                                      queryset=SampleLabel.objects.filter(
+                                                          sample_type__sample_type_label__icontains='extraction'))
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
@@ -385,6 +390,10 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
+    final_pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False,
+                                                            slug_field='barcode_slug',
+                                                            queryset=SampleLabel.objects.filter(
+                                                                sample_type__sample_type_label__icontains='pooled library'))
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
