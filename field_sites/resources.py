@@ -12,8 +12,8 @@ class EnvoBiomeFirstAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFirst
         import_id_fields = ('biome_first_tier',)
-        fields = ('biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('biome_first_tier_slug', 'biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('biome_first_tier_slug', 'biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -28,15 +28,17 @@ class EnvoBiomeSecondAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeSecond
         import_id_fields = ('biome_first_tier', 'biome_second_tier', )
-        fields = ('biome_first_tier', 'biome_second_tier',
+        fields = ('biome_first_tier_slug', 'biome_first_tier',
+                  'biome_second_tier_slug', 'biome_second_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier', 'biome_second_tier',
+        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+                        'biome_second_tier_slug', 'biome_second_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
 
-    biome_first_tier = fields.Field(
-        column_name='biome_first_tier_slug',
-        attribute='biome_first_tier_slug',
-        widget=ForeignKeyWidget(EnvoBiomeFirst, 'biome_first_tier'))
+    biome_first_tier_slug = fields.Field(
+        column_name='biome_first_tier',
+        attribute='biome_first_tier',
+        widget=ForeignKeyWidget(EnvoBiomeFirst, 'biome_first_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -51,15 +53,19 @@ class EnvoBiomeThirdAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeThird
         import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',)
-        fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
+        fields = ('biome_first_tier_slug', 'biome_first_tier',
+                  'biome_second_tier_slug', 'biome_second_tier',
+                  'biome_third_tier_slug', 'biome_third_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
+        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+                        'biome_second_tier_slug', 'biome_second_tier',
+                        'biome_third_tier_slug', 'biome_third_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
 
-    biome_second_tier = fields.Field(
-        column_name='biome_second_tier_slug',
-        attribute='biome_second_tier_slug',
-        widget=ForeignKeyWidget(EnvoBiomeSecond, 'biome_second_tier'))
+    biome_second_tier_slug = fields.Field(
+        column_name='biome_second_tier',
+        attribute='biome_second_tier',
+        widget=ForeignKeyWidget(EnvoBiomeSecond, 'biome_second_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -75,17 +81,21 @@ class EnvoBiomeFourthAdminResource(resources.ModelResource):
         model = EnvoBiomeFourth
         import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
                             'biome_fourth_tier', )
-        fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
-                  'biome_fourth_tier',
+        fields = ('biome_first_tier_slug', 'biome_first_tier',
+                  'biome_second_tier_slug', 'biome_second_tier',
+                  'biome_third_tier_slug', 'biome_third_tier',
+                  'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
-                        'biome_fourth_tier',
+        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+                        'biome_second_tier_slug', 'biome_second_tier',
+                        'biome_third_tier_slug', 'biome_third_tier',
+                        'biome_fourth_tier_slug', 'biome_fourth_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
 
-    biome_third_tier = fields.Field(
-        column_name='biome_third_tier_slug',
-        attribute='biome_third_tier_slug',
-        widget=ForeignKeyWidget(EnvoBiomeThird, 'biome_third_tier'))
+    biome_third_tier_slug = fields.Field(
+        column_name='biome_third_tier',
+        attribute='biome_third_tier',
+        widget=ForeignKeyWidget(EnvoBiomeThird, 'biome_third_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -101,17 +111,23 @@ class EnvoBiomeFifthAdminResource(resources.ModelResource):
         model = EnvoBiomeFifth
         import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
                             'biome_fourth_tier', 'biome_fifth_tier',)
-        fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
-                  'biome_fourth_tier', 'biome_fifth_tier',
+        fields = ('biome_first_tier_slug', 'biome_first_tier',
+                  'biome_second_tier_slug', 'biome_second_tier',
+                  'biome_third_tier_slug', 'biome_third_tier',
+                  'biome_fourth_tier_slug', 'biome_fourth_tier',
+                  'biome_fifth_tier_slug', 'biome_fifth_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
-                        'biome_fourth_tier', 'biome_fifth_tier',
+        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+                        'biome_second_tier_slug', 'biome_second_tier',
+                        'biome_third_tier_slug', 'biome_third_tier',
+                        'biome_fourth_tier_slug', 'biome_fourth_tier',
+                        'biome_fifth_tier_slug', 'biome_fifth_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
 
-    biome_fourth_tier = fields.Field(
-        column_name='biome_fourth_tier_slug',
-        attribute='biome_fourth_tier_slug',
-        widget=ForeignKeyWidget(EnvoBiomeFourth, 'biome_fourth_tier'))
+    biome_fourth_tier_slug = fields.Field(
+        column_name='biome_fourth_tier',
+        attribute='biome_fourth_tier',
+        widget=ForeignKeyWidget(EnvoBiomeFourth, 'biome_fourth_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -126,8 +142,8 @@ class EnvoFeatureFirstAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureFirst
         import_id_fields = ('feature_first_tier', )
-        fields = ('feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -142,13 +158,17 @@ class EnvoFeatureSecondAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSecond
         import_id_fields = ('feature_first_tier', 'feature_second_tier', )
-        fields = ('feature_first_tier', 'feature_second_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'feature_second_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug', 'feature_second_tier',
+                  'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+                        'feature_second_tier_slug', 'feature_second_tier',
+                        'ontology_url', 'created_by', 'created_datetime', )
 
-    feature_first_tier = fields.Field(
+    feature_first_tier_slug = fields.Field(
         column_name='feature_first_tier',
         attribute='feature_first_tier',
-        widget=ForeignKeyWidget(EnvoFeatureFirst, 'feature_first_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureFirst, 'feature_first_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -163,13 +183,19 @@ class EnvoFeatureThirdAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureThird
         import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier', )
-        fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug', 'feature_second_tier',
+                  'feature_third_tier_slug', 'feature_third_tier',
+                  'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+                        'feature_second_tier_slug', 'feature_second_tier',
+                        'feature_third_tier_slug', 'feature_third_tier',
+                        'ontology_url', 'created_by', 'created_datetime', )
 
-    feature_second_tier = fields.Field(
+    feature_second_tier_slug = fields.Field(
         column_name='feature_second_tier',
         attribute='feature_second_tier',
-        widget=ForeignKeyWidget(EnvoFeatureSecond, 'feature_second_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureSecond, 'feature_second_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -185,15 +211,21 @@ class EnvoFeatureFourthAdminResource(resources.ModelResource):
         model = EnvoFeatureFourth
         import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', )
-        fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                  'feature_fourth_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                        'feature_fourth_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug', 'feature_second_tier',
+                  'feature_third_tier_slug', 'feature_third_tier',
+                  'feature_fourth_tier_slug', 'feature_fourth_tier',
+                  'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+                        'feature_second_tier_slug', 'feature_second_tier',
+                        'feature_third_tier_slug', 'feature_third_tier',
+                        'feature_fourth_tier_slug', 'feature_fourth_tier',
+                        'ontology_url', 'created_by', 'created_datetime', )
 
-    feature_third_tier = fields.Field(
+    feature_third_tier_slug = fields.Field(
         column_name='feature_third_tier',
         attribute='feature_third_tier',
-        widget=ForeignKeyWidget(EnvoFeatureThird, 'feature_third_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureThird, 'feature_third_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -209,15 +241,23 @@ class EnvoFeatureFifthAdminResource(resources.ModelResource):
         model = EnvoFeatureFifth
         import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', 'feature_fifth_tier', )
-        fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                  'feature_fourth_tier', 'feature_fifth_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                        'feature_fourth_tier', 'feature_fifth_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug', 'feature_second_tier',
+                  'feature_third_tier_slug', 'feature_third_tier',
+                  'feature_fourth_tier_slug', 'feature_fourth_tier',
+                  'feature_fifth_tier_slug', 'feature_fifth_tier',
+                  'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+                        'feature_second_tier_slug', 'feature_second_tier',
+                        'feature_third_tier_slug', 'feature_third_tier',
+                        'feature_fourth_tier_slug', 'feature_fourth_tier',
+                        'feature_fifth_tier_slug', 'feature_fifth_tier',
+                        'ontology_url', 'created_by', 'created_datetime', )
 
-    feature_fourth_tier = fields.Field(
+    feature_fourth_tier_slug = fields.Field(
         column_name='feature_fourth_tier',
         attribute='feature_fourth_tier',
-        widget=ForeignKeyWidget(EnvoFeatureFourth, 'feature_fourth_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureFourth, 'feature_fourth_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -233,15 +273,25 @@ class EnvoFeatureSixthAdminResource(resources.ModelResource):
         model = EnvoFeatureSixth
         import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier', )
-        fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                  'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                        'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug', 'feature_second_tier',
+                  'feature_third_tier_slug', 'feature_third_tier',
+                  'feature_fourth_tier_slug', 'feature_fourth_tier',
+                  'feature_fifth_tier_slug', 'feature_fifth_tier',
+                  'feature_sixth_tier_slug', 'feature_sixth_tier',
+                  'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+                        'feature_second_tier_slug', 'feature_second_tier',
+                        'feature_third_tier_slug', 'feature_third_tier',
+                        'feature_fourth_tier_slug', 'feature_fourth_tier',
+                        'feature_fifth_tier_slug', 'feature_fifth_tier',
+                        'feature_sixth_tier_slug', 'feature_sixth_tier',
+                        'ontology_url', 'created_by', 'created_datetime', )
 
-    feature_fifth_tier = fields.Field(
+    feature_fifth_tier_slug = fields.Field(
         column_name='feature_fifth_tier',
         attribute='feature_fifth_tier',
-        widget=ForeignKeyWidget(EnvoFeatureFifth, 'feature_fifth_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureFifth, 'feature_fifth_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -258,17 +308,27 @@ class EnvoFeatureSeventhAdminResource(resources.ModelResource):
         import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier',
                             'feature_seventh_tier', )
-        fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                  'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier',
-                  'feature_seventh_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
-                        'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier',
-                        'feature_seventh_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        fields = ('feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug', 'feature_second_tier',
+                  'feature_third_tier_slug', 'feature_third_tier',
+                  'feature_fourth_tier_slug', 'feature_fourth_tier',
+                  'feature_fifth_tier_slug', 'feature_fifth_tier',
+                  'feature_sixth_tier_slug', 'feature_sixth_tier',
+                  'feature_seventh_tier_slug', 'feature_seventh_tier',
+                  'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+                        'feature_second_tier_slug', 'feature_second_tier',
+                        'feature_third_tier_slug', 'feature_third_tier',
+                        'feature_fourth_tier_slug', 'feature_fourth_tier',
+                        'feature_fifth_tier_slug', 'feature_fifth_tier',
+                        'feature_sixth_tier_slug', 'feature_sixth_tier',
+                        'feature_seventh_tier_slug', 'feature_seventh_tier',
+                        'ontology_url', 'created_by', 'created_datetime', )
 
-    feature_sixth_tier = fields.Field(
+    feature_sixth_tier_slug = fields.Field(
         column_name='feature_sixth_tier',
         attribute='feature_sixth_tier',
-        widget=ForeignKeyWidget(EnvoFeatureSixth, 'feature_sixth_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureSixth, 'feature_sixth_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -288,7 +348,7 @@ class SystemAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
-class WatershedAdminResource(resources.ModelResource):
+class GeoWatershedAdminResource(resources.ModelResource):
     class Meta:
         model = Watershed
         import_id_fields = ('watershed_code',)
@@ -297,13 +357,13 @@ class WatershedAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
-class WorldBorderAdminResource(resources.ModelResource):
+class GeoWorldBorderAdminResource(resources.ModelResource):
     class Meta:
         model = WorldBorder
         import_id_fields = ('id',)
 
 
-class FieldSiteAdminResource(resources.ModelResource):
+class GeoFieldSiteAdminResource(resources.ModelResource):
     class Meta:
         model = FieldSite
         import_id_fields = ('site_id',)
@@ -345,62 +405,62 @@ class FieldSiteAdminResource(resources.ModelResource):
     envo_biome_first = fields.Field(
         column_name='envo_biome_first',
         attribute='envo_biome_first',
-        widget=ForeignKeyWidget(EnvoBiomeFirst, 'biome_first_tier'))
+        widget=ForeignKeyWidget(EnvoBiomeFirst, 'biome_first_tier_slug'))
 
     envo_biome_second = fields.Field(
         column_name='envo_biome_second',
         attribute='envo_biome_second',
-        widget=ForeignKeyWidget(EnvoBiomeSecond, 'biome_second_tier'))
+        widget=ForeignKeyWidget(EnvoBiomeSecond, 'biome_second_tier_slug'))
 
     envo_biome_third = fields.Field(
         column_name='envo_biome_third',
         attribute='envo_biome_third',
-        widget=ForeignKeyWidget(EnvoBiomeThird, 'biome_third_tier'))
+        widget=ForeignKeyWidget(EnvoBiomeThird, 'biome_third_tier_slug'))
 
     envo_biome_fourth = fields.Field(
         column_name='envo_biome_fourth',
         attribute='envo_biome_fourth',
-        widget=ForeignKeyWidget(EnvoBiomeFourth, 'biome_fourth_tier'))
+        widget=ForeignKeyWidget(EnvoBiomeFourth, 'biome_fourth_tier_slug'))
 
     envo_biome_fifth = fields.Field(
         column_name='envo_biome_fifth',
         attribute='envo_biome_fifth',
-        widget=ForeignKeyWidget(EnvoBiomeFifth, 'biome_fifth_tier'))
+        widget=ForeignKeyWidget(EnvoBiomeFifth, 'biome_fifth_tier_slug'))
 
     envo_feature_first = fields.Field(
         column_name='envo_feature_first',
         attribute='envo_feature_first',
-        widget=ForeignKeyWidget(EnvoFeatureFirst, 'feature_first_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureFirst, 'feature_first_tier_slug'))
 
     envo_feature_second = fields.Field(
         column_name='envo_feature_second',
         attribute='envo_feature_second',
-        widget=ForeignKeyWidget(EnvoFeatureSecond, 'feature_second_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureSecond, 'feature_second_tier_slug'))
 
     envo_feature_third = fields.Field(
         column_name='envo_feature_third',
         attribute='envo_feature_third',
-        widget=ForeignKeyWidget(EnvoFeatureThird, 'feature_third_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureThird, 'feature_third_tier_slug'))
 
     envo_feature_fourth = fields.Field(
         column_name='envo_feature_fourth',
         attribute='envo_feature_fourth',
-        widget=ForeignKeyWidget(EnvoFeatureFourth, 'feature_fourth_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureFourth, 'feature_fourth_tier_slug'))
 
     envo_feature_fifth = fields.Field(
         column_name='envo_feature_fifth',
         attribute='envo_feature_fifth',
-        widget=ForeignKeyWidget(EnvoFeatureFifth, 'feature_fifth_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureFifth, 'feature_fifth_tier_slug'))
 
     envo_feature_sixth = fields.Field(
         column_name='envo_feature_sixth',
         attribute='envo_feature_sixth',
-        widget=ForeignKeyWidget(EnvoFeatureSixth, 'feature_sixth_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureSixth, 'feature_sixth_tier_slug'))
 
     envo_feature_seventh = fields.Field(
         column_name='envo_feature_seventh',
         attribute='envo_feature_seventh',
-        widget=ForeignKeyWidget(EnvoFeatureSeventh, 'feature_seventh_tier'))
+        widget=ForeignKeyWidget(EnvoFeatureSeventh, 'feature_seventh_tier_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
