@@ -15,8 +15,6 @@ from utility.models import Project
 #################################
 # POST TRANSFORM                #
 #################################
-
-
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
