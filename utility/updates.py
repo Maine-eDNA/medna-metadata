@@ -1,5 +1,6 @@
 from field_survey.models import FieldSample
 from sample_labels.models import SampleLabel
+import numpy as np
 # definitions that update model fields based on db insert/updates
 
 
