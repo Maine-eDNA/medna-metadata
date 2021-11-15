@@ -9,7 +9,6 @@ from django.utils.text import slugify
 from django.utils import timezone
 from utility.enumerations import YesNo
 import numpy as np
-#from utility.updates import insert_update_sample_id_req
 
 
 def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,

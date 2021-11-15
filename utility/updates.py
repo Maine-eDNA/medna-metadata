@@ -1,11 +1,6 @@
 from field_survey.models import FieldSample
-#from sample_labels.models import SampleLabel
 from utility.enumerations import YesNo
-#import numpy as np
 # definitions that update model fields based on db insert/updates
-
-
-# SAMPLE_LABELS
 
 
 # WET_LAB
