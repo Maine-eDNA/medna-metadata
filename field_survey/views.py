@@ -138,7 +138,7 @@ class SampleFilterETLViewSet(viewsets.ModelViewSet):
                         'filter_barcode', 'record_creator', 'record_editor']
 
 
-class DuplicateFilterSampleAPIView(generics.ListAPIView):
+class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
     serializer_class = SampleFilterETLSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id',
@@ -163,7 +163,7 @@ class DuplicateFilterSampleAPIView(generics.ListAPIView):
         return dup_filter_records
 
 
-class DuplicateSubCoreSampleAPIView(generics.ListAPIView):
+class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
     serializer_class = FieldCollectionETLSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'subcore_min_barcode', 'subcore_max_barcode',
