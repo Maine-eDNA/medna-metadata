@@ -45,7 +45,7 @@ class GrantSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    project_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Project.objects.all())])
+    project_code = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Project.objects.all())])
     project_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
