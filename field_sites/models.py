@@ -13,8 +13,8 @@ def update_biome_first(biome_pk, new_biome):
     biome_obj = EnvoBiomeSecond.objects.filter(biome_first_tier=biome_pk).first()
     if biome_obj:
         old_biome = biome_obj.biome_first_tier_slug
-        EnvoBiomeSecond.objects.filter(biome_first_tier=biome_pk).update(biome_first_tier_slug=new_biome)
         # update remaining with new_biome
+        EnvoBiomeSecond.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
         EnvoBiomeThird.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
         EnvoBiomeFourth.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
         EnvoBiomeFifth.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
@@ -25,8 +25,8 @@ def update_biome_second(biome_pk, new_biome):
     biome_obj = EnvoBiomeThird.objects.filter(biome_second_tier=biome_pk).first()
     if biome_obj:
         old_biome = biome_obj.biome_second_tier_slug
-        EnvoBiomeThird.objects.filter(biome_second_tier=biome_pk).update(biome_second_tier_slug=new_biome)
         # update remaining with new_biome
+        EnvoBiomeThird.objects.filter(biome_second_tier_slug=old_biome).update(biome_second_tier_slug=new_biome)
         EnvoBiomeFourth.objects.filter(biome_second_tier_slug=old_biome).update(biome_second_tier_slug=new_biome)
         EnvoBiomeFifth.objects.filter(biome_second_tier_slug=old_biome).update(biome_second_tier_slug=new_biome)
 
@@ -36,13 +36,17 @@ def update_biome_third(biome_pk, new_biome):
     biome_obj = EnvoBiomeFourth.objects.filter(biome_third_tier=biome_pk).first()
     if biome_obj:
         old_biome = biome_obj.biome_third_tier_slug
-        EnvoBiomeFourth.objects.filter(biome_third_tier=biome_pk).update(biome_third_tier_slug=new_biome)
         # update remaining with new_biome
+        EnvoBiomeFourth.objects.filter(biome_third_tier_slug=old_biome).update(biome_third_tier_slug=new_biome)
         EnvoBiomeFifth.objects.filter(biome_third_tier_slug=old_biome).update(biome_third_tier_slug=new_biome)
 
 
 def update_biome_fourth(biome_pk, new_biome):
-    EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome_pk).update(biome_fourth_tier_slug=new_biome)
+    biome_obj = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome_pk).first()
+    if biome_obj:
+        old_biome = biome_obj.biome_fourth_tier_slug
+        # update remaining with new_biome
+        EnvoBiomeFifth.objects.filter(biome_fourth_tier_slug=old_biome).update(biome_fourth_tier_slug=new_biome)
 
 
 def update_feature_first(feature_pk, new_feature):
@@ -50,8 +54,8 @@ def update_feature_first(feature_pk, new_feature):
     feature_obj = EnvoFeatureSecond.objects.filter(feature_first_tier=feature_pk).first()
     if feature_obj:
         old_feature = feature_obj.feature_first_tier_slug
-        EnvoFeatureSecond.objects.filter(feature_first_tier=feature_pk).update(feature_first_tier_slug=new_feature)
         # update remaining with new_feature
+        EnvoFeatureSecond.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
         EnvoFeatureThird.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
         EnvoFeatureFourth.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
         EnvoFeatureFifth.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
@@ -64,8 +68,8 @@ def update_feature_second(feature_pk, new_feature):
     feature_obj = EnvoFeatureThird.objects.filter(feature_second_tier=feature_pk).first()
     if feature_obj:
         old_feature = feature_obj.feature_second_tier_slug
-        EnvoFeatureThird.objects.filter(feature_second_tier=feature_pk).update(feature_second_tier_slug=new_feature)
         # update remaining with new_feature
+        EnvoFeatureThird.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
         EnvoFeatureFourth.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
         EnvoFeatureFifth.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
         EnvoFeatureSixth.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
@@ -77,8 +81,8 @@ def update_feature_third(feature_pk, new_feature):
     feature_obj = EnvoFeatureFourth.objects.filter(feature_third_tier=feature_pk).first()
     if feature_obj:
         old_feature = feature_obj.feature_third_tier_slug
-        EnvoFeatureFourth.objects.filter(feature_third_tier=feature_pk).update(feature_third_tier_slug=new_feature)
         # update remaining with new_feature
+        EnvoFeatureFourth.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
         EnvoFeatureFifth.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
         EnvoFeatureSixth.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
         EnvoFeatureSeventh.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
@@ -89,8 +93,8 @@ def update_feature_fourth(feature_pk, new_feature):
     feature_obj = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature_pk).first()
     if feature_obj:
         old_feature = feature_obj.feature_fourth_tier_slug
-        EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature_pk).update(feature_fourth_tier_slug=new_feature)
         # update remaining with new_feature
+        EnvoFeatureFifth.objects.filter(feature_fourth_tier_slug=old_feature).update(feature_fourth_tier_slug=new_feature)
         EnvoFeatureSixth.objects.filter(feature_fourth_tier_slug=old_feature).update(feature_fourth_tier_slug=new_feature)
         EnvoFeatureSeventh.objects.filter(feature_fourth_tier_slug=old_feature).update(feature_fourth_tier_slug=new_feature)
 
@@ -100,25 +104,27 @@ def update_feature_fifth(feature_pk, new_feature):
     feature_obj = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature_pk).first()
     if feature_obj:
         old_feature = feature_obj.feature_fifth_tier_slug
-        EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature_pk).update(feature_fifth_tier_slug=new_feature)
         # update remaining with new_feature
+        EnvoFeatureSixth.objects.filter(feature_fifth_tier_slug=old_feature).update(feature_fifth_tier_slug=new_feature)
         EnvoFeatureSeventh.objects.filter(feature_fifth_tier_slug=old_feature).update(feature_fifth_tier_slug=new_feature)
 
 
 def update_feature_sixth(feature_pk, new_feature):
-    EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature_pk).update(feature_sixth_tier_slug=new_feature)
+    feature_obj = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature_pk).first()
+    if feature_obj:
+        old_feature = feature_obj.feature_sixth_tier_slug
+        EnvoFeatureSeventh.objects.filter(feature_sixth_tier_slug=old_feature).update(feature_sixth_tier_slug=new_feature)
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
-    biome_first_tier = models.SlugField("ENVO Biome 1st Tier Slug",
-                                             max_length=255)
-    biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255, unique=True)
+    biome_first_tier = models.SlugField("ENVO Biome 1st Tier", max_length=255, unique=True)
+    biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier Slug", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
-        self.biome_first_tier = '{biome1}'.format(biome1=slugify(self.biome_first_tier_slug))
+        self.biome_first_tier_slug = '{biome1}'.format(biome1=slugify(self.biome_first_tier))
         update_biome_first(self.pk, self.biome_first_tier_slug)
         super(EnvoBiomeFirst, self).save(*args, **kwargs)
 
@@ -138,16 +144,15 @@ class EnvoBiomeSecond(DateTimeUserMixin):
     # anthropogenic terrestrial, mangrove, shrubland, terrestrial environmental zone, tundra, woodland,
     # tropical marginal sea, tropical marine coral reef, tropical marine upwelling, tropical savanna,
     # tropical shrubland, tropical woodland
-    biome_second_tier = models.SlugField("ENVO Biome 2nd Tier Slug",
-                                              max_length=255)
-    biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255, unique=True)
+    biome_second_tier = models.SlugField("ENVO Biome 2nd Tier", max_length=255, unique=True)
+    biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier Slug", max_length=255)
     biome_first_tier = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
     ontology_url = models.URLField(max_length=255,
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
-        self.biome_second_tier = '{biome2}'.format(biome2=slugify(self.biome_second_tier_slug))
+        self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
         self.biome_first_tier_slug = '{biome1}'.format(biome1=self.biome_first_tier.biome_first_tier_slug)
         update_biome_second(self.pk, self.biome_second_tier_slug)
         super(EnvoBiomeSecond, self).save(*args, **kwargs)
@@ -172,9 +177,8 @@ class EnvoBiomeThird(DateTimeUserMixin):
     # area of barren land, area of deciduous forest, vegetated area, alpine tundra,
     # area of lichen-dominanted vegetation, area of tundra, savanna, subtropical woodland,
     # temperate woodland, tropical woodland
-    biome_third_tier = models.SlugField("ENVO Biome 3rd Tier Slug",
-                                             max_length=255)
-    biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier", max_length=255, unique=True)
+    biome_third_tier = models.SlugField("ENVO Biome 3rd Tier", max_length=255, unique=True)
+    biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier Slug", max_length=255)
     biome_second_tier = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
@@ -182,7 +186,7 @@ class EnvoBiomeThird(DateTimeUserMixin):
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
-        self.biome_third_tier = '{biome3}'.format(biome3=slugify(self.biome_third_tier_slug))
+        self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
         self.biome_second_tier_slug = '{biome2}'.format(biome2=self.biome_second_tier.biome_second_tier_slug)
         self.biome_first_tier_slug = '{biome1}'.format(biome1=self.biome_second_tier.biome_first_tier_slug)
         update_biome_third(self.pk, self.biome_third_tier_slug)
@@ -210,9 +214,8 @@ class EnvoBiomeFourth(DateTimeUserMixin):
     # concentration basin mediterranean sea, dilution basin mediterranean sea, temperate mediterranean sea,
     # ranch, village, mediterranean shrubland, area of developed open space, area of developed space,
     # area of pastureland or hayfields, rural area, rural settlement, desert area, mediterranean woodland
-    biome_fourth_tier = models.SlugField("ENVO Biome 4th Tier Slug",
-                                              max_length=255)
-    biome_fourth_tier_slug = models.CharField("ENVO Biome 4th Tier", max_length=255, unique=True)
+    biome_fourth_tier = models.SlugField("ENVO Biome 4th Tier", max_length=255, unique=True)
+    biome_fourth_tier_slug = models.CharField("ENVO Biome 4th Tier Slug", max_length=255)
     biome_third_tier = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT)
     biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier", max_length=255)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
@@ -221,7 +224,7 @@ class EnvoBiomeFourth(DateTimeUserMixin):
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
-        self.biome_fourth_tier = '{biome4}'.format(biome4=slugify(self.biome_fourth_tier_slug))
+        self.biome_fourth_tier_slug = '{biome4}'.format(biome4=slugify(self.biome_fourth_tier))
         self.biome_third_tier_slug = '{biome3}'.format(biome3=self.biome_third_tier.biome_third_tier_slug)
         self.biome_second_tier_slug = '{biome2}'.format(biome2=self.biome_third_tier.biome_second_tier_slug)
         self.biome_first_tier_slug = '{biome1}'.format(biome1=self.biome_third_tier.biome_first_tier_slug)
@@ -245,9 +248,8 @@ class EnvoBiomeFourth(DateTimeUserMixin):
 
 class EnvoBiomeFifth(DateTimeUserMixin):
     # area of attached Modiolus assemblages, mussel reef, neritic mussel bed, coastal shrimp pond, rural settlement
-    biome_fifth_tier_slug = models.SlugField("ENVO Biome 5th Tier Slug",
-                                             max_length=255)
     biome_fifth_tier = models.CharField("ENVO Biome 5th Tier", max_length=255, unique=True)
+    biome_fifth_tier_slug = models.SlugField("ENVO Biome 5th Tier Slug", max_length=255)
     biome_fourth_tier = models.ForeignKey(EnvoBiomeFourth, on_delete=models.RESTRICT)
     biome_fourth_tier_slug = models.CharField("ENVO Biome 4th Tier", max_length=255)
     biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier", max_length=255)
@@ -273,7 +275,7 @@ class EnvoBiomeFifth(DateTimeUserMixin):
                                  biome2=self.biome_second_tier_slug,
                                  biome3=self.biome_third_tier_slug,
                                  biome4=self.biome_fourth_tier_slug,
-                                 biome5=self.biome_fifth_tier)
+                                 biome5=self.biome_fifth_tier_slug)
 
     class Meta:
         app_label = 'field_sites'
@@ -288,13 +290,12 @@ class EnvoFeatureFirst(DateTimeUserMixin):
     # estuarine coastal upper water column, estuarine open water surface layer, estuarine open water upper water column,
     # lake surface, land, liquid surface of an astronomical body, planetary surface, soil biocrust, soil surface layer,
     # submerged bed, surface layer of a water body, turbulent aquatic surface layer
-    feature_first_tier = models.SlugField("ENVO Feature 1st Tier Slug",
-                                               max_length=255)
-    feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+    feature_first_tier = models.CharField("ENVO Feature 1st Tier", max_length=255, unique=True)
+    feature_first_tier_slug = models.SlugField("ENVO Feature 1st Tier Slug", max_length=255)
     ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
-        self.feature_first_tier = '{feature1}'.format(feature1=slugify(self.feature_first_tier_slug))
+        self.feature_first_tier_slug = '{feature1}'.format(feature1=slugify(self.feature_first_tier))
         update_feature_first(self.pk, self.feature_first_tier_slug)
         super(EnvoFeatureFirst, self).save(*args, **kwargs)
 
@@ -317,16 +318,15 @@ class EnvoFeatureSecond(DateTimeUserMixin):
     # estuarine tidal riverine coastal upper water column, estuarine tidal riverine open water surface layer,
     # estuarine tidal riverine open water upper water column, liquid planetary surface, bare soil surface layer,
     # soil biocrust, drop stone, lake bed, marine bed, pond bed, reservoir bed, stream bed, ice lead, sea surface layer
-    feature_second_tier = models.SlugField("ENVO Feature 2nd Tier Slug",
-                                                max_length=255)
-    feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_second_tier = models.CharField("ENVO Feature 2nd Tier", max_length=255, unique=True)
+    feature_second_tier_slug = models.SlugField("ENVO Feature 2nd Tier Slug", max_length=255)
     feature_first_tier = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
 
     ontology_url = models.URLField(max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
-        self.feature_second_tier = '{feature2}'.format(feature2=slugify(self.feature_second_tier_slug))
+        self.feature_second_tier_slug = '{feature2}'.format(feature2=slugify(self.feature_second_tier))
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_first_tier.feature_first_tier_slug)
         update_feature_second(self.pk, self.feature_second_tier_slug)
         super(EnvoFeatureSecond, self).save(*args, **kwargs)
@@ -353,9 +353,8 @@ class EnvoFeatureThird(DateTimeUserMixin):
     # constructed swimming pool, hatchery, mine, open cage mariculture facility, overflow structure, patio,
     # public infrastructure, research facility, sports facility, transport feature, university campus, water intake,
     # lake bottom mud, marine faunal bed, ocean floor, sea floor, sea grass bed, river bed
-    feature_third_tier = models.SlugField("ENVO Feature 3rd Tier Slug",
-                                               max_length=255)
-    feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_third_tier = models.CharField("ENVO Feature 3rd Tier", max_length=255, unique=True)
+    feature_third_tier_slug = models.SlugField("ENVO Feature 3rd Tier Slug", max_length=255)
     feature_second_tier = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
@@ -364,7 +363,7 @@ class EnvoFeatureThird(DateTimeUserMixin):
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
-        self.feature_third_tier = '{feature3}'.format(feature3=slugify(self.feature_third_tier_slug))
+        self.feature_third_tier_slug = '{feature3}'.format(feature3=slugify(self.feature_third_tier))
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_second_tier.feature_second_tier_slug)
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_second_tier.feature_first_tier_slug)
         update_feature_third(self.pk, self.feature_third_tier_slug)
@@ -391,9 +390,8 @@ class EnvoFeatureFourth(DateTimeUserMixin):
     # marine water mass, mussel reef, warm seep, artificial reef, marine reef, abyssal feature, kelp forest,
     # marine benthic feature, boundary wall, dam, fence, fish hatchery, poultry hatchery, laboratory facility,
     # ocean time series station, research station, bridge, causeway, constructed pavement, ford, lock, pier, railway
-    feature_fourth_tier = models.SlugField("ENVO Feature 4th Tier Slug",
-                                                max_length=255)
-    feature_fourth_tier_slug = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
+    feature_fourth_tier = models.CharField("ENVO Feature 4th Tier", max_length=255, unique=True)
+    feature_fourth_tier_slug = models.SlugField("ENVO Feature 4th Tier Slug", max_length=255)
     feature_third_tier = models.ForeignKey(EnvoFeatureThird, on_delete=models.RESTRICT)
     feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
@@ -402,7 +400,7 @@ class EnvoFeatureFourth(DateTimeUserMixin):
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
-        self.feature_fourth_tier = '{feature4}'.format(feature4=slugify(self.feature_fourth_tier_slug))
+        self.feature_fourth_tier_slug = '{feature4}'.format(feature4=slugify(self.feature_fourth_tier))
         self.feature_third_tier_slug = '{feature3}'.format(feature3=self.feature_third_tier.feature_third_tier_slug)
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_third_tier.feature_second_tier_slug)
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_third_tier.feature_first_tier_slug)
@@ -433,9 +431,8 @@ class EnvoFeatureFifth(DateTimeUserMixin):
     # marine coral reef buttress zone, marine coral reef crest, marine coral reef deep fore reef,
     # marine coral reef flat zone, marine coral reef fore reef, marine sponge reef, marine subtidal rocky reef,
     # mussel reef, marine hydrothermal vent chimney
-    feature_fifth_tier = models.SlugField("ENVO Feature 5th Tier Slug",
-                                               max_length=255)
-    feature_fifth_tier_slug = models.CharField("ENVO Feature 5th Tier", max_length=255, unique=True)
+    feature_fifth_tier = models.CharField("ENVO Feature 5th Tier", max_length=255, unique=True)
+    feature_fifth_tier_slug = models.SlugField("ENVO Feature 5th Tier Slug", max_length=255)
     feature_fourth_tier = models.ForeignKey(EnvoFeatureFourth, on_delete=models.RESTRICT)
     feature_fourth_tier_slug = models.CharField("ENVO Feature 4th Tier", max_length=255)
     feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255)
@@ -445,7 +442,7 @@ class EnvoFeatureFifth(DateTimeUserMixin):
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
-        self.feature_fifth_tier = '{feature5}'.format(feature5=slugify(self.feature_fifth_tier_slug))
+        self.feature_fifth_tier_slug = '{feature5}'.format(feature5=slugify(self.feature_fifth_tier))
         self.feature_fourth_tier_slug = '{feature4}'.format(feature4=self.feature_fourth_tier.feature_fourth_tier_slug)
         self.feature_third_tier_slug = '{feature3}'.format(feature3=self.feature_fourth_tier.feature_third_tier_slug)
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_fourth_tier.feature_second_tier_slug)
@@ -472,9 +469,8 @@ class EnvoFeatureFifth(DateTimeUserMixin):
 
 class EnvoFeatureSixth(DateTimeUserMixin):
     # coastal shrimp pond, Bathymodiolus-dominated oceanic mussel reef, neritic mussel reef, oceanic mussel reef
-    feature_sixth_tier = models.SlugField("ENVO Feature 6th Tier Slug",
-                                               max_length=255)
-    feature_sixth_tier_slug = models.CharField("ENVO Feature 6th Tier", max_length=255, unique=True)
+    feature_sixth_tier = models.CharField("ENVO Feature 6th Tier", max_length=255, unique=True)
+    feature_sixth_tier_slug = models.SlugField("ENVO Feature 6th Tier Slug", max_length=255)
     feature_fifth_tier = models.ForeignKey(EnvoFeatureFifth, on_delete=models.RESTRICT)
     feature_fifth_tier_slug = models.CharField("ENVO Feature 5th Tier", max_length=255)
     feature_fourth_tier_slug = models.CharField("ENVO Feature 4th Tier", max_length=255)
@@ -485,7 +481,7 @@ class EnvoFeatureSixth(DateTimeUserMixin):
                                    default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
-        self.feature_sixth_tier = '{feature6}'.format(feature6=slugify(self.feature_sixth_tier_slug))
+        self.feature_sixth_tier_slug = '{feature6}'.format(feature6=slugify(self.feature_sixth_tier))
         self.feature_fifth_tier_slug = '{feature5}'.format(feature5=self.feature_fifth_tier.feature_fifth_tier_slug)
         self.feature_fourth_tier_slug = '{feature4}'.format(feature4=self.feature_fifth_tier.feature_fourth_tier_slug)
         self.feature_third_tier_slug = '{feature3}'.format(feature3=self.feature_fifth_tier.feature_third_tier_slug)
@@ -515,9 +511,8 @@ class EnvoFeatureSixth(DateTimeUserMixin):
 
 class EnvoFeatureSeventh(DateTimeUserMixin):
     # Bathymodiolus-dominated oceanic mussel reef
-    feature_seventh_tier_slug = models.SlugField("ENVO Feature 7th Tier Slug",
-                                                 max_length=255)
     feature_seventh_tier = models.CharField("ENVO Feature 7th Tier ", max_length=255, unique=True)
+    feature_seventh_tier_slug = models.SlugField("ENVO Feature 7th Tier Slug", max_length=255)
     feature_sixth_tier = models.ForeignKey(EnvoFeatureSixth, on_delete=models.RESTRICT)
     feature_sixth_tier_slug = models.CharField("ENVO Feature 6th Tier", max_length=255)
     feature_fifth_tier_slug = models.CharField("ENVO Feature 5th Tier", max_length=255)
@@ -551,7 +546,7 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
                                    feature4=self.feature_fourth_tier_slug,
                                    feature5=self.feature_fifth_tier_slug,
                                    feature6=self.feature_sixth_tier_slug,
-                                   feature7=self.feature_seventh_tier)
+                                   feature7=self.feature_seventh_tier_slug)
 
     class Meta:
         app_label = 'field_sites'
