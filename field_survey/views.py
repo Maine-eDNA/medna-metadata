@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, EnvMeasurementSerializer, \
     FieldCollectionSerializer, WaterCollectionSerializer, SedimentCollectionSerializer, \
@@ -13,7 +13,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollectionETL, SampleFilterETL
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
-from django.db.models import Max, Count
+from django.db.models import Count
 # Create your views here.
 #################################
 # POST TRANSFORM                #
@@ -34,14 +34,16 @@ class FieldCrewViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCrewSerializer
     queryset = FieldCrew.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'survey_global_id']
+    filterset_fields = ['created_by', 'survey_global_id',
+                        'record_creator', 'record_editor']
 
 
 class EnvMeasurementViewSet(viewsets.ModelViewSet):
     serializer_class = EnvMeasurementSerializer
     queryset = EnvMeasurement.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'survey_global_id']
+    filterset_fields = ['created_by', 'survey_global_id',
+                        'record_creator', 'record_editor']
 
 
 class FieldCollectionViewSet(viewsets.ModelViewSet):
@@ -49,6 +51,7 @@ class FieldCollectionViewSet(viewsets.ModelViewSet):
     queryset = FieldCollection.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
+                        'record_creator', 'record_editor',
                         'collection_type']
 
 
@@ -73,6 +76,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     queryset = FieldSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id', 'is_extracted',
+                        'record_creator', 'record_editor',
                         'sample_material', 'barcode_slug']
 
 
@@ -106,21 +110,24 @@ class FieldCrewETLViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCrewETLSerializer
     queryset = FieldCrewETL.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'survey_global_id']
+    filterset_fields = ['created_by', 'survey_global_id',
+                        'record_creator', 'record_editor']
 
 
 class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
     serializer_class = EnvMeasurementETLSerializer
     queryset = EnvMeasurementETL.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'survey_global_id']
+    filterset_fields = ['created_by', 'survey_global_id',
+                        'record_creator', 'record_editor']
 
 
 class FieldCollectionETLViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCollectionETLSerializer
     queryset = FieldCollectionETL.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'survey_global_id']
+    filterset_fields = ['created_by', 'survey_global_id',
+                        'record_creator', 'record_editor']
 
 
 class SampleFilterETLViewSet(viewsets.ModelViewSet):
@@ -128,14 +135,14 @@ class SampleFilterETLViewSet(viewsets.ModelViewSet):
     queryset = SampleFilterETL.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id',
-                        'filter_barcode']
+                        'filter_barcode', 'record_creator', 'record_editor']
 
 
 class DuplicateFilterSampleAPIView(generics.ListAPIView):
     serializer_class = SampleFilterETLSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id',
-                        'filter_barcode']
+                        'filter_barcode', 'record_creator', 'record_editor']
 
     def get_queryset(self):
         """
@@ -160,7 +167,7 @@ class DuplicateSubCoreSampleAPIView(generics.ListAPIView):
     serializer_class = FieldCollectionETLSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'subcore_min_barcode', 'subcore_max_barcode',
-                        'survey_global_id']
+                        'survey_global_id', 'record_creator', 'record_editor']
 
     def get_queryset(self):
         """
@@ -169,7 +176,7 @@ class DuplicateSubCoreSampleAPIView(generics.ListAPIView):
         fields = ('subcore_fname', 'subcore_lname', 'subcore_method',
                   'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
                   'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number', 'subcore_length',
-                  'subcore_diameter', 'subcore_clayer')
+                  'subcore_diameter', 'subcore_clayer', 'record_creator', 'record_editor')
         # https://stackoverflow.com/questions/31306875/pass-a-custom-queryset-to-serializer-in-django-rest-framework
         # grab barcodes with duplicates
         subcore_duplicates = FieldCollectionETL.objects.values(
