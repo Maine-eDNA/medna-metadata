@@ -25,7 +25,7 @@ def delete_keys(keys, the_dict):
 # Django REST Framework to allow the automatic downloading of data!
 class SampleTypeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_type_code = serializers.CharField(max_length=1,
+    sample_type_code = serializers.CharField(max_length=2,
                                              validators=[UniqueValidator(queryset=SampleType.objects.all())])
     sample_type_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -79,8 +79,8 @@ class SampleLabelSerializer(serializers.ModelSerializer):
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=False,
-                                               slug_field='sample_material_code',
-                                               queryset=SampleMaterial.objects.all())
+                                                   slug_field='sample_material_code',
+                                                   queryset=SampleMaterial.objects.all())
 
 
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
@@ -109,8 +109,8 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=False,
-                                               slug_field='sample_material_code',
-                                               queryset=SampleMaterial.objects.all())
+                                                   slug_field='sample_material_code',
+                                                   queryset=SampleMaterial.objects.all())
 
 
 class SampleLabelRequestSerializerTableExport(TableExport):
