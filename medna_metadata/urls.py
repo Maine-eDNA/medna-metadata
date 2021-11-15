@@ -22,7 +22,8 @@ from users.views import CustomUserViewSet
 from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
     EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
-    EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, SystemViewSet, FieldSitesViewSet
+    EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, \
+    SystemViewSet, GeoWatershedViewSet, GeoFieldSitesViewSet
 from sample_labels.views import SampleTypeViewSet, SampleMaterialViewSet, SampleLabelRequestViewSet, SampleLabelViewSet
 from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     FieldSampleViewSet, GeoFieldSurveyETLViewSet, FieldCrewETLViewSet, EnvMeasurementETLViewSet, \
@@ -108,7 +109,6 @@ router.register(r'utility/choices_lib_prep_kits', LibPrepKitsChoicesViewSet, 'ch
 router.register(r'utility/choices_inv_status', InvStatusChoicesViewSet, 'choices_inv_status')
 router.register(r'utility/choices_inv_types', InvTypesChoicesViewSet, 'choices_inv_types')
 router.register(r'utility/choices_checkout_actions', CheckoutActionsChoicesViewSet, 'choices_checkout_actions')
-
 # field_sites
 router.register(r'field_sites/envo_biome_first', EnvoBiomeFirstViewSet, 'envo_biome_first')
 router.register(r'field_sites/envo_biome_second', EnvoBiomeSecondViewSet, 'envo_biome_second')
@@ -123,7 +123,8 @@ router.register(r'field_sites/envo_feature_fifth', EnvoFeatureFifthViewSet, 'env
 router.register(r'field_sites/envo_feature_sixth', EnvoFeatureSixthViewSet, 'envo_feature_sixth')
 router.register(r'field_sites/envo_feature_seventh', EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
 router.register(r'field_sites/system', SystemViewSet, 'system')
-router.register(r'field_sites/field_site', FieldSitesViewSet, 'field_site')
+router.register(r'field_sites/watershed', GeoWatershedViewSet, 'watershed')
+router.register(r'field_sites/field_site', GeoFieldSitesViewSet, 'field_site')
 # sample_labels
 router.register(r'sample_labels/sample_type', SampleTypeViewSet, 'sample_type')
 router.register(r'sample_labels/sample_material', SampleMaterialViewSet, 'sample_material')
@@ -184,7 +185,6 @@ router.register(r'bioinfo/taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_
 
 
 urlpatterns = [
-    #path('', IndexView.as_view(), name='index'),
     # admin urls
     path('admin/', admin.site.urls),
     # API router
