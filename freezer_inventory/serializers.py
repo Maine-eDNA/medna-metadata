@@ -4,8 +4,8 @@ from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from sample_labels.models import SampleLabel
-#from field_survey.models import FieldSample
-#from wet_lab.models import Extraction
+# from field_survey.models import FieldSample
+# from wet_lab.models import Extraction
 
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -168,7 +168,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                                                queryset=FreezerBox.objects.all())
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                   slug_field='barcode_slug',
-                                                  queryset=SampleLabel.objects.all(in_freezer=YesNo.NO))
+                                                  queryset=SampleLabel.objects.filter(in_freezer=YesNo.NO))
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):
