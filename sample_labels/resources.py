@@ -62,7 +62,7 @@ class SampleLabelAdminResource(resources.ModelResource):
         #fields = ('sample_label_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
         #          'created_by', 'created_datetime', )
         export_order = ('sample_label_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
-                        'created_by', 'created_datetime', 'modified_datetime', )
+                        'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', )
     site_id = fields.Field(
         column_name='site_id',
         attribute='site_id',

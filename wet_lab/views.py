@@ -58,8 +58,7 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     serializer_class = ExtractionSerializer
     queryset = Extraction.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'process_location', 'field_sample',
-                        'in_freezer',
+    filterset_fields = ['created_by', 'barcode_slug', 'process_location', 'field_sample',
                         'extraction_method', 'quantification_method']
 
 
@@ -98,7 +97,7 @@ class FinalPooledLibraryViewSet(viewsets.ModelViewSet):
     serializer_class = FinalPooledLibrarySerializer
     queryset = FinalPooledLibrary.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'process_location', 'pooled_library',
+    filterset_fields = ['created_by', 'barcode_slug', 'process_location', 'pooled_library',
                         'quantification_method']
 
 
