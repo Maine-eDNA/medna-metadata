@@ -5,7 +5,6 @@ from django.contrib.gis.db import models
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, slug_date_format, current_year
 from django.core.validators import MinValueValidator
-import numpy as np
 from django.utils.text import slugify
 from django.utils import timezone
 from utility.enumerations import YesNo
@@ -109,7 +108,7 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleLabel(DateTimeUserMixin):
-    sample_label_request = models.ForeignKey("Sample Label Request", on_delete=models.RESTRICT)
+    sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
     sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
     barcode_slug = models.CharField("Sample Barcode Slug", max_length=16)
     in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
