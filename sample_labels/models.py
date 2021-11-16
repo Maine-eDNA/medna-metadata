@@ -10,7 +10,8 @@ from django.utils import timezone
 from utility.enumerations import YesNo
 import numpy as np
 import datetime
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 def current_year():
     return datetime.date.today().year
@@ -51,49 +52,6 @@ def update_sample_type(old_barcode, sample_label, sample_type):
     else:
         # if it is a new barcode, update the is_extracted status to YES
         sample_label.update(sample_type=sample_type)
-
-
-def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
-                                max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_type,
-                                sample_year, purpose):
-    if min_sample_label_id == max_sample_label_id:
-        # only one label request, so min and max label id will be the same; only need to enter
-        # one new label into SampleLabel
-        sample_label_id = min_sample_label_id
-        SampleLabel.objects.update_or_create(
-            sample_label_id=sample_label_id,
-            defaults={
-                'sample_label_request': sample_label_request,
-                'site_id': site_id,
-                'sample_material': sample_material,
-                'sample_type': sample_type,
-                'sample_year': sample_year,
-                'purpose': purpose,
-            }
-        )
-    else:
-        # more than one label requested, so need to interate to insert into SampleLabel
-        # arrange does not include max value, hence max+1
-        for num in np.arange(min_sample_label_num, max_sample_label_num + 1, 1):
-            # add leading zeros to site_num, e.g., 1 to 01
-            num_leading_zeros = str(num).zfill(4)
-
-            # format site_id, e.g., "eAL_L01"
-            sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=sample_label_prefix,
-                                                               sitenum=num_leading_zeros)
-            # enter each new label into SampleLabel - request only has a single row with the requested
-            # number and min/max; this table is necessary for joining proceeding tables
-            SampleLabel.objects.update_or_create(
-                sample_label_id=sample_label_id,
-                defaults={
-                    'sample_label_request': sample_label_request,
-                    'site_id': site_id,
-                    'sample_material': sample_material,
-                    'sample_type': sample_type,
-                    'sample_year': sample_year,
-                    'purpose': purpose,
-                }
-            )
 
 
 class SampleType(DateTimeUserMixin):
@@ -176,11 +134,11 @@ class SampleLabelRequest(DateTimeUserMixin):
                                                                         sitenum=min_num_leading_zeros)
             self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
                                                                         sitenum=max_num_leading_zeros)
-            insert_update_sample_id_req(self, self.min_sample_label_id, self.max_sample_label_id,
-                                        self.min_sample_label_num, self.max_sample_label_num,
-                                        self.sample_label_prefix, self.site_id,
-                                        self.sample_material, self.sample_type,
-                                        self.sample_year, self.purpose)
+            #insert_update_sample_id_req(self, self.min_sample_label_id, self.max_sample_label_id,
+            #                            self.min_sample_label_num, self.max_sample_label_num,
+            #                            self.sample_label_prefix, self.site_id,
+            #                            self.sample_material, self.sample_type,
+            #                            self.sample_year, self.purpose)
             now_fmt = slug_date_format(timezone.now())
             self.sample_label_request_slug = '{name}_{date}'.format(name=slugify(self.sample_label_prefix),
                                                                     date=now_fmt)
@@ -191,6 +149,49 @@ class SampleLabelRequest(DateTimeUserMixin):
         app_label = 'sample_labels'
         verbose_name = 'SampleLabelRequest'
         verbose_name_plural = 'Sample Label Requests'
+
+
+@receiver(post_save, sender=SampleLabelRequest, dispatch_uid="insert_update_sample_id_req")
+def insert_update_sample_id_req(sender, instance, created, **kwargs):
+    if created:
+        if instance.min_sample_label_id == instance.max_sample_label_id:
+            # only one label request, so min and max label id will be the same; only need to enter
+            # one new label into SampleLabel
+            sample_label_id = instance.min_sample_label_id
+            SampleLabel.objects.update_or_create(
+                sample_label_id=sample_label_id,
+                defaults={
+                    'sample_label_request': instance,
+                    'site_id': instance.site_id,
+                    'sample_material': instance.sample_material,
+                    'sample_type': instance.sample_type,
+                    'sample_year': instance.sample_year,
+                    'purpose': instance.purpose,
+                }
+            )
+        else:
+            # more than one label requested, so need to interate to insert into SampleLabel
+            # arrange does not include max value, hence max+1
+            for num in np.arange(instance.min_sample_label_num, instance.max_sample_label_num + 1, 1):
+                # add leading zeros to site_num, e.g., 1 to 01
+                num_leading_zeros = str(num).zfill(4)
+
+                # format site_id, e.g., "eAL_L01"
+                sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=instance.sample_label_prefix,
+                                                                   sitenum=num_leading_zeros)
+                # enter each new label into SampleLabel - request only has a single row with the requested
+                # number and min/max; this table is necessary for joining proceeding tables
+                SampleLabel.objects.update_or_create(
+                    sample_label_id=sample_label_id,
+                    defaults={
+                        'sample_label_request': instance,
+                        'site_id': instance.site_id,
+                        'sample_material': instance.sample_material,
+                        'sample_type': instance.sample_type,
+                        'sample_year': instance.sample_year,
+                        'purpose': instance.purpose,
+                    }
+                )
 
 
 class SampleLabel(DateTimeUserMixin):
@@ -218,3 +219,46 @@ class SampleLabel(DateTimeUserMixin):
         app_label = 'sample_labels'
         verbose_name = 'SampleLabel'
         verbose_name_plural = 'Sample Labels'
+
+
+# def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
+#                                 max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_type,
+#                                 sample_year, purpose):
+#     if min_sample_label_id == max_sample_label_id:
+#         # only one label request, so min and max label id will be the same; only need to enter
+#         # one new label into SampleLabel
+#         sample_label_id = min_sample_label_id
+#         SampleLabel.objects.update_or_create(
+#             sample_label_id=sample_label_id,
+#             defaults={
+#                 'sample_label_request': sample_label_request,
+#                 'site_id': site_id,
+#                 'sample_material': sample_material,
+#                 'sample_type': sample_type,
+#                 'sample_year': sample_year,
+#                 'purpose': purpose,
+#             }
+#         )
+#     else:
+#         # more than one label requested, so need to interate to insert into SampleLabel
+#         # arrange does not include max value, hence max+1
+#         for num in np.arange(min_sample_label_num, max_sample_label_num + 1, 1):
+#             # add leading zeros to site_num, e.g., 1 to 01
+#             num_leading_zeros = str(num).zfill(4)
+#
+#             # format site_id, e.g., "eAL_L01"
+#             sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=sample_label_prefix,
+#                                                                sitenum=num_leading_zeros)
+#             # enter each new label into SampleLabel - request only has a single row with the requested
+#             # number and min/max; this table is necessary for joining proceeding tables
+#             SampleLabel.objects.update_or_create(
+#                 sample_label_id=sample_label_id,
+#                 defaults={
+#                     'sample_label_request': sample_label_request,
+#                     'site_id': site_id,
+#                     'sample_material': sample_material,
+#                     'sample_type': sample_type,
+#                     'sample_year': sample_year,
+#                     'purpose': purpose,
+#                 }
+#             )
