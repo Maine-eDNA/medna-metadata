@@ -177,10 +177,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('feature_third_tier',
-                 models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 3rd Tier')),
-                (
-                'feature_third_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 3rd Tier Slug')),
+                ('feature_third_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 3rd Tier')),
+                ('feature_third_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 3rd Tier Slug')),
                 ('feature_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
                 ('ontology_url', models.URLField(
