@@ -45,8 +45,8 @@ class SampleLabelViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelSerializer
     queryset = SampleLabel.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_material',
-                        'sample_label_id', 'in_freezer']
+    filterset_fields = ['created_by', 'site_id', 'sample_material', 'sample_type',
+                        'sample_label_id', 'sample_label_request', 'in_freezer']
 
 
 class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
