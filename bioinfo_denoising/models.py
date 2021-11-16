@@ -37,7 +37,7 @@ class DenoisingMethod(DateTimeUserMixin):
 
 class DenoisingMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)

@@ -390,7 +390,7 @@ class AnnotationMethod(DateTimeUserMixin):
 
 class AnnotationMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     annotation_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)

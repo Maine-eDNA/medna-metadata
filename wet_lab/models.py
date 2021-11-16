@@ -168,7 +168,7 @@ class ExtractionMethod(DateTimeUserMixin):
 
 class Extraction(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
@@ -208,7 +208,7 @@ class Extraction(DateTimeUserMixin):
 
 class Ddpcr(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
     ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255, unique=True)
     ddpcr_experiment_name_slug = models.SlugField("ddPCR Experiment Name Slug", max_length=255)
@@ -240,7 +240,7 @@ class Ddpcr(DateTimeUserMixin):
 
 class Qpcr(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     qpcr_datetime = models.DateTimeField("qPCR DateTime")
     qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255, unique=True)
     qpcr_experiment_name_slug = models.SlugField("qPCR Experiment Name Slug", max_length=255)
@@ -275,7 +275,7 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
     lib_prep_slug = models.SlugField("Experiment Name Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
@@ -325,7 +325,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255, unique=True)
     pooled_lib_label_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
@@ -358,7 +358,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)
     final_pooled_lib_label_slug = models.SlugField("Final Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_finalpooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
@@ -389,7 +389,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 class RunPrep(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     run_prep_date = models.DateTimeField("Run Prep Date")
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     run_prep_slug = models.SlugField("Run Prep Slug", max_length=255)
@@ -424,7 +424,7 @@ class RunPrep(DateTimeUserMixin):
 
 class RunResult(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location())
+                                         default=get_default_process_location)
     # RunInfo.xml %Y%m%d
     run_date = models.DateField("Run Date")
     # RunInfo.xml
