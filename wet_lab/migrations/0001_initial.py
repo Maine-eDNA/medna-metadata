@@ -277,8 +277,7 @@ class Migration(migrations.Migration):
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('pooled_lib_datetime', models.DateTimeField(verbose_name='Pooled Library Date')),
-                (
-                'pooled_lib_label', models.CharField(max_length=255, unique=True, verbose_name='Pooled Library Label')),
+                ('pooled_lib_label', models.CharField(max_length=255, unique=True, verbose_name='Pooled Library Label')),
                 ('pooled_lib_label_slug', models.SlugField(max_length=255, verbose_name='Pooled Library Label Slug')),
                 ('pooled_lib_concentration', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='Pooled Library Concentration')),
                 ('pooled_lib_concentration_units', models.CharField(
