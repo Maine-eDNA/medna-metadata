@@ -93,9 +93,10 @@ class SampleBarcodeAdminResource(resources.ModelResource):
         import_id_fields = ('sample_barcode_id',)
         #fields = ('sample_barcode_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
         #          'created_by', 'created_datetime', )
-        export_order = ('sample_label_request', 'sample_barcode_id', 'site_id', 'sample_material', 'sample_type',
-                        'sample_year', 'purpose',
-                        'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('sample_label_request', 'sample_barcode_id', 'barcode_slug',
+                        'in_freezer', 'sample_type', 'purpose',
+                        'site_id', 'sample_material', 'sample_year',
+                        'created_by', 'created_datetime', 'modified_datetime', )
     sample_label_request = fields.Field(
         column_name='sample_label_request',
         attribute='sample_label_request',
