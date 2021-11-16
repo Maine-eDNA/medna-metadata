@@ -369,6 +369,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
     final_pooled_lib_label = serializers.CharField(max_length=255,
                                                    validators=[UniqueValidator(queryset=FinalPooledLibrary.objects.all())])
     final_pooled_lib_label_slug = serializers.SlugField(max_length=255, read_only=True)
+    barcode_slug = serializers.SlugField(max_length=255, read_only=True)
     final_pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     final_pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     final_pooled_lib_notes = serializers.CharField(allow_blank=True)
@@ -377,7 +378,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FinalPooledLibrary
-        fields = ['id', 'final_pooled_lib_datetime',
+        fields = ['id', 'final_pooled_lib_datetime', 'final_pooled_lib_barcode', 'barcode_slug',
                   'final_pooled_lib_label', 'final_pooled_lib_label_slug',
                   'process_location',
                   'pooled_library', 'quantification_method',

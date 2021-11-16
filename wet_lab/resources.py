@@ -136,20 +136,26 @@ class ExtractionMethodAdminResource(resources.ModelResource):
 class ExtractionAdminResource(resources.ModelResource):
     class Meta:
         model = Extraction
-        import_id_fields = ('extraction_datetime', 'field_sample', )
+        import_id_fields = ('id', 'extraction_barcode', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                  'extraction_method',
+        fields = ('id', 'extraction_barcode', 'barcode_slug',
+                  'process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name',
                   'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                  'extraction_notes',  'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                        'extraction_method',
+                  'extraction_notes',
+                  'created_by', 'created_datetime', 'modified_datetime')
+        export_order = ('id', 'extraction_barcode', 'barcode_slug',
+                        'process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
                         'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                        'extraction_notes',  'created_by', 'created_datetime', )
+                        'extraction_notes',  'created_by', 'created_datetime', 'modified_datetime')
+
+    extraction_barcode = fields.Field(
+        column_name='extraction_barcode',
+        attribute='extraction_barcode',
+        widget=ForeignKeyWidget(SampleBarcode, 'barcode_slug'))
 
     process_location = fields.Field(
         column_name='process_location',
@@ -363,22 +369,24 @@ class PooledLibraryAdminResource(resources.ModelResource):
 class FinalPooledLibraryAdminResource(resources.ModelResource):
     class Meta:
         model = FinalPooledLibrary
-        import_id_fields = ('final_pooled_lib_datetime', 'final_pooled_lib_label',
-                            'final_pooled_lib_barcode',
-                            'pooled_library', )
+        import_id_fields = ('id', 'final_pooled_lib_barcode', 'final_pooled_lib_label', 'pooled_library', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'final_pooled_lib_datetime', 'final_pooled_lib_label', 'final_pooled_lib_barcode',
-                  'process_location',
-                  'pooled_library', 'quantification_method',
+        fields = ('id', 'final_pooled_lib_barcode', 'barcode_slug', 'pooled_library',
+                  'final_pooled_lib_datetime',
+                  'final_pooled_lib_label', 'final_pooled_lib_label_slug',
+                  'process_location', 'quantification_method',
                   'final_pooled_lib_concentration',
                   'final_pooled_lib_concentration_units',
-                  'final_pooled_lib_notes', 'created_by', 'created_datetime', )
-        export_order = ('id', 'final_pooled_lib_datetime', 'final_pooled_lib_label', 'final_pooled_lib_barcode',
-                        'process_location',
-                        'pooled_library', 'quantification_method',
+                  'final_pooled_lib_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'final_pooled_lib_barcode', 'barcode_slug', 'pooled_library',
+                        'final_pooled_lib_datetime',
+                        'final_pooled_lib_label', 'final_pooled_lib_label_slug',
+                        'process_location', 'quantification_method',
                         'final_pooled_lib_concentration',
                         'final_pooled_lib_concentration_units',
-                        'final_pooled_lib_notes', 'created_by', 'created_datetime', )
+                        'final_pooled_lib_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     final_pooled_lib_barcode = fields.Field(
         column_name='final_pooled_lib_barcode',
