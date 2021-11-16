@@ -187,8 +187,7 @@ class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
-    extraction_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT,
-                                              limit_choices_to={'in_freezer': YesNo.NO})
+    extraction_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
@@ -370,8 +369,7 @@ class PooledLibrary(DateTimeUserMixin):
 
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date")
-    final_pooled_lib_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT,
-                                                    limit_choices_to={'in_freezer': YesNo.NO})
+    final_pooled_lib_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Final Pooled Library Barcode Slug", max_length=16)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)
     final_pooled_lib_label_slug = models.SlugField("Final Pooled Library Label Slug", max_length=255)
