@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'users',
     'utility',
     'field_sites',
-    'sample_labels.apps.SampleLabelsConfig',
+    'sample_labels',
     'field_survey',
     'wet_lab',
     'freezer_inventory',

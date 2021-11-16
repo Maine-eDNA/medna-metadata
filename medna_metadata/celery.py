@@ -22,10 +22,6 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
-# read env file into celery
-env_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-                        '/home/django/medna-metadata/docker/gunicorn.env')
-read_dotenv(env_file)
 
 # if __name__ == '__main__':
 #     app.start()
