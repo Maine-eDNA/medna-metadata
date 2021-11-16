@@ -1,6 +1,6 @@
 from field_survey.models import FieldSample
 from utility.enumerations import YesNo
-# definitions that update model fields based on db insert/updates
+# definitions that update external model fields based on db insert/updates
 
 
 # WET_LAB
