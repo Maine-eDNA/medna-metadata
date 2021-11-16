@@ -3,7 +3,7 @@ from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerC
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 
@@ -168,7 +168,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                                                queryset=FreezerBox.objects.all())
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                   slug_field='barcode_slug',
-                                                  queryset=SampleLabel.objects.filter(in_freezer=YesNo.NO))
+                                                  queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
 
 
 class FreezerCheckoutSerializer(serializers.ModelSerializer):

@@ -498,7 +498,7 @@ APP_ORDER = OrderedDict([
                      "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
                      "EnvoFeatureFourth", "EnvoFeatureFifth", "EnvoFeatureSixth", "EnvoFeatureSeventh",
                      "FieldSite"]),
-    ("sample_labels", ["SampleMaterial", "SampleLabelRequest", "SampleLabel"]),
+    ("sample_labels", ["SampleMaterial", "SampleLabelRequest", "SampleBarcode"]),
     ("field_survey", ["FieldSurvey", "FieldCrew", "EnvMeasurement", "FieldCollection", "FieldSample",
                       "FieldSurveyETL", "FieldCrewETL", "EnvMeasurementETL",
                       "FieldCollectionETL", "SampleFilterETL"]),

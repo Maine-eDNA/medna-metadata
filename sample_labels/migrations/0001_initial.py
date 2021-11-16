@@ -74,16 +74,16 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='SampleLabel',
+            name='SampleBarcode',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('sample_label_id', models.CharField(max_length=16, unique=True, verbose_name='Sample Label ID')),
+                ('sample_barcode_id', models.CharField(max_length=16, unique=True, verbose_name='Sample Barcode ID')),
                 ('barcode_slug', models.CharField(max_length=16, verbose_name='Sample Barcode Slug')),
                 ('in_freezer', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='In Freezer')),
                 ('sample_year', models.PositiveIntegerField(default=sample_labels.models.current_year, validators=[django.core.validators.MinValueValidator(2018)], verbose_name='Sample Year')),
-                ('purpose', models.CharField(max_length=255, verbose_name='Sample Label Purpose')),
+                ('purpose', models.CharField(max_length=255, verbose_name='Sample Barcode Purpose')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('sample_label_request', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplelabelrequest')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),
@@ -91,8 +91,8 @@ class Migration(migrations.Migration):
                 ('site_id', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.fieldsite')),
             ],
             options={
-                'verbose_name': 'SampleLabel',
-                'verbose_name_plural': 'Sample Labels',
+                'verbose_name': 'SampleBarcode',
+                'verbose_name_plural': 'Sample Barcodes',
             },
         ),
     ]

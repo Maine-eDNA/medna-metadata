@@ -1,10 +1,10 @@
 # Register your models here.
 from django.contrib import admin
-from .models import SampleType, SampleMaterial, SampleLabelRequest, SampleLabel
+from .models import SampleType, SampleMaterial, SampleLabelRequest, SampleBarcode
 #from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin
 from .resources import SampleLabelRequestAdminResource, SampleMaterialAdminResource, \
-    SampleLabelAdminResource, SampleTypeAdminResource
+    SampleBarcodeAdminResource, SampleTypeAdminResource
 
 
 class SampleTypeAdmin(ImportExportActionModelAdmin):
@@ -111,33 +111,33 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
 admin.site.register(SampleLabelRequest, SampleLabelRequestAdmin)
 
 
-class SampleLabelAdmin(ExportActionModelAdmin):
+class SampleBarcodeAdmin(ExportActionModelAdmin):
     # below are import_export configs
-    resource_class = SampleLabelAdminResource
+    resource_class = SampleBarcodeAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('sample_label_id', 'sample_type', 'purpose',
+    list_display = ('sample_barcode_id', 'sample_type', 'purpose',
                     'created_datetime', 'created_by', )
 
     def has_add_permission(self, request, obj=None):
-        # disable add on SampleLabel because it is populated on insert on SampleLabelRequest
+        # disable add on SampleBarcode because it is populated on insert on SampleLabelRequest
         return False
 
     #def add_view(self, request, extra_content=None):
     #    # specify the fields that can be viewed in add view
-    #    self.fields = ['sample_label_id', 'site_id', 'sample_material',
+    #    self.fields = ['sample_barcode_id', 'site_id', 'sample_material',
     #                   'sample_type', 'sample_year', 'purpose',
     #                   'created_by']
     #    # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
     #    add_fields = request.GET.copy()
     #    add_fields['created_by'] = request.user
     #    request.GET = add_fields
-    #    return super(SampleLabelAdmin, self).add_view(request)
+    #    return super(SampleBarcodeAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['sample_label_request', 'purpose', 'in_freezer', 'sample_type', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(SampleLabelAdmin, self).change_view(request, object_id)
+        return super(SampleBarcodeAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -148,4 +148,4 @@ class SampleLabelAdmin(ExportActionModelAdmin):
     # below are import_export configs
 
 
-admin.site.register(SampleLabel, SampleLabelAdmin)
+admin.site.register(SampleBarcode, SampleBarcodeAdmin)

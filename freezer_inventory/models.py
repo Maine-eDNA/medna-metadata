@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
 from django.db.models import Q
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
@@ -30,16 +30,16 @@ def update_sl_in_freezer_status(old_barcode, new_barcode_pk):
     if old_barcode is not None:
         # if it is not a new barcode, update the new to is_extracted status to YES
         # and old to is_extracted status to NO
-        sample_obj = SampleLabel.objects.filter(pk=new_barcode_pk).first()
+        sample_obj = SampleBarcode.objects.filter(pk=new_barcode_pk).first()
         new_barcode = sample_obj.barcode_slug
         if old_barcode != new_barcode:
             # compare old barcode to new barcode; if they are equal then we do not need
             # to update
-            SampleLabel.objects.filter(barcode_slug=old_barcode).update(in_freezer=YesNo.NO)
-            SampleLabel.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+            SampleBarcode.objects.filter(barcode_slug=old_barcode).update(in_freezer=YesNo.NO)
+            SampleBarcode.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
     else:
         # if it is a new barcode, update the is_extracted status to YES
-        SampleLabel.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+        SampleBarcode.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
 
 
 # Create your models here.
@@ -157,7 +157,7 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
-    sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+    sample_barcode = models.OneToOneField(SampleBarcode, on_delete=models.RESTRICT,
                                           limit_choices_to={'in_freezer': YesNo.NO})
     freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50,
@@ -179,7 +179,7 @@ class FreezerInventory(DateTimeUserMixin):
             # concatenate inventory_type and barcode,
             # e.g., "extraction-epr_l01_21w_0001"
             self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
-                                                                    barcode=slugify(self.sample_label.sample_label_id))
+                                                                    barcode=slugify(self.sample_label.sample_barcode_id))
         if self.sample_label:
             # if field_sample is being added/changed to freezer_inventory, update the field_sample's in_freezer status
             if self.freezer_inventory_slug is None:

@@ -6,7 +6,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 from utility.models import Project
 from users.models import CustomUser
-from sample_labels.models import SampleLabel, SampleMaterial
+from sample_labels.models import SampleBarcode, SampleMaterial
 
 
 class FieldSurveyAdminResource(resources.ModelResource):
@@ -86,7 +86,7 @@ class FieldSurveyAdminResource(resources.ModelResource):
 
 class FieldCrewAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = FieldCrew
         import_id_fields = ('crew_global_id', 'survey_global_id', )
         fields = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
@@ -122,7 +122,7 @@ class FieldCrewAdminResource(resources.ModelResource):
 
 class EnvMeasurementAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = EnvMeasurement
         import_id_fields = ('env_global_id',  'survey_global_id', )
         fields = ('env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
@@ -170,7 +170,7 @@ class EnvMeasurementAdminResource(resources.ModelResource):
 
 class FieldCollectionAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = FieldCollection
         import_id_fields = ('collection_global_id', 'survey_global_id', )
         fields = ('collection_global_id', 'collection_type', 'water_control', 'water_control_type',
@@ -218,7 +218,7 @@ class FieldCollectionAdminResource(resources.ModelResource):
 
 class WaterCollectionAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = WaterCollection
         import_id_fields = ('field_collection', )
         fields = ('field_collection', 'water_control', 'water_control_type',
@@ -241,7 +241,7 @@ class WaterCollectionAdminResource(resources.ModelResource):
 
 class SedimentCollectionAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = SedimentCollection
         import_id_fields = ('field_collection', )
         fields = ('field_collection', 'core_control', 'core_label',
@@ -264,7 +264,7 @@ class SedimentCollectionAdminResource(resources.ModelResource):
 
 class FieldSampleAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = FieldSample
         import_id_fields = ('sample_global_id', 'collection_global_id', )
         fields = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
@@ -289,7 +289,7 @@ class FieldSampleAdminResource(resources.ModelResource):
     field_sample_barcode = fields.Field(
         column_name='field_sample_barcode',
         attribute='field_sample_barcode',
-        widget=ForeignKeyWidget(SampleLabel, 'barcode_slug'))
+        widget=ForeignKeyWidget(SampleBarcode, 'barcode_slug'))
 
     record_creator = fields.Field(
         column_name='record_creator',
@@ -312,7 +312,7 @@ class FieldSampleAdminResource(resources.ModelResource):
 
 class FilterSampleAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = FilterSample
         import_id_fields = ('field_sample', )
         fields = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
@@ -335,7 +335,7 @@ class FilterSampleAdminResource(resources.ModelResource):
 
 class SubCoreSampleAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = SubCoreSample
         import_id_fields = ('field_sample', )
         fields = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
@@ -397,7 +397,7 @@ class FieldSurveyETLAdminResource(resources.ModelResource):
 
 class FieldCrewETLAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = FieldCrewETL
         skip_unchanged = True
         report_skipped = False
@@ -425,7 +425,7 @@ class FieldCrewETLAdminResource(resources.ModelResource):
 
 class EnvMeasurementETLAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = EnvMeasurementETL
         skip_unchanged = True
         report_skipped = False
@@ -465,7 +465,7 @@ class EnvMeasurementETLAdminResource(resources.ModelResource):
 
 class FieldCollectionETLAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = FieldCollectionETL
         skip_unchanged = True
         report_skipped = False
@@ -511,7 +511,7 @@ class FieldCollectionETLAdminResource(resources.ModelResource):
 
 class SampleFilterETLAdminResource(resources.ModelResource):
     class Meta:
-        # SampleLabel
+        # SampleBarcode
         model = SampleFilterETL
         skip_unchanged = True
         report_skipped = False

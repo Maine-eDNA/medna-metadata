@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import SampleMaterial, SampleLabel, SampleLabelRequest, SampleType
+from .models import SampleMaterial, SampleBarcode, SampleLabelRequest, SampleType
 from field_sites.models import FieldSite
 from field_sites.tests import FieldSiteTestCase
 # Create your tests here.
@@ -65,7 +65,7 @@ class SampleLabelTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test1 = SampleLabel.objects.filter(purpose="SampleLabelTest1")[:1].get()
-        test2 = SampleLabel.objects.filter(purpose="SampleLabelTest2")[:1].get()
+        test1 = SampleBarcode.objects.filter(purpose="SampleLabelTest1")[:1].get()
+        test2 = SampleBarcode.objects.filter(purpose="SampleLabelTest2")[:1].get()
         self.assertIs(test1.was_added_recently(), True)
         self.assertIs(test2.was_added_recently(), True)

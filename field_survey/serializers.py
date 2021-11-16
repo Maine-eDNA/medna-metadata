@@ -11,7 +11,7 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
 # from utility.models import Project
 # from field_sites.models import FieldSite
 # from users.models import CustomUser
-# from sample_labels.models import SampleMaterial, SampleLabel
+# from sample_labels.models import SampleMaterial, SampleBarcode
 
 
 #################################
