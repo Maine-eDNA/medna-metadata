@@ -6,7 +6,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 from django.utils import timezone
-from utility.defaults import now_plus_max
+import datetime
+
+
+def now_plus_max():
+    # maximum possible datetime
+    now = timezone.now()
+    max_date = now + datetime.timedelta(days=999999)
+    return max_date
 
 
 class CustomUser(AbstractUser):

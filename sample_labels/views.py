@@ -18,6 +18,11 @@ from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
+import datetime
+
+
+def year_choices():
+    return [(r, r) for r in range(2018, datetime.date.today().year+1)]
 
 
 class SampleTypeViewSet(viewsets.ModelViewSet):

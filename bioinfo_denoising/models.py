@@ -1,7 +1,6 @@
 from django.contrib.gis.db import models
 from wet_lab.models import RunResult, Extraction
-from utility.models import DateTimeUserMixin,  ProcessLocation
-from utility.defaults import slug_date_format, get_default_process_location
+from utility.models import DateTimeUserMixin,  ProcessLocation, slug_date_format, get_default_process_location
 from django.utils.text import slugify
 from django.utils import timezone
 
