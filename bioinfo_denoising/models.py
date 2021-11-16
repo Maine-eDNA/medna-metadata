@@ -1,8 +1,8 @@
 from django.contrib.gis.db import models
 from wet_lab.models import RunResult, Extraction
-from utility.models import DateTimeUserMixin, slug_date_format, ProcessLocation
+from utility.models import DateTimeUserMixin,  ProcessLocation
+from utility.defaults import slug_date_format, get_default_process_location
 from django.utils.text import slugify
-from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 from django.utils import timezone
 
 
@@ -38,7 +38,7 @@ class DenoisingMethod(DateTimeUserMixin):
 
 class DenoisingMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)

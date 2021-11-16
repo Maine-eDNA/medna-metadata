@@ -3,7 +3,8 @@
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from field_sites.models import FieldSite
-from utility.models import DateTimeUserMixin, slug_date_format, current_year, get_default_sample_type
+from utility.models import DateTimeUserMixin
+from utility.defaults import slug_date_format, current_year, get_default_sample_type
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
 from django.utils import timezone

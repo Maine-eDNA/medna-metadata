@@ -1,10 +1,11 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-from django.db.models import Q
 from sample_labels.models import SampleLabel, SampleMaterial
 from field_sites.models import FieldSite
-from utility.models import DateTimeUserMixin, get_sentinel_user
-from django.utils.text import slugify
+from utility.models import DateTimeUserMixin
+from utility.defaults import get_sentinel_user
+# from django.utils.text import slugify
+# from django.db.models import Q
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \

@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
-from utility.models import DateTimeUserMixin, slug_date_format, ProcessLocation
-from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
+from utility.models import DateTimeUserMixin,  ProcessLocation
+from utility.defaults import slug_date_format, get_default_process_location
 from utility.enumerations import YesNo
 from django.utils.text import slugify
 from django.utils import timezone
@@ -391,7 +391,7 @@ class AnnotationMethod(DateTimeUserMixin):
 
 class AnnotationMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     annotation_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)

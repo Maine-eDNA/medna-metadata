@@ -2,9 +2,10 @@ from django.contrib.gis.db import models
 from django.utils.text import slugify
 from django.db.models import Q
 from sample_labels.models import SampleLabel
-#from field_survey.models import FieldSample
-#from wet_lab.models import Extraction
-from utility.models import DateTimeUserMixin, slug_date_format
+# from field_survey.models import FieldSample
+# from wet_lab.models import Extraction
+from utility.models import DateTimeUserMixin
+from utility.defaults import slug_date_format
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
 import re
@@ -158,11 +159,7 @@ class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
     sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
-                                          limit_choices_to={'in_freezer': 'no'})
-    #field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, blank=True, null=True,
-    #                                    limit_choices_to=Q(is_extracted=YesNo.NO) | Q(in_freezer=YesNo.NO))
-    #extraction = models.OneToOneField(Extraction, on_delete=models.RESTRICT, blank=True, null=True,
-    #                                  limit_choices_to={'in_freezer': YesNo.NO})
+                                          limit_choices_to={'in_freezer': YesNo.NO})
     freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50,
                                               choices=InvTypes.choices)
