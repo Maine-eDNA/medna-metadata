@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from .defaults import get_sentinel_user, get_default_user
+from utility.defaults import get_sentinel_user, get_default_user
 
 
 # Create your models here.
