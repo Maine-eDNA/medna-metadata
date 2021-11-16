@@ -3,6 +3,33 @@ from import_export.widgets import ForeignKeyWidget
 from .models import SampleLabelRequest, SampleBarcode, SampleMaterial, SampleType
 from field_sites.models import FieldSite
 from users.models import CustomUser
+from django.db import transaction
+
+
+class BaseModelResource(resources.ModelResource):
+    save_points = []
+
+    def before_save_instance(self, instance, using_transactions, dry_run):
+        """
+        Override to add additional logic. Does nothing by default.
+        Saving intermediate savepoints of txn
+        """
+        if using_transactions and dry_run:
+            con = transaction.get_connection()
+            self.save_points.extend(con.savepoint_ids)
+
+    def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
+        """
+        Override to add additional logic. Does nothing by default.
+        Manually removing commit hooks for intermediate savepoints of atomic transaction
+        """
+        if using_transactions and dry_run:
+            con = transaction.get_connection()
+            for sid in self.save_points:
+                con.run_on_commit = [
+                    (sids, func) for (sids, func) in con.run_on_commit if sid not in sids
+                ]
+        super().after_import(dataset, result, using_transactions, dry_run, **kwargs)
 
 
 class SampleTypeAdminResource(resources.ModelResource):
@@ -23,7 +50,7 @@ class SampleMaterialAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].id
 
 
-class SampleLabelRequestAdminResource(resources.ModelResource):
+class SampleLabelRequestAdminResource(BaseModelResource):
     class Meta:
         model = SampleLabelRequest
         import_id_fields = ('id', 'min_sample_label_id', 'max_sample_label_id',
