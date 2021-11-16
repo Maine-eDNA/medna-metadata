@@ -91,7 +91,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type())
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
     sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
@@ -161,7 +161,7 @@ class SampleLabel(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type())
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(),
                                               validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
