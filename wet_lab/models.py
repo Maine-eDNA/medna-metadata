@@ -6,8 +6,7 @@ from django.utils.text import slugify
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from sample_labels.models import SampleLabel
 from field_survey.models import FieldSample
-from utility.models import DateTimeUserMixin, ProcessLocation
-from utility.defaults import slug_date_format, get_default_process_location
+from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from utility.updates import update_extraction_status

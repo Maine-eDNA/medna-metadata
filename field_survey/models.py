@@ -23,7 +23,7 @@ class FieldSurvey(DateTimeUserMixin):
                                  verbose_name="Username",
                                  blank=True,
                                  null=True,
-                                 on_delete=models.SET(get_sentinel_user()),
+                                 on_delete=models.SET(get_sentinel_user),
                                  related_name="username")
     # date
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
@@ -36,7 +36,7 @@ class FieldSurvey(DateTimeUserMixin):
                                    verbose_name="Supervisor",
                                    blank=True,
                                    null=True,
-                                   on_delete=models.SET(get_sentinel_user()),
+                                   on_delete=models.SET(get_sentinel_user),
                                    related_name="supervisor")
     # recdr_fname
     recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
@@ -74,19 +74,19 @@ class FieldSurvey(DateTimeUserMixin):
     core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Designated Sub-corer",
                                       blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user()),
+                                      on_delete=models.SET(get_sentinel_user),
                                       related_name="core_subcorer")
     water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Designated Filterer",
                                        blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user()),
+                                       on_delete=models.SET(get_sentinel_user),
                                        related_name="water_filterer")
     survey_complete = models.CharField("Survey Complete", max_length=50, choices=YesNo.choices,
                                        blank=True)
     qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   verbose_name="Quality Editor",
                                   blank=True, null=True,
-                                  on_delete=models.SET(get_sentinel_user()),
+                                  on_delete=models.SET(get_sentinel_user),
                                   related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
@@ -109,13 +109,13 @@ class FieldSurvey(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Survey Creator",
                                        blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user()),
+                                       on_delete=models.SET(get_sentinel_user),
                                        related_name="survey_record_creator")
     record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Survey Editor",
                                       blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user()),
+                                      on_delete=models.SET(get_sentinel_user),
                                       related_name="survey_record_editor")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
@@ -159,13 +159,13 @@ class FieldCrew(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Crew Creator",
                                        blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user()),
+                                       on_delete=models.SET(get_sentinel_user),
                                        related_name="crew_record_creator")
     record_edit_datetime = models.DateTimeField("Crew Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Crew Editor",
                                       blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user()),
+                                      on_delete=models.SET(get_sentinel_user),
                                       related_name="crew_record_editor")
     survey_global_id = models.ForeignKey(FieldSurvey,
                                          db_column="survey_global_id",
@@ -248,13 +248,13 @@ class EnvMeasurement(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Env Creator",
                                        blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user()),
+                                       on_delete=models.SET(get_sentinel_user),
                                        related_name="env_record_creator")
     record_edit_datetime = models.DateTimeField("Env Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Env Editor",
                                       blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user()),
+                                      on_delete=models.SET(get_sentinel_user),
                                       related_name="env_record_editor")
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
                                          related_name="fieldsurvey_to_envmeasurement",
@@ -285,13 +285,13 @@ class FieldCollection(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Collection Creator",
                                        blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user()),
+                                       on_delete=models.SET(get_sentinel_user),
                                        related_name="collection_record_creator")
     record_edit_datetime = models.DateTimeField("Collection Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Collection Editor",
                                       blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user()),
+                                      on_delete=models.SET(get_sentinel_user),
                                       related_name="collection_record_editor")
 
     def __str__(self):
@@ -375,13 +375,13 @@ class FieldSample(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Field Sample Creator",
                                        blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user()),
+                                       on_delete=models.SET(get_sentinel_user),
                                        related_name="field_sample_record_creator")
     record_edit_datetime = models.DateTimeField("Field Sample Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       verbose_name="Field Sample Editor",
                                       blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user()),
+                                      on_delete=models.SET(get_sentinel_user),
                                       related_name="field_sample_record_editor")
 
     def __str__(self):
