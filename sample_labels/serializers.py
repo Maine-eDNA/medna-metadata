@@ -59,30 +59,6 @@ class SampleMaterialSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-class SampleLabelSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    sample_label_id = serializers.CharField(max_length=16, read_only=True)
-    sample_year = serializers.IntegerField(read_only=True)
-    in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-    purpose = serializers.CharField(max_length=255)
-
-    class Meta:
-        model = SampleLabel
-        fields = ['id', 'sample_label_id', 'site_id', 'sample_material', 'sample_year',
-                  'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since site_id, sample_material, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
-                                           queryset=FieldSite.objects.all())
-    sample_material = serializers.SlugRelatedField(many=False, read_only=False,
-                                                   slug_field='sample_material_code',
-                                                   queryset=SampleMaterial.objects.all())
-
-
 class SampleLabelRequestSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     purpose = serializers.CharField(max_length=255)
@@ -100,7 +76,8 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = SampleLabelRequest
         fields = ['id', 'sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
-                  'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
+                  'min_sample_label_id', 'max_sample_label_id', 'site_id',
+                  'sample_year', 'sample_material', 'sample_type',
                   'purpose', 'sample_label_request_slug', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since site_id, sample_material, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -108,7 +85,37 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
+    sample_type = serializers.SlugField(many=False, read_only=False, slug_field='sample_type_code',
+                                        queryset=SampleType.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=False,
+                                                   slug_field='sample_material_code',
+                                                   queryset=SampleMaterial.objects.all())
+
+
+class SampleLabelSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    sample_label_id = serializers.CharField(max_length=16, read_only=True)
+    sample_year = serializers.IntegerField(read_only=True)
+    in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+    purpose = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = SampleLabel
+        fields = ['id', 'sample_label_id', 'site_id', 'sample_year', 'sample_material', 'sample_type',
+                  'purpose', 'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since site_id, sample_material, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    sample_label_request = serializers.SlugField(many=False, read_only=False, slug_field='sample_label_request_slug',
+                                                 queryset=SampleLabelRequest.objects.all())
+    sample_type = serializers.SlugField(many=False, read_only=False, slug_field='sample_type_code',
+                                        queryset=SampleType.objects.all())
+    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id',
+                                           queryset=FieldSite.objects.all())
+    sample_material = serializers.SlugRelatedField(many=False, read_only=True,
                                                    slug_field='sample_material_code',
                                                    queryset=SampleMaterial.objects.all())
 

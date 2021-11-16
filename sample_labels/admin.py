@@ -118,20 +118,24 @@ class SampleLabelAdmin(ExportActionModelAdmin):
     list_display = ('sample_label_id', 'sample_type', 'purpose',
                     'created_datetime', 'created_by', )
 
-    def add_view(self, request, extra_content=None):
-        # specify the fields that can be viewed in add view
-        self.fields = ['sample_label_id', 'site_id', 'sample_material',
-                       'sample_type', 'sample_year', 'purpose',
-                       'created_by']
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        add_fields = request.GET.copy()
-        add_fields['created_by'] = request.user
-        request.GET = add_fields
-        return super(SampleLabelAdmin, self).add_view(request)
+    def has_add_permission(self, request, obj=None):
+        # disable add on SampleLabel because it is populated on insert on SampleLabelRequest
+        return False
+
+    #def add_view(self, request, extra_content=None):
+    #    # specify the fields that can be viewed in add view
+    #    self.fields = ['sample_label_id', 'site_id', 'sample_material',
+    #                   'sample_type', 'sample_year', 'purpose',
+    #                   'created_by']
+    #    # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+    #    add_fields = request.GET.copy()
+    #    add_fields['created_by'] = request.user
+    #    request.GET = add_fields
+    #    return super(SampleLabelAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['purpose', 'in_freezer', 'sample_type', 'created_by']
+        self.fields = ['sample_label_request', 'purpose', 'in_freezer', 'sample_type', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleLabelAdmin, self).change_view(request, object_id)
 
