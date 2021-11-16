@@ -86,7 +86,7 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
     sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
-                                        queryset=SampleType.objects.all())
+                                               queryset=SampleType.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=False,
                                                    slug_field='sample_material_code',
                                                    queryset=SampleMaterial.objects.all())
@@ -107,18 +107,17 @@ class SampleLabelSerializer(serializers.ModelSerializer):
                   'purpose', 'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since site_id, sample_material, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # slug to tell it to print the desired field from the other table. Querysets are only
+    # provided if read_only=False.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
+    sample_material = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_material_code')
     sample_label_request = serializers.SlugRelatedField(many=False, read_only=False,
                                                         slug_field='sample_label_request_slug',
                                                         queryset=SampleLabelRequest.objects.all())
     sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
                                                queryset=SampleType.objects.all())
-    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id',
-                                           queryset=FieldSite.objects.all())
-    sample_material = serializers.SlugRelatedField(many=False, read_only=True,
-                                                   slug_field='sample_material_code',
-                                                   queryset=SampleMaterial.objects.all())
+
 
 
 class SampleLabelRequestSerializerTableExport(TableExport):
