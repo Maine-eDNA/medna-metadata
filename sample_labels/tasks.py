@@ -5,8 +5,7 @@ from sample_labels.models import SampleBarcode, SampleLabelRequest
 from django.core.exceptions import ObjectDoesNotExist
 from celery.utils.log import get_task_logger
 import numpy as np
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+
 
 logger = get_task_logger(__name__)
 
@@ -58,7 +57,3 @@ def sample_label_request_post_save_task(instance_pk):
                     }
                 )
 
-
-@receiver(post_save, sender=SampleLabelRequest, dispatch_uid="sample_label_request_post_save")
-def sample_label_request_post_save(sender, instance, **kwargs):
-    sample_label_request_post_save_task.apply_async(args=(instance.pk,))
