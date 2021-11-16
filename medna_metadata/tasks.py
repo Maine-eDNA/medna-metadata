@@ -14,7 +14,8 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollectionETL, SampleFilterETL
 from django.core.exceptions import ObjectDoesNotExist
 from wet_lab.models import RunResult, FastqFile, Extraction
-from sample_labels.models import SampleBarcode, SampleLabelRequest
+from sample_labels.models import SampleBarcode
+from sample_labels.models import SampleLabelRequest
 from django.utils import timezone
 from django.db.models import Count
 import numpy as np
