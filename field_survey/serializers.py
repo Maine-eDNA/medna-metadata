@@ -8,10 +8,10 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
     CoreMethods
-from utility.models import Project
-from field_sites.models import FieldSite
-from users.models import CustomUser
-from sample_labels.models import SampleMaterial, SampleLabel
+# from utility.models import Project
+# from field_sites.models import FieldSite
+# from users.models import CustomUser
+# from sample_labels.models import SampleMaterial, SampleLabel
 
 
 #################################
