@@ -4,8 +4,8 @@
 from django.contrib.gis.db import models
 from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 
 
 def update_biome_first(biome_pk, new_biome):
