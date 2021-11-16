@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from wet_lab.models import RunResult, Extraction
+# from wet_lab.models import RunResult, Extraction
 from utility.models import DateTimeUserMixin,  ProcessLocation, slug_date_format, get_default_process_location
 from django.utils.text import slugify
 from django.utils import timezone
@@ -39,7 +39,7 @@ class DenoisingMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=get_default_process_location)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
-    run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
+    run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT)
     denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
     denoising_slug = models.SlugField("Denoising Metadata Slug", max_length=255)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
@@ -88,7 +88,7 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
 
 class ASVRead(DateTimeUserMixin):
     asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
+    extraction = models.ForeignKey('wet_lab.Extraction', on_delete=models.RESTRICT)
     number_reads = models.PositiveIntegerField("Number Reads")
 
     def __str__(self):

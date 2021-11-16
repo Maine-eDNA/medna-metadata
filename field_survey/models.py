@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-from sample_labels.models import SampleBarcode, SampleMaterial, update_sample_type, get_field_sample_sample_type
-from field_sites.models import FieldSite
+from sample_labels.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
+# from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 # from django.utils.text import slugify
 # from django.db.models import Q
@@ -9,7 +9,7 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
-from utility.models import Project
+# from utility.models import Project
 
 
 #################################
@@ -29,7 +29,7 @@ class FieldSurvey(DateTimeUserMixin):
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
 
     # prj_ids
-    project_ids = models.ManyToManyField(Project,
+    project_ids = models.ManyToManyField('utility.Project',
                                          verbose_name="Affiliated Project(s)",
                                          related_name="project_ids")
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -43,7 +43,7 @@ class FieldSurvey(DateTimeUserMixin):
     # recdr_lname
     recorder_lname = models.CharField("Recorder Last Name", max_length=255, blank=True)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
-    site_id = models.ForeignKey(FieldSite, blank=True, null=True, on_delete=models.RESTRICT)
+    site_id = models.ForeignKey('field_sites.FieldSite', blank=True, null=True, on_delete=models.RESTRICT)
     site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
     site_name = models.CharField("General Location Name", max_length=255, blank=True)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
@@ -366,11 +366,11 @@ class FieldSample(DateTimeUserMixin):
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
-    field_sample_barcode = models.OneToOneField(SampleBarcode, on_delete=models.RESTRICT,
+    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT,
                                                 limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
+    sample_material = models.ForeignKey('sample_labels.SampleMaterial', on_delete=models.RESTRICT)
     record_create_datetime = models.DateTimeField("Field Sample Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                        verbose_name="Field Sample Creator",
@@ -389,10 +389,10 @@ class FieldSample(DateTimeUserMixin):
                                                   barcode=self.barcode_slug)
 
     def save(self, *args, **kwargs):
-        # update_sample_type must come before creating barcode_slug
+        # update_barcode_sample_type must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         # update barcode to type == Field Sample
-        update_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type)
+        update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type)
         self.barcode_slug = self.field_sample_barcode.barcode_slug
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains="water").first()

@@ -2,7 +2,7 @@
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-from field_sites.models import FieldSite
+#from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, slug_date_format
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
@@ -39,21 +39,21 @@ def get_pooled_library_sample_type():
                                             defaults={'sample_type_label': "Pooled Library"})[0]
 
 
-def update_sample_type(old_barcode, sample_label, sample_type):
+def update_barcode_sample_type(old_barcode, sample_barcode, sample_type):
     # update is_extracted status of FieldSample model when samples are added to
     # Extraction model
     if old_barcode is not None:
         # if it is not a new barcode, update the new to is_extracted status to YES
         # and old to is_extracted status to NO
-        new_barcode = sample_label.barcode_slug
+        new_barcode = sample_barcode.barcode_slug
         if old_barcode != new_barcode:
             # compare old barcode to new barcode; if they are equal then we do not need
             # to update
             SampleBarcode.objects.filter(barcode_slug=old_barcode).update(sample_type=get_unassigned_sample_type)
-            sample_label.update(sample_type=sample_type)
+            sample_barcode.update(sample_type=sample_type)
     else:
         # if it is a new barcode, update the is_extracted status to YES
-        sample_label.update(sample_type=sample_type)
+        sample_barcode.update(sample_type=sample_type)
 
 
 class SampleType(DateTimeUserMixin):
@@ -90,7 +90,7 @@ class SampleMaterial(DateTimeUserMixin):
 class SampleLabelRequest(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
+    site_id = models.ForeignKey('field_sites.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])
@@ -165,7 +165,7 @@ class SampleBarcode(DateTimeUserMixin):
     in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
+    site_id = models.ForeignKey('field_sites.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year,

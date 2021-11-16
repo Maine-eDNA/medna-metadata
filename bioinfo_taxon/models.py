@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
+# from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
 from utility.models import DateTimeUserMixin,  ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import YesNo
 from django.utils.text import slugify
@@ -391,7 +391,7 @@ class AnnotationMethod(DateTimeUserMixin):
 class AnnotationMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=get_default_process_location)
-    denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
+    denoising_metadata = models.ForeignKey('bioinfo_denoising.DenoisingMetadata', on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     annotation_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)
     annotation_slug = models.SlugField("Annotation Metadata Slug", max_length=255)
@@ -419,7 +419,7 @@ class AnnotationMetadata(DateTimeUserMixin):
 
 
 class TaxonomicAnnotation(DateTimeUserMixin):
-    asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
+    asv = models.ForeignKey('bioinfo_denoising.AmpliconSequenceVariant', on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
     confidence = models.DecimalField("Confidence", max_digits=15, decimal_places=10,
