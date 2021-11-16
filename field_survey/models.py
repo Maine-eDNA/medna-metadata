@@ -367,7 +367,7 @@ class FieldSample(DateTimeUserMixin):
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
-                                                limit_choices_to=Q(sample_type__sample_type_label__icontains='field sample'))
+                                                limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     #in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
