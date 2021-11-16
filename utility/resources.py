@@ -9,8 +9,8 @@ class GrantAdminResource(resources.ModelResource):
     # Maine-eDNA, None
     class Meta:
         model = Grant
-        import_id_fields = ('grant_code',)
-        export_order = ('grant_code', 'grant_label',
+        import_id_fields = ('id', 'grant_code',)
+        export_order = ('id', 'grant_code', 'grant_label',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
@@ -27,8 +27,8 @@ class ProjectAdminResource(resources.ModelResource):
     class Meta:
         # Project
         model = Project
-        import_id_fields = ('project_code', )
-        fields = ('project_code', 'project_label', 'grant_name',
+        import_id_fields = ('id', 'project_code', )
+        fields = ('id', 'project_code', 'project_label', 'grant_name',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('project_code', 'project_label',
                         'created_by', 'created_datetime', 'modified_datetime', )
@@ -50,7 +50,7 @@ class ProjectAdminResource(resources.ModelResource):
 class ProcessLocationAdminResource(resources.ModelResource):
     class Meta:
         model = ProcessLocation
-        import_id_fields = ('affiliation', 'process_location_name', )
+        import_id_fields = ('id', 'affiliation', 'process_location_name', )
         fields = ('id', 'process_location_name', 'affiliation',
                   'process_location_url', 'phone_number',
                   'location_email_address', 'point_of_contact_email_address',

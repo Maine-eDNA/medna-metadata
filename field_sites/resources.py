@@ -11,9 +11,9 @@ from utility.models import Grant
 class EnvoBiomeFirstAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFirst
-        import_id_fields = ('biome_first_tier',)
-        fields = ('biome_first_tier_slug', 'biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('biome_first_tier_slug', 'biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        import_id_fields = ('id', 'biome_first_tier',)
+        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -27,11 +27,11 @@ class EnvoBiomeFirstAdminResource(resources.ModelResource):
 class EnvoBiomeSecondAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeSecond
-        import_id_fields = ('biome_first_tier', 'biome_second_tier', )
-        fields = ('biome_first_tier_slug', 'biome_first_tier',
+        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', )
+        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                         'biome_second_tier_slug', 'biome_second_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
 
@@ -52,12 +52,12 @@ class EnvoBiomeSecondAdminResource(resources.ModelResource):
 class EnvoBiomeThirdAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeThird
-        import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',)
-        fields = ('biome_first_tier_slug', 'biome_first_tier',
+        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', 'biome_third_tier',)
+        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'biome_third_tier_slug', 'biome_third_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                         'biome_second_tier_slug', 'biome_second_tier',
                         'biome_third_tier_slug', 'biome_third_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
@@ -79,14 +79,14 @@ class EnvoBiomeThirdAdminResource(resources.ModelResource):
 class EnvoBiomeFourthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFourth
-        import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
+        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', 'biome_third_tier',
                             'biome_fourth_tier', )
-        fields = ('biome_first_tier_slug', 'biome_first_tier',
+        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'biome_third_tier_slug', 'biome_third_tier',
                   'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                         'biome_second_tier_slug', 'biome_second_tier',
                         'biome_third_tier_slug', 'biome_third_tier',
                         'biome_fourth_tier_slug', 'biome_fourth_tier',
@@ -109,15 +109,15 @@ class EnvoBiomeFourthAdminResource(resources.ModelResource):
 class EnvoBiomeFifthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFifth
-        import_id_fields = ('biome_first_tier', 'biome_second_tier', 'biome_third_tier',
+        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', 'biome_third_tier',
                             'biome_fourth_tier', 'biome_fifth_tier',)
-        fields = ('biome_first_tier_slug', 'biome_first_tier',
+        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'biome_third_tier_slug', 'biome_third_tier',
                   'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'biome_fifth_tier_slug', 'biome_fifth_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('biome_first_tier_slug', 'biome_first_tier',
+        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
                         'biome_second_tier_slug', 'biome_second_tier',
                         'biome_third_tier_slug', 'biome_third_tier',
                         'biome_fourth_tier_slug', 'biome_fourth_tier',
@@ -141,9 +141,9 @@ class EnvoBiomeFifthAdminResource(resources.ModelResource):
 class EnvoFeatureFirstAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureFirst
-        import_id_fields = ('feature_first_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        import_id_fields = ('id', 'feature_first_tier', )
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier', 'ontology_url', 'created_by', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -157,11 +157,11 @@ class EnvoFeatureFirstAdminResource(resources.ModelResource):
 class EnvoFeatureSecondAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSecond
-        import_id_fields = ('feature_first_tier', 'feature_second_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier',
+        import_id_fields = ('id', 'feature_first_tier', 'feature_second_tier', )
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                         'feature_second_tier_slug', 'feature_second_tier',
                         'ontology_url', 'created_by', 'created_datetime', )
 
@@ -182,12 +182,12 @@ class EnvoFeatureSecondAdminResource(resources.ModelResource):
 class EnvoFeatureThirdAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureThird
-        import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier',
+        import_id_fields = ('id', 'feature_first_tier', 'feature_second_tier', 'feature_third_tier', )
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_third_tier_slug', 'feature_third_tier',
                   'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                         'feature_second_tier_slug', 'feature_second_tier',
                         'feature_third_tier_slug', 'feature_third_tier',
                         'ontology_url', 'created_by', 'created_datetime', )
@@ -209,14 +209,14 @@ class EnvoFeatureThirdAdminResource(resources.ModelResource):
 class EnvoFeatureFourthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureFourth
-        import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
+        import_id_fields = ('id', 'feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier',
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_fourth_tier_slug', 'feature_fourth_tier',
                   'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                         'feature_second_tier_slug', 'feature_second_tier',
                         'feature_third_tier_slug', 'feature_third_tier',
                         'feature_fourth_tier_slug', 'feature_fourth_tier',
@@ -239,15 +239,15 @@ class EnvoFeatureFourthAdminResource(resources.ModelResource):
 class EnvoFeatureFifthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureFifth
-        import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
+        import_id_fields = ('id', 'feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', 'feature_fifth_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier',
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_fourth_tier_slug', 'feature_fourth_tier',
                   'feature_fifth_tier_slug', 'feature_fifth_tier',
                   'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                         'feature_second_tier_slug', 'feature_second_tier',
                         'feature_third_tier_slug', 'feature_third_tier',
                         'feature_fourth_tier_slug', 'feature_fourth_tier',
@@ -271,16 +271,16 @@ class EnvoFeatureFifthAdminResource(resources.ModelResource):
 class EnvoFeatureSixthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSixth
-        import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
+        import_id_fields = ('id', 'feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier',
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_fourth_tier_slug', 'feature_fourth_tier',
                   'feature_fifth_tier_slug', 'feature_fifth_tier',
                   'feature_sixth_tier_slug', 'feature_sixth_tier',
                   'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                         'feature_second_tier_slug', 'feature_second_tier',
                         'feature_third_tier_slug', 'feature_third_tier',
                         'feature_fourth_tier_slug', 'feature_fourth_tier',
@@ -305,10 +305,10 @@ class EnvoFeatureSixthAdminResource(resources.ModelResource):
 class EnvoFeatureSeventhAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoFeatureSeventh
-        import_id_fields = ('feature_first_tier', 'feature_second_tier', 'feature_third_tier',
+        import_id_fields = ('id', 'feature_first_tier', 'feature_second_tier', 'feature_third_tier',
                             'feature_fourth_tier', 'feature_fifth_tier', 'feature_sixth_tier',
                             'feature_seventh_tier', )
-        fields = ('feature_first_tier_slug', 'feature_first_tier',
+        fields = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_fourth_tier_slug', 'feature_fourth_tier',
@@ -316,7 +316,7 @@ class EnvoFeatureSeventhAdminResource(resources.ModelResource):
                   'feature_sixth_tier_slug', 'feature_sixth_tier',
                   'feature_seventh_tier_slug', 'feature_seventh_tier',
                   'ontology_url', 'created_by', 'created_datetime', )
-        export_order = ('feature_first_tier_slug', 'feature_first_tier',
+        export_order = ('id', 'feature_first_tier_slug', 'feature_first_tier',
                         'feature_second_tier_slug', 'feature_second_tier',
                         'feature_third_tier_slug', 'feature_third_tier',
                         'feature_fourth_tier_slug', 'feature_fourth_tier',
@@ -342,7 +342,7 @@ class EnvoFeatureSeventhAdminResource(resources.ModelResource):
 class SystemAdminResource(resources.ModelResource):
     class Meta:
         model = System
-        import_id_fields = ('system_code',)
+        import_id_fields = ('id', 'system_code',)
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -351,7 +351,7 @@ class SystemAdminResource(resources.ModelResource):
 class GeoWatershedAdminResource(resources.ModelResource):
     class Meta:
         model = Watershed
-        import_id_fields = ('watershed_code',)
+        import_id_fields = ('id', 'watershed_code',)
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -366,9 +366,9 @@ class GeoWorldBorderAdminResource(resources.ModelResource):
 class GeoFieldSiteAdminResource(resources.ModelResource):
     class Meta:
         model = FieldSite
-        import_id_fields = ('site_id',)
+        import_id_fields = ('id', 'site_id',)
         exclude = ('site_prefix', 'site_num')
-        fields = ('site_id', 'grant', 'system', 'watershed', 'general_location_name',
+        fields = ('id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name',
                   'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
@@ -377,7 +377,7 @@ class GeoFieldSiteAdminResource(resources.ModelResource):
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first',
                   'geom', 'created_by', 'created_datetime', )
-        export_order = ('site_id', 'grant', 'system', 'watershed', 'general_location_name',
+        export_order = ('id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name',
                         'purpose',
                         'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                         'envo_biome_second', 'envo_biome_first',
