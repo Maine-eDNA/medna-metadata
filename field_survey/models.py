@@ -1,6 +1,5 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-from sample_labels.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
 # from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 # from django.utils.text import slugify
@@ -389,6 +388,7 @@ class FieldSample(DateTimeUserMixin):
                                                   barcode=self.barcode_slug)
 
     def save(self, *args, **kwargs):
+        from sample_labels.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
         # update_barcode_sample_type must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         # update barcode to type == Field Sample
