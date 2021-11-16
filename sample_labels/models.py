@@ -46,10 +46,10 @@ def update_barcode_sample_type(old_barcode, sample_barcode, sample_type):
             # compare old barcode to new barcode; if they are equal then we do not need
             # to update
             SampleBarcode.objects.filter(barcode_slug=old_barcode).update(sample_type=get_unassigned_sample_type())
-            sample_barcode.update(sample_type=sample_type)
+            SampleBarcode.objects.filter(pk=sample_barcode.pk).update(sample_type=sample_type)
     else:
         # if it is a new barcode, update the is_extracted status to YES
-        sample_barcode.update(sample_type=sample_type)
+        SampleBarcode.objects.filter(pk=sample_barcode.pk).update(sample_type=sample_type)
 
 
 class SampleType(DateTimeUserMixin):

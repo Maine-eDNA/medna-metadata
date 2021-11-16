@@ -24,10 +24,10 @@ def update_extraction_status(old_barcode, field_sample):
             # compare old barcode to new barcode; if they are equal then we do not need
             # to update
             FieldSample.objects.filter(barcode_slug=old_barcode).update(is_extracted=YesNo.NO)
-            field_sample.update(is_extracted=YesNo.YES)
+            FieldSample.objects.filter(pk=field_sample.pk).update(is_extracted=YesNo.YES)
     else:
         # if it is a new barcode, update the is_extracted status to YES
-        field_sample.update(is_extracted=YesNo.YES)
+        FieldSample.objects.filter(pk=field_sample.pk).update(is_extracted=YesNo.YES)
 
 
 # Create your models here.
