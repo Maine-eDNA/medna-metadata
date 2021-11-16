@@ -8,7 +8,7 @@ from users.models import CustomUser
 class SampleTypeAdminResource(resources.ModelResource):
     class Meta:
         model = SampleType
-        import_id_fields = ('sample_type_code',)
+        import_id_fields = ('id', 'sample_type_code',)
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -17,7 +17,7 @@ class SampleTypeAdminResource(resources.ModelResource):
 class SampleMaterialAdminResource(resources.ModelResource):
     class Meta:
         model = SampleMaterial
-        import_id_fields = ('sample_material_code',)
+        import_id_fields = ('id', 'sample_material_code',)
 
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].id
@@ -31,11 +31,12 @@ class SampleLabelRequestAdminResource(resources.ModelResource):
                             'sample_year', 'sample_material', 'req_sample_label_num',)
         #exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
         #           'min_sample_label_id', 'max_sample_label_id', 'sample_label_request_slug',)
-        exclude = ('id', 'sample_label_request_slug',)
+        exclude = ('sample_label_request_slug',)
         #fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
         #          'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
         #          'purpose', 'created_by', 'created_datetime', 'modified_datetime',)
-        export_order = ('site_id', 'sample_year', 'sample_material', 'sample_type', 'purpose', 'req_sample_label_num',
+        export_order = ('id', 'site_id', 'sample_year', 'sample_material', 'sample_type', 'purpose',
+                        'req_sample_label_num',
                         'created_by', 'created_datetime', 'modified_datetime',)
 
     def before_import_row(self, row, **kwargs):
