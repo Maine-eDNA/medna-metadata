@@ -249,7 +249,7 @@ class Migration(migrations.Migration):
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Edit DateTime')),
                 ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldcollection_to_fieldsample', to='field_survey.fieldcollection')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
-                ('field_sample_barcode', models.OneToOneField(limit_choices_to={'in_freezer': 'no'}, on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
+                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Editor')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),
