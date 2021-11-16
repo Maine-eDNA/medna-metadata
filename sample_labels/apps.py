@@ -6,4 +6,4 @@ class SampleLabelsConfig(AppConfig):
     name = 'sample_labels'
 
     def ready(self):
-        import sample_labels.signals
+        from . import signals

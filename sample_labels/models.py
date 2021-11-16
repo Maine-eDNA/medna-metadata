@@ -11,7 +11,6 @@ from utility.enumerations import YesNo
 import datetime
 
 
-
 def current_year():
     return datetime.date.today().year
 
