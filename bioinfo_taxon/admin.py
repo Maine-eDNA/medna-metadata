@@ -68,7 +68,8 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_domain_slug', 'taxon_domain', 'created_by']
+        self.fields = ['taxon_domain_slug', 'taxon_domain',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonDomainAdmin, self).change_view(request, object_id)
 
@@ -94,7 +95,8 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_kingdom', 'taxon_domain', 'created_by', ]
+        self.fields = ['taxon_kingdom', 'taxon_domain',
+                       'created_by', ]
         #self.list_filter = (
         #    ('taxon_domain', RelatedDropdownFilter)
         #)
@@ -106,7 +108,9 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_kingdom_slug', 'taxon_kingdom', 'taxon_domain_slug', 'taxon_domain', 'created_by', ]
+        self.fields = ['taxon_kingdom_slug', 'taxon_kingdom',
+                       'taxon_domain_slug', 'taxon_domain',
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonKingdomAdmin, self).change_view(request, object_id)
 
@@ -143,7 +147,8 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_phylum_slug', 'taxon_phylum',
                        'taxon_kingdom_slug', 'taxon_kingdom',
-                       'taxon_domain_slug',  'created_by', ]
+                       'taxon_domain_slug',
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonPhylumAdmin, self).change_view(request, object_id)
 
@@ -178,8 +183,11 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_class_slug', 'taxon_class', 'taxon_phylum_slug', 'taxon_phylum',
-                       'taxon_kingdom_slug', 'taxon_domain_slug', 'created_by']
+        self.fields = ['taxon_class_slug', 'taxon_class',
+                       'taxon_phylum_slug', 'taxon_phylum',
+                       'taxon_kingdom_slug',
+                       'taxon_domain_slug',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonClassAdmin, self).change_view(request, object_id)
 
@@ -217,8 +225,10 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_order_slug', 'taxon_order',
                        'taxon_class_slug', 'taxon_class',
-                       'taxon_phylum_slug', 'taxon_kingdom_slug',
-                       'taxon_domain_slug',  'created_by']
+                       'taxon_phylum_slug',
+                       'taxon_kingdom_slug',
+                       'taxon_domain_slug',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonOrderAdmin, self).change_view(request, object_id)
 
@@ -256,8 +266,11 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_family_slug', 'taxon_family',
                        'taxon_order_slug', 'taxon_order',
-                       'taxon_class_slug', 'taxon_phylum_slug',
-                       'taxon_kingdom_slug', 'taxon_domain_slug',  'created_by']
+                       'taxon_class_slug',
+                       'taxon_phylum_slug',
+                       'taxon_kingdom_slug',
+                       'taxon_domain_slug',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonFamilyAdmin, self).change_view(request, object_id)
 
@@ -295,8 +308,12 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_genus_slug', 'taxon_genus',
                        'taxon_family_slug', 'taxon_family',
-                       'taxon_order_slug', 'taxon_class_slug',
-                       'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'created_by']
+                       'taxon_order_slug',
+                       'taxon_class_slug',
+                       'taxon_phylum_slug',
+                       'taxon_kingdom_slug',
+                       'taxon_domain_slug',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonGenusAdmin, self).change_view(request, object_id)
 
@@ -338,8 +355,12 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
         self.fields = ['taxon_common_name', 'is_endemic',
                        'taxon_species_slug', 'taxon_species',
                        'taxon_genus_slug', 'taxon_genus',
-                       'taxon_family_slug', 'taxon_order_slug', 'taxon_class_slug',
-                       'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'taxon_family_slug',
+                       'taxon_order_slug',
+                       'taxon_class_slug',
+                       'taxon_phylum_slug',
+                       'taxon_kingdom_slug',
+                       'taxon_domain_slug',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonSpeciesAdmin, self).change_view(request, object_id)
