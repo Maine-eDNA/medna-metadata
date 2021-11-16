@@ -1,6 +1,6 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
 from medna_metadata.celery import app
-from celery import Task
+# from celery import Task
 from sample_labels.models import SampleBarcode, SampleLabelRequest
 from django.core.exceptions import ObjectDoesNotExist
 from celery.utils.log import get_task_logger
