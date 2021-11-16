@@ -16,9 +16,41 @@ def current_year():
     return datetime.date.today().year
 
 
-def get_default_sample_type():
+def get_unassigned_sample_type():
+    return SampleType.objects.get_or_create(sample_type_code='un',
+                                            defaults={'sample_type_label': "Unassigned"})[0]
+
+
+def get_field_sample_sample_type():
     return SampleType.objects.get_or_create(sample_type_code='fs',
                                             defaults={'sample_type_label': "Field Sample"})[0]
+
+
+def get_extraction_sample_type():
+    return SampleType.objects.get_or_create(sample_type_code='ex',
+                                            defaults={'sample_type_label': "Extraction"})[0]
+
+
+def get_pooled_library_sample_type():
+    return SampleType.objects.get_or_create(sample_type_code='pl',
+                                            defaults={'sample_type_label': "Pooled Library"})[0]
+
+
+def update_sample_type(old_barcode, sample_label, sample_type):
+    # update is_extracted status of FieldSample model when samples are added to
+    # Extraction model
+    if old_barcode is not None:
+        # if it is not a new barcode, update the new to is_extracted status to YES
+        # and old to is_extracted status to NO
+        new_barcode = sample_label.barcode_slug
+        if old_barcode != new_barcode:
+            # compare old barcode to new barcode; if they are equal then we do not need
+            # to update
+            SampleLabel.objects.filter(barcode_slug=old_barcode).update(sample_type=get_unassigned_sample_type)
+            sample_label.update(sample_type=sample_type)
+    else:
+        # if it is a new barcode, update the is_extracted status to YES
+        sample_label.update(sample_type=sample_type)
 
 
 def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
@@ -100,7 +132,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
     sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
@@ -170,7 +202,7 @@ class SampleLabel(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year,
                                               validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
