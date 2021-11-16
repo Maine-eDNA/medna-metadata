@@ -2,7 +2,7 @@
 from .celery import app
 from celery import Task
 from celery.utils.log import get_task_logger
-import settings
+from . import settings
 from utility.models import PeriodicTaskRun, Project
 from utility.enumerations import CollectionTypes
 from users.models import CustomUser
