@@ -29,6 +29,10 @@ class Migration(migrations.Migration):
                 ('analyst_last_name', models.CharField(max_length=255, verbose_name='Analyst Last Name')),
                 ('analysis_sop_url', models.URLField(max_length=255, verbose_name='Analysis SOP URL')),
                 ('analysis_script_repo_url', models.URLField(default='https://github.com/Maine-eDNA', max_length=255, verbose_name='Repository URL')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, null=True,
+                                                 on_delete=models.SET(utility.models.get_sentinel_user),
+                                                 to=settings.AUTH_USER_MODEL)),
+
             ],
             options={
                 'verbose_name': 'Annotation Metadata',
@@ -274,11 +278,6 @@ class Migration(migrations.Migration):
             model_name='annotationmetadata',
             name='annotation_method',
             field=models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_taxon.annotationmethod'),
-        ),
-        migrations.AddField(
-            model_name='annotationmetadata',
-            name='created_by',
-            field=models.ForeignKey(default=utility.models.get_default_user, null=True, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='annotationmetadata',
