@@ -76,7 +76,7 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'biome_third_tier_slug', 'biome_third_tier',
                   'biome_second_tier_slug', 'biome_second_tier',
-                  'biome_first_tier_slug', 'biome_first_tier',
+                  'biome_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -105,8 +105,8 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'biome_third_tier_slug', 'biome_third_tier',
-                  'biome_second_tier_slug', 'biome_second_tier',
-                  'biome_first_tier_slug', 'biome_first_tier',
+                  'biome_second_tier_slug',
+                  'biome_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -136,9 +136,9 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'biome_fifth_tier_slug', 'biome_fifth_tier',
                   'biome_fourth_tier_slug', 'biome_fourth_tier',
-                  'biome_third_tier_slug', 'biome_third_tier',
-                  'biome_second_tier_slug', 'biome_second_tier',
-                  'biome_first_tier_slug', 'biome_first_tier',
+                  'biome_third_tier_slug',
+                  'biome_second_tier_slug',
+                  'biome_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -161,7 +161,8 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnvoFeatureFirst
-        fields = ['id', 'feature_first_tier_slug', 'feature_first_tier', 'ontology_url',
+        fields = ['id', 'feature_first_tier_slug', 'feature_first_tier',
+                  'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -213,7 +214,7 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
-                  'feature_first_tier_slug', 'feature_first_tier',
+                  'feature_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
@@ -243,8 +244,8 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'feature_fourth_tier_slug', 'feature_fourth_tier',
                   'feature_third_tier_slug', 'feature_third_tier',
-                  'feature_second_tier_slug', 'feature_second_tier',
-                  'feature_first_tier_slug', 'feature_first_tier',
+                  'feature_second_tier_slug',
+                  'feature_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
@@ -275,9 +276,9 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'feature_fifth_tier_slug', 'feature_fifth_tier',
                   'feature_fourth_tier_slug', 'feature_fourth_tier',
-                  'feature_third_tier_slug', 'feature_third_tier',
-                  'feature_second_tier_slug', 'feature_second_tier',
-                  'feature_first_tier_slug', 'feature_first_tier',
+                  'feature_third_tier_slug',
+                  'feature_second_tier_slug',
+                  'feature_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
@@ -309,10 +310,10 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'feature_sixth_tier_slug', 'feature_sixth_tier',
                   'feature_fifth_tier_slug', 'feature_fifth_tier',
-                  'feature_fourth_tier_slug', 'feature_fourth_tier',
-                  'feature_third_tier_slug', 'feature_third_tier',
-                  'feature_second_tier_slug', 'feature_second_tier',
-                  'feature_first_tier_slug', 'feature_first_tier',
+                  'feature_fourth_tier_slug',
+                  'feature_third_tier_slug',
+                  'feature_second_tier_slug',
+                  'feature_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -344,11 +345,11 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'feature_seventh_tier_slug', 'feature_seventh_tier',
                   'feature_sixth_tier_slug', 'feature_sixth_tier',
-                  'feature_fifth_tier_slug', 'feature_fifth_tier',
-                  'feature_fourth_tier_slug', 'feature_fourth_tier',
-                  'feature_third_tier_slug', 'feature_third_tier',
-                  'feature_second_tier_slug', 'feature_second_tier',
-                  'feature_first_tier_slug', 'feature_first_tier',
+                  'feature_fifth_tier_slug',
+                  'feature_fourth_tier_slug',
+                  'feature_third_tier_slug',
+                  'feature_second_tier_slug',
+                  'feature_first_tier_slug',
                   'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we

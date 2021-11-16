@@ -52,12 +52,12 @@ class EnvoBiomeSecondAdminResource(resources.ModelResource):
 class EnvoBiomeThirdAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeThird
-        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', 'biome_third_tier',)
-        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
+        import_id_fields = ('id', 'biome_second_tier', 'biome_third_tier',)
+        fields = ('id', 'biome_first_tier_slug',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'biome_third_tier_slug', 'biome_third_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
+        export_order = ('id', 'biome_first_tier_slug',
                         'biome_second_tier_slug', 'biome_second_tier',
                         'biome_third_tier_slug', 'biome_third_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
@@ -79,15 +79,15 @@ class EnvoBiomeThirdAdminResource(resources.ModelResource):
 class EnvoBiomeFourthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFourth
-        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', 'biome_third_tier',
+        import_id_fields = ('id', 'biome_third_tier',
                             'biome_fourth_tier', )
-        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
-                  'biome_second_tier_slug', 'biome_second_tier',
+        fields = ('id', 'biome_first_tier_slug',
+                  'biome_second_tier_slug',
                   'biome_third_tier_slug', 'biome_third_tier',
                   'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
-                        'biome_second_tier_slug', 'biome_second_tier',
+        export_order = ('id', 'biome_first_tier_slug',
+                        'biome_second_tier_slug',
                         'biome_third_tier_slug', 'biome_third_tier',
                         'biome_fourth_tier_slug', 'biome_fourth_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
@@ -109,17 +109,16 @@ class EnvoBiomeFourthAdminResource(resources.ModelResource):
 class EnvoBiomeFifthAdminResource(resources.ModelResource):
     class Meta:
         model = EnvoBiomeFifth
-        import_id_fields = ('id', 'biome_first_tier', 'biome_second_tier', 'biome_third_tier',
-                            'biome_fourth_tier', 'biome_fifth_tier',)
-        fields = ('id', 'biome_first_tier_slug', 'biome_first_tier',
-                  'biome_second_tier_slug', 'biome_second_tier',
-                  'biome_third_tier_slug', 'biome_third_tier',
+        import_id_fields = ('id', 'biome_fifth_tier', 'biome_fourth_tier', )
+        fields = ('id', 'biome_first_tier_slug',
+                  'biome_second_tier_slug',
+                  'biome_third_tier_slug',
                   'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'biome_fifth_tier_slug', 'biome_fifth_tier',
                   'ontology_url', 'created_by', 'created_datetime',)
-        export_order = ('id', 'biome_first_tier_slug', 'biome_first_tier',
-                        'biome_second_tier_slug', 'biome_second_tier',
-                        'biome_third_tier_slug', 'biome_third_tier',
+        export_order = ('id', 'biome_first_tier_slug',
+                        'biome_second_tier_slug',
+                        'biome_third_tier_slug',
                         'biome_fourth_tier_slug', 'biome_fourth_tier',
                         'biome_fifth_tier_slug', 'biome_fifth_tier',
                         'ontology_url', 'created_by', 'created_datetime',)
