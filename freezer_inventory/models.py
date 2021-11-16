@@ -4,8 +4,7 @@ from django.db.models import Q
 from sample_labels.models import SampleLabel
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
-from utility.models import DateTimeUserMixin
-from utility.defaults import slug_date_format
+from utility.models import DateTimeUserMixin, slug_date_format
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
 import re

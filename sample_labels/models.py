@@ -3,13 +3,22 @@
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from field_sites.models import FieldSite
-from utility.models import DateTimeUserMixin
-from utility.defaults import slug_date_format, current_year, get_default_sample_type
+from utility.models import DateTimeUserMixin, slug_date_format
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
 from django.utils import timezone
 from utility.enumerations import YesNo
 import numpy as np
+import datetime
+
+
+def current_year():
+    return datetime.date.today().year
+
+
+def get_default_sample_type():
+    return SampleType.objects.get_or_create(sample_type_code='fs',
+                                            defaults={'sample_type_label': "Field Sample"})[0]
 
 
 def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
