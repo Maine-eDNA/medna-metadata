@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-from sample_labels.models import SampleLabel, SampleMaterial
+from sample_labels.models import SampleLabel, SampleMaterial, update_sample_type, get_field_sample_sample_type
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 # from django.utils.text import slugify
@@ -389,6 +389,10 @@ class FieldSample(DateTimeUserMixin):
                                                   barcode=self.barcode_slug)
 
     def save(self, *args, **kwargs):
+        # update_sample_type must come before creating barcode_slug
+        # because need to grab old barcode_slug value on updates
+        # update barcode to type == Field Sample
+        update_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type)
         self.barcode_slug = self.field_sample_barcode.barcode_slug
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains="water").first()

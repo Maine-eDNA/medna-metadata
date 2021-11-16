@@ -4,15 +4,32 @@ from django.utils.text import slugify
 # from django.db.models import Q
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleLabel, update_sample_type, \
+    get_extraction_sample_type,  get_pooled_library_sample_type
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
-from utility.updates import update_extraction_status
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import PrivateSequencingStorage
+
+
+def update_extraction_status(old_barcode, field_sample):
+    # update is_extracted status of FieldSample model when samples are added to
+    # Extraction model
+    if old_barcode is not None:
+        # if it is not a new barcode, update the new to is_extracted status to YES
+        # and old to is_extracted status to NO
+        new_barcode = field_sample.barcode_slug
+        if old_barcode != new_barcode:
+            # compare old barcode to new barcode; if they are equal then we do not need
+            # to update
+            FieldSample.objects.filter(barcode_slug=old_barcode).update(is_extracted=YesNo.NO)
+            field_sample.update(is_extracted=YesNo.YES)
+    else:
+        # if it is a new barcode, update the is_extracted status to YES
+        field_sample.update(is_extracted=YesNo.YES)
 
 
 # Create your models here.
@@ -193,7 +210,9 @@ class Extraction(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         # update_extraction_method must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
-        update_extraction_status(self.barcode_slug, self.field_sample.pk)
+        update_extraction_status(self.barcode_slug, self.field_sample)
+        # update barcode to type == Extraction
+        update_sample_type(self.barcode_slug, self.extraction_barcode, get_extraction_sample_type)
         self.barcode_slug = self.extraction_barcode.barcode_slug
         super(Extraction, self).save(*args, **kwargs)
 
@@ -372,6 +391,10 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
+        # update_sample_type must come before creating barcode_slug
+        # because need to grab old barcode_slug value on updates
+        # update barcode to type == Pooled Library
+        update_sample_type(self.barcode_slug, self.final_pooled_lib_barcode, get_pooled_library_sample_type)
         self.barcode_slug = self.final_pooled_lib_barcode.barcode_slug
         fpl_date_fmt = slug_date_format(self.final_pooled_lib_datetime)
         self.final_pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.final_pooled_lib_label),
