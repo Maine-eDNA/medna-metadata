@@ -3,7 +3,7 @@
 # swapping to GeoDjango
 from django.contrib.gis.db import models
 from field_sites.models import FieldSite
-from utility.models import DateTimeUserMixin, slug_date_format, current_year
+from utility.models import DateTimeUserMixin, slug_date_format, current_year, get_default_sample_type
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
 from django.utils import timezone
@@ -90,7 +90,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(), validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)
     sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
@@ -110,11 +110,12 @@ class SampleLabelRequest(DateTimeUserMixin):
             last_twosigits_year = str(self.sample_year)[-2:]
             # concatenate project, watershed, and system to create sample_label_prefix, e.g., "eAL_L"
             self.sample_label_prefix = '{site}_{twosigits_year}{sample_material}'.format(site=self.site_id.site_id,
-                                                                                     twosigits_year=last_twosigits_year,
-                                                                                     sample_material=self.sample_material.sample_material_code)
+                                                                                         twosigits_year=last_twosigits_year,
+                                                                                         sample_material=self.sample_material.sample_material_code)
             # Retrieve a list of `Site` instances, group them by the sample_label_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
-            largest = SampleLabelRequest.objects.only('sample_label_prefix', 'max_sample_label_num').filter(sample_label_prefix=self.sample_label_prefix).order_by('max_sample_label_num').last()
+            largest = SampleLabelRequest.objects.only('sample_label_prefix', 'max_sample_label_num').filter(
+                sample_label_prefix=self.sample_label_prefix).order_by('max_sample_label_num').last()
             if not largest:
                 # largest is `None` if `Site` has no instances
                 # in which case we return the start value of 1
@@ -159,7 +160,7 @@ class SampleLabel(DateTimeUserMixin):
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
-    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT)
+    sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year(),
                                               validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Label Purpose", max_length=255)

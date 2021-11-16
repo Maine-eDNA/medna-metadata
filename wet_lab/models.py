@@ -6,11 +6,10 @@ from django.db.models import Q
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from sample_labels.models import SampleLabel
 from field_survey.models import FieldSample
-from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format
+from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from utility.updates import update_extraction_status
-from medna_metadata.settings import DEFAULT_PROCESS_LOCATION_ID
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import PrivateSequencingStorage
@@ -169,12 +168,12 @@ class ExtractionMethod(DateTimeUserMixin):
 
 class Extraction(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
     extraction_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
-                                              limit_choices_to=Q(sample_type__sample_type_label__icontains='extraction'))
+                                              limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     #in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
@@ -210,7 +209,7 @@ class Extraction(DateTimeUserMixin):
 
 class Ddpcr(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
     ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255, unique=True)
     ddpcr_experiment_name_slug = models.SlugField("ddPCR Experiment Name Slug", max_length=255)
@@ -242,7 +241,7 @@ class Ddpcr(DateTimeUserMixin):
 
 class Qpcr(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     qpcr_datetime = models.DateTimeField("qPCR DateTime")
     qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255, unique=True)
     qpcr_experiment_name_slug = models.SlugField("qPCR Experiment Name Slug", max_length=255)
@@ -277,7 +276,7 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
     lib_prep_slug = models.SlugField("Experiment Name Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
@@ -327,7 +326,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255, unique=True)
     pooled_lib_label_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
@@ -355,12 +354,12 @@ class PooledLibrary(DateTimeUserMixin):
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date")
     final_pooled_lib_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
-                                                    limit_choices_to=Q(sample_type__sample_type_label__icontains='pooled library'))
+                                                    limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Final Pooled Library Barcode Slug", max_length=16)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)
     final_pooled_lib_label_slug = models.SlugField("Final Pooled Library Label Slug", max_length=255)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_finalpooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
@@ -391,7 +390,7 @@ class FinalPooledLibrary(DateTimeUserMixin):
 
 class RunPrep(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     run_prep_date = models.DateTimeField("Run Prep Date")
     final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
     run_prep_slug = models.SlugField("Run Prep Slug", max_length=255)
@@ -426,7 +425,7 @@ class RunPrep(DateTimeUserMixin):
 
 class RunResult(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=DEFAULT_PROCESS_LOCATION_ID)
+                                         default=get_default_process_location)
     # RunInfo.xml %Y%m%d
     run_date = models.DateField("Run Date")
     # RunInfo.xml
