@@ -5,26 +5,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from django.utils import timezone
+# import datetime
+import csv
+# from utility.defaults import current_year, year_choices
+# from django_filters import rest_framework as filters
 from .serializers import SampleLabelRequestSerializerExportMixin
-from django_filters import rest_framework as filters
 from .models import SampleMaterial, SampleLabelRequest, SampleLabel, SampleType
 from .tables import SampleLabelRequestTable
 from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
     SampleLabelSerializer, SampleTypeSerializer
-import datetime
-import csv
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
-
-
-def year_choices():
-    return [(r, r) for r in range(2018, datetime.date.today().year+1)]
-
-
-def current_year():
-    return datetime.date.today().year
 
 
 class SampleTypeViewSet(viewsets.ModelViewSet):
