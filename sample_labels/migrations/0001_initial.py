@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RenameModel('SampleLabel', 'SampleBarcode'),
         migrations.CreateModel(
             name='SampleType',
             fields=[
