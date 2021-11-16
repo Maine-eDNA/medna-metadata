@@ -1,5 +1,5 @@
 from sample_labels.models import SampleType
-from .models import ProcessLocation
+from utility.models import ProcessLocation
 from django.contrib.auth import get_user_model
 import datetime
 from django.utils import timezone
