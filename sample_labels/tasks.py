@@ -1,6 +1,7 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
-from medna_metadata.celery import app
+# from medna_metadata.celery import app
 # from celery import Task
+from celery import shared_task
 from sample_labels.models import SampleBarcode, SampleLabelRequest
 from django.core.exceptions import ObjectDoesNotExist
 from celery.utils.log import get_task_logger
@@ -10,7 +11,8 @@ import numpy as np
 logger = get_task_logger(__name__)
 
 
-@app.task(queue='elastic')
+#@app.task(queue='elastic')
+@shared_task
 def sample_label_request_post_save_task(instance_pk):
     try:
         instance = SampleLabelRequest.objects.get(pk=instance_pk)
