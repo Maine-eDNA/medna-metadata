@@ -392,7 +392,7 @@ class FieldSample(DateTimeUserMixin):
         # update_barcode_sample_type must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         # update barcode to type == Field Sample
-        update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type)
+        update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type())
         self.barcode_slug = self.field_sample_barcode.barcode_slug
         if self.collection_global_id.collection_type == CollectionTypes.water_sample:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains="water").first()
