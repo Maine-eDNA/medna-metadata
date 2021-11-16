@@ -67,12 +67,12 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('biome_third_tier', models.SlugField(max_length=255, unique=True, verbose_name='ENVO Biome 3rd Tier')),
                 ('biome_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 3rd Tier Slug')),
+                ('biome_second_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envobiomesecond')),
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
                 ('ontology_url', models.URLField(
                     default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428',
                     max_length=255)),
-                ('biome_second_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envobiomesecond')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user,
                                                  on_delete=models.SET(utility.models.get_sentinel_user),
                                                  to=settings.AUTH_USER_MODEL)),
