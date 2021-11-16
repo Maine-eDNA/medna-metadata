@@ -60,7 +60,7 @@ class SampleLabelRequestTestCase(TestCase):
         self.assertIs(test2.was_added_recently(), True)
 
 
-class SampleLabelTestCase(TestCase):
+class SampleBarcodeTestCase(TestCase):
     # fixtures = ['sample_labels_samplelabel.json']
 
     def test_was_added_recently(self):
