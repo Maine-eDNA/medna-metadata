@@ -30,6 +30,10 @@ class Migration(migrations.Migration):
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
                 ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255)),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, null=True,
+                                                 on_delete=models.SET(utility.models.get_sentinel_user),
+                                                 to=settings.AUTH_USER_MODEL)),
+
             ],
             options={
                 'verbose_name': 'ENVO Biome 5th Tier',
@@ -64,6 +68,10 @@ class Migration(migrations.Migration):
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
                 ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255)),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, null=True,
+                                                 on_delete=models.SET(utility.models.get_sentinel_user),
+                                                 to=settings.AUTH_USER_MODEL)),
+
             ],
             options={
                 'verbose_name': 'ENVO Biome 4th Tier',
@@ -355,18 +363,8 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envobiomethird'),
         ),
         migrations.AddField(
-            model_name='envobiomefourth',
-            name='created_by',
-            field=models.ForeignKey(default=utility.models.get_default_user, null=True, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
             model_name='envobiomefifth',
             name='biome_fourth_tier',
             field=models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envobiomefourth'),
-        ),
-        migrations.AddField(
-            model_name='envobiomefifth',
-            name='created_by',
-            field=models.ForeignKey(default=utility.models.get_default_user, null=True, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL),
         ),
     ]
