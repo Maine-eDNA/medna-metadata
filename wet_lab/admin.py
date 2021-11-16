@@ -237,15 +237,17 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     resource_class = ExtractionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    #readonly_fields = ('barcode_slug', )
+    readonly_fields = ('barcode_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
+        self.fields = ['extraction_barcode'
+                       'process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                       'extraction_notes', 'created_by']
+                       'extraction_notes',
+                       'created_by']
         #self.list_filter = (
         #    ('field_sample', RelatedDropdownFilter),
         #    ('extraction_method', RelatedDropdownFilter),
@@ -259,12 +261,13 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['process_location', 'extraction_datetime', 'field_sample', 'barcode_slug',
-                       'extraction_method',
+        self.fields = ['extraction_barcode', 'barcode_slug',
+                       'process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                       'extraction_notes', 'created_by']
+                       'extraction_notes',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ExtractionAdmin, self).change_view(request, object_id)
 
@@ -466,15 +469,17 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
     resource_class = FinalPooledLibraryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('barcode_slug', 'final_pooled_lib_label_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label',
-                       'final_pooled_lib_barcode', 'process_location',
-                       'quantification_method',
+        self.fields = ['final_pooled_lib_barcode',
+                       'final_pooled_lib_datetime', 'final_pooled_lib_label',
+                       'process_location', 'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
-                       'final_pooled_lib_notes', 'created_by']
+                       'final_pooled_lib_notes',
+                       'created_by']
         self.inlines = (PooledLibraryInline, )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -484,12 +489,14 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['final_pooled_lib_datetime', 'final_pooled_lib_label',
-                       'final_pooled_lib_barcode', 'process_location',
-                       'quantification_method',
+        self.fields = ['final_pooled_lib_barcode', 'barcode_slug',
+                       'final_pooled_lib_datetime',
+                       'final_pooled_lib_label', 'final_pooled_lib_label_slug',
+                       'process_location', 'quantification_method',
                        'final_pooled_lib_concentration',
                        'final_pooled_lib_concentration_units',
-                       'final_pooled_lib_notes', 'created_by']
+                       'final_pooled_lib_notes',
+                       'created_by']
         self.inlines = (PooledLibraryInline, )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FinalPooledLibraryAdmin, self).change_view(request, object_id)
