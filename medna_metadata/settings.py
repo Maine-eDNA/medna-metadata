@@ -511,10 +511,3 @@ APP_ORDER = OrderedDict([
                        "AnnotationMetadata", "TaxonomicAnnotation"]),
 ])
 """
-
-########################################
-# CUSTOM MODEL DEFAULTS                #
-########################################
-
-# pk of eDNA CORE facility; should be 1
-DEFAULT_PROCESS_LOCATION_ID = 1

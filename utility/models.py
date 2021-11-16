@@ -2,11 +2,11 @@ from django.contrib.gis.db import models
 import datetime
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from users.models import CustomUser
+# from users.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-
+from sample_labels.models import SampleType
 
 # Create your models here.
 def current_year():
@@ -26,6 +26,25 @@ def get_sentinel_user():
 
 def get_default_user():
     return get_user_model().objects.get_or_create(email='default@user.com')[0]
+
+
+def get_default_sample_type():
+    return SampleType.objects.get_or_create(sample_type_code='fs',
+                                            defaults={'sample_type_label': "Field Sample"},)[0]
+
+
+def get_default_process_location():
+    return ProcessLocation.objects.get_or_create(process_location_name='eDNA Laboratory (UMaine CORE)',
+                                                 defaults={
+                                                           'affiliation': 'University of Maine',
+                                                           'process_location_url': 'https://umaine.edu/core/biotechnology/',
+                                                           'phone_number': '+12075812591',
+                                                           'location_email_address': 'um.core@maine.edu',
+                                                           'point_of_contact_email_address': 'geneva.york@maine.edu',
+                                                           'point_of_contact_first_name': 'Geneva',
+                                                           'point_of_contact_last_name': 'York',
+                                                           'location_notes': ''},
+                                                 )[0]
 
 
 class DateTimeUserMixin(models.Model):
