@@ -5,16 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
-from medna_metadata.settings import DEFAULT_TEMP_TENURE
-import datetime
 from django.utils import timezone
-
-
-def now_plus_max():
-    # maximum possible datetime
-    now = timezone.now()
-    max_date = now + datetime.timedelta(days=999999)
-    return max_date
+from utility.defaults import now_plus_max
 
 
 class CustomUser(AbstractUser):
