@@ -4,7 +4,7 @@ from django.utils.text import slugify
 # from django.db.models import Q
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
-from sample_labels.models import SampleBarcode, update_sample_type, \
+from sample_labels.models import SampleBarcode, update_barcode_sample_type, \
     get_extraction_sample_type,  get_pooled_library_sample_type
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
@@ -212,7 +212,7 @@ class Extraction(DateTimeUserMixin):
         # because need to grab old barcode_slug value on updates
         update_extraction_status(self.barcode_slug, self.field_sample)
         # update barcode to type == Extraction
-        update_sample_type(self.barcode_slug, self.extraction_barcode, get_extraction_sample_type)
+        update_barcode_sample_type(self.barcode_slug, self.extraction_barcode, get_extraction_sample_type)
         self.barcode_slug = self.extraction_barcode.barcode_slug
         super(Extraction, self).save(*args, **kwargs)
 
@@ -391,10 +391,10 @@ class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        # update_sample_type must come before creating barcode_slug
+        # update_barcode_sample_type must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         # update barcode to type == Pooled Library
-        update_sample_type(self.barcode_slug, self.final_pooled_lib_barcode, get_pooled_library_sample_type)
+        update_barcode_sample_type(self.barcode_slug, self.final_pooled_lib_barcode, get_pooled_library_sample_type)
         self.barcode_slug = self.final_pooled_lib_barcode.barcode_slug
         fpl_date_fmt = slug_date_format(self.final_pooled_lib_datetime)
         self.final_pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.final_pooled_lib_label),

@@ -14,8 +14,7 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollectionETL, SampleFilterETL
 from django.core.exceptions import ObjectDoesNotExist
 from wet_lab.models import RunResult, FastqFile, Extraction
-from sample_labels.models import SampleBarcode
-from sample_labels.models import SampleLabelRequest
+from sample_labels.models import SampleBarcode, SampleLabelRequest
 from django.utils import timezone
 from django.db.models import Count
 import numpy as np
@@ -356,7 +355,7 @@ def update_record_field_collection(record, pk):
         raise RuntimeError("** Error: update_record_field_collection Failed (" + str(err) + ")")
 
 
-def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_label_record):
+def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_barcode_record):
     try:
         update_count = 0
         # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
@@ -364,7 +363,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
             sample_global_id=field_sample_pk,
             defaults={
                 'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
-                'field_sample_barcode': sample_label_record,
+                'field_sample_barcode': sample_barcode_record,
                 'record_create_datetime': record.record_create_datetime,
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
@@ -517,8 +516,8 @@ def update_queryset_subcore_sample(queryset):
                 # if min and max are equal or there is no max barcode
                 if subcore_min_barcode:
                     if SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode).exists():
-                        sample_label = SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode)[0]
-                        # only proceed if sample_label exists
+                        sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode)[0]
+                        # only proceed if sample_barcode exists
 
                         # since we put a "min" and "max" field, rather than a separate record
                         # for each subcore barcode, here we're appending the barcode to the
@@ -529,7 +528,7 @@ def update_queryset_subcore_sample(queryset):
                                                            collection_type=record.collection_type,
                                                            collection_global_id=collection_global_id,
                                                            field_sample_pk=new_gid,
-                                                           sample_label_record=sample_label)
+                                                           sample_barcode_record=sample_barcode)
 
                         # count for subcore
                         created_count = created_count+count
@@ -548,7 +547,7 @@ def update_queryset_subcore_sample(queryset):
                     subcore_prefix = subcore_prefix_min
 
                     if SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode).exists():
-                        # only proceed if sample_label exists
+                        # only proceed if sample_barcode exists
                         # only proceed if the prefix of the subcores match
                         for num in np.arange(subcore_min_num, subcore_max_num + 1, 1):
 
@@ -561,7 +560,7 @@ def update_queryset_subcore_sample(queryset):
 
                             if SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode).exists():
                                 # only proceed if barcode exists
-                                sample_label = SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode)[0]
+                                sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode)[0]
 
                                 # since we put a "min" and "max" field, rather than a separate record
                                 # for each subcore barcode, here we're appending the barcode to the
@@ -572,7 +571,7 @@ def update_queryset_subcore_sample(queryset):
                                                                    collection_type=record.collection_type,
                                                                    collection_global_id=collection_global_id,
                                                                    field_sample_pk=new_gid,
-                                                                   sample_label_record=sample_label)
+                                                                   sample_barcode_record=sample_barcode)
 
                                 created_count = created_count+count
 
@@ -589,12 +588,12 @@ def update_queryset_filter_sample(queryset):
             if filter_barcode:
                 # only proceed if filter_barcode exists
                 if SampleBarcode.objects.filter(sample_barcode_id=filter_barcode).exists():
-                    sample_label = SampleBarcode.objects.filter(sample_barcode_id=filter_barcode)[0]
+                    sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=filter_barcode)[0]
                     count = update_record_field_sample(record=record,
                                                        collection_type=record.collection_global_id.collection_type,
                                                        collection_global_id=record.collection_global_id.collection_global_id,
                                                        field_sample_pk=record.filter_global_id,
-                                                       sample_label_record=sample_label)
+                                                       sample_barcode_record=sample_barcode)
 
                     created_count = created_count+count
         return created_count

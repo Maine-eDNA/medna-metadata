@@ -24,7 +24,7 @@ def update_freezer_inv_status(inv_pk, freezer_checkout_action):
         FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.REMOVED)
 
 
-def update_sl_in_freezer_status(old_barcode, new_barcode_pk):
+def update_barcode_in_freezer_status(old_barcode, new_barcode_pk):
     # update in_freezer status of FieldSample model when samples are added to
     # FreezerInventory model
     if old_barcode is not None:
@@ -157,7 +157,7 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
-    sample_barcode = models.OneToOneField(SampleBarcode, on_delete=models.RESTRICT,
+    sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT,
                                           limit_choices_to={'in_freezer': YesNo.NO})
     freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", max_length=27, unique=True)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50,
@@ -179,14 +179,14 @@ class FreezerInventory(DateTimeUserMixin):
             # concatenate inventory_type and barcode,
             # e.g., "extraction-epr_l01_21w_0001"
             self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
-                                                                    barcode=slugify(self.sample_label.sample_barcode_id))
-        if self.sample_label:
+                                                                    barcode=slugify(self.sample_barcode.sample_barcode_id))
+        if self.sample_barcode:
             # if field_sample is being added/changed to freezer_inventory, update the field_sample's in_freezer status
             if self.freezer_inventory_slug is None:
-                update_sl_in_freezer_status(self.freezer_inventory_slug, self.sample_label.pk)
+                update_barcode_in_freezer_status(self.freezer_inventory_slug, self.sample_barcode.pk)
             else:
                 old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
-                update_sl_in_freezer_status(old_barcode, self.sample_label.pk)
+                update_barcode_in_freezer_status(old_barcode, self.sample_barcode.pk)
 
         # all done, time to save changes to the db
         super(FreezerInventory, self).save(*args, **kwargs)
