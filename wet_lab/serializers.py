@@ -182,7 +182,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
                                               slug_field='email')
     extraction_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                       slug_field='barcode_slug',
-                                                      queryset=SampleBarcode.objects.objects.all())
+                                                      queryset=SampleBarcode.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
@@ -392,7 +392,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
                                               slug_field='email')
     final_pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                             slug_field='barcode_slug',
-                                                            queryset=SampleBarcode.objects.objects.all())
+                                                            queryset=SampleBarcode.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
