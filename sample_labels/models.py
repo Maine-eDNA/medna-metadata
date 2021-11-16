@@ -12,6 +12,7 @@ import numpy as np
 import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from medna_metadata.tasks import sample_label_request_post_save_task
 
 
 def current_year():
@@ -154,7 +155,6 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 @receiver(post_save, sender=SampleLabelRequest, dispatch_uid="sample_label_request_post_save")
 def sample_label_request_post_save(sender, instance, **kwargs):
-    from medna_metadata.tasks import sample_label_request_post_save_task
     sample_label_request_post_save_task.apply_async(args=(instance.pk,))
 
 
