@@ -85,7 +85,7 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
-    sample_type = serializers.SlugField(many=False, read_only=False, slug_field='sample_type_code',
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
                                         queryset=SampleType.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=False,
                                                    slug_field='sample_material_code',
@@ -109,10 +109,11 @@ class SampleLabelSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    sample_label_request = serializers.SlugField(many=False, read_only=False, slug_field='sample_label_request_slug',
-                                                 queryset=SampleLabelRequest.objects.all())
-    sample_type = serializers.SlugField(many=False, read_only=False, slug_field='sample_type_code',
-                                        queryset=SampleType.objects.all())
+    sample_label_request = serializers.SlugRelatedField(many=False, read_only=False,
+                                                        slug_field='sample_label_request_slug',
+                                                        queryset=SampleLabelRequest.objects.all())
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
+                                               queryset=SampleType.objects.all())
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id',
                                            queryset=FieldSite.objects.all())
     sample_material = serializers.SlugRelatedField(many=False, read_only=True,
