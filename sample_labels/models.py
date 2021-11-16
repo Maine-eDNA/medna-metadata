@@ -180,7 +180,7 @@ class SampleBarcode(DateTimeUserMixin):
         super(SampleBarcode, self).save(*args, **kwargs)
 
     class Meta:
-        app_label = 'sample_barcodes'
+        app_label = 'sample_labels'
         verbose_name = 'SampleBarcode'
         verbose_name_plural = 'Sample Barcodes'
 
