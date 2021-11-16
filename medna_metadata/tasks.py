@@ -12,8 +12,9 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
+from django.core.exceptions import ObjectDoesNotExist
 from wet_lab.models import RunResult, FastqFile, Extraction
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleLabel, SampleLabelRequest
 from django.utils import timezone
 from django.db.models import Count
 import numpy as np
@@ -724,7 +725,7 @@ def transform_field_survey_etls(queryset):
 
 
 @app.task(bind=True, base=BaseTaskWithRetry)
-def transform_new_records_field_survey(self):
+def transform_new_records_field_survey_task(self):
     try:
         now = timezone.now()
         last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
@@ -735,8 +736,55 @@ def transform_new_records_field_survey(self):
             logger.info('Update count: ' + str(updated_count))
         PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
     except Exception as err:
-        raise RuntimeError("** Error: transform_new_records_field_survey Failed (" + str(err) + ")")
+        raise RuntimeError("** Error: transform_new_records_field_survey_task Failed (" + str(err) + ")")
 
+
+@app.task(queue='elastic')
+def sample_label_request_post_save_task(instance_pk):
+    try:
+        instance = SampleLabelRequest.objects.get(pk=instance_pk)
+    except ObjectDoesNotExist:
+        # Abort
+        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+    else:
+        if instance.min_sample_label_id == instance.max_sample_label_id:
+            # only one label request, so min and max label id will be the same; only need to enter
+            # one new label into SampleLabel
+            sample_label_id = instance.min_sample_label_id
+            SampleLabel.objects.update_or_create(
+                sample_label_id=sample_label_id,
+                defaults={
+                    'sample_label_request': instance,
+                    'site_id': instance.site_id,
+                    'sample_material': instance.sample_material,
+                    'sample_type': instance.sample_type,
+                    'sample_year': instance.sample_year,
+                    'purpose': instance.purpose,
+                }
+            )
+        else:
+            # more than one label requested, so need to interate to insert into SampleLabel
+            # arrange does not include max value, hence max+1
+            for num in np.arange(instance.min_sample_label_num, instance.max_sample_label_num + 1, 1):
+                # add leading zeros to site_num, e.g., 1 to 01
+                num_leading_zeros = str(num).zfill(4)
+
+                # format site_id, e.g., "eAL_L01"
+                sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=instance.sample_label_prefix,
+                                                                   sitenum=num_leading_zeros)
+                # enter each new label into SampleLabel - request only has a single row with the requested
+                # number and min/max; this table is necessary for joining proceeding tables
+                SampleLabel.objects.update_or_create(
+                    sample_label_id=sample_label_id,
+                    defaults={
+                        'sample_label_request': instance,
+                        'site_id': instance.site_id,
+                        'sample_material': instance.sample_material,
+                        'sample_type': instance.sample_type,
+                        'sample_year': instance.sample_year,
+                        'purpose': instance.purpose,
+                    }
+                )
 
 #@app.task(bind=True)
 #def transform_all_records_field_survey(self):

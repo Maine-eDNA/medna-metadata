@@ -438,7 +438,7 @@ BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 
 CELERYBEAT_SCHEDULE = {
     'transform-new-records': {
-       'task': 'tasks.transform_new_records_field_survey',
+       'task': 'tasks.transform_new_records_field_survey_task',
        'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     },
 }
