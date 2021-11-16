@@ -13,7 +13,7 @@ from .serializers import SampleLabelRequestSerializerExportMixin
 from .models import SampleMaterial, SampleLabelRequest, SampleBarcode, SampleType
 from .tables import SampleLabelRequestTable
 from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
-    SampleLabelSerializer, SampleTypeSerializer
+    SampleBarcodeSerializer, SampleTypeSerializer
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
@@ -46,15 +46,15 @@ class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'site_id', 'sample_material']
 
 
-class SampleLabelViewSet(viewsets.ModelViewSet):
-    serializer_class = SampleLabelSerializer
+class SampleBarcodeViewSet(viewsets.ModelViewSet):
+    serializer_class = SampleBarcodeSerializer
     queryset = SampleBarcode.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'site_id', 'sample_material', 'sample_type',
                         'sample_barcode_id', 'sample_label_request', 'in_freezer']
 
 
-class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
+class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
     """View SampleBarcode filter view with REST serializers and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = SampleLabelRequest
@@ -72,7 +72,7 @@ class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTable
     filter_backends = [DjangoFilterBackend]
 
 
-class SampleLabelListView(generics.ListAPIView):
+class SampleLabelRequestListView(generics.ListAPIView):
     queryset = SampleLabelRequest.objects.all()
     serializer_class = SampleLabelRequestSerializer
     # who can download the data - only those who are authenticated - this is mostly for the API since
