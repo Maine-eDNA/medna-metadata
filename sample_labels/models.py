@@ -12,7 +12,7 @@ from utility.enumerations import YesNo
 import numpy as np
 
 
-def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_sample_label_id, min_sample_label_num,
+def insert_update_sample_id_req(min_sample_label_id, max_sample_label_id, min_sample_label_num,
                                 max_sample_label_num, sample_label_prefix, site_id, sample_material, sample_type,
                                 sample_year, purpose):
     if min_sample_label_id == max_sample_label_id:
@@ -22,7 +22,6 @@ def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_s
         SampleLabel.objects.update_or_create(
             sample_label_id=sample_label_id,
             defaults={
-                'sample_label_request': sample_label_request,
                 'site_id': site_id,
                 'sample_material': sample_material,
                 'sample_type': sample_type,
@@ -45,7 +44,6 @@ def insert_update_sample_id_req(sample_label_request, min_sample_label_id, max_s
             SampleLabel.objects.update_or_create(
                 sample_label_id=sample_label_id,
                 defaults={
-                    'sample_label_request': sample_label_request,
                     'site_id': site_id,
                     'sample_material': sample_material,
                     'sample_type': sample_type,
@@ -153,12 +151,12 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleLabel(DateTimeUserMixin):
-    sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
     sample_label_id = models.CharField("Sample Label ID", max_length=16, unique=True)
     barcode_slug = models.CharField("Sample Barcode Slug", max_length=16)
     in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
+    # sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
     site_id = models.ForeignKey(FieldSite, on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_default_sample_type())
