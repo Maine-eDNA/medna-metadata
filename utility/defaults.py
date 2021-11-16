@@ -42,13 +42,11 @@ def get_default_sample_type():
 
 def get_default_process_location():
     return ProcessLocation.objects.get_or_create(process_location_name='eDNA Laboratory (UMaine CORE)',
-                                                 defaults={
-                                                           'affiliation': 'University of Maine',
+                                                 defaults={'affiliation': 'University of Maine',
                                                            'process_location_url': 'https://umaine.edu/core/biotechnology/',
                                                            'phone_number': '+12075812591',
                                                            'location_email_address': 'um.core@maine.edu',
                                                            'point_of_contact_email_address': 'geneva.york@maine.edu',
                                                            'point_of_contact_first_name': 'Geneva',
                                                            'point_of_contact_last_name': 'York',
-                                                           'location_notes': ''},
-                                                 )[0]
+                                                           'location_notes': ''},)[0]
