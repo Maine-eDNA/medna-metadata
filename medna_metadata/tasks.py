@@ -14,7 +14,7 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollectionETL, SampleFilterETL
 from django.core.exceptions import ObjectDoesNotExist
 from wet_lab.models import RunResult, FastqFile, Extraction
-from sample_labels.models import SampleLabel, SampleLabelRequest
+from sample_labels.models import SampleBarcode, SampleLabelRequest
 from django.utils import timezone
 from django.db.models import Count
 import numpy as np
@@ -515,8 +515,8 @@ def update_queryset_subcore_sample(queryset):
             if subcore_min_barcode == subcore_max_barcode or not subcore_max_barcode:
                 # if min and max are equal or there is no max barcode
                 if subcore_min_barcode:
-                    if SampleLabel.objects.filter(sample_label_id=subcore_min_barcode).exists():
-                        sample_label = SampleLabel.objects.filter(sample_label_id=subcore_min_barcode)[0]
+                    if SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode).exists():
+                        sample_label = SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode)[0]
                         # only proceed if sample_label exists
 
                         # since we put a "min" and "max" field, rather than a separate record
@@ -546,7 +546,7 @@ def update_queryset_subcore_sample(queryset):
                 if subcore_prefix_min == subcore_prefix_max:
                     subcore_prefix = subcore_prefix_min
 
-                    if SampleLabel.objects.filter(sample_label_id=subcore_min_barcode).exists():
+                    if SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode).exists():
                         # only proceed if sample_label exists
                         # only proceed if the prefix of the subcores match
                         for num in np.arange(subcore_min_num, subcore_max_num + 1, 1):
@@ -558,9 +558,9 @@ def update_queryset_subcore_sample(queryset):
                             subcore_barcode = '{labelprefix}{sitenum}'.format(labelprefix=subcore_prefix,
                                                                               sitenum=num_leading_zeros)
 
-                            if SampleLabel.objects.filter(sample_label_id=subcore_barcode).exists():
+                            if SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode).exists():
                                 # only proceed if barcode exists
-                                sample_label = SampleLabel.objects.filter(sample_label_id=subcore_barcode)[0]
+                                sample_label = SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode)[0]
 
                                 # since we put a "min" and "max" field, rather than a separate record
                                 # for each subcore barcode, here we're appending the barcode to the
@@ -587,8 +587,8 @@ def update_queryset_filter_sample(queryset):
             filter_barcode = record.filter_barcode
             if filter_barcode:
                 # only proceed if filter_barcode exists
-                if SampleLabel.objects.filter(sample_label_id=filter_barcode).exists():
-                    sample_label = SampleLabel.objects.filter(sample_label_id=filter_barcode)[0]
+                if SampleBarcode.objects.filter(sample_barcode_id=filter_barcode).exists():
+                    sample_label = SampleBarcode.objects.filter(sample_barcode_id=filter_barcode)[0]
                     count = update_record_field_sample(record=record,
                                                        collection_type=record.collection_global_id.collection_type,
                                                        collection_global_id=record.collection_global_id.collection_global_id,
@@ -749,10 +749,10 @@ def sample_label_request_post_save_task(instance_pk):
     else:
         if instance.min_sample_label_id == instance.max_sample_label_id:
             # only one label request, so min and max label id will be the same; only need to enter
-            # one new label into SampleLabel
-            sample_label_id = instance.min_sample_label_id
-            SampleLabel.objects.update_or_create(
-                sample_label_id=sample_label_id,
+            # one new label into SampleBarcode
+            sample_barcode_id = instance.min_sample_label_id
+            SampleBarcode.objects.update_or_create(
+                sample_barcode_id=sample_barcode_id,
                 defaults={
                     'sample_label_request': instance,
                     'site_id': instance.site_id,
@@ -763,19 +763,19 @@ def sample_label_request_post_save_task(instance_pk):
                 }
             )
         else:
-            # more than one label requested, so need to interate to insert into SampleLabel
+            # more than one label requested, so need to interate to insert into SampleBarcode
             # arrange does not include max value, hence max+1
             for num in np.arange(instance.min_sample_label_num, instance.max_sample_label_num + 1, 1):
                 # add leading zeros to site_num, e.g., 1 to 01
                 num_leading_zeros = str(num).zfill(4)
 
                 # format site_id, e.g., "eAL_L01"
-                sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=instance.sample_label_prefix,
+                sample_barcode_id = '{labelprefix}_{sitenum}'.format(labelprefix=instance.sample_label_prefix,
                                                                    sitenum=num_leading_zeros)
-                # enter each new label into SampleLabel - request only has a single row with the requested
+                # enter each new label into SampleBarcode - request only has a single row with the requested
                 # number and min/max; this table is necessary for joining proceeding tables
-                SampleLabel.objects.update_or_create(
-                    sample_label_id=sample_label_id,
+                SampleBarcode.objects.update_or_create(
+                    sample_barcode_id=sample_barcode_id,
                     defaults={
                         'sample_label_request': instance,
                         'site_id': instance.site_id,

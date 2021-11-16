@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-from sample_labels.models import SampleLabel, SampleMaterial, update_sample_type, get_field_sample_sample_type
+from sample_labels.models import SampleBarcode, SampleMaterial, update_sample_type, get_field_sample_sample_type
 from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 # from django.utils.text import slugify
@@ -366,7 +366,7 @@ class FieldSample(DateTimeUserMixin):
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_fieldsample",
                                              on_delete=models.CASCADE)
-    field_sample_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+    field_sample_barcode = models.OneToOneField(SampleBarcode, on_delete=models.RESTRICT,
                                                 limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)

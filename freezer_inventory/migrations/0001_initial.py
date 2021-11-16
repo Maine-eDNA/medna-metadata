@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
                 ('css_text_color', models.CharField(default='white', max_length=255, verbose_name='CSS Text Color')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('freezer_box', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='freezer_inventory.freezerbox')),
-                ('sample_barcode', models.OneToOneField(limit_choices_to={'in_freezer': 'no'}, on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplelabel')),
+                ('sample_barcode', models.OneToOneField(limit_choices_to={'in_freezer': 'no'}, on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
             ],
             options={
                 'verbose_name': 'Freezer Inventory',

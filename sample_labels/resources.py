@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import SampleLabelRequest, SampleLabel, SampleMaterial, SampleType
+from .models import SampleLabelRequest, SampleBarcode, SampleMaterial, SampleType
 from field_sites.models import FieldSite
 from users.models import CustomUser
 
@@ -59,13 +59,13 @@ class SampleLabelRequestAdminResource(resources.ModelResource):
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
 
-class SampleLabelAdminResource(resources.ModelResource):
+class SampleBarcodeAdminResource(resources.ModelResource):
     class Meta:
-        model = SampleLabel
-        import_id_fields = ('sample_label_id',)
-        #fields = ('sample_label_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
+        model = SampleBarcode
+        import_id_fields = ('sample_barcode_id',)
+        #fields = ('sample_barcode_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
         #          'created_by', 'created_datetime', )
-        export_order = ('sample_label_request', 'sample_label_id', 'site_id', 'sample_material', 'sample_type',
+        export_order = ('sample_label_request', 'sample_barcode_id', 'site_id', 'sample_material', 'sample_type',
                         'sample_year', 'purpose',
                         'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', )
     sample_label_request = fields.Field(

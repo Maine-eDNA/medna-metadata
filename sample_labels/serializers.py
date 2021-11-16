@@ -3,7 +3,7 @@ from utility.serializers import SerializerExportMixin
 from utility.enumerations import YesNo
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
-from .models import SampleMaterial, SampleLabel, SampleLabelRequest, SampleType
+from .models import SampleMaterial, SampleBarcode, SampleLabelRequest, SampleType
 from field_sites.models import FieldSite
 from django.core.validators import MinValueValidator
 from rest_framework.validators import UniqueValidator
@@ -92,9 +92,9 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
                                                    queryset=SampleMaterial.objects.all())
 
 
-class SampleLabelSerializer(serializers.ModelSerializer):
+class SampleBarcodeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_label_id = serializers.CharField(max_length=16, read_only=True)
+    sample_barcode_id = serializers.CharField(max_length=16, read_only=True)
     sample_year = serializers.IntegerField(read_only=True)
     in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -102,8 +102,8 @@ class SampleLabelSerializer(serializers.ModelSerializer):
     purpose = serializers.CharField(max_length=255)
 
     class Meta:
-        model = SampleLabel
-        fields = ['id', 'sample_label_id', 'site_id', 'sample_year', 'sample_material', 'sample_type',
+        model = SampleBarcode
+        fields = ['id', 'sample_barcode_id', 'site_id', 'sample_year', 'sample_material', 'sample_type',
                   'purpose', 'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since site_id, sample_material, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -117,7 +117,6 @@ class SampleLabelSerializer(serializers.ModelSerializer):
                                                         queryset=SampleLabelRequest.objects.all())
     sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
                                                queryset=SampleType.objects.all())
-
 
 
 class SampleLabelRequestSerializerTableExport(TableExport):

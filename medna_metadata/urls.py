@@ -24,7 +24,7 @@ from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, Env
     EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
     EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, \
     SystemViewSet, GeoWatershedViewSet, GeoFieldSitesViewSet
-from sample_labels.views import SampleTypeViewSet, SampleMaterialViewSet, SampleLabelRequestViewSet, SampleLabelViewSet
+from sample_labels.views import SampleTypeViewSet, SampleMaterialViewSet, SampleLabelRequestViewSet, SampleBarcodeViewSet
 from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     FieldSampleViewSet, GeoFieldSurveyETLViewSet, FieldCrewETLViewSet, EnvMeasurementETLViewSet, \
     FieldCollectionETLViewSet, SampleFilterETLViewSet
@@ -129,7 +129,7 @@ router.register(r'field_sites/field_site', GeoFieldSitesViewSet, 'field_site')
 router.register(r'sample_labels/sample_type', SampleTypeViewSet, 'sample_type')
 router.register(r'sample_labels/sample_material', SampleMaterialViewSet, 'sample_material')
 router.register(r'sample_labels/sample_label_req', SampleLabelRequestViewSet, 'sample_label_req')
-router.register(r'sample_labels/sample_label', SampleLabelViewSet, 'sample_label')
+router.register(r'sample_labels/sample_barcode', SampleBarcodeViewSet, 'sample_barcode')
 # field_survey:post-transform
 router.register(r'field_survey/field_survey', GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'field_survey/field_crew', FieldCrewViewSet, 'field_crew')

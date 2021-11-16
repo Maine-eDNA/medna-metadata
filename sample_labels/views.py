@@ -10,7 +10,7 @@ import csv
 # from utility.defaults import current_year, year_choices
 # from django_filters import rest_framework as filters
 from .serializers import SampleLabelRequestSerializerExportMixin
-from .models import SampleMaterial, SampleLabelRequest, SampleLabel, SampleType
+from .models import SampleMaterial, SampleLabelRequest, SampleBarcode, SampleType
 from .tables import SampleLabelRequestTable
 from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
     SampleLabelSerializer, SampleTypeSerializer
@@ -48,14 +48,14 @@ class SampleLabelRequestViewSet(viewsets.ModelViewSet):
 
 class SampleLabelViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelSerializer
-    queryset = SampleLabel.objects.all()
+    queryset = SampleBarcode.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'site_id', 'sample_material', 'sample_type',
-                        'sample_label_id', 'sample_label_request', 'in_freezer']
+                        'sample_barcode_id', 'sample_label_request', 'in_freezer']
 
 
 class SampleLabelFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
-    """View samplelabel filter view with REST serializers and django-tables2"""
+    """View SampleBarcode filter view with REST serializers and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
@@ -83,13 +83,13 @@ class SampleLabelListView(generics.ListAPIView):
     filterset_fields = ['created_by', 'site_id', 'sample_material']
 
 
-class SampleLabelDetailView(DetailView):
+class SampleLabelRequestDetailView(DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
     context_object_name = 'samplelabel'
 
 
-class SampleLabelExportDetailView(DetailView):
+class SampleLabelRequestExportDetailView(DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
     """View sample label detail"""
     model = SampleLabelRequest
@@ -126,7 +126,7 @@ class SampleLabelExportDetailView(DetailView):
         return response
 
 
-class AddSampleLabelView(LoginRequiredMixin, CreateView):
+class AddSampleLabelRequestView(LoginRequiredMixin, CreateView):
     """View sample label create view"""
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().

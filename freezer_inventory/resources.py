@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleBarcode
 #from field_survey.models import FieldSample
 #from wet_lab.models import Extraction
 from users.models import CustomUser
@@ -125,7 +125,7 @@ class FreezerInventoryAdminResource(resources.ModelResource):
     sample_barcode = fields.Field(
         column_name='sample_barcode',
         attribute='sample_barcode',
-        widget=ForeignKeyWidget(SampleLabel, 'barcode_slug'))
+        widget=ForeignKeyWidget(SampleBarcode, 'barcode_slug'))
 
     created_by = fields.Field(
         column_name='created_by',

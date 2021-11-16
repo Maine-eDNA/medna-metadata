@@ -4,7 +4,7 @@ from django.utils.text import slugify
 # from django.db.models import Q
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
-from sample_labels.models import SampleLabel, update_sample_type, \
+from sample_labels.models import SampleBarcode, update_sample_type, \
     get_extraction_sample_type,  get_pooled_library_sample_type
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
@@ -189,7 +189,7 @@ class Extraction(DateTimeUserMixin):
     extraction_datetime = models.DateTimeField("Extraction DateTime")
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
                                         limit_choices_to={'is_extracted': YesNo.NO})
-    extraction_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+    extraction_barcode = models.OneToOneField(SampleBarcode, on_delete=models.RESTRICT,
                                               limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
@@ -371,7 +371,7 @@ class PooledLibrary(DateTimeUserMixin):
 
 class FinalPooledLibrary(DateTimeUserMixin):
     final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date")
-    final_pooled_lib_barcode = models.OneToOneField(SampleLabel, on_delete=models.RESTRICT,
+    final_pooled_lib_barcode = models.OneToOneField(SampleBarcode, on_delete=models.RESTRICT,
                                                     limit_choices_to={'in_freezer': YesNo.NO})
     barcode_slug = models.SlugField("Final Pooled Library Barcode Slug", max_length=16)
     final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)

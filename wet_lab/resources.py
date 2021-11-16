@@ -3,7 +3,7 @@ from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from users.models import CustomUser
@@ -383,7 +383,7 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
     final_pooled_lib_barcode = fields.Field(
         column_name='final_pooled_lib_barcode',
         attribute='final_pooled_lib_barcode',
-        widget=ForeignKeyWidget(SampleLabel, 'barcode_slug'))
+        widget=ForeignKeyWidget(SampleBarcode, 'barcode_slug'))
 
     process_location = fields.Field(
         column_name='process_location',

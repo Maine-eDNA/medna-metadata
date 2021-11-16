@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
     RunResult, FastqFile
-from sample_labels.models import SampleLabel
+from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from utility.enumerations import YesNo, TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
@@ -182,7 +182,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
                                               slug_field='email')
     extraction_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                       slug_field='barcode_slug',
-                                                      queryset=SampleLabel.objects.filter(
+                                                      queryset=SampleBarcode.objects.filter(
                                                           sample_type__sample_type_label__icontains='extraction'))
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
@@ -392,7 +392,7 @@ class FinalPooledLibrarySerializer(serializers.ModelSerializer):
                                               slug_field='email')
     final_pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                             slug_field='barcode_slug',
-                                                            queryset=SampleLabel.objects.filter(
+                                                            queryset=SampleBarcode.objects.filter(
                                                                 sample_type__sample_type_label__icontains='pooled library'))
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
