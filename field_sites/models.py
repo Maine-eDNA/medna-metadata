@@ -4,116 +4,6 @@
 from django.contrib.gis.db import models
 from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-
-
-def update_biome_first(biome_pk, new_biome):
-    # cascade update all proceeding models
-    biome_obj = EnvoBiomeSecond.objects.filter(biome_first_tier=biome_pk).first()
-    if biome_obj:
-        old_biome = biome_obj.biome_first_tier_slug
-        # update remaining with new_biome
-        EnvoBiomeSecond.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
-        EnvoBiomeThird.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
-        EnvoBiomeFourth.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
-        EnvoBiomeFifth.objects.filter(biome_first_tier_slug=old_biome).update(biome_first_tier_slug=new_biome)
-
-
-def update_biome_second(biome_pk, new_biome):
-    # cascade update all proceeding models
-    biome_obj = EnvoBiomeThird.objects.filter(biome_second_tier=biome_pk).first()
-    if biome_obj:
-        old_biome = biome_obj.biome_second_tier_slug
-        # update remaining with new_biome
-        EnvoBiomeThird.objects.filter(biome_second_tier_slug=old_biome).update(biome_second_tier_slug=new_biome)
-        EnvoBiomeFourth.objects.filter(biome_second_tier_slug=old_biome).update(biome_second_tier_slug=new_biome)
-        EnvoBiomeFifth.objects.filter(biome_second_tier_slug=old_biome).update(biome_second_tier_slug=new_biome)
-
-
-def update_biome_third(biome_pk, new_biome):
-    # cascade update all proceeding models
-    biome_obj = EnvoBiomeFourth.objects.filter(biome_third_tier=biome_pk).first()
-    if biome_obj:
-        old_biome = biome_obj.biome_third_tier_slug
-        # update remaining with new_biome
-        EnvoBiomeFourth.objects.filter(biome_third_tier_slug=old_biome).update(biome_third_tier_slug=new_biome)
-        EnvoBiomeFifth.objects.filter(biome_third_tier_slug=old_biome).update(biome_third_tier_slug=new_biome)
-
-
-def update_biome_fourth(biome_pk, new_biome):
-    biome_obj = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome_pk).first()
-    if biome_obj:
-        old_biome = biome_obj.biome_fourth_tier_slug
-        # update remaining with new_biome
-        EnvoBiomeFifth.objects.filter(biome_fourth_tier_slug=old_biome).update(biome_fourth_tier_slug=new_biome)
-
-
-def update_feature_first(feature_pk, new_feature):
-    # cascade update all proceeding models
-    feature_obj = EnvoFeatureSecond.objects.filter(feature_first_tier=feature_pk).first()
-    if feature_obj:
-        old_feature = feature_obj.feature_first_tier_slug
-        # update remaining with new_feature
-        EnvoFeatureSecond.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
-        EnvoFeatureThird.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
-        EnvoFeatureFourth.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
-        EnvoFeatureFifth.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
-        EnvoFeatureSixth.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
-        EnvoFeatureSeventh.objects.filter(feature_first_tier_slug=old_feature).update(feature_first_tier_slug=new_feature)
-
-
-def update_feature_second(feature_pk, new_feature):
-    # cascade update all proceeding models
-    feature_obj = EnvoFeatureThird.objects.filter(feature_second_tier=feature_pk).first()
-    if feature_obj:
-        old_feature = feature_obj.feature_second_tier_slug
-        # update remaining with new_feature
-        EnvoFeatureThird.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
-        EnvoFeatureFourth.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
-        EnvoFeatureFifth.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
-        EnvoFeatureSixth.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
-        EnvoFeatureSeventh.objects.filter(feature_second_tier_slug=old_feature).update(feature_second_tier_slug=new_feature)
-
-
-def update_feature_third(feature_pk, new_feature):
-    # cascade update all proceeding models
-    feature_obj = EnvoFeatureFourth.objects.filter(feature_third_tier=feature_pk).first()
-    if feature_obj:
-        old_feature = feature_obj.feature_third_tier_slug
-        # update remaining with new_feature
-        EnvoFeatureFourth.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
-        EnvoFeatureFifth.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
-        EnvoFeatureSixth.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
-        EnvoFeatureSeventh.objects.filter(feature_third_tier_slug=old_feature).update(feature_third_tier_slug=new_feature)
-
-
-def update_feature_fourth(feature_pk, new_feature):
-    # cascade update all proceeding models
-    feature_obj = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature_pk).first()
-    if feature_obj:
-        old_feature = feature_obj.feature_fourth_tier_slug
-        # update remaining with new_feature
-        EnvoFeatureFifth.objects.filter(feature_fourth_tier_slug=old_feature).update(feature_fourth_tier_slug=new_feature)
-        EnvoFeatureSixth.objects.filter(feature_fourth_tier_slug=old_feature).update(feature_fourth_tier_slug=new_feature)
-        EnvoFeatureSeventh.objects.filter(feature_fourth_tier_slug=old_feature).update(feature_fourth_tier_slug=new_feature)
-
-
-def update_feature_fifth(feature_pk, new_feature):
-    # cascade update all proceeding models
-    feature_obj = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature_pk).first()
-    if feature_obj:
-        old_feature = feature_obj.feature_fifth_tier_slug
-        # update remaining with new_feature
-        EnvoFeatureSixth.objects.filter(feature_fifth_tier_slug=old_feature).update(feature_fifth_tier_slug=new_feature)
-        EnvoFeatureSeventh.objects.filter(feature_fifth_tier_slug=old_feature).update(feature_fifth_tier_slug=new_feature)
-
-
-def update_feature_sixth(feature_pk, new_feature):
-    feature_obj = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature_pk).first()
-    if feature_obj:
-        old_feature = feature_obj.feature_sixth_tier_slug
-        EnvoFeatureSeventh.objects.filter(feature_sixth_tier_slug=old_feature).update(feature_sixth_tier_slug=new_feature)
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
@@ -125,7 +15,6 @@ class EnvoBiomeFirst(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.biome_first_tier_slug = '{biome1}'.format(biome1=slugify(self.biome_first_tier))
-        update_biome_first(self.pk, self.biome_first_tier_slug)
         super(EnvoBiomeFirst, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -154,7 +43,6 @@ class EnvoBiomeSecond(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
         self.biome_first_tier_slug = '{biome1}'.format(biome1=self.biome_first_tier.biome_first_tier_slug)
-        update_biome_second(self.pk, self.biome_second_tier_slug)
         super(EnvoBiomeSecond, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -189,7 +77,6 @@ class EnvoBiomeThird(DateTimeUserMixin):
         self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
         self.biome_second_tier_slug = '{biome2}'.format(biome2=self.biome_second_tier.biome_second_tier_slug)
         self.biome_first_tier_slug = '{biome1}'.format(biome1=self.biome_second_tier.biome_first_tier_slug)
-        update_biome_third(self.pk, self.biome_third_tier_slug)
         super(EnvoBiomeThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -228,7 +115,6 @@ class EnvoBiomeFourth(DateTimeUserMixin):
         self.biome_third_tier_slug = '{biome3}'.format(biome3=self.biome_third_tier.biome_third_tier_slug)
         self.biome_second_tier_slug = '{biome2}'.format(biome2=self.biome_third_tier.biome_second_tier_slug)
         self.biome_first_tier_slug = '{biome1}'.format(biome1=self.biome_third_tier.biome_first_tier_slug)
-        update_biome_fourth(self.pk, self.biome_fourth_tier_slug)
         super(EnvoBiomeFourth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -296,7 +182,6 @@ class EnvoFeatureFirst(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         self.feature_first_tier_slug = '{feature1}'.format(feature1=slugify(self.feature_first_tier))
-        update_feature_first(self.pk, self.feature_first_tier_slug)
         super(EnvoFeatureFirst, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -328,7 +213,6 @@ class EnvoFeatureSecond(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.feature_second_tier_slug = '{feature2}'.format(feature2=slugify(self.feature_second_tier))
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_first_tier.feature_first_tier_slug)
-        update_feature_second(self.pk, self.feature_second_tier_slug)
         super(EnvoFeatureSecond, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -366,7 +250,6 @@ class EnvoFeatureThird(DateTimeUserMixin):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=slugify(self.feature_third_tier))
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_second_tier.feature_second_tier_slug)
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_second_tier.feature_first_tier_slug)
-        update_feature_third(self.pk, self.feature_third_tier_slug)
         super(EnvoFeatureThird, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -404,7 +287,6 @@ class EnvoFeatureFourth(DateTimeUserMixin):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=self.feature_third_tier.feature_third_tier_slug)
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_third_tier.feature_second_tier_slug)
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_third_tier.feature_first_tier_slug)
-        update_feature_fourth(self.pk, self.feature_fourth_tier_slug)
         super(EnvoFeatureFourth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -447,7 +329,6 @@ class EnvoFeatureFifth(DateTimeUserMixin):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=self.feature_fourth_tier.feature_third_tier_slug)
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_fourth_tier.feature_second_tier_slug)
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_fourth_tier.feature_first_tier_slug)
-        update_feature_fifth(self.pk, self.feature_fifth_tier_slug)
         super(EnvoFeatureFifth, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -487,7 +368,6 @@ class EnvoFeatureSixth(DateTimeUserMixin):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=self.feature_fifth_tier.feature_third_tier_slug)
         self.feature_second_tier_slug = '{feature2}'.format(feature2=self.feature_fifth_tier.feature_second_tier_slug)
         self.feature_first_tier_slug = '{feature1}'.format(feature1=self.feature_fifth_tier.feature_first_tier_slug)
-        update_feature_sixth(self.pk, self.feature_sixth_tier_slug)
         super(EnvoFeatureSixth, self).save(*args, **kwargs)
 
     def __str__(self):
