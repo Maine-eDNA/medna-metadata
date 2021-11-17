@@ -20,79 +20,42 @@ sudo bash /home/youruser/medna-metadata/requirementsubuntu-requirements.sh
 ```
 
 ### Create PostgreSQL database with PostGIS Extension
-Enter the command-line for PostgreSQL:
-
-```commandline
-sudo -u postgres psql
-```
-
 Create the database for your project:
 
-```psql
-CREATE DATABASE medna_metadata;
-```
-
-Add the PostGIS extension to PostgreSQL:
-
-```psql
-CREATE EXTENSION postgis;
+```commandline
+sudo -u postgres psql -c "CREATE DATABASE medna_metadata;"
 ```
 
 Create a database user and add them to the project with a secure password:
 
-```psql
-CREATE USER django WITH PASSWORD 'your_db_password'
+```commandline
+sudo -u postgres psql -c "CREATE USER django WITH PASSWORD 'your_db_password';"
 ```
 
 Recommended settings from the Django project:
-```psql
-ALTER ROLE django SET client_encoding TO 'utf8';
-ALTER ROLE django SET default_transaction_isolation TO 'read committed';
-ALTER ROLE django SET timezone TO 'UTC';
+
+```commandline
+sudo -u postgres psql -c "ALTER ROLE django SET client_encoding TO 'utf8';"
+sudo -u postgres psql -c "ALTER ROLE django SET default_transaction_isolation TO 'read committed';"
+sudo -u postgres psql -c "ALTER ROLE django SET timezone TO 'UTC';"
 ```
 
 Set the Django user as the administrator for the medna_metadata database:
 
-```psql
-GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO django;
+```commandline
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO django;"
 ```
 
 Grant privledges to the Django database user to create databases for django tests:
 
-```psql
-ALTER USER django CREATEDB;
+```commandline
+sudo -u postgres psql -c "ALTER USER django CREATEDB;"
 ```
 
-Do the following to add the PostGIS extension to the medna_metadata database:
-
-Quit out of the command-line (for now)
-
-```psql
-\q
-```
-
-Swap to the postgres user - you must be the postgres user to CREATE EXTENSION
+Add PostGIS to medna_metadata:
 
 ```commandline
-sudo -i -u postgres
-```
-
-Login to the medna_metadata database
-
-```commandline
-psql -d medna_metadata
-```
-
-Add PostGIS to medna_metadata
-
-```psql
-CREATE EXTENSION postgis;
-```
-
-Now quit out of the command-line again
-
-```psql
-\q
+sudo -i -u postgres psql -d medna_metadata -c "CREATE EXTENSION postgis;"
 ```
 
 ### Create a virtual environment with venv
