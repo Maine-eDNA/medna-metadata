@@ -7,6 +7,11 @@
         <caption>
           <a href="{{ app.app_url }}" class="section" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{ app.name }}</a>
         </caption>
+        {% if app.app_label == 'manage_templates' %}
+            <tr class="model-{{ model.object_name|lower }}">
+                <th scope="row"><a href="{% url 'admin_www_list' %}">WWW</a></th>
+            </tr>
+        {% endif %}
         {% for model in app.models %}
           <tr class="model-{{ model.object_name|lower }}{% if model.admin_url in request.path %} current-model{% endif %}">
             {% if model.admin_url %}
