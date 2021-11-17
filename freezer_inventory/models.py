@@ -174,18 +174,27 @@ class FreezerInventory(DateTimeUserMixin):
     css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def save(self, *args, **kwargs):
+        old_barcode = None
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
-            # concatenate inventory_type and barcode,
+            # concatenate inventory_type and barcode on insert,
             # e.g., "extraction-epr_l01_21w_0001"
             self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
                                                                     barcode=slugify(self.sample_barcode.sample_barcode_id))
-        if self.sample_barcode:
-            # if field_sample is being added/changed to freezer_inventory, update the field_sample's in_freezer status
-            if self.freezer_inventory_slug is None:
-                update_barcode_in_freezer_status(self.freezer_inventory_slug, self.sample_barcode.pk)
-            else:
-                old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
+            # if field_sample is being added to freezer_inventory,
+            # update the field_sample's in_freezer status
+            update_barcode_in_freezer_status(old_barcode, self.sample_barcode.pk)
+        else:
+            # on update
+            old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
+            if old_barcode != self.sample_barcode.barcode_slug:
+                # if old_barcode is not the same as the new_barcode, then must concatenate inventory_type with the
+                # new barcode, e.g., "extraction-epr_l01_21w_0001"
+                self.freezer_inventory_slug = '{type}-{barcode}'.format(
+                    type=slugify(self.get_freezer_inventory_type_display()),
+                    barcode=slugify(self.sample_barcode.sample_barcode_id))
+                # if field_sample is being changed to freezer_inventory,
+                # update the field_sample's in_freezer status
                 update_barcode_in_freezer_status(old_barcode, self.sample_barcode.pk)
 
         # all done, time to save changes to the db

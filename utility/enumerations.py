@@ -277,6 +277,7 @@ class InvTypes(models.TextChoices):
     FILTER = 'filter', _('Filter')
     SUBCORE = 'subcore', _('SubCore')
     EXTRACTION = 'extraction', _('Extraction')
+    POOLEDLIBRARY = 'pooled_lib', _('Pooled Library')
 
 
 class CheckoutActions(models.TextChoices):
