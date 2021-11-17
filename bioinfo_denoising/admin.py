@@ -15,6 +15,7 @@ class DenoisingMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
+    readonly_fields = ('denoising_method_slug',)
     #list_filter = ('denoising_method_pipeline', )
 
     def add_view(self, request, extra_content=None):
@@ -28,7 +29,7 @@ class DenoisingMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['denoising_method_name', 'denoising_method_pipeline', 'created_by']
+        self.fields = ['denoising_method_slug', 'denoising_method_name', 'denoising_method_pipeline', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoisingMethodAdmin, self).change_view(request, object_id)
 
@@ -51,10 +52,12 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     #list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
+    readonly_fields = ('denoising_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'run_result', 'analysis_datetime', 'analyst_first_name',
+        self.fields = ['process_location', 'run_result',
+                       'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoising_method',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -65,7 +68,8 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['process_location','run_result', 'analysis_datetime', 'analyst_first_name',
+        self.fields = ['denoising_slug', 'process_location', 'run_result',
+                       'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoising_method', 'denoising_slug',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
