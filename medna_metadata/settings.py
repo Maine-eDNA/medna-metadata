@@ -405,6 +405,7 @@ SWAGGER_SETTINGS = {
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME')
 AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
 AWS_REGION = 'us-east-1'
 AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
@@ -413,14 +414,14 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
-AWS_STATIC_LOCATION = 'medna-metadata-dev/static'
+AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
 STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
-AWS_PUBLIC_MEDIA_LOCATION = 'medna-metadata-dev/media/public'
+AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
 DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
 
-AWS_PRIVATE_MEDIA_LOCATION = 'medna-metadata-dev/media/private'
+AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
 PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
 AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
