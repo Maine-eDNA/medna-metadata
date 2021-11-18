@@ -491,6 +491,7 @@ APP_ORDER = OrderedDict([
     ("account", ["emailaddress"]),
     ("authtoken", ["tokenproxy"]),
     ("socialaccount", ["socialaccount", "socialtoken", "socialapp"]),
+    ("utility", ["Grant", "Project", "ProcessLocation"]),
     ("freezer_inventory", ["Freezer", "FreezerRack", "FreezerBox", "FreezerInventory", "FreezerCheckout"]),
     ("field_sites", ["Project", "System", "Watershed",
                      "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
