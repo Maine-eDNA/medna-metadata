@@ -55,7 +55,7 @@ phonenumberslite==8.12.27
 prompt-toolkit==3.0.22
 psycopg2==2.9.1
 pycparser==2.20
-pygraphviz==1.7
+#pygraphviz==1.7
 PyJWT==2.1.0
 pyparsing==2.4.7
 python-dateutil==2.8.2
