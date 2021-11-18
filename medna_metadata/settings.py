@@ -15,8 +15,7 @@ import logging.config
 import os
 from django.core.management.utils import get_random_secret_key
 from celery.schedules import crontab
-
-#from collections import OrderedDict
+from collections import OrderedDict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -485,7 +484,6 @@ DJANGO_TABLES2_PAGE_RANGE = 5
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/
 # https://stackoverflow.com/questions/48293930/reorder-app-and-models-in-django-admin
 # custom app ordering
-"""
 APP_ORDER = OrderedDict([
     ("sites", ["site"]),
     ("auth", ["Group"]),
@@ -499,8 +497,9 @@ APP_ORDER = OrderedDict([
                      "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
                      "EnvoFeatureFourth", "EnvoFeatureFifth", "EnvoFeatureSixth", "EnvoFeatureSeventh",
                      "FieldSite"]),
-    ("sample_labels", ["SampleMaterial", "SampleLabelRequest", "SampleBarcode"]),
-    ("field_survey", ["FieldSurvey", "FieldCrew", "EnvMeasurement", "FieldCollection", "FieldSample",
+    ("sample_labels", ["SampleType", "SampleMaterial", "SampleLabelRequest", "SampleBarcode"]),
+    ("field_survey", ["FieldSurvey", "FieldCrew", "EnvMeasurement", "FieldCollection", "WaterCollection",
+                      "SedimentCollection", "FieldSample", "FilterSample", "SubCoreSample",
                       "FieldSurveyETL", "FieldCrewETL", "EnvMeasurementETL",
                       "FieldCollectionETL", "SampleFilterETL"]),
     ("wet_lab", ["PrimerPair", "IndexPair", "IndexRemovalMethod", "SizeSelectionMethod",
@@ -511,4 +510,3 @@ APP_ORDER = OrderedDict([
                        "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies", "AnnotationMethod",
                        "AnnotationMetadata", "TaxonomicAnnotation"]),
 ])
-"""
