@@ -23,8 +23,8 @@ The following instructions provide guidance on installing MeDNA-Metadata on Ubun
     setup process, as long as it is **not** the root username. Never use root. For more information, see the aforementioned
     `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__.
 
-Ubuntu (20.04 LTS is recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. important::
+    Ubuntu (20.04 LTS is recommended)
 
 Clone the Repository
 --------------------
