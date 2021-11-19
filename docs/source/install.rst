@@ -8,7 +8,6 @@ Installation
      - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__
      - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
-.. tip::
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
 .. _setup:
