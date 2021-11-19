@@ -2,15 +2,13 @@
 Installation
 ============
 
-If you've never set up a server before, DigitalOcean provides an extensive variety of tutorials that we highly recommend:
+.. seealso::
+    If you've never set up a server before, DigitalOcean provides an extensive variety of tutorials that we highly recommend.
+    Several of the steps below were adapted from their tutorials.
+    - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__
+    - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
- - https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04
-
-The remaining steps were adapted from the following DigitalOcean tutorial:
-
- - https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04
-
-.. note::
+.. tip::
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
 .. _setup:
@@ -30,7 +28,6 @@ To clone the most recent stable release as read-only::
     git clone -b latest https://github.com/Maine-eDNA/medna-metadata.git
     cd medna-metadata
 
-
 To clone the development branch::
 
     git clone -b main git@github.com:Maine-eDNA/medna-metadata.git
@@ -45,7 +42,7 @@ It will run the following installation comands:
 .. literalinclude:: ../../requirements/ubuntu-requirements.sh
    :language: bash
 
-Create PostgreSQL database with PostGIS Extension
+Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
 -------------------------------------------------
 
 Create the database for your project::
@@ -54,23 +51,23 @@ Create the database for your project::
 
 Create a database user and add them to the project with a secure password::
 
-    sudo -u postgres psql -c "CREATE USER django WITH PASSWORD 'your_db_password';"
+    sudo -u postgres psql -c "CREATE USER youruser WITH PASSWORD 'yourdbpassword';"
 
 Recommended settings from the Django project::
 
-    sudo -u postgres psql -c "ALTER ROLE django SET client_encoding TO 'utf8';"
-    sudo -u postgres psql -c "ALTER ROLE django SET default_transaction_isolation TO 'read committed';"
-    sudo -u postgres psql -c "ALTER ROLE django SET timezone TO 'UTC';"
+    sudo -u postgres psql -c "ALTER ROLE youruser SET client_encoding TO 'utf8';"
+    sudo -u postgres psql -c "ALTER ROLE youruser SET default_transaction_isolation TO 'read committed';"
+    sudo -u postgres psql -c "ALTER ROLE youruser SET timezone TO 'UTC';"
 
-Set the Django user as the administrator for the medna_metadata database::
+Set youruser as the administrator for the medna_metadata database::
 
-    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO django;"
+    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO youruser;"
 
-Grant privledges to the Django database user to create databases for django tests::
+Grant privledges to the youruser database user to create databases for Django tests::
 
-    sudo -u postgres psql -c "ALTER USER django CREATEDB;"
+    sudo -u postgres psql -c "ALTER USER youruser CREATEDB;"
 
-Add PostGIS to medna_metadata::
+Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
 
     sudo -i -u postgres psql -d medna_metadata -c "CREATE EXTENSION postgis;"
 
@@ -93,7 +90,7 @@ The variables to copy into ``~/.bashrc`` are listed in ``docker/bashrc.txt``::
 
     sudo vim ~/.bashrc
 
-.. note::
+.. tip::
     to write and quit within the VIM text editor, ``[esc]``, ``:wq!``, and ``[enter]``
 
 Load the environmental variables::
@@ -105,15 +102,19 @@ Copy ``gunicorn.env.txt`` as ``gunicorn.env`` and modify the variables::
     cp docker/gunicorn.env.txt docker/gunicorn.env
     sudo vim docker/gunicorn.env
 
+.. warning::
+    MeDNA-Metadata **will not** successfully deploy without setting these environmental variables.
+
 To create and activate virtualenvwrapper::
 
     mkvirtualenv --python /usr/bin/python3.8 mednaenv
 
-.. note::
-    Note that the version of python varies and you will have to check or install it.
+.. important::
+    The version of python varies and you will have to check or install it.
 
- - https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper
- - https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu
+.. seealso::
+ - `Python with Virtualenvwrapper <https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper>`__
+ - `Change Ubuntu's Default Python Version <https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu>`__
 
 Activate the virtual environment::
 
@@ -126,7 +127,7 @@ Install python requirements to the virtualenv::
 Migrate the Database Tables
 ---------------------------
 
-Migrate the database schema to PostgreSQL from within the same directory as ``manage.py``
+Migrate the database schema to `PostgreSQL <https://www.postgresql.org/>`__ from within the same directory as ``manage.py``
 Within each app there is a migration directory which contains files which tell the database how to
 create the database tables. These have been pre-generated and added to this repository to simplify the
 process of deplying the Maine-eDNA Metadata application::
@@ -182,9 +183,10 @@ Now test to see if the project can be deployed with Gunicorn::
 
     gunicorn --bind 0.0.0.0:8000 medna-metadata.wsgi
 
-If you were able to visit the same page while deployed with Gunicorn, continue onward. If not, some helpful
-troubleshooting steps can be found in the DigitalOcean tutorial on setting up Django with PostgreSQL, Gunicorn, and Nginx:
- - https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04
+.. seealso::
+    If you were able to visit the same page while deployed with Gunicorn, continue onward. If not, some helpful
+    troubleshooting steps can be found in the DigitalOcean tutorial on setting up Django with `PostgreSQL <https://www.postgresql.org/>`__, Gunicorn, and Nginx.
+     - `Django with PostgreSQL, Gunicorn, and Nginx on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
 Create `Gunicorn <https://gunicorn.org/>`_ Socket and Service files (e.g., daemonizing!)
 ----------------------------------------------------------------------------------------
@@ -236,9 +238,9 @@ Modify then write the following to the file::
     [Install]
     WantedBy=multi-user.target
 
-.. note::
+.. warning::
     You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
-    ``WorkingDirectory``, ``EnvironmentFile``, and ``ExecStart`` to the actual directory medna-metadata is in.
+    ``WorkingDirectory``, ``EnvironmentFile``, and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
 
 Write and exit the VIM text editor::
 
@@ -280,15 +282,15 @@ service, socket, settings, or env files are edited::
     sudo systemctl daemon-reload
     sudo systemctl restart gunicorn
 
-Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ and `RabbitMQ <https://www.rabbitmq.com/>`_
+Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and `RabbitMQ <https://www.rabbitmq.com/>`__
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 Celery task management and the RabbitMQ messaging server are used for task queues within the backend application. This
 allows for things such as queues of data transformations and workers that will spawn as resources are available.
-
- - https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#first-steps
- - https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps
- - https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html
+.. seealso::
+     - `Celery First Steps <https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#first-steps>`__
+     - `Celery, RabbitMQ, and Ubuntu <https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps>`__
+     - `Celery and Django <https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html>`__
 
 .. note::
     Celery and Rabbitmq should have already been installed with the requirements.txt and ubuntu-requirements.sh, but the commands are also provided here.
@@ -298,7 +300,7 @@ Install rabbitmq messaging server::
     sudo apt-get update
     sudo apt-get install rabbitmq-server
 
-.. note::
+.. important::
     If you named your venv something other than ``mednaenv``, use that here instead.
 
 Activate the virtualenv::
@@ -333,13 +335,13 @@ Start it up again::
     sudo systemctl restart rabbitmq-server
     sudo systemctl status rabbitmq-server
 
-.. note::
+.. warning::
     For Celery and RabbitMQ to function, the ``CELERY_RESULT_BACKEND`` and ``CELERY_BROKER_URL`` variables must be set in ``~/.bashrc``
     and ``docker/gunicorn.env``. These variables should resemble the following:
      - CELERY_RESULT_BACKEND='rpc'
      - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:5672/mednadatavhost`
 
-Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ Worker and Beat files (e.g., daemonizing!)
+Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ Worker and Beat files (e.g., daemonizing!)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Like gunicorn, the celery worker processes should be run as a Systemd service.
@@ -370,9 +372,9 @@ Write and exit the VIM text editor::
 
     :wq!
 
-.. note::
+.. warning::
     You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
-    ``WorkingDirectory`` and ``ExecStart`` to the actual directory medna-metadata is in.
+    ``WorkingDirectory`` and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
 
 
 We also need a celery beat Systemd service for scheduling tasks.
@@ -402,9 +404,9 @@ Write and exit the VIM text editor::
 
     :wq!
 
-.. note::
-    You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
-    ``WorkingDirectory`` and ``ExecStart`` to the actual directory medna-metadata is in.
+.. warning::
+    You **must** replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
+    ``WorkingDirectory`` and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
 
 We can now start the celeryworker and celerybeat services::
 
@@ -448,7 +450,7 @@ Any time there is a change made to the python code, run the following to reload 
 
     git pull && python manage.py collectstatic --noinput --clear && sudo systemctl daemon-reload && sudo systemctl restart gunicorn.socket gunicorn.service
 
-Configure `Nginx <https://www.nginx.com/>`_
+Configure `Nginx <https://www.nginx.com/>`__
 -------------------------------------------
 
 Create a nginx config file::
@@ -472,8 +474,8 @@ Modify and write the following::
         }
     }
 
-.. note::
-    You will need to edit the ``server_name`` and ``location`` to the actual IP address or domain name and to the actual directory medna-metadata is in.
+.. warning::
+    You **must** edit the ``server_name`` and ``location`` to the actual IP address or domain name and to the actual directory MeDNA-Metadata is in.
 
 Write and exit the VIM text editor::
 
@@ -498,8 +500,9 @@ Delete port 8000 and allow Nginx in the firewall::
 
 Troubleshooting Nginx and Gunicorn
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For more information on troubleshooting Nginx and Gunicorn, please see the following:
- - https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04
+.. seealso::
+    For more information on troubleshooting Nginx and Gunicorn, please see the following:
+     - `Django with PostgreSQL, NGINX, and Gunicorn on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>'__
 
 SSL Certificates with Certbot
 -----------------------------
@@ -519,7 +522,7 @@ You should now be good to go and running with your desired server and domain.
 Docker Setup
 ------------
 .. note::
-    The modules in Maine-eDNA metadata have not yet been fully tested and migrated for the Dockerfile. 
+    The modules in Maine-eDNA metadata have **not yet been fully tested and migrated for the Dockerfile**.
     This message will be updated after successful implementation with the following Docker commands.
 
 The ``/docker`` directory has ``medna.env.db.txt``, ``medna.env.txt``, and ``nginx.proxycompanion.env.txt`` which contain
@@ -532,6 +535,6 @@ These files are necessary for docker. Other files that affect docker are:
  - settings in ``medna_metadata/settings.py``
 
 
-Once settings are verified, run ``sudo docker-compose up -d`` to build and deploy medna-metadata, PostgreSQL with PostGIS,
+Once settings are verified, run ``sudo docker-compose up -d`` to build and deploy MeDNA-Metadata, `PostgreSQL <https://www.postgresql.org/>`__ with `PostGIS <https://postgis.net/>`__,
 and NGINX with LetsEncrypt.
 
