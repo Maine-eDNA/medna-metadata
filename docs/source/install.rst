@@ -7,10 +7,8 @@ Installation
     Several of the steps below were adapted from their tutorials.
      - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__
      - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
-
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
-.. _setup:
 Setup
 -----
 
@@ -166,7 +164,7 @@ Now, if everything looked good (e.g., no error messages), complete the remaining
     python manage.py migrate
 
 Create Superuser
------------------------------------------------------------
+----------------
 
 Creating a ``superuser`` adds an administrative user with full privileges to the MeDNA-Metadata project.
 
@@ -177,7 +175,7 @@ Create a superuser::
 When prompted, enter in your preferred credentials (``youremail``, ``yourpassword``).
 
 Collect Static
---------------------------
+--------------
 
 Collecting static files will copy all static content into the directory specified in ``settings.py``.
 
@@ -310,7 +308,7 @@ service, socket, settings, or env files are edited::
     sudo systemctl restart gunicorn
 
 Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and `RabbitMQ <https://www.rabbitmq.com/>`__
------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------
 
 `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ task management and the
 `RabbitMQ <https://www.rabbitmq.com/>`__
@@ -483,7 +481,7 @@ Any time there is a change made to the python code, run the following to reload 
     git pull && python manage.py collectstatic --noinput --clear && sudo systemctl daemon-reload && sudo systemctl restart gunicorn.socket gunicorn.service
 
 Configure `Nginx <https://www.nginx.com/>`__
--------------------------------------------
+--------------------------------------------
 
 Create a nginx config file::
 
