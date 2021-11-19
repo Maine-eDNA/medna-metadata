@@ -299,17 +299,22 @@ service, socket, settings, or env files are edited::
 Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and `RabbitMQ <https://www.rabbitmq.com/>`__
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-Celery task management and the RabbitMQ messaging server are used for task queues within the backend application. This
-allows for things such as queues of data transformations and workers that will spawn as resources are available.
+`Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ task management and the
+`RabbitMQ <https://www.rabbitmq.com/>`__
+messaging server are used for task queues within the backend application. This allows for things such as queues of data
+transformations and workers that will spawn as resources are available.
+
 .. seealso::
-     - `Celery First Steps <https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#first-steps>`__
-     - `Celery, RabbitMQ, and Ubuntu <https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps>`__
-     - `Celery and Django <https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html>`__
+    - `Celery First Steps <https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#first-steps>`__
+    - `Celery, RabbitMQ, and Ubuntu <https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps>`__
+    - `Celery and Django <https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html>`__
 
 .. note::
-    Celery and Rabbitmq should have already been installed with the requirements.txt and ubuntu-requirements.sh, but the commands are also provided here.
+    `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and
+    `RabbitMQ <https://www.rabbitmq.com/>`__ should have already been installed with the requirements.txt and
+    ubuntu-requirements.sh, but the commands are also provided here.
 
-Install rabbitmq messaging server::
+Install `RabbitMQ <https://www.rabbitmq.com/>`__ messaging server::
 
     sudo apt-get update
     sudo apt-get install rabbitmq-server
@@ -321,12 +326,12 @@ Activate the virtualenv::
 
     workon mednaenv
 
-Install  Celery::
+Install `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__::
 
     pip install celery==4.4.7
 
-Configure RabbitMQ
-~~~~~~~~~~~~~~~~~~
+Configure `RabbitMQ <https://www.rabbitmq.com/>`__
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add a user and a virtual host::
 
@@ -335,7 +340,7 @@ Add a user and a virtual host::
     sudo rabbitmqctl set_user_tags youruser mednatag
     sudo rabbitmqctl set_permissions -p mednadatavhost youruser ".*" ".*" ".*"
 
-Stop rabbitmq::
+Stop `RabbitMQ <https://www.rabbitmq.com/>`__::
 
     sudo systemctl stop rabbitmq-server
 
@@ -350,15 +355,16 @@ Start it up again::
     sudo systemctl status rabbitmq-server
 
 .. warning::
-    For Celery and RabbitMQ to function, the ``CELERY_RESULT_BACKEND`` and ``CELERY_BROKER_URL`` variables must be set in ``~/.bashrc``
-    and ``docker/gunicorn.env``. These variables should resemble the following:
+    For `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and
+    `RabbitMQ <https://www.rabbitmq.com/>`__ to function, the ``CELERY_RESULT_BACKEND`` and ``CELERY_BROKER_URL``
+    variables must be set in ``~/.bashrc`` and ``docker/gunicorn.env``. These variables should resemble the following:
      - CELERY_RESULT_BACKEND='rpc'
      - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:5672/mednadatavhost`
 
 Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ Worker and Beat files (e.g., daemonizing!)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Like gunicorn, the celery worker processes should be run as a Systemd service.
+Like Gunicorn, the celeryworker processes should be run as a Systemd service.
 
 Create a celeryworker service file::
 
@@ -391,7 +397,7 @@ Write and exit the VIM text editor::
     ``WorkingDirectory`` and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
 
 
-We also need a celery beat Systemd service for scheduling tasks.
+We also need a celerybeat Systemd service for scheduling tasks.
 
 Create a celeryworker beat file::
 
@@ -439,7 +445,7 @@ If you want these services to start automatically on boot, you can enable them a
     sudo systemctl enable celeryworker
     sudo systemctl enable celerybeat
 
-Troubleshooting Celery
+Troubleshooting `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__
 ~~~~~~~~~~~~~~~~~~~~~~
 
 If you are trying to troubleshoot celerybeat or celeryworker, be sure to check system logs for error messages::
@@ -447,11 +453,11 @@ If you are trying to troubleshoot celerybeat or celeryworker, be sure to check s
     sudo cat /var/log/syslog
     sudo tail /var/log/syslog -n 40
 
-You can also check RabbitMQ logs::
+You can also check `RabbitMQ <https://www.rabbitmq.com/>`__ logs::
 
     sudo tail /var/log/rabbitmq/rabbit@medna-metadata.log -n 50
 
-To view Celery tasks as they are sent by RabbitMQ::
+To view `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ tasks as they are sent by `RabbitMQ <https://www.rabbitmq.com/>`__::
 
     celery worker -A medna_metadata --pool=solo -l info
 
