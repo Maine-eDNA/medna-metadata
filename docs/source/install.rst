@@ -36,50 +36,24 @@ To clone the development branch::
 
     git clone -b main git@github.com:Maine-eDNA/medna-metadata.git
 
+Install Requirements
+--------------------
+
+Ubuntu
+~~~~~~
+
 Install Ubuntu Requirements::
 
    cd medna-metadata
-   sudo bash /home/youruser/medna-metadata/requirementsubuntu-requirements.sh
+   sudo bash /home/youruser/medna-metadata/requirements/ubuntu-requirements.sh
 
-It will run the following installation comands:
+It will run the following installation commands:
 
 .. literalinclude:: ../../requirements/ubuntu-requirements.sh
    :language: bash
 
-Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
--------------------------------------------------
-
-Create the database for your project::
-
-   sudo -u postgres psql -c "CREATE DATABASE medna_metadata;"
-
-Create a database user and add them to the project with a secure password::
-
-    sudo -u postgres psql -c "CREATE USER youruser WITH PASSWORD 'yourdbpassword';"
-
-Recommended settings from the `Django <https://www.djangoproject.com/>`__ project::
-
-    sudo -u postgres psql -c "ALTER ROLE youruser SET client_encoding TO 'utf8';"
-    sudo -u postgres psql -c "ALTER ROLE youruser SET default_transaction_isolation TO 'read committed';"
-    sudo -u postgres psql -c "ALTER ROLE youruser SET timezone TO 'UTC';"
-
-Set ``youruser`` as the administrator for the medna_metadata database::
-
-    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO youruser;"
-
-Grant privileges to the ``youruser`` database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
-
-    sudo -u postgres psql -c "ALTER USER youruser CREATEDB;"
-
-Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
-
-    sudo -i -u postgres psql -d medna_metadata -c "CREATE EXTENSION postgis;"
-
-.. tip::
-    It would be advantageous here to use the same username as your selected Ubuntu username.
-
 Create a Virtual Environment and Set Environmental Variables
-------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a virtual environment with venv::
 
@@ -91,7 +65,7 @@ Dotenv is a python library for reading in environmental variables from a file::
 
     pip install django-dotenv
 
-Add environmental variables to the end of bashrc, which will reload the variables at restart.
+Add environmental variables to the end of bashrc, which will reload variables anytime the server reboots.
 
 The variables to copy into ``~/.bashrc`` are listed in ``docker/bashrc.txt``::
 
@@ -137,8 +111,40 @@ Install python requirements to the virtualenv::
 
     pip install -U -r /home/youruser/medna-metadata/requirements/prod.txt
 
+Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
+--------------------------------------------------------------------------------------------------------------
+
+Create the database for your project::
+
+   sudo -u postgres psql -c "CREATE DATABASE medna_metadata;"
+
+Create a database user and add them to the project with a secure password::
+
+    sudo -u postgres psql -c "CREATE USER youruser WITH PASSWORD 'yourdbpassword';"
+
+Recommended settings from the `Django <https://www.djangoproject.com/>`__ project::
+
+    sudo -u postgres psql -c "ALTER ROLE youruser SET client_encoding TO 'utf8';"
+    sudo -u postgres psql -c "ALTER ROLE youruser SET default_transaction_isolation TO 'read committed';"
+    sudo -u postgres psql -c "ALTER ROLE youruser SET timezone TO 'UTC';"
+
+Set ``youruser`` as the administrator for the medna_metadata database::
+
+    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO youruser;"
+
+Grant privileges to the ``youruser`` database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
+
+    sudo -u postgres psql -c "ALTER USER youruser CREATEDB;"
+
+Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
+
+    sudo -i -u postgres psql -d medna_metadata -c "CREATE EXTENSION postgis;"
+
+.. tip::
+    It would be advantageous here to use the same username as your selected Ubuntu username.
+
 Migrate the Database Tables
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Migrate the database schema to `PostgreSQL <https://www.postgresql.org/>`__ from within the same directory as ``manage.py``
 Within each app there is a migration directory which contains files which tell the database how to
@@ -159,23 +165,27 @@ Now, if everything looked good (e.g., no error messages), complete the remaining
 
     python manage.py migrate
 
-Create a administrative user for the medna_metadata project
+Create Superuser
 -----------------------------------------------------------
+
+Creating a ``superuser`` adds an administrative user with full privileges to the MeDNA-Metadata project.
 
 Create a superuser::
 
     python manage.py createsuperuser
 
-When prompted, enter in your preferred credentials (email, password).
+When prompted, enter in your preferred credentials (``youremail``, ``yourpassword``).
 
-Collect all static content into the directory specified in settings.py
-----------------------------------------------------------------------
+Collect Static
+--------------------------
+
+Collecting static files will copy all static content into the directory specified in ``settings.py``.
 
 Collect static files::
 
     python manage.py collectstatic
 
-Test the deployment
+Test The Deployment
 -------------------
 
 Temporarily create an exception for port 8000::
@@ -190,7 +200,10 @@ In your web browser, visit the server's IP address followed by :8000
 
 ``http://youripaddress:8000``
 
-Enter ``[CTRL-C]`` in to shut down the test deployment
+If you're able to see a live project, then enter ``[CTRL-C]`` in to shut down the test deployment.
+
+Test Gunicorn
+~~~~~~~~~~~~~
 
 Now test to see if the project can be deployed with `Gunicorn <https://gunicorn.org/>`__::
 
@@ -362,7 +375,7 @@ Start it up again::
      - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:5672/mednadatavhost`
 
 Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ Worker and Beat files (e.g., daemonizing!)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Like Gunicorn, the celeryworker processes should be run as a Systemd service.
 
@@ -395,7 +408,6 @@ Write and exit the VIM text editor::
 .. warning::
     You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
     ``WorkingDirectory`` and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
-
 
 We also need a celerybeat Systemd service for scheduling tasks.
 
@@ -446,7 +458,7 @@ If you want these services to start automatically on boot, you can enable them a
     sudo systemctl enable celerybeat
 
 Troubleshooting `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are trying to troubleshoot celerybeat or celeryworker, be sure to check system logs for error messages::
 
@@ -519,7 +531,7 @@ Delete port 8000 and allow `Nginx <https://www.nginx.com/>`__ in the firewall::
     sudo ufw allow 'Nginx Full'
 
 Troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. seealso::
     For more information on troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__, please see the following:
