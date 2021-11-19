@@ -5,8 +5,8 @@ Installation
 .. seealso::
     If you've never set up a server before, DigitalOcean provides an extensive variety of tutorials that we highly recommend.
     Several of the steps below were adapted from their tutorials.
-    - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__
-    - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
+     - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__
+     - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
 .. tip::
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
@@ -17,6 +17,12 @@ Setup
 
 The following instructions provide guidance on installing MeDNA-Metadata on Ubuntu 20.04.
 
+.. important::
+    Instances of ``youruser`` need to be replaced with a relevant username. For example, references to ``/home/youruser/``
+    must be adjusted to the active Ubuntu username. The simplest solution would be to use the same username throughout the
+    setup process, as long as it is **not** the root username. Never use root. For more information, see the aforementioned
+    `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__.
+
 Ubuntu (20.04 LTS is recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -26,15 +32,14 @@ Clone the Repository
 To clone the most recent stable release as read-only::
 
     git clone -b latest https://github.com/Maine-eDNA/medna-metadata.git
-    cd medna-metadata
 
 To clone the development branch::
 
     git clone -b main git@github.com:Maine-eDNA/medna-metadata.git
-    cd medna-metadata
 
 Install Ubuntu Requirements::
 
+   cd medna-metadata
    sudo bash /home/youruser/medna-metadata/requirementsubuntu-requirements.sh
 
 It will run the following installation comands:
@@ -59,17 +64,20 @@ Recommended settings from the `Django <https://www.djangoproject.com/>`__ projec
     sudo -u postgres psql -c "ALTER ROLE youruser SET default_transaction_isolation TO 'read committed';"
     sudo -u postgres psql -c "ALTER ROLE youruser SET timezone TO 'UTC';"
 
-Set youruser as the administrator for the medna_metadata database::
+Set ``youruser`` as the administrator for the medna_metadata database::
 
     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO youruser;"
 
-Grant privledges to the youruser database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
+Grant privileges to the ``youruser`` database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
 
     sudo -u postgres psql -c "ALTER USER youruser CREATEDB;"
 
 Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
 
     sudo -i -u postgres psql -d medna_metadata -c "CREATE EXTENSION postgis;"
+
+.. tip::
+    It would be advantageous here to use the same username as your selected Ubuntu username.
 
 Create a Virtual Environment and Set Environmental Variables
 ------------------------------------------------------------
@@ -90,8 +98,12 @@ The variables to copy into ``~/.bashrc`` are listed in ``docker/bashrc.txt``::
 
     sudo vim ~/.bashrc
 
+Write and exit the VIM text editor::
+
+    :wq!
+
 .. tip::
-    to write and quit within the VIM text editor, ``[esc]``, ``:wq!``, and ``[enter]``
+    To write and quit within the VIM text editor, ``[esc]``, ``:wq!``, and ``[enter]``
 
 Load the environmental variables::
 
@@ -102,19 +114,21 @@ Copy ``gunicorn.env.txt`` as ``gunicorn.env`` and modify the variables::
     cp docker/gunicorn.env.txt docker/gunicorn.env
     sudo vim docker/gunicorn.env
 
+Write and exit the VIM text editor::
+
+    :wq!
+
 .. warning::
     MeDNA-Metadata **will not** successfully deploy without setting these environmental variables.
 
-To create and activate virtualenvwrapper::
+Create and activate virtualenvwrapper::
 
     mkvirtualenv --python /usr/bin/python3.8 mednaenv
 
 .. important::
     The version of python varies and you will have to check or install it.
-
-.. seealso::
- - `Python with Virtualenvwrapper <https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper>`__
- - `Change Ubuntu's Default Python Version <https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu>`__
+     - `Python with Virtualenvwrapper <https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper>`__
+     - `Change Ubuntu's Default Python Version <https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu>`__
 
 Activate the virtual environment::
 
@@ -501,6 +515,7 @@ Delete port 8000 and allow `Nginx <https://www.nginx.com/>`__ in the firewall::
 
 Troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. seealso::
     For more information on troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__, please see the following:
      - `Django with PostgreSQL, NGINX, and Gunicorn on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
