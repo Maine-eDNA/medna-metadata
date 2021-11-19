@@ -18,8 +18,7 @@ Laboratory <https://umaine.edu/ednalab/>`_ and the Data Management Team to facil
 for the management and tracking of eDNA samples (MeDNA-Metadata; `GitHub <https://github.com/Maine-eDNA/medna-metadata>`_).
 
 
-Check out the :doc:`install` section for further information, including
-how to :ref:`setup` the project.
+Check out the :doc:`install` section for further information, including how to setup the project.
 
 .. note::
 
