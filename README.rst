@@ -1,8 +1,8 @@
 Maine-eDNA Metadata
 ===================
 .. image:: https://readthedocs.org/projects/medna-metadata/badge/?version=latest
-:target: https://medna-metadata.readthedocs.io/en/latest/?badge=latest
-:alt: Documentation Status
+  :target: https://medna-metadata.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
 
 Support for this project is provided through a National Science Foundation award to `Maine EPSCoR at the University of
 Maine <https://umaine.edu/edna/>`_ and is part of the RII Track-1: Molecule to Ecosystem: Environmental DNA as a Nexus
