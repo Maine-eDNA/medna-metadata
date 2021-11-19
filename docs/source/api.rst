@@ -13,14 +13,15 @@ deployment, simply navigate to ``https://yourdomain.com/swagger/`` to view detai
 .. image:: images/swagger_api_docs.png
     :width: 400
     :alt: Swagger API Documentation
+    :align: center
 
 Database Design
 ---------------
 
-.. image:: ../erds/medna_erd.png
+.. image:: ../../erds/medna_erd.png
     :width: 400
     :alt: Full Maine-eDNA Metadata entity relationship diagram
-
+    :align: center
 
 Field Data Collection
 ~~~~~~~~~~~~~~~~~~~~~
@@ -34,9 +35,10 @@ core of sediment is collected, it is subdivided into sub-cores, and each sub-cor
 
 Filters, cores, and sub-cores are stored within -80°C lab freezers until extraction.
 
-.. image:: ../erds/medna_fieldsurvey_erd.png
+.. image:: ../../erds/medna_fieldsurvey_erd.png
     :width: 400
     :alt: Database tables and relationships within the metadata relational database for Field Data Collection
+    :align: center
 
 Wet Lab Processing
 ~~~~~~~~~~~~~~~~~~
@@ -61,9 +63,10 @@ demutiplexing, which converts raw BCL files into two FastQ files for each sample
 
 Extractions and pooled libraries are stored within the -80°C lab freezers until they are depleted.
 
-.. image:: ../erds/medna_wetlab_erd.png
+.. image:: ../../erds/medna_wetlab_erd.png
     :width: 400
     :alt: Database tables and relationships within the metadata relational database for Wet Lab Processing
+    :align: center
 
 Freezer Inventory Tracking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -85,9 +88,10 @@ A PooledLibrary may also function in a similar way to an extraction, in that it 
 in the -80°C lab freezers. The Wet laboratory will also track the amount taken from a PooledLibrary, who has the
 PooledLibrary, and whether it was returned to the same freezer location.
 
-.. image:: ../erds/medna_freezerinventory_erd.png
+.. image:: ../../erds/medna_freezerinventory_erd.png
     :width: 400
     :alt: Database tables and relationships within the metadata relational database for Freezer Inventory Tracking
+    :align: center
 
 Bioinformatics: Denoising
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,9 +104,10 @@ enables users to track the process through which Amplicon Sequence Variants were
 AmpliconSequenceVariants are listed in the AmpliconSequenceVariants table. The number of reads, or count of each sequence
 in each sequencing run, is represented in the ASVReads table.
 
-.. image:: ../erds/medna_bioinfodenoising_erd.png
+.. image:: ../../erds/medna_bioinfodenoising_erd.png
     :width: 400
     :alt: Database tables and relationships within the metadata relational database for Bioinformatics: Denoising
+    :align: center
 
 Bioinformatics: Taxonomic Annotation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,6 +123,7 @@ taxonomy. The TaxonDomain, TaxonKingdom, TaxonClass, TaxonOrder, TaxonFamily, Ta
 curated regional species lists that can be referenced to manually associate verified taxonomy to a sequence through the
 TaxonomicAnnotation table.
 
-.. image:: ../erds/medna_bioinfotaxon_erd.png
+.. image:: ../../erds/medna_bioinfotaxon_erd.png
     :width: 400
     :alt: Database tables and relationships within the metadata relational database for Bioinformatics: Taxnomic Annotation
+    :align: center
