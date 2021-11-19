@@ -1,3 +1,4 @@
+===================
 Maine-eDNA Metadata
 ===================
 .. image:: https://readthedocs.org/projects/medna-metadata/badge/?version=latest
@@ -14,13 +15,16 @@ repository <https://github.com/Maine-eDNA/medna-metadata-frontend>`_, which is w
 `ReactJS library <https://reactjs.org/>`_. The frontend communicates with the backend through the API, built with the
 `Django REST Framework <https://www.django-rest-framework.org/>`_.
 
-*The Dockerfiles in /docker are not yet fully tested. Once they are this message will be updated and users can use the docker steps to deploy the django app.*
+.. note::
+    The Dockerfiles in /docker are **not yet fully tested**. Once they have been this message will be updated and users
+    can use the docker steps to deploy the django app.
 
 Documentation & Setup
-----------------------------
+---------------------
 
-- **ReadTheDocs**: https://medna-metadata.readthedocs.io/en/latest/
+- **Read the Docs**: https://medna-metadata.readthedocs.io/en/latest/
 
-Related projects and repositories
+Related Repositories and Projects
 ---------------------------------
+
 - **medna-metadata-frontend**: https://github.com/Maine-eDNA/medna-metadata-frontend
