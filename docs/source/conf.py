@@ -6,8 +6,19 @@ project = 'medna-metadata'
 copyright = '2021, melkimble'
 author = 'melkimble'
 
-release = '0.1'
-version = '0.1.0'
+version = 'latest'
+release = version
+
+
+# List of directories, relative to source directory, that shouldn't be searched
+# for source files.
+exclude_trees = ['.build']
+
+# The suffix of source filenames.
+source_suffix = '.rst'
+
+# The master toctree document.
+master_doc = 'index'
 
 # -- General configuration
 
@@ -21,11 +32,12 @@ extensions = [
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
+    'django': ('https://docs.djangoproject.com/en/3.2/', 'https://docs.djangoproject.com/en/3.2/_objects/'),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 }
 intersphinx_disabled_domains = ['std']
 
-templates_path = ['_templates']
+templates_path = ['.templates']
 
 # -- Options for HTML output
 
