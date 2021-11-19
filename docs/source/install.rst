@@ -53,7 +53,7 @@ Create a database user and add them to the project with a secure password::
 
     sudo -u postgres psql -c "CREATE USER youruser WITH PASSWORD 'yourdbpassword';"
 
-Recommended settings from the Django project::
+Recommended settings from the `Django <https://www.djangoproject.com/>`__ project::
 
     sudo -u postgres psql -c "ALTER ROLE youruser SET client_encoding TO 'utf8';"
     sudo -u postgres psql -c "ALTER ROLE youruser SET default_transaction_isolation TO 'read committed';"
@@ -63,7 +63,7 @@ Set youruser as the administrator for the medna_metadata database::
 
     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO youruser;"
 
-Grant privledges to the youruser database user to create databases for Django tests::
+Grant privledges to the youruser database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
 
     sudo -u postgres psql -c "ALTER USER youruser CREATEDB;"
 
@@ -179,13 +179,14 @@ In your web browser, visit the server's IP address followed by :8000
 
 Enter ``[CTRL-C]`` in to shut down the test deployment
 
-Now test to see if the project can be deployed with Gunicorn::
+Now test to see if the project can be deployed with `Gunicorn <https://gunicorn.org/>`__::
 
     gunicorn --bind 0.0.0.0:8000 medna-metadata.wsgi
 
 .. seealso::
-    If you were able to visit the same page while deployed with Gunicorn, continue onward. If not, some helpful
-    troubleshooting steps can be found in the DigitalOcean tutorial on setting up Django with `PostgreSQL <https://www.postgresql.org/>`__, Gunicorn, and Nginx.
+    If you were able to visit the same page while deployed with `Gunicorn <https://gunicorn.org/>`__, continue onward. If not, some helpful
+    troubleshooting steps can be found in the DigitalOcean tutorial on setting up `Django <https://www.djangoproject.com/>`__
+    with `PostgreSQL <https://www.postgresql.org/>`__, `Gunicorn <https://gunicorn.org/>`__, and `Nginx <https://www.nginx.com/>`__.
      - `Django with PostgreSQL, Gunicorn, and Nginx on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
 Create `Gunicorn <https://gunicorn.org/>`_ Socket and Service files (e.g., daemonizing!)
@@ -271,7 +272,7 @@ Test the socket activation mechanism through curl::
 
     curl --unix-socket /run/gunicorn.sock localhost
 
-Now see if Gunicorn is "running"::
+Now see if `Gunicorn <https://gunicorn.org/>`__ is "running"::
 
     sudo systemctl status gunicorn
 
@@ -485,24 +486,24 @@ Enable the file by linking it to sites-enabled::
 
     sudo ln -s /etc/nginx/sites-available/medna-metadata /etc/nginx/sites-enabled
 
-Test the Nginx configuration for syntaix errors::
+Test the `Nginx <https://www.nginx.com/>`__ configuration for syntaix errors::
 
     sudo nginx -t
 
-If there are no errors, restart Nginx::
+If there are no errors, restart `Nginx <https://www.nginx.com/>`__::
 
     sudo systemctl restart nginx
 
-Delete port 8000 and allow Nginx in the firewall::
+Delete port 8000 and allow `Nginx <https://www.nginx.com/>`__ in the firewall::
 
     sudo ufw delete allow 8000
     sudo ufw allow 'Nginx Full'
 
-Troubleshooting Nginx and Gunicorn
+Troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. seealso::
-    For more information on troubleshooting Nginx and Gunicorn, please see the following:
-     - `Django with PostgreSQL, NGINX, and Gunicorn on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>'__
+    For more information on troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__, please see the following:
+     - `Django with PostgreSQL, NGINX, and Gunicorn on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
 SSL Certificates with Certbot
 -----------------------------
