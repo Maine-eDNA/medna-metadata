@@ -10,7 +10,8 @@ The remaining steps were adapted from the following DigitalOcean tutorial:
 
  - https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04
 
-*Note that it might be useful to visit this tutorial to understand some of the rational behind some of the steps below.*
+.. note::
+    It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
 The following instructions provide guidance on installing MeDNA-Metadata on Ubuntu 20.04.
 
@@ -79,7 +80,8 @@ Add environmental variables to the end of bashrc, which will reload the variable
 The variables to copy into ``~/.bashrc`` are listed in ``docker/bashrc.txt``::
     sudo vim ~/.bashrc
 
-*to write and quit within the VIM text editor, ``[esc]``, ``:wq!``, and ``[enter]``*
+.. note::
+    to write and quit within the VIM text editor, ``[esc]``, ``:wq!``, and ``[enter]``
 
 Load the environmental variables::
     source ~/.bashrc
@@ -91,7 +93,9 @@ Copy ``gunicorn.env.txt`` as ``gunicorn.env`` and modify the variables::
 To create and activate virtualenvwrapper::
     mkvirtualenv --python /usr/bin/python3.8 mednaenv
 
-*Note that the version of python varies and you will have to check or install it.*
+.. note::
+    Note that the version of python varies and you will have to check or install it.
+
  - https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper
  - https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu
 
@@ -150,7 +154,7 @@ Test the project deployment::
 
 In your web browser, visit the server's IP address followed by :8000
 
-``http://your_ip_address:8000``
+``http://youripaddress:8000``
 
 Enter ``[CTRL-C]`` in to shut down the test deployment
 
@@ -194,8 +198,8 @@ Modify then write the following to the file::
     After=network.target
 
     [Service]
-    User=django
-    Group=django
+    User=youruser
+    Group=youruser
     WorkingDirectory=/home/youruser/medna-metadata
     EnvironmentFile=/home/youruser/medna-metadata/docker/gunicorn.env
     ExecStart=/home/youruser/.virtualenvs/mednaenv/bin/gunicorn \
@@ -206,8 +210,9 @@ Modify then write the following to the file::
     [Install]
     WantedBy=multi-user.target
 
-*Please note that you will need to edit the WorkingDirectory, EnvironmentFile, and ExecStart to the
-actual directory medna-metadata is in.*
+.. note::
+    You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
+    ``WorkingDirectory``, ``EnvironmentFile``, and ``ExecStart`` to the actual directory medna-metadata is in.
 
 Write and exit the VIM text editor::
     :wq!
@@ -250,13 +255,15 @@ allows for things such as queues of data transformations and workers that will s
  - https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps
  - https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html
 
-*Celery and Rabbitmq should have already been installed with the requirements.txt and ubuntu-requirements.sh, but the commands are also provided here*
+.. note::
+    Celery and Rabbitmq should have already been installed with the requirements.txt and ubuntu-requirements.sh, but the commands are also provided here.
 
 Install rabbitmq messaging server::
     sudo apt-get update
     sudo apt-get install rabbitmq-server
 
-*If you named your venv something other than ``mednaenv``, use that here instead.*
+.. note::
+    If you named your venv something other than ``mednaenv``, use that here instead.
 
 Activate the virtualenv::
     workon mednaenv
@@ -284,10 +291,11 @@ Start it up again::
     sudo systemctl restart rabbitmq-server
     sudo systemctl status rabbitmq-server
 
-For Celery and RabbitMQ to function, the ``CELERY_RESULT_BACKEND`` and ``CELERY_BROKER_URL`` variables must be set in ``~/.bashrc``
-and ``docker/gunicorn.env``. These variables should resemble the following::
-    CELERY_RESULT_BACKEND='rpc'
-    CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:5672/mednadatavhost`
+.. note::
+    For Celery and RabbitMQ to function, the ``CELERY_RESULT_BACKEND`` and ``CELERY_BROKER_URL`` variables must be set in ``~/.bashrc``
+    and ``docker/gunicorn.env``. These variables should resemble the following:
+     - CELERY_RESULT_BACKEND='rpc'
+     - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:5672/mednadatavhost`
 
 Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ Worker and Beat files (e.g., daemonizing!)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -317,6 +325,11 @@ Modify then write the following to the file::
 Write and exit the VIM text editor::
     :wq!
 
+.. note::
+    You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
+    ``WorkingDirectory`` and ``ExecStart`` to the actual directory medna-metadata is in.
+
+
 We also need a celery beat Systemd service for scheduling tasks.
 
 Create a celeryworker beat file::
@@ -340,6 +353,10 @@ Modify then write the following to the file::
 
 Write and exit the VIM text editor::
     :wq!
+
+.. note::
+    You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
+    ``WorkingDirectory`` and ``ExecStart`` to the actual directory medna-metadata is in.
 
 We can now start the celeryworker and celerybeat services::
     sudo systemctl start celeryworker
@@ -385,7 +402,7 @@ Create a nginx config file::
 Modify and write the following::
     server {
         listen 80;
-        server_name your_ip_address yourdomain.com;
+        server_name youripaddress yourdomain.com;
 
         location = /favicon.ico { access_log off; log_not_found off; }
         location /static/ {
@@ -398,7 +415,8 @@ Modify and write the following::
         }
     }
 
-*Please note that you will need to edit the server_name and location to the actual IP address or domain name and to the actual directory medna-metadata is in.*
+.. note::
+    You will need to edit the ``server_name`` and ``location`` to the actual IP address or domain name and to the actual directory medna-metadata is in.
 
 Write and exit the VIM text editor::
     :wq!
@@ -436,8 +454,9 @@ You should now be good to go and running with your desired server and domain.
 
 Docker Setup
 ------------
-*The modules in Maine-eDNA metadata have not yet been fully tested and migrated for the Dockerfile.
-This message will be updated after successful implementation with the following Docker commands.*
+.. note::
+    The modules in Maine-eDNA metadata have not yet been fully tested and migrated for the Dockerfile. 
+    This message will be updated after successful implementation with the following Docker commands.
 
 The ``/docker`` directory has ``medna.env.db.txt``, ``medna.env.txt``, and ``nginx.proxycompanion.env.txt`` which contain
 all environmental variables for docker deployment. Make a copy of these files with the ``.txt`` extension removed
