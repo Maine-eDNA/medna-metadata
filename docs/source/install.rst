@@ -13,11 +13,11 @@ The remaining steps were adapted from the following DigitalOcean tutorial:
 .. note::
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
-The following instructions provide guidance on installing MeDNA-Metadata on Ubuntu 20.04.
-
 .. _setup:
 Setup
 -----
+
+The following instructions provide guidance on installing MeDNA-Metadata on Ubuntu 20.04.
 
 Ubuntu (20.04 LTS is recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
