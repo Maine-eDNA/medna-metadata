@@ -16,7 +16,7 @@ repository <https://github.com/Maine-eDNA/medna-metadata-frontend>`_, which is w
 `Django REST Framework <https://www.django-rest-framework.org/>`_.
 
 .. note::
-    The Dockerfiles in /docker are **not yet fully tested**. Once they have been this message will be updated and users
+    The Dockerfiles in ``/docker`` are **not fully tested**. Once they have been this message will be updated and users
     can use the docker steps to deploy the django app.
 
 Documentation & Setup
