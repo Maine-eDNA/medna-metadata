@@ -28,11 +28,11 @@ Clone the Repository
 
 To clone the most recent stable release as read-only::
 
-    git clone -b latest https://github.com/Maine-eDNA/medna-metadata.git
+    git clone -b main https://github.com/Maine-eDNA/medna-metadata.git
 
 To clone the development branch::
 
-    git clone -b main git@github.com:Maine-eDNA/medna-metadata.git
+    git clone -b develop git@github.com:Maine-eDNA/medna-metadata.git
 
 Install Requirements
 --------------------
