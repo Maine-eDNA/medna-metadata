@@ -2,6 +2,9 @@
 Installation
 ============
 
+.. important::
+    Ubuntu (20.04 LTS is recommended)
+
 .. seealso::
     If you've never set up a server before, DigitalOcean provides an extensive variety of tutorials that we highly recommend.
     Several of the steps below were adapted from their tutorials.
@@ -19,9 +22,6 @@ The following instructions provide guidance on installing MeDNA-Metadata on Ubun
     must be adjusted to the active Ubuntu username. The simplest solution would be to use the same username throughout the
     setup process, as long as it is **not** the root username. Never use root. For more information, see the aforementioned
     `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__.
-
-.. important::
-    Ubuntu (20.04 LTS is recommended)
 
 Clone the Repository
 --------------------
