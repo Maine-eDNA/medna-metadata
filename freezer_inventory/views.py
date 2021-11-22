@@ -33,7 +33,7 @@ class FreezerInventoryViewSet(viewsets.ModelViewSet):
     queryset = FreezerInventory.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_box', 'freezer_inventory_type', 'freezer_inventory_status',
-                        'sample_barcode', 'created_by']
+                        'sample_barcode', 'created_datetime', 'modified_datetime', 'created_by']
 
 
 class FreezerCheckoutViewSet(viewsets.ModelViewSet):
