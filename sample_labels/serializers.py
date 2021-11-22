@@ -94,7 +94,8 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
 
 class SampleBarcodeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_barcode_id = serializers.CharField(max_length=16, read_only=True)
+    sample_barcode_id = serializers.CharField(read_only=True, max_length=16)
+    barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     sample_year = serializers.IntegerField(read_only=True)
     in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -103,7 +104,7 @@ class SampleBarcodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SampleBarcode
-        fields = ['id', 'sample_label_request', 'sample_barcode_id', 'site_id',
+        fields = ['id', 'sample_label_request', 'sample_barcode_id', 'barcode_slug', 'site_id',
                   'sample_year', 'sample_material', 'sample_type',
                   'purpose', 'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since site_id, sample_material, and created_by reference different tables and we
