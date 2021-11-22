@@ -30,11 +30,13 @@ class DenoisingMetadataAdminResource(resources.ModelResource):
         model = DenoisingMetadata
         import_id_fields = ('run_result', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoising_method', )
-        fields = ('id', 'process_location', 'run_result', 'analysis_datetime',
+        fields = ('id', 'denoising_slug', 'process_location',
+                  'run_result', 'analysis_datetime',
                   'analyst_first_name', 'analyst_last_name', 'denoising_method',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'run_result', 'analysis_datetime',
+        export_order = ('id', 'denoising_slug', 'process_location',
+                        'run_result', 'analysis_datetime',
                         'analyst_first_name', 'analyst_last_name', 'denoising_method',
                         'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', )
