@@ -16,12 +16,10 @@ class FreezerAdminResource(resources.ModelResource):
         fields = ('id', 'freezer_label',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_label',
                         'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                         'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                        'css_background_color', 'css_text_color',
                         'created_by', 'created_datetime', )
 
     created_by = fields.Field(
@@ -44,13 +42,11 @@ class FreezerRackAdminResource(resources.ModelResource):
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer', 'freezer_rack_label',
                         'freezer_rack_column_start', 'freezer_rack_column_end',
                         'freezer_rack_row_start', 'freezer_rack_row_end',
                         'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                        'css_background_color', 'css_text_color',
                         'created_by', 'created_datetime', )
 
     freezer = fields.Field(
@@ -77,12 +73,10 @@ class FreezerBoxAdminResource(resources.ModelResource):
         fields = ('id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                   'freezer_box_max_column', 'freezer_box_max_row',
-                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_rack', 'freezer_box_label',
                         'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                         'freezer_box_max_column', 'freezer_box_max_row',
-                        'css_background_color', 'css_text_color',
                         'created_by', 'created_datetime',)
 
     freezer_rack = fields.Field(
@@ -109,12 +103,10 @@ class FreezerInventoryAdminResource(resources.ModelResource):
         fields = ('id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
-                  'css_background_color', 'css_text_color',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_box', 'sample_barcode',
                         'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                         'freezer_inventory_column', 'freezer_inventory_row',
-                        'css_background_color', 'css_text_color',
                         'created_by', 'created_datetime', )
 
     freezer_box = fields.Field(
