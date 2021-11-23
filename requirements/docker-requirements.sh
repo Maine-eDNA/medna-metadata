@@ -10,5 +10,4 @@ apt-get -y install \
  python3-dev python3-pip python3-venv python3-wheel
 # GIT
 apt-get -y install \
- git \
- && rm -rf /var/lib/apt/lists/*
+ git

@@ -1,15 +1,22 @@
 # pull official base image
-FROM python:3.9.6-slim
+FROM ubuntu:focal
 
 # set work directory
-WORKDIR /app
-
+WORKDIR /usr/src/app
 
 # set environment variables
 # Prevents Python from writing pyc files to disc (equivalent to python -B option)
 ENV PYTHONDONTWRITEBYTECODE 1
 # Prevents Python from buffering stdout and stderr (equivalent to python -u option)
 ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND noninteractive
+
+# http://bugs.python.org/issue19846
+# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+ENV LANG C.UTF-8
+
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # install dependencies
 RUN pip install --upgrade pip
@@ -17,9 +24,8 @@ RUN pip install --upgrade pip
 # Copy and install requirements
 COPY ./requirements ./requirements
 
-# set permissions for entrypoint.sh
-RUN sed -i 's/\r$//g' /app/requirements/docker-requirements.sh
-RUN chmod +x /app/requirements/docker-requirements.sh
+# set permissions for docker-requirements.sh
+RUN chmod +x /usr/src/app/requirements/docker-requirements.sh
 RUN requirements/docker-requirements.sh
 
 RUN pip install -r requirements/dev.txt
@@ -28,8 +34,8 @@ RUN pip install -r requirements/dev.txt
 COPY . .
 
 # set permissions for entrypoint.sh
-RUN sed -i 's/\r$//g' /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 # run entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
