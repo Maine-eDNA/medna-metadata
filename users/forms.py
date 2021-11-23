@@ -19,9 +19,9 @@ class CustomSignupForm(SignupForm):
     # https://learndjango.com/tutorials/django-log-in-email-not-username
     # https://stackoverflow.com/questions/57355787/how-to-complete-user-set-password-registration-with-email-in-django-allauth?rq=1
     # https://stackoverflow.com/questions/45845846/django-allauth-how-to-manually-send-a-reset-password-email
-    #first_name = forms.CharField(max_length=150, label='First Name')
-    #last_name = forms.CharField(max_length=150, label='Last Name')
-    #phone_number = PhoneNumberField(label='Phone Number')
+    # first_name = forms.CharField(max_length=150, label='First Name')
+    # last_name = forms.CharField(max_length=150, label='Last Name')
+    # phone_number = PhoneNumberField(label='Phone Number')
 
     class Meta:
         model = CustomUser
