@@ -17,7 +17,7 @@ class DenoisingMethodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DenoisingMethod
-        fields = ['id', 'denoising_method_name', 'denoising_method_pipeline',  'denoising_method_slug',
+        fields = ['id', 'denoising_method_name', 'denoising_method_pipeline', 'denoising_method_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(

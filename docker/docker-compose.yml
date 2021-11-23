@@ -1,38 +1,100 @@
-   # ----------------------------------------
-   # MEDNA-METADATA-POSTGIS
-   # ----------------------------------------
-    medna-metadata-pgdb:
-        restart: always
-        image: postgis/postgis:12-master
-        container_name: medna-metadata-pgdb
-        ports:
-            - '5433:5432'     # expose ports - HOST:CONTAINER
-        env_file:
-            - '/home/django/medna-metadata/docker/medna.env.db'
-        volumes:
-            - 'postgres_data:/var/lib/postgresql/data/'
-
-   # ----------------------------------------
-   # MEDNA-METADATA
-   # ----------------------------------------
-    medna-metadata:
-        restart: always
-        build:
-            context: '/home/django/medna-metadata'
-            dockerfile: './docker/web/Dockerfile'
-        container_name: medna-metadata
-        ports:
-            - '8000:8000'
-        env_file:
-            - '/home/django/medna-metadata/docker/medna.env'
-        volumes:
-            - 'static_volume:/home/django/static/'
-            - 'media_volume:/home/django/media/'
-        depends_on:
-            - medna-metadata-pgdb
-   # ----------------------------------------
-   # NGINX-PROXY
-   # ----------------------------------------
+version: "3.5"
+services:
+  # docker-compose up -d
+  # ----------------------------------------
+  # MEDNA-METADATA-POSTGIS
+  # ----------------------------------------
+  medna-metadata-pgdb:
+    restart: always
+    image: postgis/postgis:12-master
+    container_name: medna-metadata-pgdb
+    ports:
+      - '5432:5432'     # expose ports - HOST:CONTAINER
+    env_file:
+      - './medna.env.db'
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data/'
+ # ----------------------------------------
+ # MEDNA-METADATA-RABBITMQ
+ # ----------------------------------------
+  medna-metadata-rabbitmq:
+    restart: always
+    image: rabbitmq:3-management
+    container_name: medna-metadata-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    env_file:
+      - './medna.env'
+    volumes:
+      - 'rabbitmq_data:/var/lib/rabbitmq/'
+      - 'rabbitmq_logs:/var/log/rabbitmq'
+ # ----------------------------------------
+ # MEDNA-METADATA
+ # ----------------------------------------
+  medna-metadata:
+    restart: always
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    container_name: medna-metadata
+    ports:
+      - '8000:8000'
+    env_file:
+      - './medna.env'
+    volumes:
+      - 'static_volume:/app/static/'
+      - 'media_volume:/app/media/'
+    depends_on:
+      - medna-metadata-pgdb
+      - medna-metadata-rabbitmq
+ # ----------------------------------------
+ # MEDNA-METADATA-CELERYWORKER
+ # ----------------------------------------
+  medna-metadata-celeryworker:
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    image: &img medna-metadata-celeryworker
+    command: /start-celery/celeryworker_start
+    env_file:
+      - './medna.env'
+    depends_on:
+      - medna-metadata-rabbitmq
+      - medna-metadata-pgdb
+ # ----------------------------------------
+ # MEDNA-METADATA-CELERYBEAT
+ # ----------------------------------------
+  medna-metadata-celerybeat:
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    image: &img medna-metadata-celerybeat
+    command: /start-celery/celerybeat_start
+    env_file:
+      - './medna.env'
+    depends_on:
+      - medna-metadata-rabbitmq
+      - medna-metadata-pgdb
+ # ----------------------------------------
+ # MEDNA-METADATA-FLOWER
+ # ----------------------------------------
+  medna-metadata-flower:
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    image: &img medna-metadata-flower
+    command: /start-flower/flower_start
+    ports:
+      - '5555'
+    env_file:
+      - './medna.env'
+    depends_on:
+      - medna-metadata-rabbitmq
+      - medna-metadata-pgdb
+ # ----------------------------------------
+ # NGINX-PROXY
+ # ----------------------------------------
   nginx-proxy:
     container_name: nginx-proxy
     build: nginx
@@ -41,8 +103,8 @@
       - '443:443'
       - '80:80'
     volumes:
-      - 'static_volume:/home/django/static/'
-      - 'media_volume:/home/django/media/'
+      - 'static_volume:/app/static/'
+      - 'media_volume:/app/media/'
       - 'certs:/etc/nginx/certs'
       - 'html:/usr/share/nginx/html'
       - 'vhost:/etc/nginx/vhost.d'
@@ -56,7 +118,7 @@
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     env_file:
-      - '/home/django/medna-metadata/docker/nginx.proxycompanion.env'
+      - './nginx.proxycompanion.env'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
       - 'certs:/etc/nginx/certs'

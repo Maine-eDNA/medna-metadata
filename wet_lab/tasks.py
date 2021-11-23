@@ -1,11 +1,11 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
-#from medna_metadata.celery import app
-#from celery import Task
-#from medna_metadata.tasks import BaseTaskWithRetry
+# from medna_metadata.celery import app
+# from celery import Task
+# from medna_metadata.tasks import BaseTaskWithRetry
 from celery.utils.log import get_task_logger
 from medna_metadata import settings
 import boto3
-from wet_lab.models import RunResult, FastqFile, Extraction
+from wet_lab.models import FastqFile
 
 logger = get_task_logger(__name__)
 
@@ -33,7 +33,7 @@ def get_s3_run_dirs():
                               aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
 
         response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
-                                          Prefix=settings.AWS_PRIVATE_SEQUENCING_LOCATION+"/",
+                                          Prefix=settings.AWS_PRIVATE_SEQUENCING_LOCATION + "/",
                                           Delimiter='/')
         run_dirs = []
         for prefix in response['CommonPrefixes']:
@@ -111,8 +111,8 @@ def update_queryset_fastq_file(queryset):
         raise RuntimeError("** Error: update_queryset_fastq_file Failed (" + str(err) + ")")
 
 
-#@app.task(bind=True)
-#def create_fastq_from_s3(self):
+# @app.task(bind=True)
+# def create_fastq_from_s3(self):
     # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
     # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
     # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
@@ -131,11 +131,11 @@ def update_queryset_fastq_file(queryset):
 #        new_records = RunResult.objects.filter(
 #            created_datetime__range=[last_run.task_datetime, now])
 #        if new_records:
-            # there are new run_ids, so create list of ids
+# there are new run_ids, so create list of ids
 #            run_ids = new_records.values_list('run_id', flat=True).order_by('run_id')
-            # get list of run folders in s3
+# get list of run folders in s3
 #            s3_run_keys = get_s3_run_dirs()
-            # check if any run_ids are in s3
+# check if any run_ids are in s3
 #            runs_in_s3 = [s for s in s3_run_keys if any(xs in s for xs in run_ids)]
 #            if runs_in_s3:
 #                created_count = create_fastq_files(runs_in_s3)

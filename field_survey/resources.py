@@ -124,7 +124,7 @@ class EnvMeasurementAdminResource(resources.ModelResource):
     class Meta:
         # SampleBarcode
         model = EnvMeasurement
-        import_id_fields = ('env_global_id',  'survey_global_id', )
+        import_id_fields = ('env_global_id', 'survey_global_id', )
         fields = ('env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
                   'env_ctd_filename', 'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn',
                   'env_ysi_notes', 'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number',
@@ -245,11 +245,11 @@ class SedimentCollectionAdminResource(resources.ModelResource):
         model = SedimentCollection
         import_id_fields = ('field_collection', )
         fields = ('field_collection', 'core_control', 'core_label',
-                  'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                  'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                   'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
                   'subcores_taken', )
         export_order = ('field_collection', 'core_control', 'core_label',
-                        'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                        'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                         'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
                         'subcores_taken', )
 
@@ -474,8 +474,8 @@ class FieldCollectionETLAdminResource(resources.ModelResource):
                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                   'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
-                  'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
-                  'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',  'subcore_fname',
+                  'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
+                  'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken', 'subcore_fname',
                   'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                   'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                   'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
@@ -486,8 +486,8 @@ class FieldCollectionETLAdminResource(resources.ModelResource):
                         'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                         'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                         'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
-                        'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
-                        'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',  'subcore_fname',
+                        'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
+                        'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken', 'subcore_fname',
                         'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                         'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                         'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',

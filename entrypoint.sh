@@ -54,6 +54,10 @@ if [ "x$DJANGO_DEFAULT_USERS_CREATE" = 'xon' ]; then
  	python manage.py loaddata fixtures/prod/medna_metadata_agol_usernames.json
 fi
 
+if [ "x$DJANGO_DATABASE_FLUSH" = 'xon' ]; then
+ 	echo "${0}: Flushing database"
+ 	python manage.py flush --no-input
+fi
 
 if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 	# Load fixtures

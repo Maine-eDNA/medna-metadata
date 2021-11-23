@@ -97,10 +97,10 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['taxon_kingdom', 'taxon_domain',
                        'created_by', ]
-        #self.list_filter = (
-        #    ('taxon_domain', RelatedDropdownFilter)
-        #)
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        # self.list_filter = (
+        #     ('taxon_domain', RelatedDropdownFilter)
+        # )
+        #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -174,7 +174,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class',  'taxon_phylum', 'created_by']
+        self.fields = ['taxon_class', 'taxon_phylum', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -499,4 +499,3 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(TaxonomicAnnotation, TaxonomicAnnotationAdmin)
-

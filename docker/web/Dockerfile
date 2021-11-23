@@ -1,11 +1,17 @@
+# https://testdriven.io/courses/django-celery/docker/
+# https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
+# https://testdriven.io/blog/deploying-django-to-digitalocean-with-docker-and-github-actions/
+# https://www.digitalocean.com/community/tech_talks/deploying-to-digitalocean-with-github-actions
 # pull official base image
 FROM ubuntu:focal
 
-RUN mkdir -p /home/django
-ENV DJANGO_HOME=/home/django
-WORKDIR $DJANGO_HOME
+# set work directory
+WORKDIR /usr/src/app
 
 # set environment variables
+# Prevents Python from writing pyc files to disc (equivalent to python -B option)
+ENV PYTHONDONTWRITEBYTECODE 1
+# Prevents Python from buffering stdout and stderr (equivalent to python -u option)
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -16,40 +22,32 @@ ENV LANG C.UTF-8
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# install dependencies
+RUN pip install --upgrade pip
+
 # Copy and install requirements
 COPY ./requirements ./requirements
 
-RUN chmod +x requirements/ubuntu-requirements.sh
-RUN requirements/ubuntu-requirements.sh
+# set permissions for docker-requirements.sh
+RUN chmod +x /usr/src/app/requirements/docker-requirements.sh
+RUN requirements/docker-requirements.sh
 
-#RUN groupadd -r django && useradd -r -g django django
-RUN adduser --disabled-password --gecos '' django
-RUN chown -R django:django $DJANGO_HOME
-RUN mkdir /appenv
-RUN chown -R django:django /appenv
+RUN pip install -r requirements/dev.txt
 
-USER django
-
-ENV VIRTUAL_ENV=/appenv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN pip install --upgrade setuptools wheel
-RUN pip install -r requirements/prod.txt
-
-# Copy app
+# copy project
 COPY . .
 
-USER root
-RUN mkdir -p $DJANGO_HOME/static
-RUN mkdir -p $DJANGO_HOME/media
+# set permissions for entrypoint.sh
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
-# Collect static files
-RUN python manage.py collectstatic --noinput --clear
-RUN chmod 755 -R $DJANGO_HOME/static
-RUN chmod 755 -R $DJANGO_HOME/media
-RUN chown -R django:django $DJANGO_HOME
-RUN chmod +x entrypoint.sh
+# set permissions for celeryworker celerybeat start
+RUN sed -i 's/\r$//g' /usr/src/app/docker/celery
+RUN chmod +x /usr/src/app/docker/celery
 
-USER django
+# set permissions for flower start
+RUN sed -i 's/\r$//g' /usr/src/app/docker/flower
+RUN chmod +x /usr/src/app/docker/flower
+
 # run entrypoint.sh
-ENTRYPOINT ["/home/django/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

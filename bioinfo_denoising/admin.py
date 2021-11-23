@@ -2,7 +2,7 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import DenoisingMethodAdminResource, DenoisingMetadataAdminResource, \
     AmpliconSequenceVariantAdminResource, ASVReadAdminResource
@@ -16,7 +16,7 @@ class DenoisingMethodAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('denoising_method_slug',)
-    #list_filter = ('denoising_method_pipeline', )
+    # list_filter = ('denoising_method_pipeline', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -51,7 +51,7 @@ class DenoisingMetadataAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    #list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
+    # list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
     readonly_fields = ('denoising_slug',)
 
     def add_view(self, request, extra_content=None):
@@ -93,7 +93,7 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    #list_filter = ('denoising_metadata__denoising_slug', )
+    # list_filter = ('denoising_metadata__denoising_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

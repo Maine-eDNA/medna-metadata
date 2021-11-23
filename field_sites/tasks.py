@@ -186,4 +186,3 @@ def update_feature_sixth(instance_pk, new_feature):
         if feature_obj:
             old_feature = feature_obj.feature_sixth_tier_slug
             EnvoFeatureSeventh.objects.filter(feature_sixth_tier_slug=old_feature).update(feature_sixth_tier_slug=new_feature)
-

@@ -1,7 +1,7 @@
 from django.contrib.gis import admin
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+from import_export.admin import ImportExportActionModelAdmin
 from .resources import FreezerAdminResource, FreezerRackAdminResource, FreezerBoxAdminResource, \
     FreezerInventoryAdminResource, FreezerCheckoutAdminResource
 
@@ -59,7 +59,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
                        'css_background_color', 'css_text_color',
                        'created_by']
-        #self.list_filter = (
+        # self.list_filter = (
         #    ('freezer', RelatedDropdownFilter))
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()

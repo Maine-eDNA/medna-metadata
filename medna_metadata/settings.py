@@ -61,22 +61,22 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoising',
     'bioinfo_taxon',
-    'storages', # django-storages for s3 storage backends e.g., wasabi
-    'drf_yasg', # drf-yasg creates swagger documentation for all apis
-    'corsheaders', # corsheaders to whitelist urls for backend=>frontend api
-    'import_export', # django-import-export
-    'allauth', # django-allauth handles user registration as well as social authentication.
-    'allauth.account', # Good for email address verification, resetting passwords, etc.
-    # 'allauth.socialaccount', # https://www.section.io/engineering-education/django-google-oauth/
-    # 'allauth.socialaccount.providers.google', # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
-    'rest_auth', # django-rest-auth provides API endpoints for user reg, login/logout,
-    'rest_auth.registration', # password change/reset, social auth, etc
+    'storages',  # django-storages for s3 storage backends e.g., wasabi
+    'drf_yasg',  # drf-yasg creates swagger documentation for all apis
+    'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api
+    'import_export',  # django-import-export
+    'allauth',  # django-allauth handles user registration as well as social authentication.
+    'allauth.account',  # Good for email address verification, resetting passwords, etc.
+    # 'allauth.socialaccount',  # https://www.section.io/engineering-education/django-google-oauth/
+    # 'allauth.socialaccount.providers.google',  # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
+    'rest_auth',  # django-rest-auth provides API endpoints for user reg, login/logout,
+    'rest_auth.registration',  # password change/reset, social auth, etc
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
-    'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
-    'rest_framework.authtoken', # for the creation of api tokens
-    'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
-    'crispy_forms', # crispy forms for pretty forms
-    #'django_extensions', # generating schema pngs
+    'rest_framework_gis',  # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
+    'rest_framework.authtoken',  # for the creation of api tokens
+    'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
+    'crispy_forms',  # crispy forms for pretty forms
+    # 'django_extensions',  # generating schema pngs
 ]
 
 # Internationalization
@@ -90,18 +90,31 @@ USE_L10N = True
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# https://medium.com/intelligentmachines/github-actions-end-to-end-ci-cd-pipeline-for-django-5d48d6f00abf
 # django\conf\global_settings.py
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DJANGO_DATABASE_NAME', 'medna_metadata'),
-        'USER': os.environ.get('DJANGO_DATABASE_USERNAME', 'django'),
-        'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD', 'password'),
-        'HOST': os.environ.get('DJANGO_DATABASE_HOST', 'localhost'),
-        'PORT': os.environ.get('DJANGO_DATABASE_PORT', 5433),
+if os.getenv('GITHUB_WORKFLOW'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'github-actions',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'localhost',
+            'PORT': '5432'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
+            'USER': os.environ.get('DJANGO_DATABASE_USERNAME'),
+            'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
+            'HOST': os.environ.get('DJANGO_DATABASE_HOST'),
+            'PORT': os.environ.get('DJANGO_DATABASE_PORT'),
+        }
+    }
 
 # The email backend to use. For possible shortcuts see django.core.mail.
 # The default is to use the SMTP backend.
@@ -138,25 +151,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# media files (if uploaded)
-# django\conf\global_settings.py
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-# URL that handles the media served from MEDIA_ROOT.
-# Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = "/media/"
-
-# Static files (CSS, JavaScript, Images)
-# django\conf\global_settings.py
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-# Absolute path to the directory static files should be collected to.
-# Example: "/var/www/example.com/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-# URL that handles the static files served from STATIC_ROOT.
-# Example: "http://example.com/static/", "http://static.example.com/"
-# STATIC_URL = '/static/' # set by django-storages
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -200,10 +194,6 @@ MIDDLEWARE = [
 # django\conf\global_settings.py
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# default account tenure in DAYS - permissions will expire after the designated number of days
-# from account creation
-DEFAULT_TEMP_TENURE = 365
-
 # The list of authentication backends to use is specified in the AUTHENTICATION_BACKENDS setting.
 # This should be a list of Python path names that point to Python classes that know how to authenticate.
 # These classes can be anywhere on your Python path.
@@ -219,9 +209,9 @@ AUTHENTICATION_BACKENDS = [
 # Then set the redirect links for login and logout, which will both go to our home index template
 # https://learndjango.com/tutorials/django-custom-user-model
 # django\conf\global_settings.py
-LOGIN_URL = '/account/login/' # defaults to /accounts/login, which doesn't exist
-LOGIN_REDIRECT_URL = '/' # defaults to /accounts/profile, which doesn't exist
-LOGOUT_REDIRECT_URL = '/account/login/' # defaults to None
+LOGIN_URL = '/account/login/'  # defaults to /accounts/login, which doesn't exist
+LOGIN_REDIRECT_URL = '/'  # defaults to /accounts/profile, which doesn't exist
+LOGOUT_REDIRECT_URL = '/account/login/'  # defaults to None
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -328,7 +318,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',  # can authenticate via token
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated', # have to be authenticated to view rest API
+        'rest_framework.permissions.IsAuthenticated',  # have to be authenticated to view rest API
     ),
 }
 
@@ -367,11 +357,11 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
 # False to not remember, and True to always remember.
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900  # 15 mins in seconds
 
 # Django oauth allauth settings:
 # https://www.section.io/engineering-education/django-google-oauth/
-#SOCIALACCOUNT_PROVIDERS = {
+# SOCIALACCOUNT_PROVIDERS = {
 #    'google': {
 #        'SCOPE': [
 #            'profile',
@@ -381,7 +371,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 #            'access_type': 'online',
 #        }
 #    }
-#}
+# }
 
 ########################################
 # DRF-YASG CONFIG                      #
@@ -401,29 +391,55 @@ SWAGGER_SETTINGS = {
 # DJANGO-STORAGES CONFIG               #
 ########################################
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME')
-AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
-AWS_REGION = 'us-east-1'
-AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
+if os.getenv('GITHUB_WORKFLOW'):
+    # media files (if uploaded)
+    # django\conf\global_settings.py
+    # Absolute filesystem path to the directory that will hold user-uploaded files.
+    # Example: "/var/www/example.com/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    # URL that handles the media served from MEDIA_ROOT.
+    # Examples: "http://example.com/media/", "http://media.example.com/"
+    MEDIA_URL = "/media/"
+    DEFAULT_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
+    PRIVATE_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
+    PRIVATE_SEQUENCING_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
 
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+    # Static files (CSS, JavaScript, Images)
+    # django\conf\global_settings.py
+    # https://docs.djangoproject.com/en/3.1/howto/static-files/
+    # Absolute path to the directory static files should be collected to.
+    # Example: "/var/www/example.com/static/"
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+    # URL that handles the static files served from STATIC_ROOT.
+    # Example: "http://example.com/static/", "http://static.example.com/"
+    STATIC_URL = '/static/'  # set by django-storages
 
-AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
-STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+else:
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME')
+    AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
+    AWS_REGION = 'us-east-1'
+    AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
 
-AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
-DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
 
-AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
-PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
+    AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
+    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
-AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
+    AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
+    DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
+
+    AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
+
+    PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
+    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
@@ -438,8 +454,8 @@ BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 
 CELERYBEAT_SCHEDULE = {
     'transform-new-records': {
-       'task': 'tasks.transform_new_records_field_survey_task',
-       'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
+        'task': 'tasks.transform_new_records_field_survey_task',
+        'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     },
 }
 
