@@ -49,7 +49,7 @@ RUN chmod +x /usr/src/app/celerybeat_start.sh
 RUN chmod +x /usr/src/app/celeryworker_start.sh
 
 # set permissions for flower start
-COPY ./docker/celery/ .
+COPY ./docker/flower/ .
 RUN sed -i 's/\r$//g' /usr/src/app/flower_start.sh
 RUN chmod +x /usr/src/app/flower_start.sh
 

@@ -76,7 +76,7 @@ RUN chmod +x $APP_HOME/celerybeat_start.sh
 RUN chmod +x $APP_HOME/celeryworker_start.sh
 
 # set permissions for flower start
-COPY ./docker/celery/ .
+COPY ./docker/flower/ .
 RUN sed -i 's/\r$//g' $APP_HOME/flower_start.sh
 RUN chmod +x $APP_HOME/flower_start.sh
 
