@@ -47,7 +47,7 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime',
                        'record_editor', 'created_by']
-        #self.inlines = (ProjectInline,)
+        # self.inlines = (ProjectInline,)
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
 
@@ -213,7 +213,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['field_collection', 'core_control', 'core_label',
-                       'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
+                       'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                        'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
                        'subcores_taken', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -246,7 +246,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
         return False
 
-    #def add_view(self, request, extra_content=None):
+    # def add_view(self, request, extra_content=None):
     #    # specify the fields that can be viewed in add view
     #    self.fields = ['sample_global_id', 'field_sample_barcode', 'collection_global_id',
     #                   'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
@@ -288,7 +288,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
         return False
 
-    #def add_view(self, request, extra_content=None):
+    # def add_view(self, request, extra_content=None):
     #    # specify the fields that can be viewed in add view
     #    self.fields = ['field_sample', 'filter_location',
     #                   'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
@@ -332,7 +332,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
         return False
 
-    #def add_view(self, request, extra_content=None):
+    # def add_view(self, request, extra_content=None):
     #    # specify the fields that can be viewed in add view
     #    self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method',
     #                   'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
@@ -481,8 +481,8 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                        'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                        'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
-                       'core_datetime_start', 'core_datetime_end',  'core_method', 'core_method_other',
-                       'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',  'subcore_fname',
+                       'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
+                       'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken', 'subcore_fname',
                        'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',

@@ -6,3 +6,6 @@ LICENSE
 .vscode
 .idea/*
 README.md
+README.rst
+erds/*
+docs/*

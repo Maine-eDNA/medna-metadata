@@ -1,7 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 from .models import SampleType, SampleMaterial, SampleLabelRequest, SampleBarcode
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin
 from .resources import SampleLabelRequestAdminResource, SampleMaterialAdminResource, \
     SampleBarcodeAdminResource, SampleTypeAdminResource
@@ -83,10 +83,10 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['site_id', 'sample_material', 'sample_type', 'purpose',
                        'sample_year', 'req_sample_label_num', 'created_by']
-        #self.list_filter = (
+        # self.list_filter = (
         #    ('sample_material', RelatedDropdownFilter),
-        #)
-        #self.exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
+        # )
+        # self.exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
         #                'min_sample_label_id', 'max_sample_label_id', 'created_datetime', 'modified_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -122,7 +122,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
         # disable add on SampleBarcode because it is populated on insert on SampleLabelRequest
         return False
 
-    #def add_view(self, request, extra_content=None):
+    # def add_view(self, request, extra_content=None):
     #    # specify the fields that can be viewed in add view
     #    self.fields = ['sample_barcode_id', 'site_id', 'sample_material',
     #                   'sample_type', 'sample_year', 'purpose',

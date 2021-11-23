@@ -150,7 +150,7 @@ class ExtractionAdminResource(resources.ModelResource):
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
                         'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                        'extraction_notes',  'created_by', 'created_datetime', 'modified_datetime')
+                        'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime')
 
     extraction_barcode = fields.Field(
         column_name='extraction_barcode',
@@ -517,4 +517,3 @@ class FastqFileAdminResource(resources.ModelResource):
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].email
-

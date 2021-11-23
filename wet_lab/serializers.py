@@ -157,7 +157,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_datetime = serializers.DateTimeField()
     barcode_slug = serializers.SlugField(max_length=16, read_only=True)
-    #in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    # in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     extraction_first_name = serializers.CharField(max_length=255)
     extraction_last_name = serializers.CharField(max_length=255)
     extraction_volume = serializers.DecimalField(max_digits=15, decimal_places=10)

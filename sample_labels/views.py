@@ -22,7 +22,7 @@ import datetime
 
 
 def year_choices():
-    return [(r, r) for r in range(2018, datetime.date.today().year+1)]
+    return [(r, r) for r in range(2018, datetime.date.today().year + 1)]
 
 
 class SampleTypeViewSet(viewsets.ModelViewSet):
@@ -114,15 +114,15 @@ class SampleLabelRequestExportDetailView(DetailView):
             year_added = samplelabel.sample_label_prefix[-3:]
             sequence = samplelabel.min_sample_label_id[-4:]
             label_cap = samplelabel.site_id.site_id + "\n" + year_added + "\n" + sequence
-            writer.writerow([samplelabel_id, samplelabel.min_sample_label_id, samplelabel.min_sample_label_id, label_cap,addedby_email, samplelabel_created_datetime])
+            writer.writerow([samplelabel_id, samplelabel.min_sample_label_id, samplelabel.min_sample_label_id, label_cap, addedby_email, samplelabel_created_datetime])
         else:
             sequence = samplelabel.min_sample_label_id[-4:]
             for label_seq in range(samplelabel_reqnum):
                 year_added = samplelabel.sample_label_prefix[-3:]
                 sample_label = samplelabel.sample_label_prefix + "_" + sequence
                 label_cap = samplelabel.site_id.site_id + "\n" + year_added + "\n" + sequence
-                writer.writerow([samplelabel_id, sample_label, sample_label, label_cap, addedby_email,samplelabel_created_datetime])
-                sequence = str(int(sequence)+1).zfill(4)
+                writer.writerow([samplelabel_id, sample_label, sample_label, label_cap, addedby_email, samplelabel_created_datetime])
+                sequence = str(int(sequence) + 1).zfill(4)
         return response
 
 
@@ -143,7 +143,7 @@ class AddSampleLabelRequestView(LoginRequiredMixin, CreateView):
     def get_initial(self):
         return{"site_id": self.kwargs.get("site_id"),
                "sample_material": self.kwargs.get("sample_material"),
-               "purpose": self.kwargs.get("purpose"),}
+               "purpose": self.kwargs.get("purpose"), }
 
     def get_success_url(self):
         # after successfully filling out and submitting a form,

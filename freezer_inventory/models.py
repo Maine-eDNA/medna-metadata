@@ -48,8 +48,8 @@ class Freezer(DateTimeUserMixin):
     freezer_label = models.CharField("Freezer Label", max_length=255, unique=True)
     freezer_label_slug = models.SlugField("Freezer Label Slug", max_length=255)
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
-    freezer_length = models.DecimalField("Freezer Length", max_digits=15,  decimal_places=10)
-    freezer_width = models.DecimalField("Freezer Width", max_digits=15,  decimal_places=10)
+    freezer_length = models.DecimalField("Freezer Length", max_digits=15, decimal_places=10)
+    freezer_width = models.DecimalField("Freezer Width", max_digits=15, decimal_places=10)
     freezer_dimension_units = models.CharField("Freezer Dimensions Units", max_length=50, choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each freezer
     # (e.g., if 10x10x10, then the freezer can fit 1000 boxes)

@@ -56,10 +56,10 @@ class SampleLabelRequestAdminResource(BaseModelResource):
         import_id_fields = ('id', 'min_sample_label_id', 'max_sample_label_id',
                             'min_sample_label_num', 'max_sample_label_num', 'site_id',
                             'sample_year', 'sample_material', 'req_sample_label_num',)
-        #exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
+        # exclude = ('sample_label_prefix', 'min_sample_label_num', 'max_sample_label_num',
         #           'min_sample_label_id', 'max_sample_label_id', 'sample_label_request_slug',)
         exclude = ('sample_label_request_slug',)
-        #fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
+        # fields = ('sample_label_prefix', 'req_sample_label_num', 'min_sample_label_num', 'max_sample_label_num',
         #          'min_sample_label_id', 'max_sample_label_id', 'site_id', 'sample_year', 'sample_material',
         #          'purpose', 'created_by', 'created_datetime', 'modified_datetime',)
         export_order = ('id', 'site_id', 'sample_year', 'sample_material', 'sample_type', 'purpose',
@@ -91,7 +91,7 @@ class SampleBarcodeAdminResource(resources.ModelResource):
     class Meta:
         model = SampleBarcode
         import_id_fields = ('sample_barcode_id',)
-        #fields = ('sample_barcode_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
+        # fields = ('sample_barcode_id', 'site_id', 'sample_material', 'sample_year', 'purpose',
         #          'created_by', 'created_datetime', )
         export_order = ('sample_label_request', 'sample_barcode_id', 'barcode_slug',
                         'in_freezer', 'sample_type', 'purpose',

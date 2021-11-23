@@ -420,7 +420,7 @@ def update_queryset_subcore_sample(queryset):
                                                            sample_barcode_record=sample_barcode)
 
                         # count for subcore
-                        created_count = created_count+count
+                        created_count = created_count + count
 
             else:
                 # more than one barcode label requested, so need to interate to insert into Field Sample and
@@ -462,7 +462,7 @@ def update_queryset_subcore_sample(queryset):
                                                                    field_sample_pk=new_gid,
                                                                    sample_barcode_record=sample_barcode)
 
-                                created_count = created_count+count
+                                created_count = created_count + count
 
         return created_count
     except Exception as err:
@@ -484,7 +484,7 @@ def update_queryset_filter_sample(queryset):
                                                        field_sample_pk=record.filter_global_id,
                                                        sample_barcode_record=sample_barcode)
 
-                    created_count = created_count+count
+                    created_count = created_count + count
         return created_count
     except Exception as err:
         raise RuntimeError("** Error: update_queryset_filter_sample Failed (" + str(err) + ")")
@@ -616,14 +616,14 @@ def transform_new_records_field_survey_task(self):
         raise RuntimeError("** Error: transform_new_records_field_survey_task Failed (" + str(err) + ")")
 
 
-#@app.task(bind=True)
-#def transform_all_records_field_survey(self):
-#    try:
-#        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
-#        all_records = FieldSurveyETL.objects.all()
-#        if all_records:
-#            updated_count = transform_field_survey_etls(all_records)
-#            logger.info('Update count: ' + str(updated_count))
-#        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
-#    except Exception as err:
-#        raise RuntimeError("** Error: transform_all_records_field_survey Failed (" + str(err) + ")")
+# @app.task(bind=True)
+# def transform_all_records_field_survey(self):
+#     try:
+#         last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
+#         all_records = FieldSurveyETL.objects.all()
+#         if all_records:
+#             updated_count = transform_field_survey_etls(all_records)
+#             logger.info('Update count: ' + str(updated_count))
+#         PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+#     except Exception as err:
+#         raise RuntimeError("** Error: transform_all_records_field_survey Failed (" + str(err) + ")")

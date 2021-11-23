@@ -11,7 +11,7 @@ import numpy as np
 logger = get_task_logger(__name__)
 
 
-#@app.task(queue='elastic')
+# @app.task(queue='elastic')
 @shared_task
 def sample_label_request_post_save_task(instance_pk):
     try:
@@ -44,7 +44,7 @@ def sample_label_request_post_save_task(instance_pk):
 
                 # format site_id, e.g., "eAL_L01"
                 sample_barcode_id = '{labelprefix}_{sitenum}'.format(labelprefix=instance.sample_label_prefix,
-                                                                   sitenum=num_leading_zeros)
+                                                                     sitenum=num_leading_zeros)
                 # enter each new label into SampleBarcode - request only has a single row with the requested
                 # number and min/max; this table is necessary for joining proceeding tables
                 SampleBarcode.objects.update_or_create(
@@ -58,4 +58,3 @@ def sample_label_request_post_save_task(instance_pk):
                         'purpose': instance.purpose,
                     }
                 )
-
