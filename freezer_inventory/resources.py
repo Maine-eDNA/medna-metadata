@@ -2,8 +2,8 @@ from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
 from sample_labels.models import SampleBarcode
-#from field_survey.models import FieldSample
-#from wet_lab.models import Extraction
+# from field_survey.models import FieldSample
+# from wet_lab.models import Extraction
 from users.models import CustomUser
 
 
