@@ -2,7 +2,7 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
 from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import DenoisingMethodAdminResource, DenoisingMetadataAdminResource, \
     AmpliconSequenceVariantAdminResource, ASVReadAdminResource
