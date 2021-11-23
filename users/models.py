@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 from django.utils import timezone
 import datetime
+from medna_metadata.storage_backends import select_private_media_storage
 
 
 def now_plus_max():
@@ -18,7 +19,8 @@ def now_plus_max():
 
 class CustomUser(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_("email address"), unique=True)
+    profile_image = models.FileField("Profile Image", max_length=255, storage=select_private_media_storage, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from random import choice
+from phonenumber_field.modelfields import PhoneNumberField
 try:
     from allauth.account import app_settings as allauth_settings
     from allauth.utils import (email_address_exists,
@@ -28,10 +29,17 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    email = serializers.EmailField(max_length=255, read_only=True)
+    profile_image = serializers.FileField(max_length=255, allow_blank=True)
+    first_name = serializers.CharField(max_length=150, allow_blank=True)
+    last_name = serializers.CharField(max_length=150, allow_blank=True)
+    phone_number = PhoneNumberField(allow_blank=True, allow_null=True)
+    agol_username = serializers.CharField(max_length=255, allow_blank=True)
+    expiration_date = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'first_name', 'last_name',
+        fields = ('id', 'email', 'first_name', 'last_name', 'profile_image',
                   'phone_number', 'agol_username', 'expiration_date', 'groups')
     groups = GroupSerializer(many=True, read_only=True)
 
