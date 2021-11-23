@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .models import Grant, Project, ProcessLocation
+from .models import Grant, Project, ProcessLocation, DefaultSiteCss, CustomUserCss
+from django.contrib.auth import get_user_model
 
 
 # Create your tests here.
@@ -45,4 +46,63 @@ class ProcessLocationTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         medna = ProcessLocation.objects.get(process_location_name="CORE")
+        self.assertIs(medna.was_added_recently(), True)
+
+
+class DefaultSiteCssTestCase(TestCase):
+    def setUp(self):
+        DefaultSiteCss.objects.update_or_create(default_css_label="default_css_label",
+                                                css_selected_background_color="css_selected_background_color",
+                                                css_selected_text_color="css_selected_text_color",
+                                                freezer_empty_css_background_color="freezer_empty_css_background_color",
+                                                freezer_empty_css_text_color="freezer_empty_css_text_color",
+                                                freezer_inuse_css_background_color="freezer_inuse_css_background_color",
+                                                freezer_inuse_css_text_color="freezer_inuse_css_text_color",
+                                                freezer_empty_rack_css_background_color="freezer_empty_rack_css_background_color",
+                                                freezer_empty_rack_css_text_color="freezer_empty_rack_css_text_color",
+                                                freezer_inuse_rack_css_background_color="freezer_inuse_rack_css_background_color",
+                                                freezer_inuse_rack_css_text_color="freezer_inuse_rack_css_text_color",
+                                                freezer_empty_box_css_background_color="freezer_empty_box_css_background_color",
+                                                freezer_empty_box_css_text_color="freezer_empty_box_css_text_color",
+                                                freezer_inuse_box_css_background_color="freezer_inuse_box_css_background_color",
+                                                freezer_inuse_box_css_text_color="freezer_inuse_box_css_text_color",
+                                                freezer_empty_inventory_css_background_color="freezer_empty_inventory_css_background_color",
+                                                freezer_empty_inventory_css_text_color="freezer_empty_inventory_css_text_color",
+                                                freezer_inuse_inventory_css_background_color="freezer_inuse_inventory_css_background_color",
+                                                freezer_inuse_inventory_css_text_color="freezer_inuse_inventory_css_text_color")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        medna = DefaultSiteCss.objects.get(default_css_label="default_css_label")
+        self.assertIs(medna.was_added_recently(), True)
+
+
+class CustomUserCssTestCase(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        user = User.objects.create_user(email='normal@user.com', password='foo')
+        CustomUserCss.objects.update_or_create(custom_css_label="custom_css_label",
+                                               user=user,
+                                               css_selected_background_color="css_selected_background_color",
+                                               css_selected_text_color="css_selected_text_color",
+                                               freezer_empty_css_background_color="freezer_empty_css_background_color",
+                                               freezer_empty_css_text_color="freezer_empty_css_text_color",
+                                               freezer_inuse_css_background_color="freezer_inuse_css_background_color",
+                                               freezer_inuse_css_text_color="freezer_inuse_css_text_color",
+                                               freezer_empty_rack_css_background_color="freezer_empty_rack_css_background_color",
+                                               freezer_empty_rack_css_text_color="freezer_empty_rack_css_text_color",
+                                               freezer_inuse_rack_css_background_color="freezer_inuse_rack_css_background_color",
+                                               freezer_inuse_rack_css_text_color="freezer_inuse_rack_css_text_color",
+                                               freezer_empty_box_css_background_color="freezer_empty_box_css_background_color",
+                                               freezer_empty_box_css_text_color="freezer_empty_box_css_text_color",
+                                               freezer_inuse_box_css_background_color="freezer_inuse_box_css_background_color",
+                                               freezer_inuse_box_css_text_color="freezer_inuse_box_css_text_color",
+                                               freezer_empty_inventory_css_background_color="freezer_empty_inventory_css_background_color",
+                                               freezer_empty_inventory_css_text_color="freezer_empty_inventory_css_text_color",
+                                               freezer_inuse_inventory_css_background_color="freezer_inuse_inventory_css_background_color",
+                                               freezer_inuse_inventory_css_text_color="freezer_inuse_inventory_css_text_color")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        medna = CustomUserCss.objects.get(custom_css_label="custom_css_label")
         self.assertIs(medna.was_added_recently(), True)

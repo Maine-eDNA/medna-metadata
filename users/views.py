@@ -7,3 +7,4 @@ from .models import CustomUser
 class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
+    filterset_fields = ['email', 'agol_username']

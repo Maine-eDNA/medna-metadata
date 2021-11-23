@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import viewsets, views
+from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework import exceptions, status
-from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer
-from .models import ProcessLocation, Project, Grant
+from rest_framework import status
+from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
+    CustomUserCssSerializer
+from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
 from .enumerations import YesNo, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, DdpcrUnits, \
     QpcrUnits, WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
@@ -11,8 +12,8 @@ from .enumerations import YesNo, MeasureUnits, VolUnits, ConcentrationUnits, Phi
     InvStatus, InvTypes, CheckoutActions
 from django.views.generic.base import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
-import json
-import ast
+# import json
+# import ast
 
 
 # Create your views here.
@@ -318,6 +319,20 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     queryset = ProcessLocation.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
+
+
+class DefaultSiteCssViewSet(viewsets.ModelViewSet):
+    serializer_class = DefaultSiteCssSerializer
+    queryset = DefaultSiteCss.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['default_css_label', 'created_by', 'created_datetime']
+
+
+class CustomUserCssViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomUserCssSerializer
+    queryset = CustomUserCss.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['custom_css_label', 'user', 'created_datetime']
 
 
 class IndexView(TemplateView):

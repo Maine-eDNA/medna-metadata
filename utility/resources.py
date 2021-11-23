@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import ProcessLocation, Project, Grant
+from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
 from users.models import CustomUser
 
 
@@ -67,6 +67,85 @@ class ProcessLocationAdminResource(resources.ModelResource):
     created_by = fields.Field(
         column_name='created_by',
         attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class DefaultSiteCssAdminResource(resources.ModelResource):
+    class Meta:
+        model = DefaultSiteCss
+        import_id_fields = ('id', 'default_css_label', )
+        fields = ('id', 'default_css_label',
+                  'css_selected_background_color', 'css_selected_text_color',
+                  'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
+                  'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
+                  'freezer_empty_rack_css_background_color', 'freezer_empty_rack_css_text_color',
+                  'freezer_inuse_rack_css_background_color', 'freezer_inuse_rack_css_text_color',
+                  'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
+                  'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
+                  'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
+                  'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'default_css_label',
+                        'css_selected_background_color', 'css_selected_text_color',
+                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
+                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
+                        'freezer_empty_rack_css_background_color', 'freezer_empty_rack_css_text_color',
+                        'freezer_inuse_rack_css_background_color', 'freezer_inuse_rack_css_text_color',
+                        'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
+                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
+                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
+                        'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class CustomUserCssAdminResource(resources.ModelResource):
+    class Meta:
+        model = CustomUserCss
+        import_id_fields = ('id', 'custom_css_label', 'user', )
+        fields = ('id', 'custom_css_label', 'user',
+                  'css_selected_background_color', 'css_selected_text_color',
+                  'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
+                  'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
+                  'freezer_empty_rack_css_background_color', 'freezer_empty_rack_css_text_color',
+                  'freezer_inuse_rack_css_background_color', 'freezer_inuse_rack_css_text_color',
+                  'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
+                  'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
+                  'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
+                  'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                  'created_by', 'created_datetime', 'modified_datetime',)
+        export_order = ('id', 'custom_css_label', 'user',
+                        'css_selected_background_color', 'css_selected_text_color',
+                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
+                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
+                        'freezer_empty_rack_css_background_color', 'freezer_empty_rack_css_text_color',
+                        'freezer_inuse_rack_css_background_color', 'freezer_inuse_rack_css_text_color',
+                        'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
+                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
+                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
+                        'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                        'created_by', 'created_datetime', 'modified_datetime',)
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    user = fields.Field(
+        column_name='user',
+        attribute='user',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user

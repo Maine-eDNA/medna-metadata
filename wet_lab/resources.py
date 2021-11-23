@@ -492,7 +492,7 @@ class RunResultAdminResource(resources.ModelResource):
 class FastqFileAdminResource(resources.ModelResource):
     class Meta:
         model = FastqFile
-        import_id_fields = ('run_result', 'fastq_filename', )
+        import_id_fields = ('uuid', 'fastq_datafile', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                   'created_by', 'created_datetime', )

@@ -5,6 +5,7 @@ from rest_framework import serializers
 from .models import ProcessLocation, Project, Grant
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
+from users.models import CustomUser
 
 
 # https://www.django-rest-framework.org/api-guide/generic-views/#creating-custom-mixins
@@ -90,6 +91,98 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
+
+
+class DefaultSiteCssSerializer(serializers.ModelSerializer):
+    default_css_label = serializers.CharField(max_length=255)
+    # selected CSS
+    css_selected_background_color = serializers.CharField(max_length=255, default="green")
+    css_selected_text_color = serializers.CharField(max_length=255, default="black")
+    # freezer frontend CSS color
+    freezer_empty_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_css_text_color = serializers.CharField(max_length=255, default="white")
+    # freezer rack frontend CSS color
+    freezer_empty_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_rack_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_rack_css_text_color = serializers.CharField(max_length=255, default="white")
+    # freezer box frontend CSS color
+    freezer_empty_box_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_box_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_box_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_box_css_text_color = serializers.CharField(max_length=255, default="white")
+    # freezer inventory frontend CSS color
+    freezer_empty_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+
+    class Meta:
+        model = ProcessLocation
+        fields = ['id', 'default_css_label',
+                  'css_selected_background_color', 'css_selected_text_color',
+                  'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
+                  'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
+                  'freezer_empty_rack_css_background_color', 'freezer_empty_rack_css_text_color',
+                  'freezer_inuse_rack_css_background_color', 'freezer_inuse_rack_css_text_color',
+                  'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
+                  'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
+                  'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
+                  'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class CustomUserCssSerializer(serializers.ModelSerializer):
+    custom_css_label = serializers.CharField(max_length=255)
+    # selected CSS
+    css_selected_background_color = serializers.CharField(max_length=255, default="green")
+    css_selected_text_color = serializers.CharField(max_length=255, default="black")
+    # freezer frontend CSS color
+    freezer_empty_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_css_text_color = serializers.CharField(max_length=255, default="white")
+    # freezer rack frontend CSS color
+    freezer_empty_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_rack_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_rack_css_text_color = serializers.CharField(max_length=255, default="white")
+    # freezer box frontend CSS color
+    freezer_empty_box_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_box_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_box_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_box_css_text_color = serializers.CharField(max_length=255, default="white")
+    # freezer inventory frontend CSS color
+    freezer_empty_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
+    freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+
+    class Meta:
+        model = ProcessLocation
+        fields = ['id', 'custom_css_label', 'user',
+                  'css_selected_background_color', 'css_selected_text_color',
+                  'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
+                  'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
+                  'freezer_empty_rack_css_background_color', 'freezer_empty_rack_css_text_color',
+                  'freezer_inuse_rack_css_background_color', 'freezer_inuse_rack_css_text_color',
+                  'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
+                  'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
+                  'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
+                  'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    user = serializers.SlugRelatedField(many=False, read_only=False, slug_field='email',
+                                        queryset=CustomUser.objects.all())
 
 
 # https://aldnav.com/blog/django-table-exporter/
