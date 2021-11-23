@@ -6,8 +6,8 @@ from leaflet.forms.widgets import LeafletWidget
 from .models import FieldSite
 
 
-class allowEditLeaflet(LeafletWidget):
-    geometry_field_class = 'allowEditLeaflet'
+class AllowEditLeaflet(LeafletWidget):
+    geometry_field_class = 'AllowEditLeaflet'
 
 
 class AddFieldSiteForm(forms.ModelForm):
@@ -15,7 +15,7 @@ class AddFieldSiteForm(forms.ModelForm):
         model = FieldSite
         fields = ['grant', 'system', 'general_location_name', 'purpose', 'geom', 'watershed', ]
         widgets = { # leaflet widget
-            'geom': allowEditLeaflet(
+            'geom': AllowEditLeaflet(
                 attrs={
                     'map_width': 700,
                     'map_height': 600,

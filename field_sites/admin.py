@@ -4,9 +4,9 @@ from django.contrib.gis import admin
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
-    System, Watershed, FieldSite, WorldBorder
-#from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
+    System, Watershed, FieldSite
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+from import_export.admin import ImportExportActionModelAdmin, ExportActionMixin
 from .resources import EnvoBiomeFirstAdminResource, EnvoBiomeSecondAdminResource, \
     EnvoBiomeThirdAdminResource, EnvoBiomeFourthAdminResource, EnvoBiomeFifthAdminResource, \
     EnvoFeatureFirstAdminResource, EnvoFeatureSecondAdminResource, EnvoFeatureThirdAdminResource,\
@@ -62,9 +62,9 @@ class EnvoBiomeSecondAdmin(ImportExportActionModelAdmin):
         self.fields = ['biome_second_tier', 'biome_first_tier',
                        'ontology_url', 'created_by']
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
-        #self.list_filter = (
+        # self.list_filter = (
         #    ('biome_first_tier', RelatedDropdownFilter)
-        #)
+        # )
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -554,7 +554,7 @@ class GeoWorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         return actions
 
 
-#admin.site.register(WorldBorder, GeoWorldBorderAdmin)
+# admin.site.register(WorldBorder, GeoWorldBorderAdmin)
 
 
 class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
@@ -563,7 +563,7 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['grant', 'system', 'watershed']
     list_display = ('site_id', 'general_location_name', 'grant', 'system', 'watershed')
-    #list_filter = ('grant', 'system', 'watershed', )
+    # list_filter = ('grant', 'system', 'watershed', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -577,11 +577,11 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'envo_feature_first',
                        'geom',
                        'created_by']
-        #self.list_filter = (
+        # self.list_filter = (
         #    ('grant', RelatedDropdownFilter),
         #    ('system', RelatedDropdownFilter),
         #    ('watershed', RelatedDropdownFilter)
-        #)
+        # )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user

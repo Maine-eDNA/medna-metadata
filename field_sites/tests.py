@@ -47,9 +47,9 @@ class SystemTestCase(TestCase):
 class WatershedTestCase(TestCase):
     def setUp(self):
         Watershed.objects.update_or_create(watershed_code="NE", watershed_label="New England Aquarium", huc8="01090001",
-                              states="New England Aquarium",
-                              lat=42.359134, lon=-71.051942, area_sqkm="0.26", area_acres="63.17",
-                              geom="SRID=4326;MULTIPOLYGON (((-71.05364798510502 42.36019291476734, -71.04779004061702 42.361350361539, -71.04482888186529 42.36017705918428, -71.04493617022527 42.35809994318362, -71.04802607501057 42.35711685671112, -71.05233906710548 42.35713271306636, -71.05364798510502 42.36019291476734)))")
+                                           states="New England Aquarium",
+                                           lat=42.359134, lon=-71.051942, area_sqkm="0.26", area_acres="63.17",
+                                           geom="SRID=4326;MULTIPOLYGON (((-71.05364798510502 42.36019291476734, -71.04779004061702 42.361350361539, -71.04482888186529 42.36017705918428, -71.04493617022527 42.35809994318362, -71.04802607501057 42.35711685671112, -71.05233906710548 42.35713271306636, -71.05364798510502 42.36019291476734)))")
 
     def test_was_added_recently(self):
         # test if date is added correctly
