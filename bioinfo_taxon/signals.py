@@ -15,7 +15,7 @@ def update_domain_post_save(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=TaxonKingdom, dispatch_uid="update_kingdom")
-def update_domain_post_save(sender, instance, **kwargs):
+def update_kingdom_post_save(sender, instance, **kwargs):
     transaction.on_commit(update_kingdom.s(instance.pk, instance.taxon_kingdom_slug).delay)
 
 

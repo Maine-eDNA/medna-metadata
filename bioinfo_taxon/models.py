@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 # from bioinfo_denoising.models import AmpliconSequenceVariant, DenoisingMetadata
-from utility.models import DateTimeUserMixin,  ProcessLocation, slug_date_format, get_default_process_location
+from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import YesNo
 from django.utils.text import slugify
 from django.utils import timezone
