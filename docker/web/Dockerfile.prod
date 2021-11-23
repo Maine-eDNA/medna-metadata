@@ -22,7 +22,7 @@ RUN sed -i 's/\r$//g' /app/requirements/docker-requirements.sh
 RUN chmod +x /app/requirements/docker-requirements.sh
 RUN requirements/docker-requirements.sh
 
-RUN pip install -r requirements/dev.txt
+RUN pip install -r requirements/requirements.txt
 
 # copy project
 COPY . .
