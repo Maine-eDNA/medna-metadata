@@ -24,23 +24,24 @@ except ImportError:
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ('name',)
+        fields = ('name', )
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     email = serializers.EmailField(max_length=255, read_only=True)
-    profile_image = serializers.FileField(max_length=255, allow_null=True)
     first_name = serializers.CharField(max_length=150, allow_blank=True)
     last_name = serializers.CharField(max_length=150, allow_blank=True)
     phone_number = serializers.CharField(allow_blank=True, max_length=50)
     agol_username = serializers.CharField(max_length=255, allow_blank=True)
+    profile_image = serializers.FileField(max_length=255, allow_null=True)
     expiration_date = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'first_name', 'last_name', 'profile_image',
-                  'phone_number', 'agol_username', 'expiration_date', 'groups')
+        fields = ['id', 'email', 'first_name', 'last_name',
+                  'phone_number', 'agol_username', 'profile_image',
+                  'expiration_date', 'groups', ]
     groups = GroupSerializer(many=True, read_only=True)
 
 
@@ -51,7 +52,7 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name', 'phone_number',
-                  'agol_username', 'expiration_date', 'groups']
+                  'agol_username', 'profile_image', 'expiration_date', 'groups', ]
         read_only_fields = ('email', 'expiration_date', 'groups')
     groups = GroupSerializer(many=True, read_only=True)
 
