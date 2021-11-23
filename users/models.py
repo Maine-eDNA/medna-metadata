@@ -38,5 +38,13 @@ class CustomUser(AbstractUser):
         now = timezone.now()
         return self.expiration_date <= now
 
+    @property
+    def profile_image_filename(self):
+        return self.profile_image.name
+
+    @property
+    def profile_image_url(self):
+        return self.profile_image.url
+
     def __str__(self):
         return self.email
