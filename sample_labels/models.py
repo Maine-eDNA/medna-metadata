@@ -132,7 +132,7 @@ class SampleLabelRequest(DateTimeUserMixin):
                                                                         sitenum=min_num_leading_zeros)
             self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
                                                                         sitenum=max_num_leading_zeros)
-            #sample_label_request_post_save(self, self.min_sample_label_id, self.max_sample_label_id,
+            # sample_label_request_post_save(self, self.min_sample_label_id, self.max_sample_label_id,
             #                            self.min_sample_label_num, self.max_sample_label_num,
             #                            self.sample_label_prefix, self.site_id,
             #                            self.sample_material, self.sample_type,
