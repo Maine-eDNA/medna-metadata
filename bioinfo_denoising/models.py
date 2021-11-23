@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 # from wet_lab.models import RunResult, Extraction
-from utility.models import DateTimeUserMixin,  ProcessLocation, slug_date_format, get_default_process_location
+from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from django.utils.text import slugify
 from django.utils import timezone
 
@@ -94,7 +94,6 @@ class ASVRead(DateTimeUserMixin):
     def __str__(self):
         return '{id}: {num_reads}'.format(
             id=self.asv.asv_id,
-            barcode=self.extraction.barcode_slug,
             num_reads=self.number_reads)
 
     class Meta:
