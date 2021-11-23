@@ -1,55 +1,35 @@
 # pull official base image
-FROM ubuntu:focal
+FROM python:3.9.6-slim
 
-RUN mkdir -p /home/django
-ENV DJANGO_HOME=/home/django
-WORKDIR $DJANGO_HOME
+# set work directory
+WORKDIR /app
+
 
 # set environment variables
+# Prevents Python from writing pyc files to disc (equivalent to python -B option)
+ENV PYTHONDONTWRITEBYTECODE 1
+# Prevents Python from buffering stdout and stderr (equivalent to python -u option)
 ENV PYTHONUNBUFFERED 1
-ENV DEBIAN_FRONTEND noninteractive
 
-# http://bugs.python.org/issue19846
-# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
-ENV LANG C.UTF-8
-
-ENV TZ=America/New_York
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# install dependencies
+RUN pip install --upgrade pip
 
 # Copy and install requirements
 COPY ./requirements ./requirements
 
-RUN chmod +x requirements/ubuntu-requirements.sh
-RUN requirements/ubuntu-requirements.sh
+# set permissions for entrypoint.sh
+RUN sed -i 's/\r$//g' /app/requirements/docker-requirements.sh
+RUN chmod +x /app/requirements/docker-requirements.sh
+RUN requirements/docker-requirements.sh
 
-#RUN groupadd -r django && useradd -r -g django django
-RUN adduser --disabled-password --gecos '' django
-RUN chown -R django:django $DJANGO_HOME
-RUN mkdir /appenv
-RUN chown -R django:django /appenv
+RUN pip install -r requirements/requirements.txt
 
-USER django
-
-ENV VIRTUAL_ENV=/appenv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN pip install --upgrade setuptools wheel
-RUN pip install -r requirements/prod.txt
-
-# Copy app
+# copy project
 COPY . .
 
-USER root
-RUN mkdir -p $DJANGO_HOME/static
-RUN mkdir -p $DJANGO_HOME/media
+# set permissions for entrypoint.sh
+RUN sed -i 's/\r$//g' /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Collect static files
-RUN python manage.py collectstatic --noinput --clear
-RUN chmod 755 -R $DJANGO_HOME/static
-RUN chmod 755 -R $DJANGO_HOME/media
-RUN chown -R django:django $DJANGO_HOME
-RUN chmod +x entrypoint.sh
-
-USER django
 # run entrypoint.sh
-ENTRYPOINT ["/home/django/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
