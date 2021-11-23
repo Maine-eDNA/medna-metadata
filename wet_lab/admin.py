@@ -248,11 +248,11 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                        'extraction_notes',
                        'created_by']
-        #self.list_filter = (
+        # self.list_filter = (
         #    ('field_sample', RelatedDropdownFilter),
         #    ('extraction_method', RelatedDropdownFilter),
         #    ('quantification_method', RelatedDropdownFilter)
-        #)
+        # )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
