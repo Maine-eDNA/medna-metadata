@@ -56,7 +56,7 @@ services:
       context: '../'
       dockerfile: './docker/web/Dockerfile'
     image: &img medna-metadata-celeryworker
-    command: /start-celery/celeryworker_start
+    command: /home/app/web/celeryworker_start.sh
     env_file:
       - './medna.env'
     depends_on:
@@ -70,7 +70,7 @@ services:
       context: '../'
       dockerfile: './docker/web/Dockerfile'
     image: &img medna-metadata-celerybeat
-    command: /start-celery/celerybeat_start
+    command: /home/app/web/celerybeat_start.sh
     env_file:
       - './medna.env'
     depends_on:
@@ -84,7 +84,7 @@ services:
       context: '../'
       dockerfile: './docker/web/Dockerfile'
     image: &img medna-metadata-flower
-    command: /start-flower/flower_start
+    command: /home/app/web/flower_start.sh
     ports:
       - '5555'
     env_file:
