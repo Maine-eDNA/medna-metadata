@@ -33,7 +33,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     profile_image = serializers.FileField(max_length=255, allow_null=True)
     first_name = serializers.CharField(max_length=150, allow_blank=True)
     last_name = serializers.CharField(max_length=150, allow_blank=True)
-    phone_number = PhoneNumberField(allow_blank=True, allow_null=True)
+    phone_number = serializers.CharField(allow_blank=True, max_length=50)
     agol_username = serializers.CharField(max_length=255, allow_blank=True)
     expiration_date = serializers.CharField(max_length=255, read_only=True)
 
