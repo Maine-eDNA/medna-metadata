@@ -48,9 +48,53 @@ services:
     depends_on:
       - medna-metadata-pgdb
       - medna-metadata-rabbitmq
-   # ----------------------------------------
-   # NGINX-PROXY
-   # ----------------------------------------
+ # ----------------------------------------
+ # MEDNA-METADATA-CELERYWORKER
+ # ----------------------------------------
+  medna-metadata-celeryworker:
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    image: &img medna-metadata-celeryworker
+    command: /start-celery/celeryworker_start
+    env_file:
+      - './medna.env'
+    depends_on:
+      - medna-metadata-rabbitmq
+      - medna-metadata-pgdb
+ # ----------------------------------------
+ # MEDNA-METADATA-CELERYBEAT
+ # ----------------------------------------
+  medna-metadata-celerybeat:
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    image: &img medna-metadata-celerybeat
+    command: /start-celery/celerybeat_start
+    env_file:
+      - './medna.env'
+    depends_on:
+      - medna-metadata-rabbitmq
+      - medna-metadata-pgdb
+ # ----------------------------------------
+ # MEDNA-METADATA-FLOWER
+ # ----------------------------------------
+  medna-metadata-flower:
+    build:
+      context: '../'
+      dockerfile: './docker/web/Dockerfile'
+    image: &img medna-metadata-flower
+    command: /start-flower/flower_start
+    ports:
+      - '5555'
+    env_file:
+      - './medna.env'
+    depends_on:
+      - medna-metadata-rabbitmq
+      - medna-metadata-pgdb
+ # ----------------------------------------
+ # NGINX-PROXY
+ # ----------------------------------------
   nginx-proxy:
     container_name: nginx-proxy
     build: nginx

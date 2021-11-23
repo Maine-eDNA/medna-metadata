@@ -1,3 +1,7 @@
+# https://testdriven.io/courses/django-celery/docker/
+# https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
+# https://testdriven.io/blog/deploying-django-to-digitalocean-with-docker-and-github-actions/
+# https://www.digitalocean.com/community/tech_talks/deploying-to-digitalocean-with-github-actions
 # pull official base image
 FROM ubuntu:focal
 
@@ -36,6 +40,14 @@ COPY . .
 # set permissions for entrypoint.sh
 RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
 RUN chmod +x /usr/src/app/entrypoint.sh
+
+# set permissions for celeryworker celerybeat start
+RUN sed -i 's/\r$//g' /usr/src/app/docker/celery
+RUN chmod +x /usr/src/app/docker/celery
+
+# set permissions for flower start
+RUN sed -i 's/\r$//g' /usr/src/app/docker/flower
+RUN chmod +x /usr/src/app/docker/flower
 
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

@@ -1,6 +1,11 @@
 ###########
 # BUILDER #
 ###########
+# https://testdriven.io/courses/django-celery/docker/
+# https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
+# https://testdriven.io/blog/deploying-django-to-digitalocean-with-docker-and-github-actions/
+# https://github.com/testdrivenio/django-github-digitalocean/blob/master/.github/workflows/main.yml
+# https://www.digitalocean.com/community/tech_talks/deploying-to-digitalocean-with-github-actions
 # pull official base image
 FROM ubuntu:focal as builder
 
@@ -53,7 +58,7 @@ RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get update && apt-get install -y libpq-dev python3-pip
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements/prod.txt .
 RUN pip install --no-cache /wheels/*
@@ -62,6 +67,16 @@ RUN pip install --no-cache /wheels/*
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
 RUN chmod +x $APP_HOME/entrypoint.sh
+
+# set permissions for celeryworker celerybeat start
+COPY ./docker/celery/ /start-celery
+RUN sed -i 's/\r$//g' $APP_HOME/start-celery
+RUN chmod +x $APP_HOME/start-celery
+
+# set permissions for flower start
+COPY ./docker/celery/ /start-flower
+RUN sed -i 's/\r$//g' $APP_HOME/start-flower
+RUN chmod +x $APP_HOME/start-flower
 
 # copy project
 COPY . $APP_HOME
