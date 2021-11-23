@@ -87,7 +87,8 @@ class FreezerRack(DateTimeUserMixin):
     freezer_rack_depth_end = models.PositiveIntegerField("Freezer Rack Depth End")
 
     def save(self, *args, **kwargs):
-        self.freezer_rack_label_slug = '{name}'.format(name=slugify(self.freezer_rack_label))
+        self.freezer_rack_label_slug = '{label}_{name}'.format(label=self.freezer.freezer_label_slug,
+                                                               name=slugify(self.freezer_rack_label))
         super(FreezerRack, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -127,7 +128,8 @@ class FreezerBox(DateTimeUserMixin):
     freezer_box_max_row = models.PositiveIntegerField("Max Box Rows (Inventory)")
 
     def save(self, *args, **kwargs):
-        self.freezer_box_label_slug = '{name}'.format(name=slugify(self.freezer_box_label))
+        self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug,
+                                                              name=slugify(self.freezer_box_label))
         super(FreezerBox, self).save(*args, **kwargs)
 
     def __str__(self):
