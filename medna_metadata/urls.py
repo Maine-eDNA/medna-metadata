@@ -51,7 +51,8 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     FilterLocationsChoicesViewSet, ControlTypesChoicesViewSet, FilterMethodsChoicesViewSet, \
     FilterTypesChoicesViewSet, CoreMethodsChoicesViewSet, SubCoreMethodsChoicesViewSet, \
     TargetGenesChoicesViewSet, LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
-    InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet
+    InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
+    CustomUserCssViewSet, DefaultSiteCssViewSet
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -77,6 +78,8 @@ router.register(r'users/user', CustomUserViewSet, 'users')
 router.register(r'utility/grant', GrantViewSet, 'grant')
 router.register(r'utility/project', ProjectViewSet, 'project')
 router.register(r'utility/process_location', ProcessLocationViewSet, 'process_location')
+router.register(r'utility/default_site_css', DefaultSiteCssViewSet, 'default_site_css')
+router.register(r'utility/custom_user_css', CustomUserCssViewSet, 'custom_user_css')
 # utility:enums
 router.register(r'utility/choices_yes_no', YesNoChoicesViewSet, 'choices_yes_no')
 router.register(r'utility/choices_measure_units', MeasureUnitsChoicesViewSet, 'choices_measure_units')
