@@ -41,7 +41,7 @@ GROUPS = {
         # sample_labels
         "Sample Type": ["add", "change", "view"],
         "SampleLabelRequest": ["add", "change", "view"],
-        "SampleLabel": ["view"],
+        "SampleBarcode": ["view"],
 
         # utility
         "Grant": ["add", "change", "view"],
@@ -142,7 +142,7 @@ GROUPS = {
         # sample_labels
         "Sample Type": ["view"],
         "SampleLabelRequest": ["view"],
-        "SampleLabel": ["view"],
+        "SampleBarcode": ["view"],
 
         # utility
         "Grant": ["view"],
@@ -224,7 +224,7 @@ GROUPS = {
         # sample_labels
         "Sample Type": ["view"],
         "SampleLabelRequest": ["view"],
-        "SampleLabel": ["view"],
+        "SampleBarcode": ["view"],
 
         # utility
         "Grant": ["view"],
