@@ -58,4 +58,3 @@ def sample_label_request_post_save_task(instance_pk):
                         'purpose': instance.purpose,
                     }
                 )
-

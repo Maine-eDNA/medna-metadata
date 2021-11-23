@@ -2,7 +2,7 @@
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-#from field_sites.models import FieldSite
+# from field_sites.models import FieldSite
 from utility.models import DateTimeUserMixin, slug_date_format
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
