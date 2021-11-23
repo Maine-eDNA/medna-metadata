@@ -4,6 +4,7 @@ from django.db import migrations, models
 import django.utils.timezone
 import phonenumber_field.modelfields
 import users.models
+import medna_metadata.storage_backends
 
 
 class Migration(migrations.Migration):
@@ -19,6 +20,7 @@ class Migration(migrations.Migration):
             name='CustomUser',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('profile_image', models.FileField(max_length=255, storage=medna_metadata.storage_backends.PrivateMediaStorage(), upload_to='', verbose_name='Profile Image')),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
                 ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
