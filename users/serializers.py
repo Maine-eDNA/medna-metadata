@@ -30,7 +30,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     email = serializers.EmailField(max_length=255, read_only=True)
-    profile_image = serializers.FileField(max_length=255, allow_blank=True)
+    profile_image = serializers.FileField(max_length=255, allow_null=True)
     first_name = serializers.CharField(max_length=150, allow_blank=True)
     last_name = serializers.CharField(max_length=150, allow_blank=True)
     phone_number = PhoneNumberField(allow_blank=True, allow_null=True)
