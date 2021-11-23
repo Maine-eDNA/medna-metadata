@@ -24,4 +24,3 @@ class PrivateSequencingStorage(S3Boto3Storage):
     location = settings.AWS_PRIVATE_SEQUENCING_LOCATION
     default_acl = 'private'
     file_overwrite = False
-

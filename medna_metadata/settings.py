@@ -61,22 +61,22 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoising',
     'bioinfo_taxon',
-    'storages', # django-storages for s3 storage backends e.g., wasabi
-    'drf_yasg', # drf-yasg creates swagger documentation for all apis
-    'corsheaders', # corsheaders to whitelist urls for backend=>frontend api
-    'import_export', # django-import-export
-    'allauth', # django-allauth handles user registration as well as social authentication.
-    'allauth.account', # Good for email address verification, resetting passwords, etc.
-    # 'allauth.socialaccount', # https://www.section.io/engineering-education/django-google-oauth/
-    # 'allauth.socialaccount.providers.google', # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
-    'rest_auth', # django-rest-auth provides API endpoints for user reg, login/logout,
-    'rest_auth.registration', # password change/reset, social auth, etc
+    'storages',  # django-storages for s3 storage backends e.g., wasabi
+    'drf_yasg',  # drf-yasg creates swagger documentation for all apis
+    'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api
+    'import_export',  # django-import-export
+    'allauth',  # django-allauth handles user registration as well as social authentication.
+    'allauth.account',  # Good for email address verification, resetting passwords, etc.
+    # 'allauth.socialaccount',  # https://www.section.io/engineering-education/django-google-oauth/
+    # 'allauth.socialaccount.providers.google',  # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
+    'rest_auth',  # django-rest-auth provides API endpoints for user reg, login/logout,
+    'rest_auth.registration',  # password change/reset, social auth, etc
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
-    'rest_framework_gis', # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
-    'rest_framework.authtoken', # for the creation of api tokens
-    'phonenumber_field', # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
-    'crispy_forms', # crispy forms for pretty forms
-    #'django_extensions', # generating schema pngs
+    'rest_framework_gis',  # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
+    'rest_framework.authtoken',  # for the creation of api tokens
+    'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
+    'crispy_forms',  # crispy forms for pretty forms
+    # 'django_extensions',  # generating schema pngs
 ]
 
 # Internationalization
@@ -90,18 +90,31 @@ USE_L10N = True
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# https://medium.com/intelligentmachines/github-actions-end-to-end-ci-cd-pipeline-for-django-5d48d6f00abf
 # django\conf\global_settings.py
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DJANGO_DATABASE_NAME', 'medna_metadata'),
-        'USER': os.environ.get('DJANGO_DATABASE_USERNAME', 'django'),
-        'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD', 'password'),
-        'HOST': os.environ.get('DJANGO_DATABASE_HOST', 'localhost'),
-        'PORT': os.environ.get('DJANGO_DATABASE_PORT', 5433),
+if os.getenv('GITHUB_WORKFLOW'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'github-actions',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'localhost',
+            'PORT': '5432'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
+            'USER': os.environ.get('DJANGO_DATABASE_USERNAME'),
+            'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
+            'HOST': os.environ.get('DJANGO_DATABASE_HOST'),
+            'PORT': os.environ.get('DJANGO_DATABASE_PORT'),
+        }
+    }
 
 # The email backend to use. For possible shortcuts see django.core.mail.
 # The default is to use the SMTP backend.
@@ -371,7 +384,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 
 # Django oauth allauth settings:
 # https://www.section.io/engineering-education/django-google-oauth/
-#SOCIALACCOUNT_PROVIDERS = {
+# SOCIALACCOUNT_PROVIDERS = {
 #    'google': {
 #        'SCOPE': [
 #            'profile',
@@ -381,7 +394,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
 #            'access_type': 'online',
 #        }
 #    }
-#}
+# }
 
 ########################################
 # DRF-YASG CONFIG                      #

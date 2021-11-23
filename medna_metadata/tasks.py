@@ -9,8 +9,8 @@ class BaseTaskWithRetry(Task):
 
 
 # https://stackoverflow.com/questions/54899320/what-is-the-meaning-of-bind-true-keyword-in-celery
-#@app.task(bind=True)
-#def add_test(self, x, y):
+# @app.task(bind=True)
+# def add_test(self, x, y):
 #    try:
 #        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
 #        logger.info('Adding {0} + {1}'.format(x, y))
