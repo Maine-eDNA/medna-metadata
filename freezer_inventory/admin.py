@@ -17,7 +17,6 @@ class FreezerAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_label',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -30,7 +29,6 @@ class FreezerAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_label',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         return super(FreezerAdmin, self).change_view(request, object_id)
 
@@ -57,7 +55,6 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_column_start', 'freezer_rack_column_end',
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         # self.list_filter = (
         #    ('freezer', RelatedDropdownFilter))
@@ -73,7 +70,6 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_column_start', 'freezer_rack_column_end',
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         return super(FreezerRackAdmin, self).change_view(request, object_id)
 
@@ -99,7 +95,6 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'freezer_box_max_column', 'freezer_box_max_row',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -112,7 +107,6 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'freezer_box_max_column', 'freezer_box_max_row',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         return super(FreezerBoxAdmin, self).change_view(request, object_id)
 
@@ -139,7 +133,6 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_box', 'sample_barcode',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -152,7 +145,6 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_box', 'sample_barcode', 'freezer_inventory_slug',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
-                       'css_background_color', 'css_text_color',
                        'created_by']
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)
 

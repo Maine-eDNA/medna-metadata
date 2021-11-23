@@ -7,6 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
+# from medna_metadata import settings
 
 
 def slug_date_format(date):
@@ -135,3 +136,80 @@ class ProcessLocation(DateTimeUserMixin):
         app_label = 'utility'
         verbose_name = 'Process Location'
         verbose_name_plural = 'Process Locations'
+
+
+class DefaultSiteCss(DateTimeUserMixin):
+    default_css_label = models.CharField("Default CSS Label", max_length=255)
+    # selected CSS
+    css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
+    css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
+    # freezer frontend CSS color
+    freezer_empty_css_background_color = models.CharField("Empty Freezer BG CSS", max_length=255, default="orange")
+    freezer_empty_css_text_color = models.CharField("Empty Freezer Text CSS", max_length=255, default="white")
+    freezer_inuse_css_background_color = models.CharField("InUse Freezer BG CSS", max_length=255, default="orange")
+    freezer_inuse_css_text_color = models.CharField("InUse Freezer Text CSS", max_length=255, default="white")
+    # freezer rack frontend CSS color
+    freezer_empty_rack_css_background_color = models.CharField("Empty Freezer Rack BG CSS", max_length=255, default="orange")
+    freezer_empty_rack_css_text_color = models.CharField("Empty Freezer Rack Text CSS", max_length=255, default="white")
+    freezer_inuse_rack_css_background_color = models.CharField("InUse Freezer Rack BG CSS", max_length=255, default="orange")
+    freezer_inuse_rack_css_text_color = models.CharField("InUse Freezer Rack Text CSS", max_length=255, default="white")
+    # freezer box frontend CSS color
+    freezer_empty_box_css_background_color = models.CharField("Empty Freezer Box BG CSS", max_length=255, default="orange")
+    freezer_empty_box_css_text_color = models.CharField("Empty Freezer Box Text CSS", max_length=255, default="white")
+    freezer_inuse_box_css_background_color = models.CharField("InUse Freezer Box BG CSS", max_length=255, default="orange")
+    freezer_inuse_box_css_text_color = models.CharField("InUse Freezer Box Text CSS", max_length=255, default="white")
+    # freezer inventory frontend CSS color
+    freezer_empty_inventory_css_background_color = models.CharField("Empty Freezer Inv BG CSS", max_length=255, default="orange")
+    freezer_empty_inventory_css_text_color = models.CharField("Empty Freezer Inv Text CSS", max_length=255, default="white")
+    freezer_inuse_inventory_css_background_color = models.CharField("InUse Freezer Inv BG CSS", max_length=255, default="orange")
+    freezer_inuse_inventory_css_text_color = models.CharField("InUse Freezer Inv Text CSS", max_length=255, default="white")
+
+    def __str__(self):
+        date_fmt = slug_date_format(self.created_datetime)
+        return '{date}_{label}'.format(date=date_fmt,
+                                       label=slugify(self.default_css_label))
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Default Site CSS'
+        verbose_name_plural = 'Default Site CSS'
+
+
+class CustomUserCss(DateTimeUserMixin):
+    custom_css_label = models.CharField("Custom CSS Label", max_length=255)
+    user = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT, related_name="user_css",
+                             verbose_name="User CSS")
+    # selected CSS
+    css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
+    css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
+    # freezer frontend CSS color
+    freezer_empty_css_background_color = models.CharField("Empty Freezer BG CSS", max_length=255, default="orange")
+    freezer_empty_css_text_color = models.CharField("Empty Freezer Text CSS", max_length=255, default="white")
+    freezer_inuse_css_background_color = models.CharField("InUse Freezer BG CSS", max_length=255, default="orange")
+    freezer_inuse_css_text_color = models.CharField("InUse Freezer Text CSS", max_length=255, default="white")
+    # freezer rack frontend CSS color
+    freezer_empty_rack_css_background_color = models.CharField("Empty Freezer Rack BG CSS", max_length=255, default="orange")
+    freezer_empty_rack_css_text_color = models.CharField("Empty Freezer Rack Text CSS", max_length=255, default="white")
+    freezer_inuse_rack_css_background_color = models.CharField("InUse Freezer Rack BG CSS", max_length=255, default="orange")
+    freezer_inuse_rack_css_text_color = models.CharField("InUse Freezer Rack Text CSS", max_length=255, default="white")
+    # freezer box frontend CSS color
+    freezer_empty_box_css_background_color = models.CharField("Empty Freezer Box BG CSS", max_length=255, default="orange")
+    freezer_empty_box_css_text_color = models.CharField("Empty Freezer Box Text CSS", max_length=255, default="white")
+    freezer_inuse_box_css_background_color = models.CharField("InUse Freezer Box BG CSS", max_length=255, default="orange")
+    freezer_inuse_box_css_text_color = models.CharField("InUse Freezer Box Text CSS", max_length=255, default="white")
+    # freezer inventory frontend CSS color
+    freezer_empty_inventory_css_background_color = models.CharField("Empty Freezer Inv BG CSS", max_length=255, default="orange")
+    freezer_empty_inventory_css_text_color = models.CharField("Empty Freezer Inv Text CSS", max_length=255, default="white")
+    freezer_inuse_inventory_css_background_color = models.CharField("InUse Freezer Inv BG CSS", max_length=255, default="orange")
+    freezer_inuse_inventory_css_text_color = models.CharField("InUse Freezer Inv Text CSS", max_length=255, default="white")
+
+    def __str__(self):
+        date_fmt = slug_date_format(self.created_datetime)
+        return '{user}_{date}_{label}'.format(user=self.user,
+                                              date=date_fmt,
+                                              label=slugify(self.custom_css_label))
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Custom User CSS'
+        verbose_name_plural = 'Custom User CSS'

@@ -42,12 +42,16 @@ RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
 RUN chmod +x /usr/src/app/entrypoint.sh
 
 # set permissions for celeryworker celerybeat start
-RUN sed -i 's/\r$//g' /usr/src/app/docker/celery
-RUN chmod +x /usr/src/app/docker/celery
+COPY ./docker/celery/ .
+RUN sed -i 's/\r$//g' /usr/src/app/celerybeat_start.sh
+RUN sed -i 's/\r$//g' /usr/src/app/celeryworker_start.sh
+RUN chmod +x /usr/src/app/celerybeat_start.sh
+RUN chmod +x /usr/src/app/celeryworker_start.sh
 
 # set permissions for flower start
-RUN sed -i 's/\r$//g' /usr/src/app/docker/flower
-RUN chmod +x /usr/src/app/docker/flower
+COPY ./docker/flower/ .
+RUN sed -i 's/\r$//g' /usr/src/app/flower_start.sh
+RUN chmod +x /usr/src/app/flower_start.sh
 
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

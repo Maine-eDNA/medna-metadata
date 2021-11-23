@@ -56,9 +56,6 @@ class Freezer(DateTimeUserMixin):
     freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
     freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
     freezer_max_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
-    # frontend CSS color
-    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
-    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def save(self, *args, **kwargs):
         self.freezer_label_slug = '{name}'.format(name=slugify(self.freezer_label))
@@ -88,12 +85,10 @@ class FreezerRack(DateTimeUserMixin):
     freezer_rack_row_end = models.PositiveIntegerField("Freezer Rack Row End")
     freezer_rack_depth_start = models.PositiveIntegerField("Freezer Rack Depth Start")
     freezer_rack_depth_end = models.PositiveIntegerField("Freezer Rack Depth End")
-    # frontend CSS color
-    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
-    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def save(self, *args, **kwargs):
-        self.freezer_rack_label_slug = '{name}'.format(name=slugify(self.freezer_rack_label))
+        self.freezer_rack_label_slug = '{label}_{name}'.format(label=self.freezer.freezer_label_slug,
+                                                               name=slugify(self.freezer_rack_label))
         super(FreezerRack, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -131,12 +126,10 @@ class FreezerBox(DateTimeUserMixin):
     # (e.g., if we have 10x10, then the box can fit 100 inventory samples)
     freezer_box_max_column = models.PositiveIntegerField("Max Box Columns (Inventory)")
     freezer_box_max_row = models.PositiveIntegerField("Max Box Rows (Inventory)")
-    # frontend CSS color
-    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
-    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def save(self, *args, **kwargs):
-        self.freezer_box_label_slug = '{name}'.format(name=slugify(self.freezer_box_label))
+        self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug,
+                                                              name=slugify(self.freezer_box_label))
         super(FreezerBox, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -169,9 +162,6 @@ class FreezerInventory(DateTimeUserMixin):
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
-    # frontend CSS color
-    css_background_color = models.CharField("CSS Background Color", max_length=255, default="orange")
-    css_text_color = models.CharField("CSS Text Color", max_length=255, default="white")
 
     def save(self, *args, **kwargs):
         old_barcode = None
