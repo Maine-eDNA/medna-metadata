@@ -191,4 +191,3 @@ class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
         # subcore_empty = FieldCollectionETL.objects.filter(collection_type='sed_sample').filter(subcore_min_barcode__exact='')
 
         return dup_subcore_records
-

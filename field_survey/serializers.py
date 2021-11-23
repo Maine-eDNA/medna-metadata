@@ -79,14 +79,14 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     project_ids = serializers.SlugRelatedField(many=True, read_only=True, slug_field='project_code')
-    site_id = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='site_id')
-    username = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
-    supervisor = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
-    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
-    water_filterer = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
-    qa_editor = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
-    record_creator = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
-    record_editor = serializers.SlugRelatedField(many=False, read_only=True,  slug_field='agol_username')
+    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
+    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
 
 
 class FieldCrewSerializer(serializers.ModelSerializer):
@@ -249,7 +249,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
 
 
 class FieldSampleSerializer(serializers.ModelSerializer):
-    sample_global_id = serializers.CharField(read_only=True,  max_length=255)
+    sample_global_id = serializers.CharField(read_only=True, max_length=255)
     is_extracted = serializers.ChoiceField(read_only=True, choices=YesNo.choices, default=YesNo.NO)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     record_create_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
@@ -333,7 +333,7 @@ class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=False, max_length=255)
     username = serializers.CharField(max_length=255, allow_blank=True)
     survey_datetime = serializers.DateTimeField(allow_null=True)
-    project_ids = serializers.CharField( max_length=255, allow_blank=True)
+    project_ids = serializers.CharField(max_length=255, allow_blank=True)
     supervisor = serializers.CharField(max_length=255, allow_blank=True)
     recorder_fname = serializers.CharField(max_length=255, allow_blank=True)
     recorder_lname = serializers.CharField(max_length=255, allow_blank=True)
