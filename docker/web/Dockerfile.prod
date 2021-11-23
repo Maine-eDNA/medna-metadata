@@ -69,14 +69,16 @@ RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
 RUN chmod +x $APP_HOME/entrypoint.sh
 
 # set permissions for celeryworker celerybeat start
-COPY ./docker/celery/ /start-celery
-RUN sed -i 's/\r$//g' $APP_HOME/start-celery
-RUN chmod +x $APP_HOME/start-celery
+COPY ./docker/celery/ .
+RUN sed -i 's/\r$//g' $APP_HOME/celerybeat_start.sh
+RUN sed -i 's/\r$//g' $APP_HOME/celeryworker_start.sh
+RUN chmod +x $APP_HOME/celerybeat_start.sh
+RUN chmod +x $APP_HOME/celeryworker_start.sh
 
 # set permissions for flower start
-COPY ./docker/celery/ /start-flower
-RUN sed -i 's/\r$//g' $APP_HOME/start-flower
-RUN chmod +x $APP_HOME/start-flower
+COPY ./docker/celery/ .
+RUN sed -i 's/\r$//g' $APP_HOME/flower_start.sh
+RUN chmod +x $APP_HOME/flower_start.sh
 
 # copy project
 COPY . $APP_HOME
