@@ -14,13 +14,13 @@ class AddFieldSiteForm(forms.ModelForm):
     class Meta:
         model = FieldSite
         fields = ['grant', 'system', 'general_location_name', 'purpose', 'geom', 'watershed', ]
-        widgets = { # leaflet widget
+        widgets = {  # leaflet widget
             'geom': AllowEditLeaflet(
                 attrs={
                     'map_width': 700,
                     'map_height': 600,
                     # 'display_raw':True, # remove viewable text box
-                    'map_srid':4326,
+                    'map_srid': 4326,
                     'settings_overrides': {
                         'DEFAULT_CENTER': (44, -69),
                         'DEFAULT_ZOOM': 8,
