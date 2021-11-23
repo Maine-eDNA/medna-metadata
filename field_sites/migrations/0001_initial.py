@@ -220,7 +220,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('feature_fifth_tier',models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 5th Tier')),
+                ('feature_fifth_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 5th Tier')),
                 ('feature_fifth_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 5th Tier Slug')),
                 ('feature_fourth_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envofeaturefourth')),
                 ('feature_fourth_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 4th Tier')),

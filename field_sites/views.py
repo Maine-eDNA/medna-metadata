@@ -23,7 +23,7 @@ from .serializers import EnvoBiomeFirstSerializer, EnvoBiomeSecondSerializer,\
     EnvoFeatureSeventhSerializer, \
     SystemSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
     GeoWatershedSerializer
-import datetime
+# import datetime
 import csv
 from django.http import HttpResponse
 from rest_framework import generics
@@ -220,7 +220,7 @@ class FieldSiteExportDetailView(DetailView):
         writer.writerow([site.id, site.site_id, site.grant.grant_label, site.system.system_label,
                          site.watershed.watershed_label,
                          site.general_location_name, site.purpose, site.geom.y,
-                         site.geom.x, site.geom.srid, site.created_by.email,site.created_datetime])
+                         site.geom.x, site.geom.srid, site.created_by.email, site.created_datetime])
         return response
 
 
