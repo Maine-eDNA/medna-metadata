@@ -24,8 +24,8 @@ class SampleLabelRequestTable(tables.Table):
                                                     "input": {"class": "action-select"},
                                                     "th__input": {"id": "action-toggle"},
                                                     "th": {"class": "action-checkbox-column"}}, orderable=False)
-    #attrs = { "th__input":
-    #{"onclick": "toggle(this)"},
+    # attrs = { "th__input":
+    # {"onclick": "toggle(this)"},
     # "td__class": {"action-checkbox"}},
 
     class Meta:
@@ -33,10 +33,10 @@ class SampleLabelRequestTable(tables.Table):
         fields = ("_selected_action", "max_sample_label_id", "min_sample_label_num", "sample_year",
                   "sample_material", "purpose", "created_datetime")
         # set table css class to "result_lust"
-        #attrs = {"class": "result_list"}
+        # attrs = {"class": "result_list"}
         # this is NOT the template it writes to, this is the template it uses to load with
         # when using the 'render_table table' tag in html
-        #template_name = "django_tables2/bootstrap4.html" # now set in settings.py
+        # template_name = "django_tables2/bootstrap4.html" # now set in settings.py
 
     def render_min_sample_label_num(self, value):
         # adds leading zeros to the sample label num
