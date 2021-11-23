@@ -10,7 +10,7 @@ from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrat
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from django.utils import timezone
 # custom private media S3 backend storage
-from medna_metadata.storage_backends import PrivateSequencingStorage
+from medna_metadata.storage_backends import select_private_sequencing_storage
 
 
 def update_extraction_status(old_barcode, field_sample):
@@ -477,7 +477,7 @@ class FastqFile(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
-    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=PrivateSequencingStorage())
+    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage)
 
     @property
     def fastq_filename(self):
