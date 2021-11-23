@@ -19,7 +19,7 @@
       <td></td>
       <td><a href="{% url 'users:sites_index' %}" class="viewlink">{% translate 'View' %}</a></td>
     </tr>
-    <tr class="model-labels{% if 'users/user/samplelabel/' in request.path %} current-model{% endif %}">
+    <tr class="model-labels{% if 'users/user/samplebarcode/' in request.path %} current-model{% endif %}">
       <th scope="row"><a href="{% url 'users:labels_index' %}"{% if 'users/labels_index/' in request.path %} aria-current='page'{% endif %}><strong>{% firstof user.get_short_name user.get_username|split_email %}</strong>'s
 {% translate ' Labels' %}</a></th>
       <td></td>
@@ -39,15 +39,15 @@
     </tr>
   </table>
 </div>
-<div class="app-labels module{% if 'labels/samplelabel/' in request.path %} current-app{% endif %}">
+<div class="app-labels module{% if 'labels/samplebarcode/' in request.path %} current-app{% endif %}">
   <table>
     <caption>
-      <a href="{% url 'users:samplelabel' %}" class="section" title="{% blocktranslate with name='labels' %}Models in the {{ name }} application{% endblocktranslate %}">{% translate 'ADD OR VIEW LABELS' %}</a>
+      <a href="{% url 'users:samplebarcode' %}" class="section" title="{% blocktranslate with name='labels' %}Models in the {{ name }} application{% endblocktranslate %}">{% translate 'ADD OR VIEW LABELS' %}</a>
     </caption>
-    <tr class="model-labels{% if 'labels/samplelabel/' in request.path %} current-model{% endif %}">
-      <th scope="row"><a href="{% url 'users:samplelabel' %}"{% if 'labels/samplelabel/' in request.path %} aria-current='page'{% endif %}>{% translate 'Labels' %}</a></th>
+    <tr class="model-labels{% if 'labels/samplebarcode/' in request.path %} current-model{% endif %}">
+      <th scope="row"><a href="{% url 'users:samplebarcode' %}"{% if 'labels/samplebarcode/' in request.path %} aria-current='page'{% endif %}>{% translate 'Labels' %}</a></th>
       <td><a href="{% url 'users:samplelabel_add' %}" class="addlink">{% translate 'Add' %}</a></td>
-      <td><a href="{% url 'users:samplelabel' %}" class="viewlink">{% translate 'View' %}</a></td>
+      <td><a href="{% url 'users:samplebarcode' %}" class="viewlink">{% translate 'View' %}</a></td>
     </tr>
   </table>
 </div>
