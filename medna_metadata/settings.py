@@ -318,7 +318,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',  # can authenticate via token
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated', # have to be authenticated to view rest API
+        'rest_framework.permissions.IsAuthenticated',  # have to be authenticated to view rest API
     ),
 }
 
@@ -357,7 +357,7 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
 # False to not remember, and True to always remember.
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900 # 15 mins in seconds
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900  # 15 mins in seconds
 
 # Django oauth allauth settings:
 # https://www.section.io/engineering-education/django-google-oauth/
@@ -454,8 +454,8 @@ BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 
 CELERYBEAT_SCHEDULE = {
     'transform-new-records': {
-       'task': 'tasks.transform_new_records_field_survey_task',
-       'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
+        'task': 'tasks.transform_new_records_field_survey_task',
+        'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     },
 }
 
