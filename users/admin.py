@@ -33,4 +33,5 @@ class CustomUserAdmin(UserAdmin):
             del actions['delete_selected']
         return actions
 
+
 admin.site.register(CustomUser, CustomUserAdmin)
