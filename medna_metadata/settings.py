@@ -152,25 +152,6 @@ TEMPLATES = [
     },
 ]
 
-# media files (if uploaded)
-# django\conf\global_settings.py
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-# URL that handles the media served from MEDIA_ROOT.
-# Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = "/media/"
-
-# Static files (CSS, JavaScript, Images)
-# django\conf\global_settings.py
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-# Absolute path to the directory static files should be collected to.
-# Example: "/var/www/example.com/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-# URL that handles the static files served from STATIC_ROOT.
-# Example: "http://example.com/static/", "http://static.example.com/"
-# STATIC_URL = '/static/' # set by django-storages
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 # django\conf\global_settings.py
@@ -213,10 +194,6 @@ MIDDLEWARE = [
 # django\conf\global_settings.py
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# default account tenure in DAYS - permissions will expire after the designated number of days
-# from account creation
-DEFAULT_TEMP_TENURE = 365
-
 # The list of authentication backends to use is specified in the AUTHENTICATION_BACKENDS setting.
 # This should be a list of Python path names that point to Python classes that know how to authenticate.
 # These classes can be anywhere on your Python path.
@@ -232,9 +209,9 @@ AUTHENTICATION_BACKENDS = [
 # Then set the redirect links for login and logout, which will both go to our home index template
 # https://learndjango.com/tutorials/django-custom-user-model
 # django\conf\global_settings.py
-LOGIN_URL = '/account/login/' # defaults to /accounts/login, which doesn't exist
-LOGIN_REDIRECT_URL = '/' # defaults to /accounts/profile, which doesn't exist
-LOGOUT_REDIRECT_URL = '/account/login/' # defaults to None
+LOGIN_URL = '/account/login/'  # defaults to /accounts/login, which doesn't exist
+LOGIN_REDIRECT_URL = '/'  # defaults to /accounts/profile, which doesn't exist
+LOGOUT_REDIRECT_URL = '/account/login/'  # defaults to None
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -414,29 +391,55 @@ SWAGGER_SETTINGS = {
 # DJANGO-STORAGES CONFIG               #
 ########################################
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME')
-AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
-AWS_REGION = 'us-east-1'
-AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
+if os.getenv('GITHUB_WORKFLOW'):
+    # media files (if uploaded)
+    # django\conf\global_settings.py
+    # Absolute filesystem path to the directory that will hold user-uploaded files.
+    # Example: "/var/www/example.com/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    # URL that handles the media served from MEDIA_ROOT.
+    # Examples: "http://example.com/media/", "http://media.example.com/"
+    MEDIA_URL = "/media/"
+    DEFAULT_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
+    PRIVATE_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
+    PRIVATE_SEQUENCING_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
 
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+    # Static files (CSS, JavaScript, Images)
+    # django\conf\global_settings.py
+    # https://docs.djangoproject.com/en/3.1/howto/static-files/
+    # Absolute path to the directory static files should be collected to.
+    # Example: "/var/www/example.com/static/"
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+    # URL that handles the static files served from STATIC_ROOT.
+    # Example: "http://example.com/static/", "http://static.example.com/"
+    STATIC_URL = '/static/'  # set by django-storages
 
-AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
-STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+else:
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME')
+    AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
+    AWS_REGION = 'us-east-1'
+    AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
 
-AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
-DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
 
-AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
-PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
+    AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
+    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
-AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
+    AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
+    DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
+
+    AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
+
+    PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
+    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
