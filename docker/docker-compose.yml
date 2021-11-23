@@ -14,9 +14,24 @@ services:
       - './medna.env.db'
     volumes:
       - 'postgres_data:/var/lib/postgresql/data/'
-   # ----------------------------------------
-   # MEDNA-METADATA
-   # ----------------------------------------
+ # ----------------------------------------
+ # MEDNA-METADATA-RABBITMQ
+ # ----------------------------------------
+  medna-metadata-rabbitmq:
+    restart: always
+    image: rabbitmq:3-management
+    container_name: medna-metadata-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    env_file:
+      - './medna.env'
+    volumes:
+      - 'rabbitmq_data:/var/lib/rabbitmq/'
+      - 'rabbitmq_logs:/var/log/rabbitmq'
+ # ----------------------------------------
+ # MEDNA-METADATA
+ # ----------------------------------------
   medna-metadata:
     restart: always
     build:
@@ -32,6 +47,7 @@ services:
       - 'media_volume:/app/media/'
     depends_on:
       - medna-metadata-pgdb
+      - medna-metadata-rabbitmq
    # ----------------------------------------
    # NGINX-PROXY
    # ----------------------------------------
