@@ -167,7 +167,7 @@ class DefaultSiteCss(DateTimeUserMixin):
     def __str__(self):
         date_fmt = slug_date_format(self.created_datetime)
         return '{date}_{label}'.format(date=date_fmt,
-                                       label=slugify(self.custom_css_label))
+                                       label=slugify(self.default_css_label))
 
     class Meta:
         app_label = 'utility'
