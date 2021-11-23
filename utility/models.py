@@ -7,7 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
-from medna_metadata import settings
+# from medna_metadata import settings
 
 
 def slug_date_format(date):
@@ -177,7 +177,8 @@ class DefaultSiteCss(DateTimeUserMixin):
 
 class CustomUserCss(DateTimeUserMixin):
     custom_css_label = models.CharField("Custom CSS Label", max_length=255)
-    user = models.ForeignKey("User CSS", on_delete=models.RESTRICT, related_name="user_css")
+    user = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT, related_name="user_css",
+                             verbose_name="User CSS")
     # selected CSS
     css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
     css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
