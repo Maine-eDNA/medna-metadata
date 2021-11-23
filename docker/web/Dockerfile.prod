@@ -1,35 +1,75 @@
+###########
+# BUILDER #
+###########
 # pull official base image
-FROM python:3.9.6-slim
+FROM ubuntu:focal as builder
 
 # set work directory
-WORKDIR /app
-
+WORKDIR /usr/src/app
 
 # set environment variables
-# Prevents Python from writing pyc files to disc (equivalent to python -B option)
-ENV PYTHONDONTWRITEBYTECODE 1
-# Prevents Python from buffering stdout and stderr (equivalent to python -u option)
 ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND noninteractive
 
-# install dependencies
-RUN pip install --upgrade pip
+# http://bugs.python.org/issue19846
+# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+ENV LANG C.UTF-8
+
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Copy and install requirements
 COPY ./requirements ./requirements
 
 # set permissions for entrypoint.sh
-RUN sed -i 's/\r$//g' /app/requirements/docker-requirements.sh
-RUN chmod +x /app/requirements/docker-requirements.sh
+RUN chmod +x requirements/docker-requirements.sh
 RUN requirements/docker-requirements.sh
 
-RUN pip install -r requirements/requirements.txt
-
+# lint
+RUN pip install --upgrade pip
+RUN pip install flake8==3.9.2
 # copy project
 COPY . .
+RUN flake8 --ignore=E501,F401 .
+
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements/prod.txt
+
+#########
+# FINAL #
+#########
+FROM ubuntu:focal
+
+# create directory for the app user
+RUN mkdir -p /home/app
+
+# create the app user
+RUN addgroup -S app && adduser -S app -G app
+
+# create the appropriate directories
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# install dependencies
+RUN apt-get update && apt-get install -y libpq-dev
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements/prod.txt .
+RUN pip install --no-cache /wheels/*
 
 # set permissions for entrypoint.sh
-RUN sed -i 's/\r$//g' /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
+RUN chmod +x $APP_HOME/entrypoint.sh
+
+# copy project
+COPY . $APP_HOME
+
+# chown all the files to the app user
+RUN chown -R app:app $APP_HOME
+
+# change to the app user
+USER app
 
 # run entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/home/app/web/entrypoint.sh"]
