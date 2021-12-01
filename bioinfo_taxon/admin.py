@@ -420,7 +420,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'denoising_metadata', 'analysis_datetime', 'annotation_method',
+        self.fields = ['process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                        'analyst_first_name', 'analyst_last_name',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -431,7 +431,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['process_location', 'denoising_metadata', 'analysis_datetime', 'annotation_method',
+        self.fields = ['process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                        'analyst_first_name', 'analyst_last_name',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

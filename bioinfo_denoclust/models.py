@@ -6,42 +6,42 @@ from django.utils import timezone
 
 
 # Create your models here.
-class DenoisingMethod(DateTimeUserMixin):
+class DenoiseClusterMethod(DateTimeUserMixin):
     # DADA2, DEBLUR, PYRONOISE, UNOISE3
-    denoising_method_name = models.CharField("Denoising Method Name", max_length=255)
-    denoising_method_pipeline = models.CharField("Denoising Pipeline", max_length=255)
-    denoising_method_slug = models.SlugField("Denoising Slug", max_length=255)
+    denoise_cluster_method_name = models.CharField("Method Name", max_length=255)
+    denoise_cluster_method_pipeline = models.CharField("Pipeline", max_length=255)
+    denoise_cluster_method_slug = models.SlugField("Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.denoising_method_slug = '{name}_{pipeline}_{date}'.format(name=slugify(self.denoising_method_name),
-                                                                       pipeline=slugify(self.denoising_method_pipeline),
+        self.denoise_cluster_method_slug = '{name}_{pipeline}_{date}'.format(name=slugify(self.denoise_cluster_method_name),
+                                                                       pipeline=slugify(self.denoise_cluster_method_pipeline),
                                                                        date=slugify(created_date_fmt))
-        super(DenoisingMethod, self).save(*args, **kwargs)
+        super(DenoiseClusterMethod, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{pipeline}, {name}'.format(
-            pipeline=self.denoising_method_pipeline,
-            name=self.denoising_method_name)
+            pipeline=self.denoise_cluster_method_pipeline,
+            name=self.denoise_cluster_method_name)
 
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
-        unique_together = ['denoising_method_name', 'denoising_method_pipeline']
-        app_label = 'bioinfo_denoising'
-        verbose_name = 'Denoising Method'
-        verbose_name_plural = 'Denoising Methods'
+        unique_together = ['denoise_cluster_method_name', 'denoise_cluster_method_pipeline']
+        app_label = 'bioinfo_denoclust'
+        verbose_name = 'DenoiseCluster Method'
+        verbose_name_plural = 'DenoiseCluster Methods'
 
 
-class DenoisingMetadata(DateTimeUserMixin):
+class DenoiseClusterMetadata(DateTimeUserMixin):
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
                                          default=get_default_process_location)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT)
-    denoising_method = models.ForeignKey(DenoisingMethod, on_delete=models.RESTRICT)
-    denoising_slug = models.SlugField("Denoising Metadata Slug", max_length=255)
+    denoise_cluster_method = models.ForeignKey(DenoiseClusterMethod, on_delete=models.RESTRICT)
+    denoise_cluster_slug = models.SlugField("Metadata Slug", max_length=255)
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
@@ -49,27 +49,27 @@ class DenoisingMetadata(DateTimeUserMixin):
                                                default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
-        self.denoising_slug = '{run_id}_{method}'.format(run_id=slugify(self.run_result.run_id),
-                                                         method=slugify(self.denoising_method.denoising_method_name))
-        super(DenoisingMetadata, self).save(*args, **kwargs)
+        self.denoise_cluster_slug = '{run_id}_{method}'.format(run_id=slugify(self.run_result.run_id),
+                                                         method=slugify(self.denoise_cluster_method.denoise_cluster_method_name))
+        super(DenoiseClusterMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{method}'.format(method=self.denoising_slug)
+        return '{method}'.format(method=self.denoise_cluster_slug)
 
     class Meta:
-        app_label = 'bioinfo_denoising'
-        verbose_name = 'Denoising Metadata'
-        verbose_name_plural = 'Denoising Metadata'
+        app_label = 'bioinfo_denoclust'
+        verbose_name = 'DenoiseCluster Metadata'
+        verbose_name_plural = 'DenoiseCluster Metadata'
 
 
 class AmpliconSequenceVariant(DateTimeUserMixin):
-    denoising_metadata = models.ForeignKey(DenoisingMetadata, on_delete=models.RESTRICT)
+    denoise_cluster_metadata = models.ForeignKey(DenoiseClusterMetadata, on_delete=models.RESTRICT)
     asv_id = models.CharField("ASV ID", max_length=255)
     asv_sequence = models.TextField("ASV Sequence")
     asv_slug = models.SlugField("ASV Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        analysis_date_fmt = slug_date_format(self.denoising_metadata.analysis_datetime)
+        analysis_date_fmt = slug_date_format(self.denoise_cluster_metadata.analysis_datetime)
         self.asv_slug = '{asv}_{date}'.format(asv=slugify(self.asv_id),
                                               date=slugify(analysis_date_fmt))
         super(AmpliconSequenceVariant, self).save(*args, **kwargs)
@@ -77,11 +77,11 @@ class AmpliconSequenceVariant(DateTimeUserMixin):
     def __str__(self):
         return '{id}: {date}, {method}'.format(
             id=self.asv_id,
-            date=self.denoising_metadata.analysis_datetime,
-            method=self.denoising_metadata.denoising_slug)
+            date=self.denoise_cluster_metadata.analysis_datetime,
+            method=self.denoise_cluster_metadata.denoise_cluster_slug)
 
     class Meta:
-        app_label = 'bioinfo_denoising'
+        app_label = 'bioinfo_denoclust'
         verbose_name = 'Amplicon Sequence Variant (ASV)'
         verbose_name_plural = 'Amplicon Sequence Variants (ASVs)'
 
@@ -97,6 +97,9 @@ class ASVRead(DateTimeUserMixin):
             num_reads=self.number_reads)
 
     class Meta:
-        app_label = 'bioinfo_denoising'
+        app_label = 'bioinfo_denoclust'
         verbose_name = 'ASV Read'
         verbose_name_plural = 'ASV Reads'
+
+
+

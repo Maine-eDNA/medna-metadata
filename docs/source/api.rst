@@ -93,20 +93,21 @@ PooledLibrary, and whether it was returned to the same freezer location.
     :alt: Database tables and relationships within the metadata relational database for Freezer Inventory Tracking
     :align: center
 
-Bioinformatics: Denoising
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Bioinformatics: Denoising or Clustering
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The bioinformatic process of denoising, or converting sequences within FastQ files to Amplicon Sequence Variants, is
-represented by the DenoisingMetadata, ASVReads, and AmpliconSequenceVariants tables.
+The bioinformatic process of denoising (converting sequences within FastQ files to Amplicon Sequence Variants) or
+clustering (converting sequences within FastQ files to Operational Taxonomic Units), are
+represented by the DenoiseClusterMetadata, ASVReads, and AmpliconSequenceVariants tables.
 
-The DenoisingMetadata table covers information related to the specifics of the bioinformatics analysis pipeline. This table
+The DenoiseClusterMetadata table covers information related to the specifics of the bioinformatics analysis pipeline. This table
 enables users to track the process through which Amplicon Sequence Variants were generated. The resulting
 AmpliconSequenceVariants are listed in the AmpliconSequenceVariants table. The number of reads, or count of each sequence
 in each sequencing run, is represented in the ASVReads table.
 
-.. image:: ../../erds/medna_bioinfodenoising_erd.png
+.. image:: ../../erds/medna_bioinfodenoclust_erd.png
     :width: 400
-    :alt: Database tables and relationships within the metadata relational database for Bioinformatics: Denoising
+    :alt: Database tables and relationships within the metadata relational database for Bioinformatics: DenoiseCluster
     :align: center
 
 Bioinformatics: Taxonomic Annotation

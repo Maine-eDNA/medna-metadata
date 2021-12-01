@@ -106,7 +106,7 @@ class AnnotationMetadataViewSet(viewsets.ModelViewSet):
     serializer_class = AnnotationMetadataSerializer
     queryset = AnnotationMetadata.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'process_location', 'denoising_metadata', 'annotation_method']
+    filterset_fields = ['created_by', 'process_location', 'denoise_cluster_metadata', 'annotation_method']
 
 
 class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):

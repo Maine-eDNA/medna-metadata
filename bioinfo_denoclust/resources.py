@@ -1,18 +1,19 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
+from .models import DenoiseClusterMethod, DenoiseClusterMetadata, AmpliconSequenceVariant, ASVRead
 from wet_lab.models import RunResult, Extraction
 from utility.models import ProcessLocation
 from users.models import CustomUser
 
 
-class DenoisingMethodAdminResource(resources.ModelResource):
+class DenoiseClusterMethodAdminResource(resources.ModelResource):
     class Meta:
-        model = DenoisingMethod
-        import_id_fields = ('denoising_method_name', 'denoising_method_pipeline', )
-        fields = ('id', 'denoising_method_name', 'denoising_method_pipeline', 'denoising_method_slug',
+        model = DenoiseClusterMethod
+        import_id_fields = ('denoise_cluster_method_name', 'denoise_cluster_method_pipeline', )
+        fields = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline', 'denoise_cluster_method_slug',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'denoising_method_name', 'denoising_method_pipeline', 'denoising_method_slug',
+        export_order = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline',
+                        'denoise_cluster_method_slug',
                         'created_by', 'created_datetime', )
 
     created_by = fields.Field(
@@ -25,19 +26,19 @@ class DenoisingMethodAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class DenoisingMetadataAdminResource(resources.ModelResource):
+class DenoiseClusterMetadataAdminResource(resources.ModelResource):
     class Meta:
-        model = DenoisingMetadata
+        model = DenoiseClusterMetadata
         import_id_fields = ('run_result', 'analysis_datetime',
-                            'analyst_first_name', 'analyst_last_name', 'denoising_method', )
-        fields = ('id', 'denoising_slug', 'process_location',
+                            'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
+        fields = ('id', 'denoise_cluster_slug', 'process_location',
                   'run_result', 'analysis_datetime',
-                  'analyst_first_name', 'analyst_last_name', 'denoising_method',
+                  'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'denoising_slug', 'process_location',
+        export_order = ('id', 'denoise_cluster_slug', 'process_location',
                         'run_result', 'analysis_datetime',
-                        'analyst_first_name', 'analyst_last_name', 'denoising_method',
+                        'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
                         'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', )
 
@@ -51,10 +52,10 @@ class DenoisingMetadataAdminResource(resources.ModelResource):
         attribute='run_result',
         widget=ForeignKeyWidget(RunResult, 'run_id'))
 
-    denoising_method = fields.Field(
-        column_name='denoising_method',
-        attribute='denoising_method',
-        widget=ForeignKeyWidget(DenoisingMethod, 'denoising_method_slug'))
+    denoise_cluster_method = fields.Field(
+        column_name='denoise_cluster_method',
+        attribute='denoise_cluster_method',
+        widget=ForeignKeyWidget(DenoiseClusterMethod, 'denoise_cluster_method_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -70,15 +71,15 @@ class AmpliconSequenceVariantAdminResource(resources.ModelResource):
     class Meta:
         model = AmpliconSequenceVariant
         import_id_fields = ('asv_id', 'asv_sequence', )
-        fields = ('id', 'asv_id', 'asv_sequence', 'denoising_metadata',
+        fields = ('id', 'asv_id', 'asv_sequence', 'denoise_cluster_metadata',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'asv_id', 'asv_sequence', 'denoising_metadata',
+        export_order = ('id', 'asv_id', 'asv_sequence', 'denoise_cluster_metadata',
                         'created_by', 'created_datetime', )
 
-    denoising_metadata = fields.Field(
-        column_name='denoising_metadata',
-        attribute='denoising_metadata',
-        widget=ForeignKeyWidget(DenoisingMetadata, 'denoising_slug'))
+    denoise_cluster_metadata = fields.Field(
+        column_name='denoise_cluster_metadata',
+        attribute='denoise_cluster_metadata',
+        widget=ForeignKeyWidget(DenoiseClusterMetadata, 'denoise_cluster_slug'))
 
     created_by = fields.Field(
         column_name='created_by',

@@ -1,31 +1,31 @@
 from django.shortcuts import render
-from .serializers import DenoisingMethodSerializer, DenoisingMetadataSerializer, \
+from .serializers import DenoiseClusterMethodSerializer, DenoiseClusterMetadataSerializer, \
     AmpliconSequenceVariantSerializer, ASVReadSerializer
-from .models import DenoisingMethod, DenoisingMetadata, AmpliconSequenceVariant, ASVRead
+from .models import DenoiseClusterMethod, DenoiseClusterMetadata, AmpliconSequenceVariant, ASVRead
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-class DenoisingMethodViewSet(viewsets.ModelViewSet):
-    serializer_class = DenoisingMethodSerializer
-    queryset = DenoisingMethod.objects.all()
+class DenoiseClusterMethodViewSet(viewsets.ModelViewSet):
+    serializer_class = DenoiseClusterMethodSerializer
+    queryset = DenoiseClusterMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
 
 
-class DenoisingMetadataViewSet(viewsets.ModelViewSet):
-    serializer_class = DenoisingMetadataSerializer
-    queryset = DenoisingMetadata.objects.all()
+class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
+    serializer_class = DenoiseClusterMetadataSerializer
+    queryset = DenoiseClusterMetadata.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location',
-                        'run_result', 'denoising_method']
+                        'run_result', 'denoise_cluster_method']
 
 
 class AmpliconSequenceVariantViewSet(viewsets.ModelViewSet):
     serializer_class = AmpliconSequenceVariantSerializer
     queryset = AmpliconSequenceVariant.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'denoising_metadata']
+    filterset_fields = ['created_by', 'denoise_cluster_metadata']
 
 
 class ASVReadViewSet(viewsets.ModelViewSet):

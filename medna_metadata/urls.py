@@ -34,7 +34,7 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
     FastqFileViewSet
 from freezer_inventory.views import FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
     FreezerInventoryViewSet, FreezerCheckoutViewSet
-from bioinfo_denoising.views import DenoisingMethodViewSet, DenoisingMetadataViewSet, \
+from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
     AmpliconSequenceVariantViewSet, ASVReadViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
     TaxonDomainViewSet, TaxonKingdomViewSet, TaxonPhylumViewSet, \
@@ -167,9 +167,9 @@ router.register(r'freezer_inventory/rack', FreezerRackViewSet, 'rack')
 router.register(r'freezer_inventory/box', FreezerBoxViewSet, 'box')
 router.register(r'freezer_inventory/inventory', FreezerInventoryViewSet, 'inventory')
 router.register(r'freezer_inventory/checkout', FreezerCheckoutViewSet, 'checkout')
-# bioinfo_denoising
-router.register(r'bioinfo/denoising_method', DenoisingMethodViewSet, 'denoising_method')
-router.register(r'bioinfo/denoising_metadata', DenoisingMetadataViewSet, 'denoising_metadata')
+# bioinfo_denoclust
+router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
+router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
 router.register(r'bioinfo/asv', AmpliconSequenceVariantViewSet, 'asv')
 router.register(r'bioinfo/asv_read', ASVReadViewSet, 'asv_read')
 # bioinfo_taxon

@@ -156,7 +156,7 @@ process of deplying the Maine-eDNA Metadata application::
     python manage.py migrate field_survey
     python manage.py migrate wet_lab
     python manage.py migrate freezer_inventory
-    python manage.py migrate bioinfo_denoising
+    python manage.py migrate bioinfo_denoclust
     python manage.py migrate bioinfo_taxon
 
 Now, if everything looked good (e.g., no error messages), complete the remaining migrations::
