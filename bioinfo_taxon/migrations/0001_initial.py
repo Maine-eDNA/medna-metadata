@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('bioinfo_denoising', '0001_initial'),
+        ('bioinfo_denoclust', '0001_initial'),
         ('utility', '0001_initial'),
     ]
 
@@ -212,7 +212,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('annotation_method_name', models.CharField(max_length=255, unique=True, verbose_name='Denoising Method Name')),
+                ('annotation_method_name', models.CharField(max_length=255, unique=True, verbose_name='DenoiseCluster Method Name')),
                 ('annotation_method_name_slug', models.SlugField(max_length=255, verbose_name='Annotation Method Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user,
                                                  on_delete=models.SET(utility.models.get_sentinel_user),
@@ -237,8 +237,8 @@ class Migration(migrations.Migration):
                 ('annotation_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_taxon.annotationmethod')),
                 ('analysis_script_repo_url', models.URLField(default='https://github.com/Maine-eDNA', max_length=255,
                                                              verbose_name='Repository URL')),
-                ('denoising_metadata', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT,
-                                                         to='bioinfo_denoising.denoisingmetadata')),
+                ('denoise_cluster_metadata', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT,
+                                                         to='bioinfo_denoclust.denoiseclustermetadata')),
                 ('process_location', models.ForeignKey(default=utility.models.get_default_process_location,
                                                        on_delete=django.db.models.deletion.RESTRICT,
                                                        to='utility.processlocation')),
@@ -269,7 +269,7 @@ class Migration(migrations.Migration):
                 ('ta_species', models.CharField(blank=True, max_length=255, verbose_name='Species')),
                 ('ta_common_name', models.CharField(blank=True, max_length=255, verbose_name='Common Name')),
                 ('annotation_metadata', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_taxon.annotationmetadata')),
-                ('asv', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_denoising.ampliconsequencevariant')),
+                ('asv', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_denoclust.ampliconsequencevariant')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('manual_class', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_class', to='bioinfo_taxon.taxonclass')),
                 ('manual_domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_domain', to='bioinfo_taxon.taxondomain')),

@@ -23,7 +23,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	#python manage.py makemigrations field_survey
 	#python manage.py makemigrations wet_lab
 	#python manage.py makemigrations freezer_inventory
-	#python manage.py makemigrations bioinfo_denoising
+	#python manage.py makemigrations bioinfo_denoclust
 	#python manage.py makemigrations bioinfo_taxon
 	echo "${0}: Applying database migrations"
 	python manage.py migrate users
@@ -33,7 +33,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	python manage.py migrate field_survey
 	python manage.py migrate wet_lab
 	python manage.py migrate freezer_inventory
-	python manage.py migrate bioinfo_denoising
+	python manage.py migrate bioinfo_denoclust
 	python manage.py migrate bioinfo_taxon
 	python manage.py migrate
 fi
@@ -122,11 +122,11 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerbox.json
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventory.json
   python manage.py loaddata fixtures/prod/freezer_inventory_freezercheckout.json
-  # bioinfo_denoising
-  python manage.py loaddata fixtures/prod/bioinfo_denoising_denoisingmethod.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoising_denoisingmetadata.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoising_ampliconsequencevariant.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoising_asvread.json
+  # bioinfo_denoclust
+  python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermethod.json
+  python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermetadata.json
+  python manage.py loaddata fixtures/prod/bioinfo_denoclust_ampliconsequencevariant.json
+  python manage.py loaddata fixtures/prod/bioinfo_denoclust_asvread.json
   # bioinfo_taxon
   python manage.py loaddata fixtures/prod/bioinfo_taxon_referencedatabase.json
   python manage.py loaddata fixtures/prod/bioinfo_taxon_taxondomain.json
