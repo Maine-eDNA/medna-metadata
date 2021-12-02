@@ -344,8 +344,8 @@ class CheckoutActions(models.TextChoices):
 #    POWERWATER = 2, _('')
 #    __empty__ = _('(Unknown)')
 
-# moved to bioinfo_denoising/models
-# class DenoisingMethods(models.IntegerChoices):
+# moved to bioinfo_denoclust/models
+# class DenoiseClusterMethods(models.IntegerChoices):
 #    DADA2 = 0, _('DADA2')
 #    DEBLUR = 1, _('DeBlur')
 #    PYRONOISE = 2, _('PyroNoise')

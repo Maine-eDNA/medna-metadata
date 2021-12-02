@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'field_survey',
     'wet_lab',
     'freezer_inventory',
-    'bioinfo_denoising',
+    'bioinfo_denoclust',
     'bioinfo_taxon',
     'storages',  # django-storages for s3 storage backends e.g., wasabi
     'drf_yasg',  # drf-yasg creates swagger documentation for all apis
@@ -522,7 +522,7 @@ APP_ORDER = OrderedDict([
     ("wet_lab", ["PrimerPair", "IndexPair", "IndexRemovalMethod", "SizeSelectionMethod",
                  "QuantificationMethod", "ExtractionMethod", "Extraction", "Ddpcr", "Qpcr",
                  "LibraryPrep", "PooledLibrary", "FinalPooledLibrary", "RunPrep", "RunResult", "FastqFile"]),
-    ("bioinfo_denoising", ["DenoisingMethod", "DenoisingMetadata", "AmpliconSequenceVariant", "ASVRead"]),
+    ("bioinfo_denoclust", ["DenoiseClusterMethod", "DenoiseClusterMetadata", "AmpliconSequenceVariant", "ASVRead"]),
     ("bioinfo_taxon", ["ReferenceDatabase", "TaxonDomain", "TaxonKingdom", "TaxonPhylum", "TaxonClass",
                        "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies", "AnnotationMethod",
                        "AnnotationMetadata", "TaxonomicAnnotation"]),
