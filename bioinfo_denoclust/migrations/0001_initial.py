@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                                                  on_delete=models.SET(utility.models.get_sentinel_user),
                                                  to=settings.AUTH_USER_MODEL)),
                 ('denoise_cluster_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT,
-                                                       to='bioinfo_denoclust.denoiseclustermethod')),
+                                                             to='bioinfo_denoclust.denoiseclustermethod')),
                 ('process_location', models.ForeignKey(default=utility.models.get_default_process_location,
                                                        on_delete=django.db.models.deletion.RESTRICT,
                                                        to='utility.processlocation')),
