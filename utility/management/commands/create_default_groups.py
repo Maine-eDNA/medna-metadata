@@ -83,9 +83,9 @@ GROUPS = {
         "Freezer Inventory": ["add", "delete", "change", "view"],
         "Freezer Checkout": ["add", "delete", "change", "view"],
 
-        # bioinfo_denoising
-        "Denoising Method": ["add", "delete", "change", "view"],
-        "Denoising Metadata": ["add", "delete", "change", "view"],
+        # bioinfo_denoclust
+        "DenoiseCluster Method": ["add", "delete", "change", "view"],
+        "DenoiseCluster Metadata": ["add", "delete", "change", "view"],
         "Amplicon Sequence Variant (ASV)": ["add", "delete", "change", "view"],
         "ASV Read": ["add", "delete", "change", "view"],
 
@@ -180,9 +180,9 @@ GROUPS = {
         "Freezer Inventory": ["add", "change", "view"],
         "Freezer Checkout": ["add", "change", "view"],
 
-        # bioinfo_denoising
-        "Denoising Method": ["add", "change", "view"],
-        "Denoising Metadata": ["add", "change", "view"],
+        # bioinfo_denoclust
+        "DenoiseCluster Method": ["add", "change", "view"],
+        "DenoiseCluster Metadata": ["add", "change", "view"],
         "Amplicon Sequence Variant (ASV)": ["view"],
         "ASV Read": ["view"],
 
@@ -262,9 +262,9 @@ GROUPS = {
         "Freezer Inventory": ["add", "change", "view"],
         "Freezer Checkout": ["add", "change", "view"],
 
-        # bioinfo_denoising
-        "Denoising Method": ["view"],
-        "Denoising Metadata": ["view"],
+        # bioinfo_denoclust
+        "DenoiseCluster Method": ["view"],
+        "DenoiseCluster Metadata": ["view"],
         "Amplicon Sequence Variant (ASV)": ["view"],
         "ASV Read": ["view"],
 
