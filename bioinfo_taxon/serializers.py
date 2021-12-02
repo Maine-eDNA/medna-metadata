@@ -295,8 +295,8 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
     denoise_cluster_metadata = serializers.SlugRelatedField(many=False, read_only=False,
-                                                      slug_field='denoise_cluster_slug',
-                                                      queryset=DenoiseClusterMetadata.objects.all())
+                                                            slug_field='denoise_cluster_slug',
+                                                            queryset=DenoiseClusterMetadata.objects.all())
     annotation_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                      slug_field='annotation_method_name_slug',
                                                      queryset=AnnotationMethod.objects.all())

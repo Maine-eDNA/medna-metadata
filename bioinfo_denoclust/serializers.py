@@ -59,8 +59,8 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
     run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id',
                                               queryset=RunResult.objects.all())
     denoise_cluster_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='denoise_cluster_method_slug',
-                                                    queryset=DenoiseClusterMethod.objects.all())
+                                                          slug_field='denoise_cluster_method_slug',
+                                                          queryset=DenoiseClusterMethod.objects.all())
 
 
 class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
@@ -80,8 +80,8 @@ class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     denoise_cluster_metadata = serializers.SlugRelatedField(many=False, read_only=False,
-                                                      slug_field='denoise_cluster_slug',
-                                                      queryset=DenoiseClusterMetadata.objects.all())
+                                                            slug_field='denoise_cluster_slug',
+                                                            queryset=DenoiseClusterMetadata.objects.all())
 
 
 class ASVReadSerializer(serializers.ModelSerializer):
