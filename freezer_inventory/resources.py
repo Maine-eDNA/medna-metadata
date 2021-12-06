@@ -1,10 +1,30 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget
-from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
+from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
+    FreezerCheckout, FreezerInventoryReturnMetadata
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from users.models import CustomUser
+
+
+class ReturnActionAdminResource(resources.ModelResource):
+    class Meta:
+        model = ReturnAction
+        import_id_fields = ('id', 'action_code', )
+
+        # exclude = ('created_by', 'created_datetime', 'modified_datetime', )
+        fields = ('id', 'action_code', 'action_label', 'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'action_code', 'action_label', 'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
 
 
 class FreezerAdminResource(resources.ModelResource):
@@ -154,6 +174,37 @@ class FreezerCheckoutAdminResource(resources.ModelResource):
         column_name='freezer_inventory',
         attribute='freezer_inventory',
         widget=ForeignKeyWidget(FreezerInventory, 'freezer_inventory_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class FreezerInventoryReturnMetadataAdminResource(resources.ModelResource):
+    class Meta:
+        model = FreezerInventoryReturnMetadata
+        import_id_fields = ('freezer_checkout', )
+
+        # exclude = ('created_by', 'created_datetime', 'modified_datetime', )
+        fields = ('freezer_checkout', 'metadata_entered', 'return_actions',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('freezer_checkout', 'metadata_entered', 'return_actions',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    freezer_checkout = fields.Field(
+        column_name='freezer_checkout',
+        attribute='freezer_checkout',
+        widget=ManyToManyWidget(FreezerCheckout, 'freezer_checkout_slug'))
+
+    return_actions = fields.Field(
+        column_name='return_actions',
+        attribute='return_actions',
+        widget=ManyToManyWidget(ReturnAction, 'action_label'))
 
     created_by = fields.Field(
         column_name='created_by',

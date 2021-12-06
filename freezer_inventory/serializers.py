@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout, \
+    FreezerInventoryReturnMetadata
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
@@ -12,6 +13,22 @@ from sample_labels.models import SampleBarcode
 
 
 # Django REST Framework to allow the automatic downloading of data!
+class ReturnActionSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    action_code = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=ReturnAction.objects.all())])
+    action_label = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = ReturnAction
+        fields = ['id', 'action_code', 'action_label',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # foreign key fields
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+
+
 class FreezerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_label = serializers.CharField(max_length=255,
@@ -185,3 +202,19 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
     freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False,
                                                      slug_field='freezer_inventory_slug',
                                                      queryset=FreezerInventory.objects.all())
+
+
+class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
+    metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FreezerInventoryReturnMetadata
+        fields = ['freezer_checkout', 'metadata_entered', 'return_actions',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # foreign key fields
+    freezer_checkout = serializers.SlugRelatedField(many=False, read_only=True, slug_field='freezer_checkout_slug')
+    return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
+                                                  queryset=ReturnAction.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

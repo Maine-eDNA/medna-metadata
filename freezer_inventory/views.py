@@ -1,10 +1,20 @@
 from django.shortcuts import render
-from .serializers import FreezerSerializer, FreezerRackSerializer, FreezerBoxSerializer, FreezerInventorySerializer, \
-    FreezerCheckoutSerializer
-from .models import Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout
+from .serializers import ReturnActionSerializer, FreezerSerializer, FreezerRackSerializer, \
+    FreezerBoxSerializer, FreezerInventorySerializer, FreezerCheckoutSerializer, \
+    FreezerInventoryReturnMetadataSerializer
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
+    FreezerCheckout, FreezerInventoryReturnMetadata
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
+
+
 # Create your views here.
+class ReturnActionViewSet(viewsets.ModelViewSet):
+    serializer_class = ReturnActionSerializer
+    queryset = ReturnAction.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['action_code', 'action_label',
+                        'created_datetime', 'modified_datetime', 'created_by', ]
 
 
 class FreezerViewSet(viewsets.ModelViewSet):
@@ -41,3 +51,12 @@ class FreezerCheckoutViewSet(viewsets.ModelViewSet):
     queryset = FreezerCheckout.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_inventory', 'freezer_checkout_action', 'created_by']
+
+
+class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
+    serializer_class = FreezerInventoryReturnMetadataSerializer
+    queryset = FreezerInventoryReturnMetadata.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['freezer_checkout', 'metadata_entered',
+                        'created_datetime', 'modified_datetime', 'created_by']
+

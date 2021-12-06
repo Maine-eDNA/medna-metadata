@@ -17,6 +17,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='ReturnAction',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+                ('action_code', models.CharField(max_length=255, unique=True, verbose_name='Action Code')),
+                ('action_label', models.CharField(max_length=255, verbose_name='Action Label')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'Return Action',
+                'verbose_name_plural': 'Return Actions',
+            },
+        ),
+        migrations.CreateModel(
             name='Freezer',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -52,9 +67,7 @@ class Migration(migrations.Migration):
                 ('freezer_rack_row_end', models.PositiveIntegerField(verbose_name='Freezer Rack Row End')),
                 ('freezer_rack_depth_start', models.PositiveIntegerField(verbose_name='Freezer Rack Depth Start')),
                 ('freezer_rack_depth_end', models.PositiveIntegerField(verbose_name='Freezer Rack Depth End')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('freezer', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='freezer_inventory.freezer')),
             ],
             options={
@@ -128,6 +141,21 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Freezer Checkout',
                 'verbose_name_plural': 'Freezer Checkouts',
+            },
+        ),
+        migrations.CreateModel(
+            name='FreezerInventoryReturnMetadata',
+            fields=[
+                ('freezer_checkout', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='freezer_inventory.freezercheckout')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+                ('metadata_entered', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Metadata Entered')),
+                ('return_actions', models.ManyToManyField(related_name='return_actions', to='freezer_inventory.returnaction', verbose_name='Return Action(s)')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'Inventory Return Metadata',
+                'verbose_name_plural': 'Inventory Return Metadata',
             },
         ),
     ]

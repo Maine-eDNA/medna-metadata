@@ -12,37 +12,73 @@ import re
 BARCODE_PATTERN = "[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]"
 
 
+def update_record_return_metadata(pk):
+    try:
+        return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(
+            freezer_checkout=pk,
+            defaults={
+                'metadata_entered': YesNo.NO,
+            }
+        )
+        return return_metadata, created
+    except Exception as err:
+        raise RuntimeError("** Error: update_record_return_metadata Failed (" + str(err) + ")")
+
+
 def update_freezer_inv_status(inv_pk, freezer_checkout_action):
-    if freezer_checkout_action == CheckoutActions.CHECKOUT:
-        # Checkout, so change inventory status to Checked Out
-        FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.OUT)
-    elif freezer_checkout_action == CheckoutActions.RETURN:
-        # Return, so change inventory status to In Stock
-        FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.IN)
-    elif freezer_checkout_action == CheckoutActions.REMOVE:
-        # Removed, so change inventory status to Permanently Removed
-        FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.REMOVED)
+    try:
+        if freezer_checkout_action == CheckoutActions.CHECKOUT:
+            # Checkout, so change inventory status to Checked Out
+            FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.OUT)
+        elif freezer_checkout_action == CheckoutActions.RETURN:
+            # Return, so change inventory status to In Stock
+            FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.IN)
+        elif freezer_checkout_action == CheckoutActions.REMOVE:
+            # Removed, so change inventory status to Permanently Removed
+            FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.REMOVED)
+    except Exception as err:
+        raise RuntimeError("** Error: update_freezer_inv_status Failed (" + str(err) + ")")
 
 
 def update_barcode_in_freezer_status(old_barcode, new_barcode_pk):
-    # update in_freezer status of FieldSample model when samples are added to
-    # FreezerInventory model
-    if old_barcode is not None:
-        # if it is not a new barcode, update the new to is_extracted status to YES
-        # and old to is_extracted status to NO
-        sample_obj = SampleBarcode.objects.filter(pk=new_barcode_pk).first()
-        new_barcode = sample_obj.barcode_slug
-        if old_barcode != new_barcode:
-            # compare old barcode to new barcode; if they are equal then we do not need
-            # to update
-            SampleBarcode.objects.filter(barcode_slug=old_barcode).update(in_freezer=YesNo.NO)
+    try:
+        # update in_freezer status of FieldSample model when samples are added to
+        # FreezerInventory model
+        if old_barcode is not None:
+            # if it is not a new barcode, update the new to is_extracted status to YES
+            # and old to is_extracted status to NO
+            sample_obj = SampleBarcode.objects.filter(pk=new_barcode_pk).first()
+            new_barcode = sample_obj.barcode_slug
+            if old_barcode != new_barcode:
+                # compare old barcode to new barcode; if they are equal then we do not need
+                # to update
+                SampleBarcode.objects.filter(barcode_slug=old_barcode).update(in_freezer=YesNo.NO)
+                SampleBarcode.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+        else:
+            # if it is a new barcode, update the is_extracted status to YES
             SampleBarcode.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
-    else:
-        # if it is a new barcode, update the is_extracted status to YES
-        SampleBarcode.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
+    except Exception as err:
+        raise RuntimeError("** Error: update_barcode_in_freezer_status Failed (" + str(err) + ")")
 
 
 # Create your models here.
+class ReturnAction(DateTimeUserMixin):
+    action_code = models.CharField("Action Code", max_length=255, unique=True)
+    action_label = models.CharField("Action Label", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.action_code = '{code}'.format(code=slugify(self.action_code))
+        super(ReturnAction, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{label}'.format(label=self.action_label)
+
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'Return Action'
+        verbose_name_plural = 'Return Actions'
+
+
 class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_label = models.CharField("Freezer Label", max_length=255, unique=True)
@@ -232,11 +268,14 @@ class FreezerCheckout(DateTimeUserMixin):
             # if the freezer action is checkout, update freezer_checkout_datetime
             self.freezer_checkout_datetime = timezone.now()
         elif self.freezer_checkout_action == CheckoutActions.RETURN:
-            # if the freezer action is checkout, update freezer_return_datetime
+            # if the freezer action is return, update freezer_return_datetime
             self.freezer_return_datetime = timezone.now()
+            # add/update record in FreezerInventoryReturnMetadata,
+            # this will populate a checklist for user to fill in metadata
+            update_record_return_metadata(self.pk)
         elif self.freezer_checkout_action == CheckoutActions.REMOVE:
+            # if the freezer action is remove, update freezer_return_datetime
             self.freezer_perm_removal_datetime = timezone.now()
-
         update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_checkout_action)
 
         if self.pk is None:
@@ -256,3 +295,17 @@ class FreezerCheckout(DateTimeUserMixin):
         app_label = 'freezer_inventory'
         verbose_name = 'Freezer Checkout'
         verbose_name_plural = 'Freezer Checkouts'
+
+
+class FreezerInventoryReturnMetadata(DateTimeUserMixin):
+    freezer_checkout = models.OneToOneField(FreezerCheckout, on_delete=models.CASCADE, primary_key=True)
+    metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="return_actions", blank=True, null=True)
+
+    def __str__(self):
+        return '{pk}'.format(pk=self.freezer_checkout)
+
+    class Meta:
+        app_label = 'freezer_inventory'
+        verbose_name = 'Inventory Return Metadata'
+        verbose_name_plural = 'Inventory Return Metadata'
