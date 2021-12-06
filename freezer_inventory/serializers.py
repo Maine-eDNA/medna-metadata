@@ -214,7 +214,8 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
         fields = ['freezer_checkout', 'metadata_entered', 'return_actions',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
-    freezer_checkout = serializers.SlugRelatedField(many=False, read_only=True, slug_field='freezer_checkout_slug')
+    freezer_checkout = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_checkout_slug',
+                                                    queryset=FreezerCheckout.objects.filter(freezer_checkout_action=CheckoutActions.RETURN))
     return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
                                                   queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

@@ -298,7 +298,7 @@ class FreezerCheckout(DateTimeUserMixin):
 
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
-    freezer_checkout = models.OneToOneField(FreezerCheckout, on_delete=models.CASCADE, primary_key=True)
+    freezer_checkout = models.OneToOneField(FreezerCheckout, on_delete=models.CASCADE, primary_key=True, limit_choices_to={'freezer_checkout_action': CheckoutActions.RETURN})
     metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="return_actions", blank=True)
 
