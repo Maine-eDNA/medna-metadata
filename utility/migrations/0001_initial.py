@@ -103,9 +103,7 @@ class Migration(migrations.Migration):
                 ('freezer_empty_inventory_css_text_color', models.CharField(default='white', max_length=255, verbose_name='Empty Freezer Inv Text CSS')),
                 ('freezer_inuse_inventory_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='InUse Freezer Inv BG CSS')),
                 ('freezer_inuse_inventory_css_text_color', models.CharField(default='white', max_length=255, verbose_name='InUse Freezer Inv Text CSS')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Default Site CSS',
@@ -116,8 +114,7 @@ class Migration(migrations.Migration):
             name='CustomUserCss',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.ForeignKey(on_delete=models.RESTRICT, related_name='user_css',
-                                           to=settings.AUTH_USER_MODEL, verbose_name='User CSS')),
+                ('user', models.ForeignKey(on_delete=models.RESTRICT, related_name='user_css', to=settings.AUTH_USER_MODEL, verbose_name='User CSS')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('custom_css_label', models.CharField(max_length=255, verbose_name='Custom CSS Label')),
@@ -139,9 +136,7 @@ class Migration(migrations.Migration):
                 ('freezer_empty_inventory_css_text_color', models.CharField(default='white', max_length=255, verbose_name='Empty Freezer Inv Text CSS')),
                 ('freezer_inuse_inventory_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='InUse Freezer Inv BG CSS')),
                 ('freezer_inuse_inventory_css_text_color', models.CharField(default='white', max_length=255, verbose_name='InUse Freezer Inv Text CSS')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Custom User CSS',
