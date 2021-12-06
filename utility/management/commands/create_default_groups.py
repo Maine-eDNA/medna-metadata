@@ -77,11 +77,13 @@ GROUPS = {
         "Fastq File": ["add", "delete", "change", "view"],
 
         # freezer_inventory
+        "Return Action": ["add", "delete", "change", "view"],
         "Freezer": ["add", "delete", "change", "view"],
         "Freezer Rack": ["add", "delete", "change", "view"],
         "Freezer Box": ["add", "delete", "change", "view"],
         "Freezer Inventory": ["add", "delete", "change", "view"],
         "Freezer Checkout": ["add", "delete", "change", "view"],
+        "Inventory Return Metadata": ["add", "delete", "change", "view"],
 
         # bioinfo_denoclust
         "DenoiseCluster Method": ["add", "delete", "change", "view"],
@@ -174,11 +176,13 @@ GROUPS = {
         "Fastq File": ["view"],
 
         # freezer_inventory
+        "Return Action": ["add", "change", "view"],
         "Freezer": ["add", "change", "view"],
         "Freezer Rack": ["add", "change", "view"],
         "Freezer Box": ["add", "change", "view"],
         "Freezer Inventory": ["add", "change", "view"],
         "Freezer Checkout": ["add", "change", "view"],
+        "Inventory Return Metadata": ["add", "change", "view"],
 
         # bioinfo_denoclust
         "DenoiseCluster Method": ["add", "change", "view"],
@@ -256,11 +260,13 @@ GROUPS = {
         "Fastq File": ["view"],
 
         # freezer_inventory
+        "Return Action": ["view"],
         "Freezer": ["view"],
         "Freezer Rack": ["view"],
         "Freezer Box": ["view"],
         "Freezer Inventory": ["add", "change", "view"],
         "Freezer Checkout": ["add", "change", "view"],
+        "Inventory Return Metadata": ["change", "view"],
 
         # bioinfo_denoclust
         "DenoiseCluster Method": ["view"],
