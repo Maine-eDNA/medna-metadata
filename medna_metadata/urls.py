@@ -32,8 +32,8 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
     QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, DdpcrViewSet, QpcrViewSet, \
     LibraryPrepViewSet, PooledLibraryViewSet, FinalPooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
     FastqFileViewSet
-from freezer_inventory.views import FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
-    FreezerInventoryViewSet, FreezerCheckoutViewSet
+from freezer_inventory.views import ReturnActionViewSet, FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
+    FreezerInventoryViewSet, FreezerCheckoutViewSet, FreezerInventoryReturnMetadataViewSet
 from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
     AmpliconSequenceVariantViewSet, ASVReadViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
@@ -162,11 +162,13 @@ router.register(r'wet_lab/run_prep', RunPrepViewSet, 'run_prep')
 router.register(r'wet_lab/run_result', RunResultViewSet, 'run_result')
 router.register(r'wet_lab/fastq', FastqFileViewSet, 'fastq')
 # freezer_inventory
+router.register(r'freezer_inventory/return_action', ReturnActionViewSet, 'return_action')
 router.register(r'freezer_inventory/freezer', FreezerViewSet, 'freezer')
 router.register(r'freezer_inventory/rack', FreezerRackViewSet, 'rack')
 router.register(r'freezer_inventory/box', FreezerBoxViewSet, 'box')
 router.register(r'freezer_inventory/inventory', FreezerInventoryViewSet, 'inventory')
 router.register(r'freezer_inventory/checkout', FreezerCheckoutViewSet, 'checkout')
+router.register(r'freezer_inventory/return_metadata', FreezerInventoryReturnMetadataViewSet, 'return_metadata')
 # bioinfo_denoclust
 router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
 router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
