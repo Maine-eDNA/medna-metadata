@@ -146,7 +146,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FreezerInventoryReturnMetadata',
             fields=[
-                ('freezer_checkout', models.OneToOneField(limit_choices_to={'freezer_checkout_action': 'return'}, on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='freezer_inventory.freezercheckout')),
+                ('freezer_checkout', models.OneToOneField(limit_choices_to={'freezer_checkout_action': 'return'}, on_delete=django.db.models.deletion.RESTRICT, primary_key=True, serialize=False, to='freezer_inventory.freezercheckout')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('metadata_entered', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Metadata Entered')),
