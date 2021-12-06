@@ -209,9 +209,9 @@ AUTHENTICATION_BACKENDS = [
 # Then set the redirect links for login and logout, which will both go to our home index template
 # https://learndjango.com/tutorials/django-custom-user-model
 # django\conf\global_settings.py
-LOGIN_URL = '/account/login/'  # defaults to /accounts/login, which doesn't exist
-LOGIN_REDIRECT_URL = '/'  # defaults to /accounts/profile, which doesn't exist
-LOGOUT_REDIRECT_URL = '/account/login/'  # defaults to None
+# LOGIN_URL = '/account/login/'  # defaults to /accounts/login, which doesn't exist
+# LOGIN_REDIRECT_URL = '/'  # defaults to /accounts/profile, which doesn't exist
+# LOGOUT_REDIRECT_URL = '/account/login/'  # defaults to None
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -350,7 +350,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'account_reset_password'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
 # Controls the life time of the session. Set to None to ask the user (“Remember me?”),
