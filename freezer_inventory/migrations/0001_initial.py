@@ -150,7 +150,7 @@ class Migration(migrations.Migration):
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('metadata_entered', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Metadata Entered')),
-                ('return_actions', models.ManyToManyField(related_name='return_actions', to='freezer_inventory.returnaction', verbose_name='Return Action(s)')),
+                ('return_actions', models.ManyToManyField(blank=True, related_name='return_actions', to='freezer_inventory.returnaction', verbose_name='Return Action(s)')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
