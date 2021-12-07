@@ -125,8 +125,8 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   # bioinfo_denoclust
   python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermethod.json
   python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermetadata.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoclust_ampliconsequencevariant.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoclust_asvread.json
+  python manage.py loaddata fixtures/prod/bioinfo_denoclust_featureoutput.json
+  python manage.py loaddata fixtures/prod/bioinfo_denoclust_featureread.json
   # bioinfo_taxon
   python manage.py loaddata fixtures/prod/bioinfo_taxon_referencedatabase.json
   python manage.py loaddata fixtures/prod/bioinfo_taxon_taxondomain.json

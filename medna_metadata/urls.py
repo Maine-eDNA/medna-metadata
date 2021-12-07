@@ -35,7 +35,7 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
 from freezer_inventory.views import ReturnActionViewSet, FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
     FreezerInventoryViewSet, FreezerCheckoutViewSet, FreezerInventoryReturnMetadataViewSet
 from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
-    AmpliconSequenceVariantViewSet, ASVReadViewSet
+    FeatureOutputViewSet, FeatureReadViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
     TaxonDomainViewSet, TaxonKingdomViewSet, TaxonPhylumViewSet, \
     TaxonClassViewSet, TaxonOrderViewSet, TaxonFamilyViewSet, \
@@ -172,8 +172,8 @@ router.register(r'freezer_inventory/return_metadata', FreezerInventoryReturnMeta
 # bioinfo_denoclust
 router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
 router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
-router.register(r'bioinfo/asv', AmpliconSequenceVariantViewSet, 'asv')
-router.register(r'bioinfo/asv_read', ASVReadViewSet, 'asv_read')
+router.register(r'bioinfo/feature', FeatureOutputViewSet, 'feature')
+router.register(r'bioinfo/feature_read', FeatureReadViewSet, 'feature_read')
 # bioinfo_taxon
 router.register(r'bioinfo/refdb', ReferenceDatabaseViewSet, 'refdb')
 router.register(r'bioinfo/domain', TaxonDomainViewSet, 'domain')
