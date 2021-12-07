@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .serializers import DenoiseClusterMethodSerializer, DenoiseClusterMetadataSerializer, \
-    AmpliconSequenceVariantSerializer, ASVReadSerializer
-from .models import DenoiseClusterMethod, DenoiseClusterMetadata, AmpliconSequenceVariant, ASVRead
+    FeatureOutputSerializer, FeatureReadSerializer
+from .models import DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -21,15 +21,15 @@ class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
                         'run_result', 'denoise_cluster_method']
 
 
-class AmpliconSequenceVariantViewSet(viewsets.ModelViewSet):
-    serializer_class = AmpliconSequenceVariantSerializer
-    queryset = AmpliconSequenceVariant.objects.all()
+class FeatureOutputViewSet(viewsets.ModelViewSet):
+    serializer_class = FeatureOutputSerializer
+    queryset = FeatureOutput.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'denoise_cluster_metadata']
 
 
-class ASVReadViewSet(viewsets.ModelViewSet):
-    serializer_class = ASVReadSerializer
-    queryset = ASVRead.objects.all()
+class FeatureReadViewSet(viewsets.ModelViewSet):
+    serializer_class = FeatureReadSerializer
+    queryset = FeatureRead.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'extraction', 'asv']
+    filterset_fields = ['created_by', 'extraction', 'feature']

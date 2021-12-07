@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DenoiseClusterMethod, DenoiseClusterMetadata, AmpliconSequenceVariant, ASVRead
+from .models import DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead
 from wet_lab.models import RunResult, Extraction
 from utility.models import ProcessLocation
 from rest_framework.validators import UniqueTogetherValidator
@@ -63,17 +63,17 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
                                                           queryset=DenoiseClusterMethod.objects.all())
 
 
-class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
+class FeatureOutputSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    asv_id = serializers.CharField(max_length=255)
-    asv_sequence = serializers.CharField()
-    asv_slug = serializers.SlugField(read_only=True, max_length=255)
+    feature_id = serializers.CharField(max_length=255)
+    feature_sequence = serializers.CharField()
+    feature_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = AmpliconSequenceVariant
-        fields = ['id', 'asv_id', 'asv_slug', 'asv_sequence', 'denoise_cluster_metadata',
+        model = FeatureOutput
+        fields = ['id', 'feature_id', 'feature_slug', 'feature_sequence', 'denoise_cluster_metadata',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -84,15 +84,15 @@ class AmpliconSequenceVariantSerializer(serializers.ModelSerializer):
                                                             queryset=DenoiseClusterMetadata.objects.all())
 
 
-class ASVReadSerializer(serializers.ModelSerializer):
+class FeatureReadSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     number_reads = serializers.IntegerField(min_value=0)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = ASVRead
-        fields = ['id', 'asv', 'extraction', 'number_reads',
+        model = FeatureRead
+        fields = ['id', 'feature', 'extraction', 'number_reads',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -100,5 +100,5 @@ class ASVReadSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
                                               queryset=Extraction.objects.all())
-    asv = serializers.SlugRelatedField(many=False, read_only=False, slug_field='asv_slug',
-                                       queryset=AmpliconSequenceVariant.objects.all())
+    feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug',
+                                       queryset=FeatureOutput.objects.all())

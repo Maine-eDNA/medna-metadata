@@ -1,11 +1,11 @@
 # Register your models here.
 # from django.contrib import admin
 from django.contrib.gis import admin
-from .models import DenoiseClusterMethod, DenoiseClusterMetadata, AmpliconSequenceVariant, ASVRead
+from .models import DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import DenoiseClusterMethodAdminResource, DenoiseClusterMetadataAdminResource, \
-    AmpliconSequenceVariantAdminResource, ASVReadAdminResource
+    FeatureOutputAdminResource, FeatureReadAdminResource
 
 
 # Register your models here.
@@ -87,9 +87,9 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
 admin.site.register(DenoiseClusterMetadata, DenoiseClusterMetadataAdmin)
 
 
-class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
+class FeatureOutputAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
-    resource_class = AmpliconSequenceVariantAdminResource
+    resource_class = FeatureOutputAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
@@ -97,18 +97,18 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['asv_id', 'asv_sequence', 'denoise_cluster_metadata', 'created_by']
+        self.fields = ['feature_id', 'feature_sequence', 'denoise_cluster_metadata', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(AmpliconSequenceVariantAdmin, self).add_view(request)
+        return super(FeatureOutputAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['asv_id', 'asv_sequence', 'denoise_cluster_metadata', 'created_by']
+        self.fields = ['feature_id', 'feature_sequence', 'denoise_cluster_metadata', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(AmpliconSequenceVariantAdmin, self).change_view(request, object_id)
+        return super(FeatureOutputAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -119,30 +119,30 @@ class AmpliconSequenceVariantAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
 
 
-admin.site.register(AmpliconSequenceVariant, AmpliconSequenceVariantAdmin)
+admin.site.register(FeatureOutput, FeatureOutputAdmin)
 
 
-class ASVReadAdmin(ImportExportActionModelAdmin):
+class FeatureReadAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
-    resource_class = ASVReadAdminResource
+    resource_class = FeatureReadAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['asv', 'extraction', 'number_reads', 'created_by']
+        self.fields = ['feature', 'extraction', 'number_reads', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(ASVReadAdmin, self).add_view(request)
+        return super(FeatureReadAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['asv', 'extraction', 'number_reads', 'created_by']
+        self.fields = ['feature', 'extraction', 'number_reads', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(ASVReadAdmin, self).change_view(request, object_id)
+        return super(FeatureReadAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -153,4 +153,4 @@ class ASVReadAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
 
 
-admin.site.register(ASVRead, ASVReadAdmin)
+admin.site.register(FeatureRead, FeatureReadAdmin)

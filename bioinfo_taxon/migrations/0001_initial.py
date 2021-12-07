@@ -269,7 +269,7 @@ class Migration(migrations.Migration):
                 ('ta_species', models.CharField(blank=True, max_length=255, verbose_name='Species')),
                 ('ta_common_name', models.CharField(blank=True, max_length=255, verbose_name='Common Name')),
                 ('annotation_metadata', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_taxon.annotationmetadata')),
-                ('asv', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_denoclust.ampliconsequencevariant')),
+                ('feature', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_denoclust.featureoutput')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('manual_class', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_class', to='bioinfo_taxon.taxonclass')),
                 ('manual_domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_domain', to='bioinfo_taxon.taxondomain')),

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
-from bioinfo_denoclust.models import AmpliconSequenceVariant, DenoiseClusterMetadata
+from bioinfo_denoclust.models import FeatureOutput, DenoiseClusterMetadata
 from utility.enumerations import YesNo
 from utility.models import ProcessLocation
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
@@ -320,7 +320,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaxonomicAnnotation
-        fields = ['id', 'asv', 'annotation_metadata',
+        fields = ['id', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom',
                   'ta_phylum', 'ta_class', 'ta_order',
@@ -335,8 +335,8 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    asv = serializers.SlugRelatedField(many=False, read_only=False, slug_field='asv_slug',
-                                       queryset=AmpliconSequenceVariant.objects.all())
+    feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug',
+                                       queryset=FeatureOutput.objects.all())
     annotation_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='annotation_slug',
                                                        queryset=AnnotationMetadata.objects.all())
     reference_database = serializers.SlugRelatedField(many=False, read_only=False, slug_field='refdb_slug',

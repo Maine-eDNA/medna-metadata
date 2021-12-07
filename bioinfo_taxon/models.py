@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-# from bioinfo_denoclust.models import AmpliconSequenceVariant, DenoiseClusterMetadata
+# from bioinfo_denoclust.models import FeatureOutput, DenoiseClusterMetadata
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import YesNo
 from django.utils.text import slugify
@@ -329,7 +329,7 @@ class AnnotationMetadata(DateTimeUserMixin):
 
 
 class TaxonomicAnnotation(DateTimeUserMixin):
-    asv = models.ForeignKey('bioinfo_denoclust.AmpliconSequenceVariant', on_delete=models.RESTRICT)
+    feature = models.ForeignKey('bioinfo_denoclust.FeatureOutput', on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
     confidence = models.DecimalField("Confidence", max_digits=15, decimal_places=10,
@@ -362,9 +362,9 @@ class TaxonomicAnnotation(DateTimeUserMixin):
                                        related_name="manual_species")
 
     def __str__(self):
-        return '{taxon} {asv}'.format(
+        return '{taxon} {feature}'.format(
             taxon=self.ta_taxon,
-            asv=self.asv.asv_id)
+            feature=self.feature.feature_id)
 
     class Meta:
         app_label = 'bioinfo_taxon'

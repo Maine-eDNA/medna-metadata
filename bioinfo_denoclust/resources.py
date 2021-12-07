@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
-from .models import DenoiseClusterMethod, DenoiseClusterMetadata, AmpliconSequenceVariant, ASVRead
+from .models import DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead
 from wet_lab.models import RunResult, Extraction
 from utility.models import ProcessLocation
 from users.models import CustomUser
@@ -67,13 +67,13 @@ class DenoiseClusterMetadataAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class AmpliconSequenceVariantAdminResource(resources.ModelResource):
+class FeatureOutputAdminResource(resources.ModelResource):
     class Meta:
-        model = AmpliconSequenceVariant
-        import_id_fields = ('asv_id', 'asv_sequence', )
-        fields = ('id', 'asv_id', 'asv_sequence', 'denoise_cluster_metadata',
+        model = FeatureOutput
+        import_id_fields = ('feature_id', 'feature_sequence', )
+        fields = ('id', 'feature_id', 'feature_sequence', 'denoise_cluster_metadata',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'asv_id', 'asv_sequence', 'denoise_cluster_metadata',
+        export_order = ('id', 'feature_id', 'feature_sequence', 'denoise_cluster_metadata',
                         'created_by', 'created_datetime', )
 
     denoise_cluster_metadata = fields.Field(
@@ -91,19 +91,19 @@ class AmpliconSequenceVariantAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class ASVReadAdminResource(resources.ModelResource):
+class FeatureReadAdminResource(resources.ModelResource):
     class Meta:
-        model = ASVRead
-        import_id_fields = ('asv', )
-        fields = ('id', 'asv', 'extraction', 'number_reads',
+        model = FeatureRead
+        import_id_fields = ('feature', )
+        fields = ('id', 'feature', 'extraction', 'number_reads',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'asv', 'number_reads',
+        export_order = ('id', 'feature', 'number_reads',
                         'created_by', 'created_datetime',)
 
-    asv = fields.Field(
-        column_name='asv',
-        attribute='asv',
-        widget=ForeignKeyWidget(AmpliconSequenceVariant, 'asv_id'))
+    feature = fields.Field(
+        column_name='feature',
+        attribute='feature',
+        widget=ForeignKeyWidget(FeatureOutput, 'feature_id'))
 
     extraction = fields.Field(
         column_name='extraction',

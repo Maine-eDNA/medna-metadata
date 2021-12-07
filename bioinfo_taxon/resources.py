@@ -4,7 +4,7 @@ from .models import ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, \
     AnnotationMetadata, TaxonomicAnnotation
 from utility.models import ProcessLocation
-from bioinfo_denoclust.models import AmpliconSequenceVariant, DenoiseClusterMetadata
+from bioinfo_denoclust.models import FeatureOutput, DenoiseClusterMetadata
 from users.models import CustomUser
 
 
@@ -298,9 +298,9 @@ class AnnotationMetadataAdminResource(resources.ModelResource):
 class TaxonomicAnnotationAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonomicAnnotation
-        import_id_fields = ('asv', 'annotation_metadata', 'reference_database', )
+        import_id_fields = ('feature', 'annotation_metadata', 'reference_database', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'asv', 'annotation_metadata',
+        fields = ('id', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom',
                   'ta_phylum', 'ta_class', 'ta_order',
@@ -311,7 +311,7 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                   'manual_family', 'manual_genus',
                   'manual_species',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'asv', 'annotation_metadata',
+        export_order = ('id', 'feature', 'annotation_metadata',
                         'reference_database', 'confidence',
                         'ta_taxon', 'ta_domain', 'ta_kingdom',
                         'ta_phylum', 'ta_class', 'ta_order',
@@ -323,10 +323,10 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                         'manual_species',
                         'created_by', 'created_datetime', )
 
-    asv = fields.Field(
-        column_name='asv',
-        attribute='asv',
-        widget=ForeignKeyWidget(AmpliconSequenceVariant, 'asv_id'))
+    feature = fields.Field(
+        column_name='feature',
+        attribute='feature',
+        widget=ForeignKeyWidget(FeatureOutput, 'feature_id'))
 
     annotation_metadata = fields.Field(
         column_name='annotation_metadata',

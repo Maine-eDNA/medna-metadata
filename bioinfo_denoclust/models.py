@@ -62,41 +62,40 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
         verbose_name_plural = 'DenoiseCluster Metadata'
 
 
-class AmpliconSequenceVariant(DateTimeUserMixin):
+class FeatureOutput(DateTimeUserMixin):
     denoise_cluster_metadata = models.ForeignKey(DenoiseClusterMetadata, on_delete=models.RESTRICT)
-    asv_id = models.CharField("ASV ID", max_length=255)
-    asv_sequence = models.TextField("ASV Sequence")
-    asv_slug = models.SlugField("ASV Slug", max_length=255)
+    feature_id = models.CharField("Feature ID", max_length=255)
+    feature_sequence = models.TextField("Feature Sequence")
+    feature_slug = models.SlugField("Feature Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.denoise_cluster_metadata.analysis_datetime)
-        self.asv_slug = '{asv}_{date}'.format(asv=slugify(self.asv_id),
-                                              date=slugify(analysis_date_fmt))
-        super(AmpliconSequenceVariant, self).save(*args, **kwargs)
+        self.feature_slug = '{feature}_{date}'.format(feature=slugify(self.feature_id), date=slugify(analysis_date_fmt))
+        super(FeatureOutput, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{id}: {date}, {method}'.format(
-            id=self.asv_id,
+            id=self.feature_id,
             date=self.denoise_cluster_metadata.analysis_datetime,
             method=self.denoise_cluster_metadata.denoise_cluster_slug)
 
     class Meta:
         app_label = 'bioinfo_denoclust'
-        verbose_name = 'Amplicon Sequence Variant (ASV)'
-        verbose_name_plural = 'Amplicon Sequence Variants (ASVs)'
+        verbose_name = 'Feature Output'
+        verbose_name_plural = 'Feature Outputs'
 
 
-class ASVRead(DateTimeUserMixin):
-    asv = models.ForeignKey(AmpliconSequenceVariant, on_delete=models.RESTRICT)
+class FeatureRead(DateTimeUserMixin):
+    feature = models.ForeignKey(FeatureOutput, on_delete=models.RESTRICT)
     extraction = models.ForeignKey('wet_lab.Extraction', on_delete=models.RESTRICT)
     number_reads = models.PositiveIntegerField("Number Reads")
 
     def __str__(self):
         return '{id}: {num_reads}'.format(
-            id=self.asv.asv_id,
+            id=self.feature.feature_id,
             num_reads=self.number_reads)
 
     class Meta:
         app_label = 'bioinfo_denoclust'
-        verbose_name = 'ASV Read'
-        verbose_name_plural = 'ASV Reads'
+        verbose_name = 'Feature Read'
+        verbose_name_plural = 'Feature Reads'
