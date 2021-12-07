@@ -21,36 +21,40 @@ class FreezerViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerSerializer
     queryset = Freezer.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by']
+    filterset_fields = ['freezer_label', 'freezer_label_slug',
+                        'created_datetime', 'modified_datetime', 'created_by']
 
 
 class FreezerRackViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerRackSerializer
     queryset = FreezerRack.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['freezer', 'created_by']
+    filterset_fields = ['freezer', 'freezer_rack_label', 'freezer_rack_label_slug',
+                        'created_datetime', 'modified_datetime', 'created_by']
 
 
 class FreezerBoxViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerBoxSerializer
     queryset = FreezerBox.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['freezer_rack', 'created_by']
+    filterset_fields = ['freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
+                        'created_datetime', 'modified_datetime', 'created_by']
 
 
 class FreezerInventoryViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerInventorySerializer
     queryset = FreezerInventory.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['freezer_box', 'freezer_inventory_type', 'freezer_inventory_status',
-                        'sample_barcode', 'created_datetime', 'modified_datetime', 'created_by']
+    filterset_fields = ['freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
+                        'created_datetime', 'modified_datetime', 'created_by']
 
 
 class FreezerCheckoutViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerCheckoutSerializer
     queryset = FreezerCheckout.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['freezer_inventory', 'freezer_checkout_action', 'created_by']
+    filterset_fields = ['freezer_inventory', 'freezer_checkout_action',
+                        'created_datetime', 'modified_datetime', 'created_by']
 
 
 class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
@@ -59,4 +63,3 @@ class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_checkout', 'metadata_entered',
                         'created_datetime', 'modified_datetime', 'created_by']
-
