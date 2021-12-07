@@ -113,7 +113,12 @@ else:
             'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
             'HOST': os.environ.get('DJANGO_DATABASE_HOST'),
             'PORT': os.environ.get('DJANGO_DATABASE_PORT'),
-        }
+        },
+        'other': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': 'other',
+            'USER': os.environ.get('DJANGO_DATABASE_USERNAME'),
+        },
     }
 
 # The email backend to use. For possible shortcuts see django.core.mail.
