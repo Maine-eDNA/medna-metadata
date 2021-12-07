@@ -28,10 +28,10 @@ Field Data Collection
 
 Field data collection is project wide, and pertains to environmental and collection information related to sediment or
 water samples. These samples are barcoded and that barcode is used as a unique identifier. Barcodes are placed on filters
-for water samples, and on sub-cores for sediment samples. If water is collected, it must be filtered within 24 hours of
-collection. Each water collection is filtered using multiple filter types (Nitex, Glass Fiber Filter, Supor, or Cellulose
-Nitrate) and each filter represents one sample. If sediment is collected, it is initially collected as a core. After a
-core of sediment is collected, it is subdivided into sub-cores, and each sub-core represents one sample.
+for water samples, and on sub-cores for sediment samples. Each water collection is filtered using multiple filter types
+(Nitex, Glass Fiber Filter, Supor, or Cellulose Nitrate) and each filter represents one sample. If sediment is collected,
+it is initially collected as a core. After a core of sediment is collected, it is subdivided into sub-cores,
+and each sub-core represents one sample.
 
 Filters, cores, and sub-cores are stored within -80°C lab freezers until extraction.
 
@@ -46,7 +46,7 @@ Wet Lab Processing
 Wet lab processing is conducted by the Wet Laboratory. Wet lab processing pertains to all processing from extraction,
 Digital Droplet PCR (ddPCR), quantitative PCR (qPCR), and Next Generation Sequencing (NGS). After filtration or
 sub-coring, the samples are extracted. Extraction converts field samples into solutions of eDNA. Extractions share the
-same unique barcode identifier as samples; furthermore referred to as field sample in the Entity Relationship Diagram.
+same unique barcode identifier as samples.
 
 The tables for LibraryPrep, PooledLibrary, RunPrep, and RunResults are all directly related to Next Generation Sequencing
 (NGS) and the generation of FastQ files. FastQ files contain the resulting sequences from NGS, and sequencing is typically
@@ -80,13 +80,13 @@ taken from water are typically stored in freezers until they are extracted.
 
 Extractions are stored within -80°C lab freezers, where they are temporarily removed from the freezer when further
 processing is performed. Only small portions are taken from an extraction each time they are removed from the freezer.
-Afterwhich, they are placed back in the -80°C lab freezers until there is no more extraction remaining. The Wet Laboratory
-will track the amount taken from extractions, who has the extraction, and whether it was returned to the
-same freezer location.
+After small portions are taken, extractions are placed back in the -80°C lab freezers until there is no more extraction
+remaining. The Wet Laboratory will track the amount taken from extractions, who has the extraction, and whether it was
+returned to the same freezer location.
 
-A PooledLibrary may also function in a similar way to an extraction, in that it is a solution of eDNA that may be stored
-in the -80°C lab freezers. The Wet laboratory will also track the amount taken from a PooledLibrary, who has the
-PooledLibrary, and whether it was returned to the same freezer location.
+A pooled library may also function in a similar way to an extraction, in that it is a solution of eDNA that may be stored
+in the -80°C lab freezers. The Wet laboratory will also track the amount taken from a pooled library, who has the
+pooled library, and whether it was returned to the same freezer location.
 
 .. image:: ../../erds/medna_freezerinventory_erd.png
     :width: 400
@@ -98,12 +98,12 @@ Bioinformatics: Denoising or Clustering
 
 The bioinformatic process of denoising (converting sequences within FastQ files to Amplicon Sequence Variants) or
 clustering (converting sequences within FastQ files to Operational Taxonomic Units), are
-represented by the DenoiseClusterMetadata, ASVReads, and AmpliconSequenceVariants tables.
+represented by the DenoiseClusterMetadata, FeatureReads, and FeatureOutputs tables.
 
-The DenoiseClusterMetadata table covers information related to the specifics of the bioinformatics analysis pipeline. This table
-enables users to track the process through which Amplicon Sequence Variants were generated. The resulting
-AmpliconSequenceVariants are listed in the AmpliconSequenceVariants table. The number of reads, or count of each sequence
-in each sequencing run, is represented in the ASVReads table.
+The DenoiseClusterMetadata table covers information related to the specifics of the bioinformatics analysis pipeline.
+This table enables users to track the process through which ASVs or OTUs were generated. The resulting
+sequences are listed in the FeatureOutput table. The number of reads, or count of each sequence
+in each sequencing run, is represented in the FeatureRead table.
 
 .. image:: ../../erds/medna_bioinfodenoclust_erd.png
     :width: 400
@@ -117,12 +117,12 @@ The bioinformatic process of taxonomic annotation is represented by the Annotati
 ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, and TaxonSpecies tables.
 
 The AnnotationMetadata table covers information related to the specifics of the bioinformatics analysis pipeline. This
-table enables us to track the process through which taxonomies are annotated to Amplicon Sequence Variants. It is possible
-that taxonomic annotation may be performed multiple times on the same set of Amplicon Sequence Variants. The TaxonomicAnnotation
-table retains the results of either BLAST or a trained classifier and also enables the annotation of manually verified
-taxonomy. The TaxonDomain, TaxonKingdom, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, and TaxonSpecies tables represent
-curated regional species lists that can be referenced to manually associate verified taxonomy to a sequence through the
-TaxonomicAnnotation table.
+table enables us to track the process through which taxonomies are annotated to feature outputs from denoising or
+clustering. It is possible that taxonomic annotation may be performed multiple times on the same set of feature outputs.
+The TaxonomicAnnotation table retains the results of either BLAST or a trained classifier and also enables the annotation
+of manually verified taxonomy. The TaxonDomain, TaxonKingdom, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, and
+TaxonSpecies tables represent curated regional species lists that can be referenced to manually associate verified
+taxonomy to a sequence through the TaxonomicAnnotation table.
 
 .. image:: ../../erds/medna_bioinfotaxon_erd.png
     :width: 400

@@ -132,7 +132,7 @@ Set ``youruser`` as the administrator for the medna_metadata database::
 
 Grant privileges to the ``youruser`` database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
 
-    sudo -u postgres psql -c "ALTER USER youruser CREATEDB;"
+    sudo -u postgres psql -c "ALTER USER youruser CREATEDB NOSUPERUSER NOCREATEROLE;"
 
 Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
 
