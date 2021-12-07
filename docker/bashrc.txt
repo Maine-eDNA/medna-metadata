@@ -5,6 +5,7 @@ export DJANGO_ALLOWED_HOSTS='localhost www.yourdomain.com [::1]'
 export DJANGO_SECRET_KEY='your_secret_key'
 export DJANGO_SETTINGS_MODULE=medna_metadata.settings
 export DJANGO_DATABASE_NAME='medna_metadata'
+export DJANGO_DATABASE_TESTNAME='test_medna_metadata'
 export DJANGO_DATABASE_USERNAME='youruser'
 export DJANGO_DATABASE_PASSWORD='your_db_password'
 export DJANGO_DATABASE_HOST='localhost'

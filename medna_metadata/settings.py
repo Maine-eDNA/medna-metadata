@@ -113,6 +113,9 @@ else:
             'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
             'HOST': os.environ.get('DJANGO_DATABASE_HOST'),
             'PORT': os.environ.get('DJANGO_DATABASE_PORT'),
+            'TEST': {
+                'NAME': os.environ.get('DJANGO_DATABASE_TESTNAME'),
+            },
         },
         'other': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
