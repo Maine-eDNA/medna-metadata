@@ -21,6 +21,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
     resource_class = PrimerPairAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('primer_set_name_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -39,7 +40,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['primer_set_name', 'primer_target_gene',
+        self.fields = ['primer_set_name_slug', 'primer_set_name', 'primer_target_gene',
                        'primer_name_forward', 'primer_name_reverse',
                        'primer_forward', 'primer_reverse',
                        'primer_amplicon_length_min', 'primer_amplicon_length_max',
@@ -99,6 +100,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
     resource_class = IndexRemovalMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('index_removal_method_name_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -112,7 +114,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['index_removal_method_name', 'created_by']
+        self.fields = ['index_removal_method_name_slug', 'index_removal_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexRemovalMethodAdmin, self).change_view(request, object_id)
 
@@ -132,6 +134,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
     resource_class = SizeSelectionMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('size_selection_method_name_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -145,7 +148,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['size_selection_method_name', 'created_by']
+        self.fields = ['size_selection_method_name_slug', 'size_selection_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SizeSelectionMethodAdmin, self).change_view(request, object_id)
 
@@ -165,6 +168,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
     resource_class = QuantificationMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('quant_method_name_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -178,7 +182,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['quant_method_name', 'created_by']
+        self.fields = ['quant_method_name_slug', 'quant_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(QuantificationMethodAdmin, self).change_view(request, object_id)
 
@@ -198,6 +202,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
     resource_class = ExtractionMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('extraction_method_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -214,7 +219,8 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['extraction_method_name',
+        self.fields = ['extraction_method_slug',
+                       'extraction_method_name',
                        'extraction_method_manufacturer',
                        'extraction_sop_url',
                        'created_by']
@@ -295,10 +301,12 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
     resource_class = DdpcrAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('ddpcr_experiment_name_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
+        self.fields = ['process_location', 'ddpcr_datetime', 'ddpcr_experiment_name',
+                       'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                        'ddpcr_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -309,7 +317,8 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
+        self.fields = ['ddpcr_experiment_name_slug', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name',
+                       'extraction', 'primer_set', 'ddpcr_first_name',
                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                        'ddpcr_notes', 'created_by']
 
@@ -331,10 +340,12 @@ class QpcrAdmin(ImportExportActionModelAdmin):
     resource_class = QpcrAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('qpcr_experiment_name_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
+        self.fields = ['process_location', 'qpcr_datetime', 'qpcr_experiment_name',
+                       'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                        'qpcr_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -345,7 +356,8 @@ class QpcrAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
+        self.fields = ['qpcr_experiment_name_slug', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name',
+                       'extraction', 'primer_set', 'qpcr_first_name',
                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
                        'qpcr_notes', 'created_by']
 
@@ -367,6 +379,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
     resource_class = LibraryPrepAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('lib_prep_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -385,7 +398,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
+        self.fields = ['lib_prep_slug', 'lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
                        'extraction', 'index_pair',
                        'primer_set', 'index_removal_method', 'size_selection_method',
                        'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
@@ -418,6 +431,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
     resource_class = PooledLibraryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('pooled_lib_label_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -436,7 +450,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['pooled_lib_datetime', 'pooled_lib_label',
+        self.fields = ['pooled_lib_label_slug', 'pooled_lib_datetime', 'pooled_lib_label',
                        'process_location',
                        'quantification_method',
                        'pooled_lib_concentration', 'pooled_lib_concentration_units',
@@ -517,6 +531,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
     resource_class = RunPrepAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('run_prep_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -532,7 +547,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['run_prep_date', 'process_location', 'final_pooled_library',
+        self.fields = ['run_prep_slug', 'run_prep_date', 'process_location', 'final_pooled_library',
                        'phix_spike_in', 'phix_spike_in_units',
                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
                        'run_prep_notes', 'created_by']
@@ -591,6 +606,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     resource_class = FastqFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('fastq_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -604,7 +620,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['run_result', 'extraction', 'fastq_datafile',
+        self.fields = ['fastq_slug', 'run_result', 'extraction', 'fastq_datafile',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FastqFileAdmin, self).change_view(request, object_id)

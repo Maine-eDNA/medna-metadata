@@ -94,6 +94,7 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     # list_filter = ('denoise_cluster_metadata__denoise_cluster_slug', )
+    readonly_fields = ('feature_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -106,7 +107,7 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['feature_id', 'feature_sequence', 'denoise_cluster_metadata', 'created_by']
+        self.fields = ['feature_slug', 'feature_id', 'feature_sequence', 'denoise_cluster_metadata', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FeatureOutputAdmin, self).change_view(request, object_id)
 

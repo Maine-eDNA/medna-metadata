@@ -78,6 +78,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
     resource_class = ProcessLocationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('process_location_name_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -95,7 +96,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['process_location_name', 'affiliation',
+        self.fields = ['process_location_name_slug', 'process_location_name', 'affiliation',
                        'process_location_url', 'phone_number',
                        'location_email_address', 'point_of_contact_email_address',
                        'point_of_contact_first_name', 'point_of_contact_last_name',

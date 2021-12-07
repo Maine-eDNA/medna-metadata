@@ -383,6 +383,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
+    readonly_fields = ('annotation_method_name_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -395,7 +396,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['annotation_method_name', 'created_by']
+        self.fields = ['annotation_method_name_slug', 'annotation_method_name', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AnnotationMethodAdmin, self).change_view(request, object_id)
 
@@ -417,6 +418,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'analysis_datetime', )
+    readonly_fields = ('annotation_slug',)
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -431,8 +433,8 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
-                       'analyst_first_name', 'analyst_last_name',
+        self.fields = ['annotation_slug', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime',
+                       'annotation_method', 'analyst_first_name', 'analyst_last_name',
                        'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AnnotationMetadataAdmin, self).change_view(request, object_id)

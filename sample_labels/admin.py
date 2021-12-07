@@ -78,6 +78,7 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
     resource_class = SampleLabelRequestAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('max_sample_label_id', 'min_sample_label_id', 'sample_material', 'sample_type')
+    readonly_fields = ('sample_label_request_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -95,7 +96,7 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['purpose', 'created_by']
+        self.fields = ['sample_label_request_slug', 'purpose', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleLabelRequestAdmin, self).change_view(request, object_id)
 
@@ -117,6 +118,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('sample_barcode_id', 'sample_type', 'purpose',
                     'created_datetime', 'created_by', )
+    readonly_fields = ('barcode_slug', 'sample_barcode_id', )
 
     def has_add_permission(self, request, obj=None):
         # disable add on SampleBarcode because it is populated on insert on SampleLabelRequest
@@ -135,7 +137,8 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['sample_label_request', 'purpose', 'in_freezer', 'sample_type', 'created_by']
+        self.fields = ['sample_barcode_id', 'barcode_slug', 'sample_label_request',
+                       'purpose', 'in_freezer', 'sample_type', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleBarcodeAdmin, self).change_view(request, object_id)
 
