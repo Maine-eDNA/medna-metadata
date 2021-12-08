@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import EnvoBiomeFirst, EnvoFeatureFirst, System, Watershed, FieldSite
+from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureFirst, EnvoFeatureSecond, System, Watershed, FieldSite
 from utility.models import Grant
 from utility.tests import GrantTestCase
 # Create your tests here.
@@ -18,6 +18,19 @@ class EnvoBiomeFirstTestCase(TestCase):
         self.assertIs(river.was_added_recently(), True)
 
 
+class EnvoBiomeSecondTestCase(TestCase):
+    def setUp(self):
+        biome_first_test = EnvoBiomeFirstTestCase()
+        biome_first_test.setUp()
+        lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
+        EnvoBiomeSecond.objects.update_or_create(biome_first_tier=lake, biome_second_tier="test_second_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_second_tier = EnvoBiomeSecond.objects.filter(biome_second_tier="test_second_tier")[:1].get()
+        self.assertIs(test_second_tier.was_added_recently(), True)
+
+
 class EnvoFeatureFirstTestCase(TestCase):
     def setUp(self):
         EnvoFeatureFirst.objects.update_or_create(feature_first_tier="Lake Surface")
@@ -29,6 +42,19 @@ class EnvoFeatureFirstTestCase(TestCase):
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
         self.assertIs(ls.was_added_recently(), True)
         self.assertIs(tasl.was_added_recently(), True)
+
+
+class EnvoFeatureSecondTestCase(TestCase):
+    def setUp(self):
+        feature_first_test = EnvoFeatureFirstTestCase()
+        feature_first_test.setUp()
+        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
+        EnvoFeatureSecond.objects.update_or_create(feature_first_tier=tasl, feature_second_tier="test_second_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_second_tier = EnvoFeatureSecond.objects.filter(feature_second_tier="test_second_tier")[:1].get()
+        self.assertIs(test_second_tier.was_added_recently(), True)
 
 
 class SystemTestCase(TestCase):
