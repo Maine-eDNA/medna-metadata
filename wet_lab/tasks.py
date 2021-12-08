@@ -10,6 +10,7 @@ from wet_lab.models import FastqFile
 logger = get_task_logger(__name__)
 
 
+# TODO - these tasks are not running and partially tested
 def get_runid_from_key(run_key):
     try:
         # https://stackoverflow.com/questions/18731028/remove-last-instance-of-a-character-and-rest-of-a-string
