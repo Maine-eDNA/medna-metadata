@@ -64,11 +64,7 @@ class SampleBarcodeTestCase(TestCase):
     # fixtures = ['sample_labels_samplelabel.json']
     def setUp(self):
         # get first record in queryset
-        field_site_test = FieldSiteTestCase()
-        sample_material_test = SampleMaterialTestCase()
         sample_label_request_test = SampleLabelRequestTestCase()
-        field_site_test.setUp()
-        sample_material_test.setUp()
         sample_label_request_test.setUp()
         site_id = FieldSite.objects.filter()[:1].get()
         sample_material = SampleMaterial.objects.filter()[:1].get()
