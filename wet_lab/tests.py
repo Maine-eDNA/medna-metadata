@@ -276,7 +276,7 @@ class FinalPooledLibraryTestCase(TestCase):
 class RunPrepTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
-        final_pooled_library_test = FinalPooledLibraryTestCase
+        final_pooled_library_test = FinalPooledLibraryTestCase()
         final_pooled_library_test.setUp()
         final_pooled_library = PooledLibrary.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
