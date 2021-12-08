@@ -120,7 +120,7 @@ class FreezerInventoryReturnMetadataTestCase(TestCase):
         return_actions = ReturnAction.objects.filter()[:1].get()
         FreezerInventoryReturnMetadata.objects.update_or_create(freezer_checkout=freezer_checkout,
                                                                 metadata_entered=YesNo.NO,
-                                                                return_actions=return_actions.set())
+                                                                return_actions=[return_actions])
 
     def test_was_added_recently(self):
         # test if date is added correctly
