@@ -11,8 +11,7 @@ from django.utils import timezone
 class ReferenceDatabaseTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
-        ReferenceDatabase.objects.get_or_create(pk=1,
-                                                   defaults={
+        ReferenceDatabase.objects.get_or_create(defaults={
                                                        'refdb_name': "test_name",
                                                        'refdb_version': "test_pipeline",
                                                        'refdb_datetime': current_datetime,
@@ -27,7 +26,7 @@ class ReferenceDatabaseTestCase(TestCase):
 
 class TaxonDomainTestCase(TestCase):
     def setUp(self):
-        TaxonDomain.objects.get_or_create(pk=1, defaults={'taxon_domain': "test_domain"})
+        TaxonDomain.objects.get_or_create(defaults={'taxon_domain': "test_domain"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -40,7 +39,7 @@ class TaxonKingdomTestCase(TestCase):
         taxon_test = TaxonDomainTestCase()
         taxon_test.setUp()
         taxon = TaxonDomain.objects.filter()[:1].get()
-        TaxonKingdom.objects.get_or_create(pk=1, defaults={'taxon_domain': taxon, 'taxon_kingdom': "test_kingdom"})
+        TaxonKingdom.objects.get_or_create(defaults={'taxon_domain': taxon, 'taxon_kingdom': "test_kingdom"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -53,7 +52,7 @@ class TaxonPhylumTestCase(TestCase):
         taxon_test = TaxonKingdomTestCase()
         taxon_test.setUp()
         taxon = TaxonKingdom.objects.filter()[:1].get()
-        TaxonPhylum.objects.get_or_create(pk=1, defaults={'taxon_kingdom': taxon, 'taxon_phylum': "test_phylum"})
+        TaxonPhylum.objects.get_or_create(defaults={'taxon_kingdom': taxon, 'taxon_phylum': "test_phylum"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -66,7 +65,7 @@ class TaxonClassTestCase(TestCase):
         taxon_test = TaxonPhylumTestCase()
         taxon_test.setUp()
         taxon = TaxonPhylum.objects.filter()[:1].get()
-        TaxonClass.objects.get_or_create(pk=1, defaults={'taxon_phylum': taxon, 'taxon_class': "test_class"})
+        TaxonClass.objects.get_or_create(defaults={'taxon_phylum': taxon, 'taxon_class': "test_class"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -79,7 +78,7 @@ class TaxonOrderTestCase(TestCase):
         taxon_test = TaxonPhylumTestCase()
         taxon_test.setUp()
         taxon = TaxonClass.objects.filter()[:1].get()
-        TaxonOrder.objects.get_or_create(pk=1, defaults={'taxon_class': taxon, 'taxon_order': "test_order"})
+        TaxonOrder.objects.get_or_create(defaults={'taxon_class': taxon, 'taxon_order': "test_order"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -92,7 +91,7 @@ class TaxonFamilyTestCase(TestCase):
         taxon_test = TaxonPhylumTestCase()
         taxon_test.setUp()
         taxon = TaxonOrder.objects.filter()[:1].get()
-        TaxonFamily.objects.get_or_create(pk=1, defaults={'taxon_order': taxon, 'taxon_family': "test_family"})
+        TaxonFamily.objects.get_or_create(defaults={'taxon_order': taxon, 'taxon_family': "test_family"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -105,7 +104,7 @@ class TaxonGenusTestCase(TestCase):
         taxon_test = TaxonPhylumTestCase()
         taxon_test.setUp()
         taxon = TaxonFamily.objects.filter()[:1].get()
-        TaxonGenus.objects.get_or_create(pk=1, defaults={'taxon_family': taxon, 'taxon_genus': "test_genus"})
+        TaxonGenus.objects.get_or_create(defaults={'taxon_family': taxon, 'taxon_genus': "test_genus"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -118,7 +117,7 @@ class TaxonSpeciesTestCase(TestCase):
         taxon_test = TaxonPhylumTestCase()
         taxon_test.setUp()
         taxon = TaxonGenus.objects.filter()[:1].get()
-        TaxonSpecies.objects.get_or_create(pk=1, defaults={'taxon_genus': taxon, 'taxon_species': "test_species"})
+        TaxonSpecies.objects.get_or_create(defaults={'taxon_genus': taxon, 'taxon_species': "test_species"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -128,7 +127,7 @@ class TaxonSpeciesTestCase(TestCase):
 
 class AnnotationMethodTestCase(TestCase):
     def setUp(self):
-        AnnotationMethod.objects.get_or_create(pk=1, defaults={'annotation_method_name': "test_name"})
+        AnnotationMethod.objects.get_or_create(defaults={'annotation_method_name': "test_name"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -148,8 +147,7 @@ class AnnotationMetadataTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method = AnnotationMethod.objects.filter()[:1].get()
-        AnnotationMetadata.objects.get_or_create(pk=1,
-                                                    defaults={
+        AnnotationMetadata.objects.get_or_create(defaults={
                                                         'process_location': process_location,
                                                         'denoise_cluster_metadata': denoise_cluster_metadata,
                                                         'analysis_datetime': current_datetime,
@@ -187,8 +185,7 @@ class TaxonomicAnnotationTestCase(TestCase):
         manual_kingdom = TaxonKingdom.objects.filter()[:1].get()
         manual_domain = TaxonDomain.objects.filter()[:1].get()
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
-        TaxonomicAnnotation.objects.get_or_create(pk=1,
-                                                  defaults={
+        TaxonomicAnnotation.objects.get_or_create(defaults={
                                                       'feature': feature,
                                                       'annotation_metadata': annotation_metadata,
                                                       'reference_database': reference_database,
