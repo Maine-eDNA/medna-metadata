@@ -8,6 +8,11 @@ from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 
+def update_queryset(queryset):
+    for item in queryset:
+        item.save()
+
+
 @shared_task
 def update_freezer(instance_pk):
     try:
@@ -22,14 +27,12 @@ def update_freezer(instance_pk):
         distinct_pks = rack_queryset.values_list('pk', flat=True).distinct()
         if rack_queryset:
             # loop through each rack and call the save() method
-            for item in rack_queryset:
-                item.save()
+            update_queryset(rack_queryset)
             for pk in distinct_pks:
                 # for each rack pk, create a queryset of freezerbox
                 box_queryset = FreezerBox.objects.filter(freezer_rack=pk)
                 # loop through each box and call the save() method
-                for item in box_queryset:
-                    item.save()
+                update_queryset(box_queryset)
 
 
 @shared_task
@@ -45,5 +48,4 @@ def update_freezer_rack(instance_pk):
         # create list of distinct pks from the queryset
         if box_queryset:
             # loop through each box and call the save() method
-            for item in box_queryset:
-                item.save()
+            update_queryset(box_queryset)
