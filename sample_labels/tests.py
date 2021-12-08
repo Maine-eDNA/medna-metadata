@@ -8,15 +8,15 @@ from field_sites.tests import FieldSiteTestCase
 class SampleTypeTestCase(TestCase):
     # fixtures = ['sample_labels_sampletype.json']
     def setUp(self):
-        SampleType.objects.update_or_create(sample_type_label="Subcore", sample_type_code="s")
-        SampleType.objects.update_or_create(sample_type_label="Filter", sample_type_code="f")
-        SampleType.objects.update_or_create(sample_type_label="Pooledlibrary", sample_type_code="p")
+        SampleType.objects.update_or_create(sample_type_label="Subcore", sample_type_code="sc")
+        SampleType.objects.update_or_create(sample_type_label="Filter", sample_type_code="ft")
+        SampleType.objects.update_or_create(sample_type_label="Pooledlibrary", sample_type_code="pl")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        subcore = SampleType.objects.get(sample_material_code="s")
-        filter = SampleType.objects.get(sample_material_code="f")
-        pooled_lib = SampleType.objects.get(sample_material_code="p")
+        subcore = SampleType.objects.get(sample_type_code="sc")
+        filter = SampleType.objects.get(sample_type_code="ft")
+        pooled_lib = SampleType.objects.get(sample_type_code="pl")
         self.assertIs(subcore.was_added_recently(), True)
         self.assertIs(filter.was_added_recently(), True)
         self.assertIs(pooled_lib.was_added_recently(), True)
