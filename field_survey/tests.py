@@ -16,11 +16,11 @@ class FieldSurveyTestCase(TestCase):
         manytomany_list = []
         current_datetime = timezone.now()
         project_test = ProjectTestCase()
+        field_site_test = FieldSiteTestCase()
         project_test.setUp()
+        field_site_test.setUp()
         project = Project.objects.filter()[:1].get()
         manytomany_list.append(project)
-        field_site_test = FieldSiteTestCase()
-        field_site_test.setUp()
         field_site = FieldSite.objects.filter()[:1].get()
         field_survey, created = FieldSurvey.objects.update_or_create(survey_global_id="test_survey_global_id",
                                                                      username=get_default_user(),
@@ -73,10 +73,10 @@ class FieldSampleTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         collection_test = FieldCollectionTestCase()
-        collection_test.setUp()
-        collection = FieldCollection.objects.filter()[:1].get()
         sample_barcode_test = SampleBarcodeTestCase()
+        collection_test.setUp()
         sample_barcode_test.setUp()
+        collection = FieldCollection.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
         sample_material = SampleMaterial.objects.filter()[:1].get()
         FieldSample.objects.update_or_create(sample_global_id="test_sample_global_id",
