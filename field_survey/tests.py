@@ -23,7 +23,7 @@ class FieldSurveyTestCase(TestCase):
         FieldSurvey.objects.update_or_create(survey_global_id="test_survey_global_id",
                                              username=get_default_user(),
                                              survey_datetime=current_datetime,
-                                             project_ids=project.set(),
+                                             project_ids=[project],
                                              supervisor=get_default_user(),
                                              recorder_fname="test_first_name",
                                              recorder_lname="test_last_name",
