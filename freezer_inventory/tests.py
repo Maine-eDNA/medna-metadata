@@ -8,11 +8,7 @@ from sample_labels.models import SampleBarcode
 
 class ReturnActionTestCase(TestCase):
     def setUp(self):
-        ReturnAction.objects.update_or_create(pk=1,
-                                              defaults={
-                                                  'action_code': "test_code",
-                                                  'action_label': "test_label"
-                                              })
+        ReturnAction.objects.get_or_create(pk=1, defaults={'action_code': "test_code", 'action_label': "test_label"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -22,17 +18,16 @@ class ReturnActionTestCase(TestCase):
 
 class FreezerTestCase(TestCase):
     def setUp(self):
-        Freezer.objects.update_or_create(pk=1,
-                                         defaults={
-                                             'freezer_label': "test_label",
-                                             'freezer_depth': 1,
-                                             'freezer_length': 1,
-                                             'freezer_width': 1,
-                                             'freezer_dimension_units': MeasureUnits.FEET,
-                                             'freezer_max_columns': 10,
-                                             'freezer_max_rows': 10,
-                                             'freezer_max_depth': 10
-                                         })
+        Freezer.objects.get_or_create(pk=1,
+                                      defaults={
+                                          'freezer_label': "test_label",
+                                          'freezer_depth': 1,
+                                          'freezer_length': 1,
+                                          'freezer_width': 1,
+                                          'freezer_dimension_units': MeasureUnits.FEET,
+                                          'freezer_max_columns': 10,
+                                          'freezer_max_rows': 10,
+                                          'freezer_max_depth': 10})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -45,16 +40,16 @@ class FreezerRackTestCase(TestCase):
         freezer_test = FreezerTestCase()
         freezer_test.setUp()
         freezer = Freezer.objects.filter()[:1].get()
-        FreezerRack.objects.update_or_create(pk=1,
-                                             defaults={
-                                                 'freezer': freezer,
-                                                 'freezer_rack_label': "test_label",
-                                                 'freezer_rack_column_start': 1,
-                                                 'freezer_rack_column_end': 10,
-                                                 'freezer_rack_row_start': 1,
-                                                 'freezer_rack_row_end': 10,
-                                                 'freezer_rack_depth_start': 1,
-                                                 'freezer_rack_depth_end': 10})
+        FreezerRack.objects.get_or_create(pk=1,
+                                          defaults={
+                                              'freezer': freezer,
+                                              'freezer_rack_label': "test_label",
+                                              'freezer_rack_column_start': 1,
+                                              'freezer_rack_column_end': 10,
+                                              'freezer_rack_row_start': 1,
+                                              'freezer_rack_row_end': 10,
+                                              'freezer_rack_depth_start': 1,
+                                              'freezer_rack_depth_end': 10})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -67,15 +62,15 @@ class FreezerBoxTestCase(TestCase):
         freezer_rack_test = FreezerRackTestCase()
         freezer_rack_test.setUp()
         freezer_rack = FreezerRack.objects.filter()[:1].get()
-        FreezerBox.objects.update_or_create(pk=1,
-                                            defaults={
-                                                'freezer_rack': freezer_rack,
-                                                'freezer_box_label': "test_label",
-                                                'freezer_box_column': 1,
-                                                'freezer_box_row': 1,
-                                                'freezer_box_depth': 1,
-                                                'freezer_box_max_column': 100,
-                                                'freezer_box_max_row': 100})
+        FreezerBox.objects.get_or_create(pk=1,
+                                         defaults={
+                                             'freezer_rack': freezer_rack,
+                                             'freezer_box_label': "test_label",
+                                             'freezer_box_column': 1,
+                                             'freezer_box_row': 1,
+                                             'freezer_box_depth': 1,
+                                             'freezer_box_max_column': 100,
+                                             'freezer_box_max_row': 100})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -91,15 +86,15 @@ class FreezerInventoryTestCase(TestCase):
         sample_barcode_test.setUp()
         freezer_box = FreezerBox.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        FreezerInventory.objects.update_or_create(pk=1,
-                                                  defaults={
-                                                      'freezer_box': freezer_box,
-                                                      'sample_barcode': sample_barcode,
-                                                      'freezer_inventory_slug': 1,
-                                                      'freezer_inventory_type': 1,
-                                                      'freezer_inventory_status': 1,
-                                                      'freezer_inventory_column': 100,
-                                                      'freezer_inventory_row': 100})
+        FreezerInventory.objects.get_or_create(pk=1,
+                                               defaults={
+                                                   'freezer_box': freezer_box,
+                                                   'sample_barcode': sample_barcode,
+                                                   'freezer_inventory_slug': 1,
+                                                   'freezer_inventory_type': 1,
+                                                   'freezer_inventory_status': 1,
+                                                   'freezer_inventory_column': 100,
+                                                   'freezer_inventory_row': 100})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -112,11 +107,11 @@ class FreezerCheckoutTestCase(TestCase):
         freezer_inventory_test = FreezerInventoryTestCase()
         freezer_inventory_test.setUp()
         freezer_inventory = FreezerInventory.objects.filter()[:1].get()
-        FreezerCheckout.objects.update_or_create(pk=1,
-                                                 defaults={
-                                                     'freezer_inventory': freezer_inventory,
-                                                     'freezer_checkout_action': CheckoutActions.CHECKOUT,
-                                                     'freezer_return_notes': "checking out test"})
+        FreezerCheckout.objects.get_or_create(pk=1,
+                                              defaults={
+                                                  'freezer_inventory': freezer_inventory,
+                                                  'freezer_checkout_action': CheckoutActions.CHECKOUT,
+                                                  'freezer_return_notes': "checking out test"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -134,11 +129,11 @@ class FreezerInventoryReturnMetadataTestCase(TestCase):
         freezer_checkout = FreezerCheckout.objects.filter()[:1].get()
         return_actions = ReturnAction.objects.filter()[:1].get()
         manytomany_list.append(return_actions)
-        freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(pk=1,
-                                                                                                             defaults={
-                                                                                                                 'freezer_checkout': freezer_checkout,
-                                                                                                                 'metadata_entered': YesNo.NO,
-                                                                                                                 'return_actions': manytomany_list})
+        freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.get_or_create(pk=1,
+                                                                                                          defaults={
+                                                                                                              'freezer_checkout': freezer_checkout,
+                                                                                                              'metadata_entered': YesNo.NO,
+                                                                                                              'return_actions': manytomany_list})
         freezer_inventory_return_metadata.return_actions.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
