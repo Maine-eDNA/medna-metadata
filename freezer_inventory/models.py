@@ -12,19 +12,6 @@ import re
 BARCODE_PATTERN = "[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]"
 
 
-def update_record_return_metadata(pk):
-    try:
-        return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(
-            freezer_checkout=pk,
-            defaults={
-                'metadata_entered': YesNo.NO,
-            }
-        )
-        return return_metadata, created
-    except Exception as err:
-        raise RuntimeError("** Error: update_record_return_metadata Failed (" + str(err) + ")")
-
-
 def update_freezer_inv_status(inv_pk, freezer_checkout_action):
     try:
         if freezer_checkout_action == CheckoutActions.CHECKOUT:
@@ -272,7 +259,7 @@ class FreezerCheckout(DateTimeUserMixin):
             self.freezer_return_datetime = timezone.now()
             # add/update record in FreezerInventoryReturnMetadata,
             # this will populate a checklist for user to fill in metadata
-            update_record_return_metadata(self.pk)
+            # update_record_return_metadata(self.pk)
         elif self.freezer_checkout_action == CheckoutActions.REMOVE:
             # if the freezer action is remove, update freezer_return_datetime
             self.freezer_perm_removal_datetime = timezone.now()
