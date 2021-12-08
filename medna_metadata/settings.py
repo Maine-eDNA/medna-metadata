@@ -517,7 +517,7 @@ APP_ORDER = OrderedDict([
     # ("socialaccount", ["socialaccount", "socialtoken", "socialapp"]),
     ("utility", ["Grant", "Project", "ProcessLocation", "DefaultSiteCss", "CustomUserCss"]),
     ("freezer_inventory", ["ReturnAction", "Freezer", "FreezerRack", "FreezerBox", "FreezerInventory",
-                           "FreezerCheckout", "FreezerInventoryReturnMetadata"]),
+                           "FreezerCheckoutLog", "FreezerInventoryReturnMetadata"]),
     ("field_sites", ["System", "Watershed",
                      "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
                      "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
