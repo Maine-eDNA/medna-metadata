@@ -5,12 +5,12 @@ from bioinfo_denoclust.tests import FeatureOutputTestCase, DenoiseClusterMetadat
 from bioinfo_denoclust.models import FeatureOutput, DenoiseClusterMetadata
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
-import datetime
+from django.utils import timezone
 
 
 class ReferenceDatabaseTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         ReferenceDatabase.objects.update_or_create(refdb_name="test_name",
                                                    refdb_version="test_pipeline",
                                                    refdb_datetime=current_datetime,
@@ -143,7 +143,7 @@ class AnnotationMethodTestCase(TestCase):
 
 class AnnotationMetadataTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         process_location_test = ProcessLocationTestCase()
         process_location_test.setUp()
         process_location = ProcessLocation.objects.filter()[:1].get()

@@ -9,7 +9,7 @@ from utility.models import ProcessLocation
 from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from field_survey.tests import FieldSampleTestCase
-import datetime
+from django.utils import timezone
 
 
 class PrimerPairTestCase(TestCase):
@@ -88,7 +88,7 @@ class ExtractionMethodTestCase(TestCase):
 
 class ExtractionTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         process_location_test = ProcessLocationTestCase()
         process_location_test.setUp()
         process_location = ProcessLocation.objects.filter()[:1].get()
@@ -125,7 +125,7 @@ class ExtractionTestCase(TestCase):
 
 class DdpcrTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         extraction_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
@@ -152,7 +152,7 @@ class DdpcrTestCase(TestCase):
 
 class QpcrTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         extraction_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
@@ -179,7 +179,7 @@ class QpcrTestCase(TestCase):
 
 class LibraryPrepTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         extraction_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
@@ -227,7 +227,7 @@ class LibraryPrepTestCase(TestCase):
 
 class PooledLibraryTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         library_prep_test = LibraryPrepTestCase()
         library_prep_test.setUp()
         library_prep = LibraryPrep.objects.filter()[:1].get()
@@ -250,7 +250,7 @@ class PooledLibraryTestCase(TestCase):
 
 class FinalPooledLibraryTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         pooled_library_test = PooledLibraryTestCase()
         pooled_library_test.setUp()
         pooled_library = PooledLibrary.objects.filter()[:1].get()
@@ -275,7 +275,7 @@ class FinalPooledLibraryTestCase(TestCase):
 
 class RunPrepTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         final_pooled_library_test = FinalPooledLibraryTestCase
         final_pooled_library_test.setUp()
         final_pooled_library = PooledLibrary.objects.filter()[:1].get()
@@ -299,7 +299,7 @@ class RunPrepTestCase(TestCase):
 
 class RunResultTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         run_prep_test = RunPrepTestCase()
         run_prep_test.setUp()
         run_prep = RunPrep.objects.filter()[:1].get()

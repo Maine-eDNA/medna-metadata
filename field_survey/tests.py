@@ -7,13 +7,13 @@ from field_sites.models import FieldSite
 from utility.enumerations import YesNo, CollectionTypes, TurbidTypes, PrecipTypes, WindSpeeds, CloudCovers
 from utility.models import get_default_user, Project
 from utility.tests import ProjectTestCase
-import datetime
+from django.utils import timezone
 
 
 # Create your tests here.
 class FieldSurveyTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         project_test = ProjectTestCase()
         project_test.setUp()
         project = Project.objects.filter()[:1].get()
@@ -49,7 +49,7 @@ class FieldSurveyTestCase(TestCase):
 
 class FieldCollectionTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         survey_test = FieldSurveyTestCase()
         survey_test.setUp()
         survey = FieldSurvey.objects.filter()[:1].get()
@@ -69,7 +69,7 @@ class FieldCollectionTestCase(TestCase):
 
 class FieldSampleTestCase(TestCase):
     def setUp(self):
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         collection_test = FieldCollectionTestCase()
         collection_test.setUp()
         collection = FieldCollection.objects.filter()[:1].get()

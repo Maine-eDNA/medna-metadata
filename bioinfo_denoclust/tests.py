@@ -4,7 +4,7 @@ from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
 from wet_lab.tests import RunResultTestCase, ExtractionTestCase
 from wet_lab.models import RunResult, Extraction
-import datetime
+from django.utils import timezone
 
 
 class DenoiseClusterMethodTestCase(TestCase):
@@ -29,7 +29,7 @@ class DenoiseClusterMetadataTestCase(TestCase):
         denoise_cluster_method_test = DenoiseClusterMethodTestCase()
         denoise_cluster_method_test.setUp()
         denoise_cluster_method = DenoiseClusterMethod.objects.filter()[:1].get()
-        current_datetime = datetime.datetime.now()
+        current_datetime = timezone.now()
         DenoiseClusterMetadata.objects.update_or_create(process_location=process_location,
                                                         analysis_datetime=current_datetime,
                                                         run_result=run_result,
