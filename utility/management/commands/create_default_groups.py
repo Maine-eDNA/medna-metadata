@@ -88,8 +88,8 @@ GROUPS = {
         # bioinfo_denoclust
         "DenoiseCluster Method": ["add", "delete", "change", "view"],
         "DenoiseCluster Metadata": ["add", "delete", "change", "view"],
-        "Amplicon Sequence Variant (ASV)": ["add", "delete", "change", "view"],
-        "ASV Read": ["add", "delete", "change", "view"],
+        "Feature Output": ["add", "delete", "change", "view"],
+        "Feature Read": ["add", "delete", "change", "view"],
 
         # bioinfo_taxon
         "Reference Database": ["add", "delete", "change", "view"],
@@ -187,8 +187,8 @@ GROUPS = {
         # bioinfo_denoclust
         "DenoiseCluster Method": ["add", "change", "view"],
         "DenoiseCluster Metadata": ["add", "change", "view"],
-        "Amplicon Sequence Variant (ASV)": ["view"],
-        "ASV Read": ["view"],
+        "Feature Output": ["view"],
+        "Feature Read": ["view"],
 
         # bioinfo_taxon
         "Reference Database": ["add", "change", "view"],
@@ -271,8 +271,8 @@ GROUPS = {
         # bioinfo_denoclust
         "DenoiseCluster Method": ["view"],
         "DenoiseCluster Metadata": ["view"],
-        "Amplicon Sequence Variant (ASV)": ["view"],
-        "ASV Read": ["view"],
+        "Feature Output": ["view"],
+        "Feature Read": ["view"],
 
         # bioinfo_taxon
         "Reference Database": ["view"],
