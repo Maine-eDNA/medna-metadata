@@ -14,15 +14,18 @@ from django.utils import timezone
 
 class PrimerPairTestCase(TestCase):
     def setUp(self):
-        PrimerPair.objects.update_or_create(primer_set_name="mifishU",
-                                            primer_target_gene=TargetGenes.TG_12S,
-                                            primer_name_forward="mifish_u_f",
-                                            primer_name_reverse="mifish_u_r",
-                                            primer_forward="GTCGGTAAAACTCGTGCCAGC",
-                                            primer_reverse="CATAGTGGGGTATCTAATCCCAGTTTG",
-                                            primer_amplicon_length_min=160,
-                                            primer_amplicon_length_max=180,
-                                            primer_pair_notes="test notes")
+        PrimerPair.objects.update_or_create(pk=1,
+                                            defaults={
+                                                'primer_set_name': "mifishU",
+                                                'primer_target_gene': TargetGenes.TG_12S,
+                                                'primer_name_forward': "mifish_u_f",
+                                                'primer_name_reverse': "mifish_u_r",
+                                                'primer_forward': "GTCGGTAAAACTCGTGCCAGC",
+                                                'primer_reverse': "CATAGTGGGGTATCTAATCCCAGTTTG",
+                                                'primer_amplicon_length_min': 160,
+                                                'primer_amplicon_length_max': 180,
+                                                'primer_pair_notes': "test notes"
+                                            })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -32,11 +35,14 @@ class PrimerPairTestCase(TestCase):
 
 class IndexPairTestCase(TestCase):
     def setUp(self):
-        IndexPair.objects.update_or_create(index_i7="CGTACTAG",
-                                           i7_index_id="A-N702",
-                                           index_i5="GCGTAAGA",
-                                           i5_index_id="C-S517",
-                                           index_adapter="CTGTCTCTTATACACATCT")
+        IndexPair.objects.update_or_create(pk=1,
+                                           defaults={
+                                               'index_i7': "CGTACTAG",
+                                               'i7_index_id': "A-N702",
+                                               'index_i5': "GCGTAAGA",
+                                               'i5_index_id': "C-S517",
+                                               'index_adapter': "CTGTCTCTTATACACATCT"
+                                           })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -46,7 +52,7 @@ class IndexPairTestCase(TestCase):
 
 class IndexRemovalMethodTestCase(TestCase):
     def setUp(self):
-        IndexRemovalMethod.objects.update_or_create(index_removal_method_name="exo-sap")
+        IndexRemovalMethod.objects.update_or_create(pk=1, defaults={'index_removal_method_name': "exo-sap"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -56,7 +62,10 @@ class IndexRemovalMethodTestCase(TestCase):
 
 class SizeSelectionMethodTestCase(TestCase):
     def setUp(self):
-        SizeSelectionMethod.objects.update_or_create(size_selection_method_name="Beads")
+        SizeSelectionMethod.objects.update_or_create(pk=1,
+                                                     defaults={
+                                                         'size_selection_method_name': "Beads"
+                                                     })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -66,7 +75,10 @@ class SizeSelectionMethodTestCase(TestCase):
 
 class QuantificationMethodTestCase(TestCase):
     def setUp(self):
-        QuantificationMethod.objects.update_or_create(quant_method_name="qubit")
+        QuantificationMethod.objects.update_or_create(pk=1,
+                                                      defaults={
+                                                          'quant_method_name': "qubit"
+                                                      })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -76,9 +88,12 @@ class QuantificationMethodTestCase(TestCase):
 
 class ExtractionMethodTestCase(TestCase):
     def setUp(self):
-        ExtractionMethod.objects.update_or_create(extraction_method_name="Blood and Tissue",
-                                                  extraction_method_manufacturer="Qiagen",
-                                                  extraction_sop_url="https://extraction_sop_url.com")
+        ExtractionMethod.objects.update_or_create(pk=1,
+                                                  defaults={
+                                                      'extraction_method_name': "Blood and Tissue",
+                                                      'extraction_method_manufacturer': "Qiagen",
+                                                      'extraction_sop_url': "https://extraction_sop_url.com"
+                                                  })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -102,19 +117,22 @@ class ExtractionTestCase(TestCase):
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
         extraction_method = ExtractionMethod.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        Extraction.objects.update_or_create(process_location=process_location,
-                                            extraction_datetime=current_datetime,
-                                            field_sample=field_sample,
-                                            extraction_barcode=sample_barcode,
-                                            extraction_method=extraction_method,
-                                            extraction_first_name="test_first_name",
-                                            extraction_last_name="test_last_name",
-                                            extraction_volume=0.100,
-                                            extraction_volume_units=VolUnits.MICROLITER,
-                                            quantification_method=quantification_method,
-                                            extraction_concentration=0.100,
-                                            extraction_concentration_units=ConcentrationUnits.NGUL,
-                                            extraction_notes="test notes")
+        Extraction.objects.update_or_create(pk=1,
+                                            defaults={
+                                                'process_location': process_location,
+                                                'extraction_datetime': current_datetime,
+                                                'field_sample': field_sample,
+                                                'extraction_barcode': sample_barcode,
+                                                'extraction_method': extraction_method,
+                                                'extraction_first_name': "test_first_name",
+                                                'extraction_last_name': "test_last_name",
+                                                'extraction_volume': 0.100,
+                                                'extraction_volume_units': VolUnits.MICROLITER,
+                                                'quantification_method': quantification_method,
+                                                'extraction_concentration': 0.100,
+                                                'extraction_concentration_units': ConcentrationUnits.NGUL,
+                                                'extraction_notes': "test notes"
+                                            })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -132,16 +150,19 @@ class DdpcrTestCase(TestCase):
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
-        Ddpcr.objects.update_or_create(process_location=process_location,
-                                       ddpcr_datetime=current_datetime,
-                                       ddpcr_experiment_name="test_name",
-                                       extraction=extraction,
-                                       primer_set=primer_set,
-                                       ddpcr_first_name="test_first_name",
-                                       ddpcr_last_name="test_last_name",
-                                       ddpcr_results=9999,
-                                       ddpcr_results_units=DdpcrUnits.CP,
-                                       ddpcr_notes="ddpcr notes")
+        Ddpcr.objects.update_or_create(pk=1,
+                                       defaults={
+                                           'process_location': process_location,
+                                           'ddpcr_datetime': current_datetime,
+                                           'ddpcr_experiment_name': "test_name",
+                                           'extraction': extraction,
+                                           'primer_set': primer_set,
+                                           'ddpcr_first_name': "test_first_name",
+                                           'ddpcr_last_name': "test_last_name",
+                                           'ddpcr_results': 9999,
+                                           'ddpcr_results_units': DdpcrUnits.CP,
+                                           'ddpcr_notes': "ddpcr notes"
+                                       })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -159,16 +180,19 @@ class QpcrTestCase(TestCase):
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
-        Qpcr.objects.update_or_create(process_location=process_location,
-                                      qpcr_datetime=current_datetime,
-                                      qpcr_experiment_name="test_name",
-                                      extraction=extraction,
-                                      primer_set=primer_set,
-                                      qpcr_first_name="test_first_name",
-                                      qpcr_last_name="test_last_name",
-                                      qpcr_results=9999,
-                                      qpcr_results_units=DdpcrUnits.CP,
-                                      qpcr_notes="ddpcr notes")
+        Qpcr.objects.update_or_create(pk=1,
+                                      defaults={
+                                          'process_location': process_location,
+                                          'qpcr_datetime': current_datetime,
+                                          'qpcr_experiment_name': "test_name",
+                                          'extraction': extraction,
+                                          'primer_set': primer_set,
+                                          'qpcr_first_name': "test_first_name",
+                                          'qpcr_last_name': "test_last_name",
+                                          'qpcr_results': 9999,
+                                          'qpcr_results_units': DdpcrUnits.CP,
+                                          'qpcr_notes': "ddpcr notes"
+                                      })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -198,25 +222,28 @@ class LibraryPrepTestCase(TestCase):
         index_removal_method = IndexRemovalMethod.objects.filter()[:1].get()
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        LibraryPrep.objects.update_or_create(lib_prep_datetime=current_datetime,
-                                             lib_prep_experiment_name="test_name",
-                                             process_location=process_location,
-                                             extraction=extraction,
-                                             index_pair=index_pair,
-                                             primer_set=primer_set,
-                                             index_removal_method=index_removal_method,
-                                             size_selection_method=size_selection_method,
-                                             quantification_method=quantification_method,
-                                             qubit_results=0.100,
-                                             qubit_units=ConcentrationUnits.NGML,
-                                             qpcr_results=0.100,
-                                             qpcr_units=ConcentrationUnits.NM,
-                                             final_concentration=0.100,
-                                             final_concentration_units=ConcentrationUnits.NM,
-                                             lib_prep_kit=LibPrepKits.NEXTERAXTV2,
-                                             lib_prep_type=LibPrepTypes.AMPLICON,
-                                             lib_prep_thermal_sop_url="https://thermal_sop_url.com",
-                                             lib_prep_notes="lib prep notes")
+        LibraryPrep.objects.update_or_create(pk=1,
+                                             defaults={
+                                                 'lib_prep_datetime': current_datetime,
+                                                 'lib_prep_experiment_name': "test_name",
+                                                 'process_location': process_location,
+                                                 'extraction': extraction,
+                                                 'index_pair': index_pair,
+                                                 'primer_set': primer_set,
+                                                 'index_removal_method': index_removal_method,
+                                                 'size_selection_method': size_selection_method,
+                                                 'quantification_method': quantification_method,
+                                                 'qubit_results': 0.100,
+                                                 'qubit_units': ConcentrationUnits.NGML,
+                                                 'qpcr_results': 0.100,
+                                                 'qpcr_units': ConcentrationUnits.NM,
+                                                 'final_concentration': 0.100,
+                                                 'final_concentration_units': ConcentrationUnits.NM,
+                                                 'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
+                                                 'lib_prep_type': LibPrepTypes.AMPLICON,
+                                                 'lib_prep_thermal_sop_url': "https://thermal_sop_url.com",
+                                                 'lib_prep_notes': "lib prep notes"
+                                             })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -234,13 +261,16 @@ class PooledLibraryTestCase(TestCase):
         manytomany_list.append(library_prep)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        pooled_library, created = PooledLibrary.objects.update_or_create(pooled_lib_datetime=current_datetime,
-                                                                         pooled_lib_label="test_label",
-                                                                         process_location=process_location,
-                                                                         quantification_method=quantification_method,
-                                                                         pooled_lib_concentration=0.100,
-                                                                         pooled_lib_concentration_units=ConcentrationUnits.NM,
-                                                                         pooled_lib_notes="pooled lib notes")
+        pooled_library, created = PooledLibrary.objects.update_or_create(pk=1,
+                                                                         defaults={
+                                                                             'pooled_lib_datetime': current_datetime,
+                                                                             'pooled_lib_label': "test_label",
+                                                                             'process_location': process_location,
+                                                                             'quantification_method': quantification_method,
+                                                                             'pooled_lib_concentration': 0.100,
+                                                                             'pooled_lib_concentration_units': ConcentrationUnits.NM,
+                                                                             'pooled_lib_notes': "pooled lib notes"
+                                                                         })
         pooled_library.library_prep.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
@@ -260,14 +290,17 @@ class FinalPooledLibraryTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        final_pooled_library, created = FinalPooledLibrary.objects.update_or_create(final_pooled_lib_datetime=current_datetime,
-                                                                                    final_pooled_lib_barcode=sample_barcode,
-                                                                                    final_pooled_lib_label="test_label",
-                                                                                    process_location=process_location,
-                                                                                    quantification_method=quantification_method,
-                                                                                    final_pooled_lib_concentration=0.100,
-                                                                                    final_pooled_lib_concentration_units=ConcentrationUnits.NM,
-                                                                                    final_pooled_lib_notes="final pooled lib notes")
+        final_pooled_library, created = FinalPooledLibrary.objects.update_or_create(pk=1,
+                                                                                    defaults={
+                                                                                        'final_pooled_lib_datetime': current_datetime,
+                                                                                        'final_pooled_lib_barcode': sample_barcode,
+                                                                                        'final_pooled_lib_label': "test_label",
+                                                                                        'process_location': process_location,
+                                                                                        'quantification_method': quantification_method,
+                                                                                        'final_pooled_lib_concentration': 0.100,
+                                                                                        'final_pooled_lib_concentration_units': ConcentrationUnits.NM,
+                                                                                        'final_pooled_lib_notes': "final pooled lib notes"
+                                                                                    })
         final_pooled_library.pooled_library.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
@@ -284,15 +317,18 @@ class RunPrepTestCase(TestCase):
         final_pooled_library = PooledLibrary.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        RunPrep.objects.update_or_create(process_location=process_location,
-                                         run_prep_date=current_datetime,
-                                         final_pooled_library=final_pooled_library,
-                                         phix_spike_in=0.100,
-                                         phix_spike_in_units=PhiXConcentrationUnits.NGML,
-                                         quantification_method=quantification_method,
-                                         final_lib_concentration=0.100,
-                                         final_lib_concentration_units=ConcentrationUnits.PM,
-                                         run_prep_notes="run prep notes")
+        RunPrep.objects.update_or_create(pk=1,
+                                         defaults={
+                                             'process_location': process_location,
+                                             'run_prep_date': current_datetime,
+                                             'final_pooled_library': final_pooled_library,
+                                             'phix_spike_in': 0.100,
+                                             'phix_spike_in_units': PhiXConcentrationUnits.NGML,
+                                             'quantification_method': quantification_method,
+                                             'final_lib_concentration': 0.100,
+                                             'final_lib_concentration_units': ConcentrationUnits.PM,
+                                             'run_prep_notes': "run prep notes"
+                                         })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -307,13 +343,16 @@ class RunResultTestCase(TestCase):
         run_prep_test.setUp()
         run_prep = RunPrep.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        RunResult.objects.update_or_create(process_location=process_location,
-                                           run_date=current_datetime,
-                                           run_id="000000_M03037_0001_000000000-TESTZ",
-                                           run_experiment_name="00XXX0000_Test_Test_test_test",
-                                           run_prep=run_prep,
-                                           run_completion_datetime=current_datetime,
-                                           run_instrument="M03037")
+        RunResult.objects.update_or_create(pk=1,
+                                           defaults={
+                                               'process_location': process_location,
+                                               'run_date': current_datetime,
+                                               'run_id': "000000_M03037_0001_000000000-TESTZ",
+                                               'run_experiment_name': "00XXX0000_Test_Test_test_test",
+                                               'run_prep': run_prep,
+                                               'run_completion_datetime': current_datetime,
+                                               'run_instrument': "M03037"
+                                           })
 
     def test_was_added_recently(self):
         # test if date is added correctly

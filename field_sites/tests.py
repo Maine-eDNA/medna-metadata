@@ -10,8 +10,8 @@ from utility.tests import GrantTestCase
 
 class EnvoBiomeFirstTestCase(TestCase):
     def setUp(self):
-        EnvoBiomeFirst.objects.update_or_create(biome_first_tier="Large Lake")
-        EnvoBiomeFirst.objects.update_or_create(biome_first_tier="Small River")
+        EnvoBiomeFirst.objects.update_or_create(pk=1, defaults={'biome_first_tier': "Large Lake"})
+        EnvoBiomeFirst.objects.update_or_create(pk=2, defaults={'biome_first_tier': "Small River"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -26,8 +26,7 @@ class EnvoBiomeSecondTestCase(TestCase):
         biome_test = EnvoBiomeFirstTestCase()
         biome_test.setUp()
         biome = EnvoBiomeFirst.objects.filter()[:1].get()
-        EnvoBiomeSecond.objects.update_or_create(biome_first_tier=biome,
-                                                 biome_second_tier="test_second_tier")
+        EnvoBiomeSecond.objects.update_or_create(pk=1, defaults={'biome_first_tier': biome, 'biome_second_tier': "test_second_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -40,8 +39,7 @@ class EnvoBiomeThirdTestCase(TestCase):
         biome_test = EnvoBiomeSecondTestCase()
         biome_test.setUp()
         biome = EnvoBiomeSecond.objects.filter()[:1].get()
-        EnvoBiomeThird.objects.update_or_create(biome_second_tier=biome,
-                                                biome_third_tier="test_third_tier")
+        EnvoBiomeThird.objects.update_or_create(pk=1, defaults={'biome_second_tier': biome, 'biome_third_tier': "test_third_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -54,8 +52,7 @@ class EnvoBiomeFourthTestCase(TestCase):
         biome_test = EnvoBiomeThirdTestCase()
         biome_test.setUp()
         biome = EnvoBiomeThird.objects.filter()[:1].get()
-        EnvoBiomeFourth.objects.update_or_create(biome_third_tier=biome,
-                                                 biome_fourth_tier="test_fourth_tier")
+        EnvoBiomeFourth.objects.update_or_create(pk=1, defaults={'biome_third_tier': biome, 'biome_fourth_tier': "test_fourth_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -68,8 +65,7 @@ class EnvoBiomeFifthTestCase(TestCase):
         biome_test = EnvoBiomeFourthTestCase()
         biome_test.setUp()
         biome = EnvoBiomeFourth.objects.filter()[:1].get()
-        EnvoBiomeFifth.objects.update_or_create(biome_fourth_tier=biome,
-                                                biome_fifth_tier="test_fifth_tier")
+        EnvoBiomeFifth.objects.update_or_create(pk=1, defaults={'biome_fourth_tier': biome, 'biome_fifth_tier': "test_fifth_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -79,8 +75,8 @@ class EnvoBiomeFifthTestCase(TestCase):
 
 class EnvoFeatureFirstTestCase(TestCase):
     def setUp(self):
-        EnvoFeatureFirst.objects.update_or_create(feature_first_tier="Lake Surface")
-        EnvoFeatureFirst.objects.update_or_create(feature_first_tier="Turbulent Aquatic Surface Layer")
+        EnvoFeatureFirst.objects.update_or_create(pk=1, defaults={'feature_first_tier': "Lake Surface"})
+        EnvoFeatureFirst.objects.update_or_create(pk=2, defaults={'feature_first_tier': "Turbulent Aquatic Surface Layer"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -95,8 +91,7 @@ class EnvoFeatureSecondTestCase(TestCase):
         feature_test = EnvoFeatureFirstTestCase()
         feature_test.setUp()
         feature = EnvoFeatureFirst.objects.filter()[:1].get()
-        EnvoFeatureSecond.objects.update_or_create(feature_first_tier=feature,
-                                                   feature_second_tier="test_second_tier")
+        EnvoFeatureSecond.objects.update_or_create(pk=1, defaults={'feature_first_tier': feature, 'feature_second_tier': "test_second_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -109,8 +104,7 @@ class EnvoFeatureThirdTestCase(TestCase):
         feature_test = EnvoFeatureSecondTestCase()
         feature_test.setUp()
         feature = EnvoFeatureSecond.objects.filter()[:1].get()
-        EnvoFeatureThird.objects.update_or_create(feature_second_tier=feature,
-                                                  feature_third_tier="test_third_tier")
+        EnvoFeatureThird.objects.update_or_create(pk=1, defaults={'feature_second_tier': feature, 'feature_third_tier': "test_third_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -123,8 +117,7 @@ class EnvoFeatureFourthTestCase(TestCase):
         feature_test = EnvoFeatureThirdTestCase()
         feature_test.setUp()
         feature = EnvoFeatureThird.objects.filter()[:1].get()
-        EnvoFeatureFourth.objects.update_or_create(feature_third_tier=feature,
-                                                   feature_fourth_tier="test_fourth_tier")
+        EnvoFeatureFourth.objects.update_or_create(pk=1, defaults={'feature_third_tier': feature, 'feature_fourth_tier': "test_fourth_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -137,8 +130,7 @@ class EnvoFeatureFifthTestCase(TestCase):
         feature_test = EnvoFeatureFourthTestCase()
         feature_test.setUp()
         feature = EnvoFeatureFourth.objects.filter()[:1].get()
-        EnvoFeatureFifth.objects.update_or_create(feature_fourth_tier=feature,
-                                                  feature_fifth_tier="test_fifth_tier")
+        EnvoFeatureFifth.objects.update_or_create(pk=1, defaults={'feature_fourth_tier': feature, 'feature_fifth_tier': "test_fifth_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -151,8 +143,7 @@ class EnvoFeatureSixthTestCase(TestCase):
         feature_test = EnvoFeatureFifthTestCase()
         feature_test.setUp()
         feature = EnvoFeatureFifth.objects.filter()[:1].get()
-        EnvoFeatureSixth.objects.update_or_create(feature_fifth_tier=feature,
-                                                  feature_sixth_tier="test_sixth_tier")
+        EnvoFeatureSixth.objects.update_or_create(pk=1, defaults={'feature_fifth_tier': feature, 'feature_sixth_tier': "test_sixth_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -165,8 +156,10 @@ class EnvoFeatureSeventhTestCase(TestCase):
         feature_test = EnvoFeatureSixthTestCase()
         feature_test.setUp()
         feature = EnvoFeatureSixth.objects.filter()[:1].get()
-        EnvoFeatureSeventh.objects.update_or_create(feature_sixth_tier=feature,
-                                                    feature_seventh_tier="test_seventh_tier")
+        EnvoFeatureSeventh.objects.update_or_create(pk=1,
+                                                    defaults={
+                                                        'feature_sixth_tier': feature,
+                                                        'feature_seventh_tier': "test_seventh_tier"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -176,8 +169,8 @@ class EnvoFeatureSeventhTestCase(TestCase):
 
 class SystemTestCase(TestCase):
     def setUp(self):
-        System.objects.update_or_create(system_label="Lake", system_code="L")
-        System.objects.update_or_create(system_label="Stream", system_code="S")
+        System.objects.update_or_create(pk=1, defaults={'system_label': "Lake", 'system_code': "L"})
+        System.objects.update_or_create(pk=2, defaults={'system_label': "Stream", 'system_code': "S"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -189,10 +182,17 @@ class SystemTestCase(TestCase):
 
 class WatershedTestCase(TestCase):
     def setUp(self):
-        Watershed.objects.update_or_create(watershed_code="NE", watershed_label="New England Aquarium", huc8="01090001",
-                                           states="New England Aquarium",
-                                           lat=42.359134, lon=-71.051942, area_sqkm="0.26", area_acres="63.17",
-                                           geom="SRID=4326;MULTIPOLYGON (((-71.05364798510502 42.36019291476734, -71.04779004061702 42.361350361539, -71.04482888186529 42.36017705918428, -71.04493617022527 42.35809994318362, -71.04802607501057 42.35711685671112, -71.05233906710548 42.35713271306636, -71.05364798510502 42.36019291476734)))")
+        Watershed.objects.update_or_create(pk=1,
+                                           defaults={
+                                               'watershed_code': "NE",
+                                               'watershed_label': "New England Aquarium",
+                                               'huc8': "01090001",
+                                               'states': "New England Aquarium",
+                                               'lat': 42.359134,
+                                               'lon': -71.051942,
+                                               'area_sqkm': "0.26",
+                                               'area_acres': "63.17",
+                                               'geom': "SRID=4326;MULTIPOLYGON (((-71.05364798510502 42.36019291476734, -71.04779004061702 42.361350361539, -71.04482888186529 42.36017705918428, -71.04493617022527 42.35809994318362, -71.04802607501057 42.35711685671112, -71.05233906710548 42.35713271306636, -71.05364798510502 42.36019291476734)))"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -219,16 +219,26 @@ class FieldSiteTestCase(TestCase):
         river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        FieldSite.objects.update_or_create(grant=grant, system=system, watershed=watershed,
-                                           general_location_name="FieldSiteTest1",
-                                           purpose="FieldSiteTest1",
-                                           envo_biome_first=lake, envo_feature_first=ls,
-                                           geom="SRID=4326;POINT (-68.79667999999999 44.76535)")
-        FieldSite.objects.update_or_create(grant=grant, system=system, watershed=watershed,
-                                           general_location_name="FieldSiteTest2",
-                                           purpose="FieldSiteTest2",
-                                           envo_biome_first=river, envo_feature_first=tasl,
-                                           geom="SRID=4326;POINT (-68.81489999999999 44.5925)")
+        FieldSite.objects.update_or_create(pk=1,
+                                           defaults={
+                                               'grant': grant,
+                                               'system': system,
+                                               'watershed': watershed,
+                                               'general_location_name': "FieldSiteTest1",
+                                               'purpose': "FieldSiteTest1",
+                                               'envo_biome_first': lake,
+                                               'envo_feature_first': ls,
+                                               'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
+        FieldSite.objects.update_or_create(pk=2,
+                                           defaults={
+                                               'grant': grant,
+                                               'system': system,
+                                               'watershed': watershed,
+                                               'general_location_name': "FieldSiteTest2",
+                                               'purpose': "FieldSiteTest2",
+                                               'envo_biome_first': river,
+                                               'envo_feature_first': tasl,
+                                               'geom': "SRID=4326;POINT (-68.81489999999999 44.5925)"})
 
     def test_was_added_recently(self):
         # test if date is added correctly

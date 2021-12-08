@@ -9,8 +9,10 @@ from django.utils import timezone
 
 class DenoiseClusterMethodTestCase(TestCase):
     def setUp(self):
-        DenoiseClusterMethod.objects.update_or_create(denoise_cluster_method_name="test_name",
-                                                      denoise_cluster_method_pipeline="test_pipeline")
+        DenoiseClusterMethod.objects.update_or_create(pk=1,
+                                                      defaults={
+                                                          'denoise_cluster_method_name': "test_name",
+                                                          'denoise_cluster_method_pipeline': "test_pipeline"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -30,14 +32,16 @@ class DenoiseClusterMetadataTestCase(TestCase):
         denoise_cluster_method = DenoiseClusterMethod.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         run_result = RunResult.objects.filter()[:1].get()
-        DenoiseClusterMetadata.objects.update_or_create(process_location=process_location,
-                                                        analysis_datetime=current_datetime,
-                                                        run_result=run_result,
-                                                        denoise_cluster_method=denoise_cluster_method,
-                                                        analyst_first_name="test_first_name",
-                                                        analyst_last_name="test_last_name",
-                                                        analysis_sop_url="https://www.test_analysis_sop.com",
-                                                        analysis_script_repo_url="https://www.test_repo.com")
+        DenoiseClusterMetadata.objects.update_or_create(pk=1,
+                                                        defaults={
+                                                            'process_location': process_location,
+                                                            'analysis_datetime': current_datetime,
+                                                            'run_result': run_result,
+                                                            'denoise_cluster_method': denoise_cluster_method,
+                                                            'analyst_first_name': "test_first_name",
+                                                            'analyst_last_name': "test_last_name",
+                                                            'analysis_sop_url': "https://www.test_analysis_sop.com",
+                                                            'analysis_script_repo_url': "https://www.test_repo.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -50,9 +54,11 @@ class FeatureOutputTestCase(TestCase):
         denoise_cluster_metadata_test = DenoiseClusterMetadataTestCase()
         denoise_cluster_metadata_test.setUp()
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
-        FeatureOutput.objects.update_or_create(denoise_cluster_metadata=denoise_cluster_metadata,
-                                               feature_id="77850c8cf42c8aaf177fc02b0df016f9",
-                                               feature_sequence="CACCGCGGCTATACGAGAGACCCAAGTTGATACCATCTGGCGTAAAGAGTGGTTATGGAAAATAAAGACTAAAGCCGTACACCTTCAAAGCTGTTATACGCATCCGAAGGCTAGAAGATCAACCACGAAGGTAGCTTTACAACCCCTGACCCCACGAAAGCTCTGGCA")
+        FeatureOutput.objects.update_or_create(pk=1,
+                                               defaults={
+                                                   'denoise_cluster_metadata': denoise_cluster_metadata,
+                                                   'feature_id': "77850c8cf42c8aaf177fc02b0df016f9",
+                                                   'feature_sequence': "CACCGCGGCTATACGAGAGACCCAAGTTGATACCATCTGGCGTAAAGAGTGGTTATGGAAAATAAAGACTAAAGCCGTACACCTTCAAAGCTGTTATACGCATCCGAAGGCTAGAAGATCAACCACGAAGGTAGCTTTACAACCCCTGACCCCACGAAAGCTCTGGCA"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -68,9 +74,11 @@ class FeatureReadTestCase(TestCase):
         extraction_test.setUp()
         feature = FeatureOutput.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
-        FeatureRead.objects.update_or_create(feature=feature,
-                                             extraction=extraction,
-                                             number_reads=9999)
+        FeatureRead.objects.update_or_create(pk=1,
+                                             defaults={
+                                                 'feature': feature,
+                                                 'extraction': extraction,
+                                                 'number_reads': 9999})
 
     def test_was_added_recently(self):
         # test if date is added correctly
