@@ -41,7 +41,7 @@ def update_freezer_rack(instance_pk):
         logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
     else:
         # cascade update all proceeding model slug labels
-        box_queryset = FreezerBox.objects.filter(freezer=instance.pk)
+        box_queryset = FreezerBox.objects.filter(freezer_rack=instance.pk)
         # create list of distinct pks from the queryset
         if box_queryset:
             # loop through each box and call the save() method
