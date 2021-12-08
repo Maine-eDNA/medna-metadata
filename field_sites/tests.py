@@ -7,26 +7,26 @@ from utility.tests import GrantTestCase
 
 class EnvoBiomeFirstTestCase(TestCase):
     def setUp(self):
-        EnvoBiomeFirst.objects.update_or_create(biome_first_tier_slug="Large Lake")
-        EnvoBiomeFirst.objects.update_or_create(biome_first_tier_slug="Small River")
+        EnvoBiomeFirst.objects.update_or_create(biome_first_tier="Large Lake")
+        EnvoBiomeFirst.objects.update_or_create(biome_first_tier="Small River")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        lake = EnvoBiomeFirst.objects.filter(biome_first_tier_slug="Large Lake")[:1].get()
-        river = EnvoBiomeFirst.objects.filter(biome_first_tier_slug="Small River")[:1].get()
+        lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
+        river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         self.assertIs(lake.was_added_recently(), True)
         self.assertIs(river.was_added_recently(), True)
 
 
 class EnvoFeatureFirstTestCase(TestCase):
     def setUp(self):
-        EnvoFeatureFirst.objects.update_or_create(feature_first_tier_slug="Lake Surface")
-        EnvoFeatureFirst.objects.update_or_create(feature_first_tier_slug="Turbulent Aquatic Surface Layer")
+        EnvoFeatureFirst.objects.update_or_create(feature_first_tier="Lake Surface")
+        EnvoFeatureFirst.objects.update_or_create(feature_first_tier="Turbulent Aquatic Surface Layer")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        ls = EnvoFeatureFirst.objects.filter(feature_first_tier_slug="Lake Surface")[:1].get()
-        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier_slug="Turbulent Aquatic Surface Layer")[:1].get()
+        ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
+        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
         self.assertIs(ls.was_added_recently(), True)
         self.assertIs(tasl.was_added_recently(), True)
 
@@ -72,10 +72,10 @@ class FieldSiteTestCase(TestCase):
         grant = Grant.objects.filter()[:1].get()
         system = System.objects.filter()[:1].get()
         watershed = Watershed.objects.filter()[:1].get()
-        lake = EnvoBiomeFirst.objects.filter(biome_first_tier_slug="Large Lake")[:1].get()
-        river = EnvoBiomeFirst.objects.filter(biome_first_tier_slug="Small River")[:1].get()
-        ls = EnvoFeatureFirst.objects.filter(feature_first_tier_slug="Lake Surface")[:1].get()
-        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier_slug="Turbulent Aquatic Surface Layer")[:1].get()
+        lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
+        river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
+        ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
+        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
         FieldSite.objects.update_or_create(grant=grant, system=system, watershed=watershed,
                                            general_location_name="FieldSiteTest1",
                                            purpose="FieldSiteTest1",
