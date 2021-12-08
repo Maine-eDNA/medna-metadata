@@ -21,15 +21,58 @@ class EnvoBiomeFirstTestCase(TestCase):
 
 class EnvoBiomeSecondTestCase(TestCase):
     def setUp(self):
-        biome_first_test = EnvoBiomeFirstTestCase()
-        biome_first_test.setUp()
-        lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
-        EnvoBiomeSecond.objects.update_or_create(biome_first_tier=lake, biome_second_tier="test_second_tier")
+        biome_test = EnvoBiomeFirstTestCase()
+        biome_test.setUp()
+        biome = EnvoBiomeFirst.objects.filter()[:1].get()
+        EnvoBiomeSecond.objects.update_or_create(biome_first_tier=biome,
+                                                 biome_second_tier="test_second_tier")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_second_tier = EnvoBiomeSecond.objects.filter(biome_second_tier="test_second_tier")[:1].get()
-        self.assertIs(test_second_tier.was_added_recently(), True)
+        test_biome_tier = EnvoBiomeSecond.objects.filter(biome_second_tier="test_second_tier")[:1].get()
+        self.assertIs(test_biome_tier.was_added_recently(), True)
+
+
+class EnvoBiomeThirdTestCase(TestCase):
+    def setUp(self):
+        biome_test = EnvoBiomeSecondTestCase()
+        biome_test.setUp()
+        biome = EnvoBiomeSecond.objects.filter()[:1].get()
+        EnvoBiomeThird.objects.update_or_create(biome_second_tier=biome,
+                                                biome_third_tier="test_third_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_biome_tier = EnvoBiomeThird.objects.filter(biome_third_tier="test_third_tier")[:1].get()
+        self.assertIs(test_biome_tier.was_added_recently(), True)
+
+
+class EnvoBiomeFourthTestCase(TestCase):
+    def setUp(self):
+        biome_test = EnvoBiomeThirdTestCase()
+        biome_test.setUp()
+        biome = EnvoBiomeThird.objects.filter()[:1].get()
+        EnvoBiomeFourth.objects.update_or_create(biome_third_tier=biome,
+                                                 biome_fourth_tier="test_fourth_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_biome_tier = EnvoBiomeFourth.objects.filter(biome_fourth_tier="test_fourth_tier")[:1].get()
+        self.assertIs(test_biome_tier.was_added_recently(), True)
+
+
+class EnvoBiomeFifthTestCase(TestCase):
+    def setUp(self):
+        biome_test = EnvoBiomeFourthTestCase()
+        biome_test.setUp()
+        biome = EnvoBiomeFourth.objects.filter()[:1].get()
+        EnvoBiomeFifth.objects.update_or_create(biome_fourth_tier=biome,
+                                                biome_fifth_tier="test_fifth_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_biome_tier = EnvoBiomeFifth.objects.filter(biome_fifth_tier="test_fifth_tier")[:1].get()
+        self.assertIs(test_biome_tier.was_added_recently(), True)
 
 
 class EnvoFeatureFirstTestCase(TestCase):
@@ -47,15 +90,86 @@ class EnvoFeatureFirstTestCase(TestCase):
 
 class EnvoFeatureSecondTestCase(TestCase):
     def setUp(self):
-        feature_first_test = EnvoFeatureFirstTestCase()
-        feature_first_test.setUp()
-        tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        EnvoFeatureSecond.objects.update_or_create(feature_first_tier=tasl, feature_second_tier="test_second_tier")
+        feature_test = EnvoFeatureFirstTestCase()
+        feature_test.setUp()
+        feature = EnvoFeatureFirst.objects.filter()[:1].get()
+        EnvoFeatureSecond.objects.update_or_create(feature_first_tier=feature,
+                                                   feature_second_tier="test_second_tier")
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_second_tier = EnvoFeatureSecond.objects.filter(feature_second_tier="test_second_tier")[:1].get()
-        self.assertIs(test_second_tier.was_added_recently(), True)
+        test_feature_tier = EnvoFeatureSecond.objects.filter(feature_second_tier="test_second_tier")[:1].get()
+        self.assertIs(test_feature_tier.was_added_recently(), True)
+
+
+class EnvoFeatureThirdTestCase(TestCase):
+    def setUp(self):
+        feature_test = EnvoFeatureSecondTestCase()
+        feature_test.setUp()
+        feature = EnvoFeatureSecond.objects.filter()[:1].get()
+        EnvoFeatureThird.objects.update_or_create(feature_second_tier=feature,
+                                                  feature_third_tier="test_third_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_feature_tier = EnvoFeatureThird.objects.filter(feature_third_tier="test_third_tier")[:1].get()
+        self.assertIs(test_feature_tier.was_added_recently(), True)
+
+
+class EnvoFeatureFourthTestCase(TestCase):
+    def setUp(self):
+        feature_test = EnvoFeatureThirdTestCase()
+        feature_test.setUp()
+        feature = EnvoFeatureThird.objects.filter()[:1].get()
+        EnvoFeatureFourth.objects.update_or_create(feature_third_tier=feature,
+                                                   feature_fourth_tier="test_fourth_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_feature_tier = EnvoFeatureFourth.objects.filter(feature_fourth_tier="test_fourth_tier")[:1].get()
+        self.assertIs(test_feature_tier.was_added_recently(), True)
+
+
+class EnvoFeatureFifthTestCase(TestCase):
+    def setUp(self):
+        feature_test = EnvoFeatureFourthTestCase()
+        feature_test.setUp()
+        feature = EnvoFeatureFourth.objects.filter()[:1].get()
+        EnvoFeatureFifth.objects.update_or_create(feature_fourth_tier=feature,
+                                                  feature_fifth_tier="test_fifth_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_feature_tier = EnvoFeatureFifth.objects.filter(feature_fifth_tier="test_fifth_tier")[:1].get()
+        self.assertIs(test_feature_tier.was_added_recently(), True)
+
+
+class EnvoFeatureSixthTestCase(TestCase):
+    def setUp(self):
+        feature_test = EnvoFeatureFifthTestCase()
+        feature_test.setUp()
+        feature = EnvoFeatureFifth.objects.filter()[:1].get()
+        EnvoFeatureSixth.objects.update_or_create(feature_fifth_tier=feature,
+                                                  feature_sixth_tier="test_sixth_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_feature_tier = EnvoFeatureSixth.objects.filter(feature_sixth_tier="test_sixth_tier")[:1].get()
+        self.assertIs(test_feature_tier.was_added_recently(), True)
+
+
+class EnvoFeatureSeventhTestCase(TestCase):
+    def setUp(self):
+        feature_test = EnvoFeatureSixthTestCase()
+        feature_test.setUp()
+        feature = EnvoFeatureSixth.objects.filter()[:1].get()
+        EnvoFeatureSeventh.objects.update_or_create(feature_sixth_tier=feature,
+                                                    feature_seventh_tier="test_seventh_tier")
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_feature_tier = EnvoFeatureSeventh.objects.filter(feature_seventh_tier="test_seventh_tier")[:1].get()
+        self.assertIs(test_feature_tier.was_added_recently(), True)
 
 
 class SystemTestCase(TestCase):
