@@ -216,8 +216,7 @@ class FieldSiteTestCase(TestCase):
         river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        FieldSite.objects.get_or_create(pk=1,
-                                        defaults={
+        FieldSite.objects.get_or_create(defaults={
                                             'grant': grant,
                                             'system': system,
                                             'watershed': watershed,
@@ -226,8 +225,7 @@ class FieldSiteTestCase(TestCase):
                                             'envo_biome_first': lake,
                                             'envo_feature_first': ls,
                                             'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
-        FieldSite.objects.get_or_create(pk=2,
-                                        defaults={
+        FieldSite.objects.get_or_create(defaults={
                                             'grant': grant,
                                             'system': system,
                                             'watershed': watershed,
