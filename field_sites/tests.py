@@ -1,5 +1,7 @@
 from django.test import TestCase
-from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureFirst, EnvoFeatureSecond, System, Watershed, FieldSite
+from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureFirst, EnvoFeatureSecond, System, Watershed, \
+    FieldSite, EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureThird, EnvoFeatureFourth, EnvoBiomeThird, \
+    EnvoBiomeFourth, EnvoBiomeFifth, EnvoFeatureSeventh
 from utility.models import Grant
 from utility.tests import GrantTestCase
 # Create your tests here.
