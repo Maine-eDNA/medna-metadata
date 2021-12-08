@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('feature_id', models.CharField(max_length=255, verbose_name='Feature ID')),
+                ('feature_id', models.TextField(verbose_name='Feature ID')),
                 ('feature_sequence', models.TextField(verbose_name='Feature Sequence')),
                 ('feature_slug', models.SlugField(max_length=255, verbose_name='Feature Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),

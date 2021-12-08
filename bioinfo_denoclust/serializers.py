@@ -65,7 +65,7 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
 
 class FeatureOutputSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_id = serializers.CharField(max_length=255)
+    feature_id = serializers.CharField()
     feature_sequence = serializers.CharField()
     feature_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)

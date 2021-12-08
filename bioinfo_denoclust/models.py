@@ -64,13 +64,14 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
 
 class FeatureOutput(DateTimeUserMixin):
     denoise_cluster_metadata = models.ForeignKey(DenoiseClusterMetadata, on_delete=models.RESTRICT)
-    feature_id = models.CharField("Feature ID", max_length=255)
+    feature_id = models.TextField("Feature ID")
     feature_sequence = models.TextField("Feature Sequence")
     feature_slug = models.SlugField("Feature Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.denoise_cluster_metadata.analysis_datetime)
-        self.feature_slug = '{feature}_{date}'.format(feature=slugify(self.feature_id), date=slugify(analysis_date_fmt))
+        truncated_feat_id = self.feature_id[0:24]
+        self.feature_slug = '{feature}_{date}'.format(feature=slugify(truncated_feat_id), date=slugify(analysis_date_fmt))
         super(FeatureOutput, self).save(*args, **kwargs)
 
     def __str__(self):
