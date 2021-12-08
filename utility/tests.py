@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 class GrantTestCase(TestCase):
     # formerly Project in field_sites.models
     def setUp(self):
-        Grant.objects.get_or_create(pk=1, defaults={'grant_label': "Maine-eDNA", 'grant_code': "e"})
+        Grant.objects.get_or_create(defaults={'grant_label': "Maine-eDNA", 'grant_code': "e"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -21,8 +21,7 @@ class ProjectTestCase(TestCase):
         grant_test = GrantTestCase()
         grant_test.setUp()
         grant_name = Grant.objects.filter()[:1].get()
-        Project.objects.get_or_create(pk=1,
-                                      defaults={
+        Project.objects.get_or_create(defaults={
                                           'project_label': "Community Science",
                                           'project_code': "prj_commsci",
                                           'grant_name': grant_name})
@@ -36,8 +35,7 @@ class ProjectTestCase(TestCase):
 class ProcessLocationTestCase(TestCase):
     # formerly Project in field_sites.models
     def setUp(self):
-        ProcessLocation.objects.get_or_create(pk=1,
-                                              defaults={
+        ProcessLocation.objects.get_or_create(defaults={
                                                   'process_location_name': "CORE",
                                                   'affiliation': "UMaine",
                                                   'process_location_url': "https://www.test.com",
@@ -56,8 +54,7 @@ class ProcessLocationTestCase(TestCase):
 
 class DefaultSiteCssTestCase(TestCase):
     def setUp(self):
-        DefaultSiteCss.objects.get_or_create(pk=1,
-                                             defaults={
+        DefaultSiteCss.objects.get_or_create(defaults={
                                                  'default_css_label': "default_css_label",
                                                  'css_selected_background_color': "css_selected_background_color",
                                                  'css_selected_text_color': "css_selected_text_color",
@@ -88,8 +85,7 @@ class CustomUserCssTestCase(TestCase):
     def setUp(self):
         User = get_user_model()
         user = User.objects.create_user(email='normal@user.com', password='foo')
-        CustomUserCss.objects.get_or_create(pk=1,
-                                            defaults={
+        CustomUserCss.objects.get_or_create(defaults={
                                                 'custom_css_label': "custom_css_label",
                                                 'user': user,
                                                 'css_selected_background_color': "css_selected_background_color",
