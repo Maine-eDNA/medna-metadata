@@ -229,7 +229,8 @@ class FieldSiteTestCase(TestCase):
                                                                       'envo_biome_first': lake,
                                                                       'envo_feature_first': ls,
                                                                       'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
-        field_site1.save()
+        if created:
+            field_site1.save()
         field_site2, created = FieldSite.objects.update_or_create(pk=2,
                                                                   defaults={
                                                                       'grant': grant,
@@ -240,7 +241,8 @@ class FieldSiteTestCase(TestCase):
                                                                       'envo_biome_first': river,
                                                                       'envo_feature_first': tasl,
                                                                       'geom': "SRID=4326;POINT (-68.81489999999999 44.5925)"})
-        field_site2.save()
+        if created:
+            field_site2.save()
 
     def test_was_added_recently(self):
         # test if date is added correctly
