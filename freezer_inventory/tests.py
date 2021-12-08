@@ -76,10 +76,10 @@ class FreezerBoxTestCase(TestCase):
 class FreezerInventoryTestCase(TestCase):
     def setUp(self):
         freezer_box_test = FreezerBoxTestCase()
-        freezer_box_test.setUp()
-        freezer_box = FreezerBox.objects.filter()[:1].get()
         sample_barcode_test = SampleBarcodeTestCase()
+        freezer_box_test.setUp()
         sample_barcode_test.setUp()
+        freezer_box = FreezerBox.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
         FreezerInventory.objects.update_or_create(freezer_box=freezer_box,
                                                   sample_barcode=sample_barcode,
@@ -114,10 +114,10 @@ class FreezerInventoryReturnMetadataTestCase(TestCase):
     def setUp(self):
         manytomany_list = []
         freezer_checkout_test = FreezerCheckoutTestCase()
-        freezer_checkout_test.setUp()
-        freezer_checkout = FreezerCheckout.objects.filter()[:1].get()
         return_actions_test = ReturnActionTestCase()
+        freezer_checkout_test.setUp()
         return_actions_test.setUp()
+        freezer_checkout = FreezerCheckout.objects.filter()[:1].get()
         return_actions = ReturnAction.objects.filter()[:1].get()
         manytomany_list.append(return_actions)
         freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(freezer_checkout=freezer_checkout,

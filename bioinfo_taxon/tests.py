@@ -145,13 +145,13 @@ class AnnotationMetadataTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         process_location_test = ProcessLocationTestCase()
-        process_location_test.setUp()
-        process_location = ProcessLocation.objects.filter()[:1].get()
         denoise_cluster_metadata_test = DenoiseClusterMetadataTestCase()
-        denoise_cluster_metadata_test.setUp()
-        denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method_test = AnnotationMethodTestCase()
+        process_location_test.setUp()
+        denoise_cluster_metadata_test.setUp()
         annotation_method_test.setUp()
+        process_location = ProcessLocation.objects.filter()[:1].get()
+        denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method = AnnotationMethod.objects.filter()[:1].get()
         AnnotationMetadata.objects.update_or_create(process_location=process_location,
                                                     denoise_cluster_metadata=denoise_cluster_metadata,
@@ -171,14 +171,16 @@ class AnnotationMetadataTestCase(TestCase):
 class TaxonomicAnnotationTestCase(TestCase):
     def setUp(self):
         feature_test = FeatureOutputTestCase()
-        feature_test.setUp()
-        feature = FeatureOutput.objects.filter()[:1].get()
         annotation_metadata_test = AnnotationMetadataTestCase()
+        species_test = TaxonSpeciesTestCase()
+        reference_database_test = ReferenceDatabaseTestCase()
+        feature_test.setUp()
         annotation_metadata_test.setUp()
+        species_test.setUp()
+        reference_database_test.setUp()
+        feature = FeatureOutput.objects.filter()[:1].get()
         annotation_metadata = AnnotationMetadata.objects.filter()[:1].get()
         # species setup also sets up all proceeding related taxon models
-        species_test = TaxonSpeciesTestCase()
-        species_test.setUp()
         manual_species = TaxonSpecies.objects.filter()[:1].get()
         manual_genus = TaxonGenus.objects.filter()[:1].get()
         manual_family = TaxonFamily.objects.filter()[:1].get()
@@ -187,10 +189,7 @@ class TaxonomicAnnotationTestCase(TestCase):
         manual_phylum = TaxonPhylum.objects.filter()[:1].get()
         manual_kingdom = TaxonKingdom.objects.filter()[:1].get()
         manual_domain = TaxonDomain.objects.filter()[:1].get()
-        reference_database_test = ReferenceDatabaseTestCase()
-        reference_database_test.setUp()
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
-
         TaxonomicAnnotation.objects.update_or_create(feature=feature,
                                                      annotation_metadata=annotation_metadata,
                                                      reference_database=reference_database,

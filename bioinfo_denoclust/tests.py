@@ -20,16 +20,16 @@ class DenoiseClusterMethodTestCase(TestCase):
 
 class DenoiseClusterMetadataTestCase(TestCase):
     def setUp(self):
+        current_datetime = timezone.now()
         process_location_test = ProcessLocationTestCase()
-        process_location_test.setUp()
-        process_location = ProcessLocation.objects.filter()[:1].get()
         run_result_test = RunResultTestCase()
-        run_result_test.setUp()
-        run_result = RunResult.objects.filter()[:1].get()
         denoise_cluster_method_test = DenoiseClusterMethodTestCase()
+        process_location_test.setUp()
+        run_result_test.setUp()
         denoise_cluster_method_test.setUp()
         denoise_cluster_method = DenoiseClusterMethod.objects.filter()[:1].get()
-        current_datetime = timezone.now()
+        process_location = ProcessLocation.objects.filter()[:1].get()
+        run_result = RunResult.objects.filter()[:1].get()
         DenoiseClusterMetadata.objects.update_or_create(process_location=process_location,
                                                         analysis_datetime=current_datetime,
                                                         run_result=run_result,
@@ -63,10 +63,10 @@ class FeatureOutputTestCase(TestCase):
 class FeatureReadTestCase(TestCase):
     def setUp(self):
         feature_test = FeatureOutputTestCase()
-        feature_test.setUp()
-        feature = FeatureOutput.objects.filter()[:1].get()
         extraction_test = ExtractionTestCase()
+        feature_test.setUp()
         extraction_test.setUp()
+        feature = FeatureOutput.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
         FeatureRead.objects.update_or_create(feature=feature,
                                              extraction=extraction,

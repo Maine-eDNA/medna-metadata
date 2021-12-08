@@ -90,19 +90,18 @@ class ExtractionTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         process_location_test = ProcessLocationTestCase()
-        process_location_test.setUp()
-        process_location = ProcessLocation.objects.filter()[:1].get()
         field_sample_test = FieldSampleTestCase()
+        extraction_method_test = ExtractionMethodTestCase()
+        quantification_method_test = QuantificationMethodTestCase()
+        process_location_test.setUp()
         field_sample_test.setUp()
+        extraction_method_test.setUp()
+        quantification_method_test.setUp()
+        process_location = ProcessLocation.objects.filter()[:1].get()
         field_sample = FieldSample.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        extraction_method_test = ExtractionMethodTestCase()
-        extraction_method_test.setUp()
         extraction_method = ExtractionMethod.objects.filter()[:1].get()
-        quantification_method_test = QuantificationMethodTestCase()
-        quantification_method_test.setUp()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-
         Extraction.objects.update_or_create(process_location=process_location,
                                             extraction_datetime=current_datetime,
                                             field_sample=field_sample,
@@ -127,11 +126,11 @@ class DdpcrTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
+        primer_set_test = PrimerPairTestCase()
         extraction_test.setUp()
+        primer_set_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        primer_set_test = PrimerPairTestCase
-        primer_set_test.setUp()
         primer_set = PrimerPair.objects.filter()[:1].get()
         Ddpcr.objects.update_or_create(process_location=process_location,
                                        ddpcr_datetime=current_datetime,
@@ -154,11 +153,11 @@ class QpcrTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
+        primer_set_test = PrimerPairTestCase()
         extraction_test.setUp()
+        primer_set_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        primer_set_test = PrimerPairTestCase
-        primer_set_test.setUp()
         primer_set = PrimerPair.objects.filter()[:1].get()
         Qpcr.objects.update_or_create(process_location=process_location,
                                       qpcr_datetime=current_datetime,
@@ -181,23 +180,23 @@ class LibraryPrepTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
+        primer_set_test = PrimerPairTestCase()
+        index_pair_test = IndexPairTestCase()
+        index_removal_method_test = IndexRemovalMethodTestCase()
+        size_selection_method_test = SizeSelectionMethodTestCase()
+        quantification_method_test = QuantificationMethodTestCase()
         extraction_test.setUp()
+        primer_set_test.setUp()
+        index_pair_test.setUp()
+        index_removal_method_test.setUp()
+        size_selection_method_test.setUp()
+        quantification_method_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        primer_set_test = PrimerPairTestCase
-        primer_set_test.setUp()
         primer_set = PrimerPair.objects.filter()[:1].get()
-        index_pair_test = IndexPairTestCase()
-        index_pair_test.setUp()
         index_pair = IndexPair.objects.filter()[:1].get()
-        index_removal_method_test = IndexRemovalMethodTestCase()
-        index_removal_method_test.setUp()
         index_removal_method = IndexRemovalMethod.objects.filter()[:1].get()
-        size_selection_method_test = SizeSelectionMethodTestCase()
-        size_selection_method_test.setUp()
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
-        quantification_method_test = QuantificationMethodTestCase()
-        quantification_method_test.setUp()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         LibraryPrep.objects.update_or_create(lib_prep_datetime=current_datetime,
                                              lib_prep_experiment_name="test_name",
