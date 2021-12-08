@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout, \
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckoutLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import MeasureUnits, CheckoutActions, YesNo
 from sample_labels.tests import SampleBarcodeTestCase
@@ -98,30 +98,30 @@ class FreezerInventoryTestCase(TestCase):
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class FreezerCheckoutTestCase(TestCase):
+class FreezerCheckoutLogTestCase(TestCase):
     def setUp(self):
         freezer_inventory_test = FreezerInventoryTestCase()
         freezer_inventory_test.setUp()
         freezer_inventory = FreezerInventory.objects.filter()[:1].get()
-        FreezerCheckout.objects.get_or_create(defaults={
+        FreezerCheckoutLog.objects.get_or_create(defaults={
                                                   'freezer_inventory': freezer_inventory,
                                                   'freezer_checkout_action': CheckoutActions.CHECKOUT,
                                                   'freezer_return_notes': "checking out test"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FreezerCheckout.objects.filter(freezer_checkout_action=CheckoutActions.CHECKOUT)[:1].get()
+        test_exists = FreezerCheckoutLog.objects.filter(freezer_checkout_action=CheckoutActions.CHECKOUT)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class FreezerInventoryReturnMetadataTestCase(TestCase):
     def setUp(self):
         manytomany_list = []
-        freezer_checkout_test = FreezerCheckoutTestCase()
+        freezer_checkout_test = FreezerCheckoutLogTestCase()
         return_actions_test = ReturnActionTestCase()
         freezer_checkout_test.setUp()
         return_actions_test.setUp()
-        freezer_checkout = FreezerCheckout.objects.filter()[:1].get()
+        freezer_checkout = FreezerCheckoutLog.objects.filter()[:1].get()
         return_actions = ReturnAction.objects.filter()[:1].get()
         manytomany_list.append(return_actions)
         freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.get_or_create(defaults={

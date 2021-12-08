@@ -1,10 +1,10 @@
 from django.contrib.gis import admin
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
-    FreezerCheckout, FreezerInventoryReturnMetadata
+    FreezerCheckoutLog, FreezerInventoryReturnMetadata
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ReturnActionAdminResource, FreezerAdminResource, FreezerRackAdminResource, \
-    FreezerBoxAdminResource, FreezerInventoryAdminResource, FreezerCheckoutAdminResource, \
+    FreezerBoxAdminResource, FreezerInventoryAdminResource, FreezerCheckoutLogAdminResource, \
     FreezerInventoryReturnMetadataAdminResource
 
 
@@ -195,9 +195,9 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
 admin.site.register(FreezerInventory, FreezerInventoryAdmin)
 
 
-class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
+class FreezerCheckoutLogAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = FreezerCheckoutAdminResource
+    resource_class = FreezerCheckoutLogAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('freezer_checkout_slug', )
@@ -215,7 +215,7 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(FreezerCheckoutAdmin, self).add_view(request)
+        return super(FreezerCheckoutLogAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -227,7 +227,7 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
                        'freezer_return_vol_taken', 'freezer_return_vol_units',
                        'freezer_return_notes',
                        'created_by']
-        return super(FreezerCheckoutAdmin, self).change_view(request, object_id)
+        return super(FreezerCheckoutLogAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -237,7 +237,7 @@ class FreezerCheckoutAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(FreezerCheckout, FreezerCheckoutAdmin)
+admin.site.register(FreezerCheckoutLog, FreezerCheckoutLogAdmin)
 
 
 class ReturnActionInline(admin.TabularInline):

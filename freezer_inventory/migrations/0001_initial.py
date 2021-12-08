@@ -122,14 +122,14 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='FreezerCheckout',
+            name='FreezerCheckoutLog',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('freezer_checkout_slug', models.SlugField(max_length=255, verbose_name='Freezer Checkout Slug')),
-                ('freezer_checkout_action', models.CharField(choices=[('checkout', 'Checkout'), ('return', 'Return'), ('perm_removed', 'Permanent Removal')], max_length=50, verbose_name='Freezer Checkout Action')),
-                ('freezer_checkout_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Freezer Checkout DateTime')),
+                ('freezer_checkout_slug', models.SlugField(max_length=255, verbose_name='Freezer Checkout Log Slug')),
+                ('freezer_checkout_action', models.CharField(choices=[('checkout', 'Checkout'), ('return', 'Return'), ('perm_removed', 'Permanent Removal')], max_length=50, verbose_name='Freezer Checkout Log Action')),
+                ('freezer_checkout_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Freezer Checkout Log DateTime')),
                 ('freezer_return_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Freezer Return DateTime')),
                 ('freezer_perm_removal_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Freezer Permanent Removal DateTime')),
                 ('freezer_return_vol_taken', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Volume Taken')),
@@ -139,14 +139,14 @@ class Migration(migrations.Migration):
                 ('freezer_inventory', models.ForeignKey(limit_choices_to=models.Q(('freezer_inventory_status', 'in'), ('freezer_inventory_status', 'out'), _connector='OR'), on_delete=django.db.models.deletion.RESTRICT, to='freezer_inventory.freezerinventory')),
             ],
             options={
-                'verbose_name': 'Freezer Checkout',
-                'verbose_name_plural': 'Freezer Checkouts',
+                'verbose_name': 'Freezer Checkout Log',
+                'verbose_name_plural': 'Freezer Checkout Logs',
             },
         ),
         migrations.CreateModel(
             name='FreezerInventoryReturnMetadata',
             fields=[
-                ('freezer_checkout', models.OneToOneField(limit_choices_to={'freezer_checkout_action': 'return'}, on_delete=django.db.models.deletion.RESTRICT, primary_key=True, serialize=False, to='freezer_inventory.freezercheckout')),
+                ('freezer_checkout', models.OneToOneField(limit_choices_to={'freezer_checkout_action': 'return'}, on_delete=django.db.models.deletion.RESTRICT, primary_key=True, serialize=False, to='freezer_inventory.freezercheckoutlog')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('metadata_entered', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Metadata Entered')),

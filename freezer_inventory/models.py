@@ -228,15 +228,15 @@ class FreezerInventory(DateTimeUserMixin):
         verbose_name_plural = 'Freezer Inventory'
 
 
-class FreezerCheckout(DateTimeUserMixin):
+class FreezerCheckoutLog(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
                                           limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
-    freezer_checkout_slug = models.SlugField("Freezer Checkout Slug", max_length=255)
+    freezer_checkout_slug = models.SlugField("Freezer Checkout Log Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
-    freezer_checkout_action = models.CharField("Freezer Checkout Action", max_length=50,
+    freezer_checkout_action = models.CharField("Freezer Checkout Log Action", max_length=50,
                                                choices=CheckoutActions.choices)
-    freezer_checkout_datetime = models.DateTimeField("Freezer Checkout DateTime", blank=True, null=True)
+    freezer_checkout_datetime = models.DateTimeField("Freezer Checkout Log DateTime", blank=True, null=True)
     freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True, null=True)
     freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10,
@@ -276,16 +276,16 @@ class FreezerCheckout(DateTimeUserMixin):
                                                                     name=slugify(self.freezer_inventory.freezer_inventory_slug),
                                                                     date=created_date_fmt)
         # all done, time to save changes to the db
-        super(FreezerCheckout, self).save(*args, **kwargs)
+        super(FreezerCheckoutLog, self).save(*args, **kwargs)
 
     class Meta:
         app_label = 'freezer_inventory'
-        verbose_name = 'Freezer Checkout'
-        verbose_name_plural = 'Freezer Checkouts'
+        verbose_name = 'Freezer Checkout Log'
+        verbose_name_plural = 'Freezer Checkout Logs'
 
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
-    freezer_checkout = models.OneToOneField(FreezerCheckout, on_delete=models.RESTRICT, primary_key=True, limit_choices_to={'freezer_checkout_action': CheckoutActions.RETURN})
+    freezer_checkout = models.OneToOneField(FreezerCheckoutLog, on_delete=models.RESTRICT, primary_key=True, limit_choices_to={'freezer_checkout_action': CheckoutActions.RETURN})
     metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="return_actions", blank=True)
 

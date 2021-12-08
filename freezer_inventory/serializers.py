@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckout, \
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckoutLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
@@ -172,7 +172,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                                                   queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
 
 
-class FreezerCheckoutSerializer(serializers.ModelSerializer):
+class FreezerCheckoutLogSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_checkout_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_checkout_action = serializers.ChoiceField(choices=CheckoutActions.choices)
@@ -186,7 +186,7 @@ class FreezerCheckoutSerializer(serializers.ModelSerializer):
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = FreezerCheckout
+        model = FreezerCheckoutLog
         fields = ['id', 'freezer_inventory', 'freezer_checkout_action',
                   'freezer_checkout_datetime',
                   'freezer_return_datetime',
@@ -215,7 +215,7 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
     freezer_checkout = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_checkout_slug',
-                                                    queryset=FreezerCheckout.objects.filter(freezer_checkout_action=CheckoutActions.RETURN))
+                                                    queryset=FreezerCheckoutLog.objects.filter(freezer_checkout_action=CheckoutActions.RETURN))
     return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
                                                   queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

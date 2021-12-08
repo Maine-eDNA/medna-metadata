@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
-    FreezerCheckout, FreezerInventoryReturnMetadata
+    FreezerCheckoutLog, FreezerInventoryReturnMetadata
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
@@ -149,9 +149,9 @@ class FreezerInventoryAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class FreezerCheckoutAdminResource(resources.ModelResource):
+class FreezerCheckoutLogAdminResource(resources.ModelResource):
     class Meta:
-        model = FreezerCheckout
+        model = FreezerCheckoutLog
         import_id_fields = ('id', 'freezer_inventory', 'freezer_checkout_action', 'created_datetime', )
 
         # exclude = ('site_prefix', 'site_num')
@@ -199,7 +199,7 @@ class FreezerInventoryReturnMetadataAdminResource(resources.ModelResource):
     freezer_checkout = fields.Field(
         column_name='freezer_checkout',
         attribute='freezer_checkout',
-        widget=ManyToManyWidget(FreezerCheckout, 'freezer_checkout_slug'))
+        widget=ManyToManyWidget(FreezerCheckoutLog, 'freezer_checkout_slug'))
 
     return_actions = fields.Field(
         column_name='return_actions',
