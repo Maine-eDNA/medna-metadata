@@ -384,7 +384,7 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('fastq_slug', models.SlugField(max_length=255, verbose_name='Fastq Slug')),
-                ('fastq_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.PrivateSequencingStorage(), upload_to='', verbose_name='FastQ Datafile')),
+                ('fastq_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.PrivateSequencingStorage(), upload_to='', verbose_name='FastQ Datafile', default='static/utility/images/icon-no.svg')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('extraction', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
                 ('run_result', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runresult')),

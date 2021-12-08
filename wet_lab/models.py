@@ -477,7 +477,8 @@ class FastqFile(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
-    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage)
+    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage,
+                                      default="static/utility/images/icon-no.svg")
 
     @property
     def fastq_filename(self):
