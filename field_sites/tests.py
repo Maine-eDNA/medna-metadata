@@ -219,26 +219,28 @@ class FieldSiteTestCase(TestCase):
         river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        FieldSite.objects.update_or_create(pk=1,
-                                           defaults={
-                                               'grant': grant,
-                                               'system': system,
-                                               'watershed': watershed,
-                                               'general_location_name': "FieldSiteTest1",
-                                               'purpose': "FieldSiteTest1",
-                                               'envo_biome_first': lake,
-                                               'envo_feature_first': ls,
-                                               'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
-        FieldSite.objects.update_or_create(pk=2,
-                                           defaults={
-                                               'grant': grant,
-                                               'system': system,
-                                               'watershed': watershed,
-                                               'general_location_name': "FieldSiteTest2",
-                                               'purpose': "FieldSiteTest2",
-                                               'envo_biome_first': river,
-                                               'envo_feature_first': tasl,
-                                               'geom': "SRID=4326;POINT (-68.81489999999999 44.5925)"})
+        field_site1, created = FieldSite.objects.update_or_create(pk=1,
+                                                                  defaults={
+                                                                      'grant': grant,
+                                                                      'system': system,
+                                                                      'watershed': watershed,
+                                                                      'general_location_name': "FieldSiteTest1",
+                                                                      'purpose': "FieldSiteTest1",
+                                                                      'envo_biome_first': lake,
+                                                                      'envo_feature_first': ls,
+                                                                      'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
+        field_site1.save()
+        field_site2, created = FieldSite.objects.update_or_create(pk=2,
+                                                                  defaults={
+                                                                      'grant': grant,
+                                                                      'system': system,
+                                                                      'watershed': watershed,
+                                                                      'general_location_name': "FieldSiteTest2",
+                                                                      'purpose': "FieldSiteTest2",
+                                                                      'envo_biome_first': river,
+                                                                      'envo_feature_first': tasl,
+                                                                      'geom': "SRID=4326;POINT (-68.81489999999999 44.5925)"})
+        field_site2.save()
 
     def test_was_added_recently(self):
         # test if date is added correctly
