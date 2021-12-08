@@ -112,15 +112,18 @@ class FreezerCheckoutTestCase(TestCase):
 
 class FreezerInventoryReturnMetadataTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         freezer_checkout_test = FreezerCheckoutTestCase()
         freezer_checkout_test.setUp()
         freezer_checkout = FreezerCheckout.objects.filter()[:1].get()
         return_actions_test = ReturnActionTestCase()
         return_actions_test.setUp()
         return_actions = ReturnAction.objects.filter()[:1].get()
-        FreezerInventoryReturnMetadata.objects.update_or_create(freezer_checkout=freezer_checkout,
-                                                                metadata_entered=YesNo.NO,
-                                                                return_actions=[return_actions])
+        manytomany_list.append(return_actions)
+        freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(freezer_checkout=freezer_checkout,
+                                                                                                             metadata_entered=YesNo.NO,
+                                                                                                             return_actions=manytomany_list)
+        freezer_inventory_return_metadata.return_actions.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly

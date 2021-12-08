@@ -227,20 +227,22 @@ class LibraryPrepTestCase(TestCase):
 
 class PooledLibraryTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         current_datetime = timezone.now()
         library_prep_test = LibraryPrepTestCase()
         library_prep_test.setUp()
         library_prep = LibraryPrep.objects.filter()[:1].get()
+        manytomany_list.append(library_prep)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        PooledLibrary.objects.update_or_create(pooled_lib_datetime=current_datetime,
-                                               pooled_lib_label="test_label",
-                                               process_location=process_location,
-                                               library_prep=[library_prep],
-                                               quantification_method=quantification_method,
-                                               pooled_lib_concentration=0.100,
-                                               pooled_lib_concentration_units=ConcentrationUnits.NM,
-                                               pooled_lib_notes="pooled lib notes")
+        pooled_library, created = PooledLibrary.objects.update_or_create(pooled_lib_datetime=current_datetime,
+                                                                         pooled_lib_label="test_label",
+                                                                         process_location=process_location,
+                                                                         quantification_method=quantification_method,
+                                                                         pooled_lib_concentration=0.100,
+                                                                         pooled_lib_concentration_units=ConcentrationUnits.NM,
+                                                                         pooled_lib_notes="pooled lib notes")
+        pooled_library.library_prep.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -250,22 +252,24 @@ class PooledLibraryTestCase(TestCase):
 
 class FinalPooledLibraryTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         current_datetime = timezone.now()
         pooled_library_test = PooledLibraryTestCase()
         pooled_library_test.setUp()
         pooled_library = PooledLibrary.objects.filter()[:1].get()
+        manytomany_list.append(pooled_library)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        FinalPooledLibrary.objects.update_or_create(final_pooled_lib_datetime=current_datetime,
-                                                    final_pooled_lib_barcode=sample_barcode,
-                                                    final_pooled_lib_label="test_label",
-                                                    process_location=process_location,
-                                                    pooled_library=[pooled_library],
-                                                    quantification_method=quantification_method,
-                                                    final_pooled_lib_concentration=0.100,
-                                                    final_pooled_lib_concentration_units=ConcentrationUnits.NM,
-                                                    final_pooled_lib_notes="final pooled lib notes")
+        final_pooled_library, created = FinalPooledLibrary.objects.update_or_create(final_pooled_lib_datetime=current_datetime,
+                                                                                    final_pooled_lib_barcode=sample_barcode,
+                                                                                    final_pooled_lib_label="test_label",
+                                                                                    process_location=process_location,
+                                                                                    quantification_method=quantification_method,
+                                                                                    final_pooled_lib_concentration=0.100,
+                                                                                    final_pooled_lib_concentration_units=ConcentrationUnits.NM,
+                                                                                    final_pooled_lib_notes="final pooled lib notes")
+        final_pooled_library.pooled_library.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
