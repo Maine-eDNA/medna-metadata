@@ -62,10 +62,25 @@ class SampleLabelRequestTestCase(TestCase):
 
 class SampleBarcodeTestCase(TestCase):
     # fixtures = ['sample_labels_samplelabel.json']
+    def setUp(self):
+        # get first record in queryset
+        field_site_test = FieldSiteTestCase()
+        sample_material_test = SampleMaterialTestCase()
+        sample_label_request_test = SampleLabelRequestTestCase()
+        field_site_test.setUp()
+        sample_material_test.setUp()
+        sample_label_request_test.setUp()
+        site_id = FieldSite.objects.filter()[:1].get()
+        sample_material = SampleMaterial.objects.filter()[:1].get()
+        sample_label_request = SampleLabelRequest.objects.filter()[:1].get()
+        SampleBarcode.objects.update_or_create(sample_label_request=sample_label_request,
+                                               sample_barcode_id="pRR_S00_00m_0000",
+                                               site_id=site_id,
+                                               sample_material=sample_material,
+                                               sample_year=2021,
+                                               purpose="SampleLabelTest1")
 
     def test_was_added_recently(self):
         # test if date is added correctly
         test1 = SampleBarcode.objects.filter(purpose="SampleLabelTest1")[:1].get()
-        test2 = SampleBarcode.objects.filter(purpose="SampleLabelTest2")[:1].get()
         self.assertIs(test1.was_added_recently(), True)
-        self.assertIs(test2.was_added_recently(), True)
