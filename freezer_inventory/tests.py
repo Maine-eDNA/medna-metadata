@@ -126,8 +126,7 @@ class FreezerInventoryReturnMetadataTestCase(TestCase):
         manytomany_list.append(return_actions)
         freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.get_or_create(defaults={
                                                                                                               'freezer_checkout': freezer_checkout,
-                                                                                                              'metadata_entered': YesNo.NO,
-                                                                                                              'return_actions': manytomany_list})
+                                                                                                              'metadata_entered': YesNo.NO})
         freezer_inventory_return_metadata.return_actions.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
