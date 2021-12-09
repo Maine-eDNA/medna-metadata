@@ -475,7 +475,7 @@ class FastqFile(DateTimeUserMixin):
     # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True)
+    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True, null=True)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
     fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage,
                                       default="static/utility/images/icon-no.svg")

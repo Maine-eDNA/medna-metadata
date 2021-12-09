@@ -487,6 +487,6 @@ class FastqFileSerializer(serializers.ModelSerializer):
     run_result = serializers.SlugRelatedField(many=False, read_only=False,
                                               slug_field='run_id',
                                               queryset=RunResult.objects.all())
-    extraction = serializers.SlugRelatedField(many=False, read_only=False,
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
                                               slug_field='barcode_slug',
                                               queryset=Extraction.objects.all())
