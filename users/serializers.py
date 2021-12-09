@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from random import choice
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 try:
     from allauth.account import app_settings as allauth_settings
     from allauth.utils import (email_address_exists,
@@ -21,6 +21,8 @@ except ImportError:
 
 
 # django rest_framework
+# TODO https://dev.to/koladev/django-rest-authentication-cmh - replace rest-auth?
+# TODO https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications - replace rest-auth?
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
