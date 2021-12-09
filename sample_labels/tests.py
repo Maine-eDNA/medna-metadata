@@ -47,17 +47,17 @@ class SampleLabelRequestTestCase(TestCase):
         site_id = FieldSite.objects.filter()[:1].get()
         sample_material = SampleMaterial.objects.filter()[:1].get()
         # insert into db
-        SampleLabelRequest.objects.get_or_create(defaults={
+        SampleLabelRequest.objects.get_or_create(purpose="SampleLabelTest1",
+                                                 defaults={
                                                      'site_id': site_id,
                                                      'sample_material': sample_material,
                                                      'sample_year': 2021,
-                                                     'purpose': "SampleLabelTest1",
                                                      'req_sample_label_num': 30})
-        SampleLabelRequest.objects.get_or_create(defaults={
+        SampleLabelRequest.objects.get_or_create(purpose="SampleLabelTest2",
+                                                 defaults={
                                                      'site_id': site_id,
                                                      'sample_material': sample_material,
                                                      'sample_year': 2021,
-                                                     'purpose': "SampleLabelTest2",
                                                      'req_sample_label_num': 30})
 
     def test_was_added_recently(self):
