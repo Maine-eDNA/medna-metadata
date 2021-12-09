@@ -167,8 +167,8 @@ class EnvoFeatureSeventhTestCase(TestCase):
 
 class SystemTestCase(TestCase):
     def setUp(self):
-        System.objects.get_or_create(defaults={'system_label': "Lake", 'system_code': "L"})
-        System.objects.get_or_create(defaults={'system_label': "Stream", 'system_code': "S"})
+        System.objects.get_or_create(system_code="L", defaults={'system_label': "Lake"})
+        System.objects.get_or_create(system_code="S", defaults={'system_label': "Stream"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
