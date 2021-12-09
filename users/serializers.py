@@ -35,12 +35,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(allow_blank=True, max_length=50)
     agol_username = serializers.CharField(max_length=255, allow_blank=True)
     profile_image = serializers.FileField(max_length=255, allow_null=True)
-    expiration_date = serializers.CharField(max_length=255, read_only=True)
+    is_staff = serializers.BooleanField(default=False)
+    is_active = serializers.BooleanField(default=True)
+    date_joined = serializers.DateTimeField(read_only=True)
+    expiration_date = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name',
                   'phone_number', 'agol_username', 'profile_image',
+                  'is_staff', 'is_active', 'date_joined',
                   'expiration_date', 'groups', ]
     groups = GroupSerializer(many=True, read_only=True)
 
@@ -52,7 +56,8 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name', 'phone_number',
-                  'agol_username', 'profile_image', 'expiration_date', 'groups', ]
+                  'agol_username', 'profile_image', 'expiration_date', 'groups',
+                  'is_staff', 'is_active', 'date_joined', ]
         read_only_fields = ('email', 'expiration_date', 'groups')
     groups = GroupSerializer(many=True, read_only=True)
 
