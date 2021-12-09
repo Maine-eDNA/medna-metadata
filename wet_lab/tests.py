@@ -338,7 +338,7 @@ class RunResultTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = RunResult.objects.filter(run_id="000000_M03037_0001_000000000")[:1].get()
+        test_exists = RunResult.objects.filter(run_id="000000_M03037_0001_000000000-TESTZ")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 

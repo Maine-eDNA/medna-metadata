@@ -75,7 +75,7 @@ class TaxonClassTestCase(TestCase):
 
 class TaxonOrderTestCase(TestCase):
     def setUp(self):
-        taxon_test = TaxonPhylumTestCase()
+        taxon_test = TaxonClassTestCase()
         taxon_test.setUp()
         taxon = TaxonClass.objects.filter()[:1].get()
         TaxonOrder.objects.get_or_create(taxon_order="test_order", defaults={'taxon_class': taxon})
@@ -88,7 +88,7 @@ class TaxonOrderTestCase(TestCase):
 
 class TaxonFamilyTestCase(TestCase):
     def setUp(self):
-        taxon_test = TaxonPhylumTestCase()
+        taxon_test = TaxonOrderTestCase()
         taxon_test.setUp()
         taxon = TaxonOrder.objects.filter()[:1].get()
         TaxonFamily.objects.get_or_create(taxon_family="test_family", defaults={'taxon_order': taxon})
@@ -101,7 +101,7 @@ class TaxonFamilyTestCase(TestCase):
 
 class TaxonGenusTestCase(TestCase):
     def setUp(self):
-        taxon_test = TaxonPhylumTestCase()
+        taxon_test = TaxonFamilyTestCase()
         taxon_test.setUp()
         taxon = TaxonFamily.objects.filter()[:1].get()
         TaxonGenus.objects.get_or_create(taxon_genus="test_genus", defaults={'taxon_family': taxon})
@@ -114,7 +114,7 @@ class TaxonGenusTestCase(TestCase):
 
 class TaxonSpeciesTestCase(TestCase):
     def setUp(self):
-        taxon_test = TaxonPhylumTestCase()
+        taxon_test = TaxonGenusTestCase()
         taxon_test.setUp()
         taxon = TaxonGenus.objects.filter()[:1].get()
         TaxonSpecies.objects.get_or_create(taxon_species="test_species", defaults={'taxon_genus': taxon})
