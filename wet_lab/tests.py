@@ -299,7 +299,7 @@ class RunPrepTestCase(TestCase):
         current_datetime = timezone.now()
         final_pooled_library_test = FinalPooledLibraryTestCase()
         final_pooled_library_test.setUp()
-        final_pooled_library = PooledLibrary.objects.filter()[:1].get()
+        final_pooled_library = FinalPooledLibrary.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         RunPrep.objects.get_or_create(run_prep_notes="run prep notes", defaults={
