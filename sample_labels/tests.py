@@ -8,9 +8,9 @@ from field_sites.tests import FieldSiteTestCase
 class SampleTypeTestCase(TestCase):
     # fixtures = ['sample_labels_sampletype.json']
     def setUp(self):
-        SampleType.objects.get_or_create(defaults={'sample_type_label': "Subcore", 'sample_type_code': "sc"})
-        SampleType.objects.get_or_create(defaults={'sample_type_label': "Filter", 'sample_type_code': "ft"})
-        SampleType.objects.get_or_create(defaults={'sample_type_label': "Pooledlibrary", 'sample_type_code': "pl"})
+        SampleType.objects.get_or_create(sample_type_code="sc", defaults={'sample_type_label': "Subcore"})
+        SampleType.objects.get_or_create(sample_type_code="ft", defaults={'sample_type_label': "Filter"})
+        SampleType.objects.get_or_create(sample_type_code="pl", defaults={'sample_type_label': "Pooledlibrary"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -25,8 +25,8 @@ class SampleTypeTestCase(TestCase):
 class SampleMaterialTestCase(TestCase):
     # fixtures = ['sample_labels_samplematerial.json']
     def setUp(self):
-        SampleMaterial.objects.get_or_create(defaults={'sample_material_label': "Sediment", 'sample_material_code': "s"})
-        SampleMaterial.objects.get_or_create(defaults={'sample_material_label': "Water", 'sample_material_code': "w"})
+        SampleMaterial.objects.get_or_create(sample_material_code="s", defaults={'sample_material_label': "Sediment"})
+        SampleMaterial.objects.get_or_create(sample_material_code="w", defaults={'sample_material_label': "Water"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -62,8 +62,8 @@ class SampleLabelRequestTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test1 = SampleLabelRequest.objects.get(purpose="SampleLabelTest1")
-        test2 = SampleLabelRequest.objects.get(purpose="SampleLabelTest2")
+        test1 = SampleLabelRequest.objects.filter(purpose="SampleLabelTest1")[:1].get()
+        test2 = SampleLabelRequest.objects.filter(purpose="SampleLabelTest2")[:1].get()
         self.assertIs(test1.was_added_recently(), True)
         self.assertIs(test2.was_added_recently(), True)
 
@@ -77,9 +77,9 @@ class SampleBarcodeTestCase(TestCase):
         site_id = FieldSite.objects.filter()[:1].get()
         sample_material = SampleMaterial.objects.filter()[:1].get()
         sample_label_request = SampleLabelRequest.objects.filter()[:1].get()
-        SampleBarcode.objects.get_or_create(defaults={
+        SampleBarcode.objects.get_or_create(sample_barcode_id="pRR_S00_00m_0000",
+                                            defaults={
                                                 'sample_label_request': sample_label_request,
-                                                'sample_barcode_id': "pRR_S00_00m_0000",
                                                 'site_id': site_id,
                                                 'sample_material': sample_material,
                                                 'sample_year': 2021,
@@ -87,5 +87,5 @@ class SampleBarcodeTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test1 = SampleBarcode.objects.filter(purpose="SampleLabelTest1")[:1].get()
+        test1 = SampleBarcode.objects.get(sample_barcode_id="pRR_S00_00m_0000")
         self.assertIs(test1.was_added_recently(), True)

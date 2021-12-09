@@ -9,8 +9,8 @@ from django.utils import timezone
 
 class DenoiseClusterMethodTestCase(TestCase):
     def setUp(self):
-        DenoiseClusterMethod.objects.get_or_create(defaults={
-                                                       'denoise_cluster_method_name': "test_name",
+        DenoiseClusterMethod.objects.get_or_create(denoise_cluster_method_name="test_name",
+                                                   defaults={
                                                        'denoise_cluster_method_pipeline': "test_pipeline"})
 
     def test_was_added_recently(self):
@@ -43,7 +43,7 @@ class DenoiseClusterMetadataTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = DenoiseClusterMetadata.objects.filter(analyst_first_name="test_first_name")[:1].get()
+        test_exists = DenoiseClusterMetadata.objects.filter()[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -52,9 +52,9 @@ class FeatureOutputTestCase(TestCase):
         denoise_cluster_metadata_test = DenoiseClusterMetadataTestCase()
         denoise_cluster_metadata_test.setUp()
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
-        FeatureOutput.objects.get_or_create(defaults={
+        FeatureOutput.objects.get_or_create(feature_id="77850c8cf42c8aaf177fc02b0df016f9",
+                                            defaults={
                                                 'denoise_cluster_metadata': denoise_cluster_metadata,
-                                                'feature_id': "77850c8cf42c8aaf177fc02b0df016f9",
                                                 'feature_sequence': "CACCGCGGCTATACGAGAGACCCAAGTTGATACCATCTGGCGTAAAGAGTGGTTATGGAAAATAAAGACTAAAGCCGTACACCTTCAAAGCTGTTATACGCATCCGAAGGCTAGAAGATCAACCACGAAGGTAGCTTTACAACCCCTGACCCCACGAAAGCTCTGGCA"})
 
     def test_was_added_recently(self):
@@ -78,5 +78,5 @@ class FeatureReadTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FeatureRead.objects.filter(number_reads=9999)[:1].get()
+        test_exists = FeatureRead.objects.filter()[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)

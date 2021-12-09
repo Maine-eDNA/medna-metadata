@@ -14,8 +14,8 @@ from django.utils import timezone
 
 class PrimerPairTestCase(TestCase):
     def setUp(self):
-        PrimerPair.objects.get_or_create(defaults={
-                                             'primer_set_name': "mifishU",
+        PrimerPair.objects.get_or_create(primer_set_name="mifishU",
+                                         defaults={
                                              'primer_target_gene': TargetGenes.TG_12S,
                                              'primer_name_forward': "mifish_u_f",
                                              'primer_name_reverse': "mifish_u_r",
@@ -34,9 +34,9 @@ class PrimerPairTestCase(TestCase):
 
 class IndexPairTestCase(TestCase):
     def setUp(self):
-        IndexPair.objects.get_or_create(defaults={
+        IndexPair.objects.get_or_create(i7_index_id="A-N702",
+                                        defaults={
                                             'index_i7': "CGTACTAG",
-                                            'i7_index_id': "A-N702",
                                             'index_i5': "GCGTAAGA",
                                             'i5_index_id': "C-S517",
                                             'index_adapter': "CTGTCTCTTATACACATCT"
@@ -50,7 +50,7 @@ class IndexPairTestCase(TestCase):
 
 class IndexRemovalMethodTestCase(TestCase):
     def setUp(self):
-        IndexRemovalMethod.objects.get_or_create(defaults={'index_removal_method_name': "exo-sap"})
+        IndexRemovalMethod.objects.get_or_create(index_removal_method_name="exo-sap")
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -60,7 +60,7 @@ class IndexRemovalMethodTestCase(TestCase):
 
 class SizeSelectionMethodTestCase(TestCase):
     def setUp(self):
-        SizeSelectionMethod.objects.get_or_create(defaults={'size_selection_method_name': "Beads"})
+        SizeSelectionMethod.objects.get_or_create(size_selection_method_name="Beads")
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -70,7 +70,7 @@ class SizeSelectionMethodTestCase(TestCase):
 
 class QuantificationMethodTestCase(TestCase):
     def setUp(self):
-        QuantificationMethod.objects.get_or_create(defaults={'quant_method_name': "qubit"})
+        QuantificationMethod.objects.get_or_create(quant_method_name="qubit")
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -80,8 +80,8 @@ class QuantificationMethodTestCase(TestCase):
 
 class ExtractionMethodTestCase(TestCase):
     def setUp(self):
-        ExtractionMethod.objects.get_or_create(defaults={
-                                                   'extraction_method_name': "Blood and Tissue",
+        ExtractionMethod.objects.get_or_create(extraction_method_name="Blood and Tissue",
+                                               defaults={
                                                    'extraction_method_manufacturer': "Qiagen",
                                                    'extraction_sop_url': "https://extraction_sop_url.com"
                                                })
@@ -108,7 +108,8 @@ class ExtractionTestCase(TestCase):
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
         extraction_method = ExtractionMethod.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        Extraction.objects.get_or_create(defaults={
+        Extraction.objects.get_or_create(extraction_notes="test notes",
+                                         defaults={
                                              'process_location': process_location,
                                              'extraction_datetime': current_datetime,
                                              'field_sample': field_sample,
@@ -120,8 +121,7 @@ class ExtractionTestCase(TestCase):
                                              'extraction_volume_units': VolUnits.MICROLITER,
                                              'quantification_method': quantification_method,
                                              'extraction_concentration': 0.100,
-                                             'extraction_concentration_units': ConcentrationUnits.NGUL,
-                                             'extraction_notes': "test notes"
+                                             'extraction_concentration_units': ConcentrationUnits.NGUL
                                          })
 
     def test_was_added_recently(self):
@@ -140,10 +140,10 @@ class DdpcrTestCase(TestCase):
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
-        Ddpcr.objects.get_or_create(defaults={
+        Ddpcr.objects.get_or_create(ddpcr_experiment_name="test_name",
+                                    defaults={
                                         'process_location': process_location,
                                         'ddpcr_datetime': current_datetime,
-                                        'ddpcr_experiment_name': "test_name",
                                         'extraction': extraction,
                                         'primer_set': primer_set,
                                         'ddpcr_first_name': "test_first_name",
@@ -169,10 +169,10 @@ class QpcrTestCase(TestCase):
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
-        Qpcr.objects.get_or_create(defaults={
+        Qpcr.objects.get_or_create(qpcr_experiment_name="test_name",
+                                   defaults={
                                        'process_location': process_location,
                                        'qpcr_datetime': current_datetime,
-                                       'qpcr_experiment_name': "test_name",
                                        'extraction': extraction,
                                        'primer_set': primer_set,
                                        'qpcr_first_name': "test_first_name",
@@ -210,9 +210,9 @@ class LibraryPrepTestCase(TestCase):
         index_removal_method = IndexRemovalMethod.objects.filter()[:1].get()
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        LibraryPrep.objects.get_or_create(defaults={
+        LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
+                                          defaults={
                                               'lib_prep_datetime': current_datetime,
-                                              'lib_prep_experiment_name': "test_name",
                                               'process_location': process_location,
                                               'extraction': extraction,
                                               'index_pair': index_pair,
@@ -234,7 +234,7 @@ class LibraryPrepTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = LibraryPrep.objects.filter(qpcr_experiment_name="test_name")[:1].get()
+        test_exists = LibraryPrep.objects.filter(lib_prep_experiment_name="test_name")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -248,9 +248,9 @@ class PooledLibraryTestCase(TestCase):
         manytomany_list.append(library_prep)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        pooled_library, created = PooledLibrary.objects.get_or_create(defaults={
+        pooled_library, created = PooledLibrary.objects.get_or_create(pooled_lib_label="test_label",
+                                                                      defaults={
                                                                           'pooled_lib_datetime': current_datetime,
-                                                                          'pooled_lib_label': "test_label",
                                                                           'process_location': process_location,
                                                                           'quantification_method': quantification_method,
                                                                           'pooled_lib_concentration': 0.100,
@@ -276,10 +276,10 @@ class FinalPooledLibraryTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        final_pooled_library, created = FinalPooledLibrary.objects.get_or_create(defaults={
+        final_pooled_library, created = FinalPooledLibrary.objects.get_or_create(final_pooled_lib_label="test_label",
+                                                                                 defaults={
                                                                                      'final_pooled_lib_datetime': current_datetime,
                                                                                      'final_pooled_lib_barcode': sample_barcode,
-                                                                                     'final_pooled_lib_label': "test_label",
                                                                                      'process_location': process_location,
                                                                                      'quantification_method': quantification_method,
                                                                                      'final_pooled_lib_concentration': 0.100,
@@ -290,7 +290,7 @@ class FinalPooledLibraryTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FinalPooledLibrary.objects.filter(pooled_lib_label="test_label")[:1].get()
+        test_exists = FinalPooledLibrary.objects.filter(final_pooled_lib_label="test_label")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -302,7 +302,7 @@ class RunPrepTestCase(TestCase):
         final_pooled_library = PooledLibrary.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        RunPrep.objects.get_or_create(defaults={
+        RunPrep.objects.get_or_create(run_prep_notes="run prep notes", defaults={
                                           'process_location': process_location,
                                           'run_prep_date': current_datetime,
                                           'final_pooled_library': final_pooled_library,
@@ -310,8 +310,7 @@ class RunPrepTestCase(TestCase):
                                           'phix_spike_in_units': PhiXConcentrationUnits.NGML,
                                           'quantification_method': quantification_method,
                                           'final_lib_concentration': 0.100,
-                                          'final_lib_concentration_units': ConcentrationUnits.PM,
-                                          'run_prep_notes': "run prep notes"
+                                          'final_lib_concentration_units': ConcentrationUnits.PM
                                       })
 
     def test_was_added_recently(self):
@@ -327,10 +326,10 @@ class RunResultTestCase(TestCase):
         run_prep_test.setUp()
         run_prep = RunPrep.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        RunResult.objects.get_or_create(defaults={
+        RunResult.objects.get_or_create(run_id="000000_M03037_0001_000000000-TESTZ",
+                                        defaults={
                                             'process_location': process_location,
                                             'run_date': current_datetime,
-                                            'run_id': "000000_M03037_0001_000000000-TESTZ",
                                             'run_experiment_name': "00XXX0000_Test_Test_test_test",
                                             'run_prep': run_prep,
                                             'run_completion_datetime': current_datetime,
