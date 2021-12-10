@@ -18,22 +18,36 @@ body:
     validations:
       required: false
   - type: textarea
-    id: what-happened
+    id: describe-bug
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Describe the bug
+      description: "A clear and concise description of what the bug is."
+      placeholder: "Tell us what you see!"
     validations:
       required: true
-  - type: dropdown
-    id: version
+  - type: textarea
+    id: reproduce-bug
     attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+      label: Reproduction steps
+      description: "How do you trigger this bug? Please walk us through it step by step."
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+      value: |
+        1.
+        2.
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: "A clear and concise description of what you expected to happen."
     validations:
       required: true
   - type: dropdown
@@ -50,13 +64,7 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      description: "Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks."
       render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
         - label: I agree to follow this project's Code of Conduct
           required: true
