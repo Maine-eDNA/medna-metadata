@@ -18,7 +18,7 @@ class ReferenceDatabaseViewSet(viewsets.ModelViewSet):
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonDomainViewSet(viewsets.ModelViewSet):
@@ -26,7 +26,7 @@ class TaxonDomainViewSet(viewsets.ModelViewSet):
     queryset = TaxonDomain.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'taxon_domain_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonKingdomViewSet(viewsets.ModelViewSet):
@@ -35,7 +35,7 @@ class TaxonKingdomViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by',
                         'taxon_domain_slug', 'taxon_kingdom_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonPhylumViewSet(viewsets.ModelViewSet):
@@ -45,7 +45,7 @@ class TaxonPhylumViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
                         'taxon_phylum_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonClassViewSet(viewsets.ModelViewSet):
@@ -55,7 +55,7 @@ class TaxonClassViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
                         'taxon_phylum_slug', 'taxon_class_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonOrderViewSet(viewsets.ModelViewSet):
@@ -66,7 +66,7 @@ class TaxonOrderViewSet(viewsets.ModelViewSet):
                         'taxon_domain_slug', 'taxon_kingdom_slug',
                         'taxon_phylum_slug', 'taxon_class_slug',
                         'taxon_order_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonFamilyViewSet(viewsets.ModelViewSet):
@@ -77,7 +77,7 @@ class TaxonFamilyViewSet(viewsets.ModelViewSet):
                         'taxon_domain_slug', 'taxon_kingdom_slug',
                         'taxon_phylum_slug', 'taxon_class_slug',
                         'taxon_order_slug', 'taxon_family_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonGenusViewSet(viewsets.ModelViewSet):
@@ -89,7 +89,7 @@ class TaxonGenusViewSet(viewsets.ModelViewSet):
                         'taxon_phylum_slug', 'taxon_class_slug',
                         'taxon_order_slug', 'taxon_family_slug',
                         'taxon_genus_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonSpeciesViewSet(viewsets.ModelViewSet):
@@ -101,7 +101,7 @@ class TaxonSpeciesViewSet(viewsets.ModelViewSet):
                         'taxon_phylum_slug', 'taxon_class_slug',
                         'taxon_order_slug', 'taxon_family_slug',
                         'taxon_genus_slug', 'taxon_species_slug']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class AnnotationMethodViewSet(viewsets.ModelViewSet):
@@ -109,7 +109,7 @@ class AnnotationMethodViewSet(viewsets.ModelViewSet):
     queryset = AnnotationMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class AnnotationMetadataViewSet(viewsets.ModelViewSet):
@@ -117,7 +117,7 @@ class AnnotationMetadataViewSet(viewsets.ModelViewSet):
     queryset = AnnotationMetadata.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location', 'denoise_cluster_metadata', 'annotation_method']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
@@ -129,4 +129,4 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
                         'manual_kingdom', 'manual_phylum', 'manual_class',
                         'manual_order', 'manual_family', 'manual_genus',
                         'manual_species']
-    swagger_tags = ["Bioinformatics Taxonomy"]
+    swagger_tags = ["bioinformatics taxonomy"]

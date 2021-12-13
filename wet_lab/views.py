@@ -17,7 +17,7 @@ class PrimerPairViewSet(viewsets.ModelViewSet):
     queryset = PrimerPair.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class IndexPairViewSet(viewsets.ModelViewSet):
@@ -25,7 +25,7 @@ class IndexPairViewSet(viewsets.ModelViewSet):
     queryset = IndexPair.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
@@ -33,7 +33,7 @@ class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
     queryset = IndexRemovalMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
@@ -41,7 +41,7 @@ class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
     queryset = SizeSelectionMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class QuantificationMethodViewSet(viewsets.ModelViewSet):
@@ -49,7 +49,7 @@ class QuantificationMethodViewSet(viewsets.ModelViewSet):
     queryset = QuantificationMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class ExtractionMethodViewSet(viewsets.ModelViewSet):
@@ -57,7 +57,7 @@ class ExtractionMethodViewSet(viewsets.ModelViewSet):
     queryset = ExtractionMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class ExtractionViewSet(viewsets.ModelViewSet):
@@ -66,7 +66,7 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'barcode_slug', 'process_location', 'field_sample',
                         'extraction_method', 'quantification_method']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class DdpcrViewSet(viewsets.ModelViewSet):
@@ -74,7 +74,7 @@ class DdpcrViewSet(viewsets.ModelViewSet):
     queryset = Ddpcr.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location', 'extraction', 'primer_set']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class QpcrViewSet(viewsets.ModelViewSet):
@@ -82,7 +82,7 @@ class QpcrViewSet(viewsets.ModelViewSet):
     queryset = Qpcr.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location', 'extraction', 'primer_set']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class LibraryPrepViewSet(viewsets.ModelViewSet):
@@ -92,7 +92,7 @@ class LibraryPrepViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'process_location', 'extraction', 'primer_set',
                         'index_pair', 'index_removal_method', 'size_selection_method',
                         'quantification_method']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class PooledLibraryViewSet(viewsets.ModelViewSet):
@@ -101,7 +101,7 @@ class PooledLibraryViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location', 'library_prep',
                         'quantification_method']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class FinalPooledLibraryViewSet(viewsets.ModelViewSet):
@@ -110,7 +110,7 @@ class FinalPooledLibraryViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'barcode_slug', 'process_location', 'pooled_library',
                         'quantification_method']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class RunPrepViewSet(viewsets.ModelViewSet):
@@ -119,7 +119,7 @@ class RunPrepViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location', 'final_pooled_library',
                         'quantification_method']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class RunResultViewSet(viewsets.ModelViewSet):
@@ -128,7 +128,7 @@ class RunResultViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location',
                         'run_prep']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]
 
 
 class FastqFileViewSet(viewsets.ModelViewSet):
@@ -136,4 +136,4 @@ class FastqFileViewSet(viewsets.ModelViewSet):
     queryset = FastqFile.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'run_result', 'extraction']
-    swagger_tags = ["Wet Lab"]
+    swagger_tags = ["wet lab"]

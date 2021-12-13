@@ -11,7 +11,7 @@ class DenoiseClusterMethodViewSet(viewsets.ModelViewSet):
     queryset = DenoiseClusterMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Bioinformatics DenoClust"]
+    swagger_tags = ["bioinformatics denoclust"]
 
 
 class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
@@ -20,7 +20,7 @@ class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'process_location',
                         'run_result', 'denoise_cluster_method']
-    swagger_tags = ["Bioinformatics DenoClust"]
+    swagger_tags = ["bioinformatics denoclust"]
 
 
 class FeatureOutputViewSet(viewsets.ModelViewSet):
@@ -28,7 +28,7 @@ class FeatureOutputViewSet(viewsets.ModelViewSet):
     queryset = FeatureOutput.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'denoise_cluster_metadata']
-    swagger_tags = ["Bioinformatics DenoClust"]
+    swagger_tags = ["bioinformatics denoclust"]
 
 
 class FeatureReadViewSet(viewsets.ModelViewSet):
@@ -36,4 +36,4 @@ class FeatureReadViewSet(viewsets.ModelViewSet):
     queryset = FeatureRead.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'extraction', 'feature']
-    swagger_tags = ["Bioinformatics DenoClust"]
+    swagger_tags = ["bioinformatics denoclust"]

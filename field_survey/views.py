@@ -28,7 +28,7 @@ class GeoFieldSurveyViewSet(viewsets.ModelViewSet):
                         'username', 'supervisor', 'core_subcorer',
                         'water_filterer', 'qa_editor', 'record_creator',
                         'record_editor']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class FieldCrewViewSet(viewsets.ModelViewSet):
@@ -37,7 +37,7 @@ class FieldCrewViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class EnvMeasurementViewSet(viewsets.ModelViewSet):
@@ -46,7 +46,7 @@ class EnvMeasurementViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class FieldCollectionViewSet(viewsets.ModelViewSet):
@@ -56,7 +56,7 @@ class FieldCollectionViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor',
                         'collection_type']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class WaterCollectionViewSet(viewsets.ModelViewSet):
@@ -65,7 +65,7 @@ class WaterCollectionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_collection', 'water_control',
                         'water_vessel_label', 'was_filtered']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class SedimentCollectionViewSet(viewsets.ModelViewSet):
@@ -74,7 +74,7 @@ class SedimentCollectionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_collection', 'core_control',
                         'core_label', 'subcores_taken']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class FieldSampleViewSet(viewsets.ModelViewSet):
@@ -84,7 +84,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'collection_global_id', 'is_extracted',
                         'record_creator', 'record_editor',
                         'sample_material', 'barcode_slug']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class FilterSampleViewSet(viewsets.ModelViewSet):
@@ -92,7 +92,7 @@ class FilterSampleViewSet(viewsets.ModelViewSet):
     queryset = FilterSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_sample']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 
 class SubCoreSampleViewSet(viewsets.ModelViewSet):
@@ -100,7 +100,7 @@ class SubCoreSampleViewSet(viewsets.ModelViewSet):
     queryset = SubCoreSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_sample']
-    swagger_tags = ["Field Survey"]
+    swagger_tags = ["field survey"]
 
 #################################
 # PRE TRANSFORM                 #
@@ -113,6 +113,7 @@ class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'site_id', 'record_creator',
                         'record_editor']
+    swagger_tags = ["field survey"]
 
 
 class FieldCrewETLViewSet(viewsets.ModelViewSet):
@@ -121,6 +122,7 @@ class FieldCrewETLViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
+    swagger_tags = ["field survey"]
 
 
 class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
@@ -129,6 +131,7 @@ class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
+    swagger_tags = ["field survey"]
 
 
 class FieldCollectionETLViewSet(viewsets.ModelViewSet):
@@ -137,6 +140,7 @@ class FieldCollectionETLViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
+    swagger_tags = ["field survey"]
 
 
 class SampleFilterETLViewSet(viewsets.ModelViewSet):
@@ -145,6 +149,7 @@ class SampleFilterETLViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id',
                         'filter_barcode', 'record_creator', 'record_editor']
+    swagger_tags = ["field survey"]
 
 
 class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
@@ -152,6 +157,7 @@ class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'collection_global_id',
                         'filter_barcode', 'record_creator', 'record_editor']
+    swagger_tags = ["field survey"]
 
     def get_queryset(self):
         """
@@ -177,6 +183,7 @@ class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'subcore_min_barcode', 'subcore_max_barcode',
                         'survey_global_id', 'record_creator', 'record_editor']
+    swagger_tags = ["field survey"]
 
     def get_queryset(self):
         """

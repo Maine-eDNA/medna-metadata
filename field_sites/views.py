@@ -37,7 +37,7 @@ class EnvoBiomeFirstViewSet(viewsets.ModelViewSet):
     queryset = EnvoBiomeFirst.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'biome_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
@@ -45,7 +45,7 @@ class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
     queryset = EnvoBiomeSecond.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
@@ -53,7 +53,7 @@ class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
     queryset = EnvoBiomeThird.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', 'biome_third_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
@@ -62,7 +62,7 @@ class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug',
                         'biome_third_tier_slug', 'biome_fourth_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
@@ -71,7 +71,7 @@ class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug',
                         'biome_third_tier_slug', 'biome_fourth_tier_slug', 'biome_fifth_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
@@ -79,7 +79,7 @@ class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
     queryset = EnvoFeatureFirst.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
@@ -87,7 +87,7 @@ class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
     queryset = EnvoFeatureSecond.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'feature_second_tier_slug', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
@@ -95,7 +95,7 @@ class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
     queryset = EnvoFeatureThird.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'feature_third_tier_slug', 'feature_second_tier_slug', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
@@ -104,7 +104,7 @@ class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'feature_fourth_tier_slug', 'feature_third_tier_slug',
                         'feature_second_tier_slug', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
@@ -113,7 +113,7 @@ class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'feature_fifth_tier_slug', 'feature_fourth_tier_slug', 'feature_third_tier_slug',
                         'feature_second_tier_slug', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
@@ -122,7 +122,7 @@ class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'feature_sixth_tier_slug', 'feature_fifth_tier_slug', 'feature_fourth_tier_slug',
                         'feature_third_tier_slug', 'feature_second_tier_slug', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):
@@ -132,7 +132,7 @@ class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'feature_seventh_tier_slug', 'feature_sixth_tier_slug',
                         'feature_fifth_tier_slug', 'feature_fourth_tier_slug',
                         'feature_third_tier_slug', 'feature_second_tier_slug', 'feature_first_tier_slug']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class SystemViewSet(viewsets.ModelViewSet):
@@ -140,7 +140,7 @@ class SystemViewSet(viewsets.ModelViewSet):
     queryset = System.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class GeoWatershedViewSet(viewsets.ModelViewSet):
@@ -148,7 +148,7 @@ class GeoWatershedViewSet(viewsets.ModelViewSet):
     queryset = Watershed.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class GeoFieldSitesViewSet(viewsets.ModelViewSet):
@@ -161,7 +161,7 @@ class GeoFieldSitesViewSet(viewsets.ModelViewSet):
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
                         'envo_feature_seventh']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class FieldSitesViewSet(viewsets.ModelViewSet):
@@ -174,7 +174,7 @@ class FieldSitesViewSet(viewsets.ModelViewSet):
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
                         'envo_feature_seventh']
-    swagger_tags = ["Field Sites"]
+    swagger_tags = ["field sites"]
 
 
 class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
@@ -194,6 +194,7 @@ class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
                         'envo_feature_seventh']
+    swagger_tags = ["field sites"]
 
 
 class FieldSitesListView(generics.ListAPIView):
@@ -206,6 +207,7 @@ class FieldSitesListView(generics.ListAPIView):
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
                         'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth',
                         'envo_feature_seventh']
+    swagger_tags = ["field sites"]
 
 
 class FieldSiteDetailView(DetailView):
@@ -213,7 +215,6 @@ class FieldSiteDetailView(DetailView):
     context_object_name = 'site'
     fields = ['grant', 'system', 'watershed', 'general_location_name', 'purpose', 'geom',
               'created_by', 'created_datetime']
-
 
 #    def get_object(self, queryset=None):
 #        return queryset.get(self.kwargs['pk'])
