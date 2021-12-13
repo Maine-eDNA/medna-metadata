@@ -606,9 +606,10 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     resource_class = FastqFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('fastq_slug',)
+    readonly_fields = ('fastq_slug', )
 
     def add_view(self, request, extra_content=None):
+        self.readonly_fields = ('fastq_datafile', )
         # specify the fields that can be viewed in add view
         self.fields = ['run_result', 'extraction', 'fastq_datafile',
                        'created_by']
