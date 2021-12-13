@@ -13,14 +13,14 @@ class GrantAdminResource(resources.ModelResource):
         export_order = ('id', 'grant_code', 'grant_label',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
-    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
-    def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].email
-
     created_by = fields.Field(
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
 
 
 class ProjectAdminResource(resources.ModelResource):

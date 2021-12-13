@@ -235,8 +235,13 @@ class WaterCollectionAdminResource(resources.ModelResource):
         attribute='field_collection',
         widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class SedimentCollectionAdminResource(resources.ModelResource):
@@ -258,8 +263,13 @@ class SedimentCollectionAdminResource(resources.ModelResource):
         attribute='field_collection',
         widget=ForeignKeyWidget(FieldCollection, 'collection_global_id'))
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class FieldSampleAdminResource(resources.ModelResource):
@@ -329,8 +339,13 @@ class FilterSampleAdminResource(resources.ModelResource):
         attribute='field_sample',
         widget=ForeignKeyWidget(FieldSample, 'field_sample'))
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 
 class SubCoreSampleAdminResource(resources.ModelResource):
@@ -350,8 +365,13 @@ class SubCoreSampleAdminResource(resources.ModelResource):
         attribute='field_sample',
         widget=ForeignKeyWidget(FieldSample, 'field_sample'))
 
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
     def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].id
+        row['created_by'] = kwargs['user'].email
 
 ###########
 # Pre Transform
