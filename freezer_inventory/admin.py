@@ -1,10 +1,10 @@
 from django.contrib.gis import admin
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
-    FreezerCheckoutLog, FreezerInventoryReturnMetadata
+    FreezerInventoryLog, FreezerInventoryReturnMetadata
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ReturnActionAdminResource, FreezerAdminResource, FreezerRackAdminResource, \
-    FreezerBoxAdminResource, FreezerInventoryAdminResource, FreezerCheckoutLogAdminResource, \
+    FreezerBoxAdminResource, FreezerInventoryAdminResource, FreezerInventoryLogAdminResource, \
     FreezerInventoryReturnMetadataAdminResource
 
 
@@ -195,39 +195,33 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
 admin.site.register(FreezerInventory, FreezerInventoryAdmin)
 
 
-class FreezerCheckoutLogAdmin(ImportExportActionModelAdmin):
+class FreezerInventoryLogAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = FreezerCheckoutLogAdminResource
+    resource_class = FreezerInventoryLogAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('freezer_checkout_slug', )
+    readonly_fields = ('freezer_log_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['freezer_inventory', 'freezer_checkout_action',
-                       'freezer_checkout_datetime',
-                       'freezer_return_datetime',
-                       'freezer_perm_removal_datetime',
-                       'freezer_return_vol_taken', 'freezer_return_vol_units',
-                       'freezer_return_notes',
+        self.fields = ['freezer_inventory', 'freezer_log_action',
+                       'freezer_log_datetime',
+                       'freezer_log_notes',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(FreezerCheckoutLogAdmin, self).add_view(request)
+        return super(FreezerInventoryLogAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['freezer_inventory', 'freezer_checkout_action',
-                       'freezer_checkout_slug',
-                       'freezer_checkout_datetime',
-                       'freezer_return_datetime',
-                       'freezer_perm_removal_datetime',
-                       'freezer_return_vol_taken', 'freezer_return_vol_units',
-                       'freezer_return_notes',
+        self.fields = ['freezer_inventory', 'freezer_log_action',
+                       'freezer_log_slug',
+                       'freezer_log_datetime',
+                       'freezer_log_notes',
                        'created_by']
-        return super(FreezerCheckoutLogAdmin, self).change_view(request, object_id)
+        return super(FreezerInventoryLogAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -237,13 +231,13 @@ class FreezerCheckoutLogAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(FreezerCheckoutLog, FreezerCheckoutLogAdmin)
+admin.site.register(FreezerInventoryLog, FreezerInventoryLogAdmin)
 
 
 class ReturnActionInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
-    model = ReturnAction.return_actions.through
+    model = ReturnAction.freezer_return_actions.through
     # extra = 1
 
 
@@ -255,7 +249,10 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['freezer_checkout', 'metadata_entered',  'return_actions', 'created_by']
+        self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
+                       'freezer_return_vol_taken', 'freezer_return_vol_units',
+                       'freezer_return_notes',
+                       'created_by']
         # self.inlines = (ReturnActionInline, )
         # self.exclude = ('created_datetime', )
         add_fields = request.GET.copy()
@@ -265,7 +262,10 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['freezer_checkout', 'metadata_entered',  'return_actions', 'created_by']
+        self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
+                       'freezer_return_vol_taken', 'freezer_return_vol_units',
+                       'freezer_return_notes',
+                       'created_by']
         # self.inlines = (ReturnActionInline, )
         return super(FreezerInventoryReturnMetadataAdmin, self).change_view(request, object_id)
 

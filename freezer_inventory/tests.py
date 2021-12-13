@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckoutLog, \
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import MeasureUnits, CheckoutActions, YesNo
 from sample_labels.tests import SampleBarcodeTestCase
@@ -98,36 +98,34 @@ class FreezerInventoryTestCase(TestCase):
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class FreezerCheckoutLogTestCase(TestCase):
+class FreezerInventoryLogTestCase(TestCase):
     def setUp(self):
         freezer_inventory_test = FreezerInventoryTestCase()
         freezer_inventory_test.setUp()
         freezer_inventory = FreezerInventory.objects.filter()[:1].get()
-        FreezerCheckoutLog.objects.get_or_create(defaults={
+        FreezerInventoryLog.objects.get_or_create(defaults={
                                                   'freezer_inventory': freezer_inventory,
-                                                  'freezer_checkout_action': CheckoutActions.RETURN,
-                                                  'freezer_return_notes': "checking out return test"})
+                                                  'freezer_log_action': CheckoutActions.RETURN,
+                                                  'freezer_log_notes': "checking out return test"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FreezerCheckoutLog.objects.filter(freezer_checkout_action=CheckoutActions.RETURN)[:1].get()
+        test_exists = FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class FreezerInventoryReturnMetadataTestCase(TestCase):
     def setUp(self):
         manytomany_list = []
-        freezer_checkout_test = FreezerCheckoutLogTestCase()
-        return_actions_test = ReturnActionTestCase()
-        freezer_checkout_test.setUp()
-        return_actions_test.setUp()
-        freezer_checkout = FreezerCheckoutLog.objects.filter()[:1].get()
-        return_actions = ReturnAction.objects.filter()[:1].get()
-        manytomany_list.append(return_actions)
-        freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.get_or_create(defaults={
-                                                                                                              'freezer_checkout': freezer_checkout,
-                                                                                                              'metadata_entered': YesNo.NO})
-        freezer_inventory_return_metadata.return_actions.set(manytomany_list, clear=True)
+        freezer_inventory_log_test = FreezerInventoryLogTestCase()
+        freezer_return_actions_test = ReturnActionTestCase()
+        freezer_inventory_log_test.setUp()
+        freezer_return_actions_test.setUp()
+        freezer_log = FreezerInventoryLog.objects.filter()[:1].get()
+        freezer_return_actions = ReturnAction.objects.filter()[:1].get()
+        manytomany_list.append(freezer_return_actions)
+        freezer_inventory_return_metadata, created = FreezerInventoryReturnMetadata.objects.get_or_create(defaults={'freezer_log': freezer_log, 'freezer_return_metadata_entered': YesNo.NO})
+        freezer_inventory_return_metadata.freezer_return_actions.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly

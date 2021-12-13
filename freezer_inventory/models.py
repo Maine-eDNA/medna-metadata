@@ -12,15 +12,15 @@ import re
 BARCODE_PATTERN = "[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]"
 
 
-def update_freezer_inv_status(inv_pk, freezer_checkout_action):
+def update_freezer_inv_status(inv_pk, freezer_log_action):
     try:
-        if freezer_checkout_action == CheckoutActions.CHECKOUT:
+        if freezer_log_action == CheckoutActions.CHECKOUT:
             # Checkout, so change inventory status to Checked Out
             FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.OUT)
-        elif freezer_checkout_action == CheckoutActions.RETURN:
+        elif freezer_log_action == CheckoutActions.RETURN:
             # Return, so change inventory status to In Stock
             FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.IN)
-        elif freezer_checkout_action == CheckoutActions.REMOVE:
+        elif freezer_log_action == CheckoutActions.REMOVE:
             # Removed, so change inventory status to Permanently Removed
             FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.REMOVED)
     except Exception as err:
@@ -221,76 +221,57 @@ class FreezerInventory(DateTimeUserMixin):
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
         # inventory with the same status cannot occupy the same space within a box
-        unique_together = ['freezer_box', 'freezer_inventory_column', 'freezer_inventory_row',
-                           'freezer_inventory_status']
+        unique_together = ['freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', 'freezer_inventory_status']
         app_label = 'freezer_inventory'
         verbose_name = 'Freezer Inventory'
         verbose_name_plural = 'Freezer Inventory'
 
 
-class FreezerCheckoutLog(DateTimeUserMixin):
+class FreezerInventoryLog(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
                                           limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
-    freezer_checkout_slug = models.SlugField("Freezer Checkout Log Slug", max_length=255)
+    freezer_log_slug = models.SlugField("Inventory Log Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
-    freezer_checkout_action = models.CharField("Freezer Checkout Log Action", max_length=50,
-                                               choices=CheckoutActions.choices)
-    freezer_checkout_datetime = models.DateTimeField("Freezer Checkout Log DateTime", blank=True, null=True)
-    freezer_return_datetime = models.DateTimeField("Freezer Return DateTime", blank=True, null=True)
-    freezer_perm_removal_datetime = models.DateTimeField("Freezer Permanent Removal DateTime", blank=True, null=True)
-    freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10,
-                                                   blank=True, null=True)
-    freezer_return_vol_units = models.CharField("Volume Units", max_length=50,
-                                                choices=VolUnits.choices, blank=True)
-    freezer_return_notes = models.TextField("Return Notes", blank=True)
+    freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)
+    freezer_log_datetime = models.DateTimeField("Inventory Log DateTime", auto_now=True)
+    freezer_log_notes = models.TextField("Inventory Log Notes", blank=True)
 
     def __str__(self):
         return '{barcode}, ' \
-               '{checkout_action}'.format(barcode=self.freezer_inventory.freezer_inventory_slug,
-                                          checkout_action=self.get_freezer_checkout_action_display())
+               '{log_action}'.format(barcode=self.freezer_inventory.freezer_inventory_slug,
+                                     log_action=self.get_freezer_log_action_display())
 
     def save(self, *args, **kwargs):
-        if self.freezer_checkout_action == CheckoutActions.CHECKOUT:
-            # if the freezer action is checkout, update freezer_checkout_datetime
-            self.freezer_checkout_datetime = timezone.now()
-        elif self.freezer_checkout_action == CheckoutActions.RETURN:
-            # if the freezer action is return, update freezer_return_datetime
-            self.freezer_return_datetime = timezone.now()
-            # add/update record in FreezerInventoryReturnMetadata,
-            # this will populate a checklist for user to fill in metadata
-            # update_record_return_metadata(self.pk)
-        elif self.freezer_checkout_action == CheckoutActions.REMOVE:
-            # if the freezer action is remove, update freezer_return_datetime
-            self.freezer_perm_removal_datetime = timezone.now()
-        update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_checkout_action)
+        update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_log_action)
 
         if self.pk is None:
-            if self.created_datetime is None:
+            if self.freezer_log_datetime is None:
                 created_date_fmt = slug_date_format(timezone.now())
             else:
-                created_date_fmt = slug_date_format(self.created_datetime)
-            self.freezer_checkout_slug = '{date}_' \
-                                         '{name}_' \
-                                         '{checkout_action}'.format(checkout_action=self.get_freezer_checkout_action_display(),
-                                                                    name=slugify(self.freezer_inventory.freezer_inventory_slug),
-                                                                    date=created_date_fmt)
+                created_date_fmt = slug_date_format(self.freezer_log_datetime)
+            self.freezer_log_slug = '{date}_{name}_{checkout_action}'.format(checkout_action=self.get_freezer_log_action_display(),
+                                                                             name=slugify(self.freezer_inventory.freezer_inventory_slug),
+                                                                             date=created_date_fmt)
         # all done, time to save changes to the db
-        super(FreezerCheckoutLog, self).save(*args, **kwargs)
+        super(FreezerInventoryLog, self).save(*args, **kwargs)
 
     class Meta:
         app_label = 'freezer_inventory'
-        verbose_name = 'Freezer Checkout Log'
-        verbose_name_plural = 'Freezer Checkout Logs'
+        verbose_name = 'Inventory Log'
+        verbose_name_plural = 'Inventory Logs'
 
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
-    freezer_checkout = models.OneToOneField(FreezerCheckoutLog, on_delete=models.RESTRICT, primary_key=True, limit_choices_to={'freezer_checkout_action': CheckoutActions.RETURN})
-    metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="return_actions", blank=True)
+    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
+    freezer_return_metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="freezer_return_actions", blank=True)
+    freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10, blank=True, null=True)
+    freezer_return_vol_units = models.CharField("Volume Units", max_length=50, choices=VolUnits.choices, blank=True)
+    freezer_return_notes = models.TextField("Return Notes", blank=True)
 
     def __str__(self):
-        return '{pk}'.format(pk=self.freezer_checkout)
+        return '{pk}'.format(pk=self.freezer_log)
 
     class Meta:
         app_label = 'freezer_inventory'

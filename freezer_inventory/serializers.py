@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerCheckoutLog, \
+from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
@@ -172,27 +172,20 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
                                                   queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
 
 
-class FreezerCheckoutLogSerializer(serializers.ModelSerializer):
+class FreezerInventoryLogSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_checkout_slug = serializers.SlugField(read_only=True, max_length=255)
-    freezer_checkout_action = serializers.ChoiceField(choices=CheckoutActions.choices)
-    freezer_checkout_datetime = serializers.DateTimeField(allow_null=True)
-    freezer_return_datetime = serializers.DateTimeField(allow_null=True)
-    freezer_perm_removal_datetime = serializers.DateTimeField(allow_null=True)
-    freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
-    freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices, allow_blank=True)
-    freezer_return_notes = serializers.CharField(allow_blank=True)
+    freezer_log_slug = serializers.SlugField(read_only=True, max_length=255)
+    freezer_log_action = serializers.ChoiceField(choices=CheckoutActions.choices)
+    freezer_log_datetime = serializers.DateTimeField(read_only=True)
+    freezer_log_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = FreezerCheckoutLog
-        fields = ['id', 'freezer_inventory', 'freezer_checkout_action',
-                  'freezer_checkout_datetime',
-                  'freezer_return_datetime',
-                  'freezer_perm_removal_datetime',
-                  'freezer_return_vol_taken', 'freezer_return_vol_units',
-                  'freezer_return_notes', 'freezer_checkout_slug',
+        model = FreezerInventoryLog
+        fields = ['id', 'freezer_inventory', 'freezer_log_action',
+                  'freezer_log_datetime',
+                  'freezer_log_notes', 'freezer_log_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -205,17 +198,22 @@ class FreezerCheckoutLogSerializer(serializers.ModelSerializer):
 
 
 class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
-    metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
+    freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices, allow_blank=True)
+    freezer_return_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ['freezer_checkout', 'metadata_entered', 'return_actions',
+        fields = ['freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
+                  'freezer_return_vol_taken', 'freezer_return_vol_units',
+                  'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
-    freezer_checkout = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_checkout_slug',
-                                                    queryset=FreezerCheckoutLog.objects.filter(freezer_checkout_action=CheckoutActions.RETURN))
-    return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
+    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug',
+                                                    queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
+    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
                                                   queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

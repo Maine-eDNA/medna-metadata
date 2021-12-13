@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
-    FreezerCheckoutLog, FreezerInventoryReturnMetadata
+    FreezerInventoryLog, FreezerInventoryReturnMetadata
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
@@ -149,25 +149,21 @@ class FreezerInventoryAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class FreezerCheckoutLogAdminResource(resources.ModelResource):
+class FreezerInventoryLogAdminResource(resources.ModelResource):
     class Meta:
-        model = FreezerCheckoutLog
-        import_id_fields = ('id', 'freezer_inventory', 'freezer_checkout_action', 'created_datetime', )
+        model = FreezerInventoryLog
+        import_id_fields = ('id', 'freezer_inventory', 'freezer_log_action', 'created_datetime', )
 
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'freezer_inventory', 'freezer_checkout_action',
-                  'freezer_checkout_datetime',
-                  'freezer_return_datetime',
-                  'freezer_perm_removal_datetime',
+        fields = ('id', 'freezer_inventory', 'freezer_log_action',
+                  'freezer_log_datetime',
                   'freezer_return_vol_taken', 'freezer_return_vol_units',
-                  'freezer_return_notes',
+                  'freezer_log_notes',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'freezer_inventory', 'freezer_checkout_action',
-                        'freezer_checkout_datetime',
-                        'freezer_return_datetime',
-                        'freezer_perm_removal_datetime',
+        export_order = ('id', 'freezer_inventory', 'freezer_log_action',
+                        'freezer_log_datetime',
                         'freezer_return_vol_taken', 'freezer_return_vol_units',
-                        'freezer_return_notes',
+                        'freezer_log_notes',
                         'created_by', 'created_datetime', )
 
     freezer_inventory = fields.Field(
@@ -188,22 +184,22 @@ class FreezerCheckoutLogAdminResource(resources.ModelResource):
 class FreezerInventoryReturnMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = FreezerInventoryReturnMetadata
-        import_id_fields = ('freezer_checkout', )
+        import_id_fields = ('freezer_log', )
 
         # exclude = ('created_by', 'created_datetime', 'modified_datetime', )
-        fields = ('freezer_checkout', 'metadata_entered', 'return_actions',
+        fields = ('freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('freezer_checkout', 'metadata_entered', 'return_actions',
+        export_order = ('freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
-    freezer_checkout = fields.Field(
-        column_name='freezer_checkout',
-        attribute='freezer_checkout',
-        widget=ManyToManyWidget(FreezerCheckoutLog, 'freezer_checkout_slug'))
+    freezer_log = fields.Field(
+        column_name='freezer_log',
+        attribute='freezer_log',
+        widget=ManyToManyWidget(FreezerInventoryLog, 'freezer_log_slug'))
 
-    return_actions = fields.Field(
-        column_name='return_actions',
-        attribute='return_actions',
+    freezer_return_actions = fields.Field(
+        column_name='freezer_return_actions',
+        attribute='freezer_return_actions',
         widget=ManyToManyWidget(ReturnAction, 'action_label'))
 
     created_by = fields.Field(

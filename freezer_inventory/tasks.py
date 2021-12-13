@@ -2,7 +2,7 @@
 # from medna_metadata.celery import app
 # from celery import Task
 from celery import shared_task
-from .models import Freezer, FreezerBox, FreezerRack, FreezerCheckoutLog, FreezerInventoryReturnMetadata
+from .models import Freezer, FreezerBox, FreezerRack, FreezerInventoryLog, FreezerInventoryReturnMetadata
 from utility.enumerations import YesNo, CheckoutActions
 from django.core.exceptions import ObjectDoesNotExist
 from celery.utils.log import get_task_logger
@@ -55,16 +55,16 @@ def update_freezer_rack(instance_pk):
 @shared_task
 def update_record_return_metadata(instance_pk):
     try:
-        instance = FreezerCheckoutLog.objects.get(pk=instance_pk)
+        instance = FreezerInventoryLog.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
         logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
     else:
-        if instance.freezer_checkout_action == CheckoutActions.RETURN:
+        if instance.freezer_log_action == CheckoutActions.RETURN:
             return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(
-                freezer_checkout=instance.pk,
+                freezer_log=instance.pk,
                 defaults={
-                    'metadata_entered': YesNo.NO,
+                    'freezer_return_metadata_entered': YesNo.NO,
                 }
             )
             logger.info("Object created [response = %d]" % created)
