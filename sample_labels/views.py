@@ -30,6 +30,7 @@ class SampleTypeViewSet(viewsets.ModelViewSet):
     queryset = SampleType.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
+    swagger_tags = ["Sample Labels"]
 
 
 class SampleMaterialViewSet(viewsets.ModelViewSet):
@@ -37,6 +38,7 @@ class SampleMaterialViewSet(viewsets.ModelViewSet):
     queryset = SampleMaterial.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
+    swagger_tags = ["Sample Labels"]
 
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
@@ -44,6 +46,7 @@ class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     queryset = SampleLabelRequest.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'site_id', 'sample_material']
+    swagger_tags = ["Sample Labels"]
 
 
 class SampleBarcodeViewSet(viewsets.ModelViewSet):
@@ -52,6 +55,7 @@ class SampleBarcodeViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'site_id', 'sample_material', 'sample_type',
                         'sample_barcode_id', 'sample_label_request', 'in_freezer']
+    swagger_tags = ["Sample Labels"]
 
 
 class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):

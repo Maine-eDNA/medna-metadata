@@ -15,6 +15,7 @@ class ReturnActionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['action_code', 'action_label',
                         'created_datetime', 'modified_datetime', 'created_by', ]
+    swagger_tags = ["Freezer Inventory"]
 
 
 class FreezerViewSet(viewsets.ModelViewSet):
@@ -23,6 +24,7 @@ class FreezerViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_label', 'freezer_label_slug',
                         'created_datetime', 'modified_datetime', 'created_by']
+    swagger_tags = ["Freezer Inventory"]
 
 
 class FreezerRackViewSet(viewsets.ModelViewSet):
@@ -31,6 +33,7 @@ class FreezerRackViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer', 'freezer_rack_label', 'freezer_rack_label_slug',
                         'created_datetime', 'modified_datetime', 'created_by']
+    swagger_tags = ["Freezer Inventory"]
 
 
 class FreezerBoxViewSet(viewsets.ModelViewSet):
@@ -39,6 +42,7 @@ class FreezerBoxViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
                         'created_datetime', 'modified_datetime', 'created_by']
+    swagger_tags = ["Freezer Inventory"]
 
 
 class FreezerInventoryViewSet(viewsets.ModelViewSet):
@@ -47,6 +51,7 @@ class FreezerInventoryViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
                         'created_datetime', 'modified_datetime', 'created_by']
+    swagger_tags = ["Freezer Inventory"]
 
 
 class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
@@ -55,6 +60,7 @@ class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_inventory', 'freezer_log_action',
                         'created_datetime', 'modified_datetime', 'created_by']
+    swagger_tags = ["Freezer Inventory"]
 
 
 class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
@@ -63,3 +69,4 @@ class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
                         'created_datetime', 'modified_datetime', 'created_by']
+    swagger_tags = ["Freezer Inventory"]

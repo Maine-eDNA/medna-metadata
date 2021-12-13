@@ -28,6 +28,7 @@ class GeoFieldSurveyViewSet(viewsets.ModelViewSet):
                         'username', 'supervisor', 'core_subcorer',
                         'water_filterer', 'qa_editor', 'record_creator',
                         'record_editor']
+    swagger_tags = ["Field Survey"]
 
 
 class FieldCrewViewSet(viewsets.ModelViewSet):
@@ -36,6 +37,7 @@ class FieldCrewViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
+    swagger_tags = ["Field Survey"]
 
 
 class EnvMeasurementViewSet(viewsets.ModelViewSet):
@@ -44,6 +46,7 @@ class EnvMeasurementViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor']
+    swagger_tags = ["Field Survey"]
 
 
 class FieldCollectionViewSet(viewsets.ModelViewSet):
@@ -53,6 +56,7 @@ class FieldCollectionViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'survey_global_id',
                         'record_creator', 'record_editor',
                         'collection_type']
+    swagger_tags = ["Field Survey"]
 
 
 class WaterCollectionViewSet(viewsets.ModelViewSet):
@@ -61,6 +65,7 @@ class WaterCollectionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_collection', 'water_control',
                         'water_vessel_label', 'was_filtered']
+    swagger_tags = ["Field Survey"]
 
 
 class SedimentCollectionViewSet(viewsets.ModelViewSet):
@@ -69,6 +74,7 @@ class SedimentCollectionViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_collection', 'core_control',
                         'core_label', 'subcores_taken']
+    swagger_tags = ["Field Survey"]
 
 
 class FieldSampleViewSet(viewsets.ModelViewSet):
@@ -78,6 +84,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     filterset_fields = ['created_by', 'collection_global_id', 'is_extracted',
                         'record_creator', 'record_editor',
                         'sample_material', 'barcode_slug']
+    swagger_tags = ["Field Survey"]
 
 
 class FilterSampleViewSet(viewsets.ModelViewSet):
@@ -85,6 +92,7 @@ class FilterSampleViewSet(viewsets.ModelViewSet):
     queryset = FilterSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_sample']
+    swagger_tags = ["Field Survey"]
 
 
 class SubCoreSampleViewSet(viewsets.ModelViewSet):
@@ -92,6 +100,7 @@ class SubCoreSampleViewSet(viewsets.ModelViewSet):
     queryset = SubCoreSample.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['field_sample']
+    swagger_tags = ["Field Survey"]
 
 #################################
 # PRE TRANSFORM                 #

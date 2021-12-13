@@ -20,6 +20,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
 class YesNoChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in YesNo:
@@ -29,6 +31,8 @@ class YesNoChoicesViewSet(viewsets.ViewSet):
 
 
 class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in MeasureUnits:
@@ -38,6 +42,8 @@ class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class VolUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in VolUnits:
@@ -47,6 +53,8 @@ class VolUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in ConcentrationUnits:
@@ -56,6 +64,8 @@ class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in PhiXConcentrationUnits:
@@ -65,6 +75,8 @@ class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class DdpcrUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in DdpcrUnits:
@@ -74,6 +86,8 @@ class DdpcrUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class QpcrUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in QpcrUnits:
@@ -83,6 +97,8 @@ class QpcrUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class WindSpeedsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in WindSpeeds:
@@ -92,6 +108,8 @@ class WindSpeedsChoicesViewSet(viewsets.ViewSet):
 
 
 class CloudCoversChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in CloudCovers:
@@ -101,6 +119,8 @@ class CloudCoversChoicesViewSet(viewsets.ViewSet):
 
 
 class PrecipTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in PrecipTypes:
@@ -110,6 +130,8 @@ class PrecipTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class TurbidTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in TurbidTypes:
@@ -119,6 +141,8 @@ class TurbidTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in EnvoMaterials:
@@ -128,6 +152,8 @@ class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
 
 
 class MeasureModesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in MeasureModes:
@@ -137,6 +163,8 @@ class MeasureModesChoicesViewSet(viewsets.ViewSet):
 
 
 class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in EnvInstruments:
@@ -146,6 +174,8 @@ class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
 
 
 class YsiModelsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in YsiModels:
@@ -155,6 +185,8 @@ class YsiModelsChoicesViewSet(viewsets.ViewSet):
 
 
 class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in EnvMeasurements:
@@ -164,6 +196,8 @@ class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
 
 
 class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in BottomSubstrates:
@@ -173,6 +207,8 @@ class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
 
 
 class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in WaterCollectionModes:
@@ -182,6 +218,8 @@ class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
 
 
 class CollectionTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in CollectionTypes:
@@ -191,6 +229,8 @@ class CollectionTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class FilterLocationsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in FilterLocations:
@@ -200,6 +240,8 @@ class FilterLocationsChoicesViewSet(viewsets.ViewSet):
 
 
 class ControlTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in ControlTypes:
@@ -209,6 +251,8 @@ class ControlTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class FilterMethodsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in FilterMethods:
@@ -218,6 +262,8 @@ class FilterMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 class FilterTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in FilterTypes:
@@ -227,6 +273,8 @@ class FilterTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class CoreMethodsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in CoreMethods:
@@ -236,6 +284,8 @@ class CoreMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in SubCoreMethods:
@@ -245,6 +295,8 @@ class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 class TargetGenesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in TargetGenes:
@@ -254,6 +306,8 @@ class TargetGenesChoicesViewSet(viewsets.ViewSet):
 
 
 class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in LibPrepTypes:
@@ -263,6 +317,8 @@ class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in LibPrepKits:
@@ -272,6 +328,8 @@ class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
 
 
 class InvStatusChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in InvStatus:
@@ -281,6 +339,8 @@ class InvStatusChoicesViewSet(viewsets.ViewSet):
 
 
 class InvTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in InvTypes:
@@ -290,6 +350,8 @@ class InvTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["Choices"]
+
     def list(self, request, format=None):
         choices = []
         for choice in CheckoutActions:
@@ -305,6 +367,7 @@ class GrantViewSet(viewsets.ModelViewSet):
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
+    swagger_tags = ["Utility"]
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -312,6 +375,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['grant_name', 'created_by']
+    swagger_tags = ["Utility"]
 
 
 class ProcessLocationViewSet(viewsets.ModelViewSet):
@@ -319,6 +383,7 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     queryset = ProcessLocation.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
+    swagger_tags = ["Utility"]
 
 
 class DefaultSiteCssViewSet(viewsets.ModelViewSet):
@@ -326,6 +391,7 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     queryset = DefaultSiteCss.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['default_css_label', 'created_by', 'created_datetime']
+    swagger_tags = ["Utility"]
 
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
@@ -333,6 +399,7 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
     queryset = CustomUserCss.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['custom_css_label', 'user', 'created_datetime']
+    swagger_tags = ["Utility"]
 
 
 class IndexView(TemplateView):

@@ -8,3 +8,4 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
     filterset_fields = ['email', 'agol_username', 'is_staff', 'is_active', 'expiration_date']
+    swagger_tags = ["User"]
