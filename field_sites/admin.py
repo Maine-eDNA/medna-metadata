@@ -516,6 +516,9 @@ class GeoWatershedAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     list_display = ('__str__', 'created_datetime', 'created_by')
 
     def add_view(self, request, extra_content=None):
+        self.fields = ['watershed_code', 'watershed_label',
+                       'huc8', 'states', 'lat', 'lon', 'area_sqkm', 'area_acres', 'geom',
+                       'created_by']
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
