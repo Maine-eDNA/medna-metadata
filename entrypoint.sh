@@ -121,7 +121,8 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerrack.json
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerbox.json
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventory.json
-  python manage.py loaddata fixtures/prod/freezer_inventory_freezercheckoutlog.json
+  python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventorylog.json
+  python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventoryreturn.json
   # bioinfo_denoclust
   python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermethod.json
   python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermetadata.json

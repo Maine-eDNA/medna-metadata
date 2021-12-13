@@ -84,7 +84,7 @@ GROUPS = {
         "Freezer Rack": ["add", "delete", "change", "view"],
         "Freezer Box": ["add", "delete", "change", "view"],
         "Freezer Inventory": ["add", "delete", "change", "view"],
-        "Freezer Checkout Log": ["add", "delete", "change", "view"],
+        "Inventory Log": ["add", "delete", "change", "view"],
         "Inventory Return Metadata": ["add", "delete", "change", "view"],
 
         # bioinfo_denoclust
@@ -185,7 +185,7 @@ GROUPS = {
         "Freezer Rack": ["add", "change", "view"],
         "Freezer Box": ["add", "change", "view"],
         "Freezer Inventory": ["add", "change", "view"],
-        "Freezer Checkout Log": ["add", "change", "view"],
+        "Inventory Log": ["add", "change", "view"],
         "Inventory Return Metadata": ["add", "change", "view"],
 
         # bioinfo_denoclust
@@ -271,7 +271,7 @@ GROUPS = {
         "Freezer Rack": ["view"],
         "Freezer Box": ["view"],
         "Freezer Inventory": ["add", "change", "view"],
-        "Freezer Checkout Log": ["add", "change", "view"],
+        "Inventory Log": ["add", "change", "view"],
         "Inventory Return Metadata": ["change", "view"],
 
         # bioinfo_denoclust
