@@ -40,7 +40,7 @@ class FreezerAdminResource(resources.ModelResource):
         export_order = ('id', 'freezer_label',
                         'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                         'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -62,12 +62,12 @@ class FreezerRackAdminResource(resources.ModelResource):
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
                   'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                  'created_by', 'created_datetime', )
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'freezer', 'freezer_rack_label',
                         'freezer_rack_column_start', 'freezer_rack_column_end',
                         'freezer_rack_row_start', 'freezer_rack_row_end',
                         'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer = fields.Field(
         column_name='freezer',
@@ -93,11 +93,11 @@ class FreezerBoxAdminResource(resources.ModelResource):
         fields = ('id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                   'freezer_box_max_column', 'freezer_box_max_row',
-                  'created_by', 'created_datetime', )
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'freezer_rack', 'freezer_box_label',
                         'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                         'freezer_box_max_column', 'freezer_box_max_row',
-                        'created_by', 'created_datetime',)
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer_rack = fields.Field(
         column_name='freezer_rack',
@@ -123,11 +123,11 @@ class FreezerInventoryAdminResource(resources.ModelResource):
         fields = ('id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
-                  'created_by', 'created_datetime', )
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'freezer_box', 'sample_barcode',
                         'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
                         'freezer_inventory_column', 'freezer_inventory_row',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer_box = fields.Field(
         column_name='freezer_box',
@@ -157,10 +157,10 @@ class FreezerInventoryLogAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_inventory', 'freezer_log_action',
                   'freezer_log_notes',
-                  'created_by', 'created_datetime', )
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'freezer_inventory', 'freezer_log_action',
                         'freezer_log_notes',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer_inventory = fields.Field(
         column_name='freezer_inventory',

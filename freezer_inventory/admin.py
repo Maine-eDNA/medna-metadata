@@ -16,7 +16,7 @@ class ReturnActionAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['action_code', 'action_label', 'modified_datetime', 'created_by']
+        self.fields = ['action_code', 'action_label', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -51,7 +51,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_label',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                       'created_datetime', 'created_by']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -90,7 +90,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_column_start', 'freezer_rack_column_end',
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                       'created_datetime', 'created_by']
+                       'created_by']
         # self.list_filter = (
         #    ('freezer', RelatedDropdownFilter))
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -131,7 +131,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'freezer_box_max_column', 'freezer_box_max_row',
-                       'created_datetime', 'created_by']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -169,7 +169,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_box', 'sample_barcode',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
-                       'created_datetime', 'created_by']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -206,7 +206,7 @@ class FreezerInventoryLogAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['freezer_inventory', 'freezer_log_action',
                        'freezer_log_notes',
-                       'created_datetime', 'created_by']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -249,7 +249,7 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
                        'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
-                       'created_datetime', 'created_by']
+                       'created_by']
         # self.inlines = (ReturnActionInline, )
         # self.exclude = ('created_datetime', )
         add_fields = request.GET.copy()
