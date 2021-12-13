@@ -392,7 +392,8 @@ SWAGGER_SETTINGS = {
             'in': 'header',
             'name': 'Authorization'
         }
-    }
+    },
+    "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema"
 }
 
 ########################################

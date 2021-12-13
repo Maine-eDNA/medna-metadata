@@ -11,6 +11,7 @@ class DenoiseClusterMethodViewSet(viewsets.ModelViewSet):
     queryset = DenoiseClusterMethod.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by']
+    swagger_tags = ["Authors"]
 
 
 class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
