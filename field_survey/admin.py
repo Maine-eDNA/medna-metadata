@@ -471,7 +471,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
                        'env_inst_other', 'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity',
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
-                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
+                       'env_substrate', 'env_lab_datetime', 'env_measure_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by']
         add_fields = request.GET.copy()
@@ -487,7 +487,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
                        'env_inst_other', 'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity',
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
-                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
+                       'env_substrate', 'env_lab_datetime', 'env_measure_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -525,7 +525,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'survey_global_id', 'created_by']
+                       'created_by']
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -543,7 +543,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'survey_global_id', 'created_by']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionETLAdmin, self).change_view(request, object_id)
 
@@ -573,11 +573,11 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'collection_global_id', 'created_by']
+                       'created_by']
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(FieldCollectionETLAdmin, self).add_view(request)
+        return super(SampleFilterETLAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
@@ -585,7 +585,7 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'collection_global_id', 'created_by']
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleFilterETLAdmin, self).change_view(request, object_id)
 
