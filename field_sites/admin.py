@@ -515,6 +515,12 @@ class GeoWatershedAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
 
+    def add_view(self, request, extra_content=None):
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(GeoWatershedAdmin, self).add_view(request)
+
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         # self.fields = ['watershed_label','created_by']
