@@ -176,7 +176,6 @@ class FreezerInventoryLogSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_log_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_log_action = serializers.ChoiceField(choices=CheckoutActions.choices)
-    freezer_log_datetime = serializers.DateTimeField(read_only=True)
     freezer_log_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -184,16 +183,13 @@ class FreezerInventoryLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreezerInventoryLog
         fields = ['id', 'freezer_inventory', 'freezer_log_action',
-                  'freezer_log_datetime',
                   'freezer_log_notes', 'freezer_log_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False,
-                                                     slug_field='freezer_inventory_slug',
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_inventory_slug',
                                                      queryset=FreezerInventory.objects.all())
 
 
@@ -212,8 +208,6 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
                   'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
-    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug',
-                                                    queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
-    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
-                                                  queryset=ReturnAction.objects.all())
+    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug', queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
+    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code', queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

@@ -234,7 +234,6 @@ class FreezerInventoryLog(DateTimeUserMixin):
     freezer_log_slug = models.SlugField("Inventory Log Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)
-    freezer_log_datetime = models.DateTimeField("Inventory Log DateTime", auto_now=True)
     freezer_log_notes = models.TextField("Inventory Log Notes", blank=True)
 
     def __str__(self):
@@ -246,10 +245,10 @@ class FreezerInventoryLog(DateTimeUserMixin):
         update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_log_action)
 
         if self.pk is None:
-            if self.freezer_log_datetime is None:
+            if self.created_datetime is None:
                 created_date_fmt = slug_date_format(timezone.now())
             else:
-                created_date_fmt = slug_date_format(self.freezer_log_datetime)
+                created_date_fmt = slug_date_format(self.created_datetime)
             self.freezer_log_slug = '{date}_{name}_{checkout_action}'.format(checkout_action=self.get_freezer_log_action_display(),
                                                                              name=slugify(self.freezer_inventory.freezer_inventory_slug),
                                                                              date=created_date_fmt)

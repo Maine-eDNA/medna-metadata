@@ -129,7 +129,6 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('freezer_log_slug', models.SlugField(max_length=255, verbose_name='Inventory Log Slug')),
                 ('freezer_log_action', models.CharField(choices=[('checkout', 'Checkout'), ('return', 'Return'), ('perm_removed', 'Permanent Removal')], max_length=50, verbose_name='Inventory Log Action')),
-                ('freezer_log_datetime', models.DateTimeField(auto_now=True, verbose_name='Inventory Log DateTime')),
                 ('freezer_log_notes', models.TextField(blank=True, verbose_name='Inventory Log Notes')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('freezer_inventory', models.ForeignKey(limit_choices_to=models.Q(('freezer_inventory_status', 'in'), ('freezer_inventory_status', 'out'), _connector='OR'), on_delete=django.db.models.deletion.RESTRICT, to='freezer_inventory.freezerinventory')),

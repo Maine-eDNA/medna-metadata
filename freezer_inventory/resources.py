@@ -156,13 +156,9 @@ class FreezerInventoryLogAdminResource(resources.ModelResource):
 
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_inventory', 'freezer_log_action',
-                  'freezer_log_datetime',
-                  'freezer_return_vol_taken', 'freezer_return_vol_units',
                   'freezer_log_notes',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_inventory', 'freezer_log_action',
-                        'freezer_log_datetime',
-                        'freezer_return_vol_taken', 'freezer_return_vol_units',
                         'freezer_log_notes',
                         'created_by', 'created_datetime', )
 
@@ -188,8 +184,10 @@ class FreezerInventoryReturnMetadataAdminResource(resources.ModelResource):
 
         # exclude = ('created_by', 'created_datetime', 'modified_datetime', )
         fields = ('freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
+                  'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
+                        'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer_log = fields.Field(

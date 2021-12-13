@@ -16,7 +16,7 @@ class ReturnActionAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['action_code', 'action_label',  'created_by']
+        self.fields = ['action_code', 'action_label', 'modified_datetime', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -25,7 +25,7 @@ class ReturnActionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['action_label',  'created_by']
+        self.fields = ['action_label', 'modified_datetime', 'created_datetime', 'created_by']
         return super(ReturnActionAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -51,7 +51,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_label',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                       'created_by']
+                       'created_datetime', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -63,7 +63,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_label', 'freezer_label_slug',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
-                       'created_by']
+                       'modified_datetime', 'created_datetime', 'created_by']
         return super(FreezerAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -90,7 +90,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_column_start', 'freezer_rack_column_end',
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                       'created_by']
+                       'created_datetime', 'created_by']
         # self.list_filter = (
         #    ('freezer', RelatedDropdownFilter))
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -105,7 +105,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'freezer_rack_column_start', 'freezer_rack_column_end',
                        'freezer_rack_row_start', 'freezer_rack_row_end',
                        'freezer_rack_depth_start', 'freezer_rack_depth_end',
-                       'created_by']
+                       'modified_datetime', 'created_datetime', 'created_by']
         return super(FreezerRackAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -131,7 +131,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'freezer_box_max_column', 'freezer_box_max_row',
-                       'created_by']
+                       'created_datetime', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -143,7 +143,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
                        'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
                        'freezer_box_max_column', 'freezer_box_max_row',
-                       'created_by']
+                       'modified_datetime', 'created_datetime', 'created_by']
         return super(FreezerBoxAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -169,7 +169,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_box', 'sample_barcode',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
-                       'created_by']
+                       'created_datetime', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -181,7 +181,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
         self.fields = ['freezer_box', 'sample_barcode', 'freezer_inventory_slug',
                        'freezer_inventory_type', 'freezer_inventory_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
-                       'created_by']
+                       'modified_datetime', 'created_datetime', 'created_by']
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -205,9 +205,8 @@ class FreezerInventoryLogAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['freezer_inventory', 'freezer_log_action',
-                       'freezer_log_datetime',
                        'freezer_log_notes',
-                       'created_by']
+                       'created_datetime', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -218,9 +217,8 @@ class FreezerInventoryLogAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['freezer_inventory', 'freezer_log_action',
                        'freezer_log_slug',
-                       'freezer_log_datetime',
                        'freezer_log_notes',
-                       'created_by']
+                       'modified_datetime', 'created_datetime', 'created_by']
         return super(FreezerInventoryLogAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
@@ -250,9 +248,8 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
-                       'freezer_return_vol_taken', 'freezer_return_vol_units',
-                       'freezer_return_notes',
-                       'created_by']
+                       'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
+                       'created_datetime', 'created_by']
         # self.inlines = (ReturnActionInline, )
         # self.exclude = ('created_datetime', )
         add_fields = request.GET.copy()
@@ -263,9 +260,8 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
-                       'freezer_return_vol_taken', 'freezer_return_vol_units',
-                       'freezer_return_notes',
-                       'created_by']
+                       'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
+                       'modified_datetime', 'created_datetime', 'created_by']
         # self.inlines = (ReturnActionInline, )
         return super(FreezerInventoryReturnMetadataAdmin, self).change_view(request, object_id)
 
