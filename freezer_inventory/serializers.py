@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
-from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, \
+from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvTypes, \
     CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from sample_labels.models import SampleBarcode
@@ -42,6 +42,8 @@ class FreezerSerializer(serializers.ModelSerializer):
     freezer_max_columns = serializers.IntegerField(min_value=1)
     freezer_max_rows = serializers.IntegerField(min_value=1)
     freezer_max_depth = serializers.IntegerField(min_value=1)
+    freezer_rated_temp = serializers.IntegerField()
+    freezer_rated_temp_units = serializers.ChoiceField(choices=TempUnits.choices)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -50,6 +52,7 @@ class FreezerSerializer(serializers.ModelSerializer):
         fields = ['id', 'freezer_label', 'freezer_label_slug',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                  'freezer_rated_temp', 'freezer_rated_temp_units',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since created_by references a different table and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add

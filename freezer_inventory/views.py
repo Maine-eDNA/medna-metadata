@@ -23,6 +23,7 @@ class FreezerViewSet(viewsets.ModelViewSet):
     queryset = Freezer.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['freezer_label', 'freezer_label_slug',
+                        'freezer_rated_temp',
                         'created_datetime', 'modified_datetime', 'created_by']
     swagger_tags = ["freezer inventory"]
 

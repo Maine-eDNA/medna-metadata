@@ -36,10 +36,12 @@ class FreezerAdminResource(resources.ModelResource):
         fields = ('id', 'freezer_label',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                  'freezer_rated_temp', 'freezer_rated_temp_units',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_label',
                         'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                         'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                        'freezer_rated_temp', 'freezer_rated_temp_units',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(

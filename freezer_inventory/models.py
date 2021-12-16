@@ -5,7 +5,7 @@ from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
-from utility.enumerations import MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
+from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
 import re
 
@@ -79,6 +79,8 @@ class Freezer(DateTimeUserMixin):
     freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
     freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
     freezer_max_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
+    freezer_rated_temp = models.IntegerField("Rated Freezer Temperature")
+    freezer_rated_temp_units = models.CharField("Rated Freezer Temperature Units", choices=TempUnits.choices)
 
     def save(self, *args, **kwargs):
         self.freezer_label_slug = '{name}'.format(name=slugify(self.freezer_label))
