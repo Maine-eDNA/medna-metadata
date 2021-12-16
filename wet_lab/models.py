@@ -44,6 +44,8 @@ class PrimerPair(DateTimeUserMixin):
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
     primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
+    # TODO - add MIxS ref_biomaterial_url - primary publication; PMID, DOI, or URL
+    # TODO - add MIxS target_subfragment - name of subfragment of a gene or locus (V6, V9, ITS)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -86,6 +88,7 @@ class IndexRemovalMethod(DateTimeUserMixin):
     # exo-sap, beads, gel extraction, spin column, ...
     index_removal_method_name = models.CharField("Index Removal Method", max_length=255, unique=True)
     index_removal_method_name_slug = models.SlugField("Index Removal Method Slug", max_length=255)
+    # TODO - add index_removal_method_sop_url
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -111,6 +114,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
     # beads, gel extraction, spin column, ...
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255, unique=True)
     size_selection_method_name_slug = models.SlugField("Size Selection Method Slug", max_length=255)
+    # TODO - add size_selection_method_sop_url
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -134,6 +138,7 @@ class QuantificationMethod(DateTimeUserMixin):
     # QuBit and qPCR, QuBit, qPCR, bioanalyzer, tape station, nanodrop, ...
     quant_method_name = models.CharField("Quantification Method", max_length=255, unique=True)
     quant_method_name_slug = models.SlugField("Quantification Method Name", max_length=255)
+    # TODO - add quant_method_sop_url
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -203,6 +208,7 @@ class Extraction(DateTimeUserMixin):
                                                       choices=ConcentrationUnits.choices,
                                                       default=ConcentrationUnits.NGUL)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
+    # TODO - add amplification_sop_url? MIxS nucl_acid_amp - nucleic acid amplification, need link to SOP URL
 
     def save(self, *args, **kwargs):
         from sample_labels.models import update_barcode_sample_type, get_extraction_sample_type
@@ -239,6 +245,7 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_results_units = models.CharField("ddPCR Units", max_length=50, choices=DdpcrUnits.choices,
                                            default=DdpcrUnits.CP)
     ddpcr_notes = models.TextField("ddPCR Notes", blank=True)
+    # TODO - add ddPCR_sop_url?
 
     def save(self, *args, **kwargs):
         ddpcr_date_fmt = slug_date_format(self.ddpcr_datetime)
@@ -271,6 +278,7 @@ class Qpcr(DateTimeUserMixin):
     qpcr_results_units = models.CharField("qPCR Units", max_length=50, choices=QpcrUnits.choices,
                                           default=QpcrUnits.CQ)
     qpcr_notes = models.TextField("qPCR Notes", blank=True)
+    # TODO - add qPCR_sop_url?
 
     def save(self, *args, **kwargs):
         qpcr_date_fmt = slug_date_format(self.qpcr_datetime)
@@ -477,8 +485,17 @@ class FastqFile(DateTimeUserMixin):
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True, null=True)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
-    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage,
-                                      default="static/utility/images/icon-no.svg")
+    fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage, default="static/utility/images/icon-no.svg")
+    # TODO - add MIxS investigation_type (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
+    # TODO - add MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
+    # TODO - add MIxS lib_reads_seqd - SampleSheet.csv [reads], library reads sequenced
+    # TODO - add MIxS lib_const_meth - SampleSheet.csv?, library construction method e.g., paired-
+    # TODO - add MIxS lib_screen? library screening strategy (enriched, screened, normalized); specific enrichment or screening methods applied before and/or after creating clone libraries
+    # TODO - add MIxS seq_meth - SampleSheet.csv chemistry?, sequencing method used e.g., sanger dideoxysequencing
+    # TODO - add MIxS seq_qualitycheck - ? (none, manually edited) indicate if the sequence has been called by automatic systems (none) or undergone manual editing procedure
+    # TODO - add MIxS chimera_check - name and version of software
+    # TODO - add MIxS assembly - how was the assembly done - assembly method, estimated error value, method of calculation
+    # TODO - add MIxS assembly_name - name/version of the assembly
 
     @property
     def fastq_filename(self):
