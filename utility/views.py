@@ -5,7 +5,7 @@ from rest_framework import status
 from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
 from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
-from .enumerations import YesNo, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, DdpcrUnits, \
+from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, DdpcrUnits, \
     QpcrUnits, WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, LibPrepTypes, LibPrepKits, \
@@ -19,12 +19,25 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
+# GENERIC CHOICES
 class YesNoChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
         for choice in YesNo:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+# UNITS CHOICES
+class TempUnitsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in TempUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)

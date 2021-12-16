@@ -12,6 +12,12 @@ class YesNo(models.TextChoices):
 
 
 # UNITS CHOICES
+class TempUnits(models.TextChoices):
+    F = 'fahrenheit', _('Fahrenheit')
+    C = 'celsius', _('Celsius')
+    K = 'kelvin', _('Kelvin')
+
+
 class MeasureUnits(models.TextChoices):
     METERS = 'meter', _('Meter (m)')
     CENTIMETERS = 'centimeter', _('Centimeters (cm)')
