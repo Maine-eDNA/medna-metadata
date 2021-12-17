@@ -30,6 +30,7 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -70,6 +71,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -103,6 +105,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'env_global_id', 'env_measure_datetime', 'survey_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -142,6 +145,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'collection_global_id', 'collection_type', 'survey_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -240,7 +244,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                     'is_extracted', 'collection_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
-    readonly_fields = ('barcode_slug', )
+    readonly_fields = ('barcode_slug', 'modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -376,6 +380,7 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         self.fields = ['survey_global_id', 'username', 'survey_datetime', 'project_ids', 'supervisor',
@@ -425,6 +430,7 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         self.fields = ['crew_global_id', 'survey_global_id', 'crew_fname', 'crew_lname',
@@ -463,6 +469,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'env_global_id', 'env_measure_datetime', 'survey_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         self.fields = ['env_global_id', 'survey_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
@@ -513,6 +520,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'collection_global_id', 'collection_type', 'survey_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         self.fields = ['collection_global_id', 'survey_global_id', 'collection_type', 'water_control', 'water_control_type',
@@ -567,6 +575,7 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     list_display = ('record_creator', 'filter_global_id', 'filter_barcode', 'filter_datetime', 'collection_global_id',
                     'record_create_datetime', 'record_edit_datetime',
                     'created_datetime', 'modified_datetime',)
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         self.fields = ['filter_global_id', 'collection_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',

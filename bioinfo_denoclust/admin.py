@@ -15,7 +15,7 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('denoise_cluster_method_slug',)
+    readonly_fields = ('denoise_cluster_method_slug', 'modified_datetime', 'created_datetime', )
     # list_filter = ('denoise_cluster_method_pipeline', )
 
     def add_view(self, request, extra_content=None):
@@ -52,7 +52,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     # list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
-    readonly_fields = ('denoise_cluster_slug',)
+    readonly_fields = ('denoise_cluster_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -94,7 +94,7 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     # list_filter = ('denoise_cluster_metadata__denoise_cluster_slug', )
-    readonly_fields = ('feature_slug',)
+    readonly_fields = ('feature_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -129,6 +129,7 @@ class FeatureReadAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

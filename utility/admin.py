@@ -11,11 +11,12 @@ class GrantAdmin(ImportExportActionModelAdmin):
     resource_class = GrantAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['grant_label', 'grant_code', 'created_by']
-        self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -44,11 +45,12 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     resource_class = ProjectAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_by', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['project_code', 'project_label', 'grant_name', 'created_by', ]
-        self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -78,7 +80,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
     resource_class = ProcessLocationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('process_location_name_slug', )
+    readonly_fields = ('process_location_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -120,6 +122,7 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
     resource_class = DefaultSiteCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('default_css_label', 'created_datetime', 'created_by')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -173,6 +176,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
     resource_class = CustomUserCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('custom_css_label', 'created_datetime', 'user')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

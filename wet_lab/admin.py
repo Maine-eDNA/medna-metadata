@@ -21,7 +21,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
     resource_class = PrimerPairAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('primer_set_name_slug', )
+    readonly_fields = ('primer_set_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -65,6 +65,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
     resource_class = IndexPairAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -100,7 +101,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
     resource_class = IndexRemovalMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('index_removal_method_name_slug',)
+    readonly_fields = ('index_removal_method_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -134,7 +135,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
     resource_class = SizeSelectionMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('size_selection_method_name_slug',)
+    readonly_fields = ('size_selection_method_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -168,7 +169,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
     resource_class = QuantificationMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('quant_method_name_slug',)
+    readonly_fields = ('quant_method_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -202,7 +203,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
     resource_class = ExtractionMethodAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('extraction_method_slug',)
+    readonly_fields = ('extraction_method_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -243,7 +244,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     resource_class = ExtractionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('barcode_slug', )
+    readonly_fields = ('barcode_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -301,7 +302,7 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
     resource_class = DdpcrAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('ddpcr_experiment_name_slug',)
+    readonly_fields = ('ddpcr_experiment_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -340,7 +341,7 @@ class QpcrAdmin(ImportExportActionModelAdmin):
     resource_class = QpcrAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('qpcr_experiment_name_slug',)
+    readonly_fields = ('qpcr_experiment_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -379,7 +380,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
     resource_class = LibraryPrepAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('lib_prep_slug',)
+    readonly_fields = ('lib_prep_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -431,7 +432,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
     resource_class = PooledLibraryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('pooled_lib_label_slug',)
+    readonly_fields = ('pooled_lib_label_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -483,7 +484,7 @@ class FinalPooledLibraryAdmin(ImportExportActionModelAdmin):
     resource_class = FinalPooledLibraryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('barcode_slug', 'final_pooled_lib_label_slug', )
+    readonly_fields = ('barcode_slug', 'final_pooled_lib_label_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -531,7 +532,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
     resource_class = RunPrepAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('run_prep_slug',)
+    readonly_fields = ('run_prep_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -570,6 +571,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
     resource_class = RunResultAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -606,7 +608,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     resource_class = FastqFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('fastq_slug', )
+    readonly_fields = ('fastq_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         self.readonly_fields = ('fastq_datafile', )

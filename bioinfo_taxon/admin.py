@@ -18,7 +18,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('refdb_slug', )
+    readonly_fields = ('refdb_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -55,7 +55,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_domain_slug', )
+    readonly_fields = ('taxon_domain_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -91,7 +91,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_kingdom_slug', 'taxon_domain_slug',)
+    readonly_fields = ('taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -132,7 +132,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',)
+    readonly_fields = ('taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -170,7 +170,8 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_class_slug', 'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', )
+    readonly_fields = ('taxon_class_slug', 'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -210,7 +211,8 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_slug',
-                       'taxon_kingdom_slug', 'taxon_domain_slug',)
+                       'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -251,7 +253,8 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_family_slug', 'taxon_order_slug', 'taxon_class_slug',
-                       'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',)
+                       'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -293,7 +296,8 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('taxon_genus_slug', 'taxon_family_slug', 'taxon_order_slug',
-                       'taxon_class_slug', 'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',)
+                       'taxon_class_slug', 'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -338,7 +342,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     list_filter = ('is_endemic', )
     readonly_fields = ('taxon_species_slug', 'taxon_genus_slug', 'taxon_family_slug',
                        'taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_slug',
-                       'taxon_kingdom_slug', 'taxon_domain_slug',)
+                       'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -383,7 +388,8 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    readonly_fields = ('annotation_method_name_slug',)
+    readonly_fields = ('annotation_method_name_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -418,7 +424,8 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'analysis_datetime', )
-    readonly_fields = ('annotation_slug',)
+    readonly_fields = ('annotation_slug',
+                       'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -457,6 +464,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
