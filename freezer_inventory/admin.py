@@ -13,6 +13,7 @@ class ReturnActionAdmin(ImportExportActionModelAdmin):
     resource_class = ReturnActionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -44,7 +45,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('freezer_label_slug',)
+    readonly_fields = ('freezer_label_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -84,7 +85,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerRackAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('freezer_rack_label_slug',)
+    readonly_fields = ('freezer_rack_label_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -126,7 +127,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerBoxAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('freezer_box_label_slug',)
+    readonly_fields = ('freezer_box_label_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -164,7 +165,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerInventoryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'freezer_inventory_status', 'created_datetime', 'created_by',)
-    readonly_fields = ('freezer_inventory_slug', )
+    readonly_fields = ('freezer_inventory_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -202,7 +203,7 @@ class FreezerInventoryLogAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerInventoryLogAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('freezer_log_slug', )
+    readonly_fields = ('freezer_log_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -246,6 +247,7 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerInventoryReturnMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
