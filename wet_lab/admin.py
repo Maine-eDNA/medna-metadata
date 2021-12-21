@@ -537,7 +537,7 @@ admin.site.register(PooledLibrary, PooledLibraryAdmin)
 class PooledLibraryInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
-    model = PooledLibrary.pooled_library.through
+    model = RunPrep.pooled_library.through
     # extra = 1
 
 
