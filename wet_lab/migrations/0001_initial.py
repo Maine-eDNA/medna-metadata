@@ -279,7 +279,7 @@ class Migration(migrations.Migration):
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('extraction', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
                 ('index_pair', models.ManyToManyField(related_name='indexpair_to_libraryprep', to='wet_lab.indexpair')),
-                ('amplification_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.amplification_method')),
+                ('amplification_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.amplificationmethod')),
                 ('index_removal_method', models.ManyToManyField(related_name='indexremovalmethod_to_libraryprep', to='wet_lab.indexremovalmethod')),
                 ('quantification_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.quantificationmethod')),
                 ('size_selection_method', models.ManyToManyField(related_name='sizeselectionmethod_to_libraryprep', to='wet_lab.sizeselectionmethod')),
