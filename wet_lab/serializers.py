@@ -448,7 +448,8 @@ class RunResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RunResult
-        fields = ['id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep', 'run_completion_datetime', 'run_instrument',
+        fields = ['id', 'run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location', 'run_prep',
+                  'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
