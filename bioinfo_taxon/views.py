@@ -130,3 +130,5 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
                         'manual_order', 'manual_family', 'manual_genus',
                         'manual_species']
     swagger_tags = ["bioinformatics taxonomy"]
+
+# TODO - create MixS queryset

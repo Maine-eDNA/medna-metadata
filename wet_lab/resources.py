@@ -1,8 +1,8 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
-    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
-    RunResult, FastqFile
+    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, RunPrep, \
+    RunResult, FastqFile, AmplificationMethod
 from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
@@ -13,16 +13,20 @@ class PrimerPairAdminResource(resources.ModelResource):
     class Meta:
         model = PrimerPair
         import_id_fields = ('primer_set_name', 'primer_target_gene', )
-        fields = ('id', 'primer_set_name', 'primer_target_gene',
+        fields = ('id', 'primer_set_name', 'primer_slug',
+                  'primer_target_gene', 'primer_subfragment',
                   'primer_name_forward', 'primer_name_reverse',
                   'primer_forward', 'primer_reverse',
                   'primer_amplicon_length_min', 'primer_amplicon_length_max',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'primer_set_name', 'primer_target_gene',
+                  'primer_ref_biomaterial_url', 'primer_pair_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'primer_set_name', 'primer_slug',
+                        'primer_target_gene', 'primer_subfragment',
                         'primer_name_forward', 'primer_name_reverse',
                         'primer_forward', 'primer_reverse',
                         'primer_amplicon_length_min', 'primer_amplicon_length_max',
-                        'created_by', 'created_datetime', )
+                        'primer_ref_biomaterial_url', 'primer_pair_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -37,11 +41,11 @@ class PrimerPairAdminResource(resources.ModelResource):
 class IndexPairAdminResource(resources.ModelResource):
     class Meta:
         model = IndexPair
-        import_id_fields = ('index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter', )
-        fields = ('id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
-                        'created_by', 'created_datetime', )
+        import_id_fields = ('i7_index_id', 'i5_index_id', 'index_adapter', )
+        fields = ('id', 'index_slug', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'index_slug', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -57,10 +61,12 @@ class IndexRemovalMethodAdminResource(resources.ModelResource):
     class Meta:
         model = IndexRemovalMethod
         import_id_fields = ('index_removal_method_name',)
-        fields = ('id', 'index_removal_method_name',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'index_removal_method_name',
-                        'created_by', 'created_datetime', )
+        fields = ('id', 'index_removal_method_name', 'index_removal_method_slug',
+                  'index_removal_sop_url',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'index_removal_method_name', 'index_removal_method_slug',
+                        'index_removal_sop_url',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -76,10 +82,17 @@ class SizeSelectionMethodAdminResource(resources.ModelResource):
     class Meta:
         model = SizeSelectionMethod
         import_id_fields = ('size_selection_method_name',)
-        fields = ('id', 'size_selection_method_name',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'size_selection_method_name',
-                        'created_by', 'created_datetime', )
+        fields = ('id', 'size_selection_method_name', 'size_selection_method_slug',
+                  'primer_set', 'size_selection_sop_url',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'size_selection_method_name', 'size_selection_method_slug',
+                        'primer_set', 'size_selection_sop_url',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    primer_set = fields.Field(
+        column_name='primer_set',
+        attribute='primer_set',
+        widget=ForeignKeyWidget(PrimerPair, 'primer_set_name'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -95,10 +108,31 @@ class QuantificationMethodAdminResource(resources.ModelResource):
     class Meta:
         model = QuantificationMethod
         import_id_fields = ('quant_method_name',)
-        fields = ('id', 'quant_method_name',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'quant_method_name',
-                        'created_by', 'created_datetime', )
+        fields = ('id', 'quant_method_name', 'quant_method_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'quant_method_name', 'quant_method_slug',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class AmplificationMethodAdminResource(resources.ModelResource):
+    class Meta:
+        model = AmplificationMethod
+        import_id_fields = ('amplification_method_name',)
+        fields = ('id', 'amplification_method_name', 'amplification_method_slug',
+                  'amplification_sop_url',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'amplification_method_name', 'amplification_method_slug',
+                        'amplification_sop_url',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -116,12 +150,14 @@ class ExtractionMethodAdminResource(resources.ModelResource):
         import_id_fields = ('extraction_method_name', 'extraction_method_manufacturer', )
         fields = ('id', 'extraction_method_name',
                   'extraction_method_manufacturer',
+                  'extraction_method_slug',
                   'extraction_sop_url',
-                  'created_by', 'created_datetime', )
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'extraction_method_name',
                         'extraction_method_manufacturer',
+                        'extraction_method_slug',
                         'extraction_sop_url',
-                        'created_by', 'created_datetime', )
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -139,18 +175,21 @@ class ExtractionAdminResource(resources.ModelResource):
         import_id_fields = ('id', 'extraction_barcode', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'extraction_barcode', 'barcode_slug',
-                  'process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
+                  'field_sample', 'process_location', 'extraction_datetime', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name',
                   'extraction_volume', 'extraction_volume_units',
-                  'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
+                  'quantification_method',
+                  'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes',
-                  'created_by', 'created_datetime', 'modified_datetime')
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'extraction_barcode', 'barcode_slug',
-                        'process_location', 'extraction_datetime', 'field_sample', 'extraction_method',
+                        'field_sample', 'process_location', 'extraction_datetime', 'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
-                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                        'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime')
+                        'quantification_method',
+                        'extraction_concentration', 'extraction_concentration_units',
+                        'extraction_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     extraction_barcode = fields.Field(
         column_name='extraction_barcode',
@@ -192,12 +231,22 @@ class DdpcrAdminResource(resources.ModelResource):
         model = Ddpcr
         import_id_fields = ('ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
-                  'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                  'ddpcr_notes', 'created_by', 'created_datetime',)
-        export_order = ('id', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', 'primer_set', 'ddpcr_first_name',
-                        'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                        'ddpcr_notes', 'created_by', 'created_datetime',)
+        fields = ('id', 'ddpcr_experiment_name', 'ddpcr_slug',
+                  'ddpcr_datetime', 'process_location',
+                  'extraction', 'primer_set',
+                  'ddpcr_first_name', 'ddpcr_last_name',
+                  'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
+                  'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
+                  'ddpcr_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'ddpcr_experiment_name', 'ddpcr_slug',
+                        'ddpcr_datetime', 'process_location',
+                        'extraction', 'primer_set',
+                        'ddpcr_first_name', 'ddpcr_last_name',
+                        'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
+                        'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
+                        'ddpcr_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     process_location = fields.Field(
         column_name='process_location',
@@ -229,12 +278,20 @@ class QpcrAdminResource(resources.ModelResource):
         model = Qpcr
         import_id_fields = ('qpcr_datetime', 'qpcr_experiment_name', 'extraction', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
-                  'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                  'qpcr_notes', 'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'extraction', 'primer_set', 'qpcr_first_name',
-                        'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                        'qpcr_notes', 'created_by', 'created_datetime', )
+        fields = ('id', 'qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime',
+                  'process_location', 'extraction', 'primer_set',
+                  'qpcr_first_name', 'qpcr_last_name', 'qpcr_probe',
+                  'qpcr_results', 'qpcr_results_units',
+                  'qpcr_thermal_sop_url', 'qpcr_sop_url',
+                  'qpcr_notes',
+                  'created_by', 'created_datetime', )
+        export_order = ('id', 'qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime',
+                        'process_location', 'extraction', 'primer_set',
+                        'qpcr_first_name', 'qpcr_last_name', 'qpcr_probe',
+                        'qpcr_results', 'qpcr_results_units',
+                        'qpcr_thermal_sop_url', 'qpcr_sop_url',
+                        'qpcr_notes',
+                        'created_by', 'created_datetime', )
 
     process_location = fields.Field(
         column_name='process_location',
@@ -266,19 +323,25 @@ class LibraryPrepAdminResource(resources.ModelResource):
         model = LibraryPrep
         import_id_fields = ('lib_prep_datetime', 'lib_prep_experiment_name', 'extraction', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
-                  'extraction', 'index_pair',
-                  'primer_set', 'index_removal_method', 'size_selection_method',
-                  'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
-                  'final_concentration', 'final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
+        fields = ('id', 'lib_prep_experiment_name', 'lib_prep_slug',
+                  'lib_prep_datetime', 'process_location',
+                  'extraction', 'amplification_method', 'primer_set', 'size_selection_method',
+                  'index_pair', 'index_removal_method',
+                  'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units',
+                  'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
+                  'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_sop_url',
+                  'lib_prep_notes',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'lib_prep_datetime', 'lib_prep_experiment_name', 'process_location',
-                        'extraction', 'index_pair',
-                        'primer_set', 'index_removal_method', 'size_selection_method',
-                        'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
-                        'final_concentration', 'final_concentration_units',
-                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
+        export_order = ('id', 'lib_prep_experiment_name', 'lib_prep_slug',
+                        'lib_prep_datetime', 'process_location',
+                        'extraction', 'amplification_method', 'primer_set', 'size_selection_method',
+                        'index_pair', 'index_removal_method',
+                        'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units',
+                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
+                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
+                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_sop_url',
+                        'lib_prep_notes',
                         'created_by', 'created_datetime', )
 
     process_location = fields.Field(
@@ -291,6 +354,11 @@ class LibraryPrepAdminResource(resources.ModelResource):
         attribute='extraction',
         widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
 
+    amplification_method = fields.Field(
+        column_name='amplification_method',
+        attribute='amplification_method',
+        widget=ForeignKeyWidget(AmplificationMethod, 'amplification_method_slug'))
+
     primer_set = fields.Field(
         column_name='primer_set',
         attribute='primer_set',
@@ -299,7 +367,7 @@ class LibraryPrepAdminResource(resources.ModelResource):
     index_pair = fields.Field(
         column_name='index_pair',
         attribute='index_pair',
-        widget=ForeignKeyWidget(IndexPair, 'id'))
+        widget=ForeignKeyWidget(IndexPair, 'index_slug'))
 
     index_removal_method = fields.Field(
         column_name='index_removal_method',
@@ -329,16 +397,23 @@ class LibraryPrepAdminResource(resources.ModelResource):
 class PooledLibraryAdminResource(resources.ModelResource):
     class Meta:
         model = PooledLibrary
-        import_id_fields = ('pooled_lib_datetime', 'pooled_lib_label',
-                            'library_prep', )
+        import_id_fields = ('pooled_lib_datetime', 'pooled_lib_label', 'library_prep', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'pooled_lib_datetime', 'pooled_lib_label', 'process_location',
+        fields = ('id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
+                  'pooled_lib_barcode', 'barcode_slug',
+                  'process_location',
                   'library_prep', 'quantification_method',
-                  'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
+                  'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                  'pooled_lib_volume', 'pooled_lib_volume_units',
+                  'pooled_lib_notes',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'pooled_lib_datetime', 'pooled_lib_label', 'process_location',
+        export_order = ('id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
+                        'pooled_lib_barcode', 'barcode_slug',
+                        'process_location',
                         'library_prep', 'quantification_method',
-                        'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
+                        'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                        'pooled_lib_volume', 'pooled_lib_volume_units',
+                        'pooled_lib_notes',
                         'created_by', 'created_datetime', )
 
     process_location = fields.Field(
@@ -366,32 +441,23 @@ class PooledLibraryAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class FinalPooledLibraryAdminResource(resources.ModelResource):
+class RunPrepAdminResource(resources.ModelResource):
     class Meta:
-        model = FinalPooledLibrary
-        import_id_fields = ('id', 'final_pooled_lib_barcode', 'final_pooled_lib_label', 'pooled_library', )
+        model = RunPrep
+        import_id_fields = ('run_prep_date', 'final_pooled_library', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'final_pooled_lib_barcode', 'barcode_slug', 'pooled_library',
-                  'final_pooled_lib_datetime',
-                  'final_pooled_lib_label', 'final_pooled_lib_label_slug',
-                  'process_location', 'quantification_method',
-                  'final_pooled_lib_concentration',
-                  'final_pooled_lib_concentration_units',
-                  'final_pooled_lib_notes',
-                  'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'final_pooled_lib_barcode', 'barcode_slug', 'pooled_library',
-                        'final_pooled_lib_datetime',
-                        'final_pooled_lib_label', 'final_pooled_lib_label_slug',
-                        'process_location', 'quantification_method',
-                        'final_pooled_lib_concentration',
-                        'final_pooled_lib_concentration_units',
-                        'final_pooled_lib_notes',
-                        'created_by', 'created_datetime', 'modified_datetime', )
-
-    final_pooled_lib_barcode = fields.Field(
-        column_name='final_pooled_lib_barcode',
-        attribute='final_pooled_lib_barcode',
-        widget=ForeignKeyWidget(SampleBarcode, 'barcode_slug'))
+        fields = ('id', 'run_prep_label', 'run_prep_slug',
+                  'run_prep_datetime', 'process_location', 'pooled_library',
+                  'quantification_method', 'run_prep_concentration', 'run_prep_concentration_units',
+                  'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
+                  'run_prep_notes',
+                  'created_by', 'created_datetime', )
+        export_order = ('id', 'run_prep_label', 'run_prep_slug',
+                        'run_prep_datetime', 'process_location', 'pooled_library',
+                        'quantification_method', 'run_prep_concentration', 'run_prep_concentration_units',
+                        'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
+                        'run_prep_notes',
+                        'created_by', 'created_datetime', )
 
     process_location = fields.Field(
         column_name='process_location',
@@ -418,54 +484,17 @@ class FinalPooledLibraryAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class RunPrepAdminResource(resources.ModelResource):
-    class Meta:
-        model = RunPrep
-        import_id_fields = ('run_prep_date', 'final_pooled_library', )
-        # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'run_prep_date', 'process_location', 'final_pooled_library',
-                  'phix_spike_in', 'phix_spike_in_units',
-                  'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
-                  'run_prep_notes', 'created_by', 'created_datetime', )
-        export_order = ('id', 'run_prep_date', 'process_location', 'final_pooled_library',
-                        'phix_spike_in', 'phix_spike_in_units',
-                        'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
-                        'run_prep_notes', 'created_by', 'created_datetime', )
-
-    process_location = fields.Field(
-        column_name='process_location',
-        attribute='process_location',
-        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
-
-    final_pooled_library = fields.Field(
-        column_name='final_pooled_library',
-        attribute='final_pooled_library',
-        widget=ForeignKeyWidget(FinalPooledLibrary, 'final_pooled_lib_label'))
-
-    quantification_method = fields.Field(
-        column_name='quantification_method',
-        attribute='quantification_method',
-        widget=ForeignKeyWidget(QuantificationMethod, 'quant_method_name'))
-
-    created_by = fields.Field(
-        column_name='created_by',
-        attribute='created_by',
-        widget=ForeignKeyWidget(CustomUser, 'email'))
-
-    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
-    def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].email
-
-
 class RunResultAdminResource(resources.ModelResource):
     class Meta:
         model = RunResult
         import_id_fields = ('run_id', 'run_experiment_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep',
+        fields = ('id', 'run_experiment_name', 'run_slug',
+                  'run_id', 'run_date', 'process_location', 'run_prep',
                   'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'run_date', 'run_id', 'run_experiment_name', 'run_prep',
+        export_order = ('id', 'run_experiment_name', 'run_slug',
+                        'run_id', 'run_date', 'process_location', 'run_prep',
                         'run_completion_datetime', 'run_instrument',
                         'created_by', 'created_datetime', )
 
@@ -494,9 +523,9 @@ class FastqFileAdminResource(resources.ModelResource):
         model = FastqFile
         import_id_fields = ('uuid', 'fastq_datafile', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+        fields = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile', 'fastq_slug',
                   'created_by', 'created_datetime', )
-        export_order = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+        export_order = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile', 'fastq_slug',
                         'created_by', 'created_datetime', )
 
     run_result = fields.Field(

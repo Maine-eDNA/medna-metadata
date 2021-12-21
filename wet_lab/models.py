@@ -6,7 +6,7 @@ from django.utils.text import slugify
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
-from utility.enumerations import TargetGenes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
+from utility.enumerations import TargetGenes, SubFragments, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
 from django.utils import timezone
 # custom private media S3 backend storage
@@ -34,32 +34,35 @@ def update_extraction_status(old_barcode, field_sample):
 class PrimerPair(DateTimeUserMixin):
     # mifishU, ElbrechtB1, ecoprimer, 16sV4V5, 18sV4, ...
     primer_set_name = models.CharField("Primer Set Name", max_length=255, unique=True)
-    primer_set_name_slug = models.SlugField("Primer Set Name Slug", max_length=255)
+    primer_slug = models.SlugField("Primer Set Name Slug", max_length=255)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = models.CharField("Target Gene", max_length=50, choices=TargetGenes.choices)
+    # Name of SubFragments of a gene or locus. Important to e.g. identify special regions on marker genes like V6 on 16S rRNA
+    primer_subfragment = models.CharField("SubFragment (V6, V9, ITS)", max_length=50, choices=SubFragments.choices, blank=True)
     primer_name_forward = models.CharField("Primer Name Forward", max_length=255)
     primer_name_reverse = models.CharField("Primer Name Reverse", max_length=255)
     primer_forward = models.TextField("Primer Forward")
     primer_reverse = models.TextField("Primer Reverse")
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
+    # primary publication; PMID, DOI, or URL
+    primer_ref_biomaterial_url = models.URLField("Primary Publication (PMID, DOI, URL)", max_length=255, blank=True)
     primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
-    # TODO - add MIxS ref_biomaterial_url - primary publication; PMID, DOI, or URL
-    # TODO - add MIxS target_subfragment - name of subfragment of a gene or locus (V6, V9, ITS)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.primer_set_name_slug = '{name}_{date}'.format(name=slugify(self.primer_set_name),
-                                                           date=slugify(created_date_fmt))
+        self.primer_slug = '{name}_{date}'.format(name=slugify(self.primer_set_name), date=created_date_fmt)
         super(PrimerPair, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{primer_set_name}, ' \
-               '{primer_target_gene}'.format(primer_set_name=self.primer_set_name,
-                                             primer_target_gene=self.primer_target_gene)
+               '{primer_target_gene}, ' \
+               '{primer_subfragment}'.format(primer_set_name=self.primer_set_name,
+                                             primer_target_gene=self.primer_target_gene,
+                                             primer_subfragment=self.primer_subfragment)
 
     class Meta:
         app_label = 'wet_lab'
@@ -68,6 +71,7 @@ class PrimerPair(DateTimeUserMixin):
 
 
 class IndexPair(DateTimeUserMixin):
+    index_slug = models.SlugField("Index Pair Slug", max_length=255)
     # SampleSheet.csv
     index_i7 = models.CharField("i7 Index", max_length=16)
     i7_index_id = models.CharField("i7 Index ID", max_length=12)
@@ -75,8 +79,18 @@ class IndexPair(DateTimeUserMixin):
     i5_index_id = models.CharField("i5 Index ID", max_length=12)
     index_adapter = models.CharField("Adapter", max_length=30)
 
+    def save(self, *args, **kwargs):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.index_slug = '{i7}_{i5}_{date}'.format(i7=slugify(self.i7_index_id),
+                                                    i5=slugify(self.i5_index_id),
+                                                    date=created_date_fmt)
+        super(IndexPair, self).save(*args, **kwargs)
+
     def __str__(self):
-        return '{pkey}'.format(pkey=self.pk)
+        return '{i7}_{i5}'.format(i7=self.i7_index_id, i5=self.i5_index_id)
 
     class Meta:
         app_label = 'wet_lab'
@@ -85,24 +99,24 @@ class IndexPair(DateTimeUserMixin):
 
 
 class IndexRemovalMethod(DateTimeUserMixin):
-    # exo-sap, beads, gel extraction, spin column, ...
+    # exo-sap, beads, gel extraction, spin column, pippin prep...
     index_removal_method_name = models.CharField("Index Removal Method", max_length=255, unique=True)
-    index_removal_method_name_slug = models.SlugField("Index Removal Method Slug", max_length=255)
-    # TODO - add index_removal_method_sop_url
+    index_removal_method_slug = models.SlugField("Index Removal Method Slug", max_length=255)
+    index_removal_sop_url = models.URLField("Index Removal SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.index_removal_method_name_slug = '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
-                                                                     date=slugify(created_date_fmt))
+        self.index_removal_method_slug = '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
+                                                                date=created_date_fmt)
         super(IndexRemovalMethod, self).save(*args, **kwargs)
 
     def __str__(self):
         created_date_fmt = slug_date_format(self.created_datetime)
         return '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
-                                      date=slugify(created_date_fmt))
+                                      date=created_date_fmt)
 
     class Meta:
         app_label = 'wet_lab'
@@ -113,16 +127,17 @@ class IndexRemovalMethod(DateTimeUserMixin):
 class SizeSelectionMethod(DateTimeUserMixin):
     # beads, gel extraction, spin column, ...
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255, unique=True)
-    size_selection_method_name_slug = models.SlugField("Size Selection Method Slug", max_length=255)
-    # TODO - add size_selection_method_sop_url
+    size_selection_method_slug = models.SlugField("Size Selection Method Slug", max_length=255)
+    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
+    size_selection_sop_url = models.URLField("Size Selection SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.size_selection_method_name_slug = '{name}_{date}'.format(name=slugify(self.size_selection_method_name),
-                                                                      date=slugify(created_date_fmt))
+        self.size_selection_method_slug = '{name}_{date}'.format(name=slugify(self.size_selection_method_name),
+                                                                 date=created_date_fmt)
         super(SizeSelectionMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -130,23 +145,22 @@ class SizeSelectionMethod(DateTimeUserMixin):
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'SizeSelection Method'
-        verbose_name_plural = 'SizeSelection Methods'
+        verbose_name = 'Size Selection Method'
+        verbose_name_plural = 'Size Selection Methods'
 
 
 class QuantificationMethod(DateTimeUserMixin):
     # QuBit and qPCR, QuBit, qPCR, bioanalyzer, tape station, nanodrop, ...
     quant_method_name = models.CharField("Quantification Method", max_length=255, unique=True)
-    quant_method_name_slug = models.SlugField("Quantification Method Name", max_length=255)
-    # TODO - add quant_method_sop_url
+    quant_method_slug = models.SlugField("Quantification Method Name", max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.quant_method_name_slug = '{name}_{date}'.format(name=slugify(self.quant_method_name),
-                                                             date=slugify(created_date_fmt))
+        self.quant_method_slug = '{name}_{date}'.format(name=slugify(self.quant_method_name),
+                                                        date=created_date_fmt)
         super(QuantificationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -156,6 +170,30 @@ class QuantificationMethod(DateTimeUserMixin):
         app_label = 'wet_lab'
         verbose_name = 'Quantification Method'
         verbose_name_plural = 'Quantification Methods'
+
+
+class AmplificationMethod(DateTimeUserMixin):
+    # pcr, ...
+    amplification_method_name = models.CharField("Amplification Method", max_length=255, unique=True)
+    amplification_method_slug = models.SlugField("Amplification Method Slug", max_length=255)
+    amplification_sop_url = models.URLField("Amplification SOP URL", max_length=255)
+
+    def save(self, *args, **kwargs):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.amplification_method_slug = '{name}_{date}'.format(name=slugify(self.amplification_method_name),
+                                                                date=created_date_fmt)
+        super(AmplificationMethod, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{name}'.format(name=self.amplification_method_name)
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'Amplification Method'
+        verbose_name_plural = 'Amplification Methods'
 
 
 class ExtractionMethod(DateTimeUserMixin):
@@ -172,7 +210,7 @@ class ExtractionMethod(DateTimeUserMixin):
             created_date_fmt = slug_date_format(self.created_datetime)
         self.extraction_method_slug = '{manufacturer}_{name}_{date}'.format(manufacturer=slugify(self.extraction_method_manufacturer),
                                                                             name=slugify(self.extraction_method_name),
-                                                                            date=slugify(created_date_fmt))
+                                                                            date=created_date_fmt)
         super(ExtractionMethod, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -187,28 +225,22 @@ class ExtractionMethod(DateTimeUserMixin):
 
 
 class Extraction(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
-    extraction_datetime = models.DateTimeField("Extraction DateTime")
-    field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT,
-                                        limit_choices_to={'is_extracted': YesNo.NO})
     extraction_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
+    field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
+    extraction_datetime = models.DateTimeField("Extraction DateTime")
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
     extraction_first_name = models.CharField("First Name", max_length=255)
     extraction_last_name = models.CharField("Last Name", max_length=255)
     extraction_volume = models.DecimalField("Total Extraction Elution Volume", max_digits=15, decimal_places=10)
     # microliter, ul
-    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=50, choices=VolUnits.choices,
-                                               default=VolUnits.MICROLITER)
+    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=50, choices=VolUnits.choices, default=VolUnits.MICROLITER)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
-    extraction_concentration_units = models.CharField("Concentration Units", max_length=50,
-                                                      choices=ConcentrationUnits.choices,
-                                                      default=ConcentrationUnits.NGUL)
+    extraction_concentration_units = models.CharField("Concentration Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGUL)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
-    # TODO - add amplification_sop_url? MIxS nucl_acid_amp - nucleic acid amplification, need link to SOP URL
 
     def save(self, *args, **kwargs):
         from sample_labels.models import update_barcode_sample_type, get_extraction_sample_type
@@ -230,11 +262,10 @@ class Extraction(DateTimeUserMixin):
 
 
 class Ddpcr(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
-    ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
     ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255, unique=True)
-    ddpcr_experiment_name_slug = models.SlugField("ddPCR Experiment Name Slug", max_length=255)
+    ddpcr_slug = models.SlugField("ddPCR Experiment Name Slug", max_length=255)
+    ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     ddpcr_first_name = models.CharField("First Name", max_length=255)
@@ -242,15 +273,14 @@ class Ddpcr(DateTimeUserMixin):
     ddpcr_probe = models.TextField("ddPCR Probe", blank=True)
     ddpcr_results = models.DecimalField("ddPCR Results", max_digits=15, decimal_places=10)
     # results will be in copy number or copies per microliter (copy/ul)
-    ddpcr_results_units = models.CharField("ddPCR Units", max_length=50, choices=DdpcrUnits.choices,
-                                           default=DdpcrUnits.CP)
+    ddpcr_results_units = models.CharField("ddPCR Units", max_length=50, choices=DdpcrUnits.choices, default=DdpcrUnits.CP)
+    ddpcr_thermal_sop_url = models.URLField("ddPCR Thermal SOP URL", max_length=255)
+    ddpcr_sop_url = models.URLField("ddPCR SOP URL", max_length=255)
     ddpcr_notes = models.TextField("ddPCR Notes", blank=True)
-    # TODO - add ddPCR_sop_url?
 
     def save(self, *args, **kwargs):
         ddpcr_date_fmt = slug_date_format(self.ddpcr_datetime)
-        self.ddpcr_experiment_name_slug = '{name}_{date}'.format(name=slugify(self.ddpcr_experiment_name),
-                                                                 date=slugify(ddpcr_date_fmt))
+        self.ddpcr_slug = '{name}_{date}'.format(name=slugify(self.ddpcr_experiment_name), date=ddpcr_date_fmt)
         super(Ddpcr, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -263,11 +293,10 @@ class Ddpcr(DateTimeUserMixin):
 
 
 class Qpcr(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
-    qpcr_datetime = models.DateTimeField("qPCR DateTime")
     qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255, unique=True)
-    qpcr_experiment_name_slug = models.SlugField("qPCR Experiment Name Slug", max_length=255)
+    qpcr_slug = models.SlugField("qPCR Experiment Name Slug", max_length=255)
+    qpcr_datetime = models.DateTimeField("qPCR DateTime")
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     qpcr_first_name = models.CharField("First Name", max_length=255)
@@ -275,15 +304,14 @@ class Qpcr(DateTimeUserMixin):
     qpcr_probe = models.TextField("qPCR Probe", blank=True)
     qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
     # results are Cq value
-    qpcr_results_units = models.CharField("qPCR Units", max_length=50, choices=QpcrUnits.choices,
-                                          default=QpcrUnits.CQ)
+    qpcr_results_units = models.CharField("qPCR Units", max_length=50, choices=QpcrUnits.choices, default=QpcrUnits.CQ)
+    qpcr_thermal_sop_url = models.URLField("qPCR Thermal SOP URL", max_length=255)
+    qpcr_sop_url = models.URLField("qPCR SOP URL", max_length=255)
     qpcr_notes = models.TextField("qPCR Notes", blank=True)
-    # TODO - add qPCR_sop_url?
 
     def save(self, *args, **kwargs):
         qpcr_date_fmt = slug_date_format(self.qpcr_datetime)
-        self.qpcr_experiment_name_slug = '{name}_{date}'.format(name=slugify(self.qpcr_experiment_name),
-                                                                date=slugify(qpcr_date_fmt))
+        self.qpcr_slug = '{name}_{date}'.format(name=slugify(self.qpcr_experiment_name), date=qpcr_date_fmt)
         super(Qpcr, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -296,43 +324,39 @@ class Qpcr(DateTimeUserMixin):
 
 
 class LibraryPrep(DateTimeUserMixin):
-    lib_prep_datetime = models.DateTimeField("Library Prep DateTime")
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
     lib_prep_slug = models.SlugField("Experiment Name Slug", max_length=255)
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
+    lib_prep_datetime = models.DateTimeField("Library Prep DateTime")
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
-    index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
+    # MIxS nucl_acid_amp - nucleic acid amplification
+    amplification_method = models.ForeignKey(AmplificationMethod, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
-    index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
-    size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
+    # may use multiple size_selection_methods so this needs to be an m2m field
+    size_selection_method = models.ManyToManyField(SizeSelectionMethod, related_name='sizeselectionmethod_to_libraryprep')
+    index_pair = models.ManyToManyField(IndexPair, related_name='indexpair_to_libraryprep')
+    # may use multiple index_removal_methods so this needs to be a m2m field
+    index_removal_method = models.ManyToManyField(IndexRemovalMethod, related_name='indexremovalmethod_to_libraryprep')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10, blank=True, null=True)
+    lib_prep_qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10, blank=True, null=True)
     # units will be in ng/ml
-    qubit_units = models.CharField("QuBit Units", max_length=50, choices=ConcentrationUnits.choices,
-                                   default=ConcentrationUnits.NGML, blank=True)
-    qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10, blank=True, null=True)
+    lib_prep_qubit_units = models.CharField("QuBit Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGML, blank=True)
+    lib_prep_qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10, blank=True, null=True)
     # units will be nM or pM
-    qpcr_units = models.CharField("qPCR Units", max_length=50, choices=ConcentrationUnits.choices,
-                                  default=ConcentrationUnits.NM, blank=True)
-    final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=15, decimal_places=10)
-    final_concentration_units = models.CharField("Library Prep Final Units",
-                                                 max_length=50,
-                                                 choices=ConcentrationUnits.choices,
-                                                 default=ConcentrationUnits.NM)
-    lib_prep_kit = models.CharField("Library Prep Kit",
-                                    max_length=50,
-                                    choices=LibPrepKits.choices,
-                                    default=LibPrepKits.NEXTERAXTV2)
+    lib_prep_qpcr_units = models.CharField("qPCR Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM, blank=True)
+    lib_prep_final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=15, decimal_places=10)
+    lib_prep_final_concentration_units = models.CharField("Library Prep Final Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
+    lib_prep_kit = models.CharField("Library Prep Kit", max_length=50, choices=LibPrepKits.choices, default=LibPrepKits.NEXTERAXTV2)
     lib_prep_type = models.CharField("Library Prep Type", max_length=50, choices=LibPrepTypes.choices)
-    lib_prep_thermal_sop_url = models.URLField("Thermal SOP URL", max_length=255)
+    lib_prep_thermal_sop_url = models.URLField("Library Prep Thermal SOP URL", max_length=255)
+    lib_prep_sop_url = models.URLField("Library Prep SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
         lp_date_fmt = slug_date_format(self.lib_prep_datetime)
         self.lib_prep_slug = '{name}_{barcode}_{date}'.format(name=slugify(self.lib_prep_experiment_name),
-                                                              barcode=slugify(self.extraction.barcode_slug),
-                                                              date=slugify(lp_date_fmt))
+                                                              barcode=self.extraction.barcode_slug,
+                                                              date=lp_date_fmt)
         super(LibraryPrep, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -346,24 +370,30 @@ class LibraryPrep(DateTimeUserMixin):
 
 
 class PooledLibrary(DateTimeUserMixin):
-    pooled_lib_datetime = models.DateTimeField("Pooled Library Date")
     pooled_lib_label = models.CharField("Pooled Library Label", max_length=255, unique=True)
-    pooled_lib_label_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
+    pooled_lib_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
+    pooled_lib_datetime = models.DateTimeField("Pooled Library Date")
+    pooled_lib_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
+    barcode_slug = models.SlugField("Pooled Library Barcode Slug", max_length=16)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     pooled_lib_concentration = models.DecimalField("Pooled Library Concentration", max_digits=15, decimal_places=10)
     # nanomolar, nM
-    pooled_lib_concentration_units = models.CharField("Pooled Library Units", max_length=50,
-                                                      choices=ConcentrationUnits.choices,
-                                                      default=ConcentrationUnits.NM)
+    pooled_lib_concentration_units = models.CharField("Pooled Library Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
+    pooled_lib_volume = models.DecimalField("Pooled Library Volume", max_digits=15, decimal_places=10)
+    pooled_lib_volume_units = models.CharField("Pooled Library Volume Units", max_length=50, choices=VolUnits.choices, default=VolUnits.MICROLITER)
     pooled_lib_notes = models.TextField("Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
+        from sample_labels.models import update_barcode_sample_type, get_pooled_library_sample_type
+        # update_barcode_sample_type must come before creating barcode_slug
+        # because need to grab old barcode_slug value on updates
+        # update barcode to type == Pooled Library
+        update_barcode_sample_type(self.barcode_slug, self.pooled_lib_barcode, get_pooled_library_sample_type())
+        self.barcode_slug = self.pooled_lib_barcode.barcode_slug
         pl_date_fmt = slug_date_format(self.pooled_lib_datetime)
-        self.pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.pooled_lib_label),
-                                                            date=slugify(pl_date_fmt))
+        self.pooled_lib_slug = '{name}_{date}'.format(name=slugify(self.pooled_lib_label), date=pl_date_fmt)
         super(PooledLibrary, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -375,75 +405,29 @@ class PooledLibrary(DateTimeUserMixin):
         verbose_name_plural = 'Pooled Libraries'
 
 
-class FinalPooledLibrary(DateTimeUserMixin):
-    final_pooled_lib_datetime = models.DateTimeField("Final Pooled Library Date")
-    final_pooled_lib_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField("Final Pooled Library Barcode Slug", max_length=16)
-    final_pooled_lib_label = models.CharField("Final Pooled Library Label", max_length=255, unique=True)
-    final_pooled_lib_label_slug = models.SlugField("Final Pooled Library Label Slug", max_length=255)
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
-    pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_finalpooledlibrary')
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    final_pooled_lib_concentration = models.DecimalField("Final Pooled Library Concentration",
-                                                         max_digits=15,
-                                                         decimal_places=10)
-    # nanomolar, nM
-    final_pooled_lib_concentration_units = models.CharField("Final Pooled Library Units",
-                                                            max_length=50,
-                                                            choices=ConcentrationUnits.choices,
-                                                            default=ConcentrationUnits.NM)
-    final_pooled_lib_notes = models.TextField("Final Pooled Library Notes", blank=True)
-
-    def save(self, *args, **kwargs):
-        from sample_labels.models import update_barcode_sample_type, get_pooled_library_sample_type
-        # update_barcode_sample_type must come before creating barcode_slug
-        # because need to grab old barcode_slug value on updates
-        # update barcode to type == Pooled Library
-        update_barcode_sample_type(self.barcode_slug, self.final_pooled_lib_barcode, get_pooled_library_sample_type())
-        self.barcode_slug = self.final_pooled_lib_barcode.barcode_slug
-        fpl_date_fmt = slug_date_format(self.final_pooled_lib_datetime)
-        self.final_pooled_lib_label_slug = '{name}_{date}'.format(name=slugify(self.final_pooled_lib_label),
-                                                                  date=slugify(fpl_date_fmt))
-        super(FinalPooledLibrary, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return '{label}'.format(label=self.final_pooled_lib_label)
-
-    class Meta:
-        app_label = 'wet_lab'
-        verbose_name = 'Final Pooled Library'
-        verbose_name_plural = 'Final Pooled Libraries'
-
-
 class RunPrep(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
-    run_prep_date = models.DateTimeField("Run Prep Date")
-    final_pooled_library = models.ForeignKey(FinalPooledLibrary, on_delete=models.RESTRICT)
-    run_prep_slug = models.SlugField("Run Prep Slug", max_length=255)
-    phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, blank=True, null=True)
-    # can be reported as percent and picomolar, pM
-    phix_spike_in_units = models.CharField("PhiX Spike In Units",
-                                           max_length=50,
-                                           choices=PhiXConcentrationUnits.choices, blank=True)
+    run_prep_label = models.CharField("Run Prep Label", max_length=255, unique=True)
+    run_prep_slug = models.SlugField("Run Prep Label Slug", max_length=255)
+    run_prep_datetime = models.DateTimeField("Run Prep DateTime")
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
+    pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_runprep')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    final_lib_concentration = models.DecimalField("Final Library Concentration", max_digits=15, decimal_places=10)
-    # can be reported as percent and picomolar, pM
-    final_lib_concentration_units = models.CharField("Final Library Units",
-                                                     max_length=50,
-                                                     choices=ConcentrationUnits.choices,
-                                                     default=ConcentrationUnits.PM)
+    # Run prep concentration is pre-phix spike in
+    run_prep_concentration = models.DecimalField("Run Prep Concentration (Pre PhiX)", max_digits=15, decimal_places=10, null=True)
+    # can be reported as percent and nanomolar, nM
+    run_prep_concentration_units = models.CharField("Run Prep Concentration Units (Pre PhiX)", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM, blank=True)
+    run_prep_phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, null=True)
+    # can be reported as percent and nanomolar, nM
+    run_prep_phix_spike_in_units = models.CharField("PhiX Spike In Units", max_length=50, choices=PhiXConcentrationUnits.choices, blank=True)
     run_prep_notes = models.TextField("Run Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        date_fmt = slug_date_format(self.run_prep_date)
-        self.run_prep_slug = '{name}_{date}'.format(name=self.final_pooled_library.final_pooled_lib_label_slug,
-                                                    date=date_fmt)
+        date_fmt = slug_date_format(self.run_prep_datetime)
+        self.run_prep_slug = '{name}_{date}'.format(name=slugify(self.run_prep_label), date=date_fmt)
         super(RunPrep, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{label}'.format(label=self.final_pooled_library.final_pooled_lib_label)
+        return '{label}'.format(label=self.run_prep_label)
 
     class Meta:
         app_label = 'wet_lab'
@@ -452,23 +436,27 @@ class RunPrep(DateTimeUserMixin):
 
 
 class RunResult(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
-    # RunInfo.xml %Y%m%d
-    run_date = models.DateField("Run Date")
-    # RunInfo.xml
-    run_id = models.CharField("Run ID", max_length=255, unique=True)
     # SampleSheet.csv
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
+    run_slug = models.SlugField("Run Slug", max_length=255)
+    # RunInfo.xml
+    run_id = models.CharField("Run ID", max_length=255, unique=True)
+    # RunInfo.xml %Y%m%d
+    run_date = models.DateField("Run Date")
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     run_prep = models.ForeignKey(RunPrep, on_delete=models.RESTRICT)
     # CompletedJobInfo.xml
     run_completion_datetime = models.DateTimeField("Run Completion Time")
     # RunInfo.xml
     run_instrument = models.CharField("Instrument", max_length=255)
 
+    def save(self, *args, **kwargs):
+        date_fmt = self.run_date.strftime('%Y%m%d')
+        self.run_slug = '{name}_{date}'.format(name=slugify(self.run_experiment_name), date=date_fmt)
+        super(RunResult, self).save(*args, **kwargs)
+
     def __str__(self):
-        return '{run_id}: {run_experiment_name}'.format(run_id=self.run_id,
-                                                        run_experiment_name=self.run_experiment_name)
+        return '{run_id}: {run_experiment_name}'.format(run_id=self.run_id, run_experiment_name=self.run_experiment_name)
 
     class Meta:
         app_label = 'wet_lab'

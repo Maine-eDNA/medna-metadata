@@ -9,7 +9,7 @@ from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, Concentratio
     QpcrUnits, WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, LibPrepTypes, LibPrepKits, \
-    InvStatus, InvTypes, CheckoutActions
+    InvStatus, InvTypes, CheckoutActions, SubFragments
 from django.views.generic.base import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
 # import json
@@ -109,6 +109,7 @@ class QpcrUnitsChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
+# FIELD_SURVEY CHOICES
 class WindSpeedsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
@@ -307,12 +308,24 @@ class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
+# WET_LAB CHOICES
 class TargetGenesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
         for choice in TargetGenes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class SubFragmentsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in SubFragments:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)

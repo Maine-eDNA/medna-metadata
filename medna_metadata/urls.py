@@ -30,8 +30,8 @@ from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasu
     FieldCollectionETLViewSet, SampleFilterETLViewSet
 from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMethodViewSet, SizeSelectionMethodViewSet, \
     QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, DdpcrViewSet, QpcrViewSet, \
-    LibraryPrepViewSet, PooledLibraryViewSet, FinalPooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
-    FastqFileViewSet
+    LibraryPrepViewSet, PooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
+    FastqFileViewSet, AmplificationMethodViewSet
 from freezer_inventory.views import ReturnActionViewSet, FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
     FreezerInventoryViewSet, FreezerInventoryLogViewSet, FreezerInventoryReturnMetadataViewSet
 from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
@@ -52,7 +52,7 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     FilterTypesChoicesViewSet, CoreMethodsChoicesViewSet, SubCoreMethodsChoicesViewSet, \
     TargetGenesChoicesViewSet, LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
-    CustomUserCssViewSet, DefaultSiteCssViewSet
+    CustomUserCssViewSet, DefaultSiteCssViewSet, SubFragmentsChoicesViewSet
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -108,6 +108,7 @@ router.register(r'utility/choices_filter_types', FilterTypesChoicesViewSet, 'cho
 router.register(r'utility/choices_core_methods', CoreMethodsChoicesViewSet, 'choices_core_methods')
 router.register(r'utility/choices_subcore_methods', SubCoreMethodsChoicesViewSet, 'choices_subcore_methods')
 router.register(r'utility/choices_target_genes', TargetGenesChoicesViewSet, 'choices_target_genes')
+router.register(r'utility/choices_subfragment', SubFragmentsChoicesViewSet, 'choices_subfragment')
 router.register(r'utility/choices_lib_prep_types', LibPrepTypesChoicesViewSet, 'choices_lib_prep_types')
 router.register(r'utility/choices_lib_prep_kits', LibPrepKitsChoicesViewSet, 'choices_lib_prep_kits')
 router.register(r'utility/choices_inv_status', InvStatusChoicesViewSet, 'choices_inv_status')
@@ -152,13 +153,13 @@ router.register(r'wet_lab/index_pair', IndexPairViewSet, 'index_pair')
 router.register(r'wet_lab/index_removal_method', IndexRemovalMethodViewSet, 'index_removal_method')
 router.register(r'wet_lab/size_selection_method', SizeSelectionMethodViewSet, 'size_selection_method')
 router.register(r'wet_lab/quant_method', QuantificationMethodViewSet, 'quant_method')
+router.register(r'wet_lab/amplification_method', AmplificationMethodViewSet, 'amplification_method')
 router.register(r'wet_lab/extraction_method', ExtractionMethodViewSet, 'extraction_method')
 router.register(r'wet_lab/extraction', ExtractionViewSet, 'extraction')
 router.register(r'wet_lab/ddpcr', DdpcrViewSet, 'ddpcr')
 router.register(r'wet_lab/qpcr', QpcrViewSet, 'qpcr')
 router.register(r'wet_lab/lib_prep', LibraryPrepViewSet, 'lib_prep')
 router.register(r'wet_lab/pooled_lib', PooledLibraryViewSet, 'pooled_lib')
-router.register(r'wet_lab/final_pooled_lib', FinalPooledLibraryViewSet, 'final_pooled_lib')
 router.register(r'wet_lab/run_prep', RunPrepViewSet, 'run_prep')
 router.register(r'wet_lab/run_result', RunResultViewSet, 'run_result')
 router.register(r'wet_lab/fastq', FastqFileViewSet, 'fastq')

@@ -230,6 +230,13 @@ class TargetGenes(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
+class SubFragments(models.TextChoices):
+    SF_V6 = 'v6', _('V6')
+    SF_V9 = 'v9', _('V9')
+    SF_ITS = 'its', _('ITS')
+    __empty__ = _('(Unknown)')
+
+
 class LibPrepTypes(models.TextChoices):
     AMPLICON = 'amplicon', _('Amplicon Sequencing')
     RNA = 'rna', _('16s rRNA Sequencing')

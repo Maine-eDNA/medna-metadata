@@ -1,8 +1,8 @@
 from django.test import TestCase
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, QuantificationMethod, ExtractionMethod, \
-    SizeSelectionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, \
-    RunPrep, RunResult, FastqFile
-from utility.enumerations import TargetGenes, VolUnits, ConcentrationUnits, DdpcrUnits, LibPrepKits, \
+    SizeSelectionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, \
+    RunPrep, RunResult, FastqFile, AmplificationMethod
+from utility.enumerations import TargetGenes, SubFragments, VolUnits, ConcentrationUnits, DdpcrUnits, LibPrepKits, \
     LibPrepTypes, PhiXConcentrationUnits
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
@@ -17,12 +17,14 @@ class PrimerPairTestCase(TestCase):
         PrimerPair.objects.get_or_create(primer_set_name="mifishU",
                                          defaults={
                                              'primer_target_gene': TargetGenes.TG_12S,
+                                             'primer_subfragment': SubFragments.SF_ITS,
                                              'primer_name_forward': "mifish_u_f",
                                              'primer_name_reverse': "mifish_u_r",
                                              'primer_forward': "GTCGGTAAAACTCGTGCCAGC",
                                              'primer_reverse': "CATAGTGGGGTATCTAATCCCAGTTTG",
                                              'primer_amplicon_length_min': 160,
                                              'primer_amplicon_length_max': 180,
+                                             'primer_ref_biomaterial_url': "https://ref_biomaterial_url.com",
                                              'primer_pair_notes': "test notes"
                                          })
 
@@ -50,7 +52,10 @@ class IndexPairTestCase(TestCase):
 
 class IndexRemovalMethodTestCase(TestCase):
     def setUp(self):
-        IndexRemovalMethod.objects.get_or_create(index_removal_method_name="exo-sap")
+        IndexRemovalMethod.objects.get_or_create(index_removal_method_name="exo-sap",
+                                                 defaults={
+                                                     'index_removal_sop_url': "https://index_removal_sop_url.com",
+                                                 })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -60,7 +65,15 @@ class IndexRemovalMethodTestCase(TestCase):
 
 class SizeSelectionMethodTestCase(TestCase):
     def setUp(self):
-        SizeSelectionMethod.objects.get_or_create(size_selection_method_name="Beads")
+        primer_set_test = PrimerPairTestCase()
+        primer_set_test.setUp()
+        primer_set = PrimerPair.objects.filter()[:1].get()
+
+        SizeSelectionMethod.objects.get_or_create(size_selection_method_name="Beads",
+                                                  defaults={
+                                                      'primer_set': primer_set,
+                                                      'size_selection_sop_url': "https://size_selection_sop_url.com",
+                                                  })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -75,6 +88,19 @@ class QuantificationMethodTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         test_exists = QuantificationMethod.objects.filter(quant_method_name="qubit")[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
+
+
+class AmplificationMethodTestCase(TestCase):
+    def setUp(self):
+        AmplificationMethod.objects.get_or_create(amplification_method_name="pcr",
+                                                  defaults={
+                                                      'amplification_sop_url': "https://amplification_sop_url.com"
+                                                  })
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_exists = AmplificationMethod.objects.filter(amplification_method_name="pcr")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -150,6 +176,8 @@ class DdpcrTestCase(TestCase):
                                         'ddpcr_last_name': "test_last_name",
                                         'ddpcr_results': 9999,
                                         'ddpcr_results_units': DdpcrUnits.CP,
+                                        'ddpcr_thermal_sop_url': "https://thermal_sop_url.com",
+                                        'ddpcr_sop_url': "https://sop_url.com",
                                         'ddpcr_notes': "ddpcr notes"
                                     })
 
@@ -179,6 +207,8 @@ class QpcrTestCase(TestCase):
                                        'qpcr_last_name': "test_last_name",
                                        'qpcr_results': 9999,
                                        'qpcr_results_units': DdpcrUnits.CP,
+                                       'qpcr_thermal_sop_url': "https://thermal_sop_url.com",
+                                       'qpcr_sop_url': "https://sop_url.com",
                                        'qpcr_notes': "ddpcr notes"
                                    })
 
@@ -190,6 +220,9 @@ class QpcrTestCase(TestCase):
 
 class LibraryPrepTestCase(TestCase):
     def setUp(self):
+        manytomany_ssm_list = []
+        manytomany_ip_list = []
+        manytomany_irm_list = []
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
@@ -197,40 +230,48 @@ class LibraryPrepTestCase(TestCase):
         index_removal_method_test = IndexRemovalMethodTestCase()
         size_selection_method_test = SizeSelectionMethodTestCase()
         quantification_method_test = QuantificationMethodTestCase()
+        amplification_method_test = AmplificationMethodTestCase()
         extraction_test.setUp()
         primer_set_test.setUp()
         index_pair_test.setUp()
         index_removal_method_test.setUp()
         size_selection_method_test.setUp()
         quantification_method_test.setUp()
+        amplification_method_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
         index_pair = IndexPair.objects.filter()[:1].get()
+        manytomany_ip_list.append(index_pair)
         index_removal_method = IndexRemovalMethod.objects.filter()[:1].get()
+        manytomany_irm_list.append(index_removal_method)
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
+        manytomany_ssm_list.append(size_selection_method)
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
-                                          defaults={
-                                              'lib_prep_datetime': current_datetime,
-                                              'process_location': process_location,
-                                              'extraction': extraction,
-                                              'index_pair': index_pair,
-                                              'primer_set': primer_set,
-                                              'index_removal_method': index_removal_method,
-                                              'size_selection_method': size_selection_method,
-                                              'quantification_method': quantification_method,
-                                              'qubit_results': 0.100,
-                                              'qubit_units': ConcentrationUnits.NGML,
-                                              'qpcr_results': 0.100,
-                                              'qpcr_units': ConcentrationUnits.NM,
-                                              'final_concentration': 0.100,
-                                              'final_concentration_units': ConcentrationUnits.NM,
-                                              'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
-                                              'lib_prep_type': LibPrepTypes.AMPLICON,
-                                              'lib_prep_thermal_sop_url': "https://thermal_sop_url.com",
-                                              'lib_prep_notes': "lib prep notes"
-                                          })
+        amplification_method = AmplificationMethod.objects.filter()[:1].get()
+        library_prep, created = LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
+                                                                  defaults={
+                                                                      'lib_prep_datetime': current_datetime,
+                                                                      'process_location': process_location,
+                                                                      'extraction': extraction,
+                                                                      'amplification_method': amplification_method,
+                                                                      'primer_set': primer_set,
+                                                                      'quantification_method': quantification_method,
+                                                                      'lib_prep_qubit_results': 0.100,
+                                                                      'lib_prep_qubit_units': ConcentrationUnits.NGML,
+                                                                      'lib_prep_qpcr_results': 0.100,
+                                                                      'lib_prep_qpcr_units': ConcentrationUnits.NM,
+                                                                      'lib_prep_final_concentration': 0.100,
+                                                                      'lib_prep_final_concentration_units': ConcentrationUnits.NM,
+                                                                      'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
+                                                                      'lib_prep_type': LibPrepTypes.AMPLICON,
+                                                                      'lib_prep_thermal_sop_url': "https://thermal_sop_url.com",
+                                                                      'lib_prep_sop_url': "https://sop_url.com",
+                                                                      'lib_prep_notes': "lib prep notes"
+                                                                  })
+        library_prep.size_selection_method.set(manytomany_ssm_list, clear=True)
+        library_prep.index_pair.set(manytomany_ip_list, clear=True)
+        library_prep.index_removal_method.set(manytomany_irm_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -248,13 +289,17 @@ class PooledLibraryTestCase(TestCase):
         manytomany_list.append(library_prep)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
+        sample_barcode = SampleBarcode.objects.filter()[:1].get()
         pooled_library, created = PooledLibrary.objects.get_or_create(pooled_lib_label="test_label",
                                                                       defaults={
                                                                           'pooled_lib_datetime': current_datetime,
+                                                                          'pooled_lib_barcode': sample_barcode,
                                                                           'process_location': process_location,
                                                                           'quantification_method': quantification_method,
                                                                           'pooled_lib_concentration': 0.100,
                                                                           'pooled_lib_concentration_units': ConcentrationUnits.NM,
+                                                                          'pooled_lib_volume': 1.00,
+                                                                          'pooled_lib_volume_units': VolUnits.MICROLITER,
                                                                           'pooled_lib_notes': "pooled lib notes"
                                                                       })
         pooled_library.library_prep.set(manytomany_list, clear=True)
@@ -265,7 +310,7 @@ class PooledLibraryTestCase(TestCase):
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class FinalPooledLibraryTestCase(TestCase):
+class RunPrepTestCase(TestCase):
     def setUp(self):
         manytomany_list = []
         current_datetime = timezone.now()
@@ -275,47 +320,22 @@ class FinalPooledLibraryTestCase(TestCase):
         manytomany_list.append(pooled_library)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        final_pooled_library, created = FinalPooledLibrary.objects.get_or_create(final_pooled_lib_label="test_label",
-                                                                                 defaults={
-                                                                                     'final_pooled_lib_datetime': current_datetime,
-                                                                                     'final_pooled_lib_barcode': sample_barcode,
-                                                                                     'process_location': process_location,
-                                                                                     'quantification_method': quantification_method,
-                                                                                     'final_pooled_lib_concentration': 0.100,
-                                                                                     'final_pooled_lib_concentration_units': ConcentrationUnits.NM,
-                                                                                     'final_pooled_lib_notes': "final pooled lib notes"
-                                                                                 })
-        final_pooled_library.pooled_library.set(manytomany_list, clear=True)
+        run_prep, created = RunPrep.objects.get_or_create(run_prep_label="run prep label",
+                                                          defaults={
+                                                              'process_location': process_location,
+                                                              'run_prep_datetime': current_datetime,
+                                                              'quantification_method': quantification_method,
+                                                              'run_prep_concentration': 0.100,
+                                                              'run_prep_concentration_units': ConcentrationUnits.PM,
+                                                              'run_prep_phix_spike_in': 0.100,
+                                                              'run_prep_phix_spike_in_units': PhiXConcentrationUnits.NGML,
+                                                              'run_prep_notes': 'test notes'
+                                                          })
+        run_prep.pooled_library.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FinalPooledLibrary.objects.filter(final_pooled_lib_label="test_label")[:1].get()
-        self.assertIs(test_exists.was_added_recently(), True)
-
-
-class RunPrepTestCase(TestCase):
-    def setUp(self):
-        current_datetime = timezone.now()
-        final_pooled_library_test = FinalPooledLibraryTestCase()
-        final_pooled_library_test.setUp()
-        final_pooled_library = FinalPooledLibrary.objects.filter()[:1].get()
-        process_location = ProcessLocation.objects.filter()[:1].get()
-        quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        RunPrep.objects.get_or_create(run_prep_notes="run prep notes", defaults={
-                                          'process_location': process_location,
-                                          'run_prep_date': current_datetime,
-                                          'final_pooled_library': final_pooled_library,
-                                          'phix_spike_in': 0.100,
-                                          'phix_spike_in_units': PhiXConcentrationUnits.NGML,
-                                          'quantification_method': quantification_method,
-                                          'final_lib_concentration': 0.100,
-                                          'final_lib_concentration_units': ConcentrationUnits.PM
-                                      })
-
-    def test_was_added_recently(self):
-        # test if date is added correctly
-        test_exists = RunPrep.objects.filter(run_prep_notes="run prep notes")[:1].get()
+        test_exists = RunPrep.objects.filter(run_prep_label="run prep label")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 

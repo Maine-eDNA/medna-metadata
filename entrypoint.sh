@@ -113,7 +113,6 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python manage.py loaddata fixtures/prod/wet_lab_extraction.json
   python manage.py loaddata fixtures/prod/wet_lab_libraryprep.json
   python manage.py loaddata fixtures/prod/wet_lab_pooledlibrary.json
-  python manage.py loaddata fixtures/prod/wet_lab_finalpooledlibrary.json
   python manage.py loaddata fixtures/prod/wet_lab_runprep.json
   python manage.py loaddata fixtures/prod/wet_lab_runresult.json
   # freezer_inventory

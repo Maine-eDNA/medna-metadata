@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
-    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, FinalPooledLibrary, RunPrep, \
-    RunResult, FastqFile
+    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, RunPrep, \
+    RunResult, FastqFile, AmplificationMethod
 from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
-from utility.enumerations import YesNo, TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes
+from utility.enumerations import YesNo, TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes, SubFragments
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -17,35 +17,40 @@ class PrimerPairSerializer(serializers.ModelSerializer):
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
     primer_set_name = serializers.CharField(max_length=255,
                                             validators=[UniqueValidator(queryset=PrimerPair.objects.all())])
-    primer_set_name_slug = serializers.SlugField(max_length=255, read_only=True)
+    primer_slug = serializers.SlugField(max_length=255, read_only=True)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
+    # Name of SubFragments of a gene or locus. Important to e.g. identify special regions on marker genes like V6 on 16S rRNA
+    primer_subfragment = serializers.ChoiceField(choices=SubFragments.choices, allow_blank=True)
     primer_name_forward = serializers.CharField(max_length=255)
     primer_name_reverse = serializers.CharField(max_length=255)
     primer_forward = serializers.CharField(max_length=255)
     primer_reverse = serializers.CharField(max_length=255)
     primer_amplicon_length_min = serializers.IntegerField(min_value=0)
     primer_amplicon_length_max = serializers.IntegerField(min_value=0)
+    primer_ref_biomaterial_url = serializers.URLField(max_length=255, allow_blank=True)
     primer_pair_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = PrimerPair
-        fields = ['id', 'primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
-                  'primer_target_gene', 'primer_set_name', 'primer_set_name_slug', 'primer_amplicon_length_min',
-                  'primer_amplicon_length_max', 'primer_pair_notes',
+        fields = ['id', 'primer_set_name', 'primer_slug',
+                  'primer_target_gene', 'primer_subfragment',
+                  'primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
+                  'primer_amplicon_length_min', 'primer_amplicon_length_max',
+                  'primer_ref_biomaterial_url', 'primer_pair_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class IndexPairSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    index_slug = serializers.SlugField(read_only=True)
     index_i7 = serializers.CharField(max_length=255)
     i7_index_id = serializers.CharField(max_length=255)
     index_i5 = serializers.CharField(max_length=255)
@@ -56,73 +61,91 @@ class IndexPairSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = IndexPair
-        fields = ['id', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+        fields = ['id', 'index_slug', 'index_i7', 'i7_index_id',
+                  'index_i5', 'i5_index_id', 'index_adapter',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    index_removal_method_name = serializers.CharField(max_length=255,
-                                                      validators=[UniqueValidator(queryset=IndexRemovalMethod.objects.all())])
-    index_removal_method_name_slug = serializers.SlugField(max_length=255, read_only=True)
+    index_removal_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=IndexRemovalMethod.objects.all())])
+    index_removal_method_slug = serializers.SlugField(max_length=255, read_only=True)
+    index_removal_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = IndexRemovalMethod
-        fields = ['id', 'index_removal_method_name', 'index_removal_method_name_slug',
+        fields = ['id', 'index_removal_method_name', 'index_removal_method_slug',
+                  'index_removal_sop_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    size_selection_method_name = serializers.CharField(max_length=255,
-                                                       validators=[UniqueValidator(queryset=SizeSelectionMethod.objects.all())])
-    size_selection_method_name_slug = serializers.SlugField(max_length=255, read_only=True)
+    size_selection_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=SizeSelectionMethod.objects.all())])
+    size_selection_method_slug = serializers.SlugField(max_length=255, read_only=True)
+    size_selection_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = SizeSelectionMethod
-        fields = ['id', 'size_selection_method_name', 'size_selection_method_name_slug',
+        fields = ['id', 'size_selection_method_name', 'size_selection_method_slug',
+                  'primer_set', 'size_selection_sop_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
 class QuantificationMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    quant_method_name = serializers.CharField(max_length=255,
-                                              validators=[UniqueValidator(queryset=QuantificationMethod.objects.all())])
-    quant_method_name_slug = serializers.SlugField(max_length=255, read_only=True)
+    quant_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=QuantificationMethod.objects.all())])
+    quant_method_slug = serializers.SlugField(max_length=255, read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = QuantificationMethod
-        fields = ['id', 'quant_method_name', 'quant_method_name_slug',
+        fields = ['id', 'quant_method_name', 'quant_method_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class AmplificationMethodSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    amplification_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=AmplificationMethod.objects.all())])
+    amplification_method_slug = serializers.SlugField(max_length=255, read_only=True)
+    amplification_sop_url = serializers.URLField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = AmplificationMethod
+        fields = ['id', 'amplification_method_name', 'amplification_method_slug',
+                  'amplification_sop_url',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -148,8 +171,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -201,21 +223,22 @@ class ExtractionSerializer(serializers.ModelSerializer):
 class DdpcrSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     ddpcr_datetime = serializers.DateTimeField()
-    ddpcr_experiment_name = serializers.CharField(max_length=255,
-                                                  validators=[UniqueValidator(queryset=Ddpcr.objects.all())])
-    ddpcr_experiment_name_slug = serializers.SlugField(max_length=255, read_only=True)
+    ddpcr_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Ddpcr.objects.all())])
+    ddpcr_slug = serializers.SlugField(max_length=255, read_only=True)
     ddpcr_first_name = serializers.CharField(max_length=255)
     ddpcr_last_name = serializers.CharField(max_length=255)
     ddpcr_probe = serializers.CharField(allow_blank=True)
     ddpcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
     ddpcr_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    ddpcr_thermal_sop_url = serializers.URLField(max_length=255)
+    ddpcr_sop_url = serializers.URLField(max_length=255)
     ddpcr_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Ddpcr
-        fields = ['id', 'process_location', 'ddpcr_datetime', 'ddpcr_experiment_name', 'ddpcr_experiment_name_slug',
+        fields = ['id', 'ddpcr_datetime', 'process_location', 'ddpcr_experiment_name', 'ddpcr_slug',
                   'extraction', 'primer_set', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
                   'ddpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
@@ -231,31 +254,33 @@ class DdpcrSerializer(serializers.ModelSerializer):
                                               slug_field='barcode_slug',
                                               queryset=Extraction.objects.all())
     primer_set = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='primer_set_name_slug',
+                                              slug_field='primer_slug',
                                               queryset=PrimerPair.objects.all())
 
 
 class QpcrSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     qpcr_datetime = serializers.DateTimeField()
-    qpcr_experiment_name = serializers.CharField(max_length=255,
-                                                 validators=[UniqueValidator(queryset=Qpcr.objects.all())])
-    qpcr_experiment_name_slug = serializers.SlugField(max_length=255, read_only=True)
+    qpcr_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Qpcr.objects.all())])
+    qpcr_slug = serializers.SlugField(max_length=255, read_only=True)
     qpcr_first_name = serializers.CharField(max_length=255)
     qpcr_last_name = serializers.CharField(max_length=255)
     qpcr_probe = serializers.CharField(allow_blank=True)
     qpcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
     qpcr_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    qpcr_thermal_sop_url = serializers.URLField(max_length=255)
+    qpcr_sop_url = serializers.URLField(max_length=255)
     qpcr_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Qpcr
-        fields = ['id', 'process_location', 'qpcr_datetime', 'qpcr_experiment_name', 'qpcr_experiment_name_slug',
-                  'extraction', 'primer_set', 'qpcr_first_name',
-                  'qpcr_last_name', 'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                  'qpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
+        fields = ['id', 'qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime', 'process_location',
+                  'extraction', 'primer_set', 'qpcr_first_name', 'qpcr_last_name',
+                  'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
+                  'qpcr_thermal_sop_url', 'qpcr_sop_url', 'qpcr_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -316,34 +341,39 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     primer_set = serializers.SlugRelatedField(many=False, read_only=False,
                                               slug_field='primer_set_name_slug',
                                               queryset=PrimerPair.objects.all())
-    index_pair = serializers.SlugRelatedField(many=False, read_only=False,
+    index_pair = serializers.SlugRelatedField(many=True, read_only=False,
                                               slug_field='id', queryset=IndexPair.objects.all())
-    index_removal_method = serializers.SlugRelatedField(many=False, read_only=False,
+    index_removal_method = serializers.SlugRelatedField(many=True, read_only=False,
                                                         slug_field='index_removal_method_name_slug',
                                                         queryset=IndexRemovalMethod.objects.all())
-    size_selection_method = serializers.SlugRelatedField(many=False, read_only=False,
+    size_selection_method = serializers.SlugRelatedField(many=True, read_only=False,
                                                          slug_field='size_selection_method_name_slug',
                                                          queryset=SizeSelectionMethod.objects.all())
     quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
                                                          slug_field='quant_method_name_slug',
                                                          queryset=QuantificationMethod.objects.all())
+    amplification_method = serializers.SlugRelatedField(many=False, read_only=False,
+                                                        slug_field='amplification_method_slug',
+                                                        queryset=AmplificationMethod.objects.all())
 
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     pooled_lib_datetime = serializers.DateTimeField()
-    pooled_lib_label = serializers.CharField(max_length=255,
-                                             validators=[UniqueValidator(queryset=PooledLibrary.objects.all())])
-    pooled_lib_label_slug = serializers.SlugField(read_only=True, max_length=255)
+    pooled_lib_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=PooledLibrary.objects.all())])
+    pooled_lib_slug = serializers.SlugField(read_only=True, max_length=255)
+    barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    pooled_lib_volume = serializers.DecimalField(max_digits=15, decimal_places=10)
+    pooled_lib_volume_units = serializers.ChoiceField(choices=VolUnits.choices)
     pooled_lib_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'pooled_lib_label_slug', 'process_location',
+        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'pooled_lib_slug', 'process_location',
                   'library_prep', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -352,6 +382,9 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True,
                                               slug_field='email')
+    pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False,
+                                                      slug_field='barcode_slug',
+                                                      queryset=SampleBarcode.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
@@ -363,55 +396,15 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
                                                          queryset=QuantificationMethod.objects.all())
 
 
-class FinalPooledLibrarySerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    final_pooled_lib_datetime = serializers.DateTimeField()
-    final_pooled_lib_label = serializers.CharField(max_length=255,
-                                                   validators=[UniqueValidator(queryset=FinalPooledLibrary.objects.all())])
-    final_pooled_lib_label_slug = serializers.SlugField(max_length=255, read_only=True)
-    barcode_slug = serializers.SlugField(max_length=255, read_only=True)
-    final_pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
-    final_pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    final_pooled_lib_notes = serializers.CharField(allow_blank=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = FinalPooledLibrary
-        fields = ['id', 'final_pooled_lib_datetime', 'final_pooled_lib_barcode', 'barcode_slug',
-                  'final_pooled_lib_label', 'final_pooled_lib_label_slug',
-                  'process_location',
-                  'pooled_library', 'quantification_method',
-                  'final_pooled_lib_concentration',
-                  'final_pooled_lib_concentration_units',
-                  'final_pooled_lib_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    final_pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False,
-                                                            slug_field='barcode_slug',
-                                                            queryset=SampleBarcode.objects.all())
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    pooled_library = serializers.SlugRelatedField(many=True, read_only=False,
-                                                  slug_field='pooled_lib_label_slug',
-                                                  queryset=PooledLibrary.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                         slug_field='quant_method_name_slug',
-                                                         queryset=QuantificationMethod.objects.all())
-
-
 class RunPrepSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    run_prep_date = serializers.DateTimeField()
+    run_prep_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=RunPrep.objects.all())])
     run_prep_slug = serializers.SlugField(read_only=True, max_length=255)
-    phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
-    phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_blank=True)
-    final_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
-    final_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    run_prep_datetime = serializers.DateTimeField()
+    run_prep_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
+    run_prep_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    run_prep_phix_spike_in = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
+    run_prep_phix_spike_in_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_blank=True)
     run_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -430,20 +423,20 @@ class RunPrepSerializer(serializers.ModelSerializer):
     process_location = serializers.SlugRelatedField(many=False, read_only=False,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
-    final_pooled_library = serializers.SlugRelatedField(many=False, read_only=False,
-                                                        slug_field='final_pooled_lib_label_slug',
-                                                        queryset=FinalPooledLibrary.objects.all())
+    pooled_library = serializers.SlugRelatedField(many=True, read_only=False,
+                                                  slug_field='pooled_lib_slug',
+                                                  queryset=PooledLibrary.objects.all())
     quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                         slug_field='quant_method_name_slug',
+                                                         slug_field='quant_method_slug',
                                                          queryset=QuantificationMethod.objects.all())
 
 
 class RunResultSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    run_date = serializers.DateField()
-    run_id = serializers.CharField(max_length=255,
-                                   validators=[UniqueValidator(queryset=RunResult.objects.all())])
     run_experiment_name = serializers.CharField(max_length=255)
+    run_slug = serializers.SlugField(read_only=True, max_length=255)
+    run_id = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=RunResult.objects.all())])
+    run_date = serializers.DateField()
     run_completion_datetime = serializers.DateTimeField()
     run_instrument = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
