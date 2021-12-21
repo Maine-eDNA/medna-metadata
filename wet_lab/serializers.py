@@ -107,7 +107,7 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='primer_slug', queryset=PrimerPair.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 

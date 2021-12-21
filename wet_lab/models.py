@@ -128,7 +128,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
     # beads, gel extraction, spin column, ...
     size_selection_method_name = models.CharField("Size Selection Method", max_length=255, unique=True)
     size_selection_method_slug = models.SlugField("Size Selection Method Slug", max_length=255)
-    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
+    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT, null=True)
     size_selection_sop_url = models.URLField("Size Selection SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -471,7 +471,7 @@ class FastqFile(DateTimeUserMixin):
     # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, blank=True, null=True)
+    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, null=True)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
     fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage, default="static/utility/images/icon-no.svg")
     # TODO - add MIxS investigation_type (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011

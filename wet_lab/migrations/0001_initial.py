@@ -63,6 +63,7 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('size_selection_method_name', models.CharField(max_length=255, unique=True, verbose_name='Size Selection Method')),
                 ('size_selection_method_slug', models.SlugField(max_length=255, verbose_name='Size Selection Method Slug')),
+                ('primer_set', models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.primerpair')),
                 ('index_removal_sop_url', models.URLField(max_length=255, verbose_name='Size Selection SOP URL')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user,
                                                  on_delete=models.SET(utility.models.get_sentinel_user),
@@ -383,7 +384,7 @@ class Migration(migrations.Migration):
                 ('fastq_slug', models.SlugField(max_length=255, verbose_name='Fastq Slug')),
                 ('fastq_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.PrivateSequencingStorage(), upload_to='', verbose_name='FastQ Datafile', default='static/utility/images/icon-no.svg')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
-                ('extraction', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
+                ('extraction', models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
                 ('run_result', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runresult')),
             ],
             options={
