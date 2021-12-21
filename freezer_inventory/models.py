@@ -80,7 +80,7 @@ class Freezer(DateTimeUserMixin):
     freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
     freezer_max_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
     freezer_rated_temp = models.IntegerField("Rated Freezer Temperature")
-    freezer_rated_temp_units = models.CharField("Rated Freezer Temperature Units", choices=TempUnits.choices)
+    freezer_rated_temp_units = models.CharField("Rated Freezer Temperature Units", max_length=50, choices=TempUnits.choices)
 
     def save(self, *args, **kwargs):
         self.freezer_label_slug = '{name}'.format(name=slugify(self.freezer_label))

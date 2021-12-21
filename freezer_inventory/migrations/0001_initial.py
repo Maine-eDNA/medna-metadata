@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('freezer_max_rows', models.PositiveIntegerField(verbose_name='Max Freezer Rows (Boxes)')),
                 ('freezer_max_depth', models.PositiveIntegerField(verbose_name='Max Freezer Depth (Boxes)')),
                 ('freezer_rated_temp', models.IntegerField(verbose_name='Rated Freezer Temperature')),
-                ('freezer_rated_temp_units', models.CharField(choices=[('fahrenheit', 'Fahrenheit'), ('celsius', 'Celsius'), ('kelvin', 'Kelvin')], verbose_name='Rated Freezer Temperature Units')),
+                ('freezer_rated_temp_units', models.CharField(choices=[('fahrenheit', 'Fahrenheit'), ('celsius', 'Celsius'), ('kelvin', 'Kelvin')], max_length=50, verbose_name='Rated Freezer Temperature Units')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
