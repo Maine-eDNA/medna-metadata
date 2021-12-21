@@ -321,11 +321,10 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LibraryPrep
-        fields = ['id', 'lib_prep_datetime', 'lib_prep_experiment_name',
-                  'lib_prep_slug', 'process_location',
-                  'extraction', 'index_pair', 'primer_set', 'index_removal_method', 'size_selection_method',
-                  'quantification_method', 'amplification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
-                  'final_concentration', 'final_concentration_units',
+        fields = ['id', 'lib_prep_experiment_name', 'lib_prep_slug', 'lib_prep_datetime', 'process_location',
+                  'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
+                  'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
+                  'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
