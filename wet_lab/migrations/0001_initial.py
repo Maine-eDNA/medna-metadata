@@ -18,8 +18,34 @@ class Migration(migrations.Migration):
         ('sample_labels', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
-
     operations = [
+        migrations.CreateModel(
+            name='PrimerPair',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+                ('primer_set_name', models.CharField(max_length=255, unique=True, verbose_name='Primer Set Name')),
+                ('primer_slug', models.SlugField(max_length=255, verbose_name='Primer Set Name Slug')),
+                ('primer_target_gene', models.CharField(choices=[(None, '(Unknown)'), ('12s', '12S'), ('16s', '16S'), ('18s', '18S'), ('coi', 'COI')], max_length=50, verbose_name='Target Gene')),
+                ('primer_subfragment', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('v6', 'V6'), ('v9', 'V9'), ('its', 'ITS')], max_length=50, verbose_name='Subfragment (V6, V9, ITS)')),
+                ('primer_name_forward', models.CharField(max_length=255, verbose_name='Primer Name Forward')),
+                ('primer_name_reverse', models.CharField(max_length=255, verbose_name='Primer Name Reverse')),
+                ('primer_forward', models.TextField(verbose_name='Primer Forward')),
+                ('primer_reverse', models.TextField(verbose_name='Primer Reverse')),
+                ('primer_amplicon_length_min', models.PositiveIntegerField(verbose_name='Min Primer Amplicon Length')),
+                ('primer_amplicon_length_max', models.PositiveIntegerField(verbose_name='Max Primer Amplicon Length')),
+                ('primer_ref_biomaterial_url', models.URLField(blank=True, max_length=255, verbose_name='Primary Publication (PMID, DOI, URL)')),
+                ('primer_pair_notes', models.TextField(blank=True, verbose_name='Primer Pair Notes')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
+                                                 on_delete=models.SET(utility.models.get_sentinel_user),
+                                                 to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'Primer Pair',
+                'verbose_name_plural': 'Primer Pairs',
+            },
+        ),
         migrations.CreateModel(
             name='IndexRemovalMethod',
             fields=[
@@ -110,33 +136,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Extraction Method',
                 'verbose_name_plural': 'Extraction Methods',
                 'unique_together': {('extraction_method_name', 'extraction_method_manufacturer')},
-            },
-        ),
-        migrations.CreateModel(
-            name='PrimerPair',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('primer_set_name', models.CharField(max_length=255, unique=True, verbose_name='Primer Set Name')),
-                ('primer_slug', models.SlugField(max_length=255, verbose_name='Primer Set Name Slug')),
-                ('primer_target_gene', models.CharField(choices=[(None, '(Unknown)'), ('12s', '12S'), ('16s', '16S'), ('18s', '18S'), ('coi', 'COI')], max_length=50, verbose_name='Target Gene')),
-                ('primer_subfragment', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('v6', 'V6'), ('v9', 'V9'), ('its', 'ITS')], max_length=50, verbose_name='Subfragment (V6, V9, ITS)')),
-                ('primer_name_forward', models.CharField(max_length=255, verbose_name='Primer Name Forward')),
-                ('primer_name_reverse', models.CharField(max_length=255, verbose_name='Primer Name Reverse')),
-                ('primer_forward', models.TextField(verbose_name='Primer Forward')),
-                ('primer_reverse', models.TextField(verbose_name='Primer Reverse')),
-                ('primer_amplicon_length_min', models.PositiveIntegerField(verbose_name='Min Primer Amplicon Length')),
-                ('primer_amplicon_length_max', models.PositiveIntegerField(verbose_name='Max Primer Amplicon Length')),
-                ('primer_ref_biomaterial_url', models.URLField(blank=True, max_length=255, verbose_name='Primary Publication (PMID, DOI, URL)')),
-                ('primer_pair_notes', models.TextField(blank=True, verbose_name='Primer Pair Notes')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
-            ],
-            options={
-                'verbose_name': 'Primer Pair',
-                'verbose_name_plural': 'Primer Pairs',
             },
         ),
         migrations.CreateModel(
