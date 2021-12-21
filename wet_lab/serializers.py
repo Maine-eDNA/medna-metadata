@@ -359,9 +359,9 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    pooled_lib_datetime = serializers.DateTimeField()
     pooled_lib_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=PooledLibrary.objects.all())])
     pooled_lib_slug = serializers.SlugField(read_only=True, max_length=255)
+    pooled_lib_datetime = serializers.DateTimeField()
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
@@ -373,9 +373,12 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'pooled_lib_datetime', 'pooled_lib_label', 'pooled_lib_slug', 'process_location',
+        fields = ['id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
+                  'pooled_lib_barcode', 'barcode_slug', 'process_location',
                   'library_prep', 'quantification_method',
-                  'pooled_lib_concentration', 'pooled_lib_concentration_units', 'pooled_lib_notes',
+                  'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                  'pooled_lib_volume', 'pooled_lib_volume_units',
+                  'pooled_lib_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
