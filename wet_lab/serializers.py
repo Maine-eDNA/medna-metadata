@@ -414,9 +414,10 @@ class RunPrepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RunPrep
-        fields = ['id', 'process_location', 'run_prep_date', 'final_pooled_library', 'run_prep_slug',
-                  'phix_spike_in', 'phix_spike_in_units',
-                  'quantification_method', 'final_lib_concentration', 'final_lib_concentration_units',
+        fields = ['id', 'run_prep_label', 'run_prep_slug',
+                  'run_prep_datetime', 'process_location', 'pooled_library',
+                  'quantification_method', 'run_prep_concentration',
+                  'run_prep_concentration_units', 'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
                   'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
