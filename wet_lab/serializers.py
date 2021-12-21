@@ -241,6 +241,7 @@ class DdpcrSerializer(serializers.ModelSerializer):
         fields = ['id', 'ddpcr_datetime', 'process_location', 'ddpcr_experiment_name', 'ddpcr_slug',
                   'extraction', 'primer_set', 'ddpcr_first_name',
                   'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
+                  'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
                   'ddpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
