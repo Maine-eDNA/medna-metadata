@@ -338,7 +338,6 @@ class Migration(migrations.Migration):
                 ('run_prep_label', models.CharField(max_length=255, unique=True, verbose_name='Run Prep Label')),
                 ('run_prep_slug', models.SlugField(max_length=255, verbose_name='Run Prep Label Slug')),
                 ('run_prep_datetime', models.DateTimeField(verbose_name='Run Prep DateTime')),
-                ('run_prep_slug', models.SlugField(max_length=255, verbose_name='Run Prep Slug')),
                 ('run_prep_phix_spike_in', models.DecimalField(null=True, decimal_places=10, max_digits=15, verbose_name='PhiX Spike In')),
                 ('run_prep_phix_spike_in_units', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('percent', 'Percent (%)'), ('nanograms_per_microliter', 'Nanograms per microliter (ng/µL)'), ('nanograms_per_milliliter', 'Nanograms per milliliter (ng/mL)'), ('picograms_per_microliter', 'Picograms per microliter (pg/µL)'), ('nanomolar', 'nanomolar (nM)'), ('picomolar', 'picomolar (pM)')], max_length=50, verbose_name='PhiX Spike In Units')),
                 ('run_prep_concentration', models.DecimalField(null=True, decimal_places=10, max_digits=15, verbose_name='Run Prep Concentration (Pre PhiX)')),
