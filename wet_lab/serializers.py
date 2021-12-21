@@ -300,21 +300,21 @@ class QpcrSerializer(serializers.ModelSerializer):
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    lib_prep_datetime = serializers.DateTimeField()
-    lib_prep_experiment_name = serializers.CharField(max_length=255,
-                                                     validators=[UniqueValidator(queryset=LibraryPrep.objects.all())])
+    lib_prep_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=LibraryPrep.objects.all())])
     lib_prep_slug = serializers.SlugField(max_length=255, read_only=True)
-    qubit_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
+    lib_prep_datetime = serializers.DateTimeField()
+    lib_prep_qubit_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     # units will be in ng/ml
-    qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
-    qpcr_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
+    lib_prep_qubit_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
+    lib_prep_qpcr_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     # units will be nM or pM
-    qpcr_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
-    final_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
-    final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    lib_prep_qpcr_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_null=True)
+    lib_prep_final_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
+    lib_prep_final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     lib_prep_kit = serializers.CharField(max_length=255)
     lib_prep_type = serializers.ChoiceField(choices=LibPrepTypes.choices)
     lib_prep_thermal_sop_url = serializers.URLField(max_length=255)
+    lib_prep_sop_url = serializers.URLField(max_length=255)
     lib_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -324,9 +324,9 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
         fields = ['id', 'lib_prep_datetime', 'lib_prep_experiment_name',
                   'lib_prep_slug', 'process_location',
                   'extraction', 'index_pair', 'primer_set', 'index_removal_method', 'size_selection_method',
-                  'quantification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
+                  'quantification_method', 'amplification_method', 'qubit_results', 'qubit_units', 'qpcr_results', 'qpcr_units',
                   'final_concentration', 'final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_notes',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
