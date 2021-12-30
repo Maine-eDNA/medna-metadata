@@ -2,7 +2,7 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Project, Grant
+from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from users.models import CustomUser
@@ -120,7 +120,7 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
     freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
 
     class Meta:
-        model = ProcessLocation
+        model = DefaultSiteCss
         fields = ['id', 'default_css_label',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
@@ -165,7 +165,7 @@ class CustomUserCssSerializer(serializers.ModelSerializer):
     freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
 
     class Meta:
-        model = ProcessLocation
+        model = CustomUserCss
         fields = ['id', 'custom_css_label', 'user',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
