@@ -138,6 +138,7 @@ def update_record_field_survey(record, pk):
                 'record_edit_datetime': record.record_edit_datetime,
                 'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
                 'geom': record.geom,
+                'created_by': record.created_by,
             }
         )
         # ManyToManyFields must be added separately though set(). clear=True clears the fields first
@@ -160,6 +161,7 @@ def update_record_field_crew(record, pk):
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
                 'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
+                'created_by': record.created_by,
             }
         )
         return field_crew, created
@@ -210,6 +212,7 @@ def update_record_env_measurement(record, pk):
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
                 'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
+                'created_by': record.created_by,
             }
         )
 
@@ -229,6 +232,7 @@ def update_record_field_collection(record, pk):
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
                 'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
+                'created_by': record.created_by,
             }
         )
 
@@ -289,6 +293,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
                 'record_editor': CustomUser.objects.get(agol_username=record.record_editor),
+                'created_by': record.created_by,
             }
         )
 
