@@ -328,6 +328,9 @@ class WaterCollection(models.Model):
     # wasfiltered
     was_filtered = models.CharField("Filtered", max_length=50, choices=YesNo.choices, blank=True)
 
+    def __str__(self):
+        return '{collection_global_id}'.format(collection_global_id=self.field_collection.collection_global_id)
+
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'Water Collection'
@@ -352,6 +355,9 @@ class SedimentCollection(models.Model):
     core_notes = models.TextField("Core Notes", blank=True)
     # subcorestaken
     subcores_taken = models.CharField("Sub-Cored", max_length=50, choices=YesNo.choices, blank=True)
+
+    def __str__(self):
+        return '{collection_global_id}'.format(collection_global_id=self.field_collection.collection_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -428,6 +434,9 @@ class FilterSample(models.Model):
     filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
 
+    def __str__(self):
+        return '{sample_global_id}'.format(sample_global_id=self.field_sample.sample_global_id)
+
     class Meta:
         app_label = 'field_survey'
         verbose_name = 'Filter Sample'
@@ -450,6 +459,9 @@ class SubCoreSample(models.Model):
                                            max_digits=15, decimal_places=10, blank=True, null=True)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
     # TODO - add subcore_notes field to app?
+
+    def __str__(self):
+        return '{sample_global_id}'.format(sample_global_id=self.field_sample.sample_global_id)
 
     class Meta:
         app_label = 'field_survey'
