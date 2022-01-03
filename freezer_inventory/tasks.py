@@ -65,6 +65,7 @@ def update_record_return_metadata(instance_pk):
                 freezer_log=instance,
                 defaults={
                     'freezer_return_metadata_entered': YesNo.NO,
+                    'created_by': instance.created_by
                 }
             )
             logger.info("Object created [response = %d]" % created)
