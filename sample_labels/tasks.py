@@ -33,6 +33,7 @@ def sample_label_request_post_save_task(instance_pk):
                     'sample_type': instance.sample_type,
                     'sample_year': instance.sample_year,
                     'purpose': instance.purpose,
+                    'created_by': instance.created_by,
                 }
             )
         else:
@@ -56,5 +57,6 @@ def sample_label_request_post_save_task(instance_pk):
                         'sample_type': instance.sample_type,
                         'sample_year': instance.sample_year,
                         'purpose': instance.purpose,
+                        'created_by': instance.created_by,
                     }
                 )

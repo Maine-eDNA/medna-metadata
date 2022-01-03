@@ -73,6 +73,7 @@ def update_record_fastq(record, pk):
             defaults={
                 'run_result': record.run_result,
                 'fastq_datafile': record.fastq_datafile,
+                'created_by': record.created_by,
             }
         )
         return fastq_file, created
