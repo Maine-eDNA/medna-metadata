@@ -62,7 +62,7 @@ def update_record_return_metadata(instance_pk):
     else:
         if instance.freezer_log_action == CheckoutActions.RETURN:
             return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(
-                freezer_log=instance.pk,
+                freezer_log=instance,
                 defaults={
                     'freezer_return_metadata_entered': YesNo.NO,
                 }
