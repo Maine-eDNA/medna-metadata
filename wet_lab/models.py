@@ -173,7 +173,7 @@ class QuantificationMethod(DateTimeUserMixin):
 
 
 class AmplificationMethod(DateTimeUserMixin):
-    # pcr, ...
+    # nucl_acid_amp - MIxS - reference to amplification method; clean up method. e.g., pcr, ...
     amplification_method_name = models.CharField("Amplification Method", max_length=255, unique=True)
     amplification_method_slug = models.SlugField("Amplification Method Slug", max_length=255)
     amplification_sop_url = models.URLField("Amplification SOP URL", max_length=255)
@@ -228,18 +228,18 @@ class Extraction(DateTimeUserMixin):
     extraction_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
-    extraction_datetime = models.DateTimeField("Extraction DateTime")
-    extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT)
-    extraction_first_name = models.CharField("First Name", max_length=255)
-    extraction_last_name = models.CharField("Last Name", max_length=255)
-    extraction_volume = models.DecimalField("Total Extraction Elution Volume", max_digits=15, decimal_places=10)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location, null=True, blank=True)
+    extraction_datetime = models.DateTimeField("Extraction DateTime", null=True, blank=True)
+    extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT, null=True, blank=True)
+    extraction_first_name = models.CharField("First Name", max_length=255, blank=True)
+    extraction_last_name = models.CharField("Last Name", max_length=255, blank=True)
+    extraction_volume = models.DecimalField("Total Extraction Elution Volume", max_digits=15, decimal_places=10, blank=True, null=True)
     # microliter, ul
-    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=50, choices=VolUnits.choices, default=VolUnits.MICROLITER)
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10)
+    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=50, choices=VolUnits.choices, default=VolUnits.MICROLITER, blank=True)
+    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT, null=True, blank=True)
+    extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10, blank=True, null=True)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
-    extraction_concentration_units = models.CharField("Concentration Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGUL)
+    extraction_concentration_units = models.CharField("Concentration Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGUL, blank=True)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):

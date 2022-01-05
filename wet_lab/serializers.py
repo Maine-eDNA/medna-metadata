@@ -177,15 +177,15 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 # Django REST Framework to allow the automatic downloading of data!
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    extraction_datetime = serializers.DateTimeField()
     barcode_slug = serializers.SlugField(max_length=16, read_only=True)
+    extraction_datetime = serializers.DateTimeField(allow_null=True)
     # in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
-    extraction_first_name = serializers.CharField(max_length=255)
-    extraction_last_name = serializers.CharField(max_length=255)
+    extraction_first_name = serializers.CharField(max_length=255, allow_blank=True)
+    extraction_last_name = serializers.CharField(max_length=255, allow_blank=True)
     extraction_volume = serializers.DecimalField(max_digits=15, decimal_places=10)
-    extraction_volume_units = serializers.ChoiceField(choices=VolUnits.choices)
-    extraction_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
-    extraction_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    extraction_volume_units = serializers.ChoiceField(choices=VolUnits.choices, allow_blank=True)
+    extraction_concentration = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
+    extraction_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices, allow_blank=True)
     extraction_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -205,16 +205,16 @@ class ExtractionSerializer(serializers.ModelSerializer):
     extraction_barcode = serializers.SlugRelatedField(many=False, read_only=False,
                                                       slug_field='barcode_slug',
                                                       queryset=SampleBarcode.objects.all())
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
                                                     slug_field='process_location_name_slug',
                                                     queryset=ProcessLocation.objects.all())
     field_sample = serializers.SlugRelatedField(many=False, read_only=False,
                                                 slug_field='barcode_slug',
                                                 queryset=FieldSample.objects.filter(is_extracted=YesNo.NO))
-    extraction_method = serializers.SlugRelatedField(many=False, read_only=False,
+    extraction_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
                                                      slug_field='extraction_method_slug',
                                                      queryset=ExtractionMethod.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
                                                          slug_field='quant_method_name_slug',
                                                          queryset=QuantificationMethod.objects.all())
 
