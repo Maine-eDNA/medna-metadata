@@ -134,15 +134,7 @@ class FieldSurvey(DateTimeUserMixin):
         return self.geom.srid
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{date}, ' \
-               '{location}, ' \
-               '{creator}, ' \
-               'Complete: {survey_complete}'.format(survey_global_id=self.survey_global_id,
-                                                    date=self.survey_datetime,
-                                                    location=self.site_name,
-                                                    creator=self.record_creator,
-                                                    survey_complete=self.get_survey_complete_display())
+        return '{survey_global_id}'.format(survey_global_id=self.survey_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -172,10 +164,7 @@ class FieldCrew(DateTimeUserMixin):
                                          on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{fname} {lname}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                        fname=self.crew_fname,
-                                        lname=self.crew_lname)
+        return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -260,11 +249,7 @@ class EnvMeasurement(DateTimeUserMixin):
                                          on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{env_measure_time}, ' \
-               '{env_measure_depth}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                            env_measure_time=self.env_measure_datetime,
-                                            env_measure_depth=self.env_measure_depth)
+        return '{env_global_id}'.format(env_global_id=self.env_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -294,11 +279,7 @@ class FieldCollection(DateTimeUserMixin):
                                       related_name="collection_record_editor")
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{collection_global_id}, ' \
-               '{collection_type}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                          collection_global_id=self.collection_global_id,
-                                          collection_type=self.collection_type)
+        return '{collection_global_id}'.format(collection_global_id=self.collection_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -389,8 +370,7 @@ class FieldSample(DateTimeUserMixin):
                                       related_name="field_sample_record_editor")
 
     def __str__(self):
-        return '{collectionid}: {barcode}'.format(collectionid=self.collection_global_id.collection_global_id,
-                                                  barcode=self.barcode_slug)
+        return '{barcode}_{sid}'.format(barcode=self.barcode_slug, sid=self.sample_global_id)
 
     def save(self, *args, **kwargs):
         from sample_labels.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
@@ -435,7 +415,7 @@ class FilterSample(models.Model):
     filter_notes = models.TextField("Filter Notes", blank=True)
 
     def __str__(self):
-        return '{sample_global_id}'.format(sample_global_id=self.field_sample.sample_global_id)
+        return '{field_sample}'.format(field_sample=self.field_sample)
 
     class Meta:
         app_label = 'field_survey'
@@ -461,7 +441,7 @@ class SubCoreSample(models.Model):
     # TODO - add subcore_notes field to app?
 
     def __str__(self):
-        return '{sample_global_id}'.format(sample_global_id=self.field_sample.sample_global_id)
+        return '{field_sample}'.format(field_sample=self.field_sample)
 
     class Meta:
         app_label = 'field_survey'
@@ -551,15 +531,7 @@ class FieldSurveyETL(DateTimeUserMixin):
         return self.geom.srid
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{date}, ' \
-               '{location}, ' \
-               '{creator}, ' \
-               'Complete: {survey_complete}'.format(survey_global_id=self.survey_global_id,
-                                                    date=self.survey_datetime,
-                                                    location=self.site_name,
-                                                    creator=self.record_creator,
-                                                    survey_complete=self.survey_complete)
+        return '{survey_global_id}'.format(survey_global_id=self.survey_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -581,10 +553,7 @@ class FieldCrewETL(DateTimeUserMixin):
                                          on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{fname} {lname}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                        fname=self.crew_fname,
-                                        lname=self.crew_lname)
+        return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -658,11 +627,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
                                          on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{env_measure_time}, ' \
-               '{env_measure_depth}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                            env_measure_time=self.env_measure_datetime,
-                                            env_measure_depth=self.env_measure_depth)
+        return '{env_global_id}'.format(env_global_id=self.env_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -729,11 +694,7 @@ class FieldCollectionETL(DateTimeUserMixin):
                                          on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{survey_global_id}, ' \
-               '{collection_global_id}, ' \
-               '{collection_type}'.format(survey_global_id=self.survey_global_id.survey_global_id,
-                                          collection_global_id=self.collection_global_id,
-                                          collection_type=self.collection_type)
+        return '{collection_global_id}'.format(collection_global_id=self.collection_global_id)
 
     class Meta:
         app_label = 'field_survey'
@@ -770,11 +731,7 @@ class SampleFilterETL(DateTimeUserMixin):
                                              on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{collection_global_id}, ' \
-               '{filter_sample_label}, ' \
-               '{filter_barcode}'.format(collection_global_id=self.collection_global_id.collection_global_id,
-                                         filter_sample_label=self.filter_sample_label,
-                                         filter_barcode=self.filter_barcode)
+        return '{filter_global_id}'.format(filter_global_id=self.filter_global_id)
 
     class Meta:
         app_label = 'field_survey'
