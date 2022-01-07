@@ -28,7 +28,7 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     resource_class = FieldSurveyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
-                    'record_creator', 'record_create_datetime', )
+                    'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
@@ -68,7 +68,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     resource_class = FieldCrewAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
@@ -101,7 +101,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     resource_class = EnvMeasurementAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
@@ -140,7 +140,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
     resource_class = FieldCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('collection_global_id', 'collection_type', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
@@ -204,7 +204,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SedimentCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'core_datetime_start', 'core_label', 'core_control', 'subcores_taken',)
+    list_display = ('__str__', 'core_datetime_start', 'core_label', 'core_control', 'subcores_taken', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -238,7 +238,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('sample_global_id', 'field_sample_barcode',
                     'is_extracted', 'collection_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('barcode_slug', 'modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
@@ -373,7 +373,7 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     resource_class = FieldSurveyETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -422,7 +422,7 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
     resource_class = FieldCrewETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -460,7 +460,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
     resource_class = EnvMeasurementETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -510,7 +510,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
     resource_class = FieldCollectionETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('collection_global_id', 'collection_type', 'survey_global_id',
-                    'record_creator', 'record_create_datetime', )
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -563,8 +563,8 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = SampleFilterETLAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('filter_global_id', 'filter_barcode', 'filter_datetime', 'collection_global_id',
-                    'record_creator', 'record_create_datetime', )
+    list_display = ('filter_global_id', 'filter_barcode', 'filter_sample_label', 'filter_datetime', 'collection_global_id',
+                    'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
