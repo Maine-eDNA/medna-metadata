@@ -104,15 +104,15 @@ class FieldSurvey(DateTimeUserMixin):
     gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)",
                                           max_digits=22, decimal_places=16,
                                           blank=True, null=True)
-    record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
+    record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Survey Creator",
+                                       verbose_name="Record Creator",
                                        blank=True, null=True,
                                        on_delete=models.SET(get_sentinel_user),
                                        related_name="survey_record_creator")
-    record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
+    record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Survey Editor",
+                                      verbose_name="Record Editor",
                                       blank=True, null=True,
                                       on_delete=models.SET(get_sentinel_user),
                                       related_name="survey_record_editor")
@@ -509,10 +509,10 @@ class FieldSurveyETL(DateTimeUserMixin):
                                          decimal_places=16, blank=True, null=True)
     gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)", max_digits=22,
                                           decimal_places=16, blank=True, null=True)
-    record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
-    record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
+    record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
+    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
+    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
     # django srid defaults to 4326 (WGS84)
@@ -543,10 +543,10 @@ class FieldCrewETL(DateTimeUserMixin):
     crew_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
     crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
     crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
-    record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
-    record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
+    record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
+    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
+    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
                                          related_name="fieldsurvey_to_fieldcrew_etl",
@@ -617,10 +617,10 @@ class EnvMeasurementETL(DateTimeUserMixin):
                                      max_length=255, blank=True)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
-    record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
-    record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
+    record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
+    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
+    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
                                          related_name="fieldsurvey_to_envmeasurement_etl",
@@ -684,10 +684,10 @@ class FieldCollectionETL(DateTimeUserMixin):
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
-    record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
-    record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
+    record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
+    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
+    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
     survey_global_id = models.ForeignKey(FieldSurveyETL,
                                          db_column="survey_global_id",
                                          related_name="fieldsurvey_to_fieldcollection_etl",
@@ -721,10 +721,10 @@ class SampleFilterETL(DateTimeUserMixin):
     filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
     filter_notes = models.TextField("Filter Notes", blank=True)
-    record_create_datetime = models.DateTimeField("Survey Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Survey Creator", max_length=255, blank=True)
-    record_edit_datetime = models.DateTimeField("Survey Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Survey Editor", max_length=255, blank=True)
+    record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
+    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
+    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
     collection_global_id = models.ForeignKey(FieldCollectionETL,
                                              db_column="collection_global_id",
                                              related_name="fieldcollection_to_samplefilter_etl",
