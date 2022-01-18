@@ -278,7 +278,7 @@ class PcrSerializer(serializers.ModelSerializer):
     primer_set = serializers.SlugRelatedField(many=False, read_only=False,
                                               slug_field='primer_slug',
                                               queryset=PrimerPair.objects.all())
-    pcr_replicate = serializers.SlugRelatedField(many=False, read_only=False,
+    pcr_replicate = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
                                                  slug_field='id',
                                                  queryset=PcrReplicate.objects.all())
 
