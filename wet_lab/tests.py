@@ -1,8 +1,8 @@
 from django.test import TestCase
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, QuantificationMethod, ExtractionMethod, \
-    SizeSelectionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, \
+    SizeSelectionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
-from utility.enumerations import TargetGenes, SubFragments, VolUnits, ConcentrationUnits, DdpcrUnits, LibPrepKits, \
+from utility.enumerations import TargetGenes, SubFragments, PcrTypes, VolUnits, ConcentrationUnits, PcrUnits, LibPrepKits, \
     LibPrepTypes, PhiXConcentrationUnits
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
@@ -156,65 +156,54 @@ class ExtractionTestCase(TestCase):
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class DdpcrTestCase(TestCase):
+class PcrReplicateTestCase(TestCase):
     def setUp(self):
-        current_datetime = timezone.now()
-        extraction_test = ExtractionTestCase()
-        primer_set_test = PrimerPairTestCase()
-        extraction_test.setUp()
-        primer_set_test.setUp()
-        extraction = Extraction.objects.filter()[:1].get()
-        process_location = ProcessLocation.objects.filter()[:1].get()
-        primer_set = PrimerPair.objects.filter()[:1].get()
-        Ddpcr.objects.get_or_create(ddpcr_experiment_name="test_name",
-                                    defaults={
-                                        'process_location': process_location,
-                                        'ddpcr_datetime': current_datetime,
-                                        'extraction': extraction,
-                                        'primer_set': primer_set,
-                                        'ddpcr_first_name': "test_first_name",
-                                        'ddpcr_last_name': "test_last_name",
-                                        'ddpcr_results': 9999,
-                                        'ddpcr_results_units': DdpcrUnits.CP,
-                                        'ddpcr_thermal_sop_url': "https://thermal_sop_url.com",
-                                        'ddpcr_sop_url': "https://sop_url.com",
-                                        'ddpcr_notes': "ddpcr notes"
-                                    })
+        PcrReplicate.objects.get_or_create(id=1,
+                                           defaults={
+                                               'pcr_replicate_results': 9999,
+                                               'pcr_replicate_results_units': PcrUnits.CP,
+                                               'pcr_notes': "pcr notes"
+                                           })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = Ddpcr.objects.filter(ddpcr_experiment_name="test_name")[:1].get()
+        test_exists = PcrReplicate.objects.filter(id=1)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class QpcrTestCase(TestCase):
+class PcrTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
+        pcr_replicate_test = PcrReplicateTestCase()
         extraction_test.setUp()
         primer_set_test.setUp()
+        pcr_replicate_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
-        Qpcr.objects.get_or_create(qpcr_experiment_name="test_name",
-                                   defaults={
-                                       'process_location': process_location,
-                                       'qpcr_datetime': current_datetime,
-                                       'extraction': extraction,
-                                       'primer_set': primer_set,
-                                       'qpcr_first_name': "test_first_name",
-                                       'qpcr_last_name': "test_last_name",
-                                       'qpcr_results': 9999,
-                                       'qpcr_results_units': DdpcrUnits.CP,
-                                       'qpcr_thermal_sop_url': "https://thermal_sop_url.com",
-                                       'qpcr_sop_url': "https://sop_url.com",
-                                       'qpcr_notes': "ddpcr notes"
-                                   })
+        pcr_replicate = PcrReplicate.objects.filter()[:1].get()
+        Pcr.objects.get_or_create(qpcr_experiment_name="test_name",
+                                  defaults={
+                                      'pcr_type': PcrTypes.DDPCR,
+                                      'process_location': process_location,
+                                      'pcr_datetime': current_datetime,
+                                      'extraction': extraction,
+                                      'primer_set': primer_set,
+                                      'pcr_first_name': "test_first_name",
+                                      'pcr_last_name': "test_last_name",
+                                      'pcr_results': 9999,
+                                      'pcr_results_units': PcrUnits.CP,
+                                      'pcr_replicate': pcr_replicate,
+                                      'pcr_thermal_sop_url': "https://thermal_sop_url.com",
+                                      'pcr_sop_url': "https://sop_url.com",
+                                      'pcr_notes': "pcr notes"
+                                  })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = Qpcr.objects.filter(qpcr_experiment_name="test_name")[:1].get()
+        test_exists = Pcr.objects.filter(pcr_experiment_name="test_name")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 

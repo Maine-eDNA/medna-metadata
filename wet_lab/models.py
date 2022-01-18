@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
-    DdpcrUnits, QpcrUnits, YesNo, LibPrepKits
+    PcrUnits, DdpcrUnits, QpcrUnits, YesNo, PcrType, LibPrepKits
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
@@ -261,66 +261,51 @@ class Extraction(DateTimeUserMixin):
         verbose_name_plural = 'Extractions'
 
 
-class Ddpcr(DateTimeUserMixin):
-    ddpcr_experiment_name = models.CharField("ddPCR Experiment Name", max_length=255, unique=True)
-    ddpcr_slug = models.SlugField("ddPCR Experiment Name Slug", max_length=255)
-    ddpcr_datetime = models.DateTimeField("ddPCR DateTime")
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
-    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
-    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
-    ddpcr_first_name = models.CharField("First Name", max_length=255)
-    ddpcr_last_name = models.CharField("Last Name", max_length=255)
-    ddpcr_probe = models.TextField("ddPCR Probe", blank=True)
-    ddpcr_results = models.DecimalField("ddPCR Results", max_digits=15, decimal_places=10)
-    # results will be in copy number or copies per microliter (copy/ul)
-    ddpcr_results_units = models.CharField("ddPCR Units", max_length=50, choices=DdpcrUnits.choices, default=DdpcrUnits.CP)
-    ddpcr_thermal_sop_url = models.URLField("ddPCR Thermal SOP URL", max_length=255)
-    ddpcr_sop_url = models.URLField("ddPCR SOP URL", max_length=255)
-    ddpcr_notes = models.TextField("ddPCR Notes", blank=True)
-
-    def save(self, *args, **kwargs):
-        ddpcr_date_fmt = slug_date_format(self.ddpcr_datetime)
-        self.ddpcr_slug = '{name}_{date}'.format(name=slugify(self.ddpcr_experiment_name), date=ddpcr_date_fmt)
-        super(Ddpcr, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return '{experiment_name}'.format(experiment_name=self.ddpcr_experiment_name)
+class PcrReplicate(DateTimeUserMixin):
+    pcr_replicate_results = models.DecimalField("PCR Results", max_digits=15, decimal_places=10)
+    # results will be in copy number or copies per microliter (copy/ul) for ddPCR
+    # results are Cq value for qPCR
+    pcr_replicate_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
+    pcr_replicate_notes = models.TextField("Replicate Notes", blank=True)
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'ddPCR'
-        verbose_name_plural = 'ddPCRs'
+        verbose_name = 'PCR Replicate'
+        verbose_name_plural = 'PCR Replicates'
 
 
-class Qpcr(DateTimeUserMixin):
-    qpcr_experiment_name = models.CharField("qPCR Experiment Name", max_length=255, unique=True)
-    qpcr_slug = models.SlugField("qPCR Experiment Name Slug", max_length=255)
-    qpcr_datetime = models.DateTimeField("qPCR DateTime")
+class Pcr(DateTimeUserMixin):
+    pcr_experiment_name = models.CharField("PCR Experiment Name", max_length=255, unique=True)
+    pcr_slug = models.SlugField("PCR Experiment Name Slug", max_length=255)
+    pcr_type = models.CharField("PCR Type", max_length=50, choices=PcrType.choices)
+    pcr_datetime = models.DateTimeField("PCR DateTime")
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
-    qpcr_first_name = models.CharField("First Name", max_length=255)
-    qpcr_last_name = models.CharField("Last Name", max_length=255)
-    qpcr_probe = models.TextField("qPCR Probe", blank=True)
-    qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10)
-    # results are Cq value
-    qpcr_results_units = models.CharField("qPCR Units", max_length=50, choices=QpcrUnits.choices, default=QpcrUnits.CQ)
-    qpcr_thermal_sop_url = models.URLField("qPCR Thermal SOP URL", max_length=255)
-    qpcr_sop_url = models.URLField("qPCR SOP URL", max_length=255)
-    qpcr_notes = models.TextField("qPCR Notes", blank=True)
+    pcr_first_name = models.CharField("First Name", max_length=255)
+    pcr_last_name = models.CharField("Last Name", max_length=255)
+    pcr_probe = models.TextField("PCR Probe", blank=True)
+    pcr_results = models.DecimalField("PCR Results", max_digits=15, decimal_places=10)
+    # results will be in copy number (cp) or copies per microliter (copy/ul) for ddPCR
+    # results are Quantification Cycle (Cq) for qPCR
+    pcr_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
+    pcr_replicate = models.ForeignKey(PcrReplicate, on_delete=models.RESTRICT, blank=True, null=True)
+    pcr_thermal_sop_url = models.URLField("PCR Thermal SOP URL", max_length=255)
+    pcr_sop_url = models.URLField("PCR SOP URL", max_length=255)
+    pcr_notes = models.TextField("PCR Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        qpcr_date_fmt = slug_date_format(self.qpcr_datetime)
-        self.qpcr_slug = '{name}_{date}'.format(name=slugify(self.qpcr_experiment_name), date=qpcr_date_fmt)
-        super(Qpcr, self).save(*args, **kwargs)
+        pcr_date_fmt = slug_date_format(self.pcr_datetime)
+        self.pcr_slug = '{name}_{date}'.format(name=slugify(self.pcr_experiment_name), date=pcr_date_fmt)
+        super(Pcr, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{experiment_name}'.format(experiment_name=self.qpcr_experiment_name)
+        return '{experiment_name}'.format(experiment_name=self.pcr_experiment_name)
 
     class Meta:
         app_label = 'wet_lab'
-        verbose_name = 'qPCR'
-        verbose_name_plural = 'qPCRs'
+        verbose_name = 'PCR'
+        verbose_name_plural = 'PCRs'
 
 
 class LibraryPrep(DateTimeUserMixin):

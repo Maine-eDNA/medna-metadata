@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
-    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, RunPrep, \
+    ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
     RunResult, FastqFile, AmplificationMethod
 from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
@@ -226,26 +226,48 @@ class ExtractionAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class DdpcrAdminResource(resources.ModelResource):
+class PcrReplicateAdminResource(resources.ModelResource):
     class Meta:
-        model = Ddpcr
-        import_id_fields = ('ddpcr_datetime', 'ddpcr_experiment_name', 'extraction', )
+        model = PcrReplicate
+        import_id_fields = ('id', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'ddpcr_experiment_name', 'ddpcr_slug',
-                  'ddpcr_datetime', 'process_location',
-                  'extraction', 'primer_set',
-                  'ddpcr_first_name', 'ddpcr_last_name',
-                  'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                  'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
-                  'ddpcr_notes',
+        fields = ('id', 'pcr_replicate_results', 'pcr_replicate_results_units',
+                  'pcr_replicate_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'ddpcr_experiment_name', 'ddpcr_slug',
-                        'ddpcr_datetime', 'process_location',
-                        'extraction', 'primer_set',
-                        'ddpcr_first_name', 'ddpcr_last_name',
-                        'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                        'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
-                        'ddpcr_notes',
+        export_order = ('id', 'pcr_replicate_results', 'pcr_replicate_results_units',
+                        'pcr_replicate_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class PcrAdminResource(resources.ModelResource):
+    class Meta:
+        model = Pcr
+        import_id_fields = ('pcr_datetime', 'pcr_experiment_name', 'extraction', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id', 'pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime',
+                  'process_location', 'extraction', 'primer_set',
+                  'pcr_first_name', 'pcr_last_name', 'pcr_probe',
+                  'pcr_results', 'pcr_results_units',
+                  'pcr_replicate',
+                  'pcr_thermal_sop_url', 'pcr_sop_url',
+                  'pcr_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime',
+                        'process_location', 'extraction', 'primer_set',
+                        'pcr_first_name', 'pcr_last_name', 'pcr_probe',
+                        'pcr_results', 'pcr_results_units',
+                        'pcr_replicate',
+                        'pcr_thermal_sop_url', 'pcr_sop_url',
+                        'pcr_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     process_location = fields.Field(
@@ -263,50 +285,11 @@ class DdpcrAdminResource(resources.ModelResource):
         attribute='primer_set',
         widget=ForeignKeyWidget(PrimerPair, 'primer_set_name'))
 
-    created_by = fields.Field(
-        column_name='created_by',
-        attribute='created_by',
-        widget=ForeignKeyWidget(CustomUser, 'email'))
-
-    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
-    def before_import_row(self, row, **kwargs):
-        row['created_by'] = kwargs['user'].email
-
-
-class QpcrAdminResource(resources.ModelResource):
-    class Meta:
-        model = Qpcr
-        import_id_fields = ('qpcr_datetime', 'qpcr_experiment_name', 'extraction', )
-        # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime',
-                  'process_location', 'extraction', 'primer_set',
-                  'qpcr_first_name', 'qpcr_last_name', 'qpcr_probe',
-                  'qpcr_results', 'qpcr_results_units',
-                  'qpcr_thermal_sop_url', 'qpcr_sop_url',
-                  'qpcr_notes',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime',
-                        'process_location', 'extraction', 'primer_set',
-                        'qpcr_first_name', 'qpcr_last_name', 'qpcr_probe',
-                        'qpcr_results', 'qpcr_results_units',
-                        'qpcr_thermal_sop_url', 'qpcr_sop_url',
-                        'qpcr_notes',
-                        'created_by', 'created_datetime', )
-
-    process_location = fields.Field(
-        column_name='process_location',
-        attribute='process_location',
-        widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
-
-    extraction = fields.Field(
-        column_name='extraction',
-        attribute='extraction',
-        widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
-
-    primer_set = fields.Field(
-        column_name='primer_set',
-        attribute='primer_set',
-        widget=ForeignKeyWidget(PrimerPair, 'primer_set_name'))
+    pcr_replicate = fields.Field(
+        column_name='pcr_replicate',
+        attribute='pcr_replicate',
+        widget=ForeignKeyWidget(PcrReplicate, 'id')
+    )
 
     created_by = fields.Field(
         column_name='created_by',

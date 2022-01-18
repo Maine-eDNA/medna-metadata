@@ -2,11 +2,11 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import PrimerPairSerializer, IndexPairSerializer, IndexRemovalMethodSerializer, \
     SizeSelectionMethodSerializer, QuantificationMethodSerializer, ExtractionMethodSerializer, \
-    ExtractionSerializer, DdpcrSerializer, QpcrSerializer, LibraryPrepSerializer, PooledLibrarySerializer, \
+    ExtractionSerializer, PcrReplicateSerializer, PcrSerializer, LibraryPrepSerializer, PooledLibrarySerializer, \
     RunPrepSerializer, RunResultSerializer, FastqFileSerializer, AmplificationMethodSerializer
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     SizeSelectionMethod, QuantificationMethod, ExtractionMethod, \
-    Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, \
+    Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -77,19 +77,19 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     swagger_tags = ["wet lab"]
 
 
-class DdpcrViewSet(viewsets.ModelViewSet):
-    serializer_class = DdpcrSerializer
-    queryset = Ddpcr.objects.all()
+class PcrReplicateViewSet(viewsets.ModelViewSet):
+    serializer_class = PcrReplicateSerializer
+    queryset = PcrReplicate.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['ddpcr_experiment_name', 'ddpcr_slug', 'ddpcr_datetime', 'process_location', 'extraction', 'primer_set', 'created_by']
+    filterset_fields = ['id', 'pcr_replicate_results', 'pcr_replicate_results_units', 'created_by']
     swagger_tags = ["wet lab"]
 
 
-class QpcrViewSet(viewsets.ModelViewSet):
-    serializer_class = QpcrSerializer
-    queryset = Qpcr.objects.all()
+class PcrViewSet(viewsets.ModelViewSet):
+    serializer_class = PcrSerializer
+    queryset = Pcr.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime', 'process_location', 'extraction', 'primer_set', 'created_by']
+    filterset_fields = ['pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime', 'process_location', 'extraction', 'primer_set', 'pcr_replicate', 'created_by']
     swagger_tags = ["wet lab"]
 
 

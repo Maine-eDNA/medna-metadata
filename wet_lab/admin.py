@@ -2,18 +2,19 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
 from .models import PrimerPair, IndexPair, AmplificationMethod, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
-    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, RunPrep, \
+    ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
     RunResult, FastqFile
-from field_survey.models import FieldSample
-from utility.enumerations import YesNo
+# from field_survey.models import FieldSample
+# from utility.enumerations import YesNo
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
+# from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
+from import_export.admin import ImportExportActionModelAdmin
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
     SizeSelectionMethodAdminResource, QuantificationMethodAdminResource, ExtractionMethodAdminResource, \
-    ExtractionAdminResource, DdpcrAdminResource, QpcrAdminResource, LibraryPrepAdminResource, \
+    ExtractionAdminResource, PcrReplicateAdminResource, PcrAdminResource, LibraryPrepAdminResource, \
     PooledLibraryAdminResource, RunPrepAdminResource, RunResultAdminResource, \
     FastqFileAdminResource, AmplificationMethodAdminResource
-from django.db.models import Exists, OuterRef
+# from django.db.models import Exists, OuterRef
 
 
 class PrimerPairAdmin(ImportExportActionModelAdmin):
@@ -333,38 +334,29 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
 admin.site.register(Extraction, ExtractionAdmin)
 
 
-class DdpcrAdmin(ImportExportActionModelAdmin):
+class PcrReplicateAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = DdpcrAdminResource
+    resource_class = PcrReplicateAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('ddpcr_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['ddpcr_experiment_name', 'ddpcr_datetime', 'process_location',
-                       'extraction', 'primer_set',
-                       'ddpcr_first_name', 'ddpcr_last_name',
-                       'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                       'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
-                       'ddpcr_notes', 'created_by']
+        self.fields = ['pcr_replicate_results', 'pcr_replicate_results_units',
+                       'pcr_replicate_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(DdpcrAdmin, self).add_view(request)
+        return super(PcrReplicateAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['ddpcr_slug', 'ddpcr_experiment_name',
-                       'ddpcr_datetime', 'process_location',
-                       'extraction', 'primer_set',
-                       'ddpcr_first_name', 'ddpcr_last_name',
-                       'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                       'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
-                       'ddpcr_notes', 'created_by']
+        self.fields = ['pcr_replicate_results', 'pcr_replicate_results_units',
+                       'pcr_replicate_notes', 'created_by']
 
-        return super(DdpcrAdmin, self).change_view(request, object_id)
+        return super(PcrReplicateAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -374,40 +366,42 @@ class DdpcrAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(Ddpcr, DdpcrAdmin)
+admin.site.register(PcrReplicate, PcrReplicateAdmin)
 
 
-class QpcrAdmin(ImportExportActionModelAdmin):
+class PcrAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = QpcrAdminResource
+    resource_class = PcrAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('qpcr_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('pcr_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['qpcr_experiment_name', 'qpcr_datetime',
+        self.fields = ['pcr_experiment_name', 'pcr_type', 'pcr_datetime',
                        'process_location', 'extraction', 'primer_set',
-                       'qpcr_first_name', 'qpcr_last_name',
-                       'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                       'qpcr_thermal_sop_url', 'qpcr_sop_url',
-                       'qpcr_notes', 'created_by']
+                       'pcr_first_name', 'pcr_last_name',
+                       'pcr_probe', 'pcr_results', 'pcr_results_units',
+                       'pcr_replicate',
+                       'pcr_thermal_sop_url', 'pcr_sop_url',
+                       'pcr_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(QpcrAdmin, self).add_view(request)
+        return super(PcrAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['qpcr_slug', 'qpcr_experiment_name', 'qpcr_datetime',
+        self.fields = ['pcr_slug', 'pcr_experiment_name', 'pcr_type', 'pcr_datetime',
                        'process_location', 'extraction', 'primer_set',
-                       'qpcr_first_name', 'qpcr_last_name',
-                       'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                       'qpcr_thermal_sop_url', 'qpcr_sop_url',
-                       'qpcr_notes', 'created_by']
+                       'pcr_first_name', 'pcr_last_name',
+                       'pcr_probe', 'pcr_results', 'pcr_results_units',
+                       'pcr_replicate',
+                       'pcr_thermal_sop_url', 'pcr_sop_url',
+                       'pcr_notes', 'created_by']
 
-        return super(QpcrAdmin, self).change_view(request, object_id)
+        return super(PcrAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -417,7 +411,7 @@ class QpcrAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(Qpcr, QpcrAdmin)
+admin.site.register(Pcr, PcrAdmin)
 
 
 class LibraryPrepAdmin(ImportExportActionModelAdmin):

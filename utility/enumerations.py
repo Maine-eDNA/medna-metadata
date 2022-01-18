@@ -51,15 +51,22 @@ class PhiXConcentrationUnits(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-class DdpcrUnits(models.TextChoices):
-    CP = 'cp', _('Copy Number')
-    CPUL = 'cp_per_microliter', _('Copies per microliter (copy/µL)')
+class PcrUnits(models.TextChoices):
+    DDPCR_CP = 'ddpcr_cp', _('ddPCR Copy Number')
+    DDPCR_CPUL = 'ddpcr_cp_per_microliter', _('ddPCR Copies per microliter (copy/µL)')
+    QPCR_CQ = 'qpcr_cq', _('qPCR Quantification Cycle (Cq)')
     __empty__ = _('(Unknown)')
 
+# Replaced by PcrUnits
+# class DdpcrUnits(models.TextChoices):
+#     CP = 'cp', _('Copy Number')
+#     CPUL = 'cp_per_microliter', _('Copies per microliter (copy/µL)')
+#     __empty__ = _('(Unknown)')
 
-class QpcrUnits(models.TextChoices):
-    CQ = 'cq', _('Quantification Cycle (Cq)')
-    __empty__ = _('(Unknown)')
+# Replaced by PcrUnits
+# class QpcrUnits(models.TextChoices):
+#     CQ = 'cq', _('Quantification Cycle (Cq)')
+#     __empty__ = _('(Unknown)')
 
 
 # FIELD_SURVEY CHOICES
@@ -235,6 +242,11 @@ class SubFragments(models.TextChoices):
     SF_V9 = 'v9', _('V9')
     SF_ITS = 'its', _('ITS')
     __empty__ = _('(Unknown)')
+
+
+class PcrTypes(models.TextChoices):
+    DDPCR = 'ddpcr', _('ddPCR')
+    QPCR = 'qpcr', _('qPCR')
 
 
 class LibPrepTypes(models.TextChoices):

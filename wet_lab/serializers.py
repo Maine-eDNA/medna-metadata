@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
-    ExtractionMethod, Extraction, Ddpcr, Qpcr, LibraryPrep, PooledLibrary, RunPrep, \
+    ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
     RunResult, FastqFile, AmplificationMethod
 from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
-from utility.enumerations import YesNo, TargetGenes, VolUnits, ConcentrationUnits, LibPrepTypes, SubFragments
+from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, LibPrepTypes
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -220,29 +220,50 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
 
 # Django REST Framework to allow the automatic downloading of data!
-class DdpcrSerializer(serializers.ModelSerializer):
+class PcrReplicateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    ddpcr_datetime = serializers.DateTimeField()
-    ddpcr_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Ddpcr.objects.all())])
-    ddpcr_slug = serializers.SlugField(max_length=255, read_only=True)
-    ddpcr_first_name = serializers.CharField(max_length=255)
-    ddpcr_last_name = serializers.CharField(max_length=255)
-    ddpcr_probe = serializers.CharField(allow_blank=True)
-    ddpcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
-    ddpcr_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    ddpcr_thermal_sop_url = serializers.URLField(max_length=255)
-    ddpcr_sop_url = serializers.URLField(max_length=255)
-    ddpcr_notes = serializers.CharField(allow_blank=True)
+    pcr_replicate_results = serializers.DecimalField(max_digits=15, decimal_places=10)
+    pcr_replicate_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
+    pcr_replicate_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = Ddpcr
-        fields = ['id', 'ddpcr_datetime', 'process_location', 'ddpcr_experiment_name', 'ddpcr_slug',
-                  'extraction', 'primer_set', 'ddpcr_first_name',
-                  'ddpcr_last_name', 'ddpcr_probe', 'ddpcr_results', 'ddpcr_results_units',
-                  'ddpcr_thermal_sop_url', 'ddpcr_sop_url',
-                  'ddpcr_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
+        model = PcrReplicate
+        fields = ['id', 'pcr_replicate_results', 'pcr_replicate_results_units',
+                  'pcr_replicate_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True,
+                                              slug_field='email')
+
+
+class PcrSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    pcr_datetime = serializers.DateTimeField()
+    pcr_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Pcr.objects.all())])
+    pcr_slug = serializers.SlugField(max_length=255, read_only=True)
+    pcr_first_name = serializers.CharField(max_length=255)
+    pcr_last_name = serializers.CharField(max_length=255)
+    pcr_probe = serializers.CharField(allow_blank=True)
+    pcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
+    pcr_results_units = serializers.ChoiceField(choices=PcrUnits.choices)
+    pcr_thermal_sop_url = serializers.URLField(max_length=255)
+    pcr_sop_url = serializers.URLField(max_length=255)
+    pcr_notes = serializers.CharField(allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Pcr
+        fields = ['id', 'pcr_datetime', 'process_location', 'pcr_experiment_name', 'pcr_slug', 'pcr_type',
+                  'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
+                  'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
+                  'pcr_thermal_sop_url', 'pcr_sop_url',
+                  'pcr_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -257,45 +278,9 @@ class DdpcrSerializer(serializers.ModelSerializer):
     primer_set = serializers.SlugRelatedField(many=False, read_only=False,
                                               slug_field='primer_slug',
                                               queryset=PrimerPair.objects.all())
-
-
-class QpcrSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    qpcr_datetime = serializers.DateTimeField()
-    qpcr_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Qpcr.objects.all())])
-    qpcr_slug = serializers.SlugField(max_length=255, read_only=True)
-    qpcr_first_name = serializers.CharField(max_length=255)
-    qpcr_last_name = serializers.CharField(max_length=255)
-    qpcr_probe = serializers.CharField(allow_blank=True)
-    qpcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
-    qpcr_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
-    qpcr_thermal_sop_url = serializers.URLField(max_length=255)
-    qpcr_sop_url = serializers.URLField(max_length=255)
-    qpcr_notes = serializers.CharField(allow_blank=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = Qpcr
-        fields = ['id', 'qpcr_experiment_name', 'qpcr_slug', 'qpcr_datetime', 'process_location',
-                  'extraction', 'primer_set', 'qpcr_first_name', 'qpcr_last_name',
-                  'qpcr_probe', 'qpcr_results', 'qpcr_results_units',
-                  'qpcr_thermal_sop_url', 'qpcr_sop_url', 'qpcr_notes',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    extraction = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all())
-    primer_set = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='primer_set_name_slug',
-                                              queryset=PrimerPair.objects.all())
+    pcr_replicate = serializers.SlugRelatedField(many=False, read_only=False,
+                                                 slug_field='id',
+                                                 queryset=PcrReplicate.objects.all())
 
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
