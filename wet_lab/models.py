@@ -6,8 +6,8 @@ from django.utils.text import slugify
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
-from utility.enumerations import TargetGenes, SubFragments, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
-    PcrUnits, DdpcrUnits, QpcrUnits, YesNo, PcrType, LibPrepKits
+from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
+    PcrUnits, YesNo, LibPrepKits
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
@@ -277,7 +277,7 @@ class PcrReplicate(DateTimeUserMixin):
 class Pcr(DateTimeUserMixin):
     pcr_experiment_name = models.CharField("PCR Experiment Name", max_length=255, unique=True)
     pcr_slug = models.SlugField("PCR Experiment Name Slug", max_length=255)
-    pcr_type = models.CharField("PCR Type", max_length=50, choices=PcrType.choices)
+    pcr_type = models.CharField("PCR Type", max_length=50, choices=PcrTypes.choices)
     pcr_datetime = models.DateTimeField("PCR DateTime")
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT)
