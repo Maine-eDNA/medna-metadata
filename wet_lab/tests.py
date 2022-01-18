@@ -162,7 +162,7 @@ class PcrReplicateTestCase(TestCase):
                                            defaults={
                                                'pcr_replicate_results': 9999,
                                                'pcr_replicate_results_units': PcrUnits.DDPCR_CP,
-                                               'pcr_notes': "pcr notes"
+                                               'pcr_replicate_notes': "pcr notes"
                                            })
 
     def test_was_added_recently(self):
