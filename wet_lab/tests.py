@@ -161,7 +161,7 @@ class PcrReplicateTestCase(TestCase):
         PcrReplicate.objects.get_or_create(id=1,
                                            defaults={
                                                'pcr_replicate_results': 9999,
-                                               'pcr_replicate_results_units': PcrUnits.CP,
+                                               'pcr_replicate_results_units': PcrUnits.DDPCR_CP,
                                                'pcr_notes': "pcr notes"
                                            })
 
@@ -194,7 +194,7 @@ class PcrTestCase(TestCase):
                                       'pcr_first_name': "test_first_name",
                                       'pcr_last_name': "test_last_name",
                                       'pcr_results': 9999,
-                                      'pcr_results_units': PcrUnits.CP,
+                                      'pcr_results_units': PcrUnits.DDPCR_CP,
                                       'pcr_replicate': pcr_replicate,
                                       'pcr_thermal_sop_url': "https://thermal_sop_url.com",
                                       'pcr_sop_url': "https://sop_url.com",
