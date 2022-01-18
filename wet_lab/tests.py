@@ -184,7 +184,7 @@ class PcrTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
         pcr_replicate = PcrReplicate.objects.filter()[:1].get()
-        Pcr.objects.get_or_create(qpcr_experiment_name="test_name",
+        Pcr.objects.get_or_create(pcr_experiment_name="test_name",
                                   defaults={
                                       'pcr_type': PcrTypes.DDPCR,
                                       'process_location': process_location,
