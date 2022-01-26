@@ -48,10 +48,10 @@ Digital Droplet PCR (ddPCR), quantitative PCR (qPCR), and Next Generation Sequen
 sub-coring, the samples are extracted. Extraction converts field samples into solutions of eDNA. Extractions share the
 same unique barcode identifier as samples.
 
-The tables for LibraryPrep, PooledLibrary, RunPrep, and RunResults are all directly related to Next Generation Sequencing
+The tables for LibraryPrep, PooledLibrary, RunPrep, RunResults, and FastqFile are all directly related to Next Generation Sequencing
 (NGS) and the generation of FastQ files. FastQ files contain the resulting sequences from NGS, and sequencing is typically
 performed by hardware equivalent to an Illumina MiSeq. These NGS tables also relate to information in the IndexPair and
-PrimerPair tables. The ddPCR and qPCR tables pertain to additional analyses that can amplify or quantify eDNA samples
+PrimerPair tables. The PCR and PCRReplicate tables pertain to additional analyses that can amplify or quantify eDNA samples
 and are also related to the PrimerPair table.
 
 The PrimerPair table contains information related to the target gene, or DNA region of interest. Primers allow for the
