@@ -107,7 +107,8 @@ class FieldCrewSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='survey_global_id')
+    # slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
 
@@ -169,7 +170,8 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='survey_global_id')
+    # slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
 
@@ -191,7 +193,8 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='survey_global_id')
+    # slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
 
@@ -220,7 +223,8 @@ class WaterCollectionSerializer(serializers.ModelSerializer):
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    field_collection = serializers.SlugRelatedField(many=False, read_only=True, slug_field='field_collection')
+    # slug_field='collection_global_id'
+    field_collection = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 class SedimentCollectionSerializer(serializers.ModelSerializer):
@@ -245,7 +249,8 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    field_collection = serializers.SlugRelatedField(many=False, read_only=True, slug_field='field_collection')
+    # slug_field='collection_global_id'
+    field_collection = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 class FieldSampleSerializer(serializers.ModelSerializer):
@@ -267,7 +272,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    collection_global_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='collection_global_id')
+    # slug_field='collection_global_id'
+    collection_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     sample_material = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_material_code')
     field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
@@ -299,7 +305,8 @@ class FilterSampleSerializer(serializers.ModelSerializer):
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    field_sample = serializers.SlugRelatedField(many=False, read_only=True, slug_field='field_sample')
+    # slug_field='sample_global_id'
+    field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 class SubCoreSampleSerializer(serializers.ModelSerializer):
@@ -322,7 +329,8 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    field_sample = serializers.SlugRelatedField(many=False, read_only=True, slug_field='field_sample')
+    # slug_field='sample_global_id'
+    field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 #################################
@@ -418,8 +426,8 @@ class FieldCrewETLSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
-                                                    queryset=FieldSurveyETL.objects.all())
+    # , slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=FieldSurveyETL.objects.all())
 
 
 class EnvMeasurementETLSerializer(serializers.ModelSerializer):
@@ -481,8 +489,8 @@ class EnvMeasurementETLSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
-                                                    queryset=FieldSurveyETL.objects.all())
+    # , slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=FieldSurveyETL.objects.all())
 
 
 class FieldCollectionETLSerializer(serializers.ModelSerializer):
@@ -551,8 +559,8 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    survey_global_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='survey_global_id',
-                                                    queryset=FieldSurveyETL.objects.all())
+    # , slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=FieldSurveyETL.objects.all())
 
 
 class SampleFilterETLSerializer(serializers.ModelSerializer):
@@ -590,6 +598,5 @@ class SampleFilterETLSerializer(serializers.ModelSerializer):
 
     # foreign keys
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    collection_global_id = serializers.SlugRelatedField(many=False, read_only=False,
-                                                        slug_field='collection_global_id',
-                                                        queryset=FieldCollectionETL.objects.all())
+    # slug_field='collection_global_id',
+    collection_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=FieldCollectionETL.objects.all())
