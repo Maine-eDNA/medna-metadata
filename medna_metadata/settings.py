@@ -529,7 +529,7 @@ APP_ORDER = OrderedDict([
                       "FieldSurveyETL", "FieldCrewETL", "EnvMeasurementETL",
                       "FieldCollectionETL", "SampleFilterETL"]),
     ("wet_lab", ["PrimerPair", "IndexPair", "IndexRemovalMethod", "SizeSelectionMethod",
-                 "QuantificationMethod", "ExtractionMethod", "Extraction", "PcrReplicate", "Pcr",
+                 "QuantificationMethod", "AmplificationMethod", "ExtractionMethod", "Extraction", "PcrReplicate", "Pcr",
                  "LibraryPrep", "PooledLibrary", "RunPrep", "RunResult", "FastqFile"]),
     ("bioinfo_denoclust", ["DenoiseClusterMethod", "DenoiseClusterMetadata", "FeatureOutput", "FeatureRead"]),
     ("bioinfo_taxon", ["ReferenceDatabase", "AnnotationMethod", "AnnotationMetadata", "TaxonomicAnnotation",
