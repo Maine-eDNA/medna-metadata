@@ -377,6 +377,30 @@ class SystemSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
+class GeoWatershedSerializer(GeoFeatureModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    watershed_code = serializers.SlugField(max_length=7, validators=[UniqueValidator(queryset=Watershed.objects.all())])
+    watershed_label = serializers.CharField(max_length=255)
+    huc8 = serializers.CharField(max_length=255)
+    states = serializers.CharField(max_length=255)
+    lat = serializers.DecimalField(max_digits=22, decimal_places=16)
+    lon = serializers.DecimalField(max_digits=22, decimal_places=16)
+    area_sqkm = serializers.DecimalField(max_digits=18, decimal_places=2)
+    area_acres = serializers.DecimalField(max_digits=18, decimal_places=2)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Watershed
+        geo_field = 'geom'
+        fields = ['id', 'watershed_label', 'watershed_code', 'huc8', 'states', 'lat', 'lon',
+                  'area_sqkm', 'area_acres', 'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
     site_id = serializers.SlugField(max_length=7, read_only=True)
@@ -443,30 +467,6 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=False,
                                                         slug_field="feature_seventh_tier_slug",
                                                         queryset=EnvoFeatureSeventh.objects.all())
-
-
-class GeoWatershedSerializer(GeoFeatureModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    watershed_code = serializers.SlugField(max_length=7, validators=[UniqueValidator(queryset=Watershed.objects.all())])
-    watershed_label = serializers.CharField(max_length=255)
-    huc8 = serializers.CharField(max_length=255)
-    states = serializers.CharField(max_length=255)
-    lat = serializers.DecimalField(max_digits=22, decimal_places=16)
-    lon = serializers.DecimalField(max_digits=22, decimal_places=16)
-    area_sqkm = serializers.DecimalField(max_digits=18, decimal_places=2)
-    area_acres = serializers.DecimalField(max_digits=18, decimal_places=2)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = Watershed
-        geo_field = 'geom'
-        fields = ['id', 'watershed_label', 'watershed_code', 'huc8', 'states', 'lat', 'lon',
-                  'area_sqkm', 'area_acres', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 # NOT USED
