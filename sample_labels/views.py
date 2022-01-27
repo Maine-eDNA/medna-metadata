@@ -27,34 +27,35 @@ def year_choices():
 
 class SampleTypeViewSet(viewsets.ModelViewSet):
     serializer_class = SampleTypeSerializer
-    queryset = SampleType.objects.all()
+    queryset = SampleType.objects.prefetch_related('created_by')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by']
+    filterset_fields = ['created_by__email']
     swagger_tags = ["sample labels"]
 
 
 class SampleMaterialViewSet(viewsets.ModelViewSet):
     serializer_class = SampleMaterialSerializer
-    queryset = SampleMaterial.objects.all()
+    queryset = SampleMaterial.objects.prefetch_related('created_by')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by']
+    filterset_fields = ['created_by__email']
     swagger_tags = ["sample labels"]
 
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
-    queryset = SampleLabelRequest.objects.all()
+    queryset = SampleLabelRequest.objects.prefetch_related('created_by', 'site_id', 'sample_type', 'sample_material')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_material']
+    filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_type__sample_type_code', 'sample_material__sample_material_code']
     swagger_tags = ["sample labels"]
 
 
 class SampleBarcodeViewSet(viewsets.ModelViewSet):
     serializer_class = SampleBarcodeSerializer
-    queryset = SampleBarcode.objects.all()
+    queryset = SampleBarcode.objects.prefetch_related('created_by', 'site_id', 'sample_material', 'sample_label_request', 'sample_type')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_material', 'sample_type',
-                        'sample_barcode_id', 'sample_label_request', 'in_freezer']
+    filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_material__sample_material_code',
+                        'sample_label_request__sample_label_request_slug', 'sample_type__sample_type_code',
+                        'sample_barcode_id', 'in_freezer']
     swagger_tags = ["sample labels"]
 
 
@@ -77,14 +78,14 @@ class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, Sing
 
 
 class SampleLabelRequestListView(generics.ListAPIView):
-    queryset = SampleLabelRequest.objects.all()
+    queryset = SampleLabelRequest.objects.prefetch_related('created_by', 'site_id', 'sample_type', 'sample_material')
     serializer_class = SampleLabelRequestSerializer
     # who can download the data - only those who are authenticated - this is mostly for the API since
     # access via the url == login only
     # this is now hard-coded in settings under: 'DEFAULT_PERMISSION_CLASSES'
     # permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by', 'site_id', 'sample_material']
+    filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_type__sample_type_code', 'sample_material__sample_material_code']
 
 
 class SampleLabelRequestDetailView(DetailView):
