@@ -101,4 +101,4 @@ class FeatureReadSerializer(serializers.ModelSerializer):
     extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
                                               queryset=Extraction.objects.all())
     feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug',
-                                       queryset=FeatureOutput.objects.all())
+                                           queryset=FeatureOutput.objects.all())
