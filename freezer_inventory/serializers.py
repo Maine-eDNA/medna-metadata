@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvTypes, \
-    CheckoutActions, YesNo
+    CheckoutActions, YesNo, AvailStatus
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
@@ -141,7 +141,8 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
-    freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices)
+    freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
+    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=AvailStatus.choices, default=AvailStatus.UNAVAIL)
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
@@ -153,12 +154,13 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
         fields = ['id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
+                  'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(
                 queryset=FreezerInventory.objects.all(),
-                fields=['freezer_box', 'freezer_inventory_status',
+                fields=['freezer_box', 'freezer_inventory_loc_status',
                         'freezer_inventory_column', 'freezer_inventory_row', ]
             )
         ]

@@ -165,7 +165,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerInventoryAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'freezer_inventory_status', 'created_datetime', 'created_by',)
-    readonly_fields = ('freezer_inventory_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('freezer_inventory_slug', 'freezer_inventory_loc_status', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -183,6 +183,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['freezer_box', 'sample_barcode', 'freezer_inventory_slug',
                        'freezer_inventory_type', 'freezer_inventory_status',
+                       'freezer_inventory_loc_status',
                        'freezer_inventory_column', 'freezer_inventory_row',
                        'modified_datetime', 'created_datetime', 'created_by']
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)

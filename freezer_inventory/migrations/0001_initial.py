@@ -110,7 +110,8 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('freezer_inventory_slug', models.SlugField(max_length=27, unique=True, verbose_name='Freezer Inventory Slug')),
                 ('freezer_inventory_type', models.CharField(choices=[('filter', 'Filter'), ('subcore', 'SubCore'), ('extraction', 'Extraction')], max_length=50, verbose_name='Freezer Inventory Type')),
-                ('freezer_inventory_status', models.CharField(choices=[(None, '(Unknown)'), ('in', 'In Stock'), ('out', 'Checked Out'), ('perm_removed', 'Permanently Removed')], default='in', max_length=50, verbose_name='Freezer Inventory Status')),
+                ('freezer_inventory_status', models.CharField(choices=[('in', 'In Stock'), ('out', 'Checked Out'), ('perm_removed', 'Permanently Removed')], default='in', max_length=50, verbose_name='Freezer Inventory Status')),
+                ('freezer_inventory_loc_status', models.CharField(choices=[('available', 'Available'), ('unavailable', 'Unavailable')], default='unavailable', max_length=50, verbose_name='Freezer Inventory Location Status')),
                 ('freezer_inventory_column', models.PositiveIntegerField(verbose_name='Freezer Box Column')),
                 ('freezer_inventory_row', models.PositiveIntegerField(verbose_name='Freezer Box Row')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
@@ -120,7 +121,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Freezer Inventory',
                 'verbose_name_plural': 'Freezer Inventory',
-                'unique_together': {('freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', 'freezer_inventory_status')},
+                'unique_together': {('freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', 'freezer_inventory_loc_status')},
             },
         ),
         migrations.CreateModel(

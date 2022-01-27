@@ -5,7 +5,7 @@ from rest_framework import status
 from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
 from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
-from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
+from .enumerations import YesNo, AvailStatus, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
@@ -26,6 +26,17 @@ class YesNoChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
         choices = []
         for choice in YesNo:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class AvailStatusChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in AvailStatus:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -329,7 +340,6 @@ class PcrTypesChoicesViewSet(viewsets.ViewSet):
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
-
 
 
 class LibPrepTypesChoicesViewSet(viewsets.ViewSet):

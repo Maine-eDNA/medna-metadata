@@ -5,7 +5,7 @@ from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
-from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvTypes, CheckoutActions, YesNo
+from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, AvailStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
 import re
 
@@ -184,12 +184,25 @@ class FreezerInventory(DateTimeUserMixin):
                                                 max_length=50,
                                                 choices=InvStatus.choices,
                                                 default=InvStatus.IN)
+    freezer_inventory_loc_status = models.CharField("Freezer Inventory Location Status",
+                                                    max_length=50,
+                                                    choices=AvailStatus.choices,
+                                                    default=AvailStatus.UNAVAIL)
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
 
     def save(self, *args, **kwargs):
         old_barcode = None
+        # set this way rather than 'if: == REMOVED; = AVAIL; else: = UNAVAIL' so that the DB isn't hit every time
+        # the freezer_inventory_status is updated. Will only update DB if freezer_inventory_loc_status needs to be updated.
+        if self.freezer_inventory_status == InvStatus.REMOVED & self.freezer_inventory_loc_status != AvailStatus.AVAIL:
+            self.freezer_inventory_loc_status = AvailStatus.AVAIL
+        elif self.freezer_inventory_status == InvStatus.IN & self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
+            self.freezer_inventory_loc_status = AvailStatus.UNAVAIL
+        elif self.freezer_inventory_status == InvStatus.OUT & self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
+            self.freezer_inventory_loc_status = AvailStatus.UNAVAIL
+
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
             # concatenate inventory_type and barcode on insert,
@@ -223,7 +236,7 @@ class FreezerInventory(DateTimeUserMixin):
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
         # inventory with the same status cannot occupy the same space within a box
-        unique_together = ['freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', 'freezer_inventory_status']
+        unique_together = ['freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', 'freezer_inventory_loc_status']
         app_label = 'freezer_inventory'
         verbose_name = 'Freezer Inventory'
         verbose_name_plural = 'Freezer Inventory'

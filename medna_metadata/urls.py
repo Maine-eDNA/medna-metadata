@@ -41,7 +41,7 @@ from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
     TaxonClassViewSet, TaxonOrderViewSet, TaxonFamilyViewSet, \
     TaxonGenusViewSet, TaxonSpeciesViewSet, \
     AnnotationMethodViewSet, AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
-from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, YesNoChoicesViewSet, \
+from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, YesNoChoicesViewSet, AvailStatusChoicesViewSet, \
     TempUnitsChoicesViewSet, MeasureUnitsChoicesViewSet, VolUnitsChoicesViewSet, ConcentrationUnitsChoicesViewSet, \
     PhiXConcentrationUnitsChoicesViewSet, PcrUnitsChoicesViewSet, \
     WindSpeedsChoicesViewSet, CloudCoversChoicesViewSet, PrecipTypesChoicesViewSet, \
@@ -83,6 +83,7 @@ router.register(r'utility/default_site_css', DefaultSiteCssViewSet, 'default_sit
 router.register(r'utility/custom_user_css', CustomUserCssViewSet, 'custom_user_css')
 # utility:enums
 router.register(r'utility/choices_yes_no', YesNoChoicesViewSet, 'choices_yes_no')
+router.register(r'utility/choices_avail_status', AvailStatusChoicesViewSet, 'choices_avail_status')
 router.register(r'utility/choices_temp_units', TempUnitsChoicesViewSet, 'choices_temp_units')
 router.register(r'utility/choices_measure_units', MeasureUnitsChoicesViewSet, 'choices_measure_units')
 router.register(r'utility/choices_vol_units', VolUnitsChoicesViewSet, 'choices_vol_units')

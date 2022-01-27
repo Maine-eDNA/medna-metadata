@@ -11,6 +11,11 @@ class YesNo(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
+class AvailStatus(models.TextChoices):
+    AVAIL = 'available', _('Available')
+    UNAVAIL = 'unavailable', _('Unavailable')
+
+
 # UNITS CHOICES
 class TempUnits(models.TextChoices):
     F = 'fahrenheit', _('Fahrenheit')
@@ -295,7 +300,6 @@ class InvStatus(models.TextChoices):
     IN = 'in', _('In Stock')
     OUT = 'out', _('Checked Out')
     REMOVED = 'perm_removed', _('Permanently Removed')
-    __empty__ = _('(Unknown)')
 
 
 class InvTypes(models.TextChoices):

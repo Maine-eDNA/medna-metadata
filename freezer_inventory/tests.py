@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
-from utility.enumerations import TempUnits, MeasureUnits, CheckoutActions, YesNo
+from utility.enumerations import TempUnits, MeasureUnits, CheckoutActions, YesNo, AvailStatus, InvStatus, InvTypes
 from sample_labels.tests import SampleBarcodeTestCase
 from sample_labels.models import SampleBarcode
 
@@ -88,11 +88,11 @@ class FreezerInventoryTestCase(TestCase):
         FreezerInventory.objects.get_or_create(defaults={
                                                    'freezer_box': freezer_box,
                                                    'sample_barcode': sample_barcode,
-                                                   'freezer_inventory_slug': 1,
-                                                   'freezer_inventory_type': 1,
-                                                   'freezer_inventory_status': 1,
-                                                   'freezer_inventory_column': 100,
-                                                   'freezer_inventory_row': 100})
+                                                   'freezer_inventory_type': InvTypes.FILTER,
+                                                   'freezer_inventory_status': InvStatus.IN,
+                                                   'freezer_inventory_loc_status': AvailStatus.UNAVAIL,
+                                                   'freezer_inventory_column': 1,
+                                                   'freezer_inventory_row': 1})
 
     def test_was_added_recently(self):
         # test if date is added correctly
