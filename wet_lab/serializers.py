@@ -245,6 +245,7 @@ class PcrSerializer(serializers.ModelSerializer):
     pcr_datetime = serializers.DateTimeField()
     pcr_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Pcr.objects.all())])
     pcr_slug = serializers.SlugField(max_length=255, read_only=True)
+    pcr_type = serializers.ChoiceField(choices=PcrTypes.choices)
     pcr_first_name = serializers.CharField(max_length=255)
     pcr_last_name = serializers.CharField(max_length=255)
     pcr_probe = serializers.CharField(allow_blank=True)
