@@ -17,6 +17,52 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 # Create your views here.
+class GrantViewSet(viewsets.ModelViewSet):
+    # formerly Project in field_sites.models
+    serializer_class = GrantSerializer
+    queryset = Grant.objects.prefetch_related('created_by')
+    # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by__email']
+    swagger_tags = ["utility"]
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    serializer_class = ProjectSerializer
+    queryset = Project.objects.prefetch_related('created_by', 'grant_name')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by__email', 'grant_name__grant_code']
+    swagger_tags = ["utility"]
+
+
+class ProcessLocationViewSet(viewsets.ModelViewSet):
+    serializer_class = ProcessLocationSerializer
+    queryset = ProcessLocation.objects.prefetch_related('created_by')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['created_by__email']
+    swagger_tags = ["utility"]
+
+
+class DefaultSiteCssViewSet(viewsets.ModelViewSet):
+    serializer_class = DefaultSiteCssSerializer
+    queryset = DefaultSiteCss.objects.prefetch_related('created_by')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
+    swagger_tags = ["utility"]
+
+
+class CustomUserCssViewSet(viewsets.ModelViewSet):
+    serializer_class = CustomUserCssSerializer
+    queryset = CustomUserCss.objects.prefetch_related('created_by', 'user')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['custom_css_label', 'user__email', 'created_datetime']
+    swagger_tags = ["utility"]
+
+
+class IndexView(TemplateView):
+    template_name = "utility/index.html"
+
+
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
 # GENERIC CHOICES
@@ -395,49 +441,3 @@ class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
-
-
-class GrantViewSet(viewsets.ModelViewSet):
-    # formerly Project in field_sites.models
-    serializer_class = GrantSerializer
-    queryset = Grant.objects.all()
-    # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by']
-    swagger_tags = ["utility"]
-
-
-class ProjectViewSet(viewsets.ModelViewSet):
-    serializer_class = ProjectSerializer
-    queryset = Project.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['grant_name', 'created_by']
-    swagger_tags = ["utility"]
-
-
-class ProcessLocationViewSet(viewsets.ModelViewSet):
-    serializer_class = ProcessLocationSerializer
-    queryset = ProcessLocation.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by']
-    swagger_tags = ["utility"]
-
-
-class DefaultSiteCssViewSet(viewsets.ModelViewSet):
-    serializer_class = DefaultSiteCssSerializer
-    queryset = DefaultSiteCss.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['default_css_label', 'created_by', 'created_datetime']
-    swagger_tags = ["utility"]
-
-
-class CustomUserCssViewSet(viewsets.ModelViewSet):
-    serializer_class = CustomUserCssSerializer
-    queryset = CustomUserCss.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['custom_css_label', 'user', 'created_datetime']
-    swagger_tags = ["utility"]
-
-
-class IndexView(TemplateView):
-    template_name = "utility/index.html"
