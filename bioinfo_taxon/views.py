@@ -31,7 +31,7 @@ class TaxonDomainViewSet(viewsets.ModelViewSet):
 
 class TaxonKingdomViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonKingdomSerializer
-    queryset = TaxonKingdom.objects.prefetch_related('created_by')
+    queryset = TaxonKingdom.objects.prefetch_related('created_by', 'taxon_domain')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug']
@@ -40,7 +40,7 @@ class TaxonKingdomViewSet(viewsets.ModelViewSet):
 
 class TaxonPhylumViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonPhylumSerializer
-    queryset = TaxonPhylum.objects.prefetch_related('created_by')
+    queryset = TaxonPhylum.objects.prefetch_related('created_by', 'taxon_kingdom')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
@@ -50,7 +50,7 @@ class TaxonPhylumViewSet(viewsets.ModelViewSet):
 
 class TaxonClassViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonClassSerializer
-    queryset = TaxonClass.objects.prefetch_related('created_by')
+    queryset = TaxonClass.objects.prefetch_related('created_by', 'taxon_phylum')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
@@ -60,7 +60,7 @@ class TaxonClassViewSet(viewsets.ModelViewSet):
 
 class TaxonOrderViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonOrderSerializer
-    queryset = TaxonOrder.objects.prefetch_related('created_by')
+    queryset = TaxonOrder.objects.prefetch_related('created_by', 'taxon_class')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
@@ -71,7 +71,7 @@ class TaxonOrderViewSet(viewsets.ModelViewSet):
 
 class TaxonFamilyViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonFamilySerializer
-    queryset = TaxonFamily.objects.prefetch_related('created_by')
+    queryset = TaxonFamily.objects.prefetch_related('created_by', 'taxon_order')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
@@ -82,7 +82,7 @@ class TaxonFamilyViewSet(viewsets.ModelViewSet):
 
 class TaxonGenusViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonGenusSerializer
-    queryset = TaxonGenus.objects.prefetch_related('created_by')
+    queryset = TaxonGenus.objects.prefetch_related('created_by', 'taxon_family')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
@@ -94,7 +94,7 @@ class TaxonGenusViewSet(viewsets.ModelViewSet):
 
 class TaxonSpeciesViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonSpeciesSerializer
-    queryset = TaxonSpecies.objects.prefetch_related('created_by')
+    queryset = TaxonSpecies.objects.prefetch_related('created_by', 'taxon_genus')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['created_by__email',
                         'taxon_domain_slug', 'taxon_kingdom_slug',
