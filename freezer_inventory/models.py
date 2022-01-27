@@ -196,11 +196,11 @@ class FreezerInventory(DateTimeUserMixin):
         old_barcode = None
         # set this way rather than 'if: == REMOVED; = AVAIL; else: = UNAVAIL' so that the DB isn't hit every time
         # the freezer_inventory_status is updated. Will only update DB if freezer_inventory_loc_status needs to be updated.
-        if self.freezer_inventory_status == InvStatus.REMOVED & self.freezer_inventory_loc_status != AvailStatus.AVAIL:
+        if self.freezer_inventory_status == InvStatus.REMOVED and self.freezer_inventory_loc_status != AvailStatus.AVAIL:
             self.freezer_inventory_loc_status = AvailStatus.AVAIL
-        elif self.freezer_inventory_status == InvStatus.IN & self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
+        elif self.freezer_inventory_status == InvStatus.IN and self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
             self.freezer_inventory_loc_status = AvailStatus.UNAVAIL
-        elif self.freezer_inventory_status == InvStatus.OUT & self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
+        elif self.freezer_inventory_status == InvStatus.OUT and self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
             self.freezer_inventory_loc_status = AvailStatus.UNAVAIL
 
         # only create slug on INSERT, not UPDATE
