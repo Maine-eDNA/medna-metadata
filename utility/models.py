@@ -55,8 +55,8 @@ class DateTimeUserMixin(models.Model):
 class PeriodicTaskRun(models.Model):
     # https://dev.to/vergeev/django-celery-beat-how-to-get-the-last-time-a-periodictask-was-run-39k9
     # instead of create each time a task is run, task is set to update:
-    # last_run = PeriodicTaskRun.objects.filter(task=self.name)
-    # PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+    # last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
+    # PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
     task = models.CharField("Task Name", max_length=255)
     task_datetime = models.DateTimeField(auto_now_add=True)
 

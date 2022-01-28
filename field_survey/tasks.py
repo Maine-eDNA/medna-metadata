@@ -15,7 +15,6 @@ from django.utils import timezone
 from django.db.models import Count
 import numpy as np
 from celery.utils.log import get_task_logger
-
 logger = get_task_logger(__name__)
 
 
@@ -610,13 +609,26 @@ def transform_field_survey_etls(queryset):
 def transform_new_records_field_survey_task(self):
     try:
         now = timezone.now()
-        last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
-        new_records = FieldSurveyETL.objects.filter(
-            modified_datetime__range=[last_run.task_datetime, now])
+        last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
+        if last_run:
+            # range includes start and end dates, eg (start, end)
+            new_records = FieldSurveyETL.objects.filter(modified_datetime__range=[last_run.task_datetime, now])
+        else:
+            # task has never been ran, so there is no timestamp to reference
+            # run query for less than or equal to current datetime.
+            new_records = FieldSurveyETL.objects.filter(modified_datetime__lte=now)
+            if new_records:
+                # since the task has never been ran, create a record in PeriodicTaskRun with the oldest survey date.
+                oldest_record = new_records.order_by('modified_datetime')[:1].get()
+                PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': oldest_record.modified_datetime})
+            else:
+                # since the task has never been ran and there were no records matching the query,
+                # create a record in PeriodicTaskRun with the current datetime.
+                PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
         if new_records:
             updated_count = transform_field_survey_etls(new_records)
             logger.info('Update count: ' + str(updated_count))
-        PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+            PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
     except Exception as err:
         raise RuntimeError("** Error: transform_new_records_field_survey_task Failed (" + str(err) + ")")
 
@@ -624,11 +636,11 @@ def transform_new_records_field_survey_task(self):
 # @app.task(bind=True)
 # def transform_all_records_field_survey(self):
 #     try:
-#         last_run = PeriodicTaskRun.objects.filter(task=self.name).latest()
+#         now = timezone.now()
 #         all_records = FieldSurveyETL.objects.all()
 #         if all_records:
-#             updated_count = transform_field_survey_etls(all_records)
-#             logger.info('Update count: ' + str(updated_count))
-#         PeriodicTaskRun.objects.filter(pk=last_run.pk).update(task=self.name)
+#           updated_count = transform_field_survey_etls(all_records)
+#           logger.info('Update count: ' + str(updated_count))
+#           PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
 #     except Exception as err:
 #         raise RuntimeError("** Error: transform_all_records_field_survey Failed (" + str(err) + ")")
