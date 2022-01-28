@@ -13,8 +13,7 @@ class ReferenceDatabase(DateTimeUserMixin):
     refdb_slug = models.SlugField("Reference Database Slug", max_length=255)
     refdb_datetime = models.DateTimeField("Reference Database DateTime")
     redfb_coverage_score = models.DecimalField("Coverage Score (Percentage)", max_digits=6, decimal_places=2)
-    refdb_repo_url = models.URLField("Reference Database URL", max_length=255,
-                                     default="https://github.com/Maine-eDNA")
+    refdb_repo_url = models.URLField("Reference Database URL", max_length=255, default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
         self.refdb_slug = '{name}v{version}'.format(name=slugify(self.refdb_name),
@@ -39,7 +38,7 @@ class TaxonDomain(DateTimeUserMixin):
     # Multi-table inheritance enforces one-to-one relationships, which is
     # not what we want here. Changing back to FK with populated fields.
     # https://docs.djangoproject.com/en/3.2/topics/db/models/#multi-table-inheritance
-    taxon_domain = models.SlugField("Domain", max_length=255, unique=True)
+    taxon_domain = models.SlugField("Domain", unique=True, max_length=255)
     taxon_domain_slug = models.CharField("Domain Slug", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -57,7 +56,7 @@ class TaxonDomain(DateTimeUserMixin):
 
 
 class TaxonKingdom(DateTimeUserMixin):
-    taxon_kingdom = models.CharField("Kingdom", max_length=255, unique=True)
+    taxon_kingdom = models.CharField("Kingdom", unique=True, max_length=255)
     taxon_kingdom_slug = models.SlugField("Kingdom Slug", max_length=255)
     taxon_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT)
     taxon_domain_slug = models.CharField("Domain", max_length=255)
@@ -79,7 +78,7 @@ class TaxonKingdom(DateTimeUserMixin):
 
 
 class TaxonPhylum(DateTimeUserMixin):
-    taxon_phylum = models.CharField("Phylum", max_length=255, unique=True)
+    taxon_phylum = models.CharField("Phylum", unique=True, max_length=255)
     taxon_phylum_slug = models.SlugField("Phylum Slug", max_length=255)
     taxon_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT)
     taxon_kingdom_slug = models.CharField("Kingdom", max_length=255)
@@ -104,7 +103,7 @@ class TaxonPhylum(DateTimeUserMixin):
 
 
 class TaxonClass(DateTimeUserMixin):
-    taxon_class = models.CharField("Class", max_length=255, unique=True)
+    taxon_class = models.CharField("Class", unique=True, max_length=255)
     taxon_class_slug = models.SlugField("Class Slug", max_length=255)
     taxon_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT)
     taxon_phylum_slug = models.CharField("Phylum", max_length=255)
@@ -132,7 +131,7 @@ class TaxonClass(DateTimeUserMixin):
 
 
 class TaxonOrder(DateTimeUserMixin):
-    taxon_order = models.CharField("Order", max_length=255, unique=True)
+    taxon_order = models.CharField("Order", unique=True, max_length=255)
     taxon_order_slug = models.SlugField("Order Slug", max_length=255)
     taxon_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT)
     taxon_class_slug = models.CharField("Class", max_length=255)
@@ -163,7 +162,7 @@ class TaxonOrder(DateTimeUserMixin):
 
 
 class TaxonFamily(DateTimeUserMixin):
-    taxon_family = models.CharField("Family", max_length=255, unique=True)
+    taxon_family = models.CharField("Family", unique=True, max_length=255)
     taxon_family_slug = models.SlugField("Family Slug", max_length=255)
     taxon_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT)
     taxon_order_slug = models.CharField("Order", max_length=255)
@@ -197,7 +196,7 @@ class TaxonFamily(DateTimeUserMixin):
 
 
 class TaxonGenus(DateTimeUserMixin):
-    taxon_genus = models.CharField("Genus", max_length=255, unique=True)
+    taxon_genus = models.CharField("Genus", unique=True, max_length=255)
     taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
     taxon_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT)
     taxon_family_slug = models.CharField("Order", max_length=255)
@@ -234,7 +233,7 @@ class TaxonGenus(DateTimeUserMixin):
 
 
 class TaxonSpecies(DateTimeUserMixin):
-    taxon_species = models.CharField("Species", max_length=255, unique=True)
+    taxon_species = models.CharField("Species", unique=True, max_length=255)
     taxon_species_slug = models.SlugField("Species Slug", max_length=255)
     taxon_common_name = models.CharField("Common Name", max_length=255)
     is_endemic = models.CharField("Endemic to New England", max_length=50, choices=YesNo.choices, default=YesNo.YES)
@@ -277,7 +276,7 @@ class TaxonSpecies(DateTimeUserMixin):
 
 class AnnotationMethod(DateTimeUserMixin):
     # BLAST, BLASTPLUS, MNNAIVEBAYES
-    annotation_method_name = models.CharField("DenoiseCluster Method Name", max_length=255, unique=True)
+    annotation_method_name = models.CharField("DenoiseCluster Method Name", unique=True, max_length=255)
     annotation_method_name_slug = models.SlugField("Annotation Method Slug", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -299,8 +298,7 @@ class AnnotationMethod(DateTimeUserMixin):
 
 
 class AnnotationMetadata(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     denoise_cluster_metadata = models.ForeignKey('bioinfo_denoclust.denoiseclustermetadata', on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     annotation_method = models.ForeignKey(AnnotationMethod, on_delete=models.RESTRICT)
@@ -308,8 +306,7 @@ class AnnotationMetadata(DateTimeUserMixin):
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
-    analysis_script_repo_url = models.URLField("Repository URL", max_length=255,
-                                               default="https://github.com/Maine-eDNA")
+    analysis_script_repo_url = models.URLField("Repository URL", max_length=255, default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.analysis_datetime)
@@ -332,34 +329,25 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     feature = models.ForeignKey('bioinfo_denoclust.FeatureOutput', on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
     reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
-    confidence = models.DecimalField("Confidence", max_digits=15, decimal_places=10,
-                                     blank=True, null=True)
-    ta_taxon = models.CharField("Taxon", max_length=255, blank=True)
-    ta_domain = models.CharField("Domain", max_length=255, blank=True)
-    ta_kingdom = models.CharField("Kingdom", max_length=255, blank=True)
-    ta_phylum = models.CharField("Phylum", max_length=255, blank=True)
-    ta_class = models.CharField("Class", max_length=255, blank=True)
-    ta_order = models.CharField("Order", max_length=255, blank=True)
-    ta_family = models.CharField("Family", max_length=255, blank=True)
-    ta_genus = models.CharField("Genus", max_length=255, blank=True)
-    ta_species = models.CharField("Species", max_length=255, blank=True)
-    ta_common_name = models.CharField("Common Name", max_length=255, blank=True)
-    manual_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT, blank=True, null=True,
-                                      related_name="manual_domain")
-    manual_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT, blank=True, null=True,
-                                       related_name="manual_kingdom")
-    manual_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT, blank=True, null=True,
-                                      related_name="manual_phylum")
-    manual_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT, blank=True, null=True,
-                                     related_name="manual_class")
-    manual_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT, blank=True, null=True,
-                                     related_name="manual_order")
-    manual_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT, blank=True, null=True,
-                                      related_name="manual_family")
-    manual_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT, blank=True, null=True,
-                                     related_name="manual_genus")
-    manual_species = models.ForeignKey(TaxonSpecies, on_delete=models.RESTRICT, blank=True, null=True,
-                                       related_name="manual_species")
+    confidence = models.DecimalField("Confidence", blank=True, null=True, max_digits=15, decimal_places=10)
+    ta_taxon = models.CharField("Taxon", blank=True, max_length=255)
+    ta_domain = models.CharField("Domain", blank=True, max_length=255)
+    ta_kingdom = models.CharField("Kingdom", blank=True, max_length=255)
+    ta_phylum = models.CharField("Phylum", blank=True, max_length=255)
+    ta_class = models.CharField("Class", blank=True, max_length=255)
+    ta_order = models.CharField("Order", blank=True, max_length=255)
+    ta_family = models.CharField("Family", blank=True, max_length=255)
+    ta_genus = models.CharField("Genus", blank=True, max_length=255)
+    ta_species = models.CharField("Species", blank=True, max_length=255)
+    ta_common_name = models.CharField("Common Name", blank=True, max_length=255)
+    manual_domain = models.ForeignKey(TaxonDomain, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_domain")
+    manual_kingdom = models.ForeignKey(TaxonKingdom, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_kingdom")
+    manual_phylum = models.ForeignKey(TaxonPhylum, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_phylum")
+    manual_class = models.ForeignKey(TaxonClass, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_class")
+    manual_order = models.ForeignKey(TaxonOrder, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_order")
+    manual_family = models.ForeignKey(TaxonFamily, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_family")
+    manual_genus = models.ForeignKey(TaxonGenus, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_genus")
+    manual_species = models.ForeignKey(TaxonSpecies, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_species")
 
     def __str__(self):
         return '{taxon} {feature}'.format(
