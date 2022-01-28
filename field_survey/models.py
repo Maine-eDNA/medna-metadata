@@ -17,105 +17,56 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    username = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                 verbose_name="Username",
-                                 blank=True,
-                                 null=True,
-                                 on_delete=models.SET(get_sentinel_user),
-                                 related_name="username")
+    survey_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Username", on_delete=models.SET(get_sentinel_user), related_name="username")
     # date
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
 
     # prj_ids
-    project_ids = models.ManyToManyField('utility.Project',
-                                         verbose_name="Affiliated Project(s)",
-                                         related_name="project_ids")
-    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                   verbose_name="Supervisor",
-                                   blank=True,
-                                   null=True,
-                                   on_delete=models.SET(get_sentinel_user),
-                                   related_name="supervisor")
+    project_ids = models.ManyToManyField('utility.Project', verbose_name="Affiliated Project(s)", related_name="project_ids")
+    supervisor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Supervisor", on_delete=models.SET(get_sentinel_user), related_name="supervisor")
     # recdr_fname
-    recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
+    recorder_fname = models.CharField("Recorder First Name", blank=True, max_length=255)
     # recdr_lname
-    recorder_lname = models.CharField("Recorder Last Name", max_length=255, blank=True)
+    recorder_lname = models.CharField("Recorder Last Name", blank=True, max_length=255)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
     site_id = models.ForeignKey('field_sites.FieldSite', blank=True, null=True, on_delete=models.RESTRICT)
-    site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
-    site_name = models.CharField("General Location Name", max_length=255, blank=True)
+    site_id_other = models.CharField("Site ID - Other", blank=True, max_length=255)
+    site_name = models.CharField("General Location Name", blank=True, max_length=255)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     long_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # environmental observations
-    env_obs_turbidity = models.CharField("Water Turbidity", max_length=50, choices=TurbidTypes.choices,
-                                         blank=True)
-    env_obs_precip = models.CharField("Precipitation", max_length=50, choices=PrecipTypes.choices,
-                                      blank=True)
-    env_obs_wind_speed = models.CharField("Wind Speed", max_length=50, choices=WindSpeeds.choices,
-                                          blank=True)
-    env_obs_cloud_cover = models.CharField("Cloud Cover", max_length=50, choices=CloudCovers.choices,
-                                           blank=True)
-    env_biome = models.CharField("Biome", max_length=255, blank=True)
-    env_biome_other = models.CharField("Other Biome", max_length=255, blank=True)
-    env_feature = models.CharField("Feature", max_length=255, blank=True)
-    env_feature_other = models.CharField("Other Feature", max_length=255, blank=True)
-    env_material = models.CharField("Material", max_length=50, choices=EnvoMaterials.choices, blank=True)
-    env_material_other = models.CharField("Other Material", max_length=255, blank=True)
+    env_obs_turbidity = models.CharField("Water Turbidity", blank=True, max_length=50, choices=TurbidTypes.choices)
+    env_obs_precip = models.CharField("Precipitation", blank=True, max_length=50, choices=PrecipTypes.choices)
+    env_obs_wind_speed = models.CharField("Wind Speed", blank=True, max_length=50, choices=WindSpeeds.choices)
+    env_obs_cloud_cover = models.CharField("Cloud Cover", blank=True, max_length=50, choices=CloudCovers.choices)
+    env_biome = models.CharField("Biome", blank=True, max_length=255)
+    env_biome_other = models.CharField("Other Biome", blank=True, max_length=255)
+    env_feature = models.CharField("Feature", blank=True, max_length=255)
+    env_feature_other = models.CharField("Other Feature", blank=True, max_length=255)
+    env_material = models.CharField("Material", blank=True, max_length=50, choices=EnvoMaterials.choices)
+    env_material_other = models.CharField("Other Material", blank=True, max_length=255)
     env_notes = models.TextField("Environmental Notes", blank=True)
     # by boat or by foot
-    env_measure_mode = models.CharField("Collection Mode", max_length=50, choices=MeasureModes.choices,
-                                        blank=True)
-    env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
-    env_bottom_depth = models.DecimalField("Bottom Depth (m)", max_digits=15, decimal_places=10, blank=True, null=True)
-    measurements_taken = models.CharField("Measurements Taken", max_length=50, choices=YesNo.choices,
-                                          blank=True)
-    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Designated Sub-corer",
-                                      blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="core_subcorer")
-    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Designated Filterer",
-                                       blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="water_filterer")
-    survey_complete = models.CharField("Survey Complete", max_length=50, choices=YesNo.choices,
-                                       blank=True)
-    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                  verbose_name="Quality Editor",
-                                  blank=True, null=True,
-                                  on_delete=models.SET(get_sentinel_user),
-                                  related_name="qa_editor")
+    env_measure_mode = models.CharField("Collection Mode", blank=True, max_length=50, choices=MeasureModes.choices)
+    env_boat_type = models.CharField("Boat Type", blank=True, max_length=255)
+    env_bottom_depth = models.DecimalField("Bottom Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
+    measurements_taken = models.CharField("Measurements Taken", blank=True, max_length=50, choices=YesNo.choices)
+    core_subcorer = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Designated Sub-corer", on_delete=models.SET(get_sentinel_user), related_name="core_subcorer")
+    water_filterer = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Designated Filterer", on_delete=models.SET(get_sentinel_user), related_name="water_filterer")
+    survey_complete = models.CharField("Survey Complete", blank=True, max_length=50, choices=YesNo.choices)
+    qa_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Quality Editor", on_delete=models.SET(get_sentinel_user), related_name="qa_editor")
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
     qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
-    gps_cap_lat = models.DecimalField("Captured Latitude (DD)",
-                                      max_digits=22, decimal_places=16,
-                                      blank=True, null=True)
-    gps_cap_long = models.DecimalField("Captured Longitude (DD)",
-                                       max_digits=22, decimal_places=16,
-                                       blank=True, null=True)
-    gps_cap_alt = models.DecimalField("Captured Altitude (m)",
-                                      max_digits=22, decimal_places=16,
-                                      blank=True, null=True)
-    gps_cap_horacc = models.DecimalField("Captured Horizontal Accuracy (m)",
-                                         max_digits=22, decimal_places=16,
-                                         blank=True, null=True)
-    gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)",
-                                          max_digits=22, decimal_places=16,
-                                          blank=True, null=True)
+    gps_cap_lat = models.DecimalField("Captured Latitude (DD)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_long = models.DecimalField("Captured Longitude (DD)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_alt = models.DecimalField("Captured Altitude (m)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_horacc = models.DecimalField("Captured Horizontal Accuracy (m)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)", blank=True, null=True, max_digits=22, decimal_places=16)
     record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Record Creator",
-                                       blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="survey_record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Record Creator", on_delete=models.SET(get_sentinel_user), related_name="survey_record_creator")
     record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Record Editor",
-                                      blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="survey_record_editor")
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Record Editor", on_delete=models.SET(get_sentinel_user), related_name="survey_record_editor")
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
     # django srid defaults to 4326 (WGS84)
@@ -143,25 +94,14 @@ class FieldSurvey(DateTimeUserMixin):
 
 
 class FieldCrew(DateTimeUserMixin):
-    crew_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
-    crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
+    crew_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    crew_fname = models.CharField("Crew First Name", blank=True, max_length=255)
+    crew_lname = models.CharField("Crew First Name", blank=True, max_length=255)
     record_create_datetime = models.DateTimeField("Crew Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Crew Creator",
-                                       blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="crew_record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Crew Creator", on_delete=models.SET(get_sentinel_user), related_name="crew_record_creator")
     record_edit_datetime = models.DateTimeField("Crew Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Crew Editor",
-                                      blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="crew_record_editor")
-    survey_global_id = models.ForeignKey(FieldSurvey,
-                                         db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcrew",
-                                         on_delete=models.CASCADE)
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Crew Editor", on_delete=models.SET(get_sentinel_user), related_name="crew_record_editor")
+    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcrew", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
@@ -173,80 +113,48 @@ class FieldCrew(DateTimeUserMixin):
 
 
 class EnvMeasurement(DateTimeUserMixin):
-    env_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
+    env_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
-    env_measure_depth = models.DecimalField("Measurement Depth (m)",
-                                            max_digits=15, decimal_places=10,
-                                            blank=True, null=True)
-    env_instrument = models.TextField("Instruments Used", choices=EnvInstruments.choices,
-                                      blank=True)
+    env_measure_depth = models.DecimalField("Measurement Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_instrument = models.TextField("Instruments Used", blank=True, choices=EnvInstruments.choices)
     # env_ctd_fname
-    env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
+    env_ctd_filename = models.CharField("CTD File Name", blank=True, max_length=255)
     env_ctd_notes = models.TextField("CTD Notes", blank=True)
     # env_ysi_fname
-    env_ysi_filename = models.CharField("YSI File Name", max_length=255, blank=True)
-    env_ysi_model = models.CharField("YSI Model", max_length=50, choices=YsiModels.choices,
-                                     blank=True)
-    env_ysi_sn = models.CharField("YSI Serial Number", max_length=255, blank=True)
+    env_ysi_filename = models.CharField("YSI File Name", blank=True, max_length=255)
+    env_ysi_model = models.CharField("YSI Model", blank=True, max_length=50, choices=YsiModels.choices)
+    env_ysi_sn = models.CharField("YSI Serial Number", blank=True, max_length=255)
     env_ysi_notes = models.TextField("YSI Notes", blank=True)
-    env_secchi_depth = models.DecimalField("Secchi Depth (m)", max_digits=15, decimal_places=10,
-                                           blank=True, null=True)
+    env_secchi_depth = models.DecimalField("Secchi Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
     env_secchi_notes = models.TextField("Secchi Notes", blank=True)
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
-    env_measurement = models.TextField("Environmental Measurements", choices=EnvMeasurements.choices,
-                                       blank=True)
-    env_flow_rate = models.DecimalField("Flow Rate (m/s)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
-    env_water_temp = models.DecimalField("Water Temperature (C)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
+    env_measurement = models.TextField("Environmental Measurements", blank=True, choices=EnvMeasurements.choices)
+    env_flow_rate = models.DecimalField("Flow Rate (m/s)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_water_temp = models.DecimalField("Water Temperature (C)", blank=True, null=True, max_digits=15, decimal_places=10)
     # env_sal
-    env_salinity = models.DecimalField("Salinity (PSU)",
-                                       max_digits=15, decimal_places=10, blank=True, null=True)
-    env_ph_scale = models.DecimalField("pH Scale", max_digits=15, decimal_places=10,
-                                       blank=True, null=True)
-    env_par1 = models.DecimalField("PAR1 (Channel 1: Up μmoles/sec/m²)",
-                                   max_digits=15, decimal_places=10, blank=True, null=True)
-    env_par2 = models.DecimalField("PAR2 (Channel 2: Down μmoles/sec/m²)",
-                                   max_digits=15, decimal_places=10, blank=True, null=True)
-    env_turbidity = models.DecimalField("Turbidity FNU (Formazin Nephelometric Unit)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
-    env_conductivity = models.DecimalField("Conductivity (μS/cm)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    env_do = models.DecimalField("Dissolved Oxygen (mg/L)",
-                                 max_digits=15, decimal_places=10, blank=True, null=True)
-    env_pheophytin = models.DecimalField("Pheophytin (µg/L)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
-    env_chla = models.DecimalField("Chlorophyll a (µg/L)",
-                                   max_digits=15, decimal_places=10, blank=True, null=True)
-    env_no3no2 = models.DecimalField("Nitrate and Nitrite (µM)",
-                                     max_digits=15, decimal_places=10, blank=True, null=True)
-    env_no2 = models.DecimalField("Nitrite (µM)",
-                                  max_digits=15, decimal_places=10, blank=True, null=True)
-    env_nh4 = models.DecimalField("Ammonium (µM)",
-                                  max_digits=15, decimal_places=10, blank=True, null=True)
-    env_phosphate = models.DecimalField("Phosphate (µM)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
-    env_substrate = models.CharField("Bottom Substrate", max_length=50, choices=BottomSubstrates.choices,
-                                     blank=True)
+    env_salinity = models.DecimalField("Salinity (PSU)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_ph_scale = models.DecimalField("pH Scale", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_par1 = models.DecimalField("PAR1 (Channel 1: Up μmoles/sec/m²)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_par2 = models.DecimalField("PAR2 (Channel 2: Down μmoles/sec/m²)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_turbidity = models.DecimalField("Turbidity FNU (Formazin Nephelometric Unit)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_conductivity = models.DecimalField("Conductivity (μS/cm)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_do = models.DecimalField("Dissolved Oxygen (mg/L)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_pheophytin = models.DecimalField("Pheophytin (µg/L)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_chla = models.DecimalField("Chlorophyll a (µg/L)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_no3no2 = models.DecimalField("Nitrate and Nitrite (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_no2 = models.DecimalField("Nitrite (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_nh4 = models.DecimalField("Ammonium (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_phosphate = models.DecimalField("Phosphate (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_substrate = models.CharField("Bottom Substrate", blank=True, max_length=50, choices=BottomSubstrates.choices)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
     record_create_datetime = models.DateTimeField("Env Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Env Creator",
-                                       blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="env_record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Env Creator", on_delete=models.SET(get_sentinel_user), related_name="env_record_creator")
     record_edit_datetime = models.DateTimeField("Env Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Env Editor",
-                                      blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="env_record_editor")
-    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_envmeasurement",
-                                         on_delete=models.CASCADE)
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Env Editor", on_delete=models.SET(get_sentinel_user), related_name="env_record_editor")
+    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="fieldsurvey_to_envmeasurement", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{env_global_id}'.format(env_global_id=self.env_global_id)
@@ -258,25 +166,13 @@ class EnvMeasurement(DateTimeUserMixin):
 
 
 class FieldCollection(DateTimeUserMixin):
-    collection_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    survey_global_id = models.ForeignKey(FieldSurvey,
-                                         db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcollection",
-                                         on_delete=models.CASCADE)
-    collection_type = models.CharField("Collection Type (water or sediment)",
-                                       choices=CollectionTypes.choices, max_length=50)
+    collection_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcollection", on_delete=models.CASCADE)
+    collection_type = models.CharField("Collection Type (water or sediment)", choices=CollectionTypes.choices, max_length=50)
     record_create_datetime = models.DateTimeField("Collection Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Collection Creator",
-                                       blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="collection_record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Collection Creator", on_delete=models.SET(get_sentinel_user), related_name="collection_record_creator")
     record_edit_datetime = models.DateTimeField("Collection Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Collection Editor",
-                                      blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="collection_record_editor")
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Collection Editor", on_delete=models.SET(get_sentinel_user), related_name="collection_record_editor")
 
     def __str__(self):
         return '{collection_global_id}'.format(collection_global_id=self.collection_global_id)
@@ -288,26 +184,21 @@ class FieldCollection(DateTimeUserMixin):
 
 
 class WaterCollection(models.Model):
-    field_collection = models.OneToOneField(FieldCollection, on_delete=models.CASCADE, primary_key=True)
-    water_control = models.CharField("Is Control", max_length=50, choices=YesNo.choices, blank=True)
-    water_control_type = models.CharField("Water Control Type", max_length=50, choices=ControlTypes.choices,
-                                          blank=True)
-    water_vessel_label = models.CharField("Water Vessel Label", max_length=255, blank=True)
+    field_collection = models.OneToOneField(FieldCollection, primary_key=True, on_delete=models.CASCADE)
+    water_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
+    water_control_type = models.CharField("Water Control Type", blank=True, max_length=50, choices=ControlTypes.choices)
+    water_vessel_label = models.CharField("Water Vessel Label", blank=True, max_length=255)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
-    water_collect_depth = models.DecimalField("Water Collection Depth",
-                                              max_digits=15, decimal_places=10, blank=True, null=True)
-    water_collect_mode = models.CharField("Collection Mode", max_length=50, choices=WaterCollectionModes.choices,
-                                          blank=True)
+    water_collect_depth = models.DecimalField("Water Collection Depth", blank=True, null=True, max_digits=15, decimal_places=10)
+    water_collect_mode = models.CharField("Collection Mode", blank=True, max_length=50, choices=WaterCollectionModes.choices)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
-    water_niskin_vol = models.DecimalField("Niskin Sample Volume",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    water_vessel_vol = models.DecimalField("Water Vessel Volume",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
-    water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
+    water_niskin_vol = models.DecimalField("Niskin Sample Volume", blank=True, null=True, max_digits=15, decimal_places=10)
+    water_vessel_vol = models.DecimalField("Water Vessel Volume", blank=True, null=True, max_digits=15, decimal_places=10)
+    water_vessel_material = models.CharField("Water Vessel Material", blank=True, max_length=255)
+    water_vessel_color = models.CharField("Water Vessel Color", blank=True, max_length=255)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
     # wasfiltered
-    was_filtered = models.CharField("Filtered", max_length=50, choices=YesNo.choices, blank=True)
+    was_filtered = models.CharField("Filtered", blank=True, max_length=50, choices=YesNo.choices)
 
     def __str__(self):
         return '{collection_global_id}'.format(collection_global_id=self.field_collection.collection_global_id)
@@ -319,23 +210,20 @@ class WaterCollection(models.Model):
 
 
 class SedimentCollection(models.Model):
-    field_collection = models.OneToOneField(FieldCollection, on_delete=models.CASCADE, primary_key=True)
-    core_control = models.CharField("Is Control", max_length=50, choices=YesNo.choices, blank=True)
-    core_label = models.CharField("Core Label", max_length=255, blank=True)
+    field_collection = models.OneToOneField(FieldCollection, primary_key=True, on_delete=models.CASCADE)
+    core_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
+    core_label = models.CharField("Core Label", blank=True, max_length=255)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
-    core_method = models.CharField("Corer Method", max_length=50, choices=CoreMethods.choices, blank=True)
-    core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
-    core_collect_depth = models.DecimalField("Core Depth (m)",
-                                             max_digits=15, decimal_places=10, blank=True, null=True)
-    core_length = models.DecimalField("Core Length (cm)",
-                                      max_digits=15, decimal_places=10, blank=True, null=True)
-    core_diameter = models.DecimalField("Core Diameter (cm)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
+    core_method = models.CharField("Corer Method", blank=True, max_length=50, choices=CoreMethods.choices)
+    core_method_other = models.CharField("Other Corer Method", blank=True, max_length=255)
+    core_collect_depth = models.DecimalField("Core Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
+    core_length = models.DecimalField("Core Length (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
+    core_diameter = models.DecimalField("Core Diameter (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=50, choices=YesNo.choices, blank=True)
+    subcores_taken = models.CharField("Sub-Cored", blank=True, max_length=50, choices=YesNo.choices)
 
     def __str__(self):
         return '{collection_global_id}'.format(collection_global_id=self.field_collection.collection_global_id)
@@ -347,27 +235,16 @@ class SedimentCollection(models.Model):
 
 
 class FieldSample(DateTimeUserMixin):
-    sample_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    collection_global_id = models.ForeignKey(FieldCollection,
-                                             db_column="collection_global_id",
-                                             related_name="fieldcollection_to_fieldsample",
-                                             on_delete=models.CASCADE)
+    sample_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="fieldcollection_to_fieldsample", on_delete=models.CASCADE)
     field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     sample_material = models.ForeignKey('sample_labels.SampleMaterial', on_delete=models.RESTRICT)
     record_create_datetime = models.DateTimeField("Field Sample Creation DateTime", blank=True, null=True)
-    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                       verbose_name="Field Sample Creator",
-                                       blank=True, null=True,
-                                       on_delete=models.SET(get_sentinel_user),
-                                       related_name="field_sample_record_creator")
+    record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Field Sample Creator", on_delete=models.SET(get_sentinel_user), related_name="field_sample_record_creator")
     record_edit_datetime = models.DateTimeField("Field Sample Edit DateTime", blank=True, null=True)
-    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                      verbose_name="Field Sample Editor",
-                                      blank=True, null=True,
-                                      on_delete=models.SET(get_sentinel_user),
-                                      related_name="field_sample_record_editor")
+    record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Field Sample Editor", on_delete=models.SET(get_sentinel_user), related_name="field_sample_record_editor")
 
     def __str__(self):
         return '{barcode}_{sid}'.format(barcode=self.barcode_slug, sid=self.sample_global_id)
@@ -393,25 +270,20 @@ class FieldSample(DateTimeUserMixin):
 
 
 class FilterSample(models.Model):
-    field_sample = models.OneToOneField(FieldSample, on_delete=models.CASCADE, primary_key=True)
-    filter_location = models.CharField("Filter Location", max_length=50,
-                                       choices=FilterLocations.choices, blank=True)
-    is_prefilter = models.CharField("Prefilter", max_length=50,
-                                    choices=YesNo.choices, blank=True)
-    filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
-    filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
-    filter_sample_label = models.CharField("Filter Sample Label", max_length=255, blank=True)
+    field_sample = models.OneToOneField(FieldSample, primary_key=True, on_delete=models.CASCADE)
+    filter_location = models.CharField("Filter Location", blank=True, max_length=50, choices=FilterLocations.choices)
+    is_prefilter = models.CharField("Prefilter", blank=True, max_length=50, choices=YesNo.choices)
+    filter_fname = models.CharField("Filterer First Name", blank=True, max_length=255)
+    filter_lname = models.CharField("Filterer Last Name", blank=True, max_length=255)
+    filter_sample_label = models.CharField("Filter Sample Label", blank=True, max_length=255)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
-    filter_method = models.CharField("Filter Method", max_length=50,
-                                     choices=FilterMethods.choices, blank=True)
-    filter_method_other = models.CharField("Other Filter Method", max_length=255, blank=True)
-    filter_vol = models.DecimalField("Water Volume Filtered",
-                                     max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_type = models.CharField("Filter Type", max_length=50,
-                                   choices=FilterTypes.choices, blank=True)
-    filter_type_other = models.CharField("Other Filter Type", max_length=255, blank=True)
-    filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
+    filter_method = models.CharField("Filter Method", blank=True, max_length=50, choices=FilterMethods.choices)
+    filter_method_other = models.CharField("Other Filter Method", blank=True, max_length=255)
+    filter_vol = models.DecimalField("Water Volume Filtered", blank=True, null=True, max_digits=15, decimal_places=10)
+    filter_type = models.CharField("Filter Type", blank=True, max_length=50, choices=FilterTypes.choices)
+    filter_type_other = models.CharField("Other Filter Type", blank=True, max_length=255)
+    filter_pore = models.DecimalField("Filter Pore Size", blank=True, null=True, max_digits=15, decimal_places=10)
+    filter_size = models.DecimalField("Filter Size", blank=True, null=True, max_digits=15, decimal_places=10)
     filter_notes = models.TextField("Filter Notes", blank=True)
 
     def __str__(self):
@@ -424,19 +296,16 @@ class FilterSample(models.Model):
 
 
 class SubCoreSample(models.Model):
-    field_sample = models.OneToOneField(FieldSample, on_delete=models.CASCADE, primary_key=True)
-    subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
-    subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
-    subcore_method = models.CharField("Sub-Core Method", max_length=50,
-                                      choices=SubCoreMethods.choices, blank=True)
-    subcore_method_other = models.CharField("Other Sub-Core Method", max_length=255, blank=True)
+    field_sample = models.OneToOneField(FieldSample, primary_key=True, on_delete=models.CASCADE)
+    subcore_fname = models.CharField("Sub-Corer First Name", blank=True, max_length=255)
+    subcore_lname = models.CharField("Sub-Corer Last Name", blank=True, max_length=255)
+    subcore_method = models.CharField("Sub-Core Method", blank=True, max_length=50, choices=SubCoreMethods.choices)
+    subcore_method_other = models.CharField("Other Sub-Core Method", blank=True, max_length=255)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
-    subcore_length = models.DecimalField("Sub-Core Length (cm)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
-    subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
+    subcore_length = models.DecimalField("Sub-Core Length (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
+    subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
     # TODO - add subcore_notes field to app?
 
@@ -457,62 +326,55 @@ class SubCoreSample(models.Model):
 class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    survey_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    username = models.CharField("Username", max_length=255, blank=True)
+    survey_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    username = models.CharField("Username", blank=True, max_length=255)
     # date
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
     # prj_ids
-    project_ids = models.CharField("Affiliated Project(s)", max_length=255, blank=True)
-    supervisor = models.CharField("Supervisor", max_length=255, blank=True)
+    project_ids = models.CharField("Affiliated Project(s)", blank=True, max_length=255)
+    supervisor = models.CharField("Supervisor", blank=True, max_length=255)
     # recdr_fname
-    recorder_fname = models.CharField("Recorder First Name", max_length=255, blank=True)
+    recorder_fname = models.CharField("Recorder First Name", blank=True, max_length=255)
     # recdr_lname
-    recorder_lname = models.CharField("Recorder Last Name", max_length=255, blank=True)
+    recorder_lname = models.CharField("Recorder Last Name", blank=True, max_length=255)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
-    site_id = models.CharField("Site ID", max_length=7, blank=True)
-    site_id_other = models.CharField("Site ID - Other", max_length=255, blank=True)
-    site_name = models.CharField("General Location Name", max_length=255, blank=True)
+    site_id = models.CharField("Site ID", blank=True, max_length=7)
+    site_id_other = models.CharField("Site ID - Other", blank=True, max_length=255)
+    site_name = models.CharField("General Location Name", blank=True, max_length=255)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     long_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)
     # environmental observations
-    env_obs_turbidity = models.CharField("Water Turbidity", max_length=255, blank=True)
-    env_obs_precip = models.CharField("Precipitation", max_length=255, blank=True)
-    env_obs_wind_speed = models.CharField("Wind Speed", max_length=255, blank=True)
-    env_obs_cloud_cover = models.CharField("Cloud Cover", max_length=255, blank=True)
-    env_biome = models.CharField("Biome", max_length=255, blank=True)
-    env_biome_other = models.CharField("Other Biome", max_length=255, blank=True)
-    env_feature = models.CharField("Feature", max_length=255, blank=True)
-    env_feature_other = models.CharField("Other Feature", max_length=255, blank=True)
-    env_material = models.CharField("Material", max_length=255, blank=True)
-    env_material_other = models.CharField("Other Material", max_length=255, blank=True)
+    env_obs_turbidity = models.CharField("Water Turbidity", blank=True, max_length=255)
+    env_obs_precip = models.CharField("Precipitation", blank=True, max_length=255)
+    env_obs_wind_speed = models.CharField("Wind Speed", blank=True, max_length=255)
+    env_obs_cloud_cover = models.CharField("Cloud Cover", blank=True, max_length=255)
+    env_biome = models.CharField("Biome", blank=True, max_length=255)
+    env_biome_other = models.CharField("Other Biome", blank=True, max_length=255)
+    env_feature = models.CharField("Feature", blank=True, max_length=255)
+    env_feature_other = models.CharField("Other Feature", blank=True, max_length=255)
+    env_material = models.CharField("Material", blank=True, max_length=255)
+    env_material_other = models.CharField("Other Material", blank=True, max_length=255)
     env_notes = models.TextField("Environmental Notes", blank=True)
     # by boat or by foot
-    env_measure_mode = models.CharField("Collection Mode", max_length=255, blank=True)
-    env_boat_type = models.CharField("Boat Type", max_length=255, blank=True)
-    env_bottom_depth = models.DecimalField("Bottom Depth (m)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    measurements_taken = models.CharField("Measurements Taken", max_length=3, blank=True)
-    core_subcorer = models.CharField("Designated Sub-corer", max_length=255, blank=True)
-    water_filterer = models.CharField("Designated Filterer", max_length=255, blank=True)
-    survey_complete = models.CharField("Survey Complete", max_length=3, blank=True)
-    qa_editor = models.CharField("Quality Editor", max_length=255, blank=True)
+    env_measure_mode = models.CharField("Collection Mode", blank=True, max_length=255)
+    env_boat_type = models.CharField("Boat Type", blank=True, max_length=255)
+    env_bottom_depth = models.DecimalField("Bottom Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
+    measurements_taken = models.CharField("Measurements Taken", blank=True, max_length=3)
+    core_subcorer = models.CharField("Designated Sub-corer", blank=True, max_length=255)
+    water_filterer = models.CharField("Designated Filterer", blank=True, max_length=255)
+    survey_complete = models.CharField("Survey Complete", blank=True, max_length=3)
+    qa_editor = models.CharField("Quality Editor", blank=True, max_length=255)
     qa_datetime = models.DateTimeField("Quality Check DateTime", blank=True, null=True)
-    qa_initial = models.CharField("Quality Check Initials", max_length=200, blank=True)
-    gps_cap_lat = models.DecimalField("Captured Latitude (DD)",
-                                      max_digits=22, decimal_places=16,
-                                      blank=True, null=True)
-    gps_cap_long = models.DecimalField("Captured Longitude (DD)",
-                                       max_digits=22, decimal_places=16,
-                                       blank=True, null=True)
-    gps_cap_alt = models.DecimalField("Captured Altitude (m)", max_digits=22, decimal_places=16, blank=True, null=True)
-    gps_cap_horacc = models.DecimalField("Captured Horizontal Accuracy (m)", max_digits=22,
-                                         decimal_places=16, blank=True, null=True)
-    gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)", max_digits=22,
-                                          decimal_places=16, blank=True, null=True)
+    qa_initial = models.CharField("Quality Check Initials", blank=True, max_length=200)
+    gps_cap_lat = models.DecimalField("Captured Latitude (DD)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_long = models.DecimalField("Captured Longitude (DD)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_alt = models.DecimalField("Captured Altitude (m)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_horacc = models.DecimalField("Captured Horizontal Accuracy (m)", blank=True, null=True, max_digits=22, decimal_places=16)
+    gps_cap_vertacc = models.DecimalField("Captured Vertical Accuracy (m)", blank=True, null=True, max_digits=22, decimal_places=16)
     record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_creator = models.CharField("Record Creator", blank=True, max_length=255)
     record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
+    record_editor = models.CharField("Record Editor", blank=True, max_length=255)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
     # django srid defaults to 4326 (WGS84)
@@ -540,17 +402,14 @@ class FieldSurveyETL(DateTimeUserMixin):
 
 
 class FieldCrewETL(DateTimeUserMixin):
-    crew_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    crew_fname = models.CharField("Crew First Name", max_length=255, blank=True)
-    crew_lname = models.CharField("Crew First Name", max_length=255, blank=True)
+    crew_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    crew_fname = models.CharField("Crew First Name", blank=True, max_length=255)
+    crew_lname = models.CharField("Crew First Name", blank=True, max_length=255)
     record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_creator = models.CharField("Record Creator", blank=True, max_length=255)
     record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL,
-                                         db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcrew_etl",
-                                         on_delete=models.CASCADE)
+    record_editor = models.CharField("Record Editor", blank=True, max_length=255)
+    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcrew_etl", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
@@ -562,69 +421,48 @@ class FieldCrewETL(DateTimeUserMixin):
 
 
 class EnvMeasurementETL(DateTimeUserMixin):
-    env_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
+    env_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
-    env_measure_depth = models.DecimalField("Measurement Depth (m)",
-                                            max_digits=15, decimal_places=10, blank=True, null=True)
+    env_measure_depth = models.DecimalField("Measurement Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
     env_instrument = models.TextField("Instruments Used", blank=True)
     # env_ctd_fname
-    env_ctd_filename = models.CharField("CTD File Name", max_length=255, blank=True)
+    env_ctd_filename = models.CharField("CTD File Name", blank=True, max_length=255)
     env_ctd_notes = models.TextField("CTD Notes", blank=True)
     # env_ysi_fname
-    env_ysi_filename = models.CharField("YSI File Name", max_length=255, blank=True)
-    env_ysi_model = models.CharField("YSI Model", max_length=255, blank=True)
-    env_ysi_sn = models.CharField("YSI Serial Number", max_length=255, blank=True)
+    env_ysi_filename = models.CharField("YSI File Name", blank=True, max_length=255)
+    env_ysi_model = models.CharField("YSI Model", blank=True, max_length=255)
+    env_ysi_sn = models.CharField("YSI Serial Number", blank=True, max_length=255)
     env_ysi_notes = models.TextField("YSI Notes", blank=True)
-    env_secchi_depth = models.DecimalField("Secchi Depth (m)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
+    env_secchi_depth = models.DecimalField("Secchi Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
     env_secchi_notes = models.TextField("Secchi Notes", blank=True)
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
     env_measurement = models.TextField("Environmental Measurements", blank=True)
-    env_flow_rate = models.DecimalField("Flow Rate (m/s)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
-    env_water_temp = models.DecimalField("Water Temperature (C)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
+    env_flow_rate = models.DecimalField("Flow Rate (m/s)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_water_temp = models.DecimalField("Water Temperature (C)", blank=True, null=True, max_digits=15, decimal_places=10)
     # env_sal
-    env_salinity = models.DecimalField("Salinity (PSU)",
-                                       max_digits=15, decimal_places=10, blank=True, null=True)
-    env_ph_scale = models.DecimalField("pH Scale",
-                                       max_digits=15, decimal_places=10, blank=True, null=True)
-    env_par1 = models.DecimalField("PAR1 (Channel 1: Up μmoles/sec/m²)",
-                                   max_digits=15, decimal_places=10, blank=True, null=True)
-    env_par2 = models.DecimalField("PAR2 (Channel 2: Down μmoles/sec/m²)",
-                                   max_digits=15, decimal_places=10, blank=True, null=True)
-    env_turbidity = models.DecimalField("Turbidity FNU (Formazin Nephelometric Unit)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
-    env_conductivity = models.DecimalField("Conductivity (μS/cm)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    env_do = models.DecimalField("Dissolved Oxygen (mg/L)",
-                                 max_digits=15, decimal_places=10, blank=True, null=True)
-    env_pheophytin = models.DecimalField("Pheophytin (µg/L)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
-    env_chla = models.DecimalField("Chlorophyll a (µg/L)",
-                                   max_digits=15, decimal_places=10, blank=True, null=True)
-    env_no3no2 = models.DecimalField("Nitrate and Nitrite (µM)",
-                                     max_digits=15, decimal_places=10, blank=True, null=True)
-    env_no2 = models.DecimalField("Nitrite (µM)",
-                                  max_digits=15, decimal_places=10, blank=True, null=True)
-    env_nh4 = models.DecimalField("Ammonium (µM)",
-                                  max_digits=15, decimal_places=10, blank=True, null=True)
-    env_phosphate = models.DecimalField("Phosphate (µM)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
-    env_substrate = models.CharField("Bottom Substrate",
-                                     max_length=255, blank=True)
+    env_salinity = models.DecimalField("Salinity (PSU)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_ph_scale = models.DecimalField("pH Scale", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_par1 = models.DecimalField("PAR1 (Channel 1: Up μmoles/sec/m²)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_par2 = models.DecimalField("PAR2 (Channel 2: Down μmoles/sec/m²)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_turbidity = models.DecimalField("Turbidity FNU (Formazin Nephelometric Unit)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_conductivity = models.DecimalField("Conductivity (μS/cm)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_do = models.DecimalField("Dissolved Oxygen (mg/L)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_pheophytin = models.DecimalField("Pheophytin (µg/L)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_chla = models.DecimalField("Chlorophyll a (µg/L)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_no3no2 = models.DecimalField("Nitrate and Nitrite (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_no2 = models.DecimalField("Nitrite (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_nh4 = models.DecimalField("Ammonium (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_phosphate = models.DecimalField("Phosphate (µM)", blank=True, null=True, max_digits=15, decimal_places=10)
+    env_substrate = models.CharField("Bottom Substrate", blank=True, max_length=255)
     env_lab_datetime = models.DateTimeField("Lab DateTime", blank=True, null=True)
     env_measure_notes = models.TextField("Measurement Notes", blank=True)
     record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_creator = models.CharField("Record Creator", blank=True, max_length=255)
     record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL,
-                                         db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_envmeasurement_etl",
-                                         on_delete=models.CASCADE)
+    record_editor = models.CharField("Record Editor", blank=True, max_length=255)
+    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_envmeasurement_etl", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{env_global_id}'.format(env_global_id=self.env_global_id)
@@ -636,62 +474,51 @@ class EnvMeasurementETL(DateTimeUserMixin):
 
 
 class FieldCollectionETL(DateTimeUserMixin):
-    collection_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    collection_type = models.CharField("Collection Type (water or sediment)", max_length=255, blank=True)
-    water_control = models.CharField("Is Control", max_length=3, blank=True)
-    water_control_type = models.CharField("Water Control Type", max_length=255, blank=True)
-    water_vessel_label = models.CharField("Water Vessel Label", max_length=255, blank=True)
+    collection_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    collection_type = models.CharField("Collection Type (water or sediment)", blank=True, max_length=255)
+    water_control = models.CharField("Is Control", blank=True, max_length=3)
+    water_control_type = models.CharField("Water Control Type", blank=True, max_length=255)
+    water_vessel_label = models.CharField("Water Vessel Label", blank=True, max_length=255)
     water_collect_datetime = models.DateTimeField("Water Collection DateTime", blank=True, null=True)
-    water_collect_depth = models.DecimalField("Water Collection Depth",
-                                              max_digits=15, decimal_places=10, blank=True, null=True)
-    water_collect_mode = models.CharField("Collection Mode", max_length=255, blank=True)
+    water_collect_depth = models.DecimalField("Water Collection Depth", blank=True, null=True, max_digits=15, decimal_places=10)
+    water_collect_mode = models.CharField("Collection Mode", blank=True, max_length=255)
     water_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
-    water_niskin_vol = models.DecimalField("Niskin Sample Volume",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    water_vessel_vol = models.DecimalField("Water Vessel Volume",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
-    water_vessel_material = models.CharField("Water Vessel Material", max_length=255, blank=True)
-    water_vessel_color = models.CharField("Water Vessel Color", max_length=255, blank=True)
+    water_niskin_vol = models.DecimalField("Niskin Sample Volume", blank=True, null=True, max_digits=15, decimal_places=10)
+    water_vessel_vol = models.DecimalField("Water Vessel Volume", blank=True, null=True, max_digits=15, decimal_places=10)
+    water_vessel_material = models.CharField("Water Vessel Material", blank=True, max_length=255)
+    water_vessel_color = models.CharField("Water Vessel Color", blank=True, max_length=255)
     water_collect_notes = models.TextField("Water Sample Notes", blank=True)
-    was_filtered = models.CharField("Filtered", max_length=3, blank=True)
-    core_control = models.CharField("Is Control", max_length=3, blank=True)
-    core_label = models.CharField("Core Label", max_length=255, blank=True)
+    was_filtered = models.CharField("Filtered", blank=True, max_length=3)
+    core_control = models.CharField("Is Control", blank=True, max_length=3)
+    core_label = models.CharField("Core Label", blank=True, max_length=255)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
     core_datetime_end = models.DateTimeField("Core End DateTime", blank=True, null=True)
-    core_method = models.CharField("Corer Method", max_length=255, blank=True)
-    core_method_other = models.CharField("Other Corer Method", max_length=255, blank=True)
-    core_collect_depth = models.DecimalField("Core Depth (m)",
-                                             max_digits=15, decimal_places=10, blank=True, null=True)
-    core_length = models.DecimalField("Core Length (cm)",
-                                      max_digits=15, decimal_places=10, blank=True, null=True)
-    core_diameter = models.DecimalField("Core Diameter (cm)",
-                                        max_digits=15, decimal_places=10, blank=True, null=True)
+    core_method = models.CharField("Corer Method", blank=True, max_length=255)
+    core_method_other = models.CharField("Other Corer Method", blank=True, max_length=255)
+    core_collect_depth = models.DecimalField("Core Depth (m)", blank=True, null=True, max_digits=15, decimal_places=10)
+    core_length = models.DecimalField("Core Length (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
+    core_diameter = models.DecimalField("Core Diameter (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
     # subcorestaken
-    subcores_taken = models.CharField("Sub-Cored", max_length=3, blank=True)
-    subcore_fname = models.CharField("Sub-Corer First Name", max_length=255, blank=True)
-    subcore_lname = models.CharField("Sub-Corer Last Name", max_length=255, blank=True)
-    subcore_method = models.CharField("Sub-Core Method", max_length=255, blank=True)
-    subcore_method_other = models.CharField("Other Sub-Core Method", max_length=255, blank=True)
+    subcores_taken = models.CharField("Sub-Cored", blank=True, max_length=3)
+    subcore_fname = models.CharField("Sub-Corer First Name", blank=True, max_length=255)
+    subcore_lname = models.CharField("Sub-Corer Last Name", blank=True, max_length=255)
+    subcore_method = models.CharField("Sub-Core Method", blank=True, max_length=255)
+    subcore_method_other = models.CharField("Other Sub-Core Method", blank=True, max_length=255)
     subcore_datetime_start = models.DateTimeField("Sub-Core DateTime Start", blank=True, null=True)
     subcore_datetime_end = models.DateTimeField("Sub-Core DateTime End", blank=True, null=True)
-    subcore_min_barcode = models.CharField("Min Sub-Core Barcode", max_length=16, blank=True)
-    subcore_max_barcode = models.CharField("Max Sub-Core Barcode", max_length=16, blank=True)
+    subcore_min_barcode = models.CharField("Min Sub-Core Barcode", blank=True, max_length=16)
+    subcore_max_barcode = models.CharField("Max Sub-Core Barcode", blank=True, max_length=16)
     subcore_number = models.IntegerField("Number of Sub-Cores", blank=True, null=True)
-    subcore_length = models.DecimalField("Sub-Core Length (cm)",
-                                         max_digits=15, decimal_places=10, blank=True, null=True)
-    subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)",
-                                           max_digits=15, decimal_places=10, blank=True, null=True)
+    subcore_length = models.DecimalField("Sub-Core Length (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
+    subcore_diameter = models.DecimalField("Sub-Core Diameter (cm)", blank=True, null=True, max_digits=15, decimal_places=10)
     subcore_clayer = models.IntegerField("Sub-Core Consistency Layer", blank=True, null=True)
     core_purpose = models.TextField("Purpose of Other Cores", blank=True)
     core_notes = models.TextField("Core Notes", blank=True)
     record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_creator = models.CharField("Record Creator", blank=True, max_length=255)
     record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
-    survey_global_id = models.ForeignKey(FieldSurveyETL,
-                                         db_column="survey_global_id",
-                                         related_name="fieldsurvey_to_fieldcollection_etl",
-                                         on_delete=models.CASCADE)
+    record_editor = models.CharField("Record Editor", blank=True, max_length=255)
+    survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcollection_etl", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{collection_global_id}'.format(collection_global_id=self.collection_global_id)
@@ -703,32 +530,28 @@ class FieldCollectionETL(DateTimeUserMixin):
 
 
 class SampleFilterETL(DateTimeUserMixin):
-    filter_global_id = models.CharField("Global ID", max_length=255, primary_key=True)
-    filter_location = models.CharField("Filter Location", max_length=255, blank=True)
-    is_prefilter = models.CharField("Prefilter", max_length=3, blank=True)
-    filter_fname = models.CharField("Filterer First Name", max_length=255, blank=True)
-    filter_lname = models.CharField("Filterer Last Name", max_length=255, blank=True)
-    filter_sample_label = models.CharField("Filter Sample Label", max_length=255, blank=True)
+    filter_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    filter_location = models.CharField("Filter Location", blank=True, max_length=255)
+    is_prefilter = models.CharField("Prefilter", blank=True, max_length=3)
+    filter_fname = models.CharField("Filterer First Name", blank=True, max_length=255)
+    filter_lname = models.CharField("Filterer Last Name", blank=True, max_length=255)
+    filter_sample_label = models.CharField("Filter Sample Label", blank=True, max_length=255)
     # needs to fk to samplelabels at some point
-    filter_barcode = models.CharField("Filter Sample Barcode", max_length=16, blank=True)
+    filter_barcode = models.CharField("Filter Sample Barcode", blank=True, max_length=16)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
-    filter_method = models.CharField("Filter Method", max_length=255, blank=True)
-    filter_method_other = models.CharField("Other Filter Method", max_length=255, blank=True)
-    filter_vol = models.DecimalField("Water Volume Filtered",
-                                     max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_type = models.CharField("Filter Type", max_length=255, blank=True)
-    filter_type_other = models.CharField("Other Filter Type", max_length=255, blank=True)
-    filter_pore = models.DecimalField("Filter Pore Size", max_digits=15, decimal_places=10, blank=True, null=True)
-    filter_size = models.DecimalField("Filter Size", max_digits=15, decimal_places=10, blank=True, null=True)
+    filter_method = models.CharField("Filter Method", blank=True, max_length=255)
+    filter_method_other = models.CharField("Other Filter Method", blank=True, max_length=255)
+    filter_vol = models.DecimalField("Water Volume Filtered", blank=True, null=True, max_digits=15, decimal_places=10)
+    filter_type = models.CharField("Filter Type", blank=True, max_length=255)
+    filter_type_other = models.CharField("Other Filter Type", blank=True, max_length=255)
+    filter_pore = models.DecimalField("Filter Pore Size", blank=True, null=True, max_digits=15, decimal_places=10)
+    filter_size = models.DecimalField("Filter Size", blank=True, null=True, max_digits=15, decimal_places=10)
     filter_notes = models.TextField("Filter Notes", blank=True)
     record_create_datetime = models.DateTimeField("Record Creation DateTime", blank=True, null=True)
-    record_creator = models.CharField("Record Creator", max_length=255, blank=True)
+    record_creator = models.CharField("Record Creator", blank=True, max_length=255)
     record_edit_datetime = models.DateTimeField("Record Edit DateTime", blank=True, null=True)
-    record_editor = models.CharField("Record Editor", max_length=255, blank=True)
-    collection_global_id = models.ForeignKey(FieldCollectionETL,
-                                             db_column="collection_global_id",
-                                             related_name="fieldcollection_to_samplefilter_etl",
-                                             on_delete=models.CASCADE)
+    record_editor = models.CharField("Record Editor", blank=True, max_length=255)
+    collection_global_id = models.ForeignKey(FieldCollectionETL, db_column="collection_global_id", related_name="fieldcollection_to_samplefilter_etl", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{filter_global_id}'.format(filter_global_id=self.filter_global_id)
