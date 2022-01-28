@@ -36,8 +36,7 @@ class DenoiseClusterMethod(DateTimeUserMixin):
 
 
 class DenoiseClusterMetadata(DateTimeUserMixin):
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT,
-                                         default=get_default_process_location)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT)
     denoise_cluster_method = models.ForeignKey(DenoiseClusterMethod, on_delete=models.RESTRICT)
@@ -45,8 +44,7 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
     analysis_sop_url = models.URLField("Analysis SOP URL", max_length=255)
-    analysis_script_repo_url = models.URLField("Repository URL", max_length=255,
-                                               default="https://github.com/Maine-eDNA")
+    analysis_script_repo_url = models.URLField("Repository URL", max_length=255, default="https://github.com/Maine-eDNA")
 
     def save(self, *args, **kwargs):
         self.denoise_cluster_slug = '{run_id}_{method}'.format(run_id=slugify(self.run_result.run_id),
