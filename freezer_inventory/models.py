@@ -5,7 +5,7 @@ from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
-from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, AvailStatus, InvTypes, CheckoutActions, YesNo
+from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvLocStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
 import re
 
@@ -50,7 +50,7 @@ def update_barcode_in_freezer_status(old_barcode, new_barcode_pk):
 
 # Create your models here.
 class ReturnAction(DateTimeUserMixin):
-    action_code = models.CharField("Action Code", max_length=255, unique=True)
+    action_code = models.CharField("Action Code", unique=True, max_length=255)
     action_label = models.CharField("Action Label", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -68,7 +68,7 @@ class ReturnAction(DateTimeUserMixin):
 
 class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_label = models.CharField("Freezer Label", max_length=255, unique=True)
+    freezer_label = models.CharField("Freezer Label", unique=True, max_length=255)
     freezer_label_slug = models.SlugField("Freezer Label Slug", max_length=255)
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
     freezer_length = models.DecimalField("Freezer Length", max_digits=15, decimal_places=10)
@@ -101,7 +101,7 @@ class Freezer(DateTimeUserMixin):
 class FreezerRack(DateTimeUserMixin):
     freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT)
     # freezer_rack_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_rack_label = models.CharField("Freezer Rack Label", max_length=255, unique=True)
+    freezer_rack_label = models.CharField("Freezer Rack Label", unique=True, max_length=255)
     freezer_rack_label_slug = models.SlugField("Freezer Rack Label Slug", max_length=255)
     # location of rack in freezer
     freezer_rack_column_start = models.PositiveIntegerField("Freezer Rack Column Start")
@@ -141,7 +141,7 @@ class FreezerRack(DateTimeUserMixin):
 class FreezerBox(DateTimeUserMixin):
     freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT)
     # freezer_box_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_box_label = models.CharField("Freezer Box Label", max_length=255, unique=True)
+    freezer_box_label = models.CharField("Freezer Box Label", unique=True, max_length=255)
     freezer_box_label_slug = models.SlugField("Freezer Box Label Slug", max_length=255)
     # location of box in freezer rack
     freezer_box_column = models.PositiveIntegerField("Freezer Box Column")
@@ -175,33 +175,25 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
-    sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT,
-                                          limit_choices_to={'in_freezer': YesNo.NO})
-    freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", max_length=27, unique=True)
-    freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50,
-                                              choices=InvTypes.choices)
-    freezer_inventory_status = models.CharField("Freezer Inventory Status",
-                                                max_length=50,
-                                                choices=InvStatus.choices,
-                                                default=InvStatus.IN)
-    freezer_inventory_loc_status = models.CharField("Freezer Inventory Location Status",
-                                                    max_length=50,
-                                                    choices=AvailStatus.choices,
-                                                    default=AvailStatus.UNAVAIL)
+    sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT, limit_choices_to={'in_freezer': YesNo.NO})
+    freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", unique=True, max_length=27)
+    freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50, choices=InvTypes.choices)
+    freezer_inventory_status = models.CharField("Freezer Inventory Status", max_length=50, choices=InvStatus.choices, default=InvStatus.IN)
+    freezer_inventory_loc_status = models.CharField("Freezer Inventory Location Status", max_length=50, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
     freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
 
     def save(self, *args, **kwargs):
         old_barcode = None
-        # set this way rather than 'if: == REMOVED; = AVAIL; else: = UNAVAIL' so that the DB isn't hit every time
+        # set this way rather than 'if: == REMOVED; = EMPTY; else: = FILLED' so that the DB isn't hit every time
         # the freezer_inventory_status is updated. Will only update DB if freezer_inventory_loc_status needs to be updated.
-        if self.freezer_inventory_status == InvStatus.REMOVED and self.freezer_inventory_loc_status != AvailStatus.AVAIL:
-            self.freezer_inventory_loc_status = AvailStatus.AVAIL
-        elif self.freezer_inventory_status == InvStatus.IN and self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
-            self.freezer_inventory_loc_status = AvailStatus.UNAVAIL
-        elif self.freezer_inventory_status == InvStatus.OUT and self.freezer_inventory_loc_status != AvailStatus.UNAVAIL:
-            self.freezer_inventory_loc_status = AvailStatus.UNAVAIL
+        if self.freezer_inventory_status == InvStatus.REMOVED and self.freezer_inventory_loc_status != InvLocStatus.EMPTY:
+            self.freezer_inventory_loc_status = InvLocStatus.EMPTY
+        elif self.freezer_inventory_status == InvStatus.IN and self.freezer_inventory_loc_status != InvLocStatus.FILLED:
+            self.freezer_inventory_loc_status = InvLocStatus.FILLED
+        elif self.freezer_inventory_status == InvStatus.OUT and self.freezer_inventory_loc_status != InvLocStatus.FILLED:
+            self.freezer_inventory_loc_status = InvLocStatus.FILLED
 
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
@@ -244,8 +236,9 @@ class FreezerInventory(DateTimeUserMixin):
 
 class FreezerInventoryLog(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
-    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT,
-                                          limit_choices_to=Q(freezer_inventory_status=InvStatus.IN) | Q(freezer_inventory_status=InvStatus.OUT))
+    # limit logs to freezer inventory that is either checked in or checked out - freezer_inventory_loc_status = filled means that the location
+    # is occupied with a sample that may be checked in or out, but is 'present' in the inventory system
+    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
     freezer_log_slug = models.SlugField("Inventory Log Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)

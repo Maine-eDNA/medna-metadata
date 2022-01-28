@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
-from utility.enumerations import TempUnits, MeasureUnits, CheckoutActions, YesNo, AvailStatus, InvStatus, InvTypes
+from utility.enumerations import TempUnits, MeasureUnits, CheckoutActions, YesNo, InvStatus, InvLocStatus, InvTypes
 from sample_labels.tests import SampleBarcodeTestCase
 from sample_labels.models import SampleBarcode
 
@@ -90,7 +90,7 @@ class FreezerInventoryTestCase(TestCase):
                                                    'sample_barcode': sample_barcode,
                                                    'freezer_inventory_type': InvTypes.FILTER,
                                                    'freezer_inventory_status': InvStatus.IN,
-                                                   'freezer_inventory_loc_status': AvailStatus.UNAVAIL,
+                                                   'freezer_inventory_loc_status': InvLocStatus.FILLED,
                                                    'freezer_inventory_column': 1,
                                                    'freezer_inventory_row': 1})
 

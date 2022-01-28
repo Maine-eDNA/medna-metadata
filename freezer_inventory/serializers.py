@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
-from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvTypes, \
-    CheckoutActions, YesNo, AvailStatus
+from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvLocStatus, InvTypes, \
+    CheckoutActions, YesNo
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
@@ -25,14 +25,12 @@ class ReturnActionSerializer(serializers.ModelSerializer):
         fields = ['id', 'action_code', 'action_label',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 class FreezerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_label = serializers.CharField(max_length=255,
-                                          validators=[UniqueValidator(queryset=Freezer.objects.all())])
+    freezer_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Freezer.objects.all())])
     freezer_label_slug = serializers.SlugField(max_length=255, read_only=True)
     freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -57,14 +55,12 @@ class FreezerSerializer(serializers.ModelSerializer):
     # Since created_by references a different table and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 class FreezerRackSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_rack_label = serializers.CharField(max_length=255,
-                                               validators=[UniqueValidator(queryset=FreezerRack.objects.all())])
+    freezer_rack_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=FreezerRack.objects.all())])
     freezer_rack_label_slug = serializers.SlugField(max_length=255, read_only=True)
     # location of rack in freezer
     freezer_rack_column_start = serializers.IntegerField(min_value=1)
@@ -94,17 +90,14 @@ class FreezerRackSerializer(serializers.ModelSerializer):
     # Since freezer and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    freezer = serializers.SlugRelatedField(many=False, read_only=False,
-                                           slug_field='freezer_label_slug',
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    freezer = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_label_slug',
                                            queryset=Freezer.objects.all())
 
 
 class FreezerBoxSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    freezer_box_label = serializers.CharField(max_length=255,
-                                              validators=[UniqueValidator(queryset=FreezerBox.objects.all())])
+    freezer_box_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=FreezerBox.objects.all())])
     freezer_box_label_slug = serializers.SlugField(max_length=255, read_only=True)
     # location of box in freezer rack
     freezer_box_column = serializers.IntegerField(min_value=1)
@@ -130,10 +123,8 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     # Since freezer_rack and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    freezer_rack = serializers.SlugRelatedField(many=False, read_only=False,
-                                                slug_field='freezer_rack_label_slug',
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    freezer_rack = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_rack_label_slug',
                                                 queryset=FreezerRack.objects.all())
 
 
@@ -142,7 +133,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
-    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=AvailStatus.choices, default=AvailStatus.UNAVAIL)
+    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
@@ -167,13 +158,10 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    freezer_box = serializers.SlugRelatedField(many=False, read_only=False,
-                                               slug_field='freezer_box_label_slug',
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    freezer_box = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_box_label_slug',
                                                queryset=FreezerBox.objects.all())
-    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False,
-                                                  slug_field='barcode_slug',
+    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
                                                   queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
 
 
@@ -195,13 +183,13 @@ class FreezerInventoryLogSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_inventory_slug',
-                                                     queryset=FreezerInventory.objects.all())
+                                                     queryset=FreezerInventory.objects.filter(freezer_inventory_loc_status=InvLocStatus.FILLED))
 
 
 class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
-    freezer_return_vol_units = serializers.ChoiceField(choices=VolUnits.choices, allow_blank=True)
+    freezer_return_vol_units = serializers.ChoiceField(allow_blank=True, choices=VolUnits.choices)
     freezer_return_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -213,6 +201,8 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
                   'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
-    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug', queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
-    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code', queryset=ReturnAction.objects.all())
+    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug',
+                                               queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
+    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
+                                                          queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
