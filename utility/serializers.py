@@ -94,7 +94,7 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
 
 
 class DefaultSiteCssSerializer(serializers.ModelSerializer):
-    default_css_label = serializers.CharField(max_length=255)
+    default_css_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DefaultSiteCss.objects.all())])
     # selected CSS
     css_selected_background_color = serializers.CharField(max_length=255, default="green")
     css_selected_text_color = serializers.CharField(max_length=255, default="black")
@@ -139,7 +139,7 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
 
 
 class CustomUserCssSerializer(serializers.ModelSerializer):
-    custom_css_label = serializers.CharField(max_length=255)
+    custom_css_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=CustomUserCss.objects.all())])
     # selected CSS
     css_selected_background_color = serializers.CharField(max_length=255, default="green")
     css_selected_text_color = serializers.CharField(max_length=255, default="black")

@@ -64,7 +64,7 @@ class PeriodicTaskRun(models.Model):
 class Grant(DateTimeUserMixin):
     # e: Maine-eDNA
     # formerly Project in field_sites.models
-    grant_code = models.CharField("Grant Code", max_length=1, unique=True)
+    grant_code = models.CharField("Grant Code", unique=True, max_length=1)
     grant_label = models.CharField("Grant Label", max_length=255)
 
     def __str__(self):
@@ -91,7 +91,7 @@ class Project(DateTimeUserMixin):
     #    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
     #    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
     #    prj_commsci = 'prj_commsci', _('Community Science')
-    project_code = models.CharField("Project Code", max_length=255, unique=True)
+    project_code = models.CharField("Project Code", unique=True, max_length=255)
     project_label = models.CharField("Project Label", max_length=255)
     grant_name = models.ForeignKey(Grant, max_length=255, on_delete=models.RESTRICT)
 
@@ -113,15 +113,15 @@ class ProcessLocation(DateTimeUserMixin):
     # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
     # TACC = 'TACC', _('Texas Advanced Computing Center (TACC)')
     # OSC = 'OSC', _('Ohio Supercomputer Center (OSC)')
-    process_location_name = models.CharField("Location Name", max_length=255, unique=True)
+    process_location_name = models.CharField("Location Name", unique=True, max_length=255)
     process_location_name_slug = models.SlugField("Location Name Slug", max_length=255)
     affiliation = models.CharField("Affiliation", max_length=255)
     process_location_url = models.URLField("Location URL", max_length=255)
     phone_number = PhoneNumberField("Phone Number", blank=True, null=True)
     location_email_address = models.EmailField(_('Location Email Address'), blank=True)
     point_of_contact_email_address = models.EmailField(_('Point of Contact Email Address'), blank=True)
-    point_of_contact_first_name = models.CharField("Point of Contact First Name", max_length=255, blank=True)
-    point_of_contact_last_name = models.CharField("Point of contact Last Name", max_length=255, blank=True)
+    point_of_contact_first_name = models.CharField("Point of Contact First Name", blank=True, max_length=255)
+    point_of_contact_last_name = models.CharField("Point of contact Last Name", blank=True, max_length=255)
     location_notes = models.TextField("Notes", blank=True)
 
     def save(self, *args, **kwargs):
@@ -139,7 +139,7 @@ class ProcessLocation(DateTimeUserMixin):
 
 
 class DefaultSiteCss(DateTimeUserMixin):
-    default_css_label = models.CharField("Default CSS Label", max_length=255)
+    default_css_label = models.CharField("Default CSS Label", unique=True, max_length=255)
     # selected CSS
     css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
     css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
@@ -176,9 +176,8 @@ class DefaultSiteCss(DateTimeUserMixin):
 
 
 class CustomUserCss(DateTimeUserMixin):
-    custom_css_label = models.CharField("Custom CSS Label", max_length=255)
-    user = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT, related_name="user_css",
-                             verbose_name="User CSS")
+    custom_css_label = models.CharField("Custom CSS Label", unique=True, max_length=255)
+    user = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT, related_name="user_css", verbose_name="User CSS")
     # selected CSS
     css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
     css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
