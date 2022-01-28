@@ -33,12 +33,12 @@ def update_extraction_status(old_barcode, field_sample):
 # Create your models here.
 class PrimerPair(DateTimeUserMixin):
     # mifishU, ElbrechtB1, ecoprimer, 16sV4V5, 18sV4, ...
-    primer_set_name = models.CharField("Primer Set Name", max_length=255, unique=True)
+    primer_set_name = models.CharField("Primer Set Name", unique=True, max_length=255)
     primer_slug = models.SlugField("Primer Set Name Slug", max_length=255)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = models.CharField("Target Gene", max_length=50, choices=TargetGenes.choices)
     # Name of SubFragments of a gene or locus. Important to e.g. identify special regions on marker genes like V6 on 16S rRNA
-    primer_subfragment = models.CharField("SubFragment (V6, V9, ITS)", max_length=50, choices=SubFragments.choices, blank=True)
+    primer_subfragment = models.CharField("SubFragment (V6, V9, ITS)", blank=True, max_length=50, choices=SubFragments.choices)
     primer_name_forward = models.CharField("Primer Name Forward", max_length=255)
     primer_name_reverse = models.CharField("Primer Name Reverse", max_length=255)
     primer_forward = models.TextField("Primer Forward")
@@ -46,7 +46,7 @@ class PrimerPair(DateTimeUserMixin):
     primer_amplicon_length_min = models.PositiveIntegerField("Min Primer Amplicon Length")
     primer_amplicon_length_max = models.PositiveIntegerField("Max Primer Amplicon Length")
     # primary publication; PMID, DOI, or URL
-    primer_ref_biomaterial_url = models.URLField("Primary Publication (PMID, DOI, URL)", max_length=255, blank=True)
+    primer_ref_biomaterial_url = models.URLField("Primary Publication (PMID, DOI, URL)", blank=True, max_length=255)
     primer_pair_notes = models.TextField("Primer Pair Notes", blank=True)
 
     def save(self, *args, **kwargs):
@@ -100,7 +100,7 @@ class IndexPair(DateTimeUserMixin):
 
 class IndexRemovalMethod(DateTimeUserMixin):
     # exo-sap, beads, gel extraction, spin column, pippin prep...
-    index_removal_method_name = models.CharField("Index Removal Method", max_length=255, unique=True)
+    index_removal_method_name = models.CharField("Index Removal Method", unique=True, max_length=255)
     index_removal_method_slug = models.SlugField("Index Removal Method Slug", max_length=255)
     index_removal_sop_url = models.URLField("Index Removal SOP URL", max_length=255)
 
@@ -126,9 +126,9 @@ class IndexRemovalMethod(DateTimeUserMixin):
 
 class SizeSelectionMethod(DateTimeUserMixin):
     # beads, gel extraction, spin column, ...
-    size_selection_method_name = models.CharField("Size Selection Method", max_length=255, unique=True)
+    size_selection_method_name = models.CharField("Size Selection Method", unique=True, max_length=255)
     size_selection_method_slug = models.SlugField("Size Selection Method Slug", max_length=255)
-    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT, null=True)
+    primer_set = models.ForeignKey(PrimerPair, null=True, on_delete=models.RESTRICT)
     size_selection_sop_url = models.URLField("Size Selection SOP URL", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -151,7 +151,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
 
 class QuantificationMethod(DateTimeUserMixin):
     # QuBit and qPCR, QuBit, qPCR, bioanalyzer, tape station, nanodrop, ...
-    quant_method_name = models.CharField("Quantification Method", max_length=255, unique=True)
+    quant_method_name = models.CharField("Quantification Method", unique=True, max_length=255)
     quant_method_slug = models.SlugField("Quantification Method Name", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -174,7 +174,7 @@ class QuantificationMethod(DateTimeUserMixin):
 
 class AmplificationMethod(DateTimeUserMixin):
     # nucl_acid_amp - MIxS - reference to amplification method; clean up method. e.g., pcr, ...
-    amplification_method_name = models.CharField("Amplification Method", max_length=255, unique=True)
+    amplification_method_name = models.CharField("Amplification Method", unique=True, max_length=255)
     amplification_method_slug = models.SlugField("Amplification Method Slug", max_length=255)
     amplification_sop_url = models.URLField("Amplification SOP URL", max_length=255)
 
@@ -228,18 +228,18 @@ class Extraction(DateTimeUserMixin):
     extraction_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location, null=True, blank=True)
-    extraction_datetime = models.DateTimeField("Extraction DateTime", null=True, blank=True)
-    extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT, null=True, blank=True)
-    extraction_first_name = models.CharField("First Name", max_length=255, blank=True)
-    extraction_last_name = models.CharField("Last Name", max_length=255, blank=True)
-    extraction_volume = models.DecimalField("Total Extraction Elution Volume", max_digits=15, decimal_places=10, blank=True, null=True)
+    process_location = models.ForeignKey(ProcessLocation, blank=True, null=True, on_delete=models.RESTRICT, default=get_default_process_location)
+    extraction_datetime = models.DateTimeField("Extraction DateTime", blank=True, null=True)
+    extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT, blank=True, null=True)
+    extraction_first_name = models.CharField("First Name", blank=True, max_length=255)
+    extraction_last_name = models.CharField("Last Name", blank=True, max_length=255)
+    extraction_volume = models.DecimalField("Total Extraction Elution Volume", blank=True, null=True, max_digits=15, decimal_places=10)
     # microliter, ul
-    extraction_volume_units = models.CharField("Extraction Elution Volume Units", max_length=50, choices=VolUnits.choices, default=VolUnits.MICROLITER, blank=True)
-    quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT, null=True, blank=True)
-    extraction_concentration = models.DecimalField("Concentration", max_digits=15, decimal_places=10, blank=True, null=True)
+    extraction_volume_units = models.CharField("Extraction Elution Volume Units", blank=True, max_length=50, choices=VolUnits.choices, default=VolUnits.MICROLITER)
+    quantification_method = models.ForeignKey(QuantificationMethod, null=True, blank=True, on_delete=models.RESTRICT)
+    extraction_concentration = models.DecimalField("Concentration", blank=True, null=True, max_digits=15, decimal_places=10)
     # nanograms per microliter or picograms per microliter, ng/ul, pg/ul
-    extraction_concentration_units = models.CharField("Concentration Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGUL, blank=True)
+    extraction_concentration_units = models.CharField("Concentration Units", blank=True, max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGUL)
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
@@ -275,7 +275,7 @@ class PcrReplicate(DateTimeUserMixin):
 
 
 class Pcr(DateTimeUserMixin):
-    pcr_experiment_name = models.CharField("PCR Experiment Name", max_length=255, unique=True)
+    pcr_experiment_name = models.CharField("PCR Experiment Name", unique=True, max_length=255)
     pcr_slug = models.SlugField("PCR Experiment Name Slug", max_length=255)
     pcr_type = models.CharField("PCR Type", max_length=50, choices=PcrTypes.choices)
     pcr_datetime = models.DateTimeField("PCR DateTime")
@@ -289,7 +289,7 @@ class Pcr(DateTimeUserMixin):
     # results will be in copy number (cp) or copies per microliter (copy/ul) for ddPCR
     # results are Quantification Cycle (Cq) for qPCR
     pcr_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
-    pcr_replicate = models.ForeignKey(PcrReplicate, on_delete=models.RESTRICT, blank=True, null=True)
+    pcr_replicate = models.ForeignKey(PcrReplicate, blank=True, null=True, on_delete=models.RESTRICT)
     pcr_thermal_sop_url = models.URLField("PCR Thermal SOP URL", max_length=255)
     pcr_sop_url = models.URLField("PCR SOP URL", max_length=255)
     pcr_notes = models.TextField("PCR Notes", blank=True)
@@ -323,12 +323,12 @@ class LibraryPrep(DateTimeUserMixin):
     # may use multiple index_removal_methods so this needs to be a m2m field
     index_removal_method = models.ManyToManyField(IndexRemovalMethod, related_name='indexremovalmethod_to_libraryprep')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
-    lib_prep_qubit_results = models.DecimalField("QuBit Results", max_digits=15, decimal_places=10, blank=True, null=True)
+    lib_prep_qubit_results = models.DecimalField("QuBit Results", blank=True, null=True, max_digits=15, decimal_places=10)
     # units will be in ng/ml
-    lib_prep_qubit_units = models.CharField("QuBit Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGML, blank=True)
-    lib_prep_qpcr_results = models.DecimalField("qPCR Results", max_digits=15, decimal_places=10, blank=True, null=True)
+    lib_prep_qubit_units = models.CharField("QuBit Units", blank=True, max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGML)
+    lib_prep_qpcr_results = models.DecimalField("qPCR Results", blank=True, null=True, max_digits=15, decimal_places=10)
     # units will be nM or pM
-    lib_prep_qpcr_units = models.CharField("qPCR Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM, blank=True)
+    lib_prep_qpcr_units = models.CharField("qPCR Units", blank=True, max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
     lib_prep_final_concentration = models.DecimalField("Library Prep Final Concentration", max_digits=15, decimal_places=10)
     lib_prep_final_concentration_units = models.CharField("Library Prep Final Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
     lib_prep_kit = models.CharField("Library Prep Kit", max_length=50, choices=LibPrepKits.choices, default=LibPrepKits.NEXTERAXTV2)
@@ -355,7 +355,7 @@ class LibraryPrep(DateTimeUserMixin):
 
 
 class PooledLibrary(DateTimeUserMixin):
-    pooled_lib_label = models.CharField("Pooled Library Label", max_length=255, unique=True)
+    pooled_lib_label = models.CharField("Pooled Library Label", unique=True, max_length=255)
     pooled_lib_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
     pooled_lib_datetime = models.DateTimeField("Pooled Library Date")
     pooled_lib_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
@@ -391,19 +391,19 @@ class PooledLibrary(DateTimeUserMixin):
 
 
 class RunPrep(DateTimeUserMixin):
-    run_prep_label = models.CharField("Run Prep Label", max_length=255, unique=True)
+    run_prep_label = models.CharField("Run Prep Label", unique=True, max_length=255)
     run_prep_slug = models.SlugField("Run Prep Label Slug", max_length=255)
     run_prep_datetime = models.DateTimeField("Run Prep DateTime")
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     pooled_library = models.ManyToManyField(PooledLibrary, related_name='pooledlibrary_to_runprep')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     # Run prep concentration is pre-phix spike in
-    run_prep_concentration = models.DecimalField("Run Prep Concentration (Pre PhiX)", max_digits=15, decimal_places=10, null=True)
+    run_prep_concentration = models.DecimalField("Run Prep Concentration (Pre PhiX)", null=True, max_digits=15, decimal_places=10)
     # can be reported as percent and nanomolar, nM
-    run_prep_concentration_units = models.CharField("Run Prep Concentration Units (Pre PhiX)", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM, blank=True)
-    run_prep_phix_spike_in = models.DecimalField("PhiX Spike In", max_digits=15, decimal_places=10, null=True)
+    run_prep_concentration_units = models.CharField("Run Prep Concentration Units (Pre PhiX)", blank=True, max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
+    run_prep_phix_spike_in = models.DecimalField("PhiX Spike In", null=True, max_digits=15, decimal_places=10)
     # can be reported as percent and nanomolar, nM
-    run_prep_phix_spike_in_units = models.CharField("PhiX Spike In Units", max_length=50, choices=PhiXConcentrationUnits.choices, blank=True)
+    run_prep_phix_spike_in_units = models.CharField("PhiX Spike In Units", blank=True, max_length=50, choices=PhiXConcentrationUnits.choices)
     run_prep_notes = models.TextField("Run Prep Notes", blank=True)
 
     def save(self, *args, **kwargs):
@@ -425,7 +425,7 @@ class RunResult(DateTimeUserMixin):
     run_experiment_name = models.CharField("Experiment Name", max_length=255)
     run_slug = models.SlugField("Run Slug", max_length=255)
     # RunInfo.xml
-    run_id = models.CharField("Run ID", max_length=255, unique=True)
+    run_id = models.CharField("Run ID", unique=True, max_length=255)
     # RunInfo.xml %Y%m%d
     run_date = models.DateField("Run Date")
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
@@ -454,9 +454,9 @@ class FastqFile(DateTimeUserMixin):
     # https://blog.theodo.com/2019/07/aws-s3-upload-django/
     # https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
     # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey(Extraction, on_delete=models.RESTRICT, null=True)
+    extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
     fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage, default="static/utility/images/icon-no.svg")
     # TODO - add MIxS investigation_type (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
