@@ -193,6 +193,22 @@ MIDDLEWARE = [
     'utility.middleware.AccountExpiry',
 ]
 
+#########
+# CACHE #
+#########
+# https://docs.djangoproject.com/en/4.0/topics/cache/#:~:text=For%20convenience%2C%20Django%20offers%20different,Squid%20and%20browser%2Dbased%20caches.
+# The cache system requires a small amount of setup.
+# Namely, you have to tell it where your cached data should live – whether in a database, on the filesystem or directly in memory.
+# Django can store its cached data in your database. This works best if you’ve got a fast, well-indexed database server.
+# Default in global_settings.py is django.core.cache.backends.locmem.LocMemCache
+# to create the cache table, `python manage.py createcachetable` must be ran.
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'django_cache',
+#     }
+# }
+
 ########################################
 # AUTHENTICATION                       #
 ########################################

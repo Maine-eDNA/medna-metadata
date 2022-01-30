@@ -21,7 +21,7 @@ export AWS_STORAGE_BUCKET_SUBFOLDER_NAME='your_bucket_subfolder'
 
 # celery settings
 export CELERY_RESULT_BACKEND=your_result_backend
-export CELERY_BROKER_URL=your_broker_url
+export CELERY_BROKER_URL=transport://yourrabbitmquser:yourrabbitmqpassword@hostname:port/yourrabbitmqvhost
 
 # virtualenv settings
 export WORKON_HOME=$HOME/.virtualenvs

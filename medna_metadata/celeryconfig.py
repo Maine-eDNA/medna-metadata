@@ -1,8 +1,8 @@
 import os
 
 # https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#configuration
-broker_url = 'pyamqp://%s' % os.environ.get('CELERY_BROKER_URL')
-result_backend = 'rpc://'
+broker_url = os.environ.get('CELERY_BROKER_URL')
+result_backend = os.environ.get('CELERY_RESULT_BACKEND')
 task_serializer = 'json'
 result_serializer = 'json'
 accept_content = ['json']

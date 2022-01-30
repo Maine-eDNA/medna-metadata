@@ -43,7 +43,7 @@ Ubuntu
 Install Ubuntu Requirements::
 
    cd medna-metadata
-   sudo bash /home/youruser/medna-metadata/requirements/ubuntu-requirements.sh
+   sudo bash /path/to/medna-metadata/requirements/ubuntu-requirements.sh
 
 It will run the following installation commands:
 
@@ -107,7 +107,7 @@ Activate the virtual environment::
 
 Install python requirements to the virtualenv::
 
-    pip install -U -r /home/youruser/medna-metadata/requirements/prod.txt
+    pip install -U -r /path/to/medna-metadata/requirements/prod.txt
 
 Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
 --------------------------------------------------------------------------------------------------------------
@@ -253,9 +253,9 @@ Modify then write the following to the file::
     [Service]
     User=youruser
     Group=youruser
-    WorkingDirectory=/home/youruser/medna-metadata
-    EnvironmentFile=/home/youruser/medna-metadata/docker/gunicorn.env
-    ExecStart=/home/youruser/.virtualenvs/mednaenv/bin/gunicorn \
+    WorkingDirectory=/path/to/medna-metadata
+    EnvironmentFile=/path/to/medna-metadata/docker/gunicorn.env
+    ExecStart=/path/to/.virtualenvs/mednaenv/bin/gunicorn \
               --access-logfile - --workers 3 \
               --bind unix:/run/gunicorn.sock \
               medna_metadata.wsgi:application
@@ -339,17 +339,22 @@ Activate the virtualenv::
 
 Install `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__::
 
-    pip install celery==4.4.7
+    pip install celery>=5.2.3
 
-Configure `RabbitMQ <https://www.rabbitmq.com/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Setup `RabbitMQ <https://docs.celeryproject.org/en/stable/getting-started/backends-and-brokers/rabbitmq.html#setting-up-rabbitmq>`__
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add a user and a virtual host::
 
     sudo rabbitmqctl add_user youruser yourpassword
-    sudo rabbitmqctl add_vhost mednadatavhost
-    sudo rabbitmqctl set_user_tags youruser mednatag
-    sudo rabbitmqctl set_permissions -p mednadatavhost youruser ".*" ".*" ".*"
+    sudo rabbitmqctl add_vhost yourvhost
+    sudo rabbitmqctl set_user_tags youruser yourtag
+    sudo rabbitmqctl set_permissions -p yourvhost youruser ".*" ".*" ".*"
+
+.. warning::
+    You will need to replace ``youruser``, ``yourpassword``, ``yourvhost``, ``yourtag``, to the password, username, tag
+    and hostname of your choosing. These are specific to RabbitMQ and not dependent on other applications. What is
+    chosen is used to construct your `CELERY_BROKER_URL <https://docs.celeryproject.org/en/stable/userguide/configuration.html#broker-settings>`__.
 
 Stop `RabbitMQ <https://www.rabbitmq.com/>`__::
 
@@ -367,34 +372,78 @@ Start it up again::
 
 .. warning::
     For `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and
-    `RabbitMQ <https://www.rabbitmq.com/>`__ to function, the ``CELERY_RESULT_BACKEND`` and ``CELERY_BROKER_URL``
+    `RabbitMQ <https://www.rabbitmq.com/>`__ to function, the `CELERY_RESULT_BACKEND <https://docs.celeryproject.org/en/stable/userguide/configuration.html#result-backend>`__
+    and `CELERY_BROKER_URL <https://docs.celeryproject.org/en/stable/userguide/configuration.html#broker-settings>`__
     variables must be set in ``~/.bashrc`` and ``docker/gunicorn.env``. These variables should resemble the following:
      - CELERY_RESULT_BACKEND='rpc'
-     - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:5672/mednadatavhost`
+     - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:port/yourvhost`
 
 Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ Worker and Beat files (e.g., daemonizing!)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Like Gunicorn, the celeryworker processes should be run as a Systemd service.
+Like Gunicorn, `celery should be run as a Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#usage-systemd>`__.
+--
 
-Create a celeryworker service file::
+First, open your environment file::
 
-    sudo vim /etc/systemd/system/celeryworker.service
+    sudo vim /path/to/medna-metadata/docker/gunicorn.env
+
+Update or add the following `Celery config settings <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#generic-systemd-celery-example>`__ to your environment file::
+
+    CELERYD_NODES='worker'
+    CELERY_BIN='/path/to/bin/celery'
+    CELERY_APP='medna_metadata.celery.app'
+    CELERYD_MULTI='multi'
+    CELERYD_OPTS=''
+    CELERYD_PID_FILE='/var/run/celery/%n.pid'
+    CELERYD_LOG_FILE='/var/log/celery/%n%I.log'
+    CELERYD_LOG_LEVEL='INFO'
+    CELERYBEAT_PID_FILE='/var/run/celery/beat.pid'
+    CELERYBEAT_LOG_FILE='/var/log/celery/beat.log'
+
+Write and exit the VIM text editor::
+
+    :wq!
+
+Now we need to create the Celery log and run directories and update their permissions::
+
+    sudo mkdir /var/run/celery/
+    sudo mkdir /var/log/celery/
+
+    sudo chgrp yourgroup /var/run/celery/
+    sudo chgrp yourgroup /var/log/celery/
+
+    sudo chmod g+rwx /var/run/celery/
+    sudo chmod g+rwx /var/log/celery/
+
+Create a `Celery service file <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celery-service>`__::
+
+    sudo vim /etc/systemd/system/celery.service
 
 Modify then write the following to the file::
 
     [Unit]
-    Description=celeryworker daemon
-    After=network.target
+    Description=Celery Service
+    After=network.target rabbitmq-server.service
+    Requires=rabbitmq-server.service
 
     [Service]
+    Type=forking
     User=youruser
-    Group=youruser
-    WorkingDirectory=/home/youruser/medna-metadata
+    Group=yourgroup
+    EnvironmentFile=/path/to/medna-metadata/docker/gunicorn.env
+    WorkingDirectory=/path/to/medna-metadata
     Environment=DJANGO_SETTINGS_MODULE=medna_metadata.settings
-    ExecStart=/home/youruser/.virtualenvs/mednaenv/bin/celery worker \
-      -A medna_metadata.celery.app \
-      -c 2 -Q celery,default -n "allqueues.%%h"
+    ExecStart=/bin/sh -c '${CELERY_BIN} -A ${CELERY_APP} multi start ${CELERYD_NODES} \
+        --pidfile=${CELERYD_PID_FILE} --logfile=${CELERYD_LOG_FILE} \
+        --loglevel="${CELERYD_LOG_LEVEL}" ${CELERYD_OPTS}'
+    ExecStop=/bin/sh -c '${CELERY_BIN} multi stopwait ${CELERYD_NODES} \
+        --pidfile=${CELERYD_PID_FILE} --logfile=${CELERYD_LOG_FILE} \
+        --loglevel="${CELERYD_LOG_LEVEL}"'
+    ExecReload=/bin/sh -c '${CELERY_BIN} -A ${CELERY_APP} multi restart ${CELERYD_NODES} \
+        --pidfile=${CELERYD_PID_FILE} --logfile=${CELERYD_LOG_FILE} \
+        --loglevel="${CELERYD_LOG_LEVEL}" ${CELERYD_OPTS}'
+    Restart=always
 
     [Install]
     WantedBy=multi-user.target
@@ -405,27 +454,32 @@ Write and exit the VIM text editor::
 
 .. warning::
     You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
-    ``WorkingDirectory`` and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
+    ``WorkingDirectory`` and ``EnvironmentFile`` to the actual directory MeDNA-Metadata is in.
 
-We also need a celerybeat Systemd service for scheduling tasks.
+We also need a `celerybeat Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celerybeat-service>`__ for scheduling tasks.
 
-Create a celeryworker beat file::
+Create a `celerybeat file <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celerybeat-service>`__::
 
     sudo vim /etc/systemd/system/celerybeat.service
 
 Modify then write the following to the file::
 
     [Unit]
-    Description=celerybeat daemon
-    After=network.target
+    Description=Celery Beat Service
+    After=network.target rabbitmq-server.service
+    Requires=rabbitmq-server.service
 
     [Service]
+    Type=simple
     User=youruser
-    Group=youruser
-    WorkingDirectory=/home/youruser/medna-metadata
+    Group=yourgroup
+    EnvironmentFile=/path/to/medna-metadata/docker/gunicorn.env
+    WorkingDirectory=/path/to/medna-metadata
     Environment=DJANGO_SETTINGS_MODULE=medna_metadata.settings
-    ExecStart=/home/youruser/.virtualenvs/mednaenv/bin/celery beat \
-      -A medna_metadata.celery.app --loglevel INFO
+    ExecStart=/bin/sh -c '${CELERY_BIN} -A ${CELERY_APP} beat  \
+        --pidfile=${CELERYBEAT_PID_FILE} \
+        --logfile=${CELERYBEAT_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL}'
+    Restart=always
 
     [Install]
     WantedBy=multi-user.target
@@ -436,29 +490,30 @@ Write and exit the VIM text editor::
 
 .. warning::
     You **must** replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
-    ``WorkingDirectory`` and ``ExecStart`` to the actual directory MeDNA-Metadata is in.
+    ``WorkingDirectory`` and ``EnvironmentFile`` to the actual directory MeDNA-Metadata is in.
 
-We can now start the celeryworker and celerybeat services::
+We can now start the celery and celerybeat services::
 
-    sudo systemctl start celeryworker
-    sudo systemctl status celeryworker
+    sudo systemctl daemon-reload
+    sudo systemctl start celery.service
+    sudo systemctl status celery.service
 
-    sudo systemctl start celerybeat
-    sudo systemctl status celerybeat
+    sudo systemctl start celerybeat.service
+    sudo systemctl status celerybeat.service
 
 If any modifications are made to any ``tasks.py`` or ``medna_metadata/celery.py``, restart ``celerybeat`` and ``celeryworker``::
 
-    sudo systemctl restart celerybeat && sudo systemctl restart celeryworker && sudo systemctl daemon-reload && sudo systemctl restart gunicorn
+    sudo systemctl restart celery.service && sudo systemctl restart celerybeat.service && sudo systemctl daemon-reload && sudo systemctl restart gunicorn
 
 If you want these services to start automatically on boot, you can enable them as follows::
 
-    sudo systemctl enable celeryworker
-    sudo systemctl enable celerybeat
+    sudo systemctl enable celery.service
+    sudo systemctl enable celerybeat.service
 
 Troubleshooting `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are trying to troubleshoot celerybeat or celeryworker, be sure to check system logs for error messages::
+If you are trying to troubleshoot celery or celerybeat, be sure to check system logs for error messages::
 
     sudo cat /var/log/syslog
     sudo tail /var/log/syslog -n 40
@@ -495,7 +550,7 @@ Modify and write the following::
 
         location = /favicon.ico { access_log off; log_not_found off; }
         location /static/ {
-            root /home/youruser/medna-metadata;
+            root /path/to/medna-metadata;
         }
 
         location / {
