@@ -524,7 +524,7 @@ You can also check `RabbitMQ <https://www.rabbitmq.com/>`__ logs::
 
 To view `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ tasks as they are sent by `RabbitMQ <https://www.rabbitmq.com/>`__::
 
-    celery worker -A medna_metadata --pool=solo -l info
+    celery -A medna_metadata worker --pool=solo -l info
 
 ``[CTRL-C]`` to exit.
 
