@@ -48,7 +48,7 @@ class FreezerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Freezer
-        fields = ['id', 'freezer_label', 'freezer_label_slug',
+        fields = ['id', 'freezer_label', 'freezer_label_slug', 'freezer_room_name',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                   'freezer_rated_temp', 'freezer_rated_temp_units',
