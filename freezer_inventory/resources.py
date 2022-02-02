@@ -33,12 +33,12 @@ class FreezerAdminResource(resources.ModelResource):
         import_id_fields = ('id', 'freezer_label', )
 
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'freezer_label',
+        fields = ('id', 'freezer_label', 'freezer_room_name',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                   'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                   'freezer_rated_temp', 'freezer_rated_temp_units',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'freezer_label',
+        export_order = ('id', 'freezer_label', 'freezer_room_name',
                         'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                         'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                         'freezer_rated_temp', 'freezer_rated_temp_units',

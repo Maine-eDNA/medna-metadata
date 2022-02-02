@@ -70,6 +70,7 @@ class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_label = models.CharField("Freezer Label", unique=True, max_length=255)
     freezer_label_slug = models.SlugField("Freezer Label Slug", max_length=255)
+    freezer_room_name = models.CharField("Freezer Room Name", max_length=255)
     freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
     freezer_length = models.DecimalField("Freezer Length", max_digits=15, decimal_places=10)
     freezer_width = models.DecimalField("Freezer Width", max_digits=15, decimal_places=10)

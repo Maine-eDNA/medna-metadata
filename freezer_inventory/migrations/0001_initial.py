@@ -39,6 +39,7 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('freezer_label', models.CharField(max_length=255, unique=True, verbose_name='Freezer Label')),
                 ('freezer_label_slug', models.SlugField(max_length=255, verbose_name='Freezer Label Slug')),
+                ('freezer_room_name', models.CharField(max_length=255, verbose_name='Freezer Room Name')),
                 ('freezer_depth', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='Freezer Depth')),
                 ('freezer_length', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='Freezer Length')),
                 ('freezer_width', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='Freezer Width')),

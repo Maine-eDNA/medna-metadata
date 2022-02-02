@@ -20,6 +20,7 @@ class FreezerTestCase(TestCase):
     def setUp(self):
         Freezer.objects.get_or_create(freezer_label="test_label",
                                       defaults={
+                                          'freezer_room_name': 'test_room',
                                           'freezer_depth': 1,
                                           'freezer_length': 1,
                                           'freezer_width': 1,

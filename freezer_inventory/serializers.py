@@ -32,6 +32,7 @@ class FreezerSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     freezer_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Freezer.objects.all())])
     freezer_label_slug = serializers.SlugField(max_length=255, read_only=True)
+    freezer_room_name = serializers.CharField(max_length=255)
     freezer_depth = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_length = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_width = serializers.DecimalField(max_digits=15, decimal_places=10)

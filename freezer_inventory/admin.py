@@ -49,7 +49,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['freezer_label',
+        self.fields = ['freezer_label', 'freezer_room_name',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                        'freezer_rated_temp', 'freezer_rated_temp_units',
@@ -62,7 +62,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['freezer_label', 'freezer_label_slug',
+        self.fields = ['freezer_label', 'freezer_label_slug', 'freezer_room_name',
                        'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
                        'freezer_rated_temp', 'freezer_rated_temp_units',

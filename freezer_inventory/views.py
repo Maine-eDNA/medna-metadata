@@ -22,7 +22,7 @@ class FreezerViewSet(viewsets.ModelViewSet):
     serializer_class = FreezerSerializer
     queryset = Freezer.objects.prefetch_related('created_by')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['freezer_label', 'freezer_label_slug',
+    filterset_fields = ['freezer_label', 'freezer_label_slug', 'freezer_room_name',
                         'freezer_rated_temp',
                         'created_datetime', 'modified_datetime', 'created_by__email']
     swagger_tags = ["freezer inventory"]
