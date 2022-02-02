@@ -59,7 +59,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_domain', 'created_by']
+        self.fields = ['taxon_domain', 'taxon_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -68,7 +68,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_domain_slug', 'taxon_domain',
+        self.fields = ['taxon_domain_slug', 'taxon_domain', 'taxon_url',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonDomainAdmin, self).change_view(request, object_id)
@@ -95,7 +95,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_kingdom', 'taxon_domain',
+        self.fields = ['taxon_kingdom', 'taxon_domain', 'taxon_url',
                        'created_by', ]
         # self.list_filter = (
         #     ('taxon_domain', RelatedDropdownFilter)
@@ -109,7 +109,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_kingdom_slug', 'taxon_kingdom',
-                       'taxon_domain_slug', 'taxon_domain',
+                       'taxon_domain_slug', 'taxon_domain', 'taxon_url',
                        'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonKingdomAdmin, self).change_view(request, object_id)
@@ -136,7 +136,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_phylum', 'taxon_kingdom', 'created_by', ]
+        self.fields = ['taxon_phylum', 'taxon_kingdom', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -146,7 +146,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_phylum_slug', 'taxon_phylum',
-                       'taxon_kingdom_slug', 'taxon_kingdom',
+                       'taxon_kingdom_slug', 'taxon_kingdom', 'taxon_url',
                        'taxon_domain_slug',
                        'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -175,7 +175,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class', 'taxon_phylum', 'created_by']
+        self.fields = ['taxon_class', 'taxon_phylum', 'taxon_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -185,7 +185,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_class_slug', 'taxon_class',
-                       'taxon_phylum_slug', 'taxon_phylum',
+                       'taxon_phylum_slug', 'taxon_phylum', 'taxon_url',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
                        'created_by']
@@ -216,7 +216,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_order', 'taxon_class', 'created_by']
+        self.fields = ['taxon_order', 'taxon_class', 'taxon_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -226,7 +226,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_order_slug', 'taxon_order',
-                       'taxon_class_slug', 'taxon_class',
+                       'taxon_class_slug', 'taxon_class', 'taxon_url',
                        'taxon_phylum_slug',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
@@ -258,7 +258,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_family', 'taxon_order', 'created_by']
+        self.fields = ['taxon_family', 'taxon_order', 'taxon_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -268,7 +268,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_family_slug', 'taxon_family',
-                       'taxon_order_slug', 'taxon_order',
+                       'taxon_order_slug', 'taxon_order', 'taxon_url',
                        'taxon_class_slug',
                        'taxon_phylum_slug',
                        'taxon_kingdom_slug',
@@ -301,7 +301,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_genus', 'taxon_family', 'created_by']
+        self.fields = ['taxon_genus', 'taxon_family', 'taxon_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -311,7 +311,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_genus_slug', 'taxon_genus',
-                       'taxon_family_slug', 'taxon_family',
+                       'taxon_family_slug', 'taxon_family', 'taxon_url',
                        'taxon_order_slug',
                        'taxon_class_slug',
                        'taxon_phylum_slug',
@@ -348,7 +348,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['taxon_species', 'taxon_genus', 'taxon_common_name',
-                       'is_endemic', 'created_by']
+                       'is_endemic', 'taxon_url', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -357,7 +357,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_common_name', 'is_endemic',
+        self.fields = ['taxon_common_name', 'is_endemic', 'taxon_url',
                        'taxon_species_slug', 'taxon_species',
                        'taxon_genus_slug', 'taxon_genus',
                        'taxon_family_slug',

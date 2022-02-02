@@ -40,6 +40,7 @@ class TaxonDomain(DateTimeUserMixin):
     # https://docs.djangoproject.com/en/3.2/topics/db/models/#multi-table-inheritance
     taxon_domain = models.SlugField("Domain", unique=True, max_length=255)
     taxon_domain_slug = models.CharField("Domain Slug", max_length=255)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
 
     def save(self, *args, **kwargs):
         self.taxon_domain_slug = '{tax_domain}'.format(tax_domain=slugify(self.taxon_domain))
@@ -59,6 +60,7 @@ class TaxonKingdom(DateTimeUserMixin):
     taxon_kingdom = models.CharField("Kingdom", unique=True, max_length=255)
     taxon_kingdom_slug = models.SlugField("Kingdom Slug", max_length=255)
     taxon_domain = models.ForeignKey(TaxonDomain, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_domain_slug = models.CharField("Domain", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -81,6 +83,7 @@ class TaxonPhylum(DateTimeUserMixin):
     taxon_phylum = models.CharField("Phylum", unique=True, max_length=255)
     taxon_phylum_slug = models.SlugField("Phylum Slug", max_length=255)
     taxon_kingdom = models.ForeignKey(TaxonKingdom, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_kingdom_slug = models.CharField("Kingdom", max_length=255)
     taxon_domain_slug = models.CharField("Domain", max_length=255)
 
@@ -106,6 +109,7 @@ class TaxonClass(DateTimeUserMixin):
     taxon_class = models.CharField("Class", unique=True, max_length=255)
     taxon_class_slug = models.SlugField("Class Slug", max_length=255)
     taxon_phylum = models.ForeignKey(TaxonPhylum, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_phylum_slug = models.CharField("Phylum", max_length=255)
     taxon_kingdom_slug = models.CharField("Kingdom", max_length=255)
     taxon_domain_slug = models.CharField("Domain", max_length=255)
@@ -134,6 +138,7 @@ class TaxonOrder(DateTimeUserMixin):
     taxon_order = models.CharField("Order", unique=True, max_length=255)
     taxon_order_slug = models.SlugField("Order Slug", max_length=255)
     taxon_class = models.ForeignKey(TaxonClass, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_class_slug = models.CharField("Class", max_length=255)
     taxon_phylum_slug = models.CharField("Phylum", max_length=255)
     taxon_kingdom_slug = models.CharField("Kingdom", max_length=255)
@@ -165,6 +170,7 @@ class TaxonFamily(DateTimeUserMixin):
     taxon_family = models.CharField("Family", unique=True, max_length=255)
     taxon_family_slug = models.SlugField("Family Slug", max_length=255)
     taxon_order = models.ForeignKey(TaxonOrder, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_order_slug = models.CharField("Order", max_length=255)
     taxon_class_slug = models.CharField("Class", max_length=255)
     taxon_phylum_slug = models.CharField("Phylum", max_length=255)
@@ -199,6 +205,7 @@ class TaxonGenus(DateTimeUserMixin):
     taxon_genus = models.CharField("Genus", unique=True, max_length=255)
     taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
     taxon_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_family_slug = models.CharField("Order", max_length=255)
     taxon_order_slug = models.CharField("Order", max_length=255)
     taxon_class_slug = models.CharField("Class", max_length=255)
@@ -238,6 +245,7 @@ class TaxonSpecies(DateTimeUserMixin):
     taxon_common_name = models.CharField("Common Name", max_length=255)
     is_endemic = models.CharField("Endemic to New England", max_length=50, choices=YesNo.choices, default=YesNo.YES)
     taxon_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT)
+    taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_genus_slug = models.CharField("Genus", max_length=255)
     taxon_family_slug = models.CharField("Order", max_length=255)
     taxon_order_slug = models.CharField("Order", max_length=255)

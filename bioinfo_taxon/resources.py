@@ -33,10 +33,8 @@ class TaxonDomainAdminResource(resources.ModelResource):
         model = TaxonDomain
         import_id_fields = ('taxon_domain', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'taxon_domain',
-                        'created_by', 'created_datetime', )
+        fields = ('id', 'taxon_domain', 'taxon_url', 'created_by', 'created_datetime', )
+        export_order = ('id', 'taxon_domain', 'taxon_url', 'created_by', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
@@ -52,11 +50,9 @@ class TaxonKingdomAdminResource(resources.ModelResource):
         model = TaxonKingdom
         import_id_fields = ('taxon_domain_slug', 'taxon_kingdom', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug',
-                  'taxon_kingdom',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom', 'taxon_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'taxon_domain_slug',
-                        'taxon_kingdom',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom', 'taxon_url',
                         'created_by', 'created_datetime', )
 
     taxon_domain = fields.Field(
@@ -81,12 +77,12 @@ class TaxonPhylumAdminResource(resources.ModelResource):
         fields = ('id',
                   'taxon_domain_slug',
                   'taxon_kingdom_slug',
-                  'taxon_phylum',
+                  'taxon_phylum', 'taxon_url',
                   'created_by', 'created_datetime', )
         export_order = ('id',
                         'taxon_domain_slug',
                         'taxon_kingdom_slug',
-                        'taxon_phylum',
+                        'taxon_phylum', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_kingdom = fields.Field(
@@ -108,9 +104,9 @@ class TaxonClassAdminResource(resources.ModelResource):
         model = TaxonClass
         import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class', 'taxon_url',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_phylum = fields.Field(
@@ -134,10 +130,10 @@ class TaxonOrderAdminResource(resources.ModelResource):
                             'taxon_order', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug',
-                  'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order',
+                  'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order', 'taxon_url',
                   'created_by', 'created_datetime',)
         export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug',
-                        'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order',
+                        'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_class = fields.Field(
@@ -161,10 +157,10 @@ class TaxonFamilyAdminResource(resources.ModelResource):
                             'taxon_order_slug', 'taxon_family',)
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug',
-                  'taxon_class_slug', 'taxon_order_slug', 'taxon_family',
+                  'taxon_class_slug', 'taxon_order_slug', 'taxon_family', 'taxon_url',
                   'created_by', 'created_datetime',)
         export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug',
-                        'taxon_class_slug', 'taxon_order_slug', 'taxon_family',
+                        'taxon_class_slug', 'taxon_order_slug', 'taxon_family', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_order = fields.Field(
@@ -188,10 +184,10 @@ class TaxonGenusAdminResource(resources.ModelResource):
                             'taxon_order_slug', 'taxon_family_slug', 'taxon_genus', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
-                  'taxon_order_slug', 'taxon_family_slug', 'taxon_genus',
+                  'taxon_order_slug', 'taxon_family_slug', 'taxon_genus', 'taxon_url',
                   'created_by', 'created_datetime',)
         export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
-                        'taxon_order_slug', 'taxon_family_slug', 'taxon_genus',
+                        'taxon_order_slug', 'taxon_family_slug', 'taxon_genus', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_family = fields.Field(
@@ -216,11 +212,11 @@ class TaxonSpeciesAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
                   'taxon_order_slug', 'taxon_family_slug', 'taxon_genus_slug', 'taxon_species',
-                  'taxon_common_name', 'is_endemic',
+                  'taxon_common_name', 'is_endemic', 'taxon_url',
                   'created_by', 'created_datetime',)
         export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
                         'taxon_order_slug', 'taxon_family_slug', 'taxon_genus_slug', 'taxon_species',
-                        'taxon_common_name', 'is_endemic',
+                        'taxon_common_name', 'is_endemic', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_genus = fields.Field(

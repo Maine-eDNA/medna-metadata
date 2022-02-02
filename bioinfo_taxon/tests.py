@@ -26,7 +26,7 @@ class ReferenceDatabaseTestCase(TestCase):
 
 class TaxonDomainTestCase(TestCase):
     def setUp(self):
-        TaxonDomain.objects.get_or_create(taxon_domain="test_domain")
+        TaxonDomain.objects.get_or_create(taxon_domain="test_domain", defaults={'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -39,7 +39,7 @@ class TaxonKingdomTestCase(TestCase):
         taxon_test = TaxonDomainTestCase()
         taxon_test.setUp()
         taxon = TaxonDomain.objects.filter()[:1].get()
-        TaxonKingdom.objects.get_or_create(taxon_kingdom="test_kingdom", defaults={'taxon_domain': taxon})
+        TaxonKingdom.objects.get_or_create(taxon_kingdom="test_kingdom", defaults={'taxon_domain': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -52,7 +52,7 @@ class TaxonPhylumTestCase(TestCase):
         taxon_test = TaxonKingdomTestCase()
         taxon_test.setUp()
         taxon = TaxonKingdom.objects.filter()[:1].get()
-        TaxonPhylum.objects.get_or_create(taxon_phylum="test_phylum", defaults={'taxon_kingdom': taxon})
+        TaxonPhylum.objects.get_or_create(taxon_phylum="test_phylum", defaults={'taxon_kingdom': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -65,7 +65,7 @@ class TaxonClassTestCase(TestCase):
         taxon_test = TaxonPhylumTestCase()
         taxon_test.setUp()
         taxon = TaxonPhylum.objects.filter()[:1].get()
-        TaxonClass.objects.get_or_create(taxon_class="test_class", defaults={'taxon_phylum': taxon})
+        TaxonClass.objects.get_or_create(taxon_class="test_class", defaults={'taxon_phylum': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -78,7 +78,7 @@ class TaxonOrderTestCase(TestCase):
         taxon_test = TaxonClassTestCase()
         taxon_test.setUp()
         taxon = TaxonClass.objects.filter()[:1].get()
-        TaxonOrder.objects.get_or_create(taxon_order="test_order", defaults={'taxon_class': taxon})
+        TaxonOrder.objects.get_or_create(taxon_order="test_order", defaults={'taxon_class': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -91,7 +91,7 @@ class TaxonFamilyTestCase(TestCase):
         taxon_test = TaxonOrderTestCase()
         taxon_test.setUp()
         taxon = TaxonOrder.objects.filter()[:1].get()
-        TaxonFamily.objects.get_or_create(taxon_family="test_family", defaults={'taxon_order': taxon})
+        TaxonFamily.objects.get_or_create(taxon_family="test_family", defaults={'taxon_order': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -104,7 +104,7 @@ class TaxonGenusTestCase(TestCase):
         taxon_test = TaxonFamilyTestCase()
         taxon_test.setUp()
         taxon = TaxonFamily.objects.filter()[:1].get()
-        TaxonGenus.objects.get_or_create(taxon_genus="test_genus", defaults={'taxon_family': taxon})
+        TaxonGenus.objects.get_or_create(taxon_genus="test_genus", defaults={'taxon_family': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -117,7 +117,7 @@ class TaxonSpeciesTestCase(TestCase):
         taxon_test = TaxonGenusTestCase()
         taxon_test.setUp()
         taxon = TaxonGenus.objects.filter()[:1].get()
-        TaxonSpecies.objects.get_or_create(taxon_species="test_species", defaults={'taxon_genus': taxon})
+        TaxonSpecies.objects.get_or_create(taxon_species="test_species", defaults={'taxon_genus': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
