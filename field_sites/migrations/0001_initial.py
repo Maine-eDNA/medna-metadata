@@ -25,12 +25,8 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('biome_first_tier', models.SlugField(max_length=255, unique=True, verbose_name='ENVO Biome 1st Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier Slug')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Biome 1st Tier',
@@ -47,12 +43,8 @@ class Migration(migrations.Migration):
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier Slug')),
                 ('biome_first_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envobiomefirst')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Biome 2nd Tier',
@@ -70,12 +62,8 @@ class Migration(migrations.Migration):
                 ('biome_second_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envobiomesecond')),
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Biome 3rd Tier',
@@ -94,12 +82,8 @@ class Migration(migrations.Migration):
                 ('biome_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 3rd Tier')),
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Biome 4th Tier',
@@ -119,10 +103,8 @@ class Migration(migrations.Migration):
                 ('biome_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 3rd Tier')),
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
-                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Biome 5th Tier',
@@ -137,12 +119,8 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('feature_first_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 1st Tier')),
                 ('feature_first_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 1st Tier Slug')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Feature 1st Tier',
@@ -158,12 +136,8 @@ class Migration(migrations.Migration):
                 ('feature_second_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_second_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 2nd Tier Slug')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('feature_first_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envofeaturefirst')),
             ],
             options={
@@ -181,12 +155,8 @@ class Migration(migrations.Migration):
                 ('feature_third_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 3rd Tier Slug')),
                 ('feature_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('feature_second_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envofeaturesecond')),
             ],
             options={
@@ -206,7 +176,7 @@ class Migration(migrations.Migration):
                 ('feature_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 3rd Tier')),
                 ('feature_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
-                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -227,12 +197,8 @@ class Migration(migrations.Migration):
                 ('feature_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 3rd Tier')),
                 ('feature_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'ENVO Feature 5th Tier',
@@ -252,12 +218,8 @@ class Migration(migrations.Migration):
                 ('feature_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 3rd Tier')),
                 ('feature_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
-                ('ontology_url', models.URLField(
-                    default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false',
-                    max_length=255)),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user,
-                                                 on_delete=models.SET(utility.models.get_sentinel_user),
-                                                 to=settings.AUTH_USER_MODEL)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('feature_fifth_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.envofeaturefifth')),
             ],
             options={
@@ -280,7 +242,7 @@ class Migration(migrations.Migration):
                 ('feature_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 3rd Tier')),
                 ('feature_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 2nd Tier')),
                 ('feature_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Feature 1st Tier')),
-                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255)),
+                ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false', max_length=255, verbose_name="Ontology URL")),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
