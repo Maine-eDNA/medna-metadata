@@ -103,10 +103,10 @@ class LibraryPrepViewSet(viewsets.ModelViewSet):
     filterset_fields = ['lib_prep_experiment_name', 'lib_prep_slug', 'lib_prep_datetime',
                         'process_location__process_location_name_slug',
                         'extraction__barcode_slug',
-                        'primer_set__primer_set_name_slug',
-                        'size_selection_method__size_selection_method_name_slug',
+                        'primer_set__primer_slug',
+                        'size_selection_method__size_selection_method_slug',
                         'index_pair__id',
-                        'index_removal_method__index_removal_method_name_slug',
+                        'index_removal_method__index_removal_method_slug',
                         'lib_prep_kit', 'lib_prep_type', 'created_by__email']
     swagger_tags = ["wet lab"]
 

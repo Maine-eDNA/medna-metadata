@@ -15,8 +15,7 @@ from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 class PrimerPairSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
-    primer_set_name = serializers.CharField(max_length=255,
-                                            validators=[UniqueValidator(queryset=PrimerPair.objects.all())])
+    primer_set_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=PrimerPair.objects.all())])
     primer_slug = serializers.SlugField(max_length=255, read_only=True)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
@@ -268,20 +267,11 @@ class PcrSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    extraction = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all())
-    primer_set = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='primer_slug',
-                                              queryset=PrimerPair.objects.all())
-    pcr_replicate = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
-                                                 slug_field='id',
-                                                 queryset=PcrReplicate.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=Extraction.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())
+    pcr_replicate = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='id', queryset=PcrReplicate.objects.all())
 
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
@@ -316,31 +306,15 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    extraction = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all())
-    primer_set = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='primer_set_name_slug',
-                                              queryset=PrimerPair.objects.all())
-    index_pair = serializers.SlugRelatedField(many=True, read_only=False,
-                                              slug_field='id', queryset=IndexPair.objects.all())
-    index_removal_method = serializers.SlugRelatedField(many=True, read_only=False,
-                                                        slug_field='index_removal_method_name_slug',
-                                                        queryset=IndexRemovalMethod.objects.all())
-    size_selection_method = serializers.SlugRelatedField(many=True, read_only=False,
-                                                         slug_field='size_selection_method_name_slug',
-                                                         queryset=SizeSelectionMethod.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                         slug_field='quant_method_name_slug',
-                                                         queryset=QuantificationMethod.objects.all())
-    amplification_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                        slug_field='amplification_method_slug',
-                                                        queryset=AmplificationMethod.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=Extraction.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())
+    index_pair = serializers.SlugRelatedField(many=True, read_only=False, slug_field='id', queryset=IndexPair.objects.all())
+    index_removal_method = serializers.SlugRelatedField(many=True, read_only=False, slug_field='index_removal_method_slug', queryset=IndexRemovalMethod.objects.all())
+    size_selection_method = serializers.SlugRelatedField(many=True, read_only=False, slug_field='size_selection_method_slug', queryset=SizeSelectionMethod.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_name_slug', queryset=QuantificationMethod.objects.all())
+    amplification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='amplification_method_slug', queryset=AmplificationMethod.objects.all())
 
 
 class PooledLibrarySerializer(serializers.ModelSerializer):
@@ -369,20 +343,11 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False,
-                                                      slug_field='barcode_slug',
-                                                      queryset=SampleBarcode.objects.all())
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    library_prep = serializers.SlugRelatedField(many=True, read_only=False,
-                                                slug_field='lib_prep_slug',
-                                                queryset=LibraryPrep.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                         slug_field='quant_method_name_slug',
-                                                         queryset=QuantificationMethod.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.all())
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    library_prep = serializers.SlugRelatedField(many=True, read_only=False, slug_field='lib_prep_slug', queryset=LibraryPrep.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_name_slug', queryset=QuantificationMethod.objects.all())
 
 
 class RunPrepSerializer(serializers.ModelSerializer):
@@ -408,17 +373,10 @@ class RunPrepSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    pooled_library = serializers.SlugRelatedField(many=True, read_only=False,
-                                                  slug_field='pooled_lib_slug',
-                                                  queryset=PooledLibrary.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                         slug_field='quant_method_slug',
-                                                         queryset=QuantificationMethod.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    pooled_library = serializers.SlugRelatedField(many=True, read_only=False, slug_field='pooled_lib_slug', queryset=PooledLibrary.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_slug', queryset=QuantificationMethod.objects.all())
 
 
 class RunResultSerializer(serializers.ModelSerializer):
@@ -440,14 +398,9 @@ class RunResultSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    run_prep = serializers.SlugRelatedField(many=False, read_only=False,
-                                            slug_field='run_prep_slug',
-                                            queryset=RunPrep.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    run_prep = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_prep_slug', queryset=RunPrep.objects.all())
 
 
 class FastqFileSerializer(serializers.ModelSerializer):
@@ -466,11 +419,6 @@ class FastqFileSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    run_result = serializers.SlugRelatedField(many=False, read_only=False,
-                                              slug_field='run_id',
-                                              queryset=RunResult.objects.all())
-    extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
-                                              slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id', queryset=RunResult.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='barcode_slug', queryset=Extraction.objects.all())
