@@ -35,12 +35,12 @@ class FreezerAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_label', 'freezer_room_name',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
-                  'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                  'freezer_capacity_columns', 'freezer_capacity_rows', 'freezer_capacity_depth',
                   'freezer_rated_temp', 'freezer_rated_temp_units',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'freezer_label', 'freezer_room_name',
                         'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
-                        'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                        'freezer_capacity_columns', 'freezer_capacity_rows', 'freezer_capacity_depth',
                         'freezer_rated_temp', 'freezer_rated_temp_units',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
@@ -94,11 +94,11 @@ class FreezerBoxAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_rack', 'freezer_box_label',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                  'freezer_box_max_column', 'freezer_box_max_row',
+                  'freezer_box_capacity_column', 'freezer_box_capacity_row',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'freezer_rack', 'freezer_box_label',
                         'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                        'freezer_box_max_column', 'freezer_box_max_row',
+                        'freezer_box_capacity_column', 'freezer_box_capacity_row',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer_rack = fields.Field(

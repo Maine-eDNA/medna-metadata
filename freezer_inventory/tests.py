@@ -25,9 +25,9 @@ class FreezerTestCase(TestCase):
                                           'freezer_length': 1,
                                           'freezer_width': 1,
                                           'freezer_dimension_units': MeasureUnits.FEET,
-                                          'freezer_max_columns': 10,
-                                          'freezer_max_rows': 10,
-                                          'freezer_max_depth': 10,
+                                          'freezer_capacity_columns': 10,
+                                          'freezer_capacity_rows': 10,
+                                          'freezer_capacity_depth': 10,
                                           'freezer_rated_temp': -80,
                                           'freezer_rated_temp_units': TempUnits.C})
 
@@ -69,8 +69,8 @@ class FreezerBoxTestCase(TestCase):
                                              'freezer_box_column': 1,
                                              'freezer_box_row': 1,
                                              'freezer_box_depth': 1,
-                                             'freezer_box_max_column': 100,
-                                             'freezer_box_max_row': 100})
+                                             'freezer_box_capacity_column': 100,
+                                             'freezer_box_capacity_row': 100})
 
     def test_was_added_recently(self):
         # test if date is added correctly

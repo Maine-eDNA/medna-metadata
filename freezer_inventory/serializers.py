@@ -38,9 +38,9 @@ class FreezerSerializer(serializers.ModelSerializer):
     freezer_width = serializers.DecimalField(max_digits=15, decimal_places=10)
     freezer_dimension_units = serializers.ChoiceField(choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each
-    freezer_max_columns = serializers.IntegerField(min_value=1)
-    freezer_max_rows = serializers.IntegerField(min_value=1)
-    freezer_max_depth = serializers.IntegerField(min_value=1)
+    freezer_capacity_columns = serializers.IntegerField(min_value=1)
+    freezer_capacity_rows = serializers.IntegerField(min_value=1)
+    freezer_capacity_depth = serializers.IntegerField(min_value=1)
     freezer_rated_temp = serializers.IntegerField()
     freezer_rated_temp_units = serializers.ChoiceField(choices=TempUnits.choices)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -50,7 +50,7 @@ class FreezerSerializer(serializers.ModelSerializer):
         model = Freezer
         fields = ['id', 'freezer_label', 'freezer_label_slug', 'freezer_room_name',
                   'freezer_depth', 'freezer_length', 'freezer_width', 'freezer_dimension_units',
-                  'freezer_max_columns', 'freezer_max_rows', 'freezer_max_depth',
+                  'freezer_capacity_columns', 'freezer_capacity_rows', 'freezer_capacity_depth',
                   'freezer_rated_temp', 'freezer_rated_temp_units',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since created_by references a different table and we
@@ -104,8 +104,8 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     freezer_box_column = serializers.IntegerField(min_value=1)
     freezer_box_row = serializers.IntegerField(min_value=1)
     freezer_box_depth = serializers.IntegerField(min_value=1)
-    freezer_box_max_column = serializers.IntegerField(min_value=1)
-    freezer_box_max_row = serializers.IntegerField(min_value=1)
+    freezer_box_capacity_column = serializers.IntegerField(min_value=1)
+    freezer_box_capacity_row = serializers.IntegerField(min_value=1)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -113,7 +113,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
         model = FreezerBox
         fields = ['id', 'freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                  'freezer_box_max_column', 'freezer_box_max_row',
+                  'freezer_box_capacity_column', 'freezer_box_capacity_row',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(

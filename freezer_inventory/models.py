@@ -77,9 +77,9 @@ class Freezer(DateTimeUserMixin):
     freezer_dimension_units = models.CharField("Freezer Dimensions Units", max_length=50, choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each freezer
     # (e.g., if 10x10x10, then the freezer can fit 1000 boxes)
-    freezer_max_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
-    freezer_max_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
-    freezer_max_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
+    freezer_capacity_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
+    freezer_capacity_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
+    freezer_capacity_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
     freezer_rated_temp = models.IntegerField("Rated Freezer Temperature")
     freezer_rated_temp_units = models.CharField("Rated Freezer Temperature Units", max_length=50, choices=TempUnits.choices)
 
@@ -89,9 +89,9 @@ class Freezer(DateTimeUserMixin):
 
     def __str__(self):
         return '{label} [r{row}, c{column}, d{depth}]'.format(label=self.freezer_label,
-                                                              row=self.freezer_max_rows,
-                                                              column=self.freezer_max_columns,
-                                                              depth=self.freezer_max_depth)
+                                                              row=self.freezer_capacity_rows,
+                                                              column=self.freezer_capacity_columns,
+                                                              depth=self.freezer_capacity_depth)
 
     class Meta:
         app_label = 'freezer_inventory'
@@ -150,8 +150,8 @@ class FreezerBox(DateTimeUserMixin):
     freezer_box_depth = models.PositiveIntegerField("Freezer Box Depth")
     # maximum number of columns and rows based on the number of inventory that can fit in each box
     # (e.g., if we have 10x10, then the box can fit 100 inventory samples)
-    freezer_box_max_column = models.PositiveIntegerField("Max Box Columns (Inventory)")
-    freezer_box_max_row = models.PositiveIntegerField("Max Box Rows (Inventory)")
+    freezer_box_capacity_column = models.PositiveIntegerField("Max Box Columns (Inventory)")
+    freezer_box_capacity_row = models.PositiveIntegerField("Max Box Rows (Inventory)")
 
     def save(self, *args, **kwargs):
         self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug,
