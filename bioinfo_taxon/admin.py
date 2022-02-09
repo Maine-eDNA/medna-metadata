@@ -23,7 +23,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
-                       'refdb_repo_url', 'created_by']
+                       'refdb_repo_url', 'refdb_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -33,7 +33,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
-                       'refdb_repo_url', 'created_by']
+                       'refdb_repo_url', 'refdb_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ReferenceDatabaseAdmin, self).change_view(request, object_id)
 
@@ -477,7 +477,8 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
                        'manual_kingdom', 'manual_phylum',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
-                       'manual_species', 'created_by']
+                       'manual_species', 'manual_notes',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -495,7 +496,8 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
                        'manual_kingdom', 'manual_phylum',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
-                       'manual_species', 'created_by']
+                       'manual_species', 'manual_notes',
+                       'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonomicAnnotationAdmin, self).change_view(request, object_id)
 

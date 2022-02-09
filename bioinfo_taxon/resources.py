@@ -15,9 +15,9 @@ class ReferenceDatabaseAdminResource(resources.ModelResource):
                             'redfb_coverage_score', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'refdb_name', 'refdb_version', 'refdb_slug', 'refdb_datetime', 'redfb_coverage_score',
-                  'refdb_repo_url', 'created_by', 'created_datetime',)
+                  'refdb_repo_url', 'refdb_notes', 'created_by', 'created_datetime',)
         export_order = ('id', 'refdb_name', 'refdb_version', 'refdb_slug', 'refdb_datetime', 'redfb_coverage_score',
-                        'refdb_repo_url', 'created_by', 'created_datetime',)
+                        'refdb_repo_url', 'refdb_notes', 'created_by', 'created_datetime',)
 
     created_by = fields.Field(
         column_name='created_by',
@@ -305,7 +305,7 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                   'manual_kingdom', 'manual_phylum',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
-                  'manual_species',
+                  'manual_species', 'manual_notes',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'feature', 'annotation_metadata',
                         'reference_database', 'confidence',
@@ -316,7 +316,7 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                         'manual_kingdom', 'manual_phylum',
                         'manual_class', 'manual_order',
                         'manual_family', 'manual_genus',
-                        'manual_species',
+                        'manual_species', 'manual_notes',
                         'created_by', 'created_datetime', )
 
     feature = fields.Field(

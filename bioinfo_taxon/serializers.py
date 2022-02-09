@@ -21,6 +21,7 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
     refdb_datetime = serializers.DateTimeField()
     redfb_coverage_score = serializers.DecimalField(max_digits=6, decimal_places=2)
     refdb_repo_url = serializers.URLField(max_length=255)
+    refdb_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -28,7 +29,8 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
         model = ReferenceDatabase
         fields = ['id', 'refdb_name', 'refdb_version', 'refdb_slug',
                   'refdb_datetime', 'redfb_coverage_score',
-                  'refdb_repo_url', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'refdb_repo_url', 'refdb_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(queryset=ReferenceDatabase.objects.all(), fields=['refdb_name', 'refdb_version'])
         ]
@@ -291,6 +293,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     ta_genus = serializers.CharField(max_length=255, allow_blank=True)
     ta_species = serializers.CharField(max_length=255, allow_blank=True)
     ta_common_name = serializers.CharField(max_length=255, allow_blank=True)
+    manual_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -305,7 +308,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
                   'manual_kingdom', 'manual_phylum',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
-                  'manual_species',
+                  'manual_species', 'manual_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add

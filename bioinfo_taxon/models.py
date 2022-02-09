@@ -14,6 +14,7 @@ class ReferenceDatabase(DateTimeUserMixin):
     refdb_datetime = models.DateTimeField("Reference Database DateTime")
     redfb_coverage_score = models.DecimalField("Coverage Score (Percentage)", max_digits=6, decimal_places=2)
     refdb_repo_url = models.URLField("Reference Database URL", max_length=255, default="https://github.com/Maine-eDNA")
+    refdb_notes = models.TextField("Reference Database Notes", blank=True)
 
     def save(self, *args, **kwargs):
         self.refdb_slug = '{name}v{version}'.format(name=slugify(self.refdb_name),
@@ -206,7 +207,7 @@ class TaxonGenus(DateTimeUserMixin):
     taxon_genus_slug = models.SlugField("Genus Slug", max_length=255)
     taxon_family = models.ForeignKey(TaxonFamily, on_delete=models.RESTRICT)
     taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
-    taxon_family_slug = models.CharField("Order", max_length=255)
+    taxon_family_slug = models.CharField("Family", max_length=255)
     taxon_order_slug = models.CharField("Order", max_length=255)
     taxon_class_slug = models.CharField("Class", max_length=255)
     taxon_phylum_slug = models.CharField("Phylum", max_length=255)
@@ -247,7 +248,7 @@ class TaxonSpecies(DateTimeUserMixin):
     taxon_genus = models.ForeignKey(TaxonGenus, on_delete=models.RESTRICT)
     taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
     taxon_genus_slug = models.CharField("Genus", max_length=255)
-    taxon_family_slug = models.CharField("Order", max_length=255)
+    taxon_family_slug = models.CharField("Family", max_length=255)
     taxon_order_slug = models.CharField("Order", max_length=255)
     taxon_class_slug = models.CharField("Class", max_length=255)
     taxon_phylum_slug = models.CharField("Phylum", max_length=255)
@@ -356,6 +357,7 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     manual_family = models.ForeignKey(TaxonFamily, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_family")
     manual_genus = models.ForeignKey(TaxonGenus, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_genus")
     manual_species = models.ForeignKey(TaxonSpecies, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_species")
+    manual_notes = models.TextField("Manual Annotation Notes", blank=True)
 
     def __str__(self):
         return '{taxon} {feature}'.format(

@@ -13,10 +13,11 @@ class ReferenceDatabaseTestCase(TestCase):
         current_datetime = timezone.now()
         ReferenceDatabase.objects.get_or_create(refdb_name="test_name",
                                                 defaults={
-                                                       'refdb_version': "test_pipeline",
-                                                       'refdb_datetime': current_datetime,
-                                                       'redfb_coverage_score': 0.90,
-                                                       'refdb_repo_url': "https://testrepo.com"})
+                                                    'refdb_version': "test_pipeline",
+                                                    'refdb_datetime': current_datetime,
+                                                    'redfb_coverage_score': 0.90,
+                                                    'refdb_repo_url': "https://testrepo.com",
+                                                    'refdb_notes': "test notes"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -207,7 +208,8 @@ class TaxonomicAnnotationTestCase(TestCase):
                                                       'manual_order': manual_order,
                                                       'manual_family': manual_family,
                                                       'manual_genus': manual_genus,
-                                                      'manual_species': manual_species})
+                                                      'manual_species': manual_species,
+                                                      'manual_notes': "test notes"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
