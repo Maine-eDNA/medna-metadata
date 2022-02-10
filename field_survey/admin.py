@@ -46,7 +46,7 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime',
-                       'record_editor', 'created_by']
+                       'record_editor', 'created_by', 'modified_datetime', 'created_datetime']
         # self.inlines = (ProjectInline,)
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
@@ -79,7 +79,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['crew_fname', 'crew_lname',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewAdmin, self).change_view(request, object_id)
 
@@ -118,7 +118,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                        'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementAdmin, self).change_view(request, object_id)
 
@@ -151,7 +151,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['collection_type', 'survey_global_id',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
@@ -260,7 +260,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'sample_material', 'collection_global_id', 'created_by', ]
+                       'sample_material', 'collection_global_id', 'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
@@ -401,7 +401,8 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', 'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyETLAdmin, self).change_view(request, object_id)
 
@@ -438,7 +439,7 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['survey_global_id', 'crew_fname', 'crew_lname',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewETLAdmin, self).change_view(request, object_id)
 
@@ -488,7 +489,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                        'env_substrate', 'env_lab_datetime', 'env_measure_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementETLAdmin, self).change_view(request, object_id)
 
@@ -542,7 +543,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionETLAdmin, self).change_view(request, object_id)
 
@@ -584,7 +585,7 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleFilterETLAdmin, self).change_view(request, object_id)
 
