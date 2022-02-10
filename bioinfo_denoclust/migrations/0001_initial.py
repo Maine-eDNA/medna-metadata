@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
                 ('number_reads', models.PositiveIntegerField(verbose_name='Number Reads')),
                 ('feature', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo_denoclust.featureoutput')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
-                ('extraction', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
+                ('extraction', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, blank=True, null=True, to='wet_lab.extraction')),
             ],
             options={
                 'verbose_name': 'Feature Read',

@@ -86,7 +86,7 @@ class FeatureOutput(DateTimeUserMixin):
 
 class FeatureRead(DateTimeUserMixin):
     feature = models.ForeignKey(FeatureOutput, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey('wet_lab.Extraction', on_delete=models.RESTRICT)
+    extraction = models.ForeignKey('wet_lab.Extraction', blank=True, null=True, on_delete=models.RESTRICT)
     number_reads = models.PositiveIntegerField("Number Reads")
 
     def __str__(self):

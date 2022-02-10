@@ -98,7 +98,7 @@ class FeatureReadSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='barcode_slug',
                                               queryset=Extraction.objects.all())
     feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug',
                                            queryset=FeatureOutput.objects.all())
