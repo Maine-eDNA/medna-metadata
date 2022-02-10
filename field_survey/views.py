@@ -11,7 +11,8 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
-from django_filters.rest_framework import DjangoFilterBackend
+#from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 from rest_framework import generics
 from django.db.models import Count
 # Create your views here.
@@ -20,6 +21,23 @@ from django.db.models import Count
 #################################
 
 
+class GeoFieldSurveyFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='email', lookup_expr='iexact')
+    project_ids = filters.CharFilter(field_name='project_code', lookup_expr='iexact')
+    site_id = filters.CharFilter(field_name='site_id', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    water_filterer = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    qa_editor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['created_by', 'project_ids', 'site_id', 'username', 'supervisor', 'core_subcorer',
+                  'water_filterer', 'qa_editor', 'record_creator', 'record_editor']
+
 class GeoFieldSurveyViewSet(viewsets.ModelViewSet):
     serializer_class = GeoFieldSurveySerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
@@ -27,12 +45,24 @@ class GeoFieldSurveyViewSet(viewsets.ModelViewSet):
     queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
                                                     'core_subcorer', 'water_filterer', 'qa_editor', 'record_creator',
                                                     'record_editor')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'project_ids__project_code', 'site_id__site_id',
-                        'username__agol_username', 'supervisor__agol_username', 'core_subcorer__agol_username',
-                        'water_filterer__agol_username', 'qa_editor__agol_username', 'record_creator__agol_username',
-                        'record_editor__agol_username']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'project_ids__project_code', 'site_id__site_id',
+    #                    'username__agol_username', 'supervisor__agol_username', 'core_subcorer__agol_username',
+    #                    'water_filterer__agol_username', 'qa_editor__agol_username', 'record_creator__agol_username',
+    #                    'record_editor__agol_username']
+    filterset_class = GeoFieldSurveyFilter
     swagger_tags = ["field survey"]
+
+
+class FieldCrewFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='email', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldCrew
+        fields = ['created_by', 'survey_global_id', 'record_creator', 'record_editor']
 
 
 class FieldCrewViewSet(viewsets.ModelViewSet):
@@ -40,16 +70,17 @@ class FieldCrewViewSet(viewsets.ModelViewSet):
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'survey_global_id',
-                        'record_creator__agol_username', 'record_editor__agol_username']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'survey_global_id',
+    #                    'record_creator__agol_username', 'record_editor__agol_username']
+    filterset_class = FieldCrewFilter
     swagger_tags = ["field survey"]
 
 
 class EnvMeasurementViewSet(viewsets.ModelViewSet):
     serializer_class = EnvMeasurementSerializer
     queryset = EnvMeasurement.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'survey_global_id',
                         'record_creator__agol_username', 'record_editor__agol_username']
     swagger_tags = ["field survey"]
@@ -58,7 +89,7 @@ class EnvMeasurementViewSet(viewsets.ModelViewSet):
 class FieldCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCollectionSerializer
     queryset = FieldCollection.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'survey_global_id',
                         'record_creator__agol_username', 'record_editor__agol_username',
                         'collection_type']
@@ -68,7 +99,7 @@ class FieldCollectionViewSet(viewsets.ModelViewSet):
 class WaterCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = WaterCollectionSerializer
     queryset = WaterCollection.objects.prefetch_related('created_by', 'field_collection')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'field_collection', 'water_control',
                         'water_vessel_label', 'was_filtered']
     swagger_tags = ["field survey"]
@@ -77,7 +108,7 @@ class WaterCollectionViewSet(viewsets.ModelViewSet):
 class SedimentCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = SedimentCollectionSerializer
     queryset = SedimentCollection.objects.prefetch_related('created_by', 'field_collection')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'field_collection', 'core_control',
                         'core_label', 'subcores_taken']
     swagger_tags = ["field survey"]
@@ -87,7 +118,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
     serializer_class = FieldSampleSerializer
     queryset = FieldSample.objects.prefetch_related('created_by', 'collection_global_id', 'sample_material', 'field_sample_barcode',
                                                     'record_creator', 'record_editor')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'collection_global_id', 'is_extracted',
                         'record_creator__agol_username', 'record_editor__agol_username',
                         'sample_material__sample_material_code', 'barcode_slug']
@@ -97,7 +128,7 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
 class FilterSampleViewSet(viewsets.ModelViewSet):
     serializer_class = FilterSampleSerializer
     queryset = FilterSample.objects.prefetch_related('created_by', 'field_sample')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'field_sample']
     swagger_tags = ["field survey"]
 
@@ -105,9 +136,13 @@ class FilterSampleViewSet(viewsets.ModelViewSet):
 class SubCoreSampleViewSet(viewsets.ModelViewSet):
     serializer_class = SubCoreSampleSerializer
     queryset = SubCoreSample.objects.prefetch_related('created_by', 'field_sample')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'field_sample']
     swagger_tags = ["field survey"]
+
+
+#class FilterJoinViewSet(viewsets.ReadOnlyModelViewSet):
+#    serializer_class = FilterJoinSerializer
 
 #################################
 # PRE TRANSFORM                 #
@@ -117,7 +152,7 @@ class SubCoreSampleViewSet(viewsets.ModelViewSet):
 class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
     serializer_class = GeoFieldSurveyETLSerializer
     queryset = FieldSurveyETL.objects.prefetch_related('created_by')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'site_id', 'record_creator',
                         'record_editor']
     swagger_tags = ["field survey"]
@@ -126,7 +161,7 @@ class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
 class FieldCrewETLViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCrewETLSerializer
     queryset = FieldCrewETL.objects.prefetch_related('created_by', 'survey_global_id')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'survey_global_id',
                         'record_creator', 'record_editor']
     swagger_tags = ["field survey"]
@@ -135,7 +170,7 @@ class FieldCrewETLViewSet(viewsets.ModelViewSet):
 class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
     serializer_class = EnvMeasurementETLSerializer
     queryset = EnvMeasurementETL.objects.prefetch_related('created_by', 'survey_global_id')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'survey_global_id',
                         'record_creator', 'record_editor']
     swagger_tags = ["field survey"]
@@ -144,7 +179,7 @@ class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
 class FieldCollectionETLViewSet(viewsets.ModelViewSet):
     serializer_class = FieldCollectionETLSerializer
     queryset = FieldCollectionETL.objects.prefetch_related('created_by', 'survey_global_id')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'survey_global_id',
                         'record_creator', 'record_editor']
     swagger_tags = ["field survey"]
@@ -153,7 +188,7 @@ class FieldCollectionETLViewSet(viewsets.ModelViewSet):
 class SampleFilterETLViewSet(viewsets.ModelViewSet):
     serializer_class = SampleFilterETLSerializer
     queryset = SampleFilterETL.objects.prefetch_related('created_by', 'collection_global_id')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'collection_global_id',
                         'filter_barcode', 'record_creator', 'record_editor']
     swagger_tags = ["field survey"]
@@ -161,7 +196,7 @@ class SampleFilterETLViewSet(viewsets.ModelViewSet):
 
 class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
     serializer_class = SampleFilterETLSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'collection_global_id',
                         'filter_barcode', 'record_creator', 'record_editor']
     swagger_tags = ["field survey"]
@@ -187,7 +222,7 @@ class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
 
 class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
     serializer_class = FieldCollectionETLSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'subcore_min_barcode', 'subcore_max_barcode',
                         'survey_global_id', 'record_creator', 'record_editor']
     swagger_tags = ["field survey"]
