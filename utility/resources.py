@@ -114,8 +114,8 @@ class DefaultSiteCssAdminResource(resources.ModelResource):
 class CustomUserCssAdminResource(resources.ModelResource):
     class Meta:
         model = CustomUserCss
-        import_id_fields = ('id', 'custom_css_label', 'user', )
-        fields = ('id', 'custom_css_label', 'user',
+        import_id_fields = ('id', 'custom_css_label', 'created_by', )
+        fields = ('id', 'custom_css_label',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                   'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -126,7 +126,7 @@ class CustomUserCssAdminResource(resources.ModelResource):
                   'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
                   'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime',)
-        export_order = ('id', 'custom_css_label', 'user',
+        export_order = ('id', 'custom_css_label',
                         'css_selected_background_color', 'css_selected_text_color',
                         'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                         'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -141,11 +141,6 @@ class CustomUserCssAdminResource(resources.ModelResource):
     created_by = fields.Field(
         column_name='created_by',
         attribute='created_by',
-        widget=ForeignKeyWidget(CustomUser, 'email'))
-
-    user = fields.Field(
-        column_name='user',
-        attribute='user',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user

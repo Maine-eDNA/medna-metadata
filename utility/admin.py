@@ -175,12 +175,12 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = CustomUserCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('custom_css_label', 'created_datetime', 'user')
+    list_display = ('custom_css_label', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['custom_css_label', 'user',
+        self.fields = ['custom_css_label',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -200,7 +200,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['custom_css_label', 'user',
+        self.fields = ['custom_css_label',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',

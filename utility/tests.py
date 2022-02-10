@@ -80,11 +80,8 @@ class DefaultSiteCssTestCase(TestCase):
 
 class CustomUserCssTestCase(TestCase):
     def setUp(self):
-        User = get_user_model()
-        user = User.objects.create_user(email='normal@user.com', password='foo')
         CustomUserCss.objects.get_or_create(custom_css_label="custom_css_label",
                                             defaults={
-                                                'user': user,
                                                 'css_selected_background_color': "css_selected_background_color",
                                                 'css_selected_text_color': "css_selected_text_color",
                                                 'freezer_empty_css_background_color': "freezer_empty_css_background_color",

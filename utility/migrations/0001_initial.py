@@ -114,7 +114,6 @@ class Migration(migrations.Migration):
             name='CustomUserCss',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.ForeignKey(on_delete=models.RESTRICT, related_name='user_css', to=settings.AUTH_USER_MODEL, verbose_name='User CSS')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('custom_css_label', models.CharField(unique=True, max_length=255, verbose_name='Custom CSS Label')),
