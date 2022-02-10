@@ -203,7 +203,7 @@ class CustomUserCss(DateTimeUserMixin):
 
     def __str__(self):
         date_fmt = slug_date_format(self.created_datetime)
-        return '{user}_{date}_{label}'.format(user=self.user,
+        return '{user}_{date}_{label}'.format(user=self.created_by,
                                               date=date_fmt,
                                               label=slugify(self.custom_css_label))
 
