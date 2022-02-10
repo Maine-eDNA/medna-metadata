@@ -22,16 +22,16 @@ from django.db.models import Count
 
 
 class GeoFieldSurveyFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='email', lookup_expr='iexact')
-    project_ids = filters.CharFilter(field_name='project_code', lookup_expr='iexact')
-    site_id = filters.CharFilter(field_name='site_id', lookup_expr='iexact')
-    username = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    supervisor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    core_subcorer = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    water_filterer = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    qa_editor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    record_creator = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    record_editor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
+    site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
+    water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
+    qa_editor = filters.CharFilter(field_name='qa_editor__agol_username', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
@@ -55,10 +55,10 @@ class GeoFieldSurveyViewSet(viewsets.ModelViewSet):
 
 
 class FieldCrewFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='email', lookup_expr='iexact')
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     survey_global_id = filters.CharFilter(field_name='survey_global_id', lookup_expr='iexact')
-    record_creator = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
-    record_editor = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
     class Meta:
         model = FieldCrew
