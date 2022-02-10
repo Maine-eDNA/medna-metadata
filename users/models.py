@@ -20,13 +20,14 @@ def now_plus_max():
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
-    profile_image = models.FileField("Profile Image", max_length=255, storage=select_private_media_storage, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
+    # custom fields
+    profile_image = models.FileField("Profile Image", max_length=255, storage=select_private_media_storage, blank=True)
     phone_number = PhoneNumberField(blank=True, null=True)
     # blank and null = True here so that unique can also = True even if
     # there are blank entries elsewhere
