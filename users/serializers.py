@@ -50,7 +50,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                   'phone_number', 'agol_username', 'profile_image',
                   'is_staff', 'is_active', 'date_joined',
                   'expiration_date', 'custom_user_css', 'groups', ]
-    groups = GroupSerializer(many=True, read_only=True)
+    groups = GroupSerializer(many=True, read_only=True, allow_null=True, )
     custom_user_css = CreatedBySlugRelatedField(model=CustomUserCss, many=False, allow_null=True, read_only=False, slug_field='custom_css_label')
 
 
@@ -64,7 +64,7 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
                   'agol_username', 'profile_image', 'expiration_date', 'groups',
                   'is_staff', 'is_active', 'date_joined', ]
         read_only_fields = ('email', 'expiration_date', 'groups')
-    groups = GroupSerializer(many=True, read_only=True)
+    groups = GroupSerializer(many=True, read_only=True, allow_null=True,)
 
 
 # rest-auth login and registration forms
