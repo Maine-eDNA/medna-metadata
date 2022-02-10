@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
     'rest_framework_gis',  # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
     'rest_framework.authtoken',  # for the creation of api tokens
+    'django_filters', # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework.
     'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
     'crispy_forms',  # crispy forms for pretty forms
     'django_extensions',  # generating schema pngs
@@ -335,15 +336,10 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
     'PAGE_SIZE': 100,
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',  # can authenticate via token
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  # have to be authenticated to view rest API
-    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',
+                                       'rest_framework.authentication.SessionAuthentication', ],  # can authenticate via token
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated', ], # have to be authenticated to view rest API
 }
 
 ########################################
