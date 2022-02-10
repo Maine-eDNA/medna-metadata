@@ -219,7 +219,8 @@ class WaterCollectionSerializer(serializers.ModelSerializer):
         fields = ['water_control', 'water_control_type',
                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                  'water_vessel_color', 'water_collect_notes', 'was_filtered', ]
+                  'water_vessel_color', 'water_collect_notes', 'was_filtered',
+                  'created_by', 'created_datetime', 'modified_datetime']
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -248,7 +249,8 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
         model = SedimentCollection
         fields = ['field_collection', 'core_control', 'core_label',
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
-                  'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken', ]
+                  'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken',
+                  'created_by', 'created_datetime', 'modified_datetime']
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -307,7 +309,8 @@ class FilterSampleSerializer(serializers.ModelSerializer):
         fields = ['field_sample', 'filter_location', 'is_prefilter',
                   'filter_fname', 'filter_lname',
                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
-                  'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', ]
+                  'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                  'created_by', 'created_datetime', 'modified_datetime']
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -334,7 +337,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
         model = SubCoreSample
         fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
-                  'subcore_diameter', 'subcore_clayer', ]
+                  'subcore_diameter', 'subcore_clayer', 'created_by', 'created_datetime', 'modified_datetime']
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
