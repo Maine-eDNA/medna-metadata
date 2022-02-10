@@ -78,15 +78,15 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    project_ids = serializers.SlugRelatedField(many=True, read_only=True, slug_field='project_code')
-    site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
+    project_ids = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
+    site_id = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='site_id')
     username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    supervisor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    supervisor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    water_filterer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
 class FieldCrewSerializer(serializers.ModelSerializer):
@@ -109,8 +109,8 @@ class FieldCrewSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='survey_global_id'
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
 class EnvMeasurementSerializer(serializers.ModelSerializer):
@@ -172,8 +172,8 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='survey_global_id'
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
 class FieldCollectionSerializer(serializers.ModelSerializer):
@@ -195,8 +195,8 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='survey_global_id'
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
 class WaterCollectionSerializer(serializers.ModelSerializer):
@@ -276,8 +276,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     collection_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     sample_material = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_material_code')
     field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
-    record_creator = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
-    record_editor = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
 class FilterSampleSerializer(serializers.ModelSerializer):
@@ -331,6 +331,11 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+
+
+#class FilterJoinSerializer(serializers.ModelSerializer):
+#    field_sample = FieldSampleSerializer(many=False)
+#    filter = FilterSampleSerializer(many=False)
 
 
 #################################
