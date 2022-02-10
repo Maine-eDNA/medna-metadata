@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
-from django.db.models import Q
+# from django.db.models import Q
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
@@ -77,9 +77,9 @@ class Freezer(DateTimeUserMixin):
     freezer_dimension_units = models.CharField("Freezer Dimensions Units", max_length=50, choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each freezer
     # (e.g., if 10x10x10, then the freezer can fit 1000 boxes)
-    freezer_capacity_columns = models.PositiveIntegerField("Max Freezer Columns (Boxes)")
-    freezer_capacity_rows = models.PositiveIntegerField("Max Freezer Rows (Boxes)")
-    freezer_capacity_depth = models.PositiveIntegerField("Max Freezer Depth (Boxes)")
+    freezer_capacity_columns = models.PositiveIntegerField("Freezer Column Capacity (Boxes)")
+    freezer_capacity_rows = models.PositiveIntegerField("Freezer Row Capacity (Boxes)")
+    freezer_capacity_depth = models.PositiveIntegerField("Freezer Depth Capacity (Boxes)")
     freezer_rated_temp = models.IntegerField("Rated Freezer Temperature")
     freezer_rated_temp_units = models.CharField("Rated Freezer Temperature Units", max_length=50, choices=TempUnits.choices)
 
@@ -150,8 +150,8 @@ class FreezerBox(DateTimeUserMixin):
     freezer_box_depth = models.PositiveIntegerField("Freezer Box Depth")
     # maximum number of columns and rows based on the number of inventory that can fit in each box
     # (e.g., if we have 10x10, then the box can fit 100 inventory samples)
-    freezer_box_capacity_column = models.PositiveIntegerField("Max Box Columns (Inventory)")
-    freezer_box_capacity_row = models.PositiveIntegerField("Max Box Rows (Inventory)")
+    freezer_box_capacity_column = models.PositiveIntegerField("Box Column Capacity (Inventory)")
+    freezer_box_capacity_row = models.PositiveIntegerField("Box Row Capacity (Inventory)")
 
     def save(self, *args, **kwargs):
         self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug,
