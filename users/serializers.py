@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from random import choice
+from utility.models import CustomUserCss
+from utility.serializers import CreatedBySlugRelatedField
 # from phonenumber_field.modelfields import PhoneNumberField
 try:
     from allauth.account import app_settings as allauth_settings
@@ -47,8 +49,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'first_name', 'last_name',
                   'phone_number', 'agol_username', 'profile_image',
                   'is_staff', 'is_active', 'date_joined',
-                  'expiration_date', 'groups', ]
+                  'expiration_date', 'custom_user_css', 'groups', ]
     groups = GroupSerializer(many=True, read_only=True)
+    custom_user_css = serializers.CreatedBySlugRelatedField(model=CustomUserCss, many=False, allow_blank=True, read_only=False, slug_field='custom_css_label')
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py

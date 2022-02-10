@@ -32,6 +32,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254, unique=True, verbose_name='email address')),
                 ('phone_number', phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=128, null=True, region=None)),
                 ('agol_username', models.CharField(blank=True, max_length=255, verbose_name='ArcGIS Online Username')),
+                ('custom_user_css', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='utility.customusercss', related_name="selected_user_css", verbose_name="Selected Color Profile")),
                 ('expiration_date', models.DateTimeField(default=users.models.now_plus_max, verbose_name='Expiration Date')),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
