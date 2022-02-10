@@ -332,6 +332,7 @@ class Migration(migrations.Migration):
                 ('extraction', models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
                 ('fastq_slug', models.SlugField(max_length=255, verbose_name='Fastq Slug')),
                 ('fastq_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.PrivateSequencingStorage(), upload_to='', verbose_name='FastQ Datafile', default='static/utility/images/icon-no.svg')),
+                ('submitted_to_insdc', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Submitted to INSDC')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),

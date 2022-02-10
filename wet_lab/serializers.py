@@ -409,13 +409,14 @@ class FastqFileSerializer(serializers.ModelSerializer):
     fastq_slug = serializers.SlugField(max_length=255, read_only=True)
     fastq_filename = serializers.CharField(max_length=255)
     fastq_datafile = serializers.FileField(max_length=255)
+    submitted_to_insdc = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FastqFile
         fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+                  'submitted_to_insdc', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
