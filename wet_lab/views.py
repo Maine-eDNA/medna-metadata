@@ -143,5 +143,5 @@ class FastqFileViewSet(viewsets.ModelViewSet):
     serializer_class = FastqFileSerializer
     queryset = FastqFile.objects.prefetch_related('created_by', 'run_result', 'extraction')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['uuid', 'run_result__run_id', 'extraction__barcode_slug', 'fastq_slug', 'created_by__email']
+    filterset_fields = ['uuid', 'run_result__run_id', 'extraction__barcode_slug', 'fastq_slug', 'created_by__email', 'submitted_to_insdc']
     swagger_tags = ["wet lab"]

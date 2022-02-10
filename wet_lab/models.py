@@ -459,8 +459,9 @@ class FastqFile(DateTimeUserMixin):
     extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT)
     fastq_slug = models.SlugField("Fastq Slug", max_length=255)
     fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage, default="static/utility/images/icon-no.svg")
+    # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
+    submitted_to_insdc = models.CharField("Submitted to INSDC", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # TODO - add MIxS investigation_type (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
-    # TODO - add MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
     # TODO - add MIxS lib_reads_seqd - SampleSheet.csv [reads], library reads sequenced
     # TODO - add MIxS lib_const_meth - SampleSheet.csv?, library construction method e.g., paired-
     # TODO - add MIxS lib_screen? library screening strategy (enriched, screened, normalized); specific enrichment or screening methods applied before and/or after creating clone libraries

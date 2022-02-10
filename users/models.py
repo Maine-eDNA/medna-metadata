@@ -31,6 +31,7 @@ class CustomUser(AbstractUser):
     # blank and null = True here so that unique can also = True even if
     # there are blank entries elsewhere
     agol_username = models.CharField("ArcGIS Online Username", max_length=255, blank=True)
+    custom_user_css = models.ForeignKey('utility.CustomUserCss', blank=True, null=True, on_delete=models.RESTRICT, verbose_name="Selected Color Profile", related_name="selected_user_css")
     expiration_date = models.DateTimeField("Expiration Date", default=now_plus_max)
 
     @property

@@ -6,6 +6,6 @@ from .models import CustomUser
 # Create your views here.
 class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.objects.prefetch_related('custom_user_css', 'groups')
     filterset_fields = ['email', 'agol_username', 'is_staff', 'is_active', 'expiration_date']
     swagger_tags = ["user"]

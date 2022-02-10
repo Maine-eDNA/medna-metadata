@@ -29,7 +29,8 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['denoise_cluster_method_slug', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline', 'created_by']
+        self.fields = ['denoise_cluster_method_slug', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline',
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoiseClusterMethodAdmin, self).change_view(request, object_id)
 
@@ -71,7 +72,8 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
         self.fields = ['denoise_cluster_slug', 'process_location', 'run_result',
                        'analysis_datetime', 'analyst_first_name',
                        'analyst_last_name', 'denoise_cluster_method', 'denoise_cluster_slug',
-                       'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
+                       'analysis_sop_url', 'analysis_script_repo_url',
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoiseClusterMetadataAdmin, self).change_view(request, object_id)
 
@@ -107,7 +109,8 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['feature_slug', 'feature_id', 'feature_sequence', 'denoise_cluster_metadata', 'created_by']
+        self.fields = ['feature_slug', 'feature_id', 'feature_sequence', 'denoise_cluster_metadata',
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FeatureOutputAdmin, self).change_view(request, object_id)
 
@@ -142,7 +145,8 @@ class FeatureReadAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['feature', 'extraction', 'number_reads', 'created_by']
+        self.fields = ['feature', 'extraction', 'number_reads',
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FeatureReadAdmin, self).change_view(request, object_id)
 

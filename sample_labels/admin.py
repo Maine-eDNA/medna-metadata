@@ -26,7 +26,7 @@ class SampleTypeAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['sample_type_label', 'created_by']
+        self.fields = ['sample_type_label', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleTypeAdmin, self).change_view(request, object_id)
 
@@ -60,7 +60,7 @@ class SampleMaterialAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['sample_material_label', 'created_by']
+        self.fields = ['sample_material_label', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleMaterialAdmin, self).change_view(request, object_id)
 
@@ -98,7 +98,7 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['sample_label_request_slug', 'purpose', 'created_by']
+        self.fields = ['sample_label_request_slug', 'purpose', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleLabelRequestAdmin, self).change_view(request, object_id)
 
@@ -140,7 +140,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['sample_barcode_id', 'barcode_slug', 'sample_label_request',
-                       'purpose', 'in_freezer', 'sample_type', 'created_by']
+                       'purpose', 'in_freezer', 'sample_type', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleBarcodeAdmin, self).change_view(request, object_id)
 

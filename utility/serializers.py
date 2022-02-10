@@ -26,6 +26,17 @@ class MultipleFieldLookupMixin:
         return obj
 
 
+class CreatedBySlugRelatedField(serializers.SlugRelatedField):
+    # https://stackoverflow.com/questions/22173425/limit-choices-to-foreignkey-in-django-rest-framework
+    def __init__(self, **kwargs):
+        self.model = kwargs.pop('model')
+        assert hasattr(self.model, 'created_by')
+        super().__init__(**kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.filter(created_by=self.context['request'].user)
+
+
 # Django REST Framework to allow the automatic downloading of data!
 class GrantSerializer(serializers.ModelSerializer):
     # formerly Project in field_sites.models

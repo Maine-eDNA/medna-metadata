@@ -24,7 +24,7 @@ class GrantAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['grant_label', 'created_by']
+        self.fields = ['grant_label', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GrantAdmin, self).change_view(request, object_id)
 
@@ -58,7 +58,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['project_label', 'grant_name', 'created_by', ]
+        self.fields = ['project_label', 'grant_name', 'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProjectAdmin, self).change_view(request, object_id)
 
@@ -102,7 +102,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
                        'process_location_url', 'phone_number',
                        'location_email_address', 'point_of_contact_email_address',
                        'point_of_contact_first_name', 'point_of_contact_last_name',
-                       'location_notes', 'created_by', ]
+                       'location_notes', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProcessLocationAdmin, self).change_view(request, object_id)
 
@@ -156,7 +156,7 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
                        'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
-                       'created_by', ]
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DefaultSiteCssAdmin, self).change_view(request, object_id)
 
@@ -175,12 +175,12 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = CustomUserCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('custom_css_label', 'created_datetime', 'user')
+    list_display = ('custom_css_label', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['custom_css_label', 'user',
+        self.fields = ['custom_css_label',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -200,7 +200,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['custom_css_label', 'user',
+        self.fields = ['custom_css_label',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -210,7 +210,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
                        'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
-                       'created_by', ]
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(CustomUserCssAdmin, self).change_view(request, object_id)
 

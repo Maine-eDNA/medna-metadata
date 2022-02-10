@@ -53,9 +53,9 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserCssSerializer
-    queryset = CustomUserCss.objects.prefetch_related('created_by', 'user')
+    queryset = CustomUserCss.objects.prefetch_related('created_by',)
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['custom_css_label', 'user__email', 'created_datetime']
+    filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
     swagger_tags = ["utility"]
 
 
