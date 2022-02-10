@@ -51,7 +51,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                   'is_staff', 'is_active', 'date_joined',
                   'expiration_date', 'custom_user_css', 'groups', ]
     groups = GroupSerializer(many=True, read_only=True)
-    custom_user_css = CreatedBySlugRelatedField(model=CustomUserCss, many=False, allow_blank=True, read_only=False, slug_field='custom_css_label')
+    custom_user_css = CreatedBySlugRelatedField(model=CustomUserCss, many=False, allow_empty=True, read_only=False, slug_field='custom_css_label')
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py
