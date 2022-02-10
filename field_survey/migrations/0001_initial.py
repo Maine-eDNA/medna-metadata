@@ -22,8 +22,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSurvey',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('survey_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('survey_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey DateTime')),
                 ('recorder_fname', models.CharField(blank=True, max_length=255, verbose_name='Recorder First Name')),
@@ -60,7 +58,6 @@ class Migration(migrations.Migration):
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Record Edit DateTime')),
                 ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326, verbose_name='Latitude, Longitude (DD WGS84)')),
                 ('core_subcorer', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='core_subcorer', to=settings.AUTH_USER_MODEL, verbose_name='Designated Sub-corer')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('project_ids', models.ManyToManyField(related_name='project_ids', to='utility.Project', verbose_name='Affiliated Project(s)')),
                 ('qa_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='qa_editor', to=settings.AUTH_USER_MODEL, verbose_name='Quality Editor')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='survey_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Record Creator')),
@@ -69,6 +66,9 @@ class Migration(migrations.Migration):
                 ('supervisor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='supervisor', to=settings.AUTH_USER_MODEL, verbose_name='Supervisor')),
                 ('username', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='username', to=settings.AUTH_USER_MODEL, verbose_name='Username')),
                 ('water_filterer', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='water_filterer', to=settings.AUTH_USER_MODEL, verbose_name='Designated Filterer')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Field Survey',
@@ -78,17 +78,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCrew',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('crew_fname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Crew Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Crew Edit DateTime')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='crew_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Crew Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='crew_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Crew Editor')),
                 ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_fieldcrew', to='field_survey.fieldsurvey')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Field Crew',
@@ -98,17 +98,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCollection',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('collection_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('collection_type', models.CharField(choices=[(None, '(Unknown)'), ('water_sample', 'Water Sample'), ('sed_sample', 'Sediment Sample')], max_length=50, verbose_name='Collection Type (water or sediment)')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Collection Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Collection Edit DateTime')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='collection_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Collection Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='collection_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Collection Editor')),
                 ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_fieldcollection', to='field_survey.fieldsurvey')),
-
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Field Collection',
@@ -132,6 +131,9 @@ class Migration(migrations.Migration):
                 ('water_vessel_color', models.CharField(blank=True, max_length=255, verbose_name='Water Vessel Color')),
                 ('water_collect_notes', models.TextField(blank=True, verbose_name='Water Sample Notes')),
                 ('was_filtered', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Filtered')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Water Collection',
@@ -154,6 +156,9 @@ class Migration(migrations.Migration):
                 ('core_purpose', models.TextField(blank=True, verbose_name='Purpose of Other Cores')),
                 ('core_notes', models.TextField(blank=True, verbose_name='Core Notes')),
                 ('subcores_taken', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Sub-Cored')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Sediment Collection',
@@ -163,19 +168,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSample',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('sample_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Field Sample Barcode Slug')),
                 ('is_extracted', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Extracted')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Edit DateTime')),
                 ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldcollection_to_fieldsample', to='field_survey.fieldcollection')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Editor')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Field Sample',
@@ -200,6 +205,9 @@ class Migration(migrations.Migration):
                 ('filter_pore', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Filter Pore Size')),
                 ('filter_size', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Filter Size')),
                 ('filter_notes', models.TextField(blank=True, verbose_name='Filter Notes')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Filter Sample',
@@ -220,6 +228,9 @@ class Migration(migrations.Migration):
                 ('subcore_length', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Sub-Core Length (cm)')),
                 ('subcore_diameter', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Sub-Core Diameter (cm)')),
                 ('subcore_clayer', models.IntegerField(blank=True, null=True, verbose_name='Sub-Core Consistency Layer')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'SubCore Sample',
@@ -229,8 +240,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EnvMeasurement',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('env_measure_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Measurement DateTime')),
                 ('env_measure_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Measurement Depth (m)')),
@@ -267,10 +276,12 @@ class Migration(migrations.Migration):
                 ('env_measure_notes', models.TextField(blank=True, verbose_name='Measurement Notes')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Env Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Env Edit DateTime')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='env_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Env Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='env_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Env Editor')),
                 ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_envmeasurement', to='field_survey.fieldsurvey')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'Env Measurement',
@@ -280,8 +291,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSurveyETL',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('survey_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('username', models.CharField(blank=True, max_length=255, verbose_name='Username')),
                 ('survey_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey DateTime')),
@@ -327,6 +336,8 @@ class Migration(migrations.Migration):
                 ('record_editor', models.CharField(blank=True, max_length=255, verbose_name='Record Editor')),
                 ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326, verbose_name='Latitude, Longitude (DD WGS84)')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'FieldSurveyETL',
@@ -336,8 +347,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCrewETL',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('crew_fname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
@@ -345,8 +354,10 @@ class Migration(migrations.Migration):
                 ('record_creator', models.CharField(blank=True, max_length=255, verbose_name='Record Creator')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Record Edit DateTime')),
                 ('record_editor', models.CharField(blank=True, max_length=255, verbose_name='Record Editor')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_fieldcrew_etl', to='field_survey.fieldsurveyetl')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'FieldCrewETL',
@@ -356,8 +367,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EnvMeasurementETL',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('env_measure_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Measurement DateTime')),
                 ('env_measure_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Measurement Depth (m)')),
@@ -396,9 +405,10 @@ class Migration(migrations.Migration):
                 ('record_creator', models.CharField(blank=True, max_length=255, verbose_name='Record Creator')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Record Edit DateTime')),
                 ('record_editor', models.CharField(blank=True, max_length=255, verbose_name='Record Editor')),
+                ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_envmeasurement_etl', to='field_survey.fieldsurveyetl')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
-                ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE,
-                                                       related_name='fieldsurvey_to_envmeasurement_etl', to='field_survey.fieldsurveyetl')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'EnvMeasurementETL',
@@ -408,8 +418,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCollectionETL',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('collection_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('collection_type', models.CharField(blank=True, max_length=255, verbose_name='Collection Type (water or sediment)')),
                 ('water_control', models.CharField(blank=True, max_length=3, verbose_name='Is Control')),
@@ -453,8 +461,10 @@ class Migration(migrations.Migration):
                 ('record_creator', models.CharField(blank=True, max_length=255, verbose_name='Record Creator')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Record Edit DateTime')),
                 ('record_editor', models.CharField(blank=True, max_length=255, verbose_name='Record Editor')),
-                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_fieldcollection_etl', to='field_survey.fieldsurveyetl')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'FieldCollectionETL',
@@ -464,8 +474,6 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SampleFilterETL',
             fields=[
-                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
-                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('filter_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
                 ('filter_location', models.CharField(blank=True, max_length=255, verbose_name='Filter Location')),
                 ('is_prefilter', models.CharField(blank=True, max_length=3, verbose_name='Prefilter')),
@@ -488,6 +496,8 @@ class Migration(migrations.Migration):
                 ('record_editor', models.CharField(blank=True, max_length=255, verbose_name='Record Editor')),
                 ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldcollection_to_samplefilter_etl', to='field_survey.fieldcollectionetl')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
                 'verbose_name': 'SampleFilterETL',

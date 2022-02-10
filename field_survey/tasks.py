@@ -252,6 +252,7 @@ def update_record_field_collection(record, pk):
                     'water_vessel_color': record.water_vessel_color,
                     'water_collect_notes': record.water_collect_notes,
                     'was_filtered': record.was_filtered,
+                    'created_by': record.created_by,
                 }
             )
 
@@ -271,6 +272,7 @@ def update_record_field_collection(record, pk):
                     'core_purpose': record.core_purpose,
                     'core_notes': record.core_notes,
                     'subcores_taken': record.subcores_taken,
+                    'created_by': record.created_by,
                 }
             )
 
@@ -317,6 +319,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                     'filter_pore': record.filter_pore,
                     'filter_size': record.filter_size,
                     'filter_notes': record.filter_notes,
+                    'created_by': record.created_by,
                 }
             )
             if created:
@@ -336,6 +339,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                     'subcore_length': record.subcore_length,
                     'subcore_diameter': record.subcore_diameter,
                     'subcore_clayer': record.subcore_clayer,
+                    'created_by': record.created_by,
                 }
             )
             if created:

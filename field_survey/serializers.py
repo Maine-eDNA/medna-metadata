@@ -17,8 +17,6 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
 #################################
 # POST TRANSFORM                #
 #################################
-
-
 # Django REST Framework to allow the automatic downloading of data!
 class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
@@ -213,6 +211,8 @@ class WaterCollectionSerializer(serializers.ModelSerializer):
     water_vessel_color = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     water_collect_notes = serializers.CharField(read_only=True, allow_blank=True)
     was_filtered = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = WaterCollection
@@ -224,6 +224,7 @@ class WaterCollectionSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='collection_global_id'
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_collection = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
@@ -240,6 +241,8 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
     core_purpose = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_notes = serializers.CharField(read_only=True, allow_blank=True)
     subcores_taken = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = SedimentCollection
@@ -250,6 +253,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='collection_global_id'
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_collection = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
@@ -295,6 +299,8 @@ class FilterSampleSerializer(serializers.ModelSerializer):
     filter_pore = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     filter_size = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     filter_notes = serializers.CharField(read_only=True, allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FilterSample
@@ -306,6 +312,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
@@ -320,6 +327,8 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     subcore_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     subcore_diameter = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     subcore_clayer = serializers.IntegerField(read_only=True, allow_null=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = SubCoreSample
@@ -330,6 +339,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 

@@ -67,18 +67,18 @@ class FieldCollectionViewSet(viewsets.ModelViewSet):
 
 class WaterCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = WaterCollectionSerializer
-    queryset = WaterCollection.objects.prefetch_related('field_collection')
+    queryset = WaterCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_collection', 'water_control',
+    filterset_fields = ['created_by__email', 'field_collection', 'water_control',
                         'water_vessel_label', 'was_filtered']
     swagger_tags = ["field survey"]
 
 
 class SedimentCollectionViewSet(viewsets.ModelViewSet):
     serializer_class = SedimentCollectionSerializer
-    queryset = SedimentCollection.objects.prefetch_related('field_collection')
+    queryset = SedimentCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_collection', 'core_control',
+    filterset_fields = ['created_by__email', 'field_collection', 'core_control',
                         'core_label', 'subcores_taken']
     swagger_tags = ["field survey"]
 
@@ -96,17 +96,17 @@ class FieldSampleViewSet(viewsets.ModelViewSet):
 
 class FilterSampleViewSet(viewsets.ModelViewSet):
     serializer_class = FilterSampleSerializer
-    queryset = FilterSample.objects.prefetch_related('field_sample')
+    queryset = FilterSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_sample']
+    filterset_fields = ['created_by__email', 'field_sample']
     swagger_tags = ["field survey"]
 
 
 class SubCoreSampleViewSet(viewsets.ModelViewSet):
     serializer_class = SubCoreSampleSerializer
-    queryset = SubCoreSample.objects.prefetch_related('field_sample')
+    queryset = SubCoreSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['field_sample']
+    filterset_fields = ['created_by__email', 'field_sample']
     swagger_tags = ["field survey"]
 
 #################################

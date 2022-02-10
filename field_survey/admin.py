@@ -173,6 +173,7 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
     resource_class = WaterCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'water_collect_datetime', 'water_vessel_label', 'water_control', 'was_filtered', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -183,7 +184,8 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
         self.fields = ['field_collection', 'water_control', 'water_control_type',
                        'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                        'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                       'water_vessel_color', 'water_collect_notes', 'was_filtered', ]
+                       'water_vessel_color', 'water_collect_notes', 'was_filtered',
+                       'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(WaterCollectionAdmin, self).change_view(request, object_id)
 
@@ -205,6 +207,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
     resource_class = SedimentCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'core_datetime_start', 'core_label', 'core_control', 'subcores_taken', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -215,7 +218,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
         self.fields = ['field_collection', 'core_control', 'core_label',
                        'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                        'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
-                       'subcores_taken', ]
+                       'subcores_taken', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SedimentCollectionAdmin, self).change_view(request, object_id)
 
@@ -282,6 +285,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
     resource_class = FilterSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'filter_sample_label', 'filter_type', 'filter_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -304,7 +308,8 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
         self.fields = ['field_sample', 'filter_location',
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
                        'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
-                       'filter_pore', 'filter_size', 'filter_notes', ]
+                       'filter_pore', 'filter_size', 'filter_notes',
+                       'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FilterSampleAdmin, self).change_view(request, object_id)
 
@@ -326,6 +331,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
     resource_class = SubCoreSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'subcore_datetime_start')
+    readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -346,7 +352,8 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method',
                        'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
-                       'subcore_length', 'subcore_diameter', 'subcore_clayer', ]
+                       'subcore_length', 'subcore_diameter', 'subcore_clayer',
+                       'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SubCoreSampleAdmin, self).change_view(request, object_id)
 

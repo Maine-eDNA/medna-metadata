@@ -183,7 +183,7 @@ class FieldCollection(DateTimeUserMixin):
         verbose_name_plural = 'Field Collections'
 
 
-class WaterCollection(models.Model):
+class WaterCollection(DateTimeUserMixin):
     field_collection = models.OneToOneField(FieldCollection, primary_key=True, on_delete=models.CASCADE)
     water_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
     water_control_type = models.CharField("Water Control Type", blank=True, max_length=50, choices=ControlTypes.choices)
@@ -209,7 +209,7 @@ class WaterCollection(models.Model):
         verbose_name_plural = 'Water Collections'
 
 
-class SedimentCollection(models.Model):
+class SedimentCollection(DateTimeUserMixin):
     field_collection = models.OneToOneField(FieldCollection, primary_key=True, on_delete=models.CASCADE)
     core_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
     core_label = models.CharField("Core Label", blank=True, max_length=255)
@@ -269,7 +269,7 @@ class FieldSample(DateTimeUserMixin):
         verbose_name_plural = 'Field Samples'
 
 
-class FilterSample(models.Model):
+class FilterSample(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, primary_key=True, on_delete=models.CASCADE)
     filter_location = models.CharField("Filter Location", blank=True, max_length=50, choices=FilterLocations.choices)
     is_prefilter = models.CharField("Prefilter", blank=True, max_length=50, choices=YesNo.choices)
@@ -295,7 +295,7 @@ class FilterSample(models.Model):
         verbose_name_plural = 'Filter Samples'
 
 
-class SubCoreSample(models.Model):
+class SubCoreSample(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, primary_key=True, on_delete=models.CASCADE)
     subcore_fname = models.CharField("Sub-Corer First Name", blank=True, max_length=255)
     subcore_lname = models.CharField("Sub-Corer Last Name", blank=True, max_length=255)

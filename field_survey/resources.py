@@ -224,11 +224,13 @@ class WaterCollectionAdminResource(resources.ModelResource):
         fields = ('field_collection', 'water_control', 'water_control_type',
                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                  'water_vessel_color', 'water_collect_notes', 'was_filtered', )
+                  'water_vessel_color', 'water_collect_notes', 'was_filtered',
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('field_collection', 'water_control', 'water_control_type',
                         'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                         'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                        'water_vessel_color', 'water_collect_notes', 'was_filtered', )
+                        'water_vessel_color', 'water_collect_notes', 'was_filtered',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     field_collection = fields.Field(
         column_name='field_collection',
@@ -252,11 +254,11 @@ class SedimentCollectionAdminResource(resources.ModelResource):
         fields = ('field_collection', 'core_control', 'core_label',
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                   'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
-                  'subcores_taken', )
+                  'subcores_taken', 'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('field_collection', 'core_control', 'core_label',
                         'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                         'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
-                        'subcores_taken', )
+                        'subcores_taken', 'created_by', 'created_datetime', 'modified_datetime', )
 
     field_collection = fields.Field(
         column_name='field_collection',
@@ -328,11 +330,11 @@ class FilterSampleAdminResource(resources.ModelResource):
         fields = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
                   'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                  'filter_notes', )
+                  'filter_notes', 'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                         'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
                         'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                        'filter_notes', )
+                        'filter_notes', 'created_by', 'created_datetime', 'modified_datetime', )
 
     field_sample = fields.Field(
         column_name='field_sample',
@@ -355,10 +357,10 @@ class SubCoreSampleAdminResource(resources.ModelResource):
         import_id_fields = ('field_sample', )
         fields = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
-                  'subcore_diameter', 'subcore_clayer', )
+                  'subcore_diameter', 'subcore_clayer', 'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
                         'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
-                        'subcore_diameter', 'subcore_clayer', )
+                        'subcore_diameter', 'subcore_clayer', 'created_by', 'created_datetime', 'modified_datetime', )
 
     field_sample = fields.Field(
         column_name='field_sample',
