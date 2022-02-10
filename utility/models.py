@@ -121,7 +121,7 @@ class ProcessLocation(DateTimeUserMixin):
     location_email_address = models.EmailField(_('Location Email Address'), blank=True)
     point_of_contact_email_address = models.EmailField(_('Point of Contact Email Address'), blank=True)
     point_of_contact_first_name = models.CharField("Point of Contact First Name", blank=True, max_length=255)
-    point_of_contact_last_name = models.CharField("Point of contact Last Name", blank=True, max_length=255)
+    point_of_contact_last_name = models.CharField("Point of Contact Last Name", blank=True, max_length=255)
     location_notes = models.TextField("Notes", blank=True)
 
     def save(self, *args, **kwargs):
