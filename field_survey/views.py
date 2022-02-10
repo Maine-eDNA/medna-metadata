@@ -32,11 +32,12 @@ class GeoFieldSurveyFilter(filters.FilterSet):
     qa_editor = filters.CharFilter(field_name='qa_editor__agol_username', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
+    survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
     class Meta:
         model = FieldSurvey
         fields = ['created_by', 'project_ids', 'site_id', 'username', 'supervisor', 'core_subcorer',
-                  'water_filterer', 'qa_editor', 'record_creator', 'record_editor']
+                  'water_filterer', 'qa_editor', 'record_creator', 'record_editor', 'survey_datetime']
 
 
 class GeoFieldSurveyViewSet(viewsets.ReadOnlyModelViewSet):
