@@ -235,9 +235,10 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    sample_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
+    # TODO change field_sample_barcode to PK field in rest of module
+    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, on_delete=models.RESTRICT)
+    sample_global_id = models.CharField("Global ID", unique=True, max_length=255)
     collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="fieldcollection_to_fieldsample", on_delete=models.CASCADE)
-    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     sample_material = models.ForeignKey('sample_labels.SampleMaterial', on_delete=models.RESTRICT)

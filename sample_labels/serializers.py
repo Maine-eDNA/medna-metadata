@@ -93,7 +93,6 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
 
 
 class SampleBarcodeSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
     sample_barcode_id = serializers.CharField(read_only=True, max_length=16)
     barcode_slug = serializers.SlugField(read_only=True, max_length=16)
     sample_year = serializers.IntegerField(read_only=True)

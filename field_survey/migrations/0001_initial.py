@@ -168,13 +168,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSample',
             fields=[
-                ('sample_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, primary_key=True, serialize=False, to='sample_labels.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Field Sample Barcode Slug')),
+                ('sample_global_id', models.CharField(max_length=255, unique=True, verbose_name='Global ID')),
                 ('is_extracted', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Extracted')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Edit DateTime')),
                 ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldcollection_to_fieldsample', to='field_survey.fieldcollection')),
-                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Editor')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),

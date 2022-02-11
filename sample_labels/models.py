@@ -150,8 +150,9 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleBarcode(DateTimeUserMixin):
+    # TODO change sample_barcode_id to PK field in rest of module
+    sample_barcode_id = models.CharField("Sample Barcode ID", primary_key=True, max_length=16)
     sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
-    sample_barcode_id = models.CharField("Sample Barcode ID", max_length=16, unique=True)
     barcode_slug = models.CharField("Sample Barcode Slug", max_length=16)
     in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
@@ -159,8 +160,7 @@ class SampleBarcode(DateTimeUserMixin):
     site_id = models.ForeignKey('field_sites.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
-    sample_year = models.PositiveIntegerField("Sample Year", default=current_year,
-                                              validators=[MinValueValidator(2018)])
+    sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])
     purpose = models.CharField("Sample Barcode Purpose", max_length=255)
 
     def __str__(self):

@@ -280,8 +280,8 @@ class FieldSampleSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='collection_global_id'
     collection_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     sample_material = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_material_code')
-    field_sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 

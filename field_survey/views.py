@@ -196,7 +196,7 @@ class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FilterSampleFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_sample = filters.CharFilter(field_name='field_sample__sample_global_id', lookup_expr='iexact')
+    field_sample = filters.CharFilter(field_name='field_sample__field_sample_barcode', lookup_expr='iexact')
 
     class Meta:
         model = FilterSample
@@ -214,7 +214,7 @@ class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 class SubCoreSampleFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_sample = filters.CharFilter(field_name='field_sample__sample_global_id', lookup_expr='iexact')
+    field_sample = filters.CharFilter(field_name='field_sample__field_sample_barcode', lookup_expr='iexact')
 
     class Meta:
         model = SubCoreSample

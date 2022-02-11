@@ -82,10 +82,10 @@ class FieldSampleTestCase(TestCase):
         collection = FieldCollection.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
         sample_material = SampleMaterial.objects.filter()[:1].get()
-        FieldSample.objects.get_or_create(sample_global_id="test_sample_global_id",
+        FieldSample.objects.get_or_create(field_sample_barcode=sample_barcode,
                                           defaults={
+                                              'sample_global_id': "test_sample_global_id",
                                               'collection_global_id': collection,
-                                              'field_sample_barcode': sample_barcode,
                                               'sample_material': sample_material,
                                               'is_extracted': YesNo.NO,
                                               'record_create_datetime': current_datetime,

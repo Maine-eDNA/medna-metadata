@@ -278,7 +278,7 @@ class FieldSampleAdminResource(resources.ModelResource):
     class Meta:
         # SampleBarcode
         model = FieldSample
-        import_id_fields = ('sample_global_id', 'collection_global_id', )
+        import_id_fields = ('field_sample_barcode', 'sample_global_id', 'collection_global_id', )
         fields = ('sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
                   'sample_material', 'collection_global_id',
                   'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
@@ -301,7 +301,7 @@ class FieldSampleAdminResource(resources.ModelResource):
     field_sample_barcode = fields.Field(
         column_name='field_sample_barcode',
         attribute='field_sample_barcode',
-        widget=ForeignKeyWidget(SampleBarcode, 'barcode_slug'))
+        widget=ForeignKeyWidget(SampleBarcode, 'sample_barcode_id'))
 
     record_creator = fields.Field(
         column_name='record_creator',

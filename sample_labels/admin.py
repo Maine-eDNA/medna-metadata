@@ -118,8 +118,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
     # below are import_export configs
     resource_class = SampleBarcodeAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('sample_barcode_id', 'sample_type', 'purpose',
-                    'created_datetime', 'created_by', )
+    list_display = ('sample_barcode_id', 'sample_type', 'purpose', 'created_datetime', 'created_by', )
     readonly_fields = ('barcode_slug', 'sample_barcode_id', 'modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
