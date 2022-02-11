@@ -58,7 +58,7 @@ class GeoFieldSurveyViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FieldCrewFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    survey_global_id = filters.CharFilter(field_name='survey_global_id', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
@@ -81,7 +81,7 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
 
 class EnvMeasurementFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    survey_global_id = filters.CharFilter(field_name='survey_global_id', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
@@ -102,7 +102,7 @@ class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FieldCollectionFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    survey_global_id = filters.CharFilter(field_name='survey_global_id', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
     collection_type = filters.CharFilter(field_name='collection_type', lookup_expr='iexact')
@@ -169,6 +169,7 @@ class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FieldSampleFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    field_sample_barcode = filters.CharFilter(field_name='field_sample_barcode__sample_barcode_id', lookup_expr='iexact')
     collection_global_id = filters.CharFilter(field_name='collection_global_id__collection_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
@@ -178,7 +179,7 @@ class FieldSampleFilter(filters.FilterSet):
 
     class Meta:
         model = FieldSample
-        fields = ['created_by', 'collection_global_id', 'record_creator', 'record_editor', 'sample_material',
+        fields = ['created_by', 'field_sample_barcode', 'collection_global_id', 'record_creator', 'record_editor', 'sample_material',
                   'is_extracted', 'barcode_slug']
 
 
@@ -257,7 +258,7 @@ class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
 
 class FieldCrewETLFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    survey_global_id = filters.CharFilter(field_name='survey_global_id', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
 
