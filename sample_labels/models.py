@@ -150,7 +150,6 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleBarcode(DateTimeUserMixin):
-    # TODO change sample_barcode_id to PK field in rest of module
     sample_barcode_id = models.CharField("Sample Barcode ID", primary_key=True, max_length=16)
     sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
     barcode_slug = models.CharField("Sample Barcode Slug", max_length=16)

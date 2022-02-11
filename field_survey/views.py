@@ -125,14 +125,13 @@ class FieldCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 class WaterCollectionFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_collection = filters.CharFilter(field_name='field_collection__collection_global_id', lookup_expr='iexact')
     water_control = filters.CharFilter(field_name='water_control', lookup_expr='iexact')
     water_vessel_label = filters.CharFilter(field_name='water_vessel_label', lookup_expr='iexact')
     was_filtered = filters.CharFilter(field_name='was_filtered', lookup_expr='iexact')
 
     class Meta:
         model = WaterCollection
-        fields = ['created_by', 'field_collection', 'water_control', 'water_vessel_label', 'was_filtered']
+        fields = ['created_by', 'water_control', 'water_vessel_label', 'was_filtered']
 
 
 class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -147,14 +146,13 @@ class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 class SedimentCollectionFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_collection = filters.CharFilter(field_name='field_collection__collection_global_id', lookup_expr='iexact')
     core_control = filters.CharFilter(field_name='core_control', lookup_expr='iexact')
     core_label = filters.CharFilter(field_name='core_label', lookup_expr='iexact')
     subcores_taken = filters.CharFilter(field_name='subcores_taken', lookup_expr='iexact')
 
     class Meta:
         model = SedimentCollection
-        fields = ['created_by', 'field_collection', 'core_control', 'core_label', 'subcores_taken']
+        fields = ['created_by', 'core_control', 'core_label', 'subcores_taken']
 
 
 class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -169,7 +167,6 @@ class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FieldSampleFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_sample_barcode = filters.CharFilter(field_name='field_sample_barcode__sample_barcode_id', lookup_expr='iexact')
     collection_global_id = filters.CharFilter(field_name='collection_global_id__collection_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
@@ -179,7 +176,7 @@ class FieldSampleFilter(filters.FilterSet):
 
     class Meta:
         model = FieldSample
-        fields = ['created_by', 'field_sample_barcode', 'collection_global_id', 'record_creator', 'record_editor', 'sample_material',
+        fields = ['created_by', 'collection_global_id', 'record_creator', 'record_editor', 'sample_material',
                   'is_extracted', 'barcode_slug']
 
 
@@ -197,11 +194,10 @@ class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FilterSampleFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_sample = filters.CharFilter(field_name='field_sample__field_sample_barcode', lookup_expr='iexact')
 
     class Meta:
         model = FilterSample
-        fields = ['created_by', 'field_sample', ]
+        fields = ['created_by', ]
 
 
 class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):

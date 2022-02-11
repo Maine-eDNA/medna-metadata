@@ -86,12 +86,11 @@ class SampleBarcodeFilter(filters.FilterSet):
     sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
     sample_type = filters.CharFilter(field_name='sample_type__sample_type_code', lookup_expr='iexact')
     sample_label_request = filters.CharFilter(field_name='sample_label_request__sample_label_request_slug', lookup_expr='iexact')
-    sample_barcode_id = filters.CharFilter(field_name='sample_barcode_id', lookup_expr='iexact')
     in_freezer = filters.CharFilter(field_name='in_freezer', lookup_expr='iexact')
 
     class Meta:
         model = SampleBarcode
-        fields = ['created_by', 'site_id', 'sample_material', 'sample_type', 'sample_label_request', 'sample_barcode_id', 'in_freezer']
+        fields = ['created_by', 'site_id', 'sample_material', 'sample_type', 'sample_label_request', 'in_freezer']
 
 
 class SampleBarcodeViewSet(viewsets.ReadOnlyModelViewSet):
