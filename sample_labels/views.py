@@ -94,7 +94,7 @@ class SampleBarcodeFilter(filters.FilterSet):
         fields = ['created_by', 'site_id', 'sample_material', 'sample_type', 'sample_label_request', 'sample_barcode_id', 'in_freezer']
 
 
-class SampleBarcodeViewSet(viewsets.ModelViewSet):
+class SampleBarcodeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SampleBarcodeSerializer
     queryset = SampleBarcode.objects.prefetch_related('created_by', 'site_id', 'sample_material', 'sample_label_request', 'sample_type')
     filter_backends = [filters.DjangoFilterBackend]
