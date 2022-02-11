@@ -235,7 +235,6 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    # TODO change field_sample_barcode to PK field in rest of module
     field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, on_delete=models.RESTRICT)
     sample_global_id = models.CharField("Global ID", unique=True, max_length=255)
     collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="fieldcollection_to_fieldsample", on_delete=models.CASCADE)

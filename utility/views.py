@@ -11,51 +11,103 @@ from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, Concentratio
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
     InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments
 from django.views.generic.base import TemplateView
-from django_filters.rest_framework import DjangoFilterBackend
+# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 # import json
 # import ast
 
 
 # Create your views here.
+class GrantFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+
+    class Meta:
+        model = Grant
+        fields = ['created_by', ]
+
+
 class GrantViewSet(viewsets.ModelViewSet):
     # formerly Project in field_sites.models
     serializer_class = GrantSerializer
     queryset = Grant.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email']
+    filterset_class = GrantFilter
     swagger_tags = ["utility"]
+
+
+class ProjectFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    grant_name = filters.CharFilter(field_name='grant_name__grant_code', lookup_expr='iexact')
+
+    class Meta:
+        model = Project
+        fields = ['created_by', 'grant_name', ]
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     queryset = Project.objects.prefetch_related('created_by', 'grant_name')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'grant_name__grant_code']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'grant_name__grant_code']
+    filterset_class = ProjectFilter
     swagger_tags = ["utility"]
+
+
+class ProcessLocationFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    process_location_name_slug = filters.CharFilter(field_name='process_location_name_slug', lookup_expr='icontains')
+
+    class Meta:
+        model = ProcessLocation
+        fields = ['created_by', 'process_location_name_slug', ]
 
 
 class ProcessLocationViewSet(viewsets.ModelViewSet):
     serializer_class = ProcessLocationSerializer
     queryset = ProcessLocation.objects.prefetch_related('created_by')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'process_location_name_slug']
+    filterset_class = ProcessLocationFilter
     swagger_tags = ["utility"]
+
+
+class DefaultSiteCssFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    default_css_label = filters.CharFilter(field_name='default_css_label', lookup_expr='icontains')
+    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+
+    class Meta:
+        model = DefaultSiteCss
+        fields = ['created_by', 'default_css_label', 'created_datetime', ]
 
 
 class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     serializer_class = DefaultSiteCssSerializer
     queryset = DefaultSiteCss.objects.prefetch_related('created_by')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
+    filterset_class = DefaultSiteCssFilter
     swagger_tags = ["utility"]
+
+
+class CustomUserCssFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    custom_css_label = filters.CharFilter(field_name='custom_css_label', lookup_expr='icontains')
+    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+
+    class Meta:
+        model = CustomUserCss
+        fields = ['created_by', 'custom_css_label', 'created_datetime', ]
 
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserCssSerializer
     queryset = CustomUserCss.objects.prefetch_related('created_by',)
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
+    filterset_class = CustomUserCssFilter
     swagger_tags = ["utility"]
 
 

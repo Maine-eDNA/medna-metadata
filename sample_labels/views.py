@@ -17,7 +17,8 @@ from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer,
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
+# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 import datetime
 
 
@@ -25,37 +26,82 @@ def year_choices():
     return [(r, r) for r in range(2018, datetime.date.today().year + 1)]
 
 
+class SampleTypeFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+
+    class Meta:
+        model = SampleType
+        fields = ['created_by', ]
+
+
 class SampleTypeViewSet(viewsets.ModelViewSet):
     serializer_class = SampleTypeSerializer
     queryset = SampleType.objects.prefetch_related('created_by')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email']
+    filterset_class = SampleTypeFilter
     swagger_tags = ["sample labels"]
+
+
+class SampleMaterialFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+
+    class Meta:
+        model = SampleMaterial
+        fields = ['created_by', ]
 
 
 class SampleMaterialViewSet(viewsets.ModelViewSet):
     serializer_class = SampleMaterialSerializer
     queryset = SampleMaterial.objects.prefetch_related('created_by')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email']
+    filterset_class = SampleMaterialFilter
     swagger_tags = ["sample labels"]
+
+
+class SampleLabelRequestFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
+    sample_type = filters.CharFilter(field_name='sample_type__sample_type_code', lookup_expr='iexact')
+    sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
+
+    class Meta:
+        model = SampleLabelRequest
+        fields = ['created_by', 'site_id', 'sample_type', 'sample_material']
 
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
     queryset = SampleLabelRequest.objects.prefetch_related('created_by', 'site_id', 'sample_type', 'sample_material')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_type__sample_type_code', 'sample_material__sample_material_code']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_type__sample_type_code', 'sample_material__sample_material_code']
+    filterset_class = SampleLabelRequestFilter
     swagger_tags = ["sample labels"]
+
+
+class SampleBarcodeFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
+    sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
+    sample_type = filters.CharFilter(field_name='sample_type__sample_type_code', lookup_expr='iexact')
+    sample_label_request = filters.CharFilter(field_name='sample_label_request__sample_label_request_slug', lookup_expr='iexact')
+    sample_barcode_id = filters.CharFilter(field_name='sample_barcode_id', lookup_expr='iexact')
+    in_freezer = filters.CharFilter(field_name='in_freezer', lookup_expr='iexact')
+
+    class Meta:
+        model = SampleBarcode
+        fields = ['created_by', 'site_id', 'sample_material', 'sample_type', 'sample_label_request', 'sample_barcode_id', 'in_freezer']
 
 
 class SampleBarcodeViewSet(viewsets.ModelViewSet):
     serializer_class = SampleBarcodeSerializer
     queryset = SampleBarcode.objects.prefetch_related('created_by', 'site_id', 'sample_material', 'sample_label_request', 'sample_type')
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_material__sample_material_code',
-                        'sample_label_request__sample_label_request_slug', 'sample_type__sample_type_code',
-                        'sample_barcode_id', 'in_freezer']
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_material__sample_material_code',
+    #                     'sample_type__sample_type_code', 'sample_label_request__sample_label_request_slug',
+    #                     'sample_barcode_id', 'in_freezer']
+    filterset_class = SampleBarcodeFilter
     swagger_tags = ["sample labels"]
 
 
@@ -74,7 +120,7 @@ class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, Sing
     # where the data is coming from when it is being exported -- foreign keys to grab the appropriate columns
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
 
 
 class SampleLabelRequestListView(generics.ListAPIView):
@@ -84,7 +130,7 @@ class SampleLabelRequestListView(generics.ListAPIView):
     # access via the url == login only
     # this is now hard-coded in settings under: 'DEFAULT_PERMISSION_CLASSES'
     # permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_type__sample_type_code', 'sample_material__sample_material_code']
 
 
