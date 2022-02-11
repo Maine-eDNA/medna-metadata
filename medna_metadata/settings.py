@@ -333,6 +333,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 
 # these are settings for Django REST framework
 # https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
+# https://www.django-rest-framework.org/api-guide/throttling/
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
     'PAGE_SIZE': 100,
@@ -340,6 +341,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',
                                        'rest_framework.authentication.SessionAuthentication', ],  # can authenticate via token
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated', ], # have to be authenticated to view rest API
+    'DEFAULT_THROTTLE_CLASSES': ['utility.serializers.BurstRateThrottle',  # subclass UserRateThrottle
+                                 'utility.serializers.SustainedRateThrottle', ],
+    'DEFAULT_THROTTLE_RATES': {'burst': '60/min',  # custom global user restrictions
+                               'sustained': '1000/day',  # custom global user restrictions
+                               'filter_join': '5/min'}  # throttle_scope property for custom throttling on filter_join view
 }
 
 ########################################

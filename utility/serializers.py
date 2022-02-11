@@ -5,8 +5,17 @@ from rest_framework import serializers
 from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
+from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
 
+
+# https://www.django-rest-framework.org/api-guide/throttling/
+class BurstRateThrottle(UserRateThrottle):
+    scope = 'burst'
+
+
+class SustainedRateThrottle(UserRateThrottle):
+    scope = 'sustained'
 
 # https://www.django-rest-framework.org/api-guide/generic-views/#creating-custom-mixins
 class MultipleFieldLookupMixin:
