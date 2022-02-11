@@ -103,7 +103,7 @@ class SampleBarcodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SampleBarcode
-        fields = ['id', 'sample_label_request', 'sample_barcode_id', 'barcode_slug', 'site_id',
+        fields = ['sample_label_request', 'sample_barcode_id', 'barcode_slug', 'site_id',
                   'sample_year', 'sample_material', 'sample_type',
                   'purpose', 'in_freezer', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since site_id, sample_material, and created_by reference different tables and we
