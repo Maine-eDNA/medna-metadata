@@ -29,7 +29,7 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
                     'record_create_datetime', 'record_edit_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -69,7 +69,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'survey_global_id', 'crew_global_id', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -77,7 +77,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['crew_fname', 'crew_lname',
+        self.fields = ['survey_global_id', 'crew_global_id', 'crew_fname', 'crew_lname',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -102,7 +102,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'survey_global_id', 'env_global_id', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -110,13 +110,13 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['env_measure_datetime', 'env_measure_depth', 'env_instrument',
+        self.fields = ['survey_global_id', 'env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
                        'env_ctd_filename', 'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn',
                        'env_ysi_notes', 'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes',
                        'env_inst_other', 'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity',
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
-                       'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
+                       'env_substrate', 'env_lab_datetime', 'env_measure_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -141,7 +141,8 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('collection_global_id', 'collection_type', 'survey_global_id',
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime',
+                       'survey_global_id', 'collection_global_id',)
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -149,7 +150,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['collection_type', 'survey_global_id',
+        self.fields = ['survey_global_id', 'collection_global_id', 'collection_type',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -173,7 +174,7 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
     resource_class = WaterCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'water_collect_datetime', 'water_vessel_label', 'water_control', 'was_filtered', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'field_collection', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -185,7 +186,7 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
                        'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                        'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                        'water_vessel_color', 'water_collect_notes', 'was_filtered',
-                       'modified_datetime', 'created_datetime', ]
+                       'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(WaterCollectionAdmin, self).change_view(request, object_id)
 
@@ -207,7 +208,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
     resource_class = SedimentCollectionAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'core_datetime_start', 'core_label', 'core_control', 'subcores_taken', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'field_collection', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -218,7 +219,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
         self.fields = ['field_collection', 'core_control', 'core_label',
                        'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
                        'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose', 'core_notes',
-                       'subcores_taken', 'modified_datetime', 'created_datetime', ]
+                       'subcores_taken', 'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SedimentCollectionAdmin, self).change_view(request, object_id)
 
@@ -242,7 +243,8 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
     list_display = ('sample_global_id', 'field_sample_barcode',
                     'is_extracted', 'collection_global_id',
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
-    readonly_fields = ('barcode_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'collection_global_id',
+                       'sample_global_id', 'field_sample_barcode', 'barcode_slug', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -261,9 +263,9 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample_barcode', 'barcode_slug', 'is_extracted',
+        self.fields = ['collection_global_id', 'sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'sample_material', 'collection_global_id', 'created_by', 'modified_datetime', 'created_datetime', ]
+                       'sample_material', 'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
@@ -285,7 +287,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
     resource_class = FilterSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'filter_sample_label', 'filter_type', 'filter_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'field_sample', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -309,7 +311,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
                        'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
                        'filter_pore', 'filter_size', 'filter_notes',
-                       'modified_datetime', 'created_datetime', ]
+                       'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FilterSampleAdmin, self).change_view(request, object_id)
 
@@ -331,7 +333,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
     resource_class = SubCoreSampleAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'subcore_datetime_start')
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'field_sample', )
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -353,7 +355,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
         self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method',
                        'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer',
-                       'modified_datetime', 'created_datetime', ]
+                       'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SubCoreSampleAdmin, self).change_view(request, object_id)
 
