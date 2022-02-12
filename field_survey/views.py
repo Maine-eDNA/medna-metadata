@@ -5,7 +5,7 @@ from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, EnvMeasu
     FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
     GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
     FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
-    SampleFilterETLSerializer, FieldCrewNestedSerializer
+    SampleFilterETLSerializer, FieldSurveyFieldCrewNestedSerializer
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -72,18 +72,6 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # https://www.django-rest-framework.org/api-guide/relations/#writable-nested-serializers
-    queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
-    filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'survey_global_id',
-    #                    'record_creator__agol_username', 'record_editor__agol_username']
-    filterset_class = FieldCrewFilter
-    swagger_tags = ["field survey"]
-
-
-class FieldCrewNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldCrewNestedSerializer
-    # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
-    # https://www.django-rest-framework.org/api-guide/relations/
     queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'survey_global_id',
@@ -247,6 +235,25 @@ class FilterJoinFilter(filters.FilterSet):
         fields = ['created_by', 'field_sample', ]
 
 
+#################################
+# NESTED SERIALIZERS            #
+#################################
+class FieldSurveyFieldCrewNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FieldSurveyFieldCrewNestedSerializer
+    # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
+    # https://www.django-rest-framework.org/api-guide/relations/
+    queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
+                                                    'core_subcorer', 'water_filterer', 'qa_editor', 'record_creator',
+                                                    'record_editor')
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'project_ids__project_code', 'site_id__site_id',
+    #                    'username__agol_username', 'supervisor__agol_username', 'core_subcorer__agol_username',
+    #                    'water_filterer__agol_username', 'qa_editor__agol_username', 'record_creator__agol_username',
+    #                    'record_editor__agol_username']
+    filterset_class = GeoFieldSurveyFilter
+    swagger_tags = ["field survey"]
+
+
 # class FilterJoinViewSet(viewsets.ReadOnlyModelViewSet):
 #     throttle_scope = 'filter_join'
 #     serializer_class = FilterJoinSerializer
@@ -256,8 +263,8 @@ class FilterJoinFilter(filters.FilterSet):
 #         # https://stackoverflow.com/questions/54569384/django-chaining-prefetch-related-and-select-related
 #         bars = Bar.objects.select_related('prop')
 #         foos = Foo.objects.prefetch_related(Prefetch('bars', queryset=bars)).all()
-#
 #         queryset = FilterSample.objects.filter(pk__iexact=sample_barcode)
+#
 #         return self.get_serializer_class().setup_eager_loading(queryset)
 
 
