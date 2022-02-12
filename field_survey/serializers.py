@@ -8,6 +8,7 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
     CoreMethods
+from utility.serializers import EagerLoadingMixin
 # from utility.models import Project
 # from field_sites.models import FieldSite
 # from users.models import CustomUser
@@ -83,6 +84,32 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
     core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     water_filterer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     qa_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+
+
+class FieldCrewNestedSerializer(serializers.ModelSerializer):
+    # https://www.django-rest-framework.org/api-guide/relations/#writable-nested-serializers
+    field_survey = GeoFieldSurveySerializer(many=False, read_only=True)
+    crew_global_id = serializers.CharField(read_only=True, max_length=255)
+    crew_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    crew_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    record_create_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FieldCrew
+        fields = ['field_survey', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    # slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
@@ -346,15 +373,54 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
-#class FilterJoinSerializer(serializers.ModelSerializer):
-#    field_sample = FieldSampleSerializer(many=False)
-#    filter = FilterSampleSerializer(many=False)
+# class FilterJoinSerializer(serializers.ModelSerializer, EagerLoadingMixin):
+#     # https://wearedignified.com/blog/how-to-use-select_related-and-prefetch_related-to-optimize-performance-in-django-rest-framework
+#     filter = FilterSampleSerializer(many=False)
+#     field_sample = FieldSampleSerializer(many=False)
+#     water_collection = WaterCollectionSerializer(many=False)
+#     field_collection = FieldCollectionSerializer(many=False)
+#     env_measurement = EnvMeasurementSerializer(many=True)
+#     field_crew = FieldCrewSerializer(many=True)
+#     field_survey = GeoFieldSurveySerializer(many=False)
+#
+#     select_related_fields = ('artist',)
+#     prefetch_related_fields = ()
+#
+#     class Meta:
+#         model = FilterSample
+#         fields = ['field_sample', 'filter_location', 'is_prefilter',
+#                   'filter_fname', 'filter_lname',
+#                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
+#                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+#                   'collection_global_id', 'is_extracted',
+#                   'survey_global_id',
+#                   'water_control', 'water_control_type',
+#                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+#                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+#                   'water_vessel_color', 'water_collect_notes', 'was_filtered',
+#                   'env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument', 'env_ctd_filename',
+#                   'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn', 'env_ysi_notes',
+#                   'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes', 'env_inst_other',
+#                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
+#                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
+#                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
+#                   'crew_global_id', 'crew_fname', 'crew_lname',
+#                   'survey_datetime', 'project_ids', 'supervisor', 'username',
+#                   'recorder_fname', 'recorder_lname',
+#                   'arrival_datetime', 'site_id', 'site_id_other', 'site_name',
+#                   'lat_manual', 'long_manual', 'env_obs_turbidity',
+#                   'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
+#                   'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
+#                   'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
+#                   'core_subcorer', 'water_filterer',
+#                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
+#                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
+#                   'gps_cap_horacc', 'gps_cap_vertacc', ]
 
 
 #################################
 # PRE TRANSFORM                 #
 #################################
-
 class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=False, max_length=255)
     username = serializers.CharField(max_length=255, allow_blank=True)

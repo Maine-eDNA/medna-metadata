@@ -5,7 +5,7 @@ from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, EnvMeasu
     FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
     GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
     FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
-    SampleFilterETLSerializer
+    SampleFilterETLSerializer, FieldCrewNestedSerializer
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -69,6 +69,19 @@ class FieldCrewFilter(filters.FilterSet):
 
 class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FieldCrewSerializer
+    # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
+    # https://www.django-rest-framework.org/api-guide/relations/
+    # https://www.django-rest-framework.org/api-guide/relations/#writable-nested-serializers
+    queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'survey_global_id',
+    #                    'record_creator__agol_username', 'record_editor__agol_username']
+    filterset_class = FieldCrewFilter
+    swagger_tags = ["field survey"]
+
+
+class FieldCrewNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FieldCrewNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
@@ -211,7 +224,6 @@ class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 class SubCoreSampleFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    field_sample = filters.CharFilter(field_name='field_sample__field_sample_barcode', lookup_expr='iexact')
 
     class Meta:
         model = SubCoreSample
@@ -227,8 +239,27 @@ class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
     swagger_tags = ["field survey"]
 
 
-#class FilterJoinViewSet(viewsets.ReadOnlyModelViewSet):
-#    serializer_class = FilterJoinSerializer
+class FilterJoinFilter(filters.FilterSet):
+    field_sample = filters.CharFilter(field_name='field_sample__field_sample_barcode', lookup_expr='iexact')
+
+    class Meta:
+        model = SubCoreSample
+        fields = ['created_by', 'field_sample', ]
+
+
+# class FilterJoinViewSet(viewsets.ReadOnlyModelViewSet):
+#     throttle_scope = 'filter_join'
+#     serializer_class = FilterJoinSerializer
+#
+#     def get_queryset(self):
+#         sample_barcode = self.request.query_params.get("sample_barcode")
+#         # https://stackoverflow.com/questions/54569384/django-chaining-prefetch-related-and-select-related
+#         bars = Bar.objects.select_related('prop')
+#         foos = Foo.objects.prefetch_related(Prefetch('bars', queryset=bars)).all()
+#
+#         queryset = FilterSample.objects.filter(pk__iexact=sample_barcode)
+#         return self.get_serializer_class().setup_eager_loading(queryset)
+
 
 #################################
 # PRE TRANSFORM                 #
