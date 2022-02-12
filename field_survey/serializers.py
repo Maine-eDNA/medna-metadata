@@ -155,7 +155,7 @@ class FieldSurveyFieldCrewNestedSerializer(GeoFeatureModelSerializer):
         model = FieldSurvey
         geo_field = 'geom'
         fields = ['survey_global_id', 'survey_datetime', 'project_ids', 'supervisor', 'username',
-                  'recorder_fname', 'recorder_lname',
+                  'recorder_fname', 'recorder_lname', 'field_crew',
                   'arrival_datetime', 'site_id', 'site_id_other', 'site_name',
                   'lat_manual', 'long_manual', 'env_obs_turbidity',
                   'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
