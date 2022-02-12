@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Crew Edit DateTime')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='crew_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Crew Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='crew_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Crew Editor')),
-                ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='fieldsurvey_to_fieldcrew', to='field_survey.fieldsurvey')),
+                ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='field_crew', to='field_survey.fieldsurvey')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

@@ -101,7 +101,7 @@ class FieldCrew(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Crew Creator", on_delete=models.SET(get_sentinel_user), related_name="crew_record_creator")
     record_edit_datetime = models.DateTimeField("Crew Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Crew Editor", on_delete=models.SET(get_sentinel_user), related_name="crew_record_editor")
-    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcrew", on_delete=models.CASCADE)
+    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="field_crew", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
