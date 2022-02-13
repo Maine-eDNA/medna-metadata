@@ -327,6 +327,8 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
                   'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'freezer_box',
+                  'freezer_rack',
+                  'freezer',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
