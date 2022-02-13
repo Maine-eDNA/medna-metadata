@@ -369,7 +369,7 @@ class WaterCollectionNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WaterCollection
-        fields = ['field_collection', 'water_control', 'water_control_type',
+        fields = ['field_collections', 'water_control', 'water_control_type',
                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                   'water_vessel_color', 'water_collect_notes', 'was_filtered',
