@@ -239,18 +239,18 @@ class FilterJoinFilter(filters.FilterSet):
 # NESTED VIEWS                  #
 #################################
 class WaterFieldSurveyNestedFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
+    # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
     supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
     core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
     water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__field_sample_barcode', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
-        fields = ['created_by', 'project_ids', 'site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime']
+        fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
 class WaterFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
@@ -270,17 +270,17 @@ class WaterFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class SedimentFieldSurveyNestedFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
+    # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
     supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
     core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__field_sample_barcode', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
-        fields = ['created_by', 'project_ids', 'site_id', 'username', 'supervisor', 'core_subcorer', 'survey_datetime']
+        fields = ['site_id', 'username', 'supervisor', 'core_subcorer', 'survey_datetime', 'field_collections']
 
 
 class SedimentFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
