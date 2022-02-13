@@ -370,7 +370,7 @@ class InventoryLogNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreezerInventoryLog
         fields = ['id', 'freezer_log_action',
-                  'freezer_log_notes', 'freezer_log_slug', 'freezer_log_metadata',
+                  'freezer_log_notes', 'freezer_log_slug', 'freezer_return_metadata',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
