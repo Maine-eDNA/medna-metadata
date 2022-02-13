@@ -271,7 +271,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
 
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
-    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_log_metadata', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
+    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_return_metadata', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
     freezer_return_metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="freezer_return_actions", blank=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10, blank=True, null=True)

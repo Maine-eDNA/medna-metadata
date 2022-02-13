@@ -309,7 +309,6 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
-    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
@@ -324,7 +323,6 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
         fields = ['id', 'sample_barcode',
                   'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'freezer_box',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -378,7 +376,7 @@ class InventoryLogNestedSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    freezer_log_metadata = FreezerInventoryReturnMetadataNestedSerializer(many=False, read_only=True)
+    freezer_return_metadata = FreezerInventoryReturnMetadataNestedSerializer(many=False, read_only=True)
 
 
 class FreezerInventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
@@ -386,7 +384,6 @@ class FreezerInventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoad
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
-    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
@@ -401,7 +398,6 @@ class FreezerInventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoad
         fields = ['id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'freezer_inventory_logs',
                   'created_by', 'created_datetime', 'modified_datetime', ]
