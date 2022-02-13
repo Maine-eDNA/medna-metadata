@@ -225,7 +225,8 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
-    prefetch_related_fields = ('created_by', 'freezer_box', 'sample_barcode')
+    select_related_fields = ('sample_barcode', )
+    prefetch_related_fields = ('created_by', 'freezer_box', )
 
     class Meta:
         model = FreezerInventory
@@ -235,17 +236,10 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
                   'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-        validators = [
-            UniqueTogetherValidator(
-                queryset=FreezerInventory.objects.all(),
-                fields=['freezer_box', 'freezer_inventory_loc_status',
-                        'freezer_inventory_column', 'freezer_inventory_row', ]
-            )
-        ]
+
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     freezer_box = FreezerBoxSerializer(many=False, read_only=True)
-    sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug',
-                                                  queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
+    sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
