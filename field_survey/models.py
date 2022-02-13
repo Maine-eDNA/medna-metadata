@@ -154,7 +154,7 @@ class EnvMeasurement(DateTimeUserMixin):
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Env Creator", on_delete=models.SET(get_sentinel_user), related_name="env_record_creator")
     record_edit_datetime = models.DateTimeField("Env Edit DateTime", blank=True, null=True)
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Env Editor", on_delete=models.SET(get_sentinel_user), related_name="env_record_editor")
-    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="fieldsurvey_to_envmeasurement", on_delete=models.CASCADE)
+    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="env_measurements", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{env_global_id}'.format(env_global_id=self.env_global_id)
@@ -167,7 +167,7 @@ class EnvMeasurement(DateTimeUserMixin):
 
 class FieldCollection(DateTimeUserMixin):
     collection_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
-    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcollection", on_delete=models.CASCADE)
+    survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="field_collections", on_delete=models.CASCADE)
     collection_type = models.CharField("Collection Type (water or sediment)", choices=CollectionTypes.choices, max_length=50)
     record_create_datetime = models.DateTimeField("Collection Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Collection Creator", on_delete=models.SET(get_sentinel_user), related_name="collection_record_creator")
@@ -235,9 +235,9 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, on_delete=models.RESTRICT)
+    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, related_name="field_sample_barcodes", on_delete=models.RESTRICT)
     sample_global_id = models.CharField("Global ID", unique=True, max_length=255)
-    collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="fieldcollection_to_fieldsample", on_delete=models.CASCADE)
+    collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="field_samples", on_delete=models.CASCADE)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     sample_material = models.ForeignKey('sample_labels.SampleMaterial', on_delete=models.RESTRICT)
@@ -270,7 +270,7 @@ class FieldSample(DateTimeUserMixin):
 
 
 class FilterSample(DateTimeUserMixin):
-    field_sample = models.OneToOneField(FieldSample, primary_key=True, on_delete=models.CASCADE)
+    field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name="filter_samples", on_delete=models.CASCADE)
     filter_location = models.CharField("Filter Location", blank=True, max_length=50, choices=FilterLocations.choices)
     is_prefilter = models.CharField("Prefilter", blank=True, max_length=50, choices=YesNo.choices)
     filter_fname = models.CharField("Filterer First Name", blank=True, max_length=255)
@@ -296,7 +296,7 @@ class FilterSample(DateTimeUserMixin):
 
 
 class SubCoreSample(DateTimeUserMixin):
-    field_sample = models.OneToOneField(FieldSample, primary_key=True, on_delete=models.CASCADE)
+    field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name="subcore_samples", on_delete=models.CASCADE)
     subcore_fname = models.CharField("Sub-Corer First Name", blank=True, max_length=255)
     subcore_lname = models.CharField("Sub-Corer Last Name", blank=True, max_length=255)
     subcore_method = models.CharField("Sub-Core Method", blank=True, max_length=50, choices=SubCoreMethods.choices)
