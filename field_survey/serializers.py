@@ -441,7 +441,7 @@ class FieldWaterCollectionNestedSerializer(serializers.ModelSerializer):
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    water_collections = WaterCollectionSerializer(many=False, read_only=True)
+    water_collections = WaterCollectionNestedSerializer(many=False, read_only=True)
 
 
 class FieldSurveyNestedSerializer(GeoFeatureModelSerializer):
