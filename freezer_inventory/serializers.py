@@ -264,16 +264,16 @@ class FreezerRackNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin
 
     class Meta:
         model = FreezerRack
-        fields = ['id', 'freezer', 'freezer_rack_label', 'freezer_rack_label_slug',
+        fields = ['id', 'freezer_rack_label', 'freezer_rack_label_slug',
                   'freezer_rack_column_start', 'freezer_rack_column_end',
                   'freezer_rack_row_start', 'freezer_rack_row_end',
-                  'freezer_rack_depth_start', 'freezer_rack_depth_end',
+                  'freezer_rack_depth_start', 'freezer_rack_depth_end', 'freezer',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    freezer = serializers.SlugRelatedField(many=False, read_only=True, slug_field='freezer_label_slug')
+    freezer = FreezerNestedSerializer(many=False, read_only=True)
 
 
 class FreezerBoxNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
@@ -293,15 +293,15 @@ class FreezerBoxNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin)
 
     class Meta:
         model = FreezerBox
-        fields = ['id', 'freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
+        fields = ['id', 'freezer_box_label', 'freezer_box_label_slug',
                   'freezer_box_column', 'freezer_box_row', 'freezer_box_depth',
-                  'freezer_box_capacity_column', 'freezer_box_capacity_row',
+                  'freezer_box_capacity_column', 'freezer_box_capacity_row', 'freezer_rack',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since freezer_rack and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    freezer_rack = serializers.SlugRelatedField(many=False, read_only=True, slug_field='freezer_rack_label_slug')
+    freezer_rack = FreezerRackNestedSerializer(many=False, read_only=True)
 
 
 class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
@@ -327,8 +327,6 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
                   'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'freezer_box',
-                  'freezer_rack',
-                  'freezer',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
@@ -336,6 +334,4 @@ class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoading
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     freezer_box = FreezerBoxNestedSerializer(many=False, read_only=True)
-    freezer_rack = FreezerRackNestedSerializer(many=False, read_only=True)
-    freezer = FreezerNestedSerializer(many=False, read_only=True)
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
