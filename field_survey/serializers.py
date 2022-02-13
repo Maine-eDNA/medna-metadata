@@ -409,6 +409,77 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', ]
 
 
+class FilterSampleNestedSerializer(serializers.ModelSerializer):
+    filter_location = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    is_prefilter = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    filter_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_sample_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    filter_method = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    filter_type = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_type_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    filter_pore = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    filter_size = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    filter_notes = serializers.CharField(read_only=True, allow_blank=True)
+
+    class Meta:
+        model = FilterSample
+        fields = ['filter_location', 'is_prefilter',
+                  'filter_fname', 'filter_lname',
+                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
+                  'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', ]
+
+
+class SubCoreSampleNestedSerializer(serializers.ModelSerializer):
+    subcore_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    subcore_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    subcore_method = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    subcore_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    subcore_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
+    subcore_datetime_end = serializers.DateTimeField(read_only=True, allow_null=True)
+    subcore_number = serializers.IntegerField(read_only=True, allow_null=True)
+    subcore_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    subcore_diameter = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    subcore_clayer = serializers.IntegerField(read_only=True, allow_null=True)
+
+    class Meta:
+        model = SubCoreSample
+        fields = ['subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+                  'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
+                  'subcore_diameter', 'subcore_clayer', ]
+
+
+class FilterFieldSampleNestedSerializer(serializers.ModelSerializer):
+    sample_global_id = serializers.CharField(read_only=True, max_length=255)
+    is_extracted = serializers.ChoiceField(read_only=True, choices=YesNo.choices, default=YesNo.NO)
+
+    class Meta:
+        model = FieldSample
+        fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'filter_samples', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    filter_samples = FilterSampleNestedSerializer(many=False, read_only=True)
+
+
+class SubCoreFieldSampleNestedSerializer(serializers.ModelSerializer):
+    sample_global_id = serializers.CharField(read_only=True, max_length=255)
+    is_extracted = serializers.ChoiceField(read_only=True, choices=YesNo.choices, default=YesNo.NO)
+
+    class Meta:
+        model = FieldSample
+        fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'subcore_samples', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    subcore_samples = SubCoreSampleNestedSerializer(many=False, read_only=True)
+
+
 class WaterCollectionNestedSerializer(serializers.ModelSerializer):
     water_control = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
     water_control_type = serializers.ChoiceField(read_only=True, choices=ControlTypes.choices, allow_blank=True)
@@ -432,19 +503,54 @@ class WaterCollectionNestedSerializer(serializers.ModelSerializer):
                   'water_vessel_color', 'water_collect_notes', 'was_filtered', ]
 
 
-class FieldWaterCollectionNestedSerializer(serializers.ModelSerializer):
+class SedimentCollectionNestedSerializer(serializers.ModelSerializer):
+    core_control = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    core_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    core_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
+    core_datetime_end = serializers.DateTimeField(allow_null=True)
+    core_method = serializers.ChoiceField(read_only=True, choices=CoreMethods.choices, allow_blank=True)
+    core_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    core_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    core_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    core_diameter = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    core_purpose = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    core_notes = serializers.CharField(read_only=True, allow_blank=True)
+    subcores_taken = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+
+    class Meta:
+        model = SedimentCollection
+        fields = ['core_control', 'core_label', 'core_datetime_start', 'core_datetime_end', 'core_method',
+                  'core_method_other', 'core_collect_depth', 'core_length', 'core_diameter', 'core_purpose',
+                  'core_notes', 'subcores_taken', ]
+
+
+class WaterFieldCollectionNestedSerializer(serializers.ModelSerializer):
     collection_global_id = serializers.CharField(read_only=True, max_length=255)
 
     class Meta:
         model = FieldCollection
-        fields = ['collection_global_id', 'water_collections', ]
+        fields = ['collection_global_id', 'water_collections', 'field_samples', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     water_collections = WaterCollectionNestedSerializer(many=False, read_only=True)
+    field_samples = FilterFieldSampleNestedSerializer(many=True, read_only=True)
 
 
-class FieldSurveyNestedSerializer(GeoFeatureModelSerializer):
+class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer):
+    collection_global_id = serializers.CharField(read_only=True, max_length=255)
+
+    class Meta:
+        model = FieldCollection
+        fields = ['collection_global_id', 'sediment_collections', 'field_samples', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    sediment_collections = SedimentCollectionNestedSerializer(many=False, read_only=True)
+    field_samples = SubCoreFieldSampleNestedSerializer(many=True, read_only=True)
+
+
+class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField(read_only=True)
     recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
@@ -505,14 +611,86 @@ class FieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     # slug to tell it to print the desired field from the other table
     field_crew = FieldCrewNestedSerializer(many=True, read_only=True)
     env_measurements = EnvMeasurementNestedSerializer(many=True, read_only=True)
-    field_collections = FieldWaterCollectionNestedSerializer(many=True, read_only=True)
+    field_collections = WaterFieldCollectionNestedSerializer(many=True, read_only=True)
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     project_ids = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
     site_id = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='site_id')
     username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
     supervisor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
-    # core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     water_filterer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    qa_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+
+
+class SedimentFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
+    survey_global_id = serializers.CharField(read_only=True, max_length=255)
+    survey_datetime = serializers.DateTimeField(read_only=True)
+    recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    recorder_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    arrival_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    site_id_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    site_name = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    lat_manual = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    long_manual = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    env_obs_turbidity = serializers.ChoiceField(read_only=True, choices=TurbidTypes.choices, allow_blank=True)
+    env_obs_precip = serializers.ChoiceField(read_only=True, choices=PrecipTypes.choices, allow_blank=True)
+    env_obs_wind_speed = serializers.ChoiceField(read_only=True, choices=WindSpeeds.choices, allow_blank=True)
+    env_obs_cloud_cover = serializers.ChoiceField(read_only=True, choices=CloudCovers.choices, allow_blank=True)
+    env_biome = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    env_biome_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    env_feature = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    env_feature_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    env_material = serializers.ChoiceField(read_only=True, choices=EnvoMaterials.choices, allow_blank=True)
+    env_material_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    env_notes = serializers.CharField(read_only=True, allow_blank=True)
+    env_measure_mode = serializers.ChoiceField(read_only=True, choices=MeasureModes.choices, allow_blank=True)
+    env_boat_type = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    env_bottom_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    measurements_taken = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    survey_complete = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    qa_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    qa_initial = serializers.CharField(read_only=True, max_length=200, allow_blank=True)
+    gps_cap_lat = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_long = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_alt = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_horacc = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    gps_cap_vertacc = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
+    record_create_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FieldSurvey
+        geo_field = 'geom'
+        fields = ['survey_global_id', 'survey_datetime', 'project_ids', 'supervisor', 'username',
+                  'recorder_fname', 'recorder_lname', 'field_crew',
+                  'arrival_datetime', 'site_id', 'site_id_other', 'site_name',
+                  'lat_manual', 'long_manual', 'env_obs_turbidity',
+                  'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
+                  'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
+                  'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
+                  'env_measurements',
+                  'core_subcorer',
+                  'field_collections',
+                  'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
+                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
+                  'gps_cap_horacc', 'gps_cap_vertacc',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    field_crew = FieldCrewNestedSerializer(many=True, read_only=True)
+    env_measurements = EnvMeasurementNestedSerializer(many=True, read_only=True)
+    field_collections = SedimentFieldCollectionNestedSerializer(many=True, read_only=True)
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    project_ids = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
+    site_id = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='site_id')
+    username = serializers.SlugRelatedField(many=False, read_only=True, slug_field='agol_username')
+    supervisor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    core_subcorer = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     qa_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')

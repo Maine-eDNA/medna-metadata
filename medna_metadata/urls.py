@@ -28,7 +28,7 @@ from sample_labels.views import SampleTypeViewSet, SampleMaterialViewSet, Sample
 from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     WaterCollectionViewSet, SedimentCollectionViewSet, FieldSampleViewSet, FilterSampleViewSet, SubCoreSampleViewSet, \
     GeoFieldSurveyETLViewSet, FieldCrewETLViewSet, EnvMeasurementETLViewSet, \
-    FieldCollectionETLViewSet, SampleFilterETLViewSet, FieldSurveyNestedViewSet
+    FieldCollectionETLViewSet, SampleFilterETLViewSet, WaterFieldSurveyNestedViewSet, SedimentFieldSurveyNestedViewSet
 from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMethodViewSet, SizeSelectionMethodViewSet, \
     QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, PcrReplicateViewSet, PcrViewSet, \
     LibraryPrepViewSet, PooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
@@ -141,7 +141,8 @@ router.register(r'sample_labels/sample_barcode', SampleBarcodeViewSet, 'sample_b
 # field_survey:post-transform
 router.register(r'field_survey/field_survey', GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'field_survey/field_crew', FieldCrewViewSet, 'field_crew')
-router.register(r'field_survey/nested_field_survey', FieldSurveyNestedViewSet, 'nested_field_survey')
+router.register(r'field_survey/filter_survey', WaterFieldSurveyNestedViewSet, 'filter_survey')
+router.register(r'field_survey/subcore_survey', SedimentFieldSurveyNestedViewSet, 'subcore_survey')
 router.register(r'field_survey/env_measurement', EnvMeasurementViewSet, 'env_measurement')
 router.register(r'field_survey/field_collection', FieldCollectionViewSet, 'field_collection')
 router.register(r'field_survey/water_collection', WaterCollectionViewSet, 'water_collection')
