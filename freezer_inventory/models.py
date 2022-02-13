@@ -239,7 +239,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     # limit logs to freezer inventory that is either checked in or checked out - freezer_inventory_loc_status = filled means that the location
     # is occupied with a sample that may be checked in or out, but is 'present' in the inventory system
-    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, related_name="freezer_inventory", limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
+    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, related_name="freezer_inventory_logs", limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
     freezer_log_slug = models.SlugField("Inventory Log Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)
@@ -271,7 +271,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
 
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
-    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_log', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
+    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_log_metadata', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
     freezer_return_metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="freezer_return_actions", blank=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10, blank=True, null=True)

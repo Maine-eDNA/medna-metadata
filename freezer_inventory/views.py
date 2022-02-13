@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .serializers import ReturnActionSerializer, FreezerSerializer, FreezerRackSerializer, \
     FreezerBoxSerializer, FreezerInventorySerializer, FreezerInventoryLogSerializer, \
-    FreezerInventoryReturnMetadataSerializer, FreezerInventoryNestedSerializer
+    FreezerInventoryReturnMetadataSerializer, FreezerInventoryNestedSerializer, \
+    FreezerInventoryLogNestedSerializer
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
 # from django_filters.rest_framework import DjangoFilterBackend
@@ -197,6 +198,18 @@ class FreezerInventoryNestedFilter(filters.FilterSet):
 
 class FreezerInventoryNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FreezerInventoryNestedSerializer
+    # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = FreezerInventoryNestedFilter
+    swagger_tags = ["freezer inventory"]
+
+    def get_queryset(self):
+        queryset = FreezerInventory.objects.all()
+        return self.get_serializer_class().setup_eager_loading(queryset)
+
+
+class FreezerInventoryLogNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FreezerInventoryLogNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = FreezerInventoryNestedFilter
