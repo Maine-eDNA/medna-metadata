@@ -184,7 +184,7 @@ class FieldCollection(DateTimeUserMixin):
 
 
 class WaterCollection(DateTimeUserMixin):
-    field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name='water_collections', on_delete=models.CASCADE)
+    field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name="water_collection", on_delete=models.CASCADE)
     water_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
     water_control_type = models.CharField("Water Control Type", blank=True, max_length=50, choices=ControlTypes.choices)
     water_vessel_label = models.CharField("Water Vessel Label", blank=True, max_length=255)
@@ -210,7 +210,7 @@ class WaterCollection(DateTimeUserMixin):
 
 
 class SedimentCollection(DateTimeUserMixin):
-    field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name='sediment_collections', on_delete=models.CASCADE)
+    field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name="sediment_collection", on_delete=models.CASCADE)
     core_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
     core_label = models.CharField("Core Label", blank=True, max_length=255)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
@@ -235,7 +235,7 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, related_name="field_sample_barcodes", on_delete=models.RESTRICT)
+    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, related_name="field_sample_barcode", on_delete=models.RESTRICT)
     sample_global_id = models.CharField("Global ID", unique=True, max_length=255)
     collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="field_samples", on_delete=models.CASCADE)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
@@ -270,7 +270,7 @@ class FieldSample(DateTimeUserMixin):
 
 
 class FilterSample(DateTimeUserMixin):
-    field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name="filter_samples", on_delete=models.CASCADE)
+    field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name="filter_sample", on_delete=models.CASCADE)
     filter_location = models.CharField("Filter Location", blank=True, max_length=50, choices=FilterLocations.choices)
     is_prefilter = models.CharField("Prefilter", blank=True, max_length=50, choices=YesNo.choices)
     filter_fname = models.CharField("Filterer First Name", blank=True, max_length=255)
@@ -296,7 +296,7 @@ class FilterSample(DateTimeUserMixin):
 
 
 class SubCoreSample(DateTimeUserMixin):
-    field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name="subcore_samples", on_delete=models.CASCADE)
+    field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name="subcore_sample", on_delete=models.CASCADE)
     subcore_fname = models.CharField("Sub-Corer First Name", blank=True, max_length=255)
     subcore_lname = models.CharField("Sub-Corer Last Name", blank=True, max_length=255)
     subcore_method = models.CharField("Sub-Core Method", blank=True, max_length=50, choices=SubCoreMethods.choices)

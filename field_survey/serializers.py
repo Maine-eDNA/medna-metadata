@@ -427,8 +427,7 @@ class FilterSampleNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FilterSample
-        fields = ['filter_location', 'is_prefilter',
-                  'filter_fname', 'filter_lname',
+        fields = ['filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', ]
 
@@ -452,32 +451,36 @@ class SubCoreSampleNestedSerializer(serializers.ModelSerializer):
                   'subcore_diameter', 'subcore_clayer', ]
 
 
-class FilterFieldSampleNestedSerializer(serializers.ModelSerializer):
+class FilterFieldSampleNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     sample_global_id = serializers.CharField(read_only=True, max_length=255)
     is_extracted = serializers.ChoiceField(read_only=True, choices=YesNo.choices, default=YesNo.NO)
 
+    select_related_fields = ('field_sample_barcode', )
+
     class Meta:
         model = FieldSample
-        fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'filter_samples', ]
+        fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'filter_sample', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    filter_samples = FilterSampleNestedSerializer(many=False, read_only=True)
+    filter_sample = FilterSampleNestedSerializer(many=False, read_only=True)
 
 
-class SubCoreFieldSampleNestedSerializer(serializers.ModelSerializer):
+class SubCoreFieldSampleNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     sample_global_id = serializers.CharField(read_only=True, max_length=255)
     is_extracted = serializers.ChoiceField(read_only=True, choices=YesNo.choices, default=YesNo.NO)
 
+    select_related_fields = ('field_sample_barcode', )
+
     class Meta:
         model = FieldSample
-        fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'subcore_samples', ]
+        fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'subcore_sample', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    subcore_samples = SubCoreSampleNestedSerializer(many=False, read_only=True)
+    subcore_sample = SubCoreSampleNestedSerializer(many=False, read_only=True)
 
 
 class WaterCollectionNestedSerializer(serializers.ModelSerializer):
@@ -524,33 +527,37 @@ class SedimentCollectionNestedSerializer(serializers.ModelSerializer):
                   'core_notes', 'subcores_taken', ]
 
 
-class WaterFieldCollectionNestedSerializer(serializers.ModelSerializer):
+class WaterFieldCollectionNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     collection_global_id = serializers.CharField(read_only=True, max_length=255)
+
+    select_related_fields = ('water_collection', )
 
     class Meta:
         model = FieldCollection
-        fields = ['collection_global_id', 'water_collections', 'field_samples', ]
+        fields = ['collection_global_id', 'water_collection', 'field_samples', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    water_collections = WaterCollectionNestedSerializer(many=False, read_only=True)
+    water_collection = WaterCollectionNestedSerializer(many=False, read_only=True)
     field_samples = FilterFieldSampleNestedSerializer(many=True, read_only=True)
 
 
-class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer):
+class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     collection_global_id = serializers.CharField(read_only=True, max_length=255)
+
+    select_related_fields = ('sediment_collection', )
 
     class Meta:
         model = FieldCollection
-        fields = ['collection_global_id', 'sediment_collections', 'field_samples', ]
+        fields = ['collection_global_id', 'sediment_collection', 'field_samples', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    sediment_collections = SedimentCollectionNestedSerializer(many=False, read_only=True)
+    sediment_collection = SedimentCollectionNestedSerializer(many=False, read_only=True)
     field_samples = SubCoreFieldSampleNestedSerializer(many=True, read_only=True)
 
 
-class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
+class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField(read_only=True)
     recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
@@ -587,6 +594,9 @@ class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     record_edit_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
+
+    prefetch_related_fields = ('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
+                               'water_filterer', 'qa_editor', 'record_creator', 'record_editor')
 
     class Meta:
         model = FieldSurvey
@@ -623,7 +633,7 @@ class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
-class SedimentFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
+class SedimentFieldSurveyNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField(read_only=True)
     recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
@@ -661,6 +671,9 @@ class SedimentFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
+    prefetch_related_fields = ('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
+                               'core_subcorer', 'qa_editor', 'record_creator', 'record_editor')
+
     class Meta:
         model = FieldSurvey
         geo_field = 'geom'
@@ -694,52 +707,6 @@ class SedimentFieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     qa_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
-
-
-
-# class FilterJoinSerializer(serializers.ModelSerializer, EagerLoadingMixin):
-#     # https://wearedignified.com/blog/how-to-use-select_related-and-prefetch_related-to-optimize-performance-in-django-rest-framework
-#     filter = FilterSampleSerializer(many=False)
-#     field_sample = FieldSampleSerializer(many=False)
-#     water_collection = WaterCollectionSerializer(many=False)
-#     field_collection = FieldCollectionSerializer(many=False)
-#     env_measurement = EnvMeasurementSerializer(many=True)
-#     field_crew = FieldCrewSerializer(many=True)
-#     field_survey = GeoFieldSurveySerializer(many=False)
-#
-#     select_related_fields = ('artist',)
-#     prefetch_related_fields = ()
-#
-#     class Meta:
-#         model = FilterSample
-#         fields = ['field_sample', 'filter_location', 'is_prefilter',
-#                   'filter_fname', 'filter_lname',
-#                   'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
-#                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
-#                   'collection_global_id', 'is_extracted',
-#                   'survey_global_id',
-#                   'water_control', 'water_control_type',
-#                   'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
-#                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-#                   'water_vessel_color', 'water_collect_notes', 'was_filtered',
-#                   'env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument', 'env_ctd_filename',
-#                   'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn', 'env_ysi_notes',
-#                   'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes', 'env_inst_other',
-#                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
-#                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
-#                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
-#                   'crew_global_id', 'crew_fname', 'crew_lname',
-#                   'survey_datetime', 'project_ids', 'supervisor', 'username',
-#                   'recorder_fname', 'recorder_lname',
-#                   'arrival_datetime', 'site_id', 'site_id_other', 'site_name',
-#                   'lat_manual', 'long_manual', 'env_obs_turbidity',
-#                   'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
-#                   'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
-#                   'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
-#                   'core_subcorer', 'water_filterer',
-#                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
-#                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
-#                   'gps_cap_horacc', 'gps_cap_vertacc', ]
 
 
 #################################

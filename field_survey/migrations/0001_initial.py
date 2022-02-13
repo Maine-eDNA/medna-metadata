@@ -168,7 +168,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='WaterCollection',
             fields=[
-                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='water_collections', serialize=False, to='field_survey.fieldcollection')),
+                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='water_collection', serialize=False, to='field_survey.fieldcollection')),
                 ('water_control', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Is Control')),
                 ('water_control_type', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('field', 'Field'), ('lab', 'Lab')], max_length=50, verbose_name='Water Control Type')),
                 ('water_vessel_label', models.CharField(blank=True, max_length=255, verbose_name='Water Vessel Label')),
@@ -194,7 +194,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SedimentCollection',
             fields=[
-                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='sediment_collections', serialize=False, to='field_survey.fieldcollection')),
+                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='sediment_collection', serialize=False, to='field_survey.fieldcollection')),
                 ('core_control', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Is Control')),
                 ('core_label', models.CharField(blank=True, max_length=255, verbose_name='Core Label')),
                 ('core_datetime_start', models.DateTimeField(blank=True, null=True, verbose_name='Core Start DateTime')),
@@ -219,7 +219,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSample',
             fields=[
-                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, primary_key=True, related_name="field_sample_barcodes", serialize=False, to='sample_labels.samplebarcode')),
+                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, primary_key=True, related_name='field_sample_barcode', serialize=False, to='sample_labels.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Field Sample Barcode Slug')),
                 ('sample_global_id', models.CharField(max_length=255, unique=True, verbose_name='Global ID')),
                 ('is_extracted', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Extracted')),
@@ -241,7 +241,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FilterSample',
             fields=[
-                ('field_sample', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='filter_samples', primary_key=True, serialize=False, to='field_survey.fieldsample')),
+                ('field_sample', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='filter_sample', primary_key=True, serialize=False, to='field_survey.fieldsample')),
                 ('filter_location', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('in_field', 'Field'), ('in_lab', 'Lab')], max_length=50, verbose_name='Filter Location')),
                 ('is_prefilter', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Prefilter')),
                 ('filter_fname', models.CharField(blank=True, max_length=255, verbose_name='Filterer First Name')),
@@ -268,7 +268,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SubCoreSample',
             fields=[
-                ('field_sample', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='subcore_samples', primary_key=True, serialize=False, to='field_survey.fieldsample')),
+                ('field_sample', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='subcore_sample', primary_key=True, serialize=False, to='field_survey.fieldsample')),
                 ('subcore_fname', models.CharField(blank=True, max_length=255, verbose_name='Sub-Corer First Name')),
                 ('subcore_lname', models.CharField(blank=True, max_length=255, verbose_name='Sub-Corer Last Name')),
                 ('subcore_method', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('slices', 'Slices'), ('syringe', 'Syringe'), ('other', 'Other')], max_length=50, verbose_name='Sub-Core Method')),

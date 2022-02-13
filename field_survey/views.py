@@ -257,12 +257,16 @@ class WaterFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WaterFieldSurveyNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
-    queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
-                                                    'water_filterer', 'qa_editor', 'record_creator',
-                                                    'record_editor')
+    # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
+    #                                                'water_filterer', 'qa_editor', 'record_creator',
+    #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = WaterFieldSurveyNestedFilter
     swagger_tags = ["field survey"]
+
+    def get_queryset(self):
+        queryset = FieldSurvey.objects.all()
+        return self.get_serializer_class().setup_eager_loading(queryset)
 
 
 class SedimentFieldSurveyNestedFilter(filters.FilterSet):
@@ -283,12 +287,16 @@ class SedimentFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SedimentFieldSurveyNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
-    queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
-                                                    'core_subcorer', 'qa_editor', 'record_creator',
-                                                    'record_editor')
+    # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
+    #                                                'core_subcorer', 'qa_editor', 'record_creator',
+    #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = SedimentFieldSurveyNestedFilter
     swagger_tags = ["field survey"]
+
+    def get_queryset(self):
+        queryset = FieldSurvey.objects.all()
+        return self.get_serializer_class().setup_eager_loading(queryset)
 
 
 # class FilterJoinViewSet(viewsets.ReadOnlyModelViewSet):
