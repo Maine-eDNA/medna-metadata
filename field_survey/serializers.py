@@ -351,35 +351,26 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
 # NESTED SERIALIZERS            #
 #################################
 class WaterCollectionNestedSerializer(serializers.ModelSerializer):
-    water_control = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
-    water_control_type = serializers.ChoiceField(read_only=True, choices=ControlTypes.choices, allow_blank=True)
-    water_vessel_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
-    water_collect_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
-    water_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
-    water_collect_mode = serializers.ChoiceField(read_only=True, choices=WaterCollectionModes.choices, allow_blank=True)
-    water_niskin_number = serializers.IntegerField(read_only=True, allow_null=True)
-    water_niskin_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
-    water_vessel_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
-    water_vessel_material = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
-    water_vessel_color = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
-    water_collect_notes = serializers.CharField(read_only=True, allow_blank=True)
-    was_filtered = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    collection_global_id = serializers.CharField(read_only=True, max_length=255)
+    record_create_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    record_edit_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = WaterCollection
-        fields = ['field_collections', 'water_control', 'water_control_type',
-                  'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
-                  'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
-                  'water_vessel_color', 'water_collect_notes', 'was_filtered',
-                  'created_by', 'created_datetime', 'modified_datetime']
+        model = FieldCollection
+        fields = ['survey_global_id', 'collection_global_id', 'water_collections',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    # slug_field='collection_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    field_collections = FieldCollectionSerializer(many=False, read_only=True)
+    # slug_field='survey_global_id'
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    water_collections = WaterCollectionSerializer(many=False, read_only=True)
+    record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
+    record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
 class FieldSurveyNestedSerializer(GeoFeatureModelSerializer):
@@ -432,7 +423,7 @@ class FieldSurveyNestedSerializer(GeoFeatureModelSerializer):
                   'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
                   'env_measurements',
                   'water_filterer',
-                  'water_collections',
+                  'field_collections',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
                   'gps_cap_horacc', 'gps_cap_vertacc',
@@ -443,7 +434,7 @@ class FieldSurveyNestedSerializer(GeoFeatureModelSerializer):
     # slug to tell it to print the desired field from the other table
     field_crew = FieldCrewSerializer(many=True, read_only=True)
     env_measurements = EnvMeasurementSerializer(many=True, read_only=True)
-    water_collections = WaterCollectionNestedSerializer(many=True, read_only=True)
+    field_collections = WaterCollectionNestedSerializer(many=True, read_only=True)
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     project_ids = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
     site_id = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='site_id')
