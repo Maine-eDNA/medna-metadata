@@ -100,7 +100,7 @@ class Freezer(DateTimeUserMixin):
 
 
 class FreezerRack(DateTimeUserMixin):
-    freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT)
+    freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT, related_name="freezer")
     # freezer_rack_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_rack_label = models.CharField("Freezer Rack Label", unique=True, max_length=255)
     freezer_rack_label_slug = models.SlugField("Freezer Rack Label Slug", max_length=255)
@@ -140,7 +140,7 @@ class FreezerRack(DateTimeUserMixin):
 
 
 class FreezerBox(DateTimeUserMixin):
-    freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT)
+    freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT, related_name="freezer_rack")
     # freezer_box_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box_label = models.CharField("Freezer Box Label", unique=True, max_length=255)
     freezer_box_label_slug = models.SlugField("Freezer Box Label Slug", max_length=255)
@@ -175,7 +175,7 @@ class FreezerBox(DateTimeUserMixin):
 
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT)
+    freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT, related_name="freezer_box")
     sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT, limit_choices_to={'in_freezer': YesNo.NO})
     freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", unique=True, max_length=27)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50, choices=InvTypes.choices)
@@ -239,7 +239,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     # limit logs to freezer inventory that is either checked in or checked out - freezer_inventory_loc_status = filled means that the location
     # is occupied with a sample that may be checked in or out, but is 'present' in the inventory system
-    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
+    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, related_name="freezer_inventory", limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
     freezer_log_slug = models.SlugField("Inventory Log Slug", max_length=255)
     # freezer_user satisfied by "created_by" from DateTimeUserMixin
     freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)
@@ -271,7 +271,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
 
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
-    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
+    freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_log', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
     freezer_return_metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="freezer_return_actions", blank=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10, blank=True, null=True)

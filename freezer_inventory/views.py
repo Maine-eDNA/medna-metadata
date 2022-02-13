@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .serializers import ReturnActionSerializer, FreezerSerializer, FreezerRackSerializer, \
     FreezerBoxSerializer, FreezerInventorySerializer, FreezerInventoryLogSerializer, \
-    FreezerInventoryReturnMetadataSerializer
+    FreezerInventoryReturnMetadataSerializer, FreezerInventoryNestedSerializer
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
 # from django_filters.rest_framework import DjangoFilterBackend
@@ -175,3 +175,33 @@ class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
     #                     'created_datetime', 'modified_datetime']
     filterset_class = FreezerInventoryReturnMetadataFilter
     swagger_tags = ["freezer inventory"]
+
+
+#################################
+# NESTED VIEWS                  #
+#################################
+class FreezerInventoryNestedFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    freezer_box = filters.CharFilter(field_name='freezer_box__freezer_box_label_slug', lookup_expr='iexact')
+    freezer_inventory_type = filters.CharFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
+    freezer_inventory_status = filters.CharFilter(field_name='freezer_inventory_status', lookup_expr='iexact')
+    sample_barcode = filters.CharFilter(field_name='sample_barcode__barcode_slug', lookup_expr='iexact')
+    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+
+    class Meta:
+        model = FreezerInventory
+        fields = ['created_by', 'freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
+                  'created_datetime', 'modified_datetime', ]
+
+
+class FreezerInventoryNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FreezerInventoryNestedSerializer
+    # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = FreezerInventoryNestedFilter
+    swagger_tags = ["freezer inventory"]
+
+    def get_queryset(self):
+        queryset = FreezerInventory.objects.all()
+        return self.get_serializer_class().setup_eager_loading(queryset)

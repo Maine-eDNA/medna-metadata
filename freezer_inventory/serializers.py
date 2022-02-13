@@ -3,6 +3,7 @@ from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInven
     FreezerInventoryReturnMetadata
 from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvLocStatus, InvTypes, \
     CheckoutActions, YesNo
+from utility.serializers import EagerLoadingMixin
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from sample_labels.models import SampleBarcode
 # from field_survey.models import FieldSample
@@ -207,3 +208,44 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
     freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
                                                           queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+#################################
+# NESTED SERIALIZERS            #
+#################################
+class FreezerInventoryNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
+    id = serializers.IntegerField(read_only=True)
+    freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
+    freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
+    freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
+    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
+    # location of inventory in freezer box
+    freezer_inventory_column = serializers.IntegerField(min_value=1)
+    freezer_inventory_row = serializers.IntegerField(min_value=1)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    prefetch_related_fields = ('created_by', 'freezer_box', 'sample_barcode')
+
+    class Meta:
+        model = FreezerInventory
+        fields = ['id', 'freezer_box', 'sample_barcode',
+                  'freezer_inventory_slug',
+                  'freezer_inventory_type', 'freezer_inventory_status',
+                  'freezer_inventory_loc_status',
+                  'freezer_inventory_column', 'freezer_inventory_row',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FreezerInventory.objects.all(),
+                fields=['freezer_box', 'freezer_inventory_loc_status',
+                        'freezer_inventory_column', 'freezer_inventory_row', ]
+            )
+        ]
+    # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    freezer_box = FreezerBoxSerializer(many=False, read_only=True)
+    sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug',
+                                                  queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
