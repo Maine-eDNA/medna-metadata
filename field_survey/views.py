@@ -5,7 +5,7 @@ from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, EnvMeasu
     FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
     GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
     FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
-    SampleFilterETLSerializer, FieldSurveyFieldCrewNestedSerializer
+    SampleFilterETLSerializer, FieldSurveyNestedSerializer
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -236,10 +236,10 @@ class FilterJoinFilter(filters.FilterSet):
 
 
 #################################
-# NESTED SERIALIZERS            #
+# NESTED VIEWS                  #
 #################################
-class FieldSurveyFieldCrewNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldSurveyFieldCrewNestedSerializer
+class FieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FieldSurveyNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
