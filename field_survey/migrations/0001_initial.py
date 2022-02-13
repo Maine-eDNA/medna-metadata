@@ -168,7 +168,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='WaterCollection',
             fields=[
-                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='field_survey.fieldcollection')),
+                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='water_collections', serialize=False, to='field_survey.fieldcollection')),
                 ('water_control', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Is Control')),
                 ('water_control_type', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('field', 'Field'), ('lab', 'Lab')], max_length=50, verbose_name='Water Control Type')),
                 ('water_vessel_label', models.CharField(blank=True, max_length=255, verbose_name='Water Vessel Label')),
@@ -194,7 +194,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SedimentCollection',
             fields=[
-                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='field_survey.fieldcollection')),
+                ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='sediment_collections', serialize=False, to='field_survey.fieldcollection')),
                 ('core_control', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Is Control')),
                 ('core_label', models.CharField(blank=True, max_length=255, verbose_name='Core Label')),
                 ('core_datetime_start', models.DateTimeField(blank=True, null=True, verbose_name='Core Start DateTime')),

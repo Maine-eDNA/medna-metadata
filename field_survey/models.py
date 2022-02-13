@@ -184,7 +184,7 @@ class FieldCollection(DateTimeUserMixin):
 
 
 class WaterCollection(DateTimeUserMixin):
-    field_collection = models.OneToOneField(FieldCollection, primary_key=True, on_delete=models.CASCADE)
+    field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name='water_collections', on_delete=models.CASCADE)
     water_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
     water_control_type = models.CharField("Water Control Type", blank=True, max_length=50, choices=ControlTypes.choices)
     water_vessel_label = models.CharField("Water Vessel Label", blank=True, max_length=255)
@@ -210,7 +210,7 @@ class WaterCollection(DateTimeUserMixin):
 
 
 class SedimentCollection(DateTimeUserMixin):
-    field_collection = models.OneToOneField(FieldCollection, primary_key=True, on_delete=models.CASCADE)
+    field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name='sediment_collections', on_delete=models.CASCADE)
     core_control = models.CharField("Is Control", blank=True, max_length=50, choices=YesNo.choices)
     core_label = models.CharField("Core Label", blank=True, max_length=255)
     core_datetime_start = models.DateTimeField("Core Start DateTime", blank=True, null=True)
