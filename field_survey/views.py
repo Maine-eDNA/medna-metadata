@@ -246,7 +246,7 @@ class WaterFieldSurveyNestedFilter(filters.FilterSet):
     core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
     water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__field_sample_barcode', lookup_expr='iexact')
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
@@ -276,7 +276,7 @@ class SedimentFieldSurveyNestedFilter(filters.FilterSet):
     supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
     core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__field_sample_barcode', lookup_expr='iexact')
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
