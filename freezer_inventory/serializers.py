@@ -337,7 +337,7 @@ class FreezerInventoryLocNestedSerializer(serializers.ModelSerializer, EagerLoad
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
 
 
-class InventoryReturnMetadataNestedSerializer(serializers.ModelSerializer):
+class InventoryReturnMetadataNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
     freezer_return_vol_units = serializers.ChoiceField(allow_blank=True, choices=VolUnits.choices)
@@ -358,7 +358,7 @@ class InventoryReturnMetadataNestedSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-class InventoryLogsNestedSerializer(serializers.ModelSerializer):
+class InventoryLogsNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     id = serializers.IntegerField(read_only=True)
     freezer_log_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_log_action = serializers.ChoiceField(choices=CheckoutActions.choices)
@@ -427,6 +427,9 @@ class InventoryReturnNestedSerializer(serializers.ModelSerializer, EagerLoadingM
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
+    select_related_fields = ('sample_barcode', )
+    prefetch_related_fields = ('created_by', 'freezer_box', )
+
     class Meta:
         model = FreezerInventory
         fields = ['id', 'freezer_box', 'sample_barcode',
@@ -435,9 +438,6 @@ class InventoryReturnNestedSerializer(serializers.ModelSerializer, EagerLoadingM
                   'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-
-    select_related_fields = ('sample_barcode', )
-    prefetch_related_fields = ('created_by', 'freezer_box', )
 
     # Since freezer_box, field_sample, extraction, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -455,13 +455,13 @@ class InventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoadingMixi
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
+    prefetch_related_fields = ('created_by', 'freezer_inventory')
+
     class Meta:
         model = FreezerInventoryLog
         fields = ['id', 'freezer_log_action',
                   'freezer_log_notes', 'freezer_log_slug', 'freezer_inventory',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-
-    prefetch_related_fields = ('created_by', 'freezer_inventory')
 
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
