@@ -213,6 +213,7 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
 #################################
 # NESTED SERIALIZERS            #
 #################################
+# inventory_location
 class FreezerNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     id = serializers.IntegerField(read_only=True)
     freezer_label = serializers.CharField(max_length=255, read_only=True)
@@ -337,6 +338,7 @@ class FreezerInventoryLocNestedSerializer(serializers.ModelSerializer, EagerLoad
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
 
 
+# inventory_logs
 class InventoryReturnMetadataNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
@@ -415,6 +417,7 @@ class FreezerInventoryLogsNestedSerializer(serializers.ModelSerializer, EagerLoa
     freezer_inventory_logs = InventoryLogsNestedSerializer(many=True, read_only=True)
 
 
+# inventory_returns
 class InventoryReturnNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     id = serializers.IntegerField(read_only=True)
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
@@ -452,21 +455,17 @@ class InventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoadingMixi
     freezer_log_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_log_action = serializers.ChoiceField(choices=CheckoutActions.choices)
     freezer_log_notes = serializers.CharField(allow_blank=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
 
-    prefetch_related_fields = ('created_by', 'freezer_inventory')
+    prefetch_related_fields = ('freezer_inventory', )
 
     class Meta:
         model = FreezerInventoryLog
         fields = ['id', 'freezer_log_action',
-                  'freezer_log_notes', 'freezer_log_slug', 'freezer_inventory',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+                  'freezer_log_notes', 'freezer_log_slug', 'freezer_inventory', ]
 
     # Since freezer_inventory and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     freezer_inventory = InventoryReturnNestedSerializer(many=False, read_only=True)
 
 
