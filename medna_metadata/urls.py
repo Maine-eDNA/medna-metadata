@@ -183,7 +183,7 @@ router.register(r'freezer_inventory/log', FreezerInventoryLogViewSet, 'log')
 router.register(r'freezer_inventory/return_metadata', FreezerInventoryReturnMetadataViewSet, 'return_metadata')
 router.register(r'freezer_inventory/inventory_location', FreezerInventoryLocNestedViewSet, 'inventory_location')
 router.register(r'freezer_inventory/inventory_logs', FreezerInventoryLogsNestedViewSet, 'inventory_logs')
-router.register(r'freezer_inventory/inventory_logs', FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
+router.register(r'freezer_inventory/inventory_returns', FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
 # bioinfo_denoclust
 router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
 router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
