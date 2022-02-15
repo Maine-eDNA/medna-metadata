@@ -258,7 +258,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
                 created_date_fmt = slug_date_format(timezone.now())
             else:
                 created_date_fmt = slug_date_format(self.created_datetime)
-            self.freezer_log_slug = '{date}_{name}_{checkout_action}'.format(checkout_action=self.get_freezer_log_action_display(),
+            self.freezer_log_slug = '{date}_{checkout_action}_{name}'.format(checkout_action=self.get_freezer_log_action_display(),
                                                                              name=slugify(self.freezer_inventory.freezer_inventory_slug),
                                                                              date=created_date_fmt)
         # all done, time to save changes to the db
@@ -272,6 +272,7 @@ class FreezerInventoryLog(DateTimeUserMixin):
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
     freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_return_metadata', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
+    freezer_return_slug = models.SlugField("Return Slug", max_length=255)
     freezer_return_metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="freezer_return_actions", blank=True)
     freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10, blank=True, null=True)
@@ -280,6 +281,11 @@ class FreezerInventoryReturnMetadata(DateTimeUserMixin):
 
     def __str__(self):
         return '{pk}'.format(pk=self.freezer_log)
+
+    def save(self, *args, **kwargs):
+        self.freezer_return_slug = '{slug}'.format(slug=self.freezer_log.freezer_log_slug)
+        # all done, time to save changes to the db
+        super(FreezerInventoryReturnMetadata, self).save(*args, **kwargs)
 
     class Meta:
         app_label = 'freezer_inventory'

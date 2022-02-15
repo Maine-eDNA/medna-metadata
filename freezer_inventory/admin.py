@@ -248,7 +248,7 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
     resource_class = FreezerInventoryReturnMetadataAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', 'freezer_return_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -264,8 +264,9 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
-                       'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
+        self.fields = ['freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered',
+                       'freezer_return_actions', 'freezer_return_vol_taken', 'freezer_return_vol_units',
+                       'freezer_return_notes',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.inlines = (ReturnActionInline, )
         return super(FreezerInventoryReturnMetadataAdmin, self).change_view(request, object_id)
