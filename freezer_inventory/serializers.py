@@ -189,6 +189,7 @@ class FreezerInventoryLogSerializer(serializers.ModelSerializer):
 
 
 class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
+    freezer_return_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
     freezer_return_vol_units = serializers.ChoiceField(allow_blank=True, choices=VolUnits.choices)
@@ -198,7 +199,7 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ['freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
+        fields = ['freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
                   'freezer_return_vol_taken', 'freezer_return_vol_units',
                   'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -340,6 +341,7 @@ class FreezerInventoryLocNestedSerializer(serializers.ModelSerializer, EagerLoad
 
 # inventory_logs
 class InventoryReturnMetadataNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
+    freezer_return_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
     freezer_return_vol_units = serializers.ChoiceField(allow_blank=True, choices=VolUnits.choices)
@@ -351,7 +353,7 @@ class InventoryReturnMetadataNestedSerializer(serializers.ModelSerializer, Eager
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ['freezer_return_metadata_entered', 'freezer_return_actions',
+        fields = ['freezer_return_slug', 'freezer_return_metadata_entered', 'freezer_return_actions',
                   'freezer_return_vol_taken', 'freezer_return_vol_units',
                   'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -423,7 +425,6 @@ class InventoryReturnNestedSerializer(serializers.ModelSerializer, EagerLoadingM
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
-    freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
@@ -438,7 +439,6 @@ class InventoryReturnNestedSerializer(serializers.ModelSerializer, EagerLoadingM
         fields = ['id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_loc_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
@@ -472,6 +472,7 @@ class InventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoadingMixi
 class FreezerInventoryReturnsMetadataNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     # nested serializer returns all return metadata and associated logs and inventory through
     # LogNestedSerializer
+    freezer_return_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     freezer_return_vol_taken = serializers.DecimalField(allow_null=True, max_digits=15, decimal_places=10)
     freezer_return_vol_units = serializers.ChoiceField(allow_blank=True, choices=VolUnits.choices)
@@ -484,7 +485,7 @@ class FreezerInventoryReturnsMetadataNestedSerializer(serializers.ModelSerialize
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ['freezer_return_metadata_entered', 'freezer_return_actions',
+        fields = ['freezer_return_slug', 'freezer_return_metadata_entered', 'freezer_return_actions',
                   'freezer_return_vol_taken', 'freezer_return_vol_units',
                   'freezer_return_notes', 'freezer_log',
                   'created_by', 'created_datetime', 'modified_datetime', ]

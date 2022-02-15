@@ -146,6 +146,7 @@ class Migration(migrations.Migration):
             name='FreezerInventoryReturnMetadata',
             fields=[
                 ('freezer_log', models.OneToOneField(limit_choices_to={'freezer_log_action': 'return'}, on_delete=django.db.models.deletion.RESTRICT, related_name='freezer_return_metadata', primary_key=True, serialize=False, to='freezer_inventory.freezerinventorylog')),
+                ('freezer_return_slug', models.SlugField(max_length=255, verbose_name='Return Slug')),
                 ('freezer_return_metadata_entered', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Metadata Entered')),
                 ('freezer_return_actions', models.ManyToManyField(blank=True, related_name='freezer_return_actions', to='freezer_inventory.returnaction', verbose_name='Return Action(s)')),
                 ('freezer_return_vol_taken', models.DecimalField(blank=True, null=True, decimal_places=10, max_digits=15, verbose_name='Volume Taken')),

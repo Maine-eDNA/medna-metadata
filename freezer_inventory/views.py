@@ -155,6 +155,7 @@ class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
 
 class FreezerInventoryReturnMetadataFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    freezer_return_slug = filters.CharFilter(field_name='freezer_return_slug', lookup_expr='iexact')
     freezer_log = filters.CharFilter(field_name='freezer_log__freezer_log_slug', lookup_expr='iexact')
     freezer_return_metadata_entered = filters.CharFilter(field_name='freezer_return_metadata_entered', lookup_expr='iexact')
     freezer_return_actions = filters.CharFilter(field_name='freezer_return_actions__action_code', lookup_expr='iexact')
@@ -163,7 +164,7 @@ class FreezerInventoryReturnMetadataFilter(filters.FilterSet):
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ['created_by', 'freezer_log', 'freezer_return_metadata_entered',
+        fields = ['created_by', 'freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered',
                   'freezer_return_actions', 'created_datetime', 'modified_datetime']
 
 
@@ -239,6 +240,7 @@ class FreezerInventoryLogsNestedViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FreezerInventoryReturnsNestedFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    freezer_return_slug = filters.CharFilter(field_name='freezer_return_slug', lookup_expr='iexact')
     freezer_log = filters.CharFilter(field_name='freezer_log__freezer_log_slug', lookup_expr='iexact')
     sample_barcode = filters.CharFilter(field_name='freezer_log__freezer_inventory__sample_barcode__barcode_slug', lookup_expr='iexact')
     freezer_return_metadata_entered = filters.CharFilter(field_name='freezer_return_metadata_entered', lookup_expr='iexact')
@@ -248,7 +250,7 @@ class FreezerInventoryReturnsNestedFilter(filters.FilterSet):
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ['created_by', 'freezer_log', 'freezer_return_metadata_entered',
+        fields = ['created_by', 'freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered',
                   'freezer_return_actions', 'created_datetime', 'modified_datetime']
 
 

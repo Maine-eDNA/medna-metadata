@@ -187,11 +187,12 @@ class FreezerInventoryReturnMetadataAdminResource(resources.ModelResource):
         import_id_fields = ('freezer_log', )
 
         # exclude = ('created_by', 'created_datetime', 'modified_datetime', )
-        fields = ('freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
+        fields = ('freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
                   'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
-                        'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes',
+        export_order = ('freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered',
+                        'freezer_return_actions', 'freezer_return_vol_taken',
+                        'freezer_return_vol_units', 'freezer_return_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     freezer_log = fields.Field(
