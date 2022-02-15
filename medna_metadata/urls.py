@@ -35,7 +35,7 @@ from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMetho
     FastqFileViewSet, AmplificationMethodViewSet
 from freezer_inventory.views import ReturnActionViewSet, FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
     FreezerInventoryViewSet, FreezerInventoryLogViewSet, FreezerInventoryReturnMetadataViewSet, \
-    FreezerInventoryNestedViewSet, FreezerInventoryLogNestedViewSet
+    FreezerInventoryLocNestedViewSet, FreezerInventoryLogsNestedViewSet, FreezerInventoryReturnsNestedViewSet
 from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
     FeatureOutputViewSet, FeatureReadViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
@@ -181,8 +181,9 @@ router.register(r'freezer_inventory/box', FreezerBoxViewSet, 'box')
 router.register(r'freezer_inventory/inventory', FreezerInventoryViewSet, 'inventory')
 router.register(r'freezer_inventory/log', FreezerInventoryLogViewSet, 'log')
 router.register(r'freezer_inventory/return_metadata', FreezerInventoryReturnMetadataViewSet, 'return_metadata')
-router.register(r'freezer_inventory/freezer_inventory', FreezerInventoryNestedViewSet, 'freezer_inventory')
-router.register(r'freezer_inventory/freezer_logs', FreezerInventoryLogNestedViewSet, 'freezer_logs')
+router.register(r'freezer_inventory/inventory_location', FreezerInventoryLocNestedViewSet, 'inventory_location')
+router.register(r'freezer_inventory/inventory_logs', FreezerInventoryLogsNestedViewSet, 'inventory_logs')
+router.register(r'freezer_inventory/inventory_returns', FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
 # bioinfo_denoclust
 router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
 router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
