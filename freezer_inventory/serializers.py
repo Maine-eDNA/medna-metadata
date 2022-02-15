@@ -415,7 +415,7 @@ class FreezerInventoryLogsNestedSerializer(serializers.ModelSerializer, EagerLoa
     freezer_inventory_logs = InventoryLogsNestedSerializer(many=True, read_only=True)
 
 
-class InventoryReturnNestedSerializer(serializers.ModelSerializer):
+class InventoryReturnNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     id = serializers.IntegerField(read_only=True)
     freezer_inventory_slug = serializers.SlugField(max_length=27, read_only=True)
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
@@ -447,7 +447,7 @@ class InventoryReturnNestedSerializer(serializers.ModelSerializer):
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=True, slug_field='barcode_slug')
 
 
-class InventoryLogNestedSerializer(serializers.ModelSerializer):
+class InventoryLogNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     id = serializers.IntegerField(read_only=True)
     freezer_log_slug = serializers.SlugField(read_only=True, max_length=255)
     freezer_log_action = serializers.ChoiceField(choices=CheckoutActions.choices)
@@ -470,7 +470,7 @@ class InventoryLogNestedSerializer(serializers.ModelSerializer):
     freezer_inventory = InventoryReturnNestedSerializer(many=False, read_only=True)
 
 
-class FreezerInventoryReturnsMetadataNestedSerializer(serializers.ModelSerializer):
+class FreezerInventoryReturnsMetadataNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
     # nested serializer returns all return metadata and associated logs and inventory through
     # LogNestedSerializer
     freezer_return_metadata_entered = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
