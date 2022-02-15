@@ -493,6 +493,3 @@ class FreezerInventoryReturnsMetadataNestedSerializer(serializers.ModelSerialize
     freezer_log = InventoryLogNestedSerializer(many=False, read_only=True)
     freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=True, slug_field='action_code')
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-
-
-

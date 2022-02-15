@@ -220,7 +220,8 @@ class FreezerInventoryLogsNestedFilter(filters.FilterSet):
 
     class Meta:
         model = FreezerInventory
-        fields = ['created_by', 'freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
+        fields = ['created_by', 'freezer_inventory_logs', 'freezer_box', 'freezer_inventory_type',
+                  'freezer_inventory_status', 'sample_barcode',
                   'created_datetime', 'modified_datetime', ]
 
 
@@ -239,6 +240,7 @@ class FreezerInventoryLogsNestedViewSet(viewsets.ReadOnlyModelViewSet):
 class FreezerInventoryReturnsNestedFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     freezer_log = filters.CharFilter(field_name='freezer_log__freezer_log_slug', lookup_expr='iexact')
+    sample_barcode = filters.CharFilter(field_name='freezer_log__freezer_inventory__sample_barcode__barcode_slug', lookup_expr='iexact')
     freezer_return_metadata_entered = filters.CharFilter(field_name='freezer_return_metadata_entered', lookup_expr='iexact')
     freezer_return_actions = filters.CharFilter(field_name='freezer_return_actions__action_code', lookup_expr='iexact')
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
