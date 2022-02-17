@@ -1,3 +1,4 @@
+{% load static %}
 {% extends "layouts/django-datta-able/base.html" %}
 
 {% block title %} Charts Morris {% endblock %} 
@@ -5,7 +6,7 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 
-    <link rel="stylesheet" href="/static/assets/plugins/chart-morris/css/morris.css">
+    <link rel="stylesheet" href="{% static 'assets/plugins/chart-morris/css/morris.css' %}">
 
 {% endblock stylesheets %}
 
@@ -120,8 +121,8 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-    <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
-    <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
-    <script src="/static/assets/js/django-datta-able/pages/chart-morris-custom.js"></script>
+    <script src="{% static 'assets/plugins/chart-morris/js/raphael.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/chart-morris/js/morris.min.js' %}"></script>
+    <script src="{% static 'assets/js/django-datta-able/pages/chart-morris-custom.js' %}"></script>
 
 {% endblock javascripts %}

@@ -17,8 +17,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/django-material-kit/apple-icon.png">
-  <link rel="icon" type="image/png" href="/static/assets/img/django-material-kit/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/django-material-kit/apple-icon.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'assets/img/django-material-kit/favicon.png' %}">
 
   <title>
     Django Material Kit 2 - Presentation | AppSeed
@@ -42,7 +42,7 @@
   {% include 'includes/django-material-kit/navigation.html' %}
 
   <header class="header-2">
-    <div class="page-header min-vh-75 relative" style="background-image: url('/static/assets/img/django-material-kit/bg2.jpg')">
+    <div class="page-header min-vh-75 relative" style="background-image: url('{% static 'assets/img/django-material-kit/bg2.jpg' %}')">
       <span class="mask bg-gradient-primary opacity-4"></span>
       <div class="container">
         <div class="row">
@@ -1024,26 +1024,26 @@
         <hr class="horizontal dark my-5">
         <div class="row">
           <div class="col-lg-2 col-md-4 col-6 ms-auto">
-            <img class="w-100 opacity-6" src="/static/assets/img/logos/gray-logos/logo-apple.svg" alt="Logo">
+            <img class="w-100 opacity-6" src="{% static 'assets/img/logos/gray-logos/logo-apple.svg' %}" alt="Logo">
           </div>
           <div class="col-lg-2 col-md-4 col-6">
-            <img class="w-100 opacity-6" src="/static/assets/img/logos/gray-logos/logo-facebook.svg" alt="Logo">
+            <img class="w-100 opacity-6" src="{% static 'assets/img/logos/gray-logos/logo-facebook.svg' %}" alt="Logo">
           </div>
           <div class="col-lg-2 col-md-4 col-6">
-            <img class="w-100 opacity-6" src="/static/assets/img/logos/gray-logos/logo-nasa.svg" alt="Logo">
+            <img class="w-100 opacity-6" src="{% static 'assets/img/logos/gray-logos/logo-nasa.svg' %}" alt="Logo">
           </div>
           <div class="col-lg-2 col-md-4 col-6 ms-lg-0 ms-md-auto">
-            <img class="w-100 opacity-6" src="/static/assets/img/logos/gray-logos/logo-vodafone.svg" alt="Logo">
+            <img class="w-100 opacity-6" src="{% static 'assets/img/logos/gray-logos/logo-vodafone.svg' %}" alt="Logo">
           </div>
           <div class="col-lg-2 col-md-4 col-6 me-md-auto mx-md-0 mx-auto">
-            <img class="w-100 opacity-6" src="/static/assets/img/logos/gray-logos/logo-digitalocean.svg" alt="Logo">
+            <img class="w-100 opacity-6" src="{% static 'assets/img/logos/gray-logos/logo-digitalocean.svg' %}" alt="Logo">
           </div>
         </div>
       </div>
     </section>
     <section class="py-sm-7" id="download-soft-ui">
       <div class="bg-gradient-dark position-relative m-3 border-radius-xl overflow-hidden">
-        <img src="/static/assets/img/shapes/waves-white.svg" alt="pattern-lines" class="position-absolute start-0 top-md-0 w-100 opacity-2">
+        <img src="{% static 'assets/img/shapes/waves-white.svg' %}" alt="pattern-lines" class="position-absolute start-0 top-md-0 w-100 opacity-2">
         <div class="container py-7 postion-relative z-index-2 position-relative">
           <div class="row">
             <div class="col-md-7 mx-auto text-center">
@@ -1153,7 +1153,7 @@
         <div class="col-md-3 mb-4 ms-auto">
           <div>
             <a href="https://appseed.us/product/django-material-kit">
-              <img src="/static/assets/img/logo-ct-dark.png" class="mb-3 footer-logo" alt="main_logo">
+              <img src="{% static 'assets/img/logo-ct-dark.png' %}" class="mb-3 footer-logo" alt="main_logo">
             </a>
             <h6 class="font-weight-bolder mb-4">Material Kit 2</h6>
           </div>

@@ -1,3 +1,4 @@
+{% load static %}
 {% extends "layouts/django-material-kit/base.html" %}
 
 {% block title %} Blog Author {% endblock %} 
@@ -12,7 +13,7 @@
   {% include 'includes/django-material-kit/navigation-transparent.html' %}
 
   <header>
-    <div class="page-header min-height-400" style="background-image: url('/static/assets/img/django-material-kit/city-profile.jpg');" loading="lazy">
+    <div class="page-header min-height-400" style="background-image: url('{% static 'assets/img/django-material-kit/city-profile.jpg' %}');" loading="lazy">
       <span class="mask bg-gradient-dark opacity-8"></span>
     </div>
   </header>
@@ -24,7 +25,7 @@
         <div class="row">
           <div class="col-12 mx-auto">
             <div class="mt-n8 mt-md-n9 text-center">
-              <img class="avatar avatar-xxl shadow-xl position-relative z-index-2" src="/static/assets/img/django-material-kit/bruce-mars.jpg" alt="bruce" loading="lazy">
+              <img class="avatar avatar-xxl shadow-xl position-relative z-index-2" src="{% static 'assets/img/django-material-kit/bruce-mars.jpg' %}" alt="bruce" loading="lazy">
             </div>
             <div class="row py-5">
               <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
@@ -77,7 +78,7 @@
             <div class="card card-plain">
               <div class="card-header p-0 position-relative">
                 <a class="d-block blur-shadow-image">
-                  <img src="/static/assets/img/django-material-kit/examples/testimonial-6-2.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" loading="lazy">
+                  <img src="{% static 'assets/img/django-material-kit/examples/testimonial-6-2.jpg' %}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" loading="lazy">
                 </a>
               </div>
               <div class="card-body px-0">
@@ -98,7 +99,7 @@
             <div class="card card-plain">
               <div class="card-header p-0 position-relative">
                 <a class="d-block blur-shadow-image">
-                  <img src="/static/assets/img/django-material-kit/examples/testimonial-6-3.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" loading="lazy">
+                  <img src="{% static 'assets/img/django-material-kit/examples/testimonial-6-3.jpg' %}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" loading="lazy">
                 </a>
               </div>
               <div class="card-body px-0">
@@ -119,7 +120,7 @@
             <div class="card card-plain">
               <div class="card-header p-0 position-relative">
                 <a class="d-block blur-shadow-image">
-                  <img src="/static/assets/img/django-material-kit/examples/blog-9-4.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" loading="lazy">
+                  <img src="{% static 'assets/img/django-material-kit/examples/blog-9-4.jpg' %}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" loading="lazy">
                 </a>
               </div>
               <div class="card-body px-0">
@@ -138,7 +139,7 @@
           </div>
           <div class="col-lg-3 col-md-12 col-12">
             <div class="card card-blog card-background cursor-pointer">
-              <div class="full-background" style="background-image: url('/static/assets/img/django-material-kit/examples/blog2.jpg')" loading="lazy"></div>
+              <div class="full-background" style="background-image: url('{% static 'assets/img/django-material-kit/examples/blog2.jpg' %}')" loading="lazy"></div>
               <div class="card-body">
                 <div class="content-left text-start my-auto py-4">
                   <h2 class="card-title text-white">Flexible work hours</h2>
@@ -162,7 +163,7 @@
         <div class="col">
           <div class="card box-shadow-xl overflow-hidden mb-5">
             <div class="row">
-              <div class="col-lg-5 position-relative bg-cover px-0" style="background-image: url('/static/assets/img/django-material-kit/examples/blog2.jpg')" loading="lazy">
+              <div class="col-lg-5 position-relative bg-cover px-0" style="background-image: url('{% static 'assets/img/django-material-kit/examples/blog2.jpg' %}')" loading="lazy">
                 <div class="z-index-2 text-center d-flex h-100 w-100 d-flex m-auto justify-content-center">
                   <div class="mask bg-gradient-dark opacity-8"></div>
                   <div class="p-5 ps-sm-8 position-relative text-start my-auto z-index-2">
