@@ -11,6 +11,6 @@ urlpatterns = [
     path('login/', main_login_view, name="login"),
     path('dashboard/login/', dashboard_login_view, name="dashboard_login"),
     path('register/', main_register_user, name="register"),
-    path('dashboard/register/', dashboard_register_user, name="register"),
+    path('dashboard/register/', dashboard_register_user, name="dashboard_register"),
     path("logout/", LogoutView.as_view(), name="logout")
 ]
