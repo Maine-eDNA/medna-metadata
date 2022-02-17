@@ -19,6 +19,7 @@ from collections import OrderedDict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ########################################
 # CORE                                 #
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo_denoclust',
     'bioinfo_taxon',
+    'frontend.home',  # Enable the inner home (home)
     'storages',  # django-storages for s3 storage backends e.g., wasabi
     'drf_yasg',  # drf-yasg creates swagger documentation for all apis
     'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api
@@ -139,6 +141,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
+TEMPLATE_DIR = os.path.join(CORE_DIR, "frontend/templates")  # ROOT dir for templates
 
 # django\conf\global_settings.py
 TEMPLATES = [
@@ -148,7 +151,7 @@ TEMPLATES = [
         # it’s a search path.
         # templates that belong to a particular application should be placed in that application’s
         # template directory (e.g. polls/templates) rather than the project’s (templates).
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -468,8 +471,10 @@ else:
     PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
     AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
 
+# Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
+    os.path.join(CORE_DIR, 'frontend/static'),
 ]
 
 ########################################

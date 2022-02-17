@@ -207,6 +207,9 @@ router.register(r'bioinfo/taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_
 urlpatterns = [
     # admin urls
     path('admin/', admin.site.urls),
+    # frontend urls
+    path("", include("frontend.authentication.urls")),  # Auth routes - login / register
+    path("", include("frontend.home.urls")),  # UI Kits Html files
     # API router
     path('api/', include(router.urls)),
     # rest_auth urls
