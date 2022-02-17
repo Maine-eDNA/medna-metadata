@@ -1,3 +1,4 @@
+{% load static %}
 <!--
 =========================================================
 * Material Kit 2 - v3.0.0
@@ -27,14 +28,14 @@
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <!-- Nucleo Icons -->
-  <link rel="stylesheet" type="text/css" href="/static/assets/css/django-material-kit/nucleo-icons.css">
-  <link rel="stylesheet" type="text/css" href="/static/assets/css/django-material-kit/nucleo-svg.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/django-material-kit/nucleo-icons.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/django-material-kit/nucleo-svg.css' %}">
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
-  <link id="pagestyle" rel="stylesheet" type="text/css" href="/static/assets/css/django-material-kit/material-kit.css?v=3.0.0">
+  <link id="pagestyle" rel="stylesheet" type="text/css" href="{% static 'assets/css/django-material-kit/material-kit.css?v=3.0.0' %}">
 
 </head>
 <body class="toggles-sections">
