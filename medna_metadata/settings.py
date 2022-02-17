@@ -141,7 +141,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
-TEMPLATE_DIR = os.path.join(CORE_DIR, "frontend/templates")  # ROOT dir for templates
+# TEMPLATE_DIR = os.path.join(CORE_DIR, "frontend/templates")  # ROOT dir for templates
 
 # django\conf\global_settings.py
 TEMPLATES = [
@@ -151,7 +151,7 @@ TEMPLATES = [
         # it’s a search path.
         # templates that belong to a particular application should be placed in that application’s
         # template directory (e.g. polls/templates) rather than the project’s (templates).
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [BASE_DIR / 'frontend/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
