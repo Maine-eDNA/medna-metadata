@@ -5,7 +5,7 @@ from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, EnvMeasu
     FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
     GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
     FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
-    SampleFilterETLSerializer, WaterFieldSurveyNestedSerializer, SedimentFieldSurveyNestedSerializer
+    SampleFilterETLSerializer, FieldSurveyFiltersNestedSerializer, FieldSurveySubCoresNestedSerializer
 from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -238,7 +238,7 @@ class FilterJoinFilter(filters.FilterSet):
 #################################
 # NESTED VIEWS                  #
 #################################
-class WaterFieldSurveyNestedFilter(filters.FilterSet):
+class FieldSurveyFiltersNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
@@ -253,15 +253,15 @@ class WaterFieldSurveyNestedFilter(filters.FilterSet):
         fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
-class WaterFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = WaterFieldSurveyNestedSerializer
+class FieldSurveyFiltersNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FieldSurveyFiltersNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
     #                                                'water_filterer', 'qa_editor', 'record_creator',
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = WaterFieldSurveyNestedFilter
+    filterset_class = FieldSurveyFiltersNestedFilter
     swagger_tags = ["field survey"]
 
     def get_queryset(self):
@@ -269,7 +269,7 @@ class WaterFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
         return self.get_serializer_class().setup_eager_loading(queryset)
 
 
-class SedimentFieldSurveyNestedFilter(filters.FilterSet):
+class FieldSurveySubCoresNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
@@ -283,15 +283,15 @@ class SedimentFieldSurveyNestedFilter(filters.FilterSet):
         fields = ['site_id', 'username', 'supervisor', 'core_subcorer', 'survey_datetime', 'field_collections']
 
 
-class SedimentFieldSurveyNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = SedimentFieldSurveyNestedSerializer
+class FieldSurveySubCoresNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FieldSurveySubCoresNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
     #                                                'core_subcorer', 'qa_editor', 'record_creator',
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = SedimentFieldSurveyNestedFilter
+    filterset_class = FieldSurveySubCoresNestedFilter
     swagger_tags = ["field survey"]
 
     def get_queryset(self):
