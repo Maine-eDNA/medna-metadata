@@ -28,7 +28,7 @@ from sample_labels.views import SampleTypeViewSet, SampleMaterialViewSet, Sample
 from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
     WaterCollectionViewSet, SedimentCollectionViewSet, FieldSampleViewSet, FilterSampleViewSet, SubCoreSampleViewSet, \
     GeoFieldSurveyETLViewSet, FieldCrewETLViewSet, EnvMeasurementETLViewSet, \
-    FieldCollectionETLViewSet, SampleFilterETLViewSet, WaterFieldSurveyNestedViewSet, SedimentFieldSurveyNestedViewSet
+    FieldCollectionETLViewSet, SampleFilterETLViewSet, FieldSurveyFiltersNestedViewSet, FieldSurveySubCoresNestedViewSet
 from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMethodViewSet, SizeSelectionMethodViewSet, \
     QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, PcrReplicateViewSet, PcrViewSet, \
     LibraryPrepViewSet, PooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
@@ -142,8 +142,6 @@ router.register(r'sample_labels/sample_barcode', SampleBarcodeViewSet, 'sample_b
 # field_survey:post-transform
 router.register(r'field_survey/field_survey', GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'field_survey/field_crew', FieldCrewViewSet, 'field_crew')
-router.register(r'field_survey/filter_survey', WaterFieldSurveyNestedViewSet, 'filter_survey')
-router.register(r'field_survey/subcore_survey', SedimentFieldSurveyNestedViewSet, 'subcore_survey')
 router.register(r'field_survey/env_measurement', EnvMeasurementViewSet, 'env_measurement')
 router.register(r'field_survey/field_collection', FieldCollectionViewSet, 'field_collection')
 router.register(r'field_survey/water_collection', WaterCollectionViewSet, 'water_collection')
@@ -151,6 +149,8 @@ router.register(r'field_survey/sediment_collection', SedimentCollectionViewSet, 
 router.register(r'field_survey/field_sample', FieldSampleViewSet, 'field_sample')
 router.register(r'field_survey/filter_sample', FilterSampleViewSet, 'filter_sample')
 router.register(r'field_survey/subcore_sample', SubCoreSampleViewSet, 'subcore_sample')
+router.register(r'field_survey/survey_filters', FieldSurveyFiltersNestedViewSet, 'survey_filters')
+router.register(r'field_survey/survey_subcores', FieldSurveySubCoresNestedViewSet, 'survey_subcores')
 # field_survey:pre-transform
 router.register(r'field_survey/field_survey_etl', GeoFieldSurveyETLViewSet, 'field_survey_etl')
 router.register(r'field_survey/field_crew_etl', FieldCrewETLViewSet, 'field_crew_etl')

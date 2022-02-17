@@ -557,7 +557,7 @@ class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer, Eager
     field_samples = SubCoreFieldSampleNestedSerializer(many=True, read_only=True)
 
 
-class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
+class FieldSurveyFiltersNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField(read_only=True)
     recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
@@ -633,7 +633,7 @@ class WaterFieldSurveyNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMi
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
-class SedimentFieldSurveyNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
+class FieldSurveySubCoresNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField(read_only=True)
     recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
