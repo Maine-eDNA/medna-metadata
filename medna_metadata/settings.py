@@ -19,7 +19,7 @@ from collections import OrderedDict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ########################################
 # CORE                                 #
@@ -141,7 +141,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
-# TEMPLATE_DIR = os.path.join(CORE_DIR, "frontend/templates")  # ROOT dir for templates
 
 # django\conf\global_settings.py
 TEMPLATES = [
@@ -474,7 +473,7 @@ else:
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
-    os.path.join(CORE_DIR, 'frontend/static'),
+    os.path.join(BASE_DIR, 'frontend/static'),
 ]
 
 ########################################
