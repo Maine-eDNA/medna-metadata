@@ -10,7 +10,7 @@ urlpatterns = [
 
     # The home page
     path('', views.main_index, name='home'),
-    path('', views.dashboard_index, name='dashboard'),
+    path('dashboard/', views.dashboard_index, name='dashboard'),
     # Matches any html file
     re_path(r'^.*\.*', views.main_pages, name='main_pages'),
     re_path(r'^(?<=dashboard/).*\.*', views.dashboard_pages, name='dashboard_pages'),
