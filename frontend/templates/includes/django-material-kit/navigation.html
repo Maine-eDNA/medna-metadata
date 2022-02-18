@@ -341,12 +341,14 @@
                     </div>
                   </ul>
                 </li>
+                {% if user.is_active and user.is_staff %}
                 <li class="nav-item ms-lg-auto">
-                  <a class="nav-link nav-link-icon me-2" href="https://appseed.us/product/django-material-kit" target="_blank">
-                    <i class="fa fa-download me-1"></i>
-                    <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Get Sources">Download</p>
+                  <a class="nav-link nav-link-icon me-2" href="{% url 'admin:index' %}" target="_blank">
+                    <i class="fas fa-dungeon me-1"></i>
+                    <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Administration">Admin</p>
                   </a>
                 </li>
+                {% endif %}
                 <li class="nav-item my-auto ms-3 ms-lg-0">
                   <a href="/dashboard/" target="_blank" class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0">Dashboard</a>
                 </li>
