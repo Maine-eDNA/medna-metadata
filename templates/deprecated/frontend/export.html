@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<h3>Export Data</h3>
+<p>exporting from database</p>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>Please select format of file.</p>
+    <select name="file-format" class="form-control my-3">
+        <option selected>Choose format...</option>
+        <option>CSV</option>
+        <option>JSON</option>
+        <option>XLS (Excel)</option>
+      </select>
+    <button class="btn btn-primary" type="submit">Export</button>
+  </form>
+  <a href="{% url 'utility:index' %}">Return Home View</a>
