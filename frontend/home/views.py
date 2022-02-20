@@ -48,7 +48,7 @@ def main_pages(request):
 def dashboard_index(request):
     context = {'segment': 'index'}
 
-    html_template = loader.get_template('home/django-datta-able/index.html')
+    html_template = loader.get_template('home/django-material-dashboard/index.html')
     return HttpResponse(html_template.render(context, request))
 
 
@@ -65,14 +65,14 @@ def dashboard_pages(request):
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
 
-        html_template = loader.get_template('home/django-datta-able/' + load_template)
+        html_template = loader.get_template('home/django-material-dashboard/' + load_template)
         return HttpResponse(html_template.render(context, request))
 
     except template.TemplateDoesNotExist:
 
-        html_template = loader.get_template('home/django-datta-able/page-404.html')
+        html_template = loader.get_template('home/django-material-dashboard/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
     except:
-        html_template = loader.get_template('home/django-datta-able/page-500.html')
+        html_template = loader.get_template('home/django-material-dashboard/page-500.html')
         return HttpResponse(html_template.render(context, request))

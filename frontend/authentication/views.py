@@ -50,7 +50,7 @@ def dashboard_login_view(request):
         else:
             msg = 'Error validating the form'
 
-    return render(request, "account/django-datta-able/login.html", {"form": form, "msg": msg})
+    return render(request, "account/django-material-dashboard/login.html", {"form": form, "msg": msg})
 
 
 def main_register_user(request):
@@ -90,7 +90,7 @@ def dashboard_register_user(request):
             raw_password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=raw_password)
 
-            msg = 'User created - please <a href="/dashboard/login">login</a>.'
+            msg = 'User created - please <a href="/login">login</a>.'
             success = True
 
             # return redirect("/login/")
@@ -100,4 +100,5 @@ def dashboard_register_user(request):
     else:
         form = SignUpForm()
 
-    return render(request, "account/django-datta-able/register.html", {"form": form, "msg": msg, "success": success})
+    return render(request, "account/django-material-dashboard/register.html",
+                  {"form": form, "msg": msg, "success": success})
