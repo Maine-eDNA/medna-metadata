@@ -59,7 +59,6 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
     CustomUserCssViewSet, DefaultSiteCssViewSet
 
-
 router = routers.DefaultRouter()
 # users
 router.register(r'users/user', CustomUserViewSet, 'users')
