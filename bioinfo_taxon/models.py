@@ -295,7 +295,7 @@ class AnnotationMethod(DateTimeUserMixin):
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.annotation_method_name_slug = '{method}_{package}_{date}'.format(method=slugify(self.annotation_method_name),
+        self.annotation_method_name_slug = '{package}_{method}_{date}'.format(method=slugify(self.annotation_method_name),
                                                                               package=slugify(self.annotation_method_software_package),
                                                                               date=slugify(created_date_fmt))
         super(AnnotationMethod, self).save(*args, **kwargs)

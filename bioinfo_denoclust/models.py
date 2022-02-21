@@ -18,7 +18,7 @@ class DenoiseClusterMethod(DateTimeUserMixin):
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.denoise_cluster_method_slug = '{name}_{package}_{date}'.format(name=slugify(self.denoise_cluster_method_name),
+        self.denoise_cluster_method_slug = '{package}_{name}_{date}'.format(name=slugify(self.denoise_cluster_method_name),
                                                                             package=slugify(self.denoise_cluster_method_software_package),
                                                                             date=slugify(created_date_fmt))
         super(DenoiseClusterMethod, self).save(*args, **kwargs)
