@@ -13,11 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from allauth.account.views import confirm_email, signup
-from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path, include, re_path
+from allauth.account.views import confirm_email, signup
+from dj_rest_auth.registration.views import VerifyEmailView
+from rest_framework import routers, permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from users.views import CustomUserViewSet
 from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
@@ -56,10 +58,6 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
     CustomUserCssViewSet, DefaultSiteCssViewSet
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -212,16 +210,17 @@ urlpatterns = [
     path("", include("frontend.home.urls")),  # UI Kits Html files
     # API router
     path('api/', include(router.urls)),
-    # rest_auth urls
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     # allauth urls
-    url(r'^account/', include('allauth.urls')),
-    # re-registering signup to change url
-    url(r'^account/disabled/signup/', signup, name='account_signup'),
-    # rest_auth and allauth email confirmation
-    url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
-    url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    re_path(r'^account/', include('allauth.urls')),
+    re_path(r'^account/disabled/signup/', signup, name='account_signup'), # re-registering signup to change url
+    re_path(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),  # allauth email confirmation
+    # dj-rest-auth urls - https://dj-rest-auth.readthedocs.io/en/latest/api_endpoints.html
+    re_path(r'^rest-auth/', include('dj_rest_auth.urls')),
+    re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
+    # url(r'^rest-auth/registration/google/', GoogleLogin.as_view(), name='google_login')
+    # drf-yasg urls
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

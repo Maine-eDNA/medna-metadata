@@ -63,23 +63,28 @@ INSTALLED_APPS = [
     'bioinfo_denoclust',
     'bioinfo_taxon',
     'frontend.home',  # Enable the inner home (home)
-    'storages',  # django-storages for s3 storage backends e.g., wasabi
-    'drf_yasg',  # drf-yasg creates swagger documentation for all apis
-    'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api
-    'import_export',  # django-import-export
-    'allauth',  # django-allauth handles user registration as well as social authentication.
-    'allauth.account',  # Good for email address verification, resetting passwords, etc.
-    # 'allauth.socialaccount',  # https://www.section.io/engineering-education/django-google-oauth/
-    # 'allauth.socialaccount.providers.google',  # need to set up google APIs settings https://django-allauth.readthedocs.io/en/latest/providers.html#google
-    'rest_auth',  # django-rest-auth provides API endpoints for user reg, login/logout,
-    'rest_auth.registration',  # password change/reset, social auth, etc
-    'rest_framework',  # integrates with django-filter .. might as well set it all up correctly from the get-go
-    'rest_framework_gis',  # needed for geojson and geodjango - maybe read later .. is not compatible with import-export because tablib doesn't have geojson format. Would have to add multiple serializers.
+    'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api - https://github.com/adamchainz/django-cors-headers
+    'allauth',  # django-allauth handles user registration as well as social authentication. - https://github.com/pennersr/django-allauth
+    'allauth.account',  # Good for email address verification, resetting passwords, etc. - https://github.com/pennersr/django-allauth
+    'allauth.socialaccount',  # https://www.section.io/engineering-education/django-google-oauth/
+    # 'allauth.socialaccount.providers.google',  # https://django-allauth.readthedocs.io/en/latest/providers.html#google - https://dj-rest-auth.readthedocs.io/en/latest/installation.html#google
+    'storages',  # django-storages for s3 storage backends e.g., wasabi - https://github.com/jschneier/django-storages
+    'import_export',  # django-import-export - https://github.com/django-import-export/django-import-export
+    'django_filters', # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework. - https://github.com/carltongibson/django-filter
+    'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite] - https://github.com/stefanfoulis/django-phonenumber-field
+    'crispy_forms',  # crispy forms for pretty forms - https://github.com/django-crispy-forms/django-crispy-forms
+    # 'django_tables2', # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
+    # 'django_admin_listfilter_dropdown', # django-admin-list-filter-dropdown - Use dropdowns in Django admin list filter - https://github.com/mrts/django-admin-list-filter-dropdown
+    # 'leaflet', # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
+    'rest_framework',  # djangorestframework - integrates with django-filter - https://github.com/encode/django-rest-framework/tree/master
     'rest_framework.authtoken',  # for the creation of api tokens
-    'django_filters', # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework.
-    'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite]
-    'crispy_forms',  # crispy forms for pretty forms
-    'django_extensions',  # generating schema pngs
+    'rest_framework_gis',  # needed for geojson and geodjango - not compatible with import-export because tablib doesn't have geojson format. - https://github.com/openwisp/django-rest-framework-gis
+    # 'rest_auth',  # django-rest-auth provides API endpoints for user reg, login/logout,
+    # 'rest_auth.registration',  # password change/reset, social auth, etc
+    'dj_rest_auth',  # replaced django-rest-auth - login, logout, password reset and password change - https://github.com/iMerica/dj-rest-auth
+    'dj_rest_auth.registration',  # registration and social media authentication
+    'drf_yasg',  # drf_yasg creates openapi 2.0 documentation for swagger/redoc - https://github.com/axnsan12/drf-yasg
+    'django_extensions',  # generating schema pngs - https://github.com/django-extensions/django-extensions
 ]
 
 # Internationalization
@@ -158,6 +163,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -323,13 +330,13 @@ CORS_ORIGIN_ALLOW_ALL = False
 # django-cors-headers is a Python library that will prevent the errors that you would normally get due to CORS rules.
 # In the CORS_ORIGIN_WHITELIST code, you whitelisted localhost:3000 because you want the frontend
 # (which will be served on that port) of the application to interact with the API.
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:4001',
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
 ]
 
-CORS_ORIGIN_REGEX_WHITELIST = [
-    'http://localhost:4001',
-]
+# CORS_ALLOWED_ORIGIN_REGEXES = [
+#     r"^https://\w+\.example\.com$",
+# ]
 
 ########################################
 # DJANGO-REST-FRAMEWORK CONFIG         #
@@ -337,15 +344,14 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 
 # these are settings for Django REST framework
 # https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
-# https://www.django-rest-framework.org/api-guide/throttling/
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
     'PAGE_SIZE': 100,
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',
-                                       'rest_framework.authentication.SessionAuthentication', ],  # can authenticate via token
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated', ], # have to be authenticated to view rest API
-    'DEFAULT_THROTTLE_CLASSES': ['utility.serializers.BurstRateThrottle',  # subclass UserRateThrottle
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],  # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',  # can authenticate via token
+                                       'rest_framework.authentication.SessionAuthentication', ],  #  'dj_rest_auth.jwt_auth.JWTCookieAuthentication' - simple_jwt auth configuration
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated', ],  # have to be authenticated to view rest API
+    'DEFAULT_THROTTLE_CLASSES': ['utility.serializers.BurstRateThrottle',  # subclass UserRateThrottle - https://www.django-rest-framework.org/api-guide/throttling/
                                  'utility.serializers.SustainedRateThrottle', ],
     'DEFAULT_THROTTLE_RATES': {'burst': '60/min',  # custom global user restrictions
                                'sustained': '1000/day',  # custom global user restrictions
@@ -353,11 +359,13 @@ REST_FRAMEWORK = {
 }
 
 ########################################
-# DJANGO-REST-AUTH & ALLAUTH CONFIG    #
+# DJ-REST-AUTH CONFIG                  #
 ########################################
+# DJANGO-REST-AUTH no longer supported, replaced by DJ-REST-AUTH
+# REST_USE_JWT = True  # enable JWT authentication in dj-rest-auth
+# JWT_AUTH_COOKIE = 'auth'
+LOGOUT_ON_PASSWORD_CHANGE = False  # to keep the user logged in after password change
 
-# make sure serializer is not default serializer, but the custom one with additional fields
-# https://krakensystems.co/blog/2020/custom-users-using-django-rest-framework
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
     'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
@@ -367,19 +375,22 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomAutoPasswordRegisterSerializer',
 }
 
-# allauth default forms
-ACCOUNT_FORMS = {
-    'signup': 'users.forms.CustomSignupForm',
-}
-
-# Django rest-auth and allauth settings:
+########################################
+# DJANGO ALLAUTH CONFIG                #
+########################################
+# allauth settings:
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# Determines whether or not an e-mail address is automatically confirmed by a GET request. GET is not designed to modify
+# the server state, though it is commonly used for email confirmation. To avoid requiring user interaction, consider
+# using POST via Javascript in your email confirmation template as an alternative to setting this to True.
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# The URL (or URL name) to return to after the user logs out. Defaults to Django’s LOGOUT_REDIRECT_URL,
+# unless that is empty, then “/” is used.
 # ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'account_reset_password'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
@@ -389,18 +400,33 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900  # 15 mins in seconds
 
+# Used to override forms, for example: {'login': 'myapp.forms.LoginForm'}
+# Possible keys (and default values):
+# add_email: allauth.account.forms.AddEmailForm
+# change_password: allauth.account.forms.ChangePasswordForm
+# disconnect: allauth.socialaccount.forms.DisconnectForm
+# login: allauth.account.forms.LoginForm
+# reset_password: allauth.account.forms.ResetPasswordForm
+# reset_password_from_key: allauth.account.forms.ResetPasswordKeyForm
+# set_password: allauth.account.forms.SetPasswordForm
+# signup: allauth.account.forms.SignupForm
+# signup: allauth.socialaccount.forms.SignupForm
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.CustomSignupForm',
+}
+
 # Django oauth allauth settings:
-# https://www.section.io/engineering-education/django-google-oauth/
+# https://django-allauth.readthedocs.io/en/latest/providers.html?highlight=google#django-configuration
 # SOCIALACCOUNT_PROVIDERS = {
-#    'google': {
-#        'SCOPE': [
-#            'profile',
-#            'email',
-#        ],
-#        'AUTH_PARAMS': {
-#            'access_type': 'online',
-#        }
-#    }
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
 # }
 
 ########################################
@@ -481,7 +507,7 @@ STATICFILES_DIRS = [
 ########################################
 # CELERY CONFIG                        #
 ########################################
-
+# https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
 BROKER_URL = os.environ.get("CELERY_BROKER_URL")
 
@@ -495,9 +521,8 @@ CELERYBEAT_SCHEDULE = {
 ########################################
 # DJANGO-CRISPY-FORMS CONFIG           #
 ########################################
-
-# crispy forms template packs: bootstrap, bootstrap3, bootstrap4, and uni-form
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html
+# crispy forms template packs: bootstrap, bootstrap3, bootstrap4, and uni-form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # delete this line when done debugging
@@ -506,7 +531,7 @@ CRISPY_FAIL_SILENTLY = not DEBUG
 ########################################
 # DJANGO-PHONENUMBER-FIELD CONFIG      #
 ########################################
-
+# https://github.com/stefanfoulis/django-phonenumber-field
 # django-phonenumber-field[phonenumberslite] settings
 PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'US'
@@ -516,12 +541,14 @@ PHONENUMBER_DEFAULT_REGION = 'US'
 ########################################
 
 # settings for import-export to allow exporting data via csv
+# Controls if resource importing should use database transactions. Defaults to False. Using transactions makes imports
+# safer as a failure during import won’t import only part of the data set.
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 ########################################
 # DJANGO-TABLES2 CONFIG                #
 ########################################
-
+# https://django-tables2.readthedocs.io/en/latest/
 # Django-tables2 default formatting settings for tables
 DJANGO_TABLES2_TEMPLATE = 'django_tables2/semantic.html'
 DJANGO_TABLES2_PAGE_RANGE = 5
