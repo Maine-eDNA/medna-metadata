@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'bioinfo_denoclust',
     'bioinfo_taxon',
     'storages',  # django-storages for s3 storage backends e.g., wasabi
-    'drf_yasg',  # drf-yasg creates swagger documentation for all apis
+    # 'drf_yasg',  # drf-yasg creates swagger documentation for all apis
+    'drf_spectacular', #drf-spectacular creates openapi 3.0 documentation for swagger/redoc
     'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api
     'import_export',  # django-import-export
     'allauth',  # django-allauth handles user registration as well as social authentication.
@@ -335,6 +336,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 # https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
 # https://www.django-rest-framework.org/api-guide/throttling/
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -400,19 +402,32 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900  # 15 mins in seconds
 # }
 
 ########################################
+# DRF-SPECTACULAR CONFIG               #
+########################################
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Maine-eDNA Metadata API',
+    'DESCRIPTION': 'a data management system for tracking environmental DNA samples',
+    'VERSION': '1.0.0',
+    'TOS': "https://github.com/Maine-eDNA/medna-metadata/blob/main/TOS.rst",
+    'CONTACT': {'url': '/main/support/'},
+    'LICENSE': {'url': 'https://github.com/Maine-eDNA/medna-metadata/blob/main/LICENSE'},
+    # OTHER SETTINGS
+}
+
+########################################
 # DRF-YASG CONFIG                      #
 ########################################
-
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'api_key': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
-        }
-    },
-    "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema"
-}
+# replaced drf-yasg with drf-spectacular
+# SWAGGER_SETTINGS = {
+#     'SECURITY_DEFINITIONS': {
+#         'api_key': {
+#             'type': 'apiKey',
+#             'in': 'header',
+#             'name': 'Authorization'
+#         }
+#     },
+#     "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema"
+# }
 
 ########################################
 # DJANGO-STORAGES CONFIG               #

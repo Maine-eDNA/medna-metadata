@@ -57,22 +57,8 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
     CustomUserCssViewSet, DefaultSiteCssViewSet
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Snippets API",
-        default_version='v1',
-        description="Maine-eDNA metadata - a data management system for tracking environmental DNA samples",
-        terms_of_service="https://github.com/Maine-eDNA/medna-metadata/blob/main/TOS.rst",
-        contact=openapi.Contact(email="melissa.kimble@maine.edu"),
-        license=openapi.License(name="GPL-3.0 License"),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
 
 router = routers.DefaultRouter()
 # users
@@ -218,7 +204,7 @@ urlpatterns = [
     url(r'^account/disabled/signup/', signup, name='account_signup'),
     # rest_auth and allauth email confirmation
     url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
-    url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
