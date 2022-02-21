@@ -15,21 +15,71 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </span>
             </button>
-            <div class="collapse navbar-collapse" id="navigation">
-              <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                  <a class="nav-link me-2" target="_blank" href="https://appseed.us/support">
-                    <i class="fas fa-info-circle opacity-6 text-dark me-1"></i>
-                    Support
+            <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5" id="navigation">
+              <ul class="navbar-nav navbar-nav-hover ms-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-icons opacity-6 me-2 text-md">main</i>
+                {% endif %}
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuDocs" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="material-icons opacity-6 me-2 text-md">article</i>
+                  Help
+                  <img src="{% static 'assets/img/down-arrow-white.svg' %}" alt="down-arrow" class="arrow ms-2 d-lg-block d-none">
+                  <img src="{% static 'assets/img/down-arrow-dark.svg' %}" alt="down-arrow" class="arrow ms-2 d-lg-none d-block">
+                </a>
+            <ul class="dropdown-menu dropdown-menu-animation dropdown-menu-end dropdown-md dropdown-md-responsive mt-0 mt-lg-3 p-3 border-radius-lg" aria-labelledby="dropdownMenuDocs">
+              <div class="d-none d-lg-block">
+                <ul class="list-group">
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md" target="_blank" href="/main/support">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Support</h6>
+                      <span class="text-sm">Get support from experts</span>
+                    </a>
+                  </li>
+                  <li class="nav-item list-group-item border-0 p-0">
+                    <a class="dropdown-item py-2 ps-3 border-radius-md" target="_blank" href="https://medna-metadata.readthedocs.io/en/latest/?badge=latest">
+                      <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Getting Started - ReadTheDocs</h6>
+                      <span class="text-sm">Technical documentation on deploying this application</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="row d-lg-none">
+                <div class="col-md-12 g-0">
+                  <a class="dropdown-item py-2 ps-3 border-radius-md" target="_blank" href="/main/support">
+                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Support</h6>
+                    <span class="text-sm">Get support from experts</span>
                   </a>
-                </li>
-              </ul>
-              <ul class="navbar-nav d-lg-block d-none">
-                <li class="nav-item">
-                  <a target="_blank" 
-                     href="/"
-                     class="btn btn-sm mb-0 me-1 bg-gradient-dark">Main</a>
-                </li>
+                  <a class="dropdown-item py-2 ps-3 border-radius-md" target="_blank" href="https://medna-metadata.readthedocs.io/en/latest/?badge=latest">
+                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Getting Started - ReadTheDocs</h6>
+                    <span class="text-sm">Technical documentation on deploying this application</span>
+                  </a>
+                </div>
+              </div>
+            </ul>
+          </li>
+           {% if user.is_active and user.is_staff %}
+          <li class="nav-item ms-lg-auto">
+            <a class="nav-link nav-link-icon me-2" href="{% url 'admin:index' %}" target="_blank">
+              <i class="fas fa-dungeon me-1"></i>
+              <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Administration">Admin</p>
+            </a>
+          </li>
+          {% endif %}
+          <li class="nav-item my-auto ms-3 ms-lg-0">
+            <a href="/" target="_blank" class="btn btn-sm  bg-white  mb-0 me-1 mt-2 mt-md-0">Main</a>
+          </li>
+                {% if request.user.is_authenticated %}
+            <li class="nav-item ms-lg-auto">
+              <a class="nav-link nav-link-icon me-2"
+                href="{% url 'logout' %}">
+                <i class="fa fa-sign-out me-1"></i>
+                <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sign OUT">Logout</p>
+              </a>
+            </li>
+          {% endif %}
               </ul>
             </div>
           </div>
