@@ -81,7 +81,7 @@ INSTALLED_APPS = [
     # 'rest_auth.registration',  # password change/reset, social auth, etc
     'dj_rest_auth',  # replaced django-rest-auth - login, logout, password reset and password change - https://github.com/iMerica/dj-rest-auth
     'dj_rest_auth.registration',  # registration and social media authentication
-    'drf_spectacular',  # drf-spectacular creates openapi 3.0 documentation for swagger/redoc - https://github.com/tfranzel/drf-spectacular
+    'drf_yasg',  # drf_yasg creates openapi 2.0 documentation for swagger/redoc - https://github.com/axnsan12/drf-yasg
     'django_extensions',  # generating schema pngs - https://github.com/django-extensions/django-extensions
 ]
 
@@ -341,7 +341,6 @@ CORS_ALLOWED_ORIGINS = [
 # these are settings for Django REST framework
 # https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema', # https://drf-spectacular.readthedocs.io/en/latest/readme.html#installation
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],  # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
@@ -427,16 +426,18 @@ ACCOUNT_FORMS = {
 # }
 
 ########################################
-# DRF-SPECTACULAR CONFIG               #
+# DRF-YASG CONFIG                      #
 ########################################
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Maine-eDNA Metadata API',
-    'DESCRIPTION': 'a data management system for tracking environmental DNA samples',
-    'VERSION': '1.0.0',
-    'TOS': "https://github.com/Maine-eDNA/medna-metadata/blob/main/TOS.rst",
-    'CONTACT': {'url': '/main/support/'},
-    'LICENSE': {'url': 'https://github.com/Maine-eDNA/medna-metadata/blob/main/LICENSE'},
-    # OTHER SETTINGS
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+    "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema"
 }
 
 ########################################

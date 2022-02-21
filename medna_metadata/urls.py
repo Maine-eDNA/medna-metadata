@@ -18,7 +18,8 @@ from django.urls import path, include, re_path
 from allauth.account.views import confirm_email, signup
 from dj_rest_auth.registration.views import VerifyEmailView
 from rest_framework import routers, permissions
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from users.views import CustomUserViewSet
 from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
@@ -57,6 +58,19 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
     CustomUserCssViewSet, DefaultSiteCssViewSet
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Maine-eDNA Metadata API",
+        default_version='v1',
+        description="a data management system for tracking environmental DNA samples",
+        terms_of_service="https://github.com/Maine-eDNA/medna-metadata/blob/main/TOS.rst",
+        contact=openapi.Contact(email="melissa.kimble@maine.edu"),
+        license=openapi.License(name="GPL-3.0 License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 router = routers.DefaultRouter()
 # users
@@ -202,8 +216,8 @@ urlpatterns = [
     re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     # url(r'^rest-auth/registration/google/', GoogleLogin.as_view(), name='google_login')
-    # drf-spectacular urls
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/schema/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    # drf-yasg urls
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
