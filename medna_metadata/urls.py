@@ -63,9 +63,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Snippets API",
+        title="Maine-eDNA Metadata API",
         default_version='v1',
-        description="Maine-eDNA metadata - a data management system for tracking environmental DNA samples",
+        description="a data management system for tracking environmental DNA samples",
         terms_of_service="https://github.com/Maine-eDNA/medna-metadata/blob/main/TOS.rst",
         contact=openapi.Contact(email="melissa.kimble@maine.edu"),
         license=openapi.License(name="GPL-3.0 License"),
