@@ -44,6 +44,7 @@ class IndexPairFilter(filters.FilterSet):
         model = IndexPair
         fields = ['created_by', 'index_slug', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of index pairs'))
 class IndexPairViewSet(viewsets.ModelViewSet):
     serializer_class = IndexPairSerializer
@@ -63,6 +64,7 @@ class IndexRemovalMethodFilter(filters.FilterSet):
     class Meta:
         model = IndexRemovalMethod
         fields = ['created_by', 'index_removal_method_name', 'index_removal_method_slug', 'index_removal_sop_url', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of index removal methods'))
 class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
@@ -85,6 +87,7 @@ class SizeSelectionMethodFilter(filters.FilterSet):
         model = SizeSelectionMethod
         fields = ['created_by', 'primer_set', 'size_selection_method_name', 'size_selection_method_slug', 'size_selection_sop_url', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of size selection methods'))
 class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
     serializer_class = SizeSelectionMethodSerializer
@@ -103,6 +106,7 @@ class QuantificationMethodFilter(filters.FilterSet):
     class Meta:
         model = QuantificationMethod
         fields = ['created_by', 'quant_method_name', 'quant_method_slug', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of quantification methods'))
 class QuantificationMethodViewSet(viewsets.ModelViewSet):
@@ -123,6 +127,7 @@ class AmplificationMethodFilter(filters.FilterSet):
         model = AmplificationMethod
         fields = ['created_by', 'amplification_method_name', 'amplification_method_slug', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of amplification methods'))
 class AmplificationMethodViewSet(viewsets.ModelViewSet):
     serializer_class = AmplificationMethodSerializer
@@ -142,6 +147,7 @@ class ExtractionMethodFilter(filters.FilterSet):
     class Meta:
         model = ExtractionMethod
         fields = ['created_by', 'extraction_method_name', 'extraction_method_manufacturer', 'extraction_method_slug', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of extraction methods'))
 class ExtractionMethodViewSet(viewsets.ModelViewSet):
@@ -165,6 +171,7 @@ class ExtractionFilter(filters.FilterSet):
         model = Extraction
         fields = ['created_by', 'barcode_slug', 'extraction_datetime', 'process_location', 'field_sample', 'extraction_method', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of extractions'))
 class ExtractionViewSet(viewsets.ModelViewSet):
     serializer_class = ExtractionSerializer
@@ -183,6 +190,7 @@ class PcrReplicateFilter(filters.FilterSet):
     class Meta:
         model = PcrReplicate
         fields = ['created_by', 'id', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of PCR replicates'))
 class PcrReplicateViewSet(viewsets.ModelViewSet):
@@ -209,6 +217,7 @@ class PcrFilter(filters.FilterSet):
         model = Pcr
         fields = ['created_by', 'pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime', 'process_location',
                   'extraction', 'primer_set', 'pcr_replicate', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of PCRs'))
 class PcrViewSet(viewsets.ModelViewSet):
@@ -246,6 +255,7 @@ class LibraryPrepFilter(filters.FilterSet):
                   'index_removal_method',
                   'lib_prep_kit', 'lib_prep_type', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of library preps'))
 class LibraryPrepViewSet(viewsets.ModelViewSet):
     serializer_class = LibraryPrepSerializer
@@ -279,6 +289,7 @@ class PooledLibraryFilter(filters.FilterSet):
         fields = ['created_by', 'pooled_lib_label', 'pooled_lib_slug',
                   'pooled_lib_datetime', 'barcode_slug', 'process_location', 'library_prep', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of pooled libraries'))
 class PooledLibraryViewSet(viewsets.ModelViewSet):
     serializer_class = PooledLibrarySerializer
@@ -304,6 +315,7 @@ class RunPrepFilter(filters.FilterSet):
         model = RunPrep
         fields = ['created_by', 'run_prep_label', 'run_prep_slug', 'run_prep_datetime',
                   'pooled_library', 'process_location', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of run preps'))
 class RunPrepViewSet(viewsets.ModelViewSet):
@@ -331,6 +343,7 @@ class RunResultFilter(filters.FilterSet):
         fields = ['created_by', 'run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location',
                   'run_prep', 'run_completion_datetime', 'run_instrument', ]
 
+
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of run results'))
 class RunResultViewSet(viewsets.ModelViewSet):
     serializer_class = RunResultSerializer
@@ -353,6 +366,7 @@ class FastqFileFilter(filters.FilterSet):
     class Meta:
         model = FastqFile
         fields = ['created_by', 'uuid', 'run_result', 'extraction', 'fastq_slug', 'submitted_to_insdc', ]
+
 
 @extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of fastq files'))
 class FastqFileViewSet(viewsets.ModelViewSet):

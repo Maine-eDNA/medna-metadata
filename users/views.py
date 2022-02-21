@@ -2,6 +2,9 @@ from rest_framework import viewsets
 from .serializers import CustomUserSerializer
 from .models import CustomUser
 from django_filters import rest_framework as filters
+# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+# from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+# from dj_rest_auth.registration.views import SocialLoginView
 
 
 # Create your views here.
@@ -24,3 +27,13 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = CustomUserFilter
     swagger_tags = ["user"]
+
+
+# class GoogleLogin(SocialLoginView):
+#     # https://django-allauth.readthedocs.io/en/latest/providers.html?highlight=google#google
+#     # https://stackoverflow.com/questions/16293942/how-to-set-callback-url-for-google-oauth
+#     # https://developers.google.com/tasks/oauth-authorization-callback-handler
+#     # https://developers.google.com/identity/protocols/oauth2/web-server
+#     adapter_class = GoogleOAuth2Adapter
+#     callback_url = '/accounts/google/login/callback/'
+#     client_class = OAuth2Client

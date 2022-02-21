@@ -1,7 +1,9 @@
 from users.models import CustomUser
 from rest_framework import serializers
-from rest_auth.serializers import LoginSerializer
-from rest_auth.registration.serializers import RegisterSerializer
+#from rest_auth.serializers import LoginSerializer
+#from rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import LoginSerializer
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
@@ -23,8 +25,6 @@ except ImportError:
 
 
 # django rest_framework
-# TODO https://dev.to/koladev/django-rest-authentication-cmh - replace rest-auth?
-# TODO https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications - replace rest-auth?
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
