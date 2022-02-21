@@ -13,9 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from allauth.account.views import confirm_email, signup
 from dj_rest_auth.registration.views import VerifyEmailView
 from rest_framework import routers, permissions
@@ -195,13 +194,13 @@ urlpatterns = [
     # API router
     path('api/', include(router.urls)),
     # allauth urls
-    url(r'^account/', include('allauth.urls')),
-    url(r'^account/disabled/signup/', signup, name='account_signup'), # re-registering signup to change url
-    url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),  # allauth email confirmation
+    re_path(r'^account/', include('allauth.urls')),
+    re_path(r'^account/disabled/signup/', signup, name='account_signup'), # re-registering signup to change url
+    re_path(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),  # allauth email confirmation
     # dj-rest-auth urls - https://dj-rest-auth.readthedocs.io/en/latest/api_endpoints.html
-    url(r'^rest-auth/', include('dj_rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    url(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
+    re_path(r'^rest-auth/', include('dj_rest_auth.urls')),
+    re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     # url(r'^rest-auth/registration/google/', GoogleLogin.as_view(), name='google_login')
     # drf-spectacular urls
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
