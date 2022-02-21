@@ -10,6 +10,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
 # Create your views here.
@@ -25,13 +26,14 @@ class PrimerPairFilter(filters.FilterSet):
         fields = ['created_by', 'primer_set_name', 'primer_slug', 'primer_target_gene', 'primer_subfragment', ]
 
 
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of primer pairs'))
 class PrimerPairViewSet(viewsets.ModelViewSet):
     serializer_class = PrimerPairSerializer
     queryset = PrimerPair.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'primer_set_name', 'primer_slug', 'primer_target_gene', 'primer_subfragment']
     filterset_class = PrimerPairFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class IndexPairFilter(filters.FilterSet):
@@ -42,14 +44,14 @@ class IndexPairFilter(filters.FilterSet):
         model = IndexPair
         fields = ['created_by', 'index_slug', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of index pairs'))
 class IndexPairViewSet(viewsets.ModelViewSet):
     serializer_class = IndexPairSerializer
     queryset = IndexPair.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['index_slug', 'created_by__email']
     filterset_class = IndexPairFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class IndexRemovalMethodFilter(filters.FilterSet):
@@ -62,14 +64,14 @@ class IndexRemovalMethodFilter(filters.FilterSet):
         model = IndexRemovalMethod
         fields = ['created_by', 'index_removal_method_name', 'index_removal_method_slug', 'index_removal_sop_url', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of index removal methods'))
 class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
     serializer_class = IndexRemovalMethodSerializer
     queryset = IndexRemovalMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['index_removal_method_name', 'index_removal_method_slug', 'index_removal_sop_url', 'created_by__email']
     filterset_class = IndexRemovalMethodFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class SizeSelectionMethodFilter(filters.FilterSet):
@@ -83,14 +85,14 @@ class SizeSelectionMethodFilter(filters.FilterSet):
         model = SizeSelectionMethod
         fields = ['created_by', 'primer_set', 'size_selection_method_name', 'size_selection_method_slug', 'size_selection_sop_url', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of size selection methods'))
 class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
     serializer_class = SizeSelectionMethodSerializer
     queryset = SizeSelectionMethod.objects.prefetch_related('created_by', 'primer_set')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'primer_set__primer_slug', 'size_selection_method_name', 'size_selection_method_slug', 'size_selection_sop_url']
     filterset_class = SizeSelectionMethodFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class QuantificationMethodFilter(filters.FilterSet):
@@ -102,14 +104,14 @@ class QuantificationMethodFilter(filters.FilterSet):
         model = QuantificationMethod
         fields = ['created_by', 'quant_method_name', 'quant_method_slug', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of quantification methods'))
 class QuantificationMethodViewSet(viewsets.ModelViewSet):
     serializer_class = QuantificationMethodSerializer
     queryset = QuantificationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['quant_method_name', 'quant_method_slug', 'created_by__email']
     filterset_class = QuantificationMethodFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class AmplificationMethodFilter(filters.FilterSet):
@@ -121,14 +123,14 @@ class AmplificationMethodFilter(filters.FilterSet):
         model = AmplificationMethod
         fields = ['created_by', 'amplification_method_name', 'amplification_method_slug', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of amplification methods'))
 class AmplificationMethodViewSet(viewsets.ModelViewSet):
     serializer_class = AmplificationMethodSerializer
     queryset = AmplificationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['amplification_method_name', 'amplification_method_slug', 'created_by__email']
     filterset_class = AmplificationMethodFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class ExtractionMethodFilter(filters.FilterSet):
@@ -141,14 +143,14 @@ class ExtractionMethodFilter(filters.FilterSet):
         model = ExtractionMethod
         fields = ['created_by', 'extraction_method_name', 'extraction_method_manufacturer', 'extraction_method_slug', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of extraction methods'))
 class ExtractionMethodViewSet(viewsets.ModelViewSet):
     serializer_class = ExtractionMethodSerializer
     queryset = ExtractionMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['extraction_method_name', 'extraction_method_manufacturer', 'extraction_method_slug', 'created_by__email']
     filterset_class = ExtractionMethodFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class ExtractionFilter(filters.FilterSet):
@@ -163,7 +165,7 @@ class ExtractionFilter(filters.FilterSet):
         model = Extraction
         fields = ['created_by', 'barcode_slug', 'extraction_datetime', 'process_location', 'field_sample', 'extraction_method', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of extractions'))
 class ExtractionViewSet(viewsets.ModelViewSet):
     serializer_class = ExtractionSerializer
     queryset = Extraction.objects.prefetch_related('created_by', 'extraction_barcode', 'process_location', 'field_sample', 'extraction_method', 'quantification_method')
@@ -171,7 +173,7 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['barcode_slug', 'extraction_datetime', 'process_location__process_location_name_slug', 'field_sample__barcode_slug',
     #                    'extraction_method__extraction_method_slug', 'created_by__email']
     filterset_class = ExtractionFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class PcrReplicateFilter(filters.FilterSet):
@@ -182,14 +184,14 @@ class PcrReplicateFilter(filters.FilterSet):
         model = PcrReplicate
         fields = ['created_by', 'id', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of PCR replicates'))
 class PcrReplicateViewSet(viewsets.ModelViewSet):
     serializer_class = PcrReplicateSerializer
     queryset = PcrReplicate.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['id', 'created_by__email']
     filterset_class = PcrReplicateFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class PcrFilter(filters.FilterSet):
@@ -208,7 +210,7 @@ class PcrFilter(filters.FilterSet):
         fields = ['created_by', 'pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime', 'process_location',
                   'extraction', 'primer_set', 'pcr_replicate', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of PCRs'))
 class PcrViewSet(viewsets.ModelViewSet):
     serializer_class = PcrSerializer
     queryset = Pcr.objects.prefetch_related('created_by', 'process_location', 'extraction', 'primer_set', 'pcr_replicate')
@@ -216,7 +218,7 @@ class PcrViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime', 'process_location__process_location_name_slug',
     #                     'extraction__barcode_slug', 'primer_set__primer_slug', 'pcr_replicate__id', 'created_by__email']
     filterset_class = PcrFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class LibraryPrepFilter(filters.FilterSet):
@@ -244,7 +246,7 @@ class LibraryPrepFilter(filters.FilterSet):
                   'index_removal_method',
                   'lib_prep_kit', 'lib_prep_type', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of library preps'))
 class LibraryPrepViewSet(viewsets.ModelViewSet):
     serializer_class = LibraryPrepSerializer
     queryset = LibraryPrep.objects.prefetch_related('created_by', 'process_location', 'extraction', 'primer_set',
@@ -260,7 +262,7 @@ class LibraryPrepViewSet(viewsets.ModelViewSet):
     #                    'index_removal_method__index_removal_method_slug',
     #                    'lib_prep_kit', 'lib_prep_type', 'created_by__email']
     filterset_class = LibraryPrepFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class PooledLibraryFilter(filters.FilterSet):
@@ -277,7 +279,7 @@ class PooledLibraryFilter(filters.FilterSet):
         fields = ['created_by', 'pooled_lib_label', 'pooled_lib_slug',
                   'pooled_lib_datetime', 'barcode_slug', 'process_location', 'library_prep', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of pooled libraries'))
 class PooledLibraryViewSet(viewsets.ModelViewSet):
     serializer_class = PooledLibrarySerializer
     queryset = PooledLibrary.objects.prefetch_related('created_by', 'pooled_lib_barcode', 'process_location', 'library_prep', 'quantification_method')
@@ -287,7 +289,7 @@ class PooledLibraryViewSet(viewsets.ModelViewSet):
     #                    'library_prep__lib_prep_slug',
     #                    'created_by__email']
     filterset_class = PooledLibraryFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class RunPrepFilter(filters.FilterSet):
@@ -303,14 +305,14 @@ class RunPrepFilter(filters.FilterSet):
         fields = ['created_by', 'run_prep_label', 'run_prep_slug', 'run_prep_datetime',
                   'pooled_library', 'process_location', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of run preps'))
 class RunPrepViewSet(viewsets.ModelViewSet):
     serializer_class = RunPrepSerializer
     queryset = RunPrep.objects.prefetch_related('created_by', 'process_location', 'pooled_library', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['run_prep_label', 'run_prep_slug', 'run_prep_datetime', 'pooled_library__pooled_lib_slug', 'process_location__process_location_name_slug', 'created_by__email']
     filterset_class = RunPrepFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class RunResultFilter(filters.FilterSet):
@@ -329,7 +331,7 @@ class RunResultFilter(filters.FilterSet):
         fields = ['created_by', 'run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location',
                   'run_prep', 'run_completion_datetime', 'run_instrument', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of run results'))
 class RunResultViewSet(viewsets.ModelViewSet):
     serializer_class = RunResultSerializer
     queryset = RunResult.objects.prefetch_related('created_by', 'process_location', 'run_prep')
@@ -337,7 +339,7 @@ class RunResultViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location__process_location_name_slug',
     #                    'run_prep__run_prep_slug', 'run_completion_datetime', 'run_instrument', 'created_by__email']
     filterset_class = RunResultFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
 
 
 class FastqFileFilter(filters.FilterSet):
@@ -352,11 +354,11 @@ class FastqFileFilter(filters.FilterSet):
         model = FastqFile
         fields = ['created_by', 'uuid', 'run_result', 'extraction', 'fastq_slug', 'submitted_to_insdc', ]
 
-
+@extend_schema_view(list=extend_schema(tags=['wet lab'], description='List of fastq files'))
 class FastqFileViewSet(viewsets.ModelViewSet):
     serializer_class = FastqFileSerializer
     queryset = FastqFile.objects.prefetch_related('created_by', 'run_result', 'extraction')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'uuid', 'run_result__run_id', 'extraction__barcode_slug', 'fastq_slug',  'submitted_to_insdc']
     filterset_class = FastqFileFilter
-    swagger_tags = ["wet lab"]
+    # swagger_tags = ["wet lab"]
