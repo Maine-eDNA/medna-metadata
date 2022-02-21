@@ -7,4 +7,4 @@ class CustomAutoSchema(SwaggerAutoSchema):
         tags = self.overrides.get('tags', None) or getattr(self.view, 'swagger_tags', [])
         if not tags:
             tags = [operation_keys[0]]
-        return
+        return tags
