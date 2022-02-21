@@ -220,6 +220,8 @@ class TaxonSpeciesViewSet(viewsets.ModelViewSet):
 
 
 class AnnotationMethodFilter(filters.FilterSet):
+    annotation_method_name = filters.CharFilter(field_name='annotation_method_name', lookup_expr='iexact')
+    annotation_method_software_package = filters.CharFilter(field_name='annotation_method_software_package', lookup_expr='iexact')
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:

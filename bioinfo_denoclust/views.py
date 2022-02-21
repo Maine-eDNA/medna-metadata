@@ -8,11 +8,13 @@ from django_filters import rest_framework as filters
 
 
 class DenoiseClusterMethodFilter(filters.FilterSet):
+    denoise_cluster_method_name = filters.CharFilter(field_name='denoise_cluster_method_name', lookup_expr='iexact')
+    denoise_cluster_method_software_package = filters.CharFilter(field_name='denoise_cluster_method_software_package', lookup_expr='iexact')
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:
         model = DenoiseClusterMethod
-        fields = ['created_by', ]
+        fields = ['created_by', 'denoise_cluster_method_name', 'denoise_cluster_method_software_package', ]
 
 
 class DenoiseClusterMethodViewSet(viewsets.ModelViewSet):
