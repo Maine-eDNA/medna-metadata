@@ -285,22 +285,27 @@ class TaxonSpecies(DateTimeUserMixin):
 
 class AnnotationMethod(DateTimeUserMixin):
     # BLAST, BLASTPLUS, MNNAIVEBAYES
-    annotation_method_name = models.CharField("DenoiseCluster Method Name", unique=True, max_length=255)
-    annotation_method_name_slug = models.SlugField("Annotation Method Slug", max_length=255)
+    annotation_method_name = models.CharField("Method Name", max_length=255)
+    annotation_method_software_package = models.CharField("Software Package Name", max_length=255)
+    annotation_method_env_url = models.URLField("Environment File URL", max_length=255)
+    annotation_method_name_slug = models.SlugField("Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         if not self.created_datetime:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.annotation_method_name_slug = '{method}_{date}'.format(method=slugify(self.annotation_method_name),
-                                                                    date=slugify(created_date_fmt))
+        self.annotation_method_name_slug = '{method}_{package}_{date}'.format(method=slugify(self.annotation_method_name),
+                                                                              package=slugify(self.annotation_method_software_package),
+                                                                              date=slugify(created_date_fmt))
         super(AnnotationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.annotation_method_name)
+        return '{package}, {name}'.format(package=self.annotation_method_software_package,
+                                          name=self.annotation_method_name)
 
     class Meta:
+        unique_together = ['annotation_method_name', 'annotation_method_software_package']
         app_label = 'bioinfo_taxon'
         verbose_name = 'Annotation Method'
         verbose_name_plural = 'Annotation Methods'

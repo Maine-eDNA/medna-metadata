@@ -128,7 +128,10 @@ class TaxonSpeciesTestCase(TestCase):
 
 class AnnotationMethodTestCase(TestCase):
     def setUp(self):
-        AnnotationMethod.objects.get_or_create(annotation_method_name="test_name")
+        AnnotationMethod.objects.get_or_create(annotation_method_name="test_name",
+                                               defaults={
+                                                   'annotation_method_software_package': 'test_package',
+                                                   'annotation_method_env_url': 'https://www.env.txt'})
 
     def test_was_added_recently(self):
         # test if date is added correctly

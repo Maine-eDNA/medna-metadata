@@ -10,19 +10,21 @@ class DenoiseClusterMethodSerializer(serializers.ModelSerializer):
     # DADA2, DEBLUR, PYRONOISE, UNOISE3
     id = serializers.IntegerField(read_only=True)
     denoise_cluster_method_name = serializers.CharField(max_length=255)
-    denoise_cluster_method_pipeline = serializers.CharField(max_length=255)
+    denoise_cluster_method_software_package = serializers.CharField(max_length=255)
+    denoise_cluster_method_env_url = serializers.URLField(max_length=255)
     denoise_cluster_method_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = DenoiseClusterMethod
-        fields = ['id', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline', 'denoise_cluster_method_slug',
+        fields = ['id', 'denoise_cluster_method_name', 'denoise_cluster_method_software_package',
+                  'denoise_cluster_method_env_url', 'denoise_cluster_method_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(
                 queryset=DenoiseClusterMethod.objects.all(),
-                fields=['denoise_cluster_method_name', 'denoise_cluster_method_pipeline']
+                fields=['denoise_cluster_method_name', 'denoise_cluster_method_software_package']
             )
         ]
     # Since project, system, watershed, and created_by reference different tables and we

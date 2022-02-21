@@ -20,7 +20,8 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['denoise_cluster_method_name', 'denoise_cluster_method_pipeline', 'created_by']
+        self.fields = ['denoise_cluster_method_name', 'denoise_cluster_method_software_package',
+                       'denoise_cluster_method_env_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -29,7 +30,8 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['denoise_cluster_method_slug', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline',
+        self.fields = ['denoise_cluster_method_slug', 'denoise_cluster_method_name',
+                       'denoise_cluster_method_software_package', 'denoise_cluster_method_env_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoiseClusterMethodAdmin, self).change_view(request, object_id)

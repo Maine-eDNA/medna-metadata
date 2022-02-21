@@ -238,10 +238,11 @@ class AnnotationMethodAdminResource(resources.ModelResource):
         model = AnnotationMethod
         import_id_fields = ('annotation_method_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'annotation_method_name',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'annotation_method_name',
-                        'created_by', 'created_datetime', )
+        fields = ('id', 'annotation_method_name', 'annotation_method_software_package', 'annotation_method_env_url',
+                  'annotation_method_name_slug', 'created_by', 'modified_datetime', 'created_datetime', )
+        export_order = ('id', 'annotation_method_name', 'annotation_method_software_package',
+                        'annotation_method_env_url', 'annotation_method_name_slug',
+                        'created_by', 'modified_datetime', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',

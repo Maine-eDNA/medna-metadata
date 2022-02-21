@@ -208,8 +208,10 @@ class Migration(migrations.Migration):
             name='AnnotationMethod',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('annotation_method_name', models.CharField(max_length=255, unique=True, verbose_name='DenoiseCluster Method Name')),
-                ('annotation_method_name_slug', models.SlugField(max_length=255, verbose_name='Annotation Method Slug')),
+                ('annotation_method_name', models.CharField(max_length=255, verbose_name='Method Name')),
+                ('annotation_method_software_package', models.CharField(max_length=255, verbose_name='Software Package Name')),
+                ('annotation_method_env_url', models.URLField(max_length=255, verbose_name='Environment File URL')),
+                ('annotation_method_name_slug', models.SlugField(max_length=255, verbose_name='Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
@@ -217,6 +219,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Annotation Method',
                 'verbose_name_plural': 'Annotation Methods',
+                'unique_together': {('annotation_method_name', 'annotation_method_software_package')},
             },
         ),
         migrations.CreateModel(

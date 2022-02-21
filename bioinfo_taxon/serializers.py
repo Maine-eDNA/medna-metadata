@@ -239,15 +239,24 @@ class TaxonSpeciesSerializer(serializers.ModelSerializer):
 
 class AnnotationMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    annotation_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=AnnotationMethod.objects.all())])
+    annotation_method_name = serializers.CharField(max_length=255)
+    annotation_method_software_package = serializers.CharField(max_length=255)
+    annotation_method_env_url = serializers.URLField(max_length=255)
     annotation_method_name_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = AnnotationMethod
-        fields = ['id', 'annotation_method_name', 'annotation_method_name_slug',
+        fields = ['id', 'annotation_method_name', 'annotation_method_software_package',
+                  'annotation_method_env_url', 'annotation_method_name_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=AnnotationMethod.objects.all(),
+                fields=['annotation_method_name', 'annotation_method_software_package']
+            )
+        ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

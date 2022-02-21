@@ -389,12 +389,11 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    readonly_fields = ('annotation_method_name_slug',
-                       'modified_datetime', 'created_datetime', )
+    readonly_fields = ('annotation_method_name_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['annotation_method_name', 'created_by']
+        self.fields = ['annotation_method_name', 'annotation_method_software_package', 'annotation_method_env_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -404,6 +403,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['annotation_method_name_slug', 'annotation_method_name',
+                       'annotation_method_software_package', 'annotation_method_env_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AnnotationMethodAdmin, self).change_view(request, object_id)

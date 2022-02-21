@@ -11,7 +11,8 @@ class DenoiseClusterMethodTestCase(TestCase):
     def setUp(self):
         DenoiseClusterMethod.objects.get_or_create(denoise_cluster_method_name="test_name",
                                                    defaults={
-                                                       'denoise_cluster_method_pipeline': "test_pipeline"})
+                                                       'denoise_cluster_method_software_package': 'test_package',
+                                                       'denoise_cluster_method_env_url': 'https://www.env.txt'})
 
     def test_was_added_recently(self):
         # test if date is added correctly

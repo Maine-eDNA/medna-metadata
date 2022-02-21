@@ -9,7 +9,8 @@ from django.utils import timezone
 class DenoiseClusterMethod(DateTimeUserMixin):
     # DADA2, DEBLUR, PYRONOISE, UNOISE3, OTU, DOTUR
     denoise_cluster_method_name = models.CharField("Method Name", max_length=255)
-    denoise_cluster_method_pipeline = models.CharField("Pipeline", max_length=255)
+    denoise_cluster_method_software_package = models.CharField("Software Package Name", max_length=255)
+    denoise_cluster_method_env_url = models.URLField("Environment File URL", max_length=255)
     denoise_cluster_method_slug = models.SlugField("Slug", max_length=255)
 
     def save(self, *args, **kwargs):
@@ -17,19 +18,18 @@ class DenoiseClusterMethod(DateTimeUserMixin):
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.denoise_cluster_method_slug = '{name}_{pipeline}_{date}'.format(name=slugify(self.denoise_cluster_method_name),
-                                                                             pipeline=slugify(self.denoise_cluster_method_pipeline),
-                                                                             date=slugify(created_date_fmt))
+        self.denoise_cluster_method_slug = '{name}_{package}_{date}'.format(name=slugify(self.denoise_cluster_method_name),
+                                                                            package=slugify(self.denoise_cluster_method_software_package),
+                                                                            date=slugify(created_date_fmt))
         super(DenoiseClusterMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{pipeline}, {name}'.format(
-            pipeline=self.denoise_cluster_method_pipeline,
-            name=self.denoise_cluster_method_name)
+        return '{package}, {name}'.format(package=self.denoise_cluster_method_software_package,
+                                          name=self.denoise_cluster_method_name)
 
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
-        unique_together = ['denoise_cluster_method_name', 'denoise_cluster_method_pipeline']
+        unique_together = ['denoise_cluster_method_name', 'denoise_cluster_method_software_package']
         app_label = 'bioinfo_denoclust'
         verbose_name = 'DenoiseCluster Method'
         verbose_name_plural = 'DenoiseCluster Methods'

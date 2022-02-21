@@ -9,12 +9,13 @@ from users.models import CustomUser
 class DenoiseClusterMethodAdminResource(resources.ModelResource):
     class Meta:
         model = DenoiseClusterMethod
-        import_id_fields = ('denoise_cluster_method_name', 'denoise_cluster_method_pipeline', )
-        fields = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline', 'denoise_cluster_method_slug',
-                  'created_by', 'created_datetime', )
-        export_order = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_pipeline',
-                        'denoise_cluster_method_slug',
-                        'created_by', 'created_datetime', )
+        import_id_fields = ('denoise_cluster_method_name', 'denoise_cluster_method_software_package', )
+        fields = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_software_package',
+                  'denoise_cluster_method_env_url', 'denoise_cluster_method_slug',
+                  'created_by', 'modified_datetime', 'created_datetime', )
+        export_order = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_software_package',
+                        'denoise_cluster_method_env_url', 'denoise_cluster_method_slug',
+                        'created_by', 'modified_datetime', 'created_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
