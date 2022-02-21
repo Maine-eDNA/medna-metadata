@@ -59,6 +59,17 @@
             <span class="nav-link-text ms-1">Profile</span>
           </a>
         </li>
+        {% if user.is_active and user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}"
+             href="{% url 'admin:index' %}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">admin_panel_settings</i>
+            </div>
+            <span class="nav-link-text ms-1">Admin</span>
+          </a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link text-white " href="{% url 'logout' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
