@@ -66,9 +66,9 @@ schema_view = get_schema_view(
         title="Snippets API",
         default_version='v1',
         description="Maine-eDNA metadata - a data management system for tracking environmental DNA samples",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
-        license=openapi.License(name="BSD License"),
+        terms_of_service="https://github.com/Maine-eDNA/medna-metadata/blob/main/TOS.rst",
+        contact=openapi.Contact(email="melissa.kimble@maine.edu"),
+        license=openapi.License(name="GPL-3.0 License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -217,8 +217,7 @@ urlpatterns = [
     # re-registering signup to change url
     url(r'^account/disabled/signup/', signup, name='account_signup'),
     # rest_auth and allauth email confirmation
-    url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$',
-        confirm_email, name='account_confirm_email'),
+    url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
