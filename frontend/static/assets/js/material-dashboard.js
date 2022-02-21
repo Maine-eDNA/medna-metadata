@@ -206,14 +206,14 @@ function sidebarType(a) {
     var navbarBrandImg = navbarBrand.src;
 
     if (navbarBrandImg.includes('logo-ct.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
+      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-medna-dark");
       navbarBrand.src = navbarBrandImgNew;
     }
   } else {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
-    if (navbarBrandImg.includes('logo-ct-dark.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
+    if (navbarBrandImg.includes('logo-medna-dark.png')) {
+      var navbarBrandImgNew = navbarBrandImg.replace("logo-medna-dark", "logo-ct");
       navbarBrand.src = navbarBrandImgNew;
     }
   }
@@ -223,7 +223,7 @@ function sidebarType(a) {
     var navbarBrandImg = navbarBrand.src;
 
     if (navbarBrandImg.includes('logo-ct.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
+      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-medna-dark");
       navbarBrand.src = navbarBrandImgNew;
     }
   }
