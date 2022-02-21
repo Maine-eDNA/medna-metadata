@@ -40,12 +40,12 @@
 <body class="g-sidenav-show  bg-gray-200 virtual-reality">
 
   <div class="mt-n3">
-    {% include 'home/django-material-dashboard/navigation.html' %}
+    {% include 'includes/django-material-dashboard/navigation.html' %}
   </div>
 
   <div class="border-radius-xl mx-2 mx-md-3 position-relative" style="background-image: url('{% static 'assets/img/vr-bg.jpg' %}'); background-size: cover;">
 
-    {% include 'home/django-material-dashboard/sidebar.html' %}
+    {% include 'includes/django-material-dashboard/sidebar.html' %}
 
     <main class="main-content border-radius-lg h-100">
       <div class="section min-vh-85 position-relative transform-scale-0 transform-scale-md-7">
@@ -186,11 +186,11 @@
     </main>
   </div>
 
-  {% include 'home/django-material-dashboard/footer.html' %}
+  {% include 'includes/django-material-dashboard/footer.html' %}
   
-  {% include 'home/django-material-dashboard/fixed-plugin.html' %}
+  {% include 'includes/django-material-dashboard/fixed-plugin.html' %}
 
-  {% include 'home/django-material-dashboard/scripts.html' %}
+  {% include 'includes/django-material-dashboard/scripts.html' %}
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

@@ -41,19 +41,19 @@
 </head> 
 <body class="g-sidenav-show bg-gray-200">
   
-  {% include 'home/django-material-dashboard/sidebar.html' %}
+  {% include 'includes/django-material-dashboard/sidebar.html' %}
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
   
-    {% include 'home/django-material-dashboard/navigation.html' %}
+    {% include 'includes/django-material-dashboard/navigation.html' %}
 
     {% block content %}{% endblock content %}
 
   </main>
 
-  {% include 'home/django-material-dashboard/fixed-plugin.html' %}
+  {% include 'includes/django-material-dashboard/fixed-plugin.html' %}
 
-  {% include 'home/django-material-dashboard/scripts.html' %}
+  {% include 'includes/django-material-dashboard/scripts.html' %}
 
   <!-- Specific Page JS goes HERE  -->
   {% block javascripts %}{% endblock javascripts %}
