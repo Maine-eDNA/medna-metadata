@@ -246,8 +246,6 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
 LOGIN_URL = "home"  # defaults to /accounts/login, which doesn't exist
-#LOGIN_REDIRECT_URL = "home"  # defaults to /accounts/profile, which doesn't exist
-#LOGOUT_REDIRECT_URL = "home"  # defaults to None
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
