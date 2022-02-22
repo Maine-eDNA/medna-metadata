@@ -78,15 +78,15 @@
                         <a class="dropdown-item py-2 ps-3 border-radius-md" href="/">
                           <div class="w-100 d-flex align-items-center justify-content-between">
                             <div>
-                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Page Sections</h6>
-                              <span class="text-sm">See all sections</span>
+                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">API Documentation</h6>
+                              <span class="text-sm">See all API docs</span>
                             </div>
                             <img src="{% static 'assets/img/down-arrow.svg' %}" alt="down-arrow" class="arrow">
                           </div>
                         </a>
                         <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/main/ui-sections-hero-sections.html">
-                            Page Headers
+                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="{% url 'schema-swagger-ui' %}">
+                            Swagger
                           </a>
                           <a class="dropdown-item ps-3 border-radius-md mb-1" href="/main/ui-sections-features.html">
                             Features
@@ -202,12 +202,12 @@
                           </div>
                           <div class="w-100 d-flex align-items-center justify-content-between">
                             <div>
-                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Page Sections</h6>
+                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">API Documentation</h6>
                             </div>
                           </div>
                         </div>
-                        <a class="dropdown-item ps-3 border-radius-md mb-1" href="/main/ui-sections-hero-sections.html">
-                          Page Headers
+                        <a class="dropdown-item ps-3 border-radius-md mb-1" href="{% url 'schema-swagger-ui' %}">
+                          Swagger
                         </a>
                         <a class="dropdown-item ps-3 border-radius-md mb-1" href="/main/ui-sections-features.html">
                           Features
