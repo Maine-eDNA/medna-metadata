@@ -441,7 +441,8 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization'
         }
     },
-    "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema"
+    "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema",
+    'USE_SESSION_AUTH': True
 }
 
 ########################################
