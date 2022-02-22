@@ -1,49 +1,63 @@
+{% extends "drf-yasg/redoc.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{{ title }}{% endblock %}</title>
+<!--
+=========================================================
+* Material Kit 2 - v3.0.0
+=========================================================
 
-    {% block extra_head %}
-        {# -- Add any extra HTML heads tags here - except scripts and styles -- #}
-    {% endblock %}
+* Product Page:  https://www.creative-tim.com/product/material-kit
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+* Coded by www.creative-tim.com
 
-    {% block favicon %}
-        {# -- Maybe replace the favicon -- #}
-        <link rel="icon" type="image/png" href="{% static 'drf-yasg/redoc/redoc-logo.png' %}"/>
-    {% endblock %}
+ =========================================================
 
-    {% block main_styles %}
-        <link rel="stylesheet" type="text/css" href="{% static 'drf-yasg/style.css' %}"/>
-    {% endblock %}
-    {% block extra_styles %}
-        {# -- Add any additional CSS scripts here -- #}
-    {% endblock %}
-</head>
-<body>
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+{% block extra_head %}
+    {# -- Add any extra HTML heads tags here - except scripts and styles -- #}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+    Maine-eDNA Metadata - {% block title %}{% endblock %} | Maine EPSCoR
+    </title>
+{% endblock %}
+
+{% block favicon %}
+    {# -- Maybe replace the favicon -- #}
+    <link rel="icon" type="image/png" href="{% static 'drf-yasg/redoc/redoc-logo.png' %}"/>
+{% endblock %}
+
+{% block extra_styles %}
+    {# -- Add any additional CSS scripts here -- #}
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/medna-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/nucleo-icons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/nucleo-svg.css' %}">
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" rel="stylesheet" type="text/css" href="{% static 'assets/css/material-kit.css' %}">
+{% endblock %}
 
 {% block extra_body %}
     {# -- Add any header/body markup here (rendered BEFORE the swagger-ui/redoc element) -- #}
+    <body class="{% block body_class %}{% endblock %} bg-gray-200">
+      {% include 'includes/django-material-kit/navigation-transparent.html' %}
+      <header class="bg-gradient-dark">
+      </header>
+    </body>
 {% endblock %}
-
-<div id="redoc-placeholder"></div>
 
 {% block footer %}
     {# -- Add any footer markup here (rendered AFTER the swagger-ui/redoc element) -- #}
+    {% include 'includes/django-material-kit/footer.html' %}
 {% endblock %}
 
-<script id="redoc-settings" type="application/json">{{ redoc_settings | safe }}</script>
-
-{% block main_scripts %}
-    <script src="{% static 'drf-yasg/insQ.min.js' %}"></script>
-    <script src="{% static 'drf-yasg/url-polyfill.min.js' %}"></script>
-    <script src="{% static 'drf-yasg/redoc-init.js' %}"></script>
-    <script src="{% static 'drf-yasg/redoc/redoc.min.js' %}"></script>
-{% endblock %}
 {% block extra_scripts %}
     {# -- Add any additional scripts here -- #}
+    {% include 'includes/django-material-kit/scripts.html' %}
 {% endblock %}
-</body>
-</html>
