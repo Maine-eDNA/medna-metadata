@@ -205,15 +205,15 @@ function sidebarType(a) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
 
-    if (navbarBrandImg.includes('logo-ct.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-medna-dark");
+    if (navbarBrandImg.includes('logo-medna-light.png')) {
+      var navbarBrandImgNew = navbarBrandImg.replace("logo-medna-light", "logo-medna-dark");
       navbarBrand.src = navbarBrandImgNew;
     }
   } else {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
     if (navbarBrandImg.includes('logo-medna-dark.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-medna-dark", "logo-ct");
+      var navbarBrandImgNew = navbarBrandImg.replace("logo-medna-dark", "logo-medna-light");
       navbarBrand.src = navbarBrandImgNew;
     }
   }
@@ -222,8 +222,8 @@ function sidebarType(a) {
     var navbarBrand = document.querySelector('.navbar-brand-img');
     var navbarBrandImg = navbarBrand.src;
 
-    if (navbarBrandImg.includes('logo-ct.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-medna-dark");
+    if (navbarBrandImg.includes('logo-medna-light.png')) {
+      var navbarBrandImgNew = navbarBrandImg.replace("logo-medna-light", "logo-medna-dark");
       navbarBrand.src = navbarBrandImgNew;
     }
   }
