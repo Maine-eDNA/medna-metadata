@@ -4,10 +4,7 @@
 {% block title %} Sign in {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
-  <!-- CSS Files -->
-  <link id="pagestyle" rel="stylesheet" type="text/css" href="{% static 'assets/css/material-kit.css' %}">
-{% endblock stylesheets %}
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
@@ -77,6 +74,4 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-{% include 'includes/django-material-kit/scripts.html' %}
-{% endblock javascripts %}
+{% block javascripts %}{% endblock javascripts %}
