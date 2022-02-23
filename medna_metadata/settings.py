@@ -243,7 +243,7 @@ AUTHENTICATION_BACKENDS = [
 # Then set the redirect links for login and logout, which will both go to our home index template
 # https://learndjango.com/tutorials/django-custom-user-model
 # django\conf\global_settings.py
-LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
+# LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
 LOGIN_URL = "home"  # defaults to /accounts/login, which doesn't exist
 
