@@ -1,13 +1,16 @@
 from django.test import TestCase
-from .models import Grant, Project, ProcessLocation, DefaultSiteCss, CustomUserCss
-from django.contrib.auth import get_user_model
+from .models import Grant, Project, Publication, ProcessLocation, DefaultSiteCss, CustomUserCss
+from users.tests import UsersManagersTests
+from users.models import CustomUser
+# from django.contrib.auth import get_user_model
 
 
 # Create your tests here.
 class GrantTestCase(TestCase):
     # formerly Project in field_sites.models
     def setUp(self):
-        Grant.objects.get_or_create(grant_code="e", defaults={'grant_label': "Maine-eDNA"})
+        Grant.objects.get_or_create(grant_code="e", defaults={'grant_label': "Maine-eDNA",
+                                                              'grant_description': 'test description'})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -18,14 +21,44 @@ class GrantTestCase(TestCase):
 class ProjectTestCase(TestCase):
     # formerly Project in field_sites.models
     def setUp(self):
+        manytomany_list = []
         grant_test = GrantTestCase()
         grant_test.setUp()
         grant_name = Grant.objects.filter()[:1].get()
-        Project.objects.get_or_create(project_code="prj_commsci", defaults={'project_label': "Community Science", 'grant_name': grant_name})
+        manytomany_list.append(grant_name)
+        project, created = Project.objects.get_or_create(project_code="prj_commsci",
+                                                         defaults={'project_label': "Community Science",
+                                                                   'project_description': "test description",
+                                                                   'project_research_questions': "test questions"})
+        project.grant_names.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
         medna = Project.objects.get(project_code="prj_commsci")
+        self.assertIs(medna.was_added_recently(), True)
+
+
+class PublicationTestCase(TestCase):
+    # formerly Project in field_sites.models
+    def setUp(self):
+        manytomany_prj_list = []
+        manytomany_usr_list = []
+        project_test = ProjectTestCase()
+        project_test.setUp()
+        project_name = Project.objects.filter()[:1].get()
+        manytomany_prj_list.append(project_name)
+        user_test = UsersManagersTests()
+        user_test.setUp()
+        user_name = CustomUser.objects.filter()[:1].get()
+        manytomany_usr_list.append(user_name)
+        publication, created = Publication.objects.get_or_create(publication_title="the title of the publication",
+                                                                 defaults={'publication_url': "https://www.doi.com"})
+        publication.project_names.set(manytomany_prj_list, clear=True)
+        publication.publication_authors.set(manytomany_usr_list, clear=True)
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        medna = Publication.objects.get(project_code="the title of the publication")
         self.assertIs(medna.was_added_recently(), True)
 
 
