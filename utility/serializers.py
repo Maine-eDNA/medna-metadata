@@ -55,6 +55,7 @@ class MultipleFieldLookupMixin:
 
 class CreatedBySlugRelatedField(serializers.SlugRelatedField):
     # https://stackoverflow.com/questions/22173425/limit-choices-to-foreignkey-in-django-rest-framework
+    # limit options to user created fields in related table
     def __init__(self, **kwargs):
         self.model = kwargs.pop('model')
         assert hasattr(self.model, 'created_by')
@@ -101,8 +102,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='grant_code',
-                                               queryset=Grant.objects.all())
+    grant_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
 
 
 class PublicationSerializer(serializers.ModelSerializer):
