@@ -57,7 +57,7 @@ from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, 
     TargetGenesChoicesViewSet, SubFragmentsChoicesViewSet, PcrTypesChoicesViewSet, \
     LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
     InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
-    CustomUserCssViewSet, DefaultSiteCssViewSet
+    CustomUserCssViewSet, DefaultSiteCssViewSet, SeqMethodsChoicesViewSet, InvestigationTypesChoicesViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -112,6 +112,8 @@ router.register(r'utility/choices_subfragment', SubFragmentsChoicesViewSet, 'cho
 router.register(r'utility/choices_pcr_types', PcrTypesChoicesViewSet, 'choices_pcr_types')
 router.register(r'utility/choices_lib_prep_types', LibPrepTypesChoicesViewSet, 'choices_lib_prep_types')
 router.register(r'utility/choices_lib_prep_kits', LibPrepKitsChoicesViewSet, 'choices_lib_prep_kits')
+router.register(r'utility/choices_seq_methods', SeqMethodsChoicesViewSet, 'choices_seq_methods')
+router.register(r'utility/choices_investigation_types', InvestigationTypesChoicesViewSet, 'choices_investigation_types')
 router.register(r'utility/choices_inv_status', InvStatusChoicesViewSet, 'choices_inv_status')
 router.register(r'utility/choices_inv_loc_status', InvLocStatusChoicesViewSet, 'choices_inv_loc_status')
 router.register(r'utility/choices_inv_types', InvTypesChoicesViewSet, 'choices_inv_types')
