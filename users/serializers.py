@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 from random import choice
-from utility.models import CustomUserCss
+from utility.models import CustomUserCss, Project
 from utility.serializers import CreatedBySlugRelatedField
 # from phonenumber_field.modelfields import PhoneNumberField
 try:
@@ -52,6 +52,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                   'expiration_date', 'custom_user_css', 'groups', ]
     groups = GroupSerializer(many=True, read_only=True, allow_null=True, )
     custom_user_css = CreatedBySlugRelatedField(model=CustomUserCss, many=False, allow_null=True, read_only=False, slug_field='custom_css_label')
+    affiliated_projects = serializers.SlugRelatedField(many=True, allow_null=True, read_only=False, slug_field='project_code', queryset=Project.objects.all())
 
 
 # Users serializer - for REST-AUTH ONLY and referenced in settings.py

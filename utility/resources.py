@@ -1,6 +1,6 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget
-from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
+from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from users.models import CustomUser
 
 
@@ -10,7 +10,7 @@ class GrantAdminResource(resources.ModelResource):
     class Meta:
         model = Grant
         import_id_fields = ('id', 'grant_code',)
-        export_order = ('id', 'grant_code', 'grant_label',
+        export_order = ('id', 'grant_code', 'grant_label', 'grant_description',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
@@ -28,15 +28,44 @@ class ProjectAdminResource(resources.ModelResource):
         # Project
         model = Project
         import_id_fields = ('id', 'project_code', )
-        fields = ('id', 'project_code', 'project_label', 'grant_name',
+        fields = ('id', 'project_code', 'project_label', 'project_description', 'project_goals',
+                  'grant_names', 'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'project_code', 'project_label', 'project_description', 'project_goals',
+                        'grant_names', 'created_by', 'created_datetime', 'modified_datetime', )
+
+    grant_names = fields.Field(
+        column_name='grant_names',
+        attribute='grant_names',
+        widget=ManyToManyWidget(Grant, 'grant_label'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class PublicationAdminResource(resources.ModelResource):
+    class Meta:
+        # Project
+        model = Publication
+        import_id_fields = ('id', 'publication_title', )
+        fields = ('id', 'publication_title', 'publication_url', 'project_names', 'publication_authors',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('project_code', 'project_label',
+        export_order = ('id', 'publication_title', 'publication_url', 'project_names', 'publication_authors',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
-    grant_name = fields.Field(
-        column_name='grant_name',
-        attribute='grant_name',
-        widget=ForeignKeyWidget(Grant, 'grant_label'))
+    project_names = fields.Field(
+        column_name='project_names',
+        attribute='project_names',
+        widget=ManyToManyWidget(Grant, 'project_label'))
+
+    publication_authors = fields.Field(
+        column_name='publication_authors',
+        attribute='publication_authors',
+        widget=ManyToManyWidget(Grant, 'email'))
 
     created_by = fields.Field(
         column_name='created_by',

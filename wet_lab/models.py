@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
-    PcrUnits, YesNo, LibPrepKits
+    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
@@ -290,7 +290,8 @@ class Pcr(DateTimeUserMixin):
     # results are Quantification Cycle (Cq) for qPCR
     pcr_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
     pcr_replicate = models.ForeignKey(PcrReplicate, blank=True, null=True, on_delete=models.RESTRICT)
-    pcr_thermal_sop_url = models.URLField("PCR Thermal SOP URL", max_length=255)
+    # MIxS pcr_cond - description of reaction conditions and components of PCR
+    pcr_thermal_cond = models.CharField("PCR Thermal Conditions", max_length=255)
     pcr_sop_url = models.URLField("PCR SOP URL", max_length=255)
     pcr_notes = models.TextField("PCR Notes", blank=True)
 
@@ -309,6 +310,11 @@ class Pcr(DateTimeUserMixin):
 
 
 class LibraryPrep(DateTimeUserMixin):
+    # TODO - add MIxS lib_size - Total number of clones in the library prepared for the project
+    # TODO - add MIxS lib_reads_seqd - SampleSheet.csv [reads], library reads sequenced
+    # TODO - add MIxS lib_layout - SampleSheet.csv?, Specify whether to expect single, paired, or other configuration of reads
+    # TODO - add MIxS lib_vector - Cloning vector type(s) used in construction of libraries
+    # TODO - add MIxS lib_screen? library screening strategy (enriched, screened, normalized); Specific enrichment or screening methods applied before and/or after creating libraries
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
     lib_prep_slug = models.SlugField("Experiment Name Slug", max_length=255)
     lib_prep_datetime = models.DateTimeField("Library Prep DateTime")
@@ -333,7 +339,8 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_final_concentration_units = models.CharField("Library Prep Final Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
     lib_prep_kit = models.CharField("Library Prep Kit", max_length=50, choices=LibPrepKits.choices, default=LibPrepKits.NEXTERAXTV2)
     lib_prep_type = models.CharField("Library Prep Type", max_length=50, choices=LibPrepTypes.choices)
-    lib_prep_thermal_sop_url = models.URLField("Library Prep Thermal SOP URL", max_length=255)
+    # MIxS pcr_cond - description of reaction conditions and components of PCR
+    lib_prep_thermal_cond = models.CharField("Library Prep Thermal Conditions", max_length=255)
     lib_prep_sop_url = models.URLField("Library Prep SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes", blank=True)
 
@@ -461,15 +468,11 @@ class FastqFile(DateTimeUserMixin):
     fastq_datafile = models.FileField("FastQ Datafile", max_length=255, storage=select_private_sequencing_storage, default="static/utility/images/icon-no.svg")
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
     submitted_to_insdc = models.CharField("Submitted to INSDC", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    # TODO - add MIxS investigation_type (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
-    # TODO - add MIxS lib_reads_seqd - SampleSheet.csv [reads], library reads sequenced
-    # TODO - add MIxS lib_const_meth - SampleSheet.csv?, library construction method e.g., paired-
-    # TODO - add MIxS lib_screen? library screening strategy (enriched, screened, normalized); specific enrichment or screening methods applied before and/or after creating clone libraries
-    # TODO - add MIxS seq_meth - SampleSheet.csv chemistry?, sequencing method used e.g., sanger dideoxysequencing
-    # TODO - add MIxS seq_qualitycheck - ? (none, manually edited) indicate if the sequence has been called by automatic systems (none) or undergone manual editing procedure
-    # TODO - add MIxS chimera_check - name and version of software
-    # TODO - add MIxS assembly - how was the assembly done - assembly method, estimated error value, method of calculation
-    # TODO - add MIxS assembly_name - name/version of the assembly
+    # MIxS seq_meth - Sequencing method used; e.g. Sanger, pyrosequencing, ABI-solid
+    seq_meth = models.CharField("Sequencing Method", max_length=255, choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
+    # MIxS investigation_type - (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
+    investigation_type = models.CharField("Investigation Type", max_length=255, choices=InvestigationTypes.choices, default=InvestigationTypes.MIMARKSSURVEY)
+    # TODO - add MIxS assembly_software  - Tool(s) used for assembly, including version number and parameters.
 
     @property
     def fastq_filename(self):

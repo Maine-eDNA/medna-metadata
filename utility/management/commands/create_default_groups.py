@@ -46,6 +46,7 @@ GROUPS = {
         # utility
         "Grant": ["add", "change", "view"],
         "Project": ["add", "delete", "change", "view"],
+        "Publication": ["add", "delete", "change", "view"],
         "Process Location": ["add", "delete", "change", "view"],
         "Default Site CSS": ["add", "delete", "change", "view"],
         "Custom User CSS": ["add", "delete", "change", "view"],
@@ -150,6 +151,7 @@ GROUPS = {
         # utility
         "Grant": ["view"],
         "Project": ["add", "change", "view"],
+        "Publication": ["add", "change", "view"],
         "Process Location": ["add", "change", "view"],
         "Default Site CSS": ["add", "change", "view"],
         "Custom User CSS": ["add", "change", "view"],
@@ -235,6 +237,7 @@ GROUPS = {
         # utility
         "Grant": ["view"],
         "Project": ["view"],
+        "Publication": ["view"],
         "Process Location": ["view"],
         "Default Site CSS": ["view"],
         "Custom User CSS": ["view"],

@@ -386,7 +386,7 @@ class PcrAdmin(ImportExportActionModelAdmin):
                        'pcr_first_name', 'pcr_last_name',
                        'pcr_probe', 'pcr_results', 'pcr_results_units',
                        'pcr_replicate',
-                       'pcr_thermal_sop_url', 'pcr_sop_url',
+                       'pcr_thermal_cond', 'pcr_sop_url',
                        'pcr_notes', 'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -401,7 +401,7 @@ class PcrAdmin(ImportExportActionModelAdmin):
                        'pcr_first_name', 'pcr_last_name',
                        'pcr_probe', 'pcr_results', 'pcr_results_units',
                        'pcr_replicate',
-                       'pcr_thermal_sop_url', 'pcr_sop_url',
+                       'pcr_thermal_cond', 'pcr_sop_url',
                        'pcr_notes', 'created_by', 'modified_datetime', 'created_datetime']
 
         return super(PcrAdmin, self).change_view(request, object_id)
@@ -436,7 +436,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type',
-                       'lib_prep_thermal_sop_url', 'lib_prep_sop_url',
+                       'lib_prep_thermal_cond', 'lib_prep_sop_url',
                        'lib_prep_notes',
                        'created_by']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -457,7 +457,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type',
-                       'lib_prep_thermal_sop_url', 'lib_prep_sop_url',
+                       'lib_prep_thermal_cond', 'lib_prep_sop_url',
                        'lib_prep_notes',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

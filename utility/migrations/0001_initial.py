@@ -30,6 +30,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('grant_code', models.CharField(max_length=1, unique=True, verbose_name='Grant Code')),
                 ('grant_label', models.CharField(max_length=255, verbose_name='Grant Label')),
+                ('grant_description', models.TextField(blank=True, verbose_name='Grant Description')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
@@ -45,7 +46,9 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('project_code', models.CharField(max_length=255, unique=True, verbose_name='Project Code')),
                 ('project_label', models.CharField(max_length=255, verbose_name='Project Label')),
-                ('grant_name', models.ForeignKey(max_length=255, on_delete=django.db.models.deletion.RESTRICT, to='utility.grant')),
+                ('project_description', models.TextField(blank=True, verbose_name='Project Description')),
+                ('project_goals', models.TextField(blank=True, verbose_name='Project Goals')),
+                ('grant_names', models.ManyToManyField(related_name="grant_names", to='utility.grant', verbose_name="Affiliated Grant(s)")),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
@@ -53,6 +56,24 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Project',
                 'verbose_name_plural': 'Projects',
+            },
+        ),
+        migrations.CreateModel(
+            name='Publication',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('publication_title', models.CharField(max_length=255, unique=True, verbose_name='Publication Title')),
+                ('publication_url', models.URLField(max_length=255, verbose_name='Publication URL')),
+                ('project_names', models.ManyToManyField(related_name="project_names", to='utility.project', verbose_name="Affiliated Projects(s)")),
+                ('publication_authors', models.ManyToManyField(related_name="publication_authors", to=settings.AUTH_USER_MODEL, verbose_name="Affiliated Authors(s)")),
+                ('publication_slug', models.SlugField(max_length=255, verbose_name='Publication Slug')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+            ],
+            options={
+                'verbose_name': 'Publication',
+                'verbose_name_plural': 'Publications',
             },
         ),
         migrations.CreateModel(

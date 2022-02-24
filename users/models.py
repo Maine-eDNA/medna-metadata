@@ -33,6 +33,7 @@ class CustomUser(AbstractUser):
     # there are blank entries elsewhere
     agol_username = models.CharField("ArcGIS Online Username", max_length=255, blank=True)
     custom_user_css = models.ForeignKey('utility.CustomUserCss', blank=True, null=True, on_delete=models.RESTRICT, verbose_name="Selected Color Profile", related_name="selected_user_css")
+    affiliated_projects = models.ManyToManyField('utility.Project', verbose_name="Affiliated Project(s)", related_name="affiliated_projects")
     expiration_date = models.DateTimeField("Expiration Date", default=now_plus_max)
 
     @property
@@ -47,6 +48,14 @@ class CustomUser(AbstractUser):
     @property
     def profile_image_url(self):
         return self.profile_image.url
+
+    @property
+    def full_name(self):
+        """
+        Return the first_name plus the last_name, with a space in between.
+        """
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
 
     def __str__(self):
         return self.email

@@ -2,7 +2,7 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
@@ -55,6 +55,7 @@ class MultipleFieldLookupMixin:
 
 class CreatedBySlugRelatedField(serializers.SlugRelatedField):
     # https://stackoverflow.com/questions/22173425/limit-choices-to-foreignkey-in-django-rest-framework
+    # limit options to user created fields in related table
     def __init__(self, **kwargs):
         self.model = kwargs.pop('model')
         assert hasattr(self.model, 'created_by')
@@ -70,12 +71,14 @@ class GrantSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     grant_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Grant.objects.all())])
     grant_label = serializers.CharField(max_length=255)
+    grant_description = serializers.CharField()
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Grant
-        fields = ['id', 'grant_code', 'grant_label', 'created_by', 'created_datetime', 'modified_datetime', ]
+        fields = ['id', 'grant_code', 'grant_label', 'grant_description',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -86,20 +89,41 @@ class ProjectSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     project_code = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Project.objects.all())])
     project_label = serializers.CharField(max_length=255)
+    project_description = serializers.CharField(allow_blank=True)
+    project_goals = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Project
-        fields = ['id', 'project_code', 'project_label', 'grant_name',
+        fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals',
+                  'grant_names', 'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    grant_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
+
+
+class PublicationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    publication_title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Publication.objects.all())])
+    publication_url = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Publication
+        fields = ['id', 'publication_title', 'publication_url', 'project_names', 'publication_authors',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    grant_name = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code',
-                                              queryset=Grant.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    project_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='project_label',
+                                                 queryset=Project.objects.all())
+    publication_authors = serializers.SlugRelatedField(many=True, read_only=False, slug_field='email',
+                                                       queryset=CustomUser.objects.all())
 
 
 class ProcessLocationSerializer(serializers.ModelSerializer):
@@ -127,8 +151,7 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 class DefaultSiteCssSerializer(serializers.ModelSerializer):

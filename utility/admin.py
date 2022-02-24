@@ -1,8 +1,8 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
-from .resources import ProcessLocationAdminResource, ProjectAdminResource, GrantAdminResource, \
+from .resources import ProcessLocationAdminResource, PublicationAdminResource, ProjectAdminResource, GrantAdminResource, \
     DefaultSiteCssAdminResource, CustomUserCssAdminResource
-from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 
 
 class GrantAdmin(ImportExportActionModelAdmin):
@@ -15,7 +15,7 @@ class GrantAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant_label', 'grant_code', 'created_by']
+        self.fields = ['grant_label', 'grant_code', 'grant_description', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -24,7 +24,8 @@ class GrantAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['grant_label', 'created_by', 'modified_datetime', 'created_datetime']
+        self.fields = ['grant_label', 'grant_description',
+                       'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GrantAdmin, self).change_view(request, object_id)
 
@@ -39,6 +40,13 @@ class GrantAdmin(ImportExportActionModelAdmin):
 admin.site.register(Grant, GrantAdmin)
 
 
+class GrantInline(admin.TabularInline):
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = Project.grant_names.through
+    # extra = 1
+
+
 class ProjectAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleLabelAdminResource
@@ -49,7 +57,8 @@ class ProjectAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['project_code', 'project_label', 'grant_name', 'created_by', ]
+        self.fields = ['project_code', 'project_label', 'project_description', 'project_goals',
+                       'grant_names', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -58,7 +67,8 @@ class ProjectAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['project_label', 'grant_name', 'created_by', 'modified_datetime', 'created_datetime', ]
+        self.fields = ['project_label', 'project_description', 'project_goals',
+                       'grant_names', 'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProjectAdmin, self).change_view(request, object_id)
 
@@ -72,6 +82,56 @@ class ProjectAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(Project, ProjectAdmin)
+
+
+class ProjectInline(admin.TabularInline):
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = Publication.project_names.through
+    # extra = 1
+
+
+class UserInline(admin.TabularInline):
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = Publication.publication_authors.through
+    # extra = 1
+
+
+class PublicationAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = PublicationAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'created_by', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', )
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['publication_title', 'publication_url', 'project_names', 'publication_authors', ]
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(PublicationAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['publication_title', 'publication_url', 'project_names', 'publication_authors',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(PublicationAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(Publication, PublicationAdmin)
 
 
 # Register your models here.

@@ -2,14 +2,14 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import ProcessLocationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
+from .serializers import ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
-from .models import ProcessLocation, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
-    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments
+    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes
 from django.views.generic.base import TemplateView
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -39,19 +39,39 @@ class GrantViewSet(viewsets.ModelViewSet):
 
 class ProjectFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    grant_name = filters.CharFilter(field_name='grant_name__grant_code', lookup_expr='iexact')
+    grant_names = filters.CharFilter(field_name='grant_names__grant_code', lookup_expr='iexact')
 
     class Meta:
         model = Project
-        fields = ['created_by', 'grant_name', ]
+        fields = ['created_by', 'grant_names', ]
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
-    queryset = Project.objects.prefetch_related('created_by', 'grant_name')
+    queryset = Project.objects.prefetch_related('created_by', 'grant_names')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = ProjectFilter
+    swagger_tags = ["utility"]
+
+
+class PublicationFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    publication_title = filters.CharFilter(field_name='publication_title', lookup_expr='icontains')
+    project_names = filters.CharFilter(field_name='project_names__project_code', lookup_expr='iexact')
+    publication_authors = filters.CharFilter(field_name='publication_authors__email', lookup_expr='iexact')
+
+    class Meta:
+        model = Publication
+        fields = ['created_by', 'publication_title', 'project_names', 'publication_authors', ]
+
+
+class PublicationViewSet(viewsets.ModelViewSet):
+    serializer_class = PublicationSerializer
+    queryset = Project.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'grant_name__grant_code']
+    filterset_class = PublicationFilter
     swagger_tags = ["utility"]
 
 
@@ -451,6 +471,29 @@ class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
+class SeqMethodsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in SeqMethods:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in InvestigationTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+# FREEZER_INVENTORY CHOICES
 class InvStatusChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 

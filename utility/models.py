@@ -66,10 +66,10 @@ class Grant(DateTimeUserMixin):
     # formerly Project in field_sites.models
     grant_code = models.CharField("Grant Code", unique=True, max_length=1)
     grant_label = models.CharField("Grant Label", max_length=255)
+    grant_description = models.TextField("Grant Description", blank=True)
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.grant_code,
-                                        label=self.grant_label)
+        return '{code}: {label}'.format(code=self.grant_code, label=self.grant_label)
 
     class Meta:
         app_label = 'utility'
@@ -93,7 +93,9 @@ class Project(DateTimeUserMixin):
     #    prj_commsci = 'prj_commsci', _('Community Science')
     project_code = models.CharField("Project Code", unique=True, max_length=255)
     project_label = models.CharField("Project Label", max_length=255)
-    grant_name = models.ForeignKey(Grant, max_length=255, on_delete=models.RESTRICT)
+    project_description = models.TextField("Project Description", blank=True)
+    project_goals = models.TextField("Project Goals", blank=True)
+    grant_names = models.ManyToManyField(Grant, verbose_name="Affiliated Grant(s)", related_name="grant_names")
 
     def __str__(self):
         return '{label}'.format(label=self.project_label)
@@ -102,6 +104,26 @@ class Project(DateTimeUserMixin):
         app_label = 'utility'
         verbose_name = 'Project'
         verbose_name_plural = 'Projects'
+
+
+class Publication(DateTimeUserMixin):
+    publication_title = models.CharField("Publication Title", unique=True, max_length=255)
+    publication_url = models.URLField("Publication URL", max_length=255)
+    project_names = models.ManyToManyField(Project, verbose_name="Affiliated Project(s)", related_name="project_names")
+    publication_authors = models.ManyToManyField(get_user_model(), verbose_name="Affiliated Authors(s)", related_name="publication_authors")
+    publication_slug = models.SlugField("Publication Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.publication_slug = '{title}'.format(title=slugify(self.publication_title))
+        super(Publication, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{title}'.format(title=self.publication_title)
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Publication'
+        verbose_name_plural = 'Publications'
 
 
 class ProcessLocation(DateTimeUserMixin):

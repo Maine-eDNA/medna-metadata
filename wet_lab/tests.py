@@ -196,7 +196,7 @@ class PcrTestCase(TestCase):
                                       'pcr_results': 9999,
                                       'pcr_results_units': PcrUnits.DDPCR_CP,
                                       'pcr_replicate': pcr_replicate,
-                                      'pcr_thermal_sop_url': "https://thermal_sop_url.com",
+                                      'pcr_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
                                       'pcr_sop_url': "https://sop_url.com",
                                       'pcr_notes': "pcr notes"
                                   })
@@ -254,7 +254,7 @@ class LibraryPrepTestCase(TestCase):
                                                                       'lib_prep_final_concentration_units': ConcentrationUnits.NM,
                                                                       'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
                                                                       'lib_prep_type': LibPrepTypes.AMPLICON,
-                                                                      'lib_prep_thermal_sop_url': "https://thermal_sop_url.com",
+                                                                      'lib_prep_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
                                                                       'lib_prep_sop_url': "https://sop_url.com",
                                                                       'lib_prep_notes': "lib prep notes"
                                                                   })
