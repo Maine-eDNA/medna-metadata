@@ -6,6 +6,14 @@ from django.utils import timezone
 
 
 # Create your models here.
+# TODO add QualityMetadata model
+# TODO - add MIxS seq_qualitycheck - ? (none, manually edited) indicate if the sequence has been called by automatic systems (none) or undergone manual editing procedure
+# TODO - add MIxS chimera_check - name and version of software
+# TODO - add trim_length_forward
+# TODO - add trim_length_reverse
+# TODO - add min_read_length
+# TODO - add max_read_length
+
 class DenoiseClusterMethod(DateTimeUserMixin):
     # DADA2, DEBLUR, PYRONOISE, UNOISE3, OTU, DOTUR
     denoise_cluster_method_name = models.CharField("Method Name", max_length=255)
