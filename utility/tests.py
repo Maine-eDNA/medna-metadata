@@ -58,7 +58,7 @@ class PublicationTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = Publication.objects.get(project_code="the title of the publication")
+        medna = Publication.objects.get(publication_title="the title of the publication")
         self.assertIs(medna.was_added_recently(), True)
 
 
