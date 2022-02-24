@@ -27,14 +27,14 @@
   </div>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
     <div class="container">
-      <div class="section text-center">
+      <div class="section text-start">
         <!-- -------- START Grids -------- -->
         <section class="py-9">
           <div class="container">
             <!-- -------- START loop -------- -->
             {% if projects_list %}
                 {% for project in projects_list %}
-                    <h3 class="text-start">{{ project.project_label }}</h3>
+                    <h3>{{ project.project_label }}</h3>
                     <div class="row">
                         <div class="col">
                             <p class="lead">
