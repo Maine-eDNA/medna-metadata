@@ -89,13 +89,13 @@ class ProjectSerializer(serializers.ModelSerializer):
     project_code = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Project.objects.all())])
     project_label = serializers.CharField(max_length=255)
     project_description = serializers.CharField(allow_blank=True)
-    project_research_questions = serializers.CharField(allow_blank=True)
+    project_goals = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Project
-        fields = ['id', 'project_code', 'project_label', 'project_description', 'project_research_questions',
+        fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals',
                   'grant_names', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add

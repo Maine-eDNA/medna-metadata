@@ -29,7 +29,7 @@ class ProjectTestCase(TestCase):
         project, created = Project.objects.get_or_create(project_code="prj_commsci",
                                                          defaults={'project_label': "Community Science",
                                                                    'project_description': "test description",
-                                                                   'project_research_questions': "test questions"})
+                                                                   'project_goals': "test questions"})
         project.grant_names.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):

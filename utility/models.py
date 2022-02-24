@@ -94,7 +94,7 @@ class Project(DateTimeUserMixin):
     project_code = models.CharField("Project Code", unique=True, max_length=255)
     project_label = models.CharField("Project Label", max_length=255)
     project_description = models.TextField("Project Description", blank=True)
-    project_research_questions = models.TextField("Project Research Questions", blank=True)
+    project_goals = models.TextField("Project Goals", blank=True)
     grant_names = models.ManyToManyField(Grant, verbose_name="Affiliated Grant(s)", related_name="grant_names")
 
     def __str__(self):
