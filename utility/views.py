@@ -135,6 +135,13 @@ class IndexView(TemplateView):
     template_name = "utility/index.html"
 
 
+# FRONTEND
+def projects_frontend(request):
+    projects_list = Project.objects.prefetch_related('created_by', 'grant_names').all()
+    context = {'projects_list': projects_list}
+    return render(request, 'frontend/projects.html', context)
+
+
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
 # GENERIC CHOICES
