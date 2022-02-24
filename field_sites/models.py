@@ -6,10 +6,12 @@ from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
 
 
+# TODO - add envo_identifier charfield to all ENVO models
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
     biome_first_tier = models.SlugField("ENVO Biome 1st Tier", unique=True, max_length=255)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier Slug", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
@@ -36,6 +38,7 @@ class EnvoBiomeSecond(DateTimeUserMixin):
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier Slug", max_length=255)
     biome_first_tier = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
@@ -68,6 +71,7 @@ class EnvoBiomeThird(DateTimeUserMixin):
     biome_second_tier = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
@@ -104,6 +108,7 @@ class EnvoBiomeFourth(DateTimeUserMixin):
     biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier", max_length=255)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
@@ -137,6 +142,7 @@ class EnvoBiomeFifth(DateTimeUserMixin):
     biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier", max_length=255)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
     def save(self, *args, **kwargs):
@@ -173,6 +179,7 @@ class EnvoFeatureFirst(DateTimeUserMixin):
     # submerged bed, surface layer of a water body, turbulent aquatic surface layer
     feature_first_tier = models.CharField("ENVO Feature 1st Tier", unique=True, max_length=255)
     feature_first_tier_slug = models.SlugField("ENVO Feature 1st Tier Slug", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
@@ -202,6 +209,7 @@ class EnvoFeatureSecond(DateTimeUserMixin):
     feature_second_tier_slug = models.SlugField("ENVO Feature 2nd Tier Slug", max_length=255)
     feature_first_tier = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
@@ -236,6 +244,7 @@ class EnvoFeatureThird(DateTimeUserMixin):
     feature_second_tier = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
@@ -271,6 +280,7 @@ class EnvoFeatureFourth(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
@@ -311,6 +321,7 @@ class EnvoFeatureFifth(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
@@ -348,6 +359,7 @@ class EnvoFeatureSixth(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):
@@ -389,6 +401,7 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField("ENVO Feature 3rd Tier", max_length=255)
     feature_second_tier_slug = models.CharField("ENVO Feature 2nd Tier", max_length=255)
     feature_first_tier_slug = models.CharField("ENVO Feature 1st Tier", max_length=255)
+    envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000000]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false")
 
     def save(self, *args, **kwargs):

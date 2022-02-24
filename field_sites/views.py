@@ -36,10 +36,11 @@ from django_filters import rest_framework as filters
 class EnvoBiomeFirstFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     biome_first_tier_slug = filters.CharFilter(field_name='biome_first_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoBiomeFirst
-        fields = ['created_by', 'biome_first_tier_slug', ]
+        fields = ['created_by', 'biome_first_tier_slug', 'envo_identifier', ]
 
 
 class EnvoBiomeFirstViewSet(viewsets.ModelViewSet):
@@ -55,10 +56,11 @@ class EnvoBiomeSecondFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     biome_first_tier_slug = filters.CharFilter(field_name='biome_first_tier_slug', lookup_expr='iexact')
     biome_second_tier_slug = filters.CharFilter(field_name='biome_second_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoBiomeSecond
-        fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', ]
+        fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', 'envo_identifier', ]
 
 
 class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
@@ -75,10 +77,11 @@ class EnvoBiomeThirdFilter(filters.FilterSet):
     biome_first_tier_slug = filters.CharFilter(field_name='biome_first_tier_slug', lookup_expr='iexact')
     biome_second_tier_slug = filters.CharFilter(field_name='biome_second_tier_slug', lookup_expr='iexact')
     biome_third_tier_slug = filters.CharFilter(field_name='biome_third_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoBiomeThird
-        fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', 'biome_third_tier_slug', ]
+        fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', 'biome_third_tier_slug', 'envo_identifier', ]
 
 
 class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
@@ -96,11 +99,12 @@ class EnvoBiomeFourthFilter(filters.FilterSet):
     biome_second_tier_slug = filters.CharFilter(field_name='biome_second_tier_slug', lookup_expr='iexact')
     biome_third_tier_slug = filters.CharFilter(field_name='biome_third_tier_slug', lookup_expr='iexact')
     biome_fourth_tier_slug = filters.CharFilter(field_name='biome_fourth_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoBiomeFourth
         fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', 'biome_third_tier_slug',
-                  'biome_fourth_tier_slug', ]
+                  'biome_fourth_tier_slug', 'envo_identifier', ]
 
 
 class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
@@ -120,11 +124,12 @@ class EnvoBiomeFifthFilter(filters.FilterSet):
     biome_third_tier_slug = filters.CharFilter(field_name='biome_third_tier_slug', lookup_expr='iexact')
     biome_fourth_tier_slug = filters.CharFilter(field_name='biome_fourth_tier_slug', lookup_expr='iexact')
     biome_fifth_tier_slug = filters.CharFilter(field_name='biome_fifth_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoBiomeFifth
         fields = ['created_by', 'biome_first_tier_slug', 'biome_second_tier_slug', 'biome_third_tier_slug',
-                  'biome_fourth_tier_slug', 'biome_fifth_tier_slug', ]
+                  'biome_fourth_tier_slug', 'biome_fifth_tier_slug', 'envo_identifier', ]
 
 
 class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
@@ -140,10 +145,11 @@ class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
 class EnvoFeatureFirstFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     feature_first_tier_slug = filters.CharFilter(field_name='feature_first_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureFirst
-        fields = ['created_by', 'feature_first_tier_slug', ]
+        fields = ['created_by', 'feature_first_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
@@ -159,10 +165,11 @@ class EnvoFeatureSecondFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     feature_first_tier_slug = filters.CharFilter(field_name='feature_first_tier_slug', lookup_expr='iexact')
     feature_second_tier_slug = filters.CharFilter(field_name='feature_second_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureSecond
-        fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', ]
+        fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
@@ -179,10 +186,11 @@ class EnvoFeatureThirdFilter(filters.FilterSet):
     feature_first_tier_slug = filters.CharFilter(field_name='feature_first_tier_slug', lookup_expr='iexact')
     feature_second_tier_slug = filters.CharFilter(field_name='feature_second_tier_slug', lookup_expr='iexact')
     feature_third_tier_slug = filters.CharFilter(field_name='feature_third_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureThird
-        fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug', ]
+        fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug', 'envo_identifier',]
 
 
 class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
@@ -200,11 +208,12 @@ class EnvoFeatureFourthFilter(filters.FilterSet):
     feature_second_tier_slug = filters.CharFilter(field_name='feature_second_tier_slug', lookup_expr='iexact')
     feature_third_tier_slug = filters.CharFilter(field_name='feature_third_tier_slug', lookup_expr='iexact')
     feature_fourth_tier_slug = filters.CharFilter(field_name='feature_fourth_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureFourth
         fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug',
-                  'feature_fourth_tier_slug']
+                  'feature_fourth_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
@@ -224,11 +233,12 @@ class EnvoFeatureFifthFilter(filters.FilterSet):
     feature_third_tier_slug = filters.CharFilter(field_name='feature_third_tier_slug', lookup_expr='iexact')
     feature_fourth_tier_slug = filters.CharFilter(field_name='feature_fourth_tier_slug', lookup_expr='iexact')
     feature_fifth_tier_slug = filters.CharFilter(field_name='feature_fifth_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureFifth
         fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug',
-                  'feature_fourth_tier_slug', 'feature_fifth_tier_slug']
+                  'feature_fourth_tier_slug', 'feature_fifth_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
@@ -249,11 +259,12 @@ class EnvoFeatureSixthFilter(filters.FilterSet):
     feature_fourth_tier_slug = filters.CharFilter(field_name='feature_fourth_tier_slug', lookup_expr='iexact')
     feature_fifth_tier_slug = filters.CharFilter(field_name='feature_fifth_tier_slug', lookup_expr='iexact')
     feature_sixth_tier_slug = filters.CharFilter(field_name='feature_sixth_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureSixth
         fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug',
-                  'feature_fourth_tier_slug', 'feature_fifth_tier_slug', 'feature_sixth_tier_slug', ]
+                  'feature_fourth_tier_slug', 'feature_fifth_tier_slug', 'feature_sixth_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
@@ -275,12 +286,13 @@ class EnvoFeatureSeventhFilter(filters.FilterSet):
     feature_fifth_tier_slug = filters.CharFilter(field_name='feature_fifth_tier_slug', lookup_expr='iexact')
     feature_sixth_tier_slug = filters.CharFilter(field_name='feature_sixth_tier_slug', lookup_expr='iexact')
     feature_seventh_tier_slug = filters.CharFilter(field_name='feature_seventh_tier_slug', lookup_expr='iexact')
+    envo_identifier = filters.CharFilter(field_name='envo_identifier', lookup_expr='icontains')
 
     class Meta:
         model = EnvoFeatureSeventh
         fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug',
                   'feature_fourth_tier_slug', 'feature_fifth_tier_slug', 'feature_sixth_tier_slug',
-                  'feature_seventh_tier_slug', ]
+                  'feature_seventh_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):

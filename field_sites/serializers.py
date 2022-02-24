@@ -14,16 +14,17 @@ from rest_framework.validators import UniqueValidator
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_first_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
-    biome_first_tier = serializers.SlugField(max_length=255,
-                                             validators=[UniqueValidator(queryset=EnvoBiomeFirst.objects.all())])
+    biome_first_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFirst.objects.all())])
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFirst
         fields = ['id', 'biome_first_tier_slug',
                   'biome_first_tier',
+                  'envo_identifier',
                   'ontology_url',
                   'created_by',
                   'created_datetime',
@@ -37,19 +38,19 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
 class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_second_tier = serializers.SlugField(max_length=255,
-                                              validators=[UniqueValidator(queryset=EnvoBiomeSecond.objects.all())])
+    biome_second_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeSecond.objects.all())])
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeSecond
         fields = ['id',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'biome_first_tier_slug', 'biome_first_tier',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -63,13 +64,13 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_third_tier = serializers.SlugField(max_length=255,
-                                             validators=[UniqueValidator(queryset=EnvoBiomeThird.objects.all())])
+    biome_third_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeThird.objects.all())])
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeThird
@@ -77,7 +78,7 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
                   'biome_third_tier_slug', 'biome_third_tier',
                   'biome_second_tier_slug', 'biome_second_tier',
                   'biome_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -91,14 +92,14 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_fourth_tier = serializers.SlugField(max_length=255,
-                                              validators=[UniqueValidator(queryset=EnvoBiomeFourth.objects.all())])
+    biome_fourth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFourth.objects.all())])
     biome_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFourth
@@ -107,7 +108,7 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
                   'biome_third_tier_slug', 'biome_third_tier',
                   'biome_second_tier_slug',
                   'biome_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -121,15 +122,15 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_fifth_tier = serializers.SlugField(max_length=255,
-                                             validators=[UniqueValidator(queryset=EnvoBiomeFifth.objects.all())])
+    biome_fifth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFifth.objects.all())])
     biome_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoBiomeFifth
@@ -139,7 +140,7 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
                   'biome_third_tier_slug',
                   'biome_second_tier_slug',
                   'biome_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -153,16 +154,17 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_first_tier = serializers.SlugField(max_length=255,
-                                               validators=[UniqueValidator(queryset=EnvoFeatureFirst.objects.all())])
+    feature_first_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFirst.objects.all())])
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
+
 
     class Meta:
         model = EnvoFeatureFirst
         fields = ['id', 'feature_first_tier_slug', 'feature_first_tier',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -174,19 +176,19 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_second_tier = serializers.SlugField(max_length=255,
-                                                validators=[UniqueValidator(queryset=EnvoFeatureSecond.objects.all())])
+    feature_second_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSecond.objects.all())])
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSecond
         fields = ['id',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_first_tier_slug', 'feature_first_tier',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -201,13 +203,13 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_third_tier = serializers.SlugField(max_length=255,
-                                               validators=[UniqueValidator(queryset=EnvoFeatureThird.objects.all())])
+    feature_third_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureThird.objects.all())])
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureThird
@@ -215,7 +217,7 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_second_tier_slug', 'feature_second_tier',
                   'feature_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -230,14 +232,14 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_fourth_tier = serializers.SlugField(max_length=255,
-                                                validators=[UniqueValidator(queryset=EnvoFeatureFourth.objects.all())])
+    feature_fourth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFourth.objects.all())])
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFourth
@@ -246,7 +248,7 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
                   'feature_third_tier_slug', 'feature_third_tier',
                   'feature_second_tier_slug',
                   'feature_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -261,15 +263,15 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_fifth_tier = serializers.SlugField(max_length=255,
-                                               validators=[UniqueValidator(queryset=EnvoFeatureFifth.objects.all())])
+    feature_fifth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFifth.objects.all())])
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureFifth
@@ -279,7 +281,7 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
                   'feature_third_tier_slug',
                   'feature_second_tier_slug',
                   'feature_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -294,16 +296,16 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_sixth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_sixth_tier = serializers.SlugField(max_length=255,
-                                               validators=[UniqueValidator(queryset=EnvoFeatureSixth.objects.all())])
+    feature_sixth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSixth.objects.all())])
     feature_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSixth
@@ -314,7 +316,7 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
                   'feature_third_tier_slug',
                   'feature_second_tier_slug',
                   'feature_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
@@ -328,17 +330,17 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     feature_seventh_tier_slug = serializers.SlugField(read_only=True, max_length=255)
-    feature_seventh_tier = serializers.CharField(max_length=255,
-                                                 validators=[UniqueValidator(queryset=EnvoFeatureSeventh.objects.all())])
+    feature_seventh_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSeventh.objects.all())])
     feature_sixth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
+    envo_identifier = serializers.CharField(max_length=255)
+    ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
-    ontology_url = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = EnvoFeatureSeventh
@@ -350,7 +352,7 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
                   'feature_third_tier_slug',
                   'feature_second_tier_slug',
                   'feature_first_tier_slug',
-                  'ontology_url',
+                  'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
