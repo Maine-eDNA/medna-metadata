@@ -291,7 +291,7 @@ class Pcr(DateTimeUserMixin):
     pcr_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
     pcr_replicate = models.ForeignKey(PcrReplicate, blank=True, null=True, on_delete=models.RESTRICT)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
-    pcr_thermal_cond = models.CharField("PCR Thermal Conditions", max_length=255)
+    pcr_thermal_cond = models.TextField("PCR Thermal Conditions")
     pcr_sop_url = models.URLField("PCR SOP URL", max_length=255)
     pcr_notes = models.TextField("PCR Notes", blank=True)
 
@@ -340,7 +340,7 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_kit = models.CharField("Library Prep Kit", max_length=50, choices=LibPrepKits.choices, default=LibPrepKits.NEXTERAXTV2)
     lib_prep_type = models.CharField("Library Prep Type", max_length=50, choices=LibPrepTypes.choices)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
-    lib_prep_thermal_cond = models.CharField("Library Prep Thermal Conditions", max_length=255)
+    lib_prep_thermal_cond = models.TextField("Library Prep Thermal Conditions")
     lib_prep_sop_url = models.URLField("Library Prep SOP URL", max_length=255)
     lib_prep_notes = models.TextField("Library Prep Notes", blank=True)
 
