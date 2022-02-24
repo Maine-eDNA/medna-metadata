@@ -6,7 +6,6 @@ from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
 
 
-# TODO - add envo_identifier charfield to all ENVO models
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
     biome_first_tier = models.SlugField("ENVO Biome 1st Tier", unique=True, max_length=255)

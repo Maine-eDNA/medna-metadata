@@ -249,7 +249,7 @@ class PcrSerializer(serializers.ModelSerializer):
     pcr_probe = serializers.CharField(allow_blank=True)
     pcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
     pcr_results_units = serializers.ChoiceField(choices=PcrUnits.choices)
-    pcr_thermal_sop_url = serializers.URLField(max_length=255)
+    pcr_thermal_cond = serializers.CharField(max_length=255)
     pcr_sop_url = serializers.URLField(max_length=255)
     pcr_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -260,7 +260,7 @@ class PcrSerializer(serializers.ModelSerializer):
         fields = ['id', 'pcr_datetime', 'process_location', 'pcr_experiment_name', 'pcr_slug', 'pcr_type',
                   'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
-                  'pcr_thermal_sop_url', 'pcr_sop_url',
+                  'pcr_thermal_cond', 'pcr_sop_url',
                   'pcr_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
@@ -288,7 +288,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     lib_prep_kit = serializers.CharField(max_length=255)
     lib_prep_type = serializers.ChoiceField(choices=LibPrepTypes.choices)
-    lib_prep_thermal_sop_url = serializers.URLField(max_length=255)
+    lib_prep_thermal_cond = serializers.URLField(max_length=255)
     lib_prep_sop_url = serializers.URLField(max_length=255)
     lib_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -300,7 +300,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
                   'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
                   'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_sop_url', 'lib_prep_sop_url', 'lib_prep_notes',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add

@@ -9,7 +9,7 @@ from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, Concentratio
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
-    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments
+    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes
 from django.views.generic.base import TemplateView
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -471,6 +471,29 @@ class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
+class SeqMethodsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in SeqMethods:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in InvestigationTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+# FREEZER_INVENTORY CHOICES
 class InvStatusChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
