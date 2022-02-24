@@ -19,4 +19,9 @@ class Migration(migrations.Migration):
             name='custom_user_css',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='utility.customusercss', related_name="selected_user_css", verbose_name="Selected Color Profile"),
         ),
+        migrations.AddField(
+            model_name='CustomUser',
+            name='affiliated_projects',
+            field=models.ManyToManyField(blank=True, null=True, to='utility.project', related_name="affiliated_projects", verbose_name="Affiliated Project(s)"),
+        ),
     ]
