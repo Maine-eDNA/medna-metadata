@@ -31,28 +31,28 @@
         <!-- -------- START Grids -------- -->
         <section class="py-9">
           <div class="container">
-<!-- -------- START loop -------- -->
+            <!-- -------- START loop -------- -->
             {% if projects_list %}
                 {% for project in projects_list %}
                     <h3 class="text-start">{{ project.project_label }}</h3>
                     <div class="row">
-                    <div class="col">
-                    <p class="lead">
-                    {{ project.project_description }}
-                    </p>
-                    </div>
-                    <div class="col">
-                    <p class="lead">
-                    {{ project.project_goals }}
-                    </p>
-                    </div>
+                        <div class="col">
+                            <p class="lead">
+                            {{ project.project_description }}
+                            </p>
+                        </div>
+                        <div class="col">
+                            <p class="lead">
+                            {{ project.project_goals }}
+                            </p>
+                        </div>
                     <div class="w-100"></div>
                     </div>
                 {% endfor %}
               {% else %}
                 <p class="lead">No projects are available.</p>
             {% endif %}
-<!-- -------- END loop -------- -->
+            <!-- -------- END loop -------- -->
           </div>
         </section>
         <!-- -------- END Grids -------- -->
