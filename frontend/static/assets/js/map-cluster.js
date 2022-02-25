@@ -5,12 +5,17 @@
 
 // grab markers context from ProjectSurveyTemplateView
 var markers = JSON.parse(document.getElementById('markers-data').textContent);
-console.log(markers.length);
+var geoJsonLayer = L.geoJSON(markers, {
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.site_name);
+    }
+});
+console.log(geoJsonLayer.getLayers().length);
 if (markers.length == 0) {
     document.getElementById('markers-data').textContent="";
 } else {
-    console.log(markers.length);
-    console.log(markers);
+    console.log(geoJsonLayer.getLayers().length);
+    console.log(geoJsonLayer.getLayers());
     var markersGroup = new L.markerClusterGroup();
     var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     var map = L.map('map')
@@ -19,11 +24,7 @@ if (markers.length == 0) {
         attribution: attribution
     }).addTo(map);
 
-    var geoJsonLayer = L.geoJSON(markers, {
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.site_name);
-        }
-    });
+
 
     markersGroup.addLayer(geoJsonLayer);
 
