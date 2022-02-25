@@ -35,17 +35,17 @@
   </div>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
     <div class="container">
-      <div class="section text-center">
+      <div class="section text-start">
         <!-- -------- START Grids -------- -->
           <div class="container">
             <!-- -------- START loop -------- -->
             {% if project.project_description %}
               <h5 class="font-weight-bolder mt-3">Description</h5>
-              <p class="pe-5 text-start">{{ project.project_description }}</p>
+              <p class="pe-5">{{ project.project_description }}</p>
             {% endif %}
             {{ markers|json_script:"markers-data" }}
             <div id="map"></div>
-            <p id="project_empty" class="lead"></p>
+            <p id="map_empty" class="lead"></p>
             <!-- -------- END loop -------- -->
           </div>
         <!-- -------- END Grids -------- -->

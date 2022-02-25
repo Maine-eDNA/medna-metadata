@@ -16,9 +16,9 @@ if (geoJsonLayer.getLayers().length == 0) {
     document.getElementById('markers-data').remove()
     document.getElementById('map').remove()
     // update the page to notify the user that there are no records
-    document.getElementById('project_empty').textContent="This project does not have any survey records.";
+    document.getElementById('map_empty').textContent="This project does not have any survey records.";
 } else {
-    document.getElementById('project_empty').remove()
+    document.getElementById('map_empty').remove()
     var markersGroup = new L.markerClusterGroup();
     var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     var map = L.map('map')
