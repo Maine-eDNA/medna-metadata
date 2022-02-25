@@ -137,8 +137,8 @@ class IndexView(TemplateView):
 
 # FRONTEND
 def projects_frontend(request):
-    projects_list = Project.objects.prefetch_related('created_by', 'grant_names').all()
-    context = {'projects_list': projects_list}
+    project_list = Project.objects.prefetch_related('created_by', 'grant_names').all()
+    context = {'project_list': project_list}
     return render(request, 'home/django-material-kit/projects.html', context)
 
 
