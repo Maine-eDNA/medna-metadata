@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.shortcuts import render
+from utility.models import Project
 
 
 @login_required(login_url="/login/")
@@ -30,6 +32,11 @@ def main_pages(request):
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
+
+        if load_template == 'projects.html':
+            project_list = Project.objects.prefetch_related('created_by', 'grant_names').all()
+            context = {'project_list': project_list}
+            return render(request, 'home/django-material-kit/projects.html', context)
 
         html_template = loader.get_template('home/django-material-kit/' + load_template)
         return HttpResponse(html_template.render(context, request))

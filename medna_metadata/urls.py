@@ -22,43 +22,14 @@ from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from users.views import CustomUserViewSet
-from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
-    EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
-    EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
-    EnvoFeatureFifthViewSet, EnvoFeatureSixthViewSet, EnvoFeatureSeventhViewSet, \
-    SystemViewSet, GeoWatershedViewSet, GeoFieldSitesViewSet
-from sample_labels.views import SampleTypeViewSet, SampleMaterialViewSet, SampleLabelRequestViewSet, SampleBarcodeViewSet
-from field_survey.views import GeoFieldSurveyViewSet, FieldCrewViewSet, EnvMeasurementViewSet, FieldCollectionViewSet, \
-    WaterCollectionViewSet, SedimentCollectionViewSet, FieldSampleViewSet, FilterSampleViewSet, SubCoreSampleViewSet, \
-    GeoFieldSurveyETLViewSet, FieldCrewETLViewSet, EnvMeasurementETLViewSet, \
-    FieldCollectionETLViewSet, SampleFilterETLViewSet, FieldSurveyFiltersNestedViewSet, FieldSurveySubCoresNestedViewSet
-from wet_lab.views import PrimerPairViewSet, IndexPairViewSet, IndexRemovalMethodViewSet, SizeSelectionMethodViewSet, \
-    QuantificationMethodViewSet, ExtractionMethodViewSet, ExtractionViewSet, PcrReplicateViewSet, PcrViewSet, \
-    LibraryPrepViewSet, PooledLibraryViewSet, RunPrepViewSet, RunResultViewSet, \
-    FastqFileViewSet, AmplificationMethodViewSet
-from freezer_inventory.views import ReturnActionViewSet, FreezerViewSet, FreezerRackViewSet, FreezerBoxViewSet, \
-    FreezerInventoryViewSet, FreezerInventoryLogViewSet, FreezerInventoryReturnMetadataViewSet, \
-    FreezerInventoryLocNestedViewSet, FreezerInventoryLogsNestedViewSet, FreezerInventoryReturnsNestedViewSet
-from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
-    FeatureOutputViewSet, FeatureReadViewSet
-from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
-    TaxonDomainViewSet, TaxonKingdomViewSet, TaxonPhylumViewSet, \
-    TaxonClassViewSet, TaxonOrderViewSet, TaxonFamilyViewSet, \
-    TaxonGenusViewSet, TaxonSpeciesViewSet, \
-    AnnotationMethodViewSet, AnnotationMetadataViewSet, TaxonomicAnnotationViewSet
-from utility.views import GrantViewSet, ProjectViewSet, ProcessLocationViewSet, YesNoChoicesViewSet, InvLocStatusChoicesViewSet, \
-    TempUnitsChoicesViewSet, MeasureUnitsChoicesViewSet, VolUnitsChoicesViewSet, ConcentrationUnitsChoicesViewSet, \
-    PhiXConcentrationUnitsChoicesViewSet, PcrUnitsChoicesViewSet, \
-    WindSpeedsChoicesViewSet, CloudCoversChoicesViewSet, PrecipTypesChoicesViewSet, \
-    TurbidTypesChoicesViewSet, EnvoMaterialsChoicesViewSet, MeasureModesChoicesViewSet, \
-    EnvInstrumentsChoicesViewSet, YsiModelsChoicesViewSet, EnvMeasurementsChoicesViewSet, \
-    BottomSubstratesChoicesViewSet, WaterCollectionModesChoicesViewSet, CollectionTypesChoicesViewSet, \
-    FilterLocationsChoicesViewSet, ControlTypesChoicesViewSet, FilterMethodsChoicesViewSet, \
-    FilterTypesChoicesViewSet, CoreMethodsChoicesViewSet, SubCoreMethodsChoicesViewSet, \
-    TargetGenesChoicesViewSet, SubFragmentsChoicesViewSet, PcrTypesChoicesViewSet, \
-    LibPrepTypesChoicesViewSet, LibPrepKitsChoicesViewSet, \
-    InvStatusChoicesViewSet, InvTypesChoicesViewSet, CheckoutActionsChoicesViewSet, \
-    CustomUserCssViewSet, DefaultSiteCssViewSet, SeqMethodsChoicesViewSet, InvestigationTypesChoicesViewSet
+from field_sites import views as field_sites_views
+from sample_labels import views as sample_labels_views
+from field_survey import views as field_survey_views
+from wet_lab import views as wet_lab_views
+from freezer_inventory import views as freezer_inventory_views
+from bioinfo_denoclust import views as bioinfo_denoclust_views
+from bioinfo_taxon import views as bioinfo_taxon_views
+from utility import views as utility_views
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -77,132 +48,132 @@ router = routers.DefaultRouter()
 # users
 router.register(r'users/user', CustomUserViewSet, 'users')
 # utility
-router.register(r'utility/grant', GrantViewSet, 'grant')
-router.register(r'utility/project', ProjectViewSet, 'project')
-router.register(r'utility/process_location', ProcessLocationViewSet, 'process_location')
-router.register(r'utility/default_site_css', DefaultSiteCssViewSet, 'default_site_css')
-router.register(r'utility/custom_user_css', CustomUserCssViewSet, 'custom_user_css')
+router.register(r'utility/grant', utility_views.GrantViewSet, 'grant')
+router.register(r'utility/project', utility_views.ProjectViewSet, 'project')
+router.register(r'utility/process_location', utility_views.ProcessLocationViewSet, 'process_location')
+router.register(r'utility/default_site_css', utility_views.DefaultSiteCssViewSet, 'default_site_css')
+router.register(r'utility/custom_user_css', utility_views.CustomUserCssViewSet, 'custom_user_css')
 # utility:enums
-router.register(r'utility/choices_yes_no', YesNoChoicesViewSet, 'choices_yes_no')
-router.register(r'utility/choices_temp_units', TempUnitsChoicesViewSet, 'choices_temp_units')
-router.register(r'utility/choices_measure_units', MeasureUnitsChoicesViewSet, 'choices_measure_units')
-router.register(r'utility/choices_vol_units', VolUnitsChoicesViewSet, 'choices_vol_units')
-router.register(r'utility/choices_concentration_units', ConcentrationUnitsChoicesViewSet, 'choices_concentration_units')
-router.register(r'utility/choices_phix_concentration_units', PhiXConcentrationUnitsChoicesViewSet, 'choices_phix_concentration_units')
-router.register(r'utility/choices_pcr_units', PcrUnitsChoicesViewSet, 'choices_pcr_units')
-router.register(r'utility/choices_wind_speeds', WindSpeedsChoicesViewSet, 'choices_wind_speeds')
-router.register(r'utility/choices_cloud_covers', CloudCoversChoicesViewSet, 'choices_cloud_covers')
-router.register(r'utility/choices_precip_types', PrecipTypesChoicesViewSet, 'choices_precip_types')
-router.register(r'utility/choices_turbid_types', TurbidTypesChoicesViewSet, 'choices_turbid_types')
-router.register(r'utility/choices_envo_materials', EnvoMaterialsChoicesViewSet, 'choices_envo_materials')
-router.register(r'utility/choices_measure_modes', MeasureModesChoicesViewSet, 'choices_measure_modes')
-router.register(r'utility/choices_env_instruments', EnvInstrumentsChoicesViewSet, 'choices_env_instruments')
-router.register(r'utility/choices_ysi_models', YsiModelsChoicesViewSet, 'choices_ysi_models')
-router.register(r'utility/choices_env_measurements', EnvMeasurementsChoicesViewSet, 'choices_env_measurements')
-router.register(r'utility/choices_bottom_substrates', BottomSubstratesChoicesViewSet, 'choices_bottom_substrates')
-router.register(r'utility/choices_water_collection_modes', WaterCollectionModesChoicesViewSet, 'choices_water_collection_modes')
-router.register(r'utility/choices_collection_types', CollectionTypesChoicesViewSet, 'choices_collection_types')
-router.register(r'utility/choices_filter_locations', FilterLocationsChoicesViewSet, 'choices_filter_locations')
-router.register(r'utility/choices_control_types', ControlTypesChoicesViewSet, 'choices_control_types')
-router.register(r'utility/choices_filter_methods', FilterMethodsChoicesViewSet, 'choices_filter_methods')
-router.register(r'utility/choices_filter_types', FilterTypesChoicesViewSet, 'choices_filter_types')
-router.register(r'utility/choices_core_methods', CoreMethodsChoicesViewSet, 'choices_core_methods')
-router.register(r'utility/choices_subcore_methods', SubCoreMethodsChoicesViewSet, 'choices_subcore_methods')
-router.register(r'utility/choices_target_genes', TargetGenesChoicesViewSet, 'choices_target_genes')
-router.register(r'utility/choices_subfragment', SubFragmentsChoicesViewSet, 'choices_subfragment')
-router.register(r'utility/choices_pcr_types', PcrTypesChoicesViewSet, 'choices_pcr_types')
-router.register(r'utility/choices_lib_prep_types', LibPrepTypesChoicesViewSet, 'choices_lib_prep_types')
-router.register(r'utility/choices_lib_prep_kits', LibPrepKitsChoicesViewSet, 'choices_lib_prep_kits')
-router.register(r'utility/choices_seq_methods', SeqMethodsChoicesViewSet, 'choices_seq_methods')
-router.register(r'utility/choices_investigation_types', InvestigationTypesChoicesViewSet, 'choices_investigation_types')
-router.register(r'utility/choices_inv_status', InvStatusChoicesViewSet, 'choices_inv_status')
-router.register(r'utility/choices_inv_loc_status', InvLocStatusChoicesViewSet, 'choices_inv_loc_status')
-router.register(r'utility/choices_inv_types', InvTypesChoicesViewSet, 'choices_inv_types')
-router.register(r'utility/choices_checkout_actions', CheckoutActionsChoicesViewSet, 'choices_checkout_actions')
+router.register(r'utility/choices_yes_no', utility_views.YesNoChoicesViewSet, 'choices_yes_no')
+router.register(r'utility/choices_temp_units', utility_views.TempUnitsChoicesViewSet, 'choices_temp_units')
+router.register(r'utility/choices_measure_units', utility_views.MeasureUnitsChoicesViewSet, 'choices_measure_units')
+router.register(r'utility/choices_vol_units', utility_views.VolUnitsChoicesViewSet, 'choices_vol_units')
+router.register(r'utility/choices_concentration_units', utility_views.ConcentrationUnitsChoicesViewSet, 'choices_concentration_units')
+router.register(r'utility/choices_phix_concentration_units', utility_views.PhiXConcentrationUnitsChoicesViewSet, 'choices_phix_concentration_units')
+router.register(r'utility/choices_pcr_units', utility_views.PcrUnitsChoicesViewSet, 'choices_pcr_units')
+router.register(r'utility/choices_wind_speeds', utility_views.WindSpeedsChoicesViewSet, 'choices_wind_speeds')
+router.register(r'utility/choices_cloud_covers', utility_views.CloudCoversChoicesViewSet, 'choices_cloud_covers')
+router.register(r'utility/choices_precip_types', utility_views.PrecipTypesChoicesViewSet, 'choices_precip_types')
+router.register(r'utility/choices_turbid_types', utility_views.TurbidTypesChoicesViewSet, 'choices_turbid_types')
+router.register(r'utility/choices_envo_materials', utility_views.EnvoMaterialsChoicesViewSet, 'choices_envo_materials')
+router.register(r'utility/choices_measure_modes', utility_views.MeasureModesChoicesViewSet, 'choices_measure_modes')
+router.register(r'utility/choices_env_instruments', utility_views.EnvInstrumentsChoicesViewSet, 'choices_env_instruments')
+router.register(r'utility/choices_ysi_models', utility_views.YsiModelsChoicesViewSet, 'choices_ysi_models')
+router.register(r'utility/choices_env_measurements', utility_views.EnvMeasurementsChoicesViewSet, 'choices_env_measurements')
+router.register(r'utility/choices_bottom_substrates', utility_views.BottomSubstratesChoicesViewSet, 'choices_bottom_substrates')
+router.register(r'utility/choices_water_collection_modes', utility_views.WaterCollectionModesChoicesViewSet, 'choices_water_collection_modes')
+router.register(r'utility/choices_collection_types', utility_views.CollectionTypesChoicesViewSet, 'choices_collection_types')
+router.register(r'utility/choices_filter_locations', utility_views.FilterLocationsChoicesViewSet, 'choices_filter_locations')
+router.register(r'utility/choices_control_types', utility_views.ControlTypesChoicesViewSet, 'choices_control_types')
+router.register(r'utility/choices_filter_methods', utility_views.FilterMethodsChoicesViewSet, 'choices_filter_methods')
+router.register(r'utility/choices_filter_types', utility_views.FilterTypesChoicesViewSet, 'choices_filter_types')
+router.register(r'utility/choices_core_methods', utility_views.CoreMethodsChoicesViewSet, 'choices_core_methods')
+router.register(r'utility/choices_subcore_methods', utility_views.SubCoreMethodsChoicesViewSet, 'choices_subcore_methods')
+router.register(r'utility/choices_target_genes', utility_views.TargetGenesChoicesViewSet, 'choices_target_genes')
+router.register(r'utility/choices_subfragment', utility_views.SubFragmentsChoicesViewSet, 'choices_subfragment')
+router.register(r'utility/choices_pcr_types', utility_views.PcrTypesChoicesViewSet, 'choices_pcr_types')
+router.register(r'utility/choices_lib_prep_types', utility_views.LibPrepTypesChoicesViewSet, 'choices_lib_prep_types')
+router.register(r'utility/choices_lib_prep_kits', utility_views.LibPrepKitsChoicesViewSet, 'choices_lib_prep_kits')
+router.register(r'utility/choices_seq_methods', utility_views.SeqMethodsChoicesViewSet, 'choices_seq_methods')
+router.register(r'utility/choices_investigation_types', utility_views.InvestigationTypesChoicesViewSet, 'choices_investigation_types')
+router.register(r'utility/choices_inv_status', utility_views.InvStatusChoicesViewSet, 'choices_inv_status')
+router.register(r'utility/choices_inv_loc_status', utility_views.InvLocStatusChoicesViewSet, 'choices_inv_loc_status')
+router.register(r'utility/choices_inv_types', utility_views.InvTypesChoicesViewSet, 'choices_inv_types')
+router.register(r'utility/choices_checkout_actions', utility_views.CheckoutActionsChoicesViewSet, 'choices_checkout_actions')
 # field_sites
-router.register(r'field_sites/envo_biome_first', EnvoBiomeFirstViewSet, 'envo_biome_first')
-router.register(r'field_sites/envo_biome_second', EnvoBiomeSecondViewSet, 'envo_biome_second')
-router.register(r'field_sites/envo_biome_third', EnvoBiomeThirdViewSet, 'envo_biome_third')
-router.register(r'field_sites/envo_biome_fourth', EnvoBiomeFourthViewSet, 'envo_biome_fourth')
-router.register(r'field_sites/envo_biome_fifth', EnvoBiomeFifthViewSet, 'envo_biome_fifth')
-router.register(r'field_sites/envo_feature_first', EnvoFeatureFirstViewSet, 'envo_feature_first')
-router.register(r'field_sites/envo_feature_second', EnvoFeatureSecondViewSet, 'envo_feature_second')
-router.register(r'field_sites/envo_feature_third', EnvoFeatureThirdViewSet, 'envo_feature_third')
-router.register(r'field_sites/envo_feature_fourth', EnvoFeatureFourthViewSet, 'envo_feature_fourth')
-router.register(r'field_sites/envo_feature_fifth', EnvoFeatureFifthViewSet, 'envo_feature_fifth')
-router.register(r'field_sites/envo_feature_sixth', EnvoFeatureSixthViewSet, 'envo_feature_sixth')
-router.register(r'field_sites/envo_feature_seventh', EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
-router.register(r'field_sites/system', SystemViewSet, 'system')
-router.register(r'field_sites/watershed', GeoWatershedViewSet, 'watershed')
-router.register(r'field_sites/field_site', GeoFieldSitesViewSet, 'field_site')
+router.register(r'field_sites/envo_biome_first', field_sites_views.EnvoBiomeFirstViewSet, 'envo_biome_first')
+router.register(r'field_sites/envo_biome_second', field_sites_views.EnvoBiomeSecondViewSet, 'envo_biome_second')
+router.register(r'field_sites/envo_biome_third', field_sites_views.EnvoBiomeThirdViewSet, 'envo_biome_third')
+router.register(r'field_sites/envo_biome_fourth', field_sites_views.EnvoBiomeFourthViewSet, 'envo_biome_fourth')
+router.register(r'field_sites/envo_biome_fifth', field_sites_views.EnvoBiomeFifthViewSet, 'envo_biome_fifth')
+router.register(r'field_sites/envo_feature_first', field_sites_views.EnvoFeatureFirstViewSet, 'envo_feature_first')
+router.register(r'field_sites/envo_feature_second', field_sites_views.EnvoFeatureSecondViewSet, 'envo_feature_second')
+router.register(r'field_sites/envo_feature_third', field_sites_views.EnvoFeatureThirdViewSet, 'envo_feature_third')
+router.register(r'field_sites/envo_feature_fourth', field_sites_views.EnvoFeatureFourthViewSet, 'envo_feature_fourth')
+router.register(r'field_sites/envo_feature_fifth', field_sites_views.EnvoFeatureFifthViewSet, 'envo_feature_fifth')
+router.register(r'field_sites/envo_feature_sixth', field_sites_views.EnvoFeatureSixthViewSet, 'envo_feature_sixth')
+router.register(r'field_sites/envo_feature_seventh', field_sites_views.EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
+router.register(r'field_sites/system', field_sites_views.SystemViewSet, 'system')
+router.register(r'field_sites/watershed', field_sites_views.GeoWatershedViewSet, 'watershed')
+router.register(r'field_sites/field_site', field_sites_views.GeoFieldSitesViewSet, 'field_site')
 # sample_labels
-router.register(r'sample_labels/sample_type', SampleTypeViewSet, 'sample_type')
-router.register(r'sample_labels/sample_material', SampleMaterialViewSet, 'sample_material')
-router.register(r'sample_labels/sample_label_req', SampleLabelRequestViewSet, 'sample_label_req')
-router.register(r'sample_labels/sample_barcode', SampleBarcodeViewSet, 'sample_barcode')
+router.register(r'sample_labels/sample_type', sample_labels_views.SampleTypeViewSet, 'sample_type')
+router.register(r'sample_labels/sample_material', sample_labels_views.SampleMaterialViewSet, 'sample_material')
+router.register(r'sample_labels/sample_label_req', sample_labels_views.SampleLabelRequestViewSet, 'sample_label_req')
+router.register(r'sample_labels/sample_barcode', sample_labels_views.SampleBarcodeViewSet, 'sample_barcode')
 # field_survey:post-transform
-router.register(r'field_survey/field_survey', GeoFieldSurveyViewSet, 'field_survey')
-router.register(r'field_survey/field_crew', FieldCrewViewSet, 'field_crew')
-router.register(r'field_survey/env_measurement', EnvMeasurementViewSet, 'env_measurement')
-router.register(r'field_survey/field_collection', FieldCollectionViewSet, 'field_collection')
-router.register(r'field_survey/water_collection', WaterCollectionViewSet, 'water_collection')
-router.register(r'field_survey/sediment_collection', SedimentCollectionViewSet, 'sediment_collection')
-router.register(r'field_survey/field_sample', FieldSampleViewSet, 'field_sample')
-router.register(r'field_survey/filter_sample', FilterSampleViewSet, 'filter_sample')
-router.register(r'field_survey/subcore_sample', SubCoreSampleViewSet, 'subcore_sample')
-router.register(r'field_survey/survey_filters', FieldSurveyFiltersNestedViewSet, 'survey_filters')
-router.register(r'field_survey/survey_subcores', FieldSurveySubCoresNestedViewSet, 'survey_subcores')
+router.register(r'field_survey/field_survey', field_survey_views.GeoFieldSurveyViewSet, 'field_survey')
+router.register(r'field_survey/field_crew', field_survey_views.FieldCrewViewSet, 'field_crew')
+router.register(r'field_survey/env_measurement', field_survey_views.EnvMeasurementViewSet, 'env_measurement')
+router.register(r'field_survey/field_collection', field_survey_views.FieldCollectionViewSet, 'field_collection')
+router.register(r'field_survey/water_collection', field_survey_views.WaterCollectionViewSet, 'water_collection')
+router.register(r'field_survey/sediment_collection', field_survey_views.SedimentCollectionViewSet, 'sediment_collection')
+router.register(r'field_survey/field_sample', field_survey_views.FieldSampleViewSet, 'field_sample')
+router.register(r'field_survey/filter_sample', field_survey_views.FilterSampleViewSet, 'filter_sample')
+router.register(r'field_survey/subcore_sample', field_survey_views.SubCoreSampleViewSet, 'subcore_sample')
+router.register(r'field_survey/survey_filters', field_survey_views.FieldSurveyFiltersNestedViewSet, 'survey_filters')
+router.register(r'field_survey/survey_subcores', field_survey_views.FieldSurveySubCoresNestedViewSet, 'survey_subcores')
 # field_survey:pre-transform
-router.register(r'field_survey/field_survey_etl', GeoFieldSurveyETLViewSet, 'field_survey_etl')
-router.register(r'field_survey/field_crew_etl', FieldCrewETLViewSet, 'field_crew_etl')
-router.register(r'field_survey/env_measurement_etl', EnvMeasurementETLViewSet, 'env_measurement_etl')
-router.register(r'field_survey/field_collection_etl', FieldCollectionETLViewSet, 'field_collection_etl')
-router.register(r'field_survey/sample_filter_etl', SampleFilterETLViewSet, 'sample_filter_etl')
+router.register(r'field_survey/field_survey_etl', field_survey_views.GeoFieldSurveyETLViewSet, 'field_survey_etl')
+router.register(r'field_survey/field_crew_etl', field_survey_views.FieldCrewETLViewSet, 'field_crew_etl')
+router.register(r'field_survey/env_measurement_etl', field_survey_views.EnvMeasurementETLViewSet, 'env_measurement_etl')
+router.register(r'field_survey/field_collection_etl', field_survey_views.FieldCollectionETLViewSet, 'field_collection_etl')
+router.register(r'field_survey/sample_filter_etl', field_survey_views.SampleFilterETLViewSet, 'sample_filter_etl')
 # wet_lab
-router.register(r'wet_lab/primer_pair', PrimerPairViewSet, 'primer_pair')
-router.register(r'wet_lab/index_pair', IndexPairViewSet, 'index_pair')
-router.register(r'wet_lab/index_removal_method', IndexRemovalMethodViewSet, 'index_removal_method')
-router.register(r'wet_lab/size_selection_method', SizeSelectionMethodViewSet, 'size_selection_method')
-router.register(r'wet_lab/quant_method', QuantificationMethodViewSet, 'quant_method')
-router.register(r'wet_lab/amplification_method', AmplificationMethodViewSet, 'amplification_method')
-router.register(r'wet_lab/extraction_method', ExtractionMethodViewSet, 'extraction_method')
-router.register(r'wet_lab/extraction', ExtractionViewSet, 'extraction')
-router.register(r'wet_lab/pcr_replicate', PcrReplicateViewSet, 'pcr_replicate')
-router.register(r'wet_lab/pcr', PcrViewSet, 'pcr')
-router.register(r'wet_lab/lib_prep', LibraryPrepViewSet, 'lib_prep')
-router.register(r'wet_lab/pooled_lib', PooledLibraryViewSet, 'pooled_lib')
-router.register(r'wet_lab/run_prep', RunPrepViewSet, 'run_prep')
-router.register(r'wet_lab/run_result', RunResultViewSet, 'run_result')
-router.register(r'wet_lab/fastq', FastqFileViewSet, 'fastq')
+router.register(r'wet_lab/primer_pair', wet_lab_views.PrimerPairViewSet, 'primer_pair')
+router.register(r'wet_lab/index_pair', wet_lab_views.IndexPairViewSet, 'index_pair')
+router.register(r'wet_lab/index_removal_method', wet_lab_views.IndexRemovalMethodViewSet, 'index_removal_method')
+router.register(r'wet_lab/size_selection_method', wet_lab_views.SizeSelectionMethodViewSet, 'size_selection_method')
+router.register(r'wet_lab/quant_method', wet_lab_views.QuantificationMethodViewSet, 'quant_method')
+router.register(r'wet_lab/amplification_method', wet_lab_views.AmplificationMethodViewSet, 'amplification_method')
+router.register(r'wet_lab/extraction_method', wet_lab_views.ExtractionMethodViewSet, 'extraction_method')
+router.register(r'wet_lab/extraction', wet_lab_views.ExtractionViewSet, 'extraction')
+router.register(r'wet_lab/pcr_replicate', wet_lab_views.PcrReplicateViewSet, 'pcr_replicate')
+router.register(r'wet_lab/pcr', wet_lab_views.PcrViewSet, 'pcr')
+router.register(r'wet_lab/lib_prep', wet_lab_views.LibraryPrepViewSet, 'lib_prep')
+router.register(r'wet_lab/pooled_lib', wet_lab_views.PooledLibraryViewSet, 'pooled_lib')
+router.register(r'wet_lab/run_prep', wet_lab_views.RunPrepViewSet, 'run_prep')
+router.register(r'wet_lab/run_result', wet_lab_views.RunResultViewSet, 'run_result')
+router.register(r'wet_lab/fastq', wet_lab_views.FastqFileViewSet, 'fastq')
 # freezer_inventory
-router.register(r'freezer_inventory/return_action', ReturnActionViewSet, 'return_action')
-router.register(r'freezer_inventory/freezer', FreezerViewSet, 'freezer')
-router.register(r'freezer_inventory/rack', FreezerRackViewSet, 'rack')
-router.register(r'freezer_inventory/box', FreezerBoxViewSet, 'box')
-router.register(r'freezer_inventory/inventory', FreezerInventoryViewSet, 'inventory')
-router.register(r'freezer_inventory/log', FreezerInventoryLogViewSet, 'log')
-router.register(r'freezer_inventory/return_metadata', FreezerInventoryReturnMetadataViewSet, 'return_metadata')
-router.register(r'freezer_inventory/inventory_location', FreezerInventoryLocNestedViewSet, 'inventory_location')
-router.register(r'freezer_inventory/inventory_logs', FreezerInventoryLogsNestedViewSet, 'inventory_logs')
-router.register(r'freezer_inventory/inventory_returns', FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
+router.register(r'freezer_inventory/return_action', freezer_inventory_views.ReturnActionViewSet, 'return_action')
+router.register(r'freezer_inventory/freezer', freezer_inventory_views.FreezerViewSet, 'freezer')
+router.register(r'freezer_inventory/rack', freezer_inventory_views.FreezerRackViewSet, 'rack')
+router.register(r'freezer_inventory/box', freezer_inventory_views.FreezerBoxViewSet, 'box')
+router.register(r'freezer_inventory/inventory', freezer_inventory_views.FreezerInventoryViewSet, 'inventory')
+router.register(r'freezer_inventory/log', freezer_inventory_views.FreezerInventoryLogViewSet, 'log')
+router.register(r'freezer_inventory/return_metadata', freezer_inventory_views.FreezerInventoryReturnMetadataViewSet, 'return_metadata')
+router.register(r'freezer_inventory/inventory_location', freezer_inventory_views.FreezerInventoryLocNestedViewSet, 'inventory_location')
+router.register(r'freezer_inventory/inventory_logs', freezer_inventory_views.FreezerInventoryLogsNestedViewSet, 'inventory_logs')
+router.register(r'freezer_inventory/inventory_returns', freezer_inventory_views.FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
 # bioinfo_denoclust
-router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
-router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
-router.register(r'bioinfo/feature', FeatureOutputViewSet, 'feature')
-router.register(r'bioinfo/feature_read', FeatureReadViewSet, 'feature_read')
+router.register(r'bioinfo/denoisecluster_method', bioinfo_denoclust_views.DenoiseClusterMethodViewSet, 'denoisecluster_method')
+router.register(r'bioinfo/denoisecluster_metadata', bioinfo_denoclust_views.DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
+router.register(r'bioinfo/feature', bioinfo_denoclust_views.FeatureOutputViewSet, 'feature')
+router.register(r'bioinfo/feature_read', bioinfo_denoclust_views.FeatureReadViewSet, 'feature_read')
 # bioinfo_taxon
-router.register(r'bioinfo/refdb', ReferenceDatabaseViewSet, 'refdb')
-router.register(r'bioinfo/domain', TaxonDomainViewSet, 'domain')
-router.register(r'bioinfo/kingdom', TaxonKingdomViewSet, 'kingdom')
-router.register(r'bioinfo/phylum', TaxonPhylumViewSet, 'phylum')
-router.register(r'bioinfo/class', TaxonClassViewSet, 'class')
-router.register(r'bioinfo/order', TaxonOrderViewSet, 'order')
-router.register(r'bioinfo/family', TaxonFamilyViewSet, 'family')
-router.register(r'bioinfo/genus', TaxonGenusViewSet, 'genus')
-router.register(r'bioinfo/species', TaxonSpeciesViewSet, 'species')
-router.register(r'bioinfo/annotation_method', AnnotationMethodViewSet, 'annotation_method')
-router.register(r'bioinfo/annotation_metadata', AnnotationMetadataViewSet, 'annotation_metadata')
-router.register(r'bioinfo/taxon_annotation', TaxonomicAnnotationViewSet, 'taxon_annotation')
+router.register(r'bioinfo/refdb', bioinfo_taxon_views.ReferenceDatabaseViewSet, 'refdb')
+router.register(r'bioinfo/domain', bioinfo_taxon_views.TaxonDomainViewSet, 'domain')
+router.register(r'bioinfo/kingdom', bioinfo_taxon_views.TaxonKingdomViewSet, 'kingdom')
+router.register(r'bioinfo/phylum', bioinfo_taxon_views.TaxonPhylumViewSet, 'phylum')
+router.register(r'bioinfo/class', bioinfo_taxon_views.TaxonClassViewSet, 'class')
+router.register(r'bioinfo/order', bioinfo_taxon_views.TaxonOrderViewSet, 'order')
+router.register(r'bioinfo/family', bioinfo_taxon_views.TaxonFamilyViewSet, 'family')
+router.register(r'bioinfo/genus', bioinfo_taxon_views.TaxonGenusViewSet, 'genus')
+router.register(r'bioinfo/species', bioinfo_taxon_views.TaxonSpeciesViewSet, 'species')
+router.register(r'bioinfo/annotation_method', bioinfo_taxon_views.AnnotationMethodViewSet, 'annotation_method')
+router.register(r'bioinfo/annotation_metadata', bioinfo_taxon_views.AnnotationMetadataViewSet, 'annotation_metadata')
+router.register(r'bioinfo/taxon_annotation', bioinfo_taxon_views.TaxonomicAnnotationViewSet, 'taxon_annotation')
 
 
 urlpatterns = [
