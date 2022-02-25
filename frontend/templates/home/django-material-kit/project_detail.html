@@ -9,7 +9,9 @@
 {% block stylesheets %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/map.css' %}">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -39,7 +41,6 @@
             {% if markers %}
               {{ markers|json_script:"markers-data" }}
               <div id="map"></div>
-
               {% else %}
                 <p class="lead">No survey data is available for this project.</p>
               {% endif %}
@@ -55,6 +56,8 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="{% static 'assets/js/map.js' %}"></script>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+     crossorigin=""></script>
+  <script src="{% static 'assets/js/map.js' %}"></script>
 {% endblock javascripts %}
