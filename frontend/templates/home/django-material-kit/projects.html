@@ -34,6 +34,8 @@
             <!-- -------- START loop -------- -->
             {% if project_list %}
                 {% for project in project_list %}
+                    {% if project.project_description %}
+
                     <h3>{{ project.project_label }}</h3>
                     <div class="row">
                         <div class="col">
@@ -41,13 +43,16 @@
                             {{ project.project_description }}
                             </p>
                         </div>
+                        {% if project.project_goals %}
                         <div class="col">
                             <p class="lead">
                             {{ project.project_goals }}
                             </p>
                         </div>
+                        {% endif %}
                     <div class="w-100"></div>
                     </div>
+                    {% endif %}
                 {% endfor %}
               {% else %}
                 <p class="lead">No projects are available.</p>
