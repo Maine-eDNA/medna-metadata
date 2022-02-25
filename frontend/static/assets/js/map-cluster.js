@@ -10,12 +10,15 @@ var geoJsonLayer = L.geoJSON(markers, {
         layer.bindPopup(feature.properties.site_name);
     }
 });
-console.log(geoJsonLayer.getLayers().length);
+//console.log(geoJsonLayer.getLayers().length);
 if (geoJsonLayer.getLayers().length == 0) {
-    document.getElementById('markers-data').textContent="";
+    // these are not being used, so remove them from the page
+    document.getElementById('markers-data').remove()
+    document.getElementById('map').remove()
+    // update the page to notify the user that there are no records
+    document.getElementById('project_empty').textContent="This project does not have any survey records.";
 } else {
-    console.log(geoJsonLayer.getLayers().length);
-    console.log(geoJsonLayer.getLayers());
+    document.getElementById('project_empty').remove()
     var markersGroup = new L.markerClusterGroup();
     var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     var map = L.map('map')

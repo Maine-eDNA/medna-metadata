@@ -39,16 +39,13 @@
         <!-- -------- START Grids -------- -->
           <div class="container">
             <!-- -------- START loop -------- -->
-            {% if markers %}
-              {% if project.project_description %}
-                <h5 class="font-weight-bolder mt-3">Description</h5>
-                <p class="pe-5 text-start">{{ project.project_description }}</p>
-              {% endif %}
-              {{ markers|json_script:"markers-data" }}
-              <div id="map"></div>
-              {% else %}
-                <p class="lead">No survey data is available for this project.</p>
-              {% endif %}
+            {% if project.project_description %}
+              <h5 class="font-weight-bolder mt-3">Description</h5>
+              <p class="pe-5 text-start">{{ project.project_description }}</p>
+            {% endif %}
+            {{ markers|json_script:"markers-data" }}
+            <div id="map"></div>
+            <p id="project_empty" class="lead"></p>
             <!-- -------- END loop -------- -->
           </div>
         <!-- -------- END Grids -------- -->
