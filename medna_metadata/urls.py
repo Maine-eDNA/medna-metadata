@@ -20,7 +20,7 @@ from dj_rest_auth.registration.views import VerifyEmailView
 from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from users.views import CustomUserViewSet
+from users import views as users_views
 from field_sites.views import EnvoBiomeFirstViewSet, EnvoBiomeSecondViewSet, EnvoBiomeThirdViewSet, \
     EnvoBiomeFourthViewSet, EnvoBiomeFifthViewSet, \
     EnvoFeatureFirstViewSet, EnvoFeatureSecondViewSet, EnvoFeatureThirdViewSet, EnvoFeatureFourthViewSet, \
@@ -74,7 +74,7 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 # users
-router.register(r'users/user', CustomUserViewSet, 'users')
+router.register(r'users/user', users_views.CustomUserViewSet, 'users')
 # utility
 router.register(r'utility/grant', GrantViewSet, 'grant')
 router.register(r'utility/project', ProjectViewSet, 'project')
@@ -214,6 +214,7 @@ urlpatterns = [
     re_path(r'^account/disabled/signup/', signup, name='account_signup'), # re-registering signup to change url
     re_path(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),  # allauth email confirmation
     # dj-rest-auth urls - https://dj-rest-auth.readthedocs.io/en/latest/api_endpoints.html
+    re_path(r'^rest-auth/login/$', users_views.CustomLoginView.as_view(), name='rest_login'),
     re_path(r'^rest-auth/', include('dj_rest_auth.urls')),
     re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
