@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
+import json
+from django.core.serializers import serialize
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,6 +15,7 @@ from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, Concentratio
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
     InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes
+from field_survey.models import FieldSurvey
 from django.views.generic.base import TemplateView
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -135,11 +141,16 @@ class IndexView(TemplateView):
     template_name = "utility/index.html"
 
 
-# FRONTEND
-def projects_frontend(request):
-    project_list = Project.objects.prefetch_related('created_by', 'grant_names').all()
-    context = {'project_list': project_list}
-    return render(request, 'home/django-material-kit/projects.html', context)
+class ProjectSurveyListView(TemplateView):
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    template_name = 'home/django-material-kit/project_detail.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project)))
+        return context
 
 
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
