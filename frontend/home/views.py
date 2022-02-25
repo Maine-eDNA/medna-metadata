@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.shortcuts import render
-from utility.models import Project
+from utility.models import Project, Publication
 
 
 @login_required(login_url="/login/")
@@ -37,6 +37,11 @@ def main_pages(request):
             project_list = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
             context = {'project_list': project_list}
             return render(request, 'home/django-material-kit/projects.html', context)
+
+        if load_template == 'publications.html':
+            pub_list = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
+            context = {'pub_list': pub_list}
+            return render(request, 'home/django-material-kit/publications.html', context)
 
         html_template = loader.get_template('home/django-material-kit/' + load_template)
         return HttpResponse(html_template.render(context, request))

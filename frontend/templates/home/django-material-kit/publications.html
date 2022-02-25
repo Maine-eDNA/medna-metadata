@@ -27,8 +27,34 @@
   </div>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
     <div class="container">
-      <div class="section text-center">
-        <h2 class="title">Content coming soon...</h2>
+      <div class="section text-start py-5">
+        <!-- -------- START Grids -------- -->
+          <div class="container">
+            <!-- -------- START loop -------- -->
+            {% if pub_list %}
+                {% for pub in pub_list %}
+                    <h3>{{ pub.publication_title }}</h3>
+                    <a href="{% url 'project_detail' project.pk %}"><div class="row">
+                        <div class="col">
+                            <h5 class="font-weight-bolder mt-3">URL</h5>
+                          <a href="{% url pub.publication_url %}"><p class="pe-5">{{ pub.publication_url }}</p></a>
+                        </div>
+                        {% if pub.project_names %}
+                        <div class="col">
+                            <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
+                            <p class="pe-5">{{ pub.project_names }}</p>
+                        </div>
+                        {% endif %}
+                    <div class="w-100"></div>
+                    </div> </a>
+                    <hr/>
+                {% endfor %}
+              {% else %}
+                <p class="lead">No publications are available.</p>
+              {% endif %}
+            <!-- -------- END loop -------- -->
+          </div>
+        <!-- -------- END Grids -------- -->
       </div>
     </div>
   </div>
