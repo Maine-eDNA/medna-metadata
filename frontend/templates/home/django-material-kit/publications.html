@@ -33,7 +33,7 @@
             <!-- -------- START loop -------- -->
               {% if pub_list %}
                 {% for pub in pub_list %}
-                    <h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
+                    <a href="{% url pub.publication_url %}"><h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
                     <div class="row">
                         <div class="col">
                             <h5 class="font-weight-bolder mt-3">URL</h5>
@@ -46,7 +46,7 @@
                         </div>
                         {% endif %}
                     <div class="w-100"></div>
-                    </div>
+                    </div></a>
                     <hr/>
                 {% endfor %}
             {% else %}
