@@ -10,7 +10,8 @@ console.log(markers.length);
 if (markers.length == 0) {
     document.getElementById('markers-data').textContent="";
 } else {
-
+console.log(markers.length);
+console.log(markers);
 var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 var map = L.map('map')
 // create the map
