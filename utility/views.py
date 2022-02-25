@@ -26,7 +26,7 @@ from django_filters import rest_framework as filters
 
 # Create your views here.
 # FRONTEND VIEWS
-class ProjectSurveyListView(LoginRequiredMixin, TemplateView):
+class ProjectSurveyTemplateView(LoginRequiredMixin, TemplateView):
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/project_detail.html'

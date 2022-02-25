@@ -8,7 +8,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markersGroup = new L.markerClusterGroup();
 
-// grab markers context from ProjectSurveyListView
+// grab markers context from ProjectSurveyTemplateView
 const markers = JSON.parse(document.getElementById('markers-data').textContent);
 
 var geoJsonLayer = L.geoJSON(markers, {
