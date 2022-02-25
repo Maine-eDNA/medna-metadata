@@ -6,7 +6,7 @@ var markersGroup = new L.markerClusterGroup();
 
 // grab markers context from ProjectSurveyTemplateView
 var markers = JSON.parse(document.getElementById('markers-data').textContent);
-
+console.log(markers.length);
 if (markers.length == 0) {
     document.getElementById('markers-data').textContent="";
 } else {
