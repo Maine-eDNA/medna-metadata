@@ -41,9 +41,7 @@
             <!-- -------- START loop -------- -->
             {% if markers %}
               <h3>{{ project.project_label }}</h3>
-              <div class="section text-start">
-                <p class="pe-5">{{ project.project_description }}</p>
-              </div>
+                <p class="pe-5 text-start">{{ project.project_description }}</p>
               {{ markers|json_script:"markers-data" }}
               <div id="map"></div>
               {% else %}
