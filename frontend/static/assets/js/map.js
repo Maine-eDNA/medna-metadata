@@ -4,7 +4,7 @@ const map = L.map('map')
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: attribution
 }).addTo(map);
-
+/*
 var geojsonMarkerOptions = {
     radius: 8,
     fillColor: "#ff7800",
@@ -13,13 +13,13 @@ var geojsonMarkerOptions = {
     opacity: 1,
     fillOpacity: 0.8
 };
-
+*/
 // grab markers context from ProjectSurveyListView
 const markers = JSON.parse(document.getElementById('markers-data').textContent);
 
 let feature = L.geoJSON(markers, {
     pointToLayer: function(feature, latlng) {
-    return L.circleMarker(latlng, geojsonMarkerOptions);
+    return L.MarkerClusterGroup();
     }
 }).bindPopup(function (layer) { return layer.feature.properties.site_name; }).addTo(map);
 
