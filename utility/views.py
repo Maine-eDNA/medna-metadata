@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.views.generic import ListView
-from django.views.generic import DetailView
+# from django.shortcuts import render
+# from django.views.generic import ListView
+# from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from django.core.serializers import serialize
 from rest_framework import viewsets
@@ -24,6 +25,22 @@ from django_filters import rest_framework as filters
 
 
 # Create your views here.
+# FRONTEND VIEWS
+class ProjectSurveyListView(LoginRequiredMixin, TemplateView):
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/project_detail.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project).only('geom', 'survey_datetime', 'project_ids', 'site_name')))
+        context["project"] = self.project
+        return context
+
+
+# SERIALIZER VIEWS
 class GrantFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
@@ -137,27 +154,9 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
     swagger_tags = ["utility"]
 
 
-class IndexView(TemplateView):
-    template_name = "utility/index.html"
-
-
-class ProjectSurveyListView(TemplateView):
-    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
-    # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/project_detail.html'
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project).only('geom', 'survey_datetime', 'project_ids', 'site_name')))
-        context["project"] = self.project
-        return context
-
-
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
-# GENERIC CHOICES
+# GENERIC CHOICE SERIALIZERS
 class YesNoChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 

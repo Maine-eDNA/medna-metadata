@@ -36,7 +36,7 @@
                 {% for project in project_list %}
                     {% if project.project_description %}
                     <h3>{{ project.project_label }}</h3>
-                    <div class="row">
+                    <a href="{% url 'project_detail' project.pk %}"><div class="row">
                         <div class="col">
                             <h5 class="font-weight-bolder mt-3">Description</h5>
                             <p class="pe-5">
@@ -52,7 +52,7 @@
                         </div>
                         {% endif %}
                     <div class="w-100"></div>
-                    </div>
+                    </div> </a>
                     {% endif %}
                 {% endfor %}
               {% else %}
