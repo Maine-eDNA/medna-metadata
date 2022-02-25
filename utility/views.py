@@ -150,7 +150,7 @@ class ProjectSurveyListView(TemplateView):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
         self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project))).only('geom', 'survey_datetime', 'project_ids', 'site_name')
+        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project).only('geom', 'survey_datetime', 'project_ids', 'site_name')))
         context["project"] = self.project
         return context
 
