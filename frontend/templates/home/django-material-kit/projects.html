@@ -34,8 +34,7 @@
             <!-- -------- START loop -------- -->
             {% if project_list %}
                 {% for project in project_list %}
-                    {% if project.project_label == "Maine eDNA" %}
-                    {% endif %}
+                    {% if project.project_label != "Maine eDNA" %}
                     {% if project.project_description %}
                     <h3>{{ project.project_label }}</h3>
                     <a href="{% url 'project_detail' project.pk %}"><div class="row">
@@ -52,6 +51,7 @@
                     <div class="w-100"></div>
                     </div> </a>
                     <hr/>
+                    {% endif %}
                     {% endif %}
                 {% endfor %}
               {% else %}
