@@ -14,7 +14,4 @@ urlpatterns = [
     # Matches any html file
     re_path(r'^[main]+/.*\.*', views.main_pages, name='main_pages'),
     re_path(r'^[dashboard]+/.*\.*', views.dashboard_pages, name='dashboard_pages'),
-
-
-
 ]
