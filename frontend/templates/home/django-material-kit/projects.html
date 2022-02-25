@@ -19,7 +19,7 @@
         <div class="col-md-8 mx-auto">
           <div class="text-center">
             <h1 class="text-white">Projects</h1>
-            <p class="lead mb-4 text-white opacity-8">Descriptions, field collections</p>
+            <p class="lead mb-4 text-white opacity-8">Descriptions, goals</p>
           </div>
         </div>
       </div>
@@ -39,16 +39,12 @@
                     <a href="{% url 'project_detail' project.pk %}"><div class="row">
                         <div class="col">
                             <h5 class="font-weight-bolder mt-3">Description</h5>
-                            <p class="pe-5">
-                            {{ project.project_description }}
-                            </p>
+                            <p class="pe-5">{{ project.project_description }}</p>
                         </div>
                         {% if project.project_goals %}
                         <div class="col">
                             <h5 class="font-weight-bolder mt-3">Goals</h5>
-                            <p class="pe-5">
-                            {{ project.project_goals }}
-                            </p>
+                            <p class="pe-5">{{ project.project_goals }}</p>
                         </div>
                         {% endif %}
                     <div class="w-100"></div>

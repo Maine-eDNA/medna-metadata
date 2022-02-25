@@ -11,7 +11,7 @@ var markersGroup = new L.MarkerClusterGroup();
 // grab markers context from ProjectSurveyListView
 const markers = JSON.parse(document.getElementById('markers-data').textContent);
 
-let feature = L.geoJSON(markers}).bindPopup(function (layer) { return layer.feature.properties.site_name; });
+let feature = L.geoJSON(markers).bindPopup(function (layer) { return layer.feature.properties.site_name; });
 
 markersGroup.addLayer(feature);
 

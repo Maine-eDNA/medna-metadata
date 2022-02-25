@@ -43,6 +43,7 @@
               <h3>{{ project.project_label }}</h3>
               {{ markers|json_script:"markers-data" }}
               <div id="map"></div>
+              <p class="pe-5">{{ project.project_description }}</p>
               {% else %}
                 <p class="lead">No survey data is available for this project.</p>
               {% endif %}
