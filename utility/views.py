@@ -143,13 +143,15 @@ class IndexView(TemplateView):
 
 class ProjectSurveyListView(TemplateView):
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/project_detail.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
         self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project)))
+        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.filter(project_ids=self.project))).only('geom', 'survey_datetime', 'project_ids', 'site_name')
+        context["project"] = self.project
         return context
 
 
