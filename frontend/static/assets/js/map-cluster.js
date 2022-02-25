@@ -10,10 +10,12 @@ var geoJsonLayer = L.geoJSON(markers, {
         layer.bindPopup(feature.properties.site_name);
     }
 });
+
+// the information in this tag is no longer being used, so remove the content from the page
+document.getElementById('markers-data').remove()
+
 //console.log(geoJsonLayer.getLayers().length);
 if (geoJsonLayer.getLayers().length == 0) {
-    // these are not being used, so remove them from the page
-    document.getElementById('markers-data').remove()
     document.getElementById('map').remove()
     // update the page to notify the user that there are no records
     document.getElementById('map_empty').textContent="This project does not have any survey records.";
