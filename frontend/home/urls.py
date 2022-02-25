@@ -12,7 +12,7 @@ urlpatterns = [
     # The home page
     path('', views.main_index, name='home'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
-    path('main/project_detail/<int:pk>/', ProjectSurveyListView, name='project_detail'),
+    path('main/project_detail/<int:pk>/', ProjectSurveyListView.as_view(), name='project_detail'),
     # Matches any html file
     re_path(r'^[main]+/.*\.*', views.main_pages, name='main_pages'),
     re_path(r'^[dashboard]+/.*\.*', views.dashboard_pages, name='dashboard_pages'),
