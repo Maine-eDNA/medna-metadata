@@ -32,7 +32,7 @@
         <section class="py-9">
           <div class="container">
             <!-- -------- START loop -------- -->
-            {% if projects_list %}
+
                 {% for project in projects_list %}
                     <h3>{{ project.project_label }}</h3>
                     <div class="row">
@@ -49,9 +49,7 @@
                     <div class="w-100"></div>
                     </div>
                 {% endfor %}
-              {% else %}
-                <p class="lead">No projects are available.</p>
-            {% endif %}
+
             <!-- -------- END loop -------- -->
           </div>
         </section>
