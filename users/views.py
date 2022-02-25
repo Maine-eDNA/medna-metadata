@@ -5,9 +5,16 @@ from django_filters import rest_framework as filters
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 # from dj_rest_auth.registration.views import SocialLoginView
+from rest_framework.authentication import TokenAuthentication
+from dj_rest_auth.registration.views import LoginView
 
 
-# Create your views here.
+# FRONTEND VIEWS
+class CustomLoginView(LoginView):
+    authentication_classes = (TokenAuthentication, )
+
+
+# SERIALIZER VIEWS
 class CustomUserFilter(filters.FilterSet):
     email = filters.CharFilter(field_name='email', lookup_expr='iexact')
     agol_username = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
