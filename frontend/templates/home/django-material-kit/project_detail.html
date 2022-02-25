@@ -6,7 +6,10 @@
 {% block body_class %} index-page {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'map.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -32,31 +35,12 @@
         <section class="py-9">
           <div class="container">
             <!-- -------- START loop -------- -->
-            {% if project_list %}
-                {% for project in project_list %}
-                    {% if project.project_description %}
-                    <h3>{{ project.project_label }}</h3>
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">Description</h5>
-                            <p class="pe-5">
-                            {{ project.project_description }}
-                            </p>
-                        </div>
-                        {% if project.project_goals %}
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">Goals</h5>
-                            <p class="pe-5">
-                            {{ project.project_goals }}
-                            </p>
-                        </div>
-                        {% endif %}
-                    <div class="w-100"></div>
-                    </div>
-                    {% endif %}
-                {% endfor %}
+            {% if markers %}
+              {{ markers|json_script:"markers-data" }}
+              <div id="map"></div>
+
               {% else %}
-                <p class="lead">No projects are available.</p>
+                <p class="lead">No survey data is available for this project.</p>
               {% endif %}
             <!-- -------- END loop -------- -->
           </div>
@@ -69,4 +53,7 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{% static 'assets/js/map.js' %}"></script>
+{% endblock javascripts %}
