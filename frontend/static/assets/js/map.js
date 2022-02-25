@@ -30,5 +30,4 @@ markersGroup.addLayer(feature);
 
 map.addLayer(markersGroup);
 
-
-//map.fitBounds(feature.getBounds(), { padding: [1000, 1000] });
+map.fitBounds(feature.getBounds(), { padding: [1000, 1000] });
