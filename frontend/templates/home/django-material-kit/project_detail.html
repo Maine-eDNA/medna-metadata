@@ -41,9 +41,11 @@
             <!-- -------- START loop -------- -->
             {% if markers %}
               <h3>{{ project.project_label }}</h3>
+              <div class="section text-start">
+                <p class="pe-5">{{ project.project_description }}</p>
+              </div>
               {{ markers|json_script:"markers-data" }}
               <div id="map"></div>
-              <p class="pe-5">{{ project.project_description }}</p>
               {% else %}
                 <p class="lead">No survey data is available for this project.</p>
               {% endif %}
