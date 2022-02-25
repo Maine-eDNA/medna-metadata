@@ -31,7 +31,7 @@
         <!-- -------- START Grids -------- -->
           <div class="container">
             <!-- -------- START loop -------- -->
-            {% if pub_list %}
+
                 {% for pub in pub_list %}
                     <h3>{{ pub.publication_title }}</h3>
                     <div class="row">
@@ -39,19 +39,15 @@
                             <h5 class="font-weight-bolder mt-3">URL</h5>
                           <p class="pe-5">{{ pub.publication_url }}</p>
                         </div>
-                        {% if pub.project_names %}
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
-                            <p class="pe-5">{{ pub.project_names.project_label|join: ", " }}</p>
-                        </div>
-                        {% endif %}
+
+
+
                     <div class="w-100"></div>
                     </div>
                     <hr/>
                 {% endfor %}
-              {% else %}
-                <p class="lead">No publications are available.</p>
-              {% endif %}
+
+
             <!-- -------- END loop -------- -->
           </div>
         <!-- -------- END Grids -------- -->
