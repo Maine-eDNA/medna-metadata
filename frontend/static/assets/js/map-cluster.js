@@ -11,7 +11,7 @@ var geoJsonLayer = L.geoJSON(markers, {
     }
 });
 console.log(geoJsonLayer.getLayers().length);
-if (markers.length == 0) {
+if (geoJsonLayer.getLayers().length == 0) {
     document.getElementById('markers-data').textContent="";
 } else {
     console.log(geoJsonLayer.getLayers().length);
@@ -19,12 +19,11 @@ if (markers.length == 0) {
     var markersGroup = new L.markerClusterGroup();
     var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     var map = L.map('map')
+
     // create the map
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: attribution
     }).addTo(map);
-
-
 
     markersGroup.addLayer(geoJsonLayer);
 
