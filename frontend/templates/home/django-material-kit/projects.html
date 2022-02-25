@@ -33,7 +33,7 @@
             <!-- -------- START loop -------- -->
             {% if project_list %}
                 {% for project in project_list %}
-                    {% if project.project_label != 'Maine eDNA' or 'Theme' not in project.project_label %}
+                    {% if project.project_label != 'Maine eDNA' %}
                     {% if project.project_description %}
                     <h3>{{ project.project_label }}</h3>
                     <a href="{% url 'project_detail' project.pk %}"><div class="row">
