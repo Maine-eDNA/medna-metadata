@@ -149,7 +149,7 @@ class Migration(migrations.Migration):
                 ('freezer_empty_box_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='Empty Freezer Box BG CSS')),
                 ('freezer_empty_box_css_text_color', models.CharField(default='white', max_length=255, verbose_name='Empty Freezer Box Text CSS')),
                 ('freezer_inuse_box_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='InUse Freezer Box BG CSS')),
-                ('freezer_inuse_box_css_text_color', models.CharField(default='white', max_length=255, verbose_name='"InUse Freezer Box Text CSS')),
+                ('freezer_inuse_box_css_text_color', models.CharField(default='white', max_length=255, verbose_name='InUse Freezer Box Text CSS')),
                 ('freezer_empty_inventory_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='Empty Freezer Inv BG CSS')),
                 ('freezer_empty_inventory_css_text_color', models.CharField(default='white', max_length=255, verbose_name='Empty Freezer Inv Text CSS')),
                 ('freezer_inuse_inventory_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='InUse Freezer Inv BG CSS')),
