@@ -323,10 +323,10 @@ class LibraryPrep(DateTimeUserMixin):
     amplification_method = models.ForeignKey(AmplificationMethod, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     # may use multiple size_selection_methods so this needs to be an m2m field
-    size_selection_method = models.ManyToManyField(SizeSelectionMethod, related_name='sizeselectionmethod_to_libraryprep')
-    index_pair = models.ManyToManyField(IndexPair, related_name='indexpair_to_libraryprep')
+    size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
+    index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     # may use multiple index_removal_methods so this needs to be a m2m field
-    index_removal_method = models.ManyToManyField(IndexRemovalMethod, related_name='indexremovalmethod_to_libraryprep')
+    index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     lib_prep_qubit_results = models.DecimalField("QuBit Results", blank=True, null=True, max_digits=15, decimal_places=10)
     # units will be in ng/ml

@@ -209,9 +209,6 @@ class PcrTestCase(TestCase):
 
 class LibraryPrepTestCase(TestCase):
     def setUp(self):
-        manytomany_ssm_list = []
-        manytomany_ip_list = []
-        manytomany_irm_list = []
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
@@ -231,20 +228,20 @@ class LibraryPrepTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
         index_pair = IndexPair.objects.filter()[:1].get()
-        manytomany_ip_list.append(index_pair)
         index_removal_method = IndexRemovalMethod.objects.filter()[:1].get()
-        manytomany_irm_list.append(index_removal_method)
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
-        manytomany_ssm_list.append(size_selection_method)
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         amplification_method = AmplificationMethod.objects.filter()[:1].get()
-        library_prep, created = LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
-                                                                  defaults={
-                                                                      'lib_prep_datetime': current_datetime,
-                                                                      'process_location': process_location,
-                                                                      'extraction': extraction,
-                                                                      'amplification_method': amplification_method,
+        LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
+                                          defaults={
+                                              'lib_prep_datetime': current_datetime,
+                                              'process_location': process_location,
+                                              'extraction': extraction,
+                                              'amplification_method': amplification_method,
                                                                       'primer_set': primer_set,
+                                                                      'index_pair': index_pair,
+                                                                      'index_removal_method': index_removal_method,
+                                                                      'size_selection_method': size_selection_method,
                                                                       'quantification_method': quantification_method,
                                                                       'lib_prep_qubit_results': 0.100,
                                                                       'lib_prep_qubit_units': ConcentrationUnits.NGML,
@@ -259,9 +256,6 @@ class LibraryPrepTestCase(TestCase):
                                                                       'lib_prep_sop_url': "https://sop_url.com",
                                                                       'lib_prep_notes': "lib prep notes"
                                                                   })
-        library_prep.size_selection_method.set(manytomany_ssm_list, clear=True)
-        library_prep.index_pair.set(manytomany_ip_list, clear=True)
-        library_prep.index_removal_method.set(manytomany_irm_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
