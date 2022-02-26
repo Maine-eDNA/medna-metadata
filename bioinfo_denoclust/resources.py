@@ -11,19 +11,19 @@ class QualityMetadataAdminResource(resources.ModelResource):
         model = QualityMetadata
         import_id_fields = ('analysis_name', 'run_result', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
-        fields = ('id', 'analysis_name', 'process_location',
+        fields = ('id', 'quality_slug', 'analysis_name', 'process_location',
                   'run_result', 'analysis_datetime',
                   'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                   'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
-                  'analysis_sop_url', 'analysis_script_repo_url', 'quality_slug',
+                  'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'analysis_name', 'process_location',
+        export_order = ('id', 'quality_slug', 'analysis_name', 'process_location',
                         'run_result', 'analysis_datetime',
                         'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                         'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                         'min_read_length', 'max_read_length',
-                        'analysis_sop_url', 'analysis_script_repo_url', 'quality_slug',
+                        'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     process_location = fields.Field(
@@ -50,11 +50,13 @@ class DenoiseClusterMethodAdminResource(resources.ModelResource):
     class Meta:
         model = DenoiseClusterMethod
         import_id_fields = ('denoise_cluster_method_name', 'denoise_cluster_method_software_package', )
-        fields = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_software_package',
-                  'denoise_cluster_method_env_url', 'denoise_cluster_method_slug',
+        fields = ('id', 'denoise_cluster_method_slug', 'denoise_cluster_method_name',
+                  'denoise_cluster_method_software_package',
+                  'denoise_cluster_method_env_url',
                   'created_by', 'modified_datetime', 'created_datetime', )
-        export_order = ('id', 'denoise_cluster_method_name', 'denoise_cluster_method_software_package',
-                        'denoise_cluster_method_env_url', 'denoise_cluster_method_slug',
+        export_order = ('id', 'denoise_cluster_method_slug', 'denoise_cluster_method_name',
+                        'denoise_cluster_method_software_package',
+                        'denoise_cluster_method_env_url',
                         'created_by', 'modified_datetime', 'created_datetime', )
 
     created_by = fields.Field(
@@ -72,13 +74,13 @@ class DenoiseClusterMetadataAdminResource(resources.ModelResource):
         model = DenoiseClusterMetadata
         import_id_fields = ('analysis_name', 'quality_metadata', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
-        fields = ('id', 'analysis_name', 'process_location', 'analysis_datetime',
-                  'denoise_cluster_slug', 'quality_metadata',
+        fields = ('id', 'denoise_cluster_slug', 'analysis_name', 'process_location', 'analysis_datetime',
+                  'quality_metadata',
                   'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'analysis_name', 'process_location', 'analysis_datetime',
-                        'denoise_cluster_slug', 'quality_metadata',
+        export_order = ('id', 'denoise_cluster_slug', 'analysis_name', 'process_location', 'analysis_datetime',
+                        'quality_metadata',
                         'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
                         'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', 'modified_datetime', )

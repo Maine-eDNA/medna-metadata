@@ -25,7 +25,7 @@ class EnvoBiomeFirstAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_first_tier', 'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['biome_first_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -59,8 +59,7 @@ class EnvoBiomeSecondAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_second_tier', 'biome_first_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['biome_second_tier', 'biome_first_tier', 'envo_identifier', 'ontology_url', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         # self.list_filter = (
         #    ('biome_first_tier', RelatedDropdownFilter)
@@ -100,8 +99,7 @@ class EnvoBiomeThirdAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_third_tier', 'biome_second_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['biome_third_tier', 'biome_second_tier', 'envo_identifier', 'ontology_url', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -139,8 +137,7 @@ class EnvoBiomeFourthAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_fourth_tier', 'biome_third_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['biome_fourth_tier', 'biome_third_tier', 'envo_identifier', 'ontology_url', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -180,8 +177,7 @@ class EnvoBiomeFifthAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_fourth_tier', 'biome_fifth_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['biome_fourth_tier', 'biome_fifth_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime', )
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -219,7 +215,7 @@ class EnvoFeatureFirstAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_first_tier', 'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_first_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime',)
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -253,8 +249,7 @@ class EnvoFeatureSecondAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_second_tier', 'feature_first_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_second_tier', 'feature_first_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime', )
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -290,8 +285,7 @@ class EnvoFeatureThirdAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_third_tier', 'feature_second_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_third_tier', 'feature_second_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -329,8 +323,7 @@ class EnvoFeatureFourthAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_fourth_tier', 'feature_third_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_fourth_tier', 'feature_third_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -370,8 +363,7 @@ class EnvoFeatureFifthAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_fifth_tier', 'feature_fourth_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_fifth_tier', 'feature_fourth_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -411,8 +403,7 @@ class EnvoFeatureSixthAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_sixth_tier', 'feature_fifth_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_sixth_tier', 'feature_fifth_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -454,8 +445,7 @@ class EnvoFeatureSeventhAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_seventh_tier', 'feature_sixth_tier',
-                       'envo_identifier', 'ontology_url', 'created_by']
+        self.fields = ['feature_seventh_tier', 'feature_sixth_tier', 'envo_identifier', 'ontology_url', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -496,7 +486,7 @@ class SystemAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['system_label', 'system_code', 'created_by']
+        self.fields = ['system_label', 'system_code', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -528,9 +518,8 @@ class GeoWatershedAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     readonly_fields = ('modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
-        self.fields = ['watershed_code', 'watershed_label',
-                       'huc8', 'states', 'lat', 'lon', 'area_sqkm', 'area_acres', 'geom',
-                       'created_by']
+        self.fields = ['watershed_code', 'watershed_label', 'huc8', 'states',
+                       'lat', 'lon', 'area_sqkm', 'area_acres', 'geom', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -598,8 +587,7 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'envo_feature_fifth', 'envo_feature_fourth',
                        'envo_feature_third', 'envo_feature_second',
                        'envo_feature_first',
-                       'geom',
-                       'created_by']
+                       'geom', ]
         # self.list_filter = (
         #    ('grant', RelatedDropdownFilter),
         #    ('system', RelatedDropdownFilter),
