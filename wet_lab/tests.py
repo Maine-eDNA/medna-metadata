@@ -3,7 +3,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, QuantificationMet
     SizeSelectionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, VolUnits, ConcentrationUnits, PcrUnits, LibPrepKits, \
-    LibPrepTypes, PhiXConcentrationUnits
+    LibPrepTypes, PhiXConcentrationUnits, LibLayouts
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
 from sample_labels.models import SampleBarcode
@@ -253,6 +253,7 @@ class LibraryPrepTestCase(TestCase):
                                                                       'lib_prep_final_concentration': 0.100,
                                                                       'lib_prep_final_concentration_units': ConcentrationUnits.NM,
                                                                       'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
+                                                                      'lib_prep_layout': LibLayouts.PAIRED,
                                                                       'lib_prep_type': LibPrepTypes.AMPLICON,
                                                                       'lib_prep_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
                                                                       'lib_prep_sop_url': "https://sop_url.com",

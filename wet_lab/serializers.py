@@ -5,7 +5,8 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
 from sample_labels.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
-from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, LibPrepTypes
+from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, \
+    LibPrepTypes, LibLayouts
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -287,6 +288,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_final_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     lib_prep_final_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     lib_prep_kit = serializers.CharField(max_length=255)
+    lib_prep_layout = serializers.ChoiceField(choices=LibLayouts.choices)
     lib_prep_type = serializers.ChoiceField(choices=LibPrepTypes.choices)
     lib_prep_thermal_cond = serializers.URLField(max_length=255)
     lib_prep_sop_url = serializers.URLField(max_length=255)
@@ -300,7 +302,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
                   'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
                   'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add

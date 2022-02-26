@@ -249,6 +249,13 @@ class PcrTypes(models.TextChoices):
     QPCR = 'qpcr', _('qPCR')
 
 
+class LibLayouts(models.TextChoices):
+    PAIRED = 'paired-end', _('Paired-End')
+    SINGLE = 'single-end', _('Single-End')
+    VECTOR = 'vector', _('Vector')
+    OTHER = 'other', _('Other')
+
+
 class LibPrepTypes(models.TextChoices):
     AMPLICON = 'amplicon', _('Amplicon Sequencing')
     RNA = 'rna', _('16s rRNA Sequencing')

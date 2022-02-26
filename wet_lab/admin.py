@@ -435,7 +435,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_qubit_results', 'lib_prep_qubit_units',
                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                       'lib_prep_kit', 'lib_prep_type',
+                       'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout',
                        'lib_prep_thermal_cond', 'lib_prep_sop_url',
                        'lib_prep_notes',
                        'created_by']
@@ -456,7 +456,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_qubit_results', 'lib_prep_qubit_units',
                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                       'lib_prep_kit', 'lib_prep_type',
+                       'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout',
                        'lib_prep_thermal_cond', 'lib_prep_sop_url',
                        'lib_prep_notes',
                        'created_by', 'modified_datetime', 'created_datetime']

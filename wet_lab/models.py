@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
-    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes
+    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes, LibLayouts
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
@@ -339,6 +339,8 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_final_concentration_units = models.CharField("Library Prep Final Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
     lib_prep_kit = models.CharField("Library Prep Kit", max_length=50, choices=LibPrepKits.choices, default=LibPrepKits.NEXTERAXTV2)
     lib_prep_type = models.CharField("Library Prep Type", max_length=50, choices=LibPrepTypes.choices)
+    # MIxS lib_layout - Specify whether to expect single-end, paired-end, or other configuration of reads
+    lib_prep_layout = models.CharField("Library Layout", max_length=50, choices=LibLayouts.choices)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
     lib_prep_thermal_cond = models.TextField("Library Prep Thermal Conditions")
     lib_prep_sop_url = models.URLField("Library Prep SOP URL", max_length=255)

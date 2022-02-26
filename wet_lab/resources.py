@@ -313,7 +313,7 @@ class LibraryPrepAdminResource(resources.ModelResource):
                   'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units',
                   'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_cond', 'lib_prep_sop_url',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url',
                   'lib_prep_notes',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'lib_prep_experiment_name', 'lib_prep_slug',
@@ -323,7 +323,7 @@ class LibraryPrepAdminResource(resources.ModelResource):
                         'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units',
                         'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                         'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_thermal_cond', 'lib_prep_sop_url',
+                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url',
                         'lib_prep_notes',
                         'created_by', 'created_datetime', )
 
