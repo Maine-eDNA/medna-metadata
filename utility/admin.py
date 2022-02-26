@@ -148,7 +148,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
                        'process_location_url', 'phone_number',
                        'location_email_address', 'point_of_contact_email_address',
                        'point_of_contact_first_name', 'point_of_contact_last_name',
-                       'location_notes', 'created_by', ]
+                       'location_notes', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -195,8 +195,7 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
                        'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
-                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
-                       'created_by', ]
+                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -249,8 +248,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
                        'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
-                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
-                       'created_by', ]
+                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()

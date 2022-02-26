@@ -263,9 +263,10 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['collection_global_id', 'sample_global_id', 'field_sample_barcode', 'barcode_slug', 'is_extracted',
+        self.fields = ['barcode_slug', 'collection_global_id', 'sample_global_id',
+                       'field_sample_barcode', 'sample_material', 'is_extracted',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'sample_material', 'created_by', 'modified_datetime', 'created_datetime', ]
+                       'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
@@ -394,7 +395,7 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken', 'core_subcorer',
                        'water_filterer', 'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', 'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -437,8 +438,7 @@ class FieldCrewETLAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         self.fields = ['crew_global_id', 'survey_global_id', 'crew_fname', 'crew_lname',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -481,8 +481,7 @@ class EnvMeasurementETLAdmin(ImportExportActionModelAdmin):
                        'env_ph_scale', 'env_par1', 'env_par2', 'env_turbidity', 'env_conductivity', 'env_do',
                        'env_pheophytin', 'env_chla', 'env_no3no2', 'env_no2', 'env_nh4', 'env_phosphate',
                        'env_substrate', 'env_lab_datetime', 'env_measure_notes',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -533,8 +532,7 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
                        'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -581,8 +579,7 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
         self.fields = ['filter_global_id', 'collection_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
-                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
-                       'created_by']
+                       'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields

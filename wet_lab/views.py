@@ -232,6 +232,7 @@ class LibraryPrepFilter(filters.FilterSet):
     index_removal_method = filters.CharFilter(field_name='index_removal_method__index_removal_method_slug', lookup_expr='iexact')
     lib_prep_kit = filters.CharFilter(field_name='lib_prep_kit', lookup_expr='iexact')
     lib_prep_type = filters.CharFilter(field_name='lib_prep_type', lookup_expr='iexact')
+    lib_prep_layout = filters.CharFilter(field_name='lib_prep_layout', lookup_expr='iexact')
 
     class Meta:
         model = LibraryPrep
@@ -242,7 +243,7 @@ class LibraryPrepFilter(filters.FilterSet):
                   'size_selection_method',
                   'index_pair',
                   'index_removal_method',
-                  'lib_prep_kit', 'lib_prep_type', ]
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', ]
 
 
 class LibraryPrepViewSet(viewsets.ModelViewSet):

@@ -240,13 +240,14 @@ class AnnotationMethodViewSet(viewsets.ModelViewSet):
 
 class AnnotationMetadataFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    analysis_name = filters.CharFilter(field_name='analysis_name', lookup_expr='iexact')
     process_location = filters.CharFilter(field_name='process_location__process_location_name_slug', lookup_expr='iexact')
     denoise_cluster_metadata = filters.CharFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', lookup_expr='iexact')
     annotation_method = filters.CharFilter(field_name='annotation_method__annotation_method_name_slug', lookup_expr='iexact')
 
     class Meta:
         model = AnnotationMetadata
-        fields = ['created_by', 'process_location', 'denoise_cluster_metadata', 'annotation_method', ]
+        fields = ['created_by', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'annotation_method', ]
 
 
 class AnnotationMetadataViewSet(viewsets.ModelViewSet):

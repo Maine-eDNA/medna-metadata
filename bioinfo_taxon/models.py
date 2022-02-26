@@ -312,6 +312,7 @@ class AnnotationMethod(DateTimeUserMixin):
 
 
 class AnnotationMetadata(DateTimeUserMixin):
+    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     denoise_cluster_metadata = models.ForeignKey('bioinfo_denoclust.denoiseclustermetadata', on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
@@ -363,6 +364,12 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     manual_genus = models.ForeignKey(TaxonGenus, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_genus")
     manual_species = models.ForeignKey(TaxonSpecies, blank=True, null=True, on_delete=models.RESTRICT, related_name="manual_species")
     manual_notes = models.TextField("Manual Annotation Notes", blank=True)
+    annotation_slug = models.SlugField("Annotation Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.annotation_slug = '{taxon}_{feature}'.format(taxon=slugify(self.ta_taxon),
+                                                          feature=slugify(self.feature.feature_id))
+        super(TaxonomicAnnotation, self).save(*args, **kwargs)
 
     def __str__(self):
         return '{taxon} {feature}'.format(

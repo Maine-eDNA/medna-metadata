@@ -249,6 +249,13 @@ class PcrTypes(models.TextChoices):
     QPCR = 'qpcr', _('qPCR')
 
 
+class LibLayouts(models.TextChoices):
+    PAIRED = 'paired-end', _('Paired-End')
+    SINGLE = 'single-end', _('Single-End')
+    VECTOR = 'vector', _('Vector')
+    OTHER = 'other', _('Other')
+
+
 class LibPrepTypes(models.TextChoices):
     AMPLICON = 'amplicon', _('Amplicon Sequencing')
     RNA = 'rna', _('16s rRNA Sequencing')
@@ -380,6 +387,12 @@ class CheckoutActions(models.TextChoices):
     CHECKOUT = 'checkout', _('Checkout')
     RETURN = 'return', _('Return')
     REMOVE = 'perm_removed', _('Permanent Removal')
+
+
+# BIOINFORMATICS CHOICES
+class QualityChecks(models.TextChoices):
+    NONE = 'none', _('None')
+    MANUAL = 'manual_edit', _('Manually Edited')
 
 
 # class InvCategories(models.TextChoices):

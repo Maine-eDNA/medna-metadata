@@ -152,6 +152,7 @@ class AnnotationMetadataTestCase(TestCase):
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method = AnnotationMethod.objects.filter()[:1].get()
         AnnotationMetadata.objects.get_or_create(defaults={
+                                                        'analysis_name': 'test_name',
                                                         'process_location': process_location,
                                                         'denoise_cluster_metadata': denoise_cluster_metadata,
                                                         'analysis_datetime': current_datetime,

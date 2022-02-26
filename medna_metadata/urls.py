@@ -31,7 +31,6 @@ from bioinfo_taxon import views as bioinfo_taxon_views
 from utility import views as utility_views
 from users import views as users_views
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Maine-eDNA Metadata API",
@@ -158,6 +157,7 @@ router.register(r'freezer_inventory/inventory_location', freezer_inventory_views
 router.register(r'freezer_inventory/inventory_logs', freezer_inventory_views.FreezerInventoryLogsNestedViewSet, 'inventory_logs')
 router.register(r'freezer_inventory/inventory_returns', freezer_inventory_views.FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
 # bioinfo_denoclust
+router.register(r'bioinfo/quality_metadata', bioinfo_denoclust_views.QualityMetadataViewSet, 'quality_metadata')
 router.register(r'bioinfo/denoisecluster_method', bioinfo_denoclust_views.DenoiseClusterMethodViewSet, 'denoisecluster_method')
 router.register(r'bioinfo/denoisecluster_metadata', bioinfo_denoclust_views.DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
 router.register(r'bioinfo/feature', bioinfo_denoclust_views.FeatureOutputViewSet, 'feature')

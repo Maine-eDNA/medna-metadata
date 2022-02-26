@@ -265,6 +265,7 @@ class AnnotationMethodSerializer(serializers.ModelSerializer):
 
 class AnnotationMetadataSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    analysis_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=AnnotationMetadata.objects.all())])
     analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
@@ -276,7 +277,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnnotationMetadata
-        fields = ['id', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+        fields = ['id', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -303,6 +304,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     ta_species = serializers.CharField(max_length=255, allow_blank=True)
     ta_common_name = serializers.CharField(max_length=255, allow_blank=True)
     manual_notes = serializers.CharField(allow_blank=True)
+    annotation_slug = serializers.SlugField(max_length=255, read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -318,6 +320,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species', 'manual_notes',
+                  'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add

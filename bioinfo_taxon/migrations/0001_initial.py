@@ -226,6 +226,7 @@ class Migration(migrations.Migration):
             name='AnnotationMetadata',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('analysis_name', models.CharField(verbose_name="Analysis Name", max_length=255, unique=True)),
                 ('analysis_datetime', models.DateTimeField(verbose_name='Analysis DateTime')),
                 ('annotation_slug', models.SlugField(max_length=255, verbose_name='Annotation Metadata Slug')),
                 ('analyst_first_name', models.CharField(max_length=255, verbose_name='Analyst First Name')),
@@ -271,6 +272,7 @@ class Migration(migrations.Migration):
                 ('manual_genus', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_genus', to='bioinfo_taxon.taxongenus')),
                 ('manual_species', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_species', to='bioinfo_taxon.taxonspecies')),
                 ('manual_notes', models.TextField(verbose_name='Manual Annotation Notes', blank=True)),
+                ('annotation_slug', models.SlugField(verbose_name='Annotation Slug', max_length=255)),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

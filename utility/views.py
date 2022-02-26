@@ -15,7 +15,7 @@ from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, Concentratio
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
-    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes
+    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes, LibLayouts
 from field_survey.models import FieldSurvey
 from django.views.generic.base import TemplateView
 # from django_filters.rest_framework import DjangoFilterBackend
@@ -463,6 +463,17 @@ class PcrTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
         choices = []
         for choice in PcrTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class LibLayoutsChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ["choices"]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in LibLayouts:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)

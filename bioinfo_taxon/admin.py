@@ -23,7 +23,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
-                       'refdb_repo_url', 'refdb_notes', 'created_by']
+                       'refdb_repo_url', 'refdb_notes', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -60,7 +60,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_domain', 'taxon_url', 'created_by']
+        self.fields = ['taxon_domain', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -96,8 +96,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_kingdom', 'taxon_domain', 'taxon_url',
-                       'created_by', ]
+        self.fields = ['taxon_kingdom', 'taxon_domain', 'taxon_url', ]
         # self.list_filter = (
         #     ('taxon_domain', RelatedDropdownFilter)
         # )
@@ -137,7 +136,7 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_phylum', 'taxon_kingdom', 'taxon_url', 'created_by', ]
+        self.fields = ['taxon_phylum', 'taxon_kingdom', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -176,7 +175,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class', 'taxon_phylum', 'taxon_url', 'created_by']
+        self.fields = ['taxon_class', 'taxon_phylum', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -217,7 +216,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_order', 'taxon_class', 'taxon_url', 'created_by']
+        self.fields = ['taxon_order', 'taxon_class', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -259,7 +258,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_family', 'taxon_order', 'taxon_url', 'created_by']
+        self.fields = ['taxon_family', 'taxon_order', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -302,7 +301,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_genus', 'taxon_family', 'taxon_url', 'created_by']
+        self.fields = ['taxon_genus', 'taxon_family', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -348,8 +347,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_species', 'taxon_genus', 'taxon_common_name',
-                       'is_endemic', 'taxon_url', 'created_by']
+        self.fields = ['taxon_species', 'taxon_genus', 'taxon_common_name', 'is_endemic', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -430,9 +428,8 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
-                       'analyst_first_name', 'analyst_last_name',
-                       'analysis_sop_url', 'analysis_script_repo_url', 'created_by']
+        self.fields = ['analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+                       'analyst_first_name', 'analyst_last_name', 'analysis_sop_url', 'analysis_script_repo_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -441,7 +438,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['annotation_slug', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime',
+        self.fields = ['annotation_slug', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime',
                        'annotation_method', 'analyst_first_name', 'analyst_last_name',
                        'analysis_sop_url', 'analysis_script_repo_url',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -466,7 +463,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', 'annotation_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -479,8 +476,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
                        'manual_kingdom', 'manual_phylum',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
-                       'manual_species', 'manual_notes',
-                       'created_by']
+                       'manual_species', 'manual_notes', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -489,7 +485,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['feature', 'annotation_metadata',
+        self.fields = ['annotation_slug', 'feature', 'annotation_metadata',
                        'reference_database', 'confidence',
                        'ta_taxon', 'ta_domain', 'ta_kingdom',
                        'ta_phylum', 'ta_class', 'ta_order',

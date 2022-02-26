@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
-    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes
+    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes, LibLayouts
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
@@ -312,7 +312,6 @@ class Pcr(DateTimeUserMixin):
 class LibraryPrep(DateTimeUserMixin):
     # TODO - add MIxS lib_size - Total number of clones in the library prepared for the project
     # TODO - add MIxS lib_reads_seqd - SampleSheet.csv [reads], library reads sequenced
-    # TODO - add MIxS lib_layout - SampleSheet.csv?, Specify whether to expect single, paired, or other configuration of reads
     # TODO - add MIxS lib_vector - Cloning vector type(s) used in construction of libraries
     # TODO - add MIxS lib_screen? library screening strategy (enriched, screened, normalized); Specific enrichment or screening methods applied before and/or after creating libraries
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)
@@ -324,10 +323,10 @@ class LibraryPrep(DateTimeUserMixin):
     amplification_method = models.ForeignKey(AmplificationMethod, on_delete=models.RESTRICT)
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     # may use multiple size_selection_methods so this needs to be an m2m field
-    size_selection_method = models.ManyToManyField(SizeSelectionMethod, related_name='sizeselectionmethod_to_libraryprep')
-    index_pair = models.ManyToManyField(IndexPair, related_name='indexpair_to_libraryprep')
+    size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
+    index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
     # may use multiple index_removal_methods so this needs to be a m2m field
-    index_removal_method = models.ManyToManyField(IndexRemovalMethod, related_name='indexremovalmethod_to_libraryprep')
+    index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
     lib_prep_qubit_results = models.DecimalField("QuBit Results", blank=True, null=True, max_digits=15, decimal_places=10)
     # units will be in ng/ml
@@ -339,6 +338,8 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_final_concentration_units = models.CharField("Library Prep Final Units", max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NM)
     lib_prep_kit = models.CharField("Library Prep Kit", max_length=50, choices=LibPrepKits.choices, default=LibPrepKits.NEXTERAXTV2)
     lib_prep_type = models.CharField("Library Prep Type", max_length=50, choices=LibPrepTypes.choices)
+    # MIxS lib_layout - Specify whether to expect single-end, paired-end, or other configuration of reads
+    lib_prep_layout = models.CharField("Library Layout", max_length=50, choices=LibLayouts.choices)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
     lib_prep_thermal_cond = models.TextField("Library Prep Thermal Conditions")
     lib_prep_sop_url = models.URLField("Library Prep SOP URL", max_length=255)

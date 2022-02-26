@@ -3,7 +3,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, QuantificationMet
     SizeSelectionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, VolUnits, ConcentrationUnits, PcrUnits, LibPrepKits, \
-    LibPrepTypes, PhiXConcentrationUnits
+    LibPrepTypes, PhiXConcentrationUnits, LibLayouts
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
 from sample_labels.models import SampleBarcode
@@ -209,9 +209,6 @@ class PcrTestCase(TestCase):
 
 class LibraryPrepTestCase(TestCase):
     def setUp(self):
-        manytomany_ssm_list = []
-        manytomany_ip_list = []
-        manytomany_irm_list = []
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
@@ -231,20 +228,20 @@ class LibraryPrepTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
         index_pair = IndexPair.objects.filter()[:1].get()
-        manytomany_ip_list.append(index_pair)
         index_removal_method = IndexRemovalMethod.objects.filter()[:1].get()
-        manytomany_irm_list.append(index_removal_method)
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
-        manytomany_ssm_list.append(size_selection_method)
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         amplification_method = AmplificationMethod.objects.filter()[:1].get()
-        library_prep, created = LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
-                                                                  defaults={
-                                                                      'lib_prep_datetime': current_datetime,
-                                                                      'process_location': process_location,
-                                                                      'extraction': extraction,
-                                                                      'amplification_method': amplification_method,
+        LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
+                                          defaults={
+                                              'lib_prep_datetime': current_datetime,
+                                              'process_location': process_location,
+                                              'extraction': extraction,
+                                              'amplification_method': amplification_method,
                                                                       'primer_set': primer_set,
+                                                                      'index_pair': index_pair,
+                                                                      'index_removal_method': index_removal_method,
+                                                                      'size_selection_method': size_selection_method,
                                                                       'quantification_method': quantification_method,
                                                                       'lib_prep_qubit_results': 0.100,
                                                                       'lib_prep_qubit_units': ConcentrationUnits.NGML,
@@ -253,14 +250,12 @@ class LibraryPrepTestCase(TestCase):
                                                                       'lib_prep_final_concentration': 0.100,
                                                                       'lib_prep_final_concentration_units': ConcentrationUnits.NM,
                                                                       'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
+                                                                      'lib_prep_layout': LibLayouts.PAIRED,
                                                                       'lib_prep_type': LibPrepTypes.AMPLICON,
                                                                       'lib_prep_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
                                                                       'lib_prep_sop_url': "https://sop_url.com",
                                                                       'lib_prep_notes': "lib prep notes"
                                                                   })
-        library_prep.size_selection_method.set(manytomany_ssm_list, clear=True)
-        library_prep.index_pair.set(manytomany_ip_list, clear=True)
-        library_prep.index_removal_method.set(manytomany_irm_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
