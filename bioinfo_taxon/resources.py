@@ -256,14 +256,14 @@ class AnnotationMethodAdminResource(resources.ModelResource):
 class AnnotationMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = AnnotationMetadata
-        import_id_fields = ('analysis_datetime', 'annotation_method',
+        import_id_fields = ('analysis_name', 'analysis_datetime', 'annotation_method',
                             'analyst_first_name', 'analyst_last_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+        fields = ('id', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+        export_order = ('id', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                         'analyst_first_name', 'analyst_last_name',
                         'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', )
@@ -307,7 +307,8 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species', 'manual_notes',
-                  'created_by', 'created_datetime', )
+                  'annotation_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'feature', 'annotation_metadata',
                         'reference_database', 'confidence',
                         'ta_taxon', 'ta_domain', 'ta_kingdom',
@@ -318,7 +319,8 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                         'manual_class', 'manual_order',
                         'manual_family', 'manual_genus',
                         'manual_species', 'manual_notes',
-                        'created_by', 'created_datetime', )
+                        'annotation_slug',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     feature = fields.Field(
         column_name='feature',

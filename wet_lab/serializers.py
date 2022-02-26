@@ -276,7 +276,7 @@ class PcrSerializer(serializers.ModelSerializer):
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    lib_prep_experiment_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=LibraryPrep.objects.all())])
+    lib_prep_experiment_name = serializers.CharField(max_length=255)
     lib_prep_slug = serializers.SlugField(max_length=255, read_only=True)
     lib_prep_datetime = serializers.DateTimeField()
     lib_prep_qubit_results = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
@@ -304,6 +304,12 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=LibraryPrep.objects.all(),
+                fields=['lib_prep_experiment_name', 'extraction', ]
+            )
+        ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

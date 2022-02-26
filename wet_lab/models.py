@@ -312,7 +312,6 @@ class Pcr(DateTimeUserMixin):
 class LibraryPrep(DateTimeUserMixin):
     # TODO - add MIxS lib_size - Total number of clones in the library prepared for the project
     # TODO - add MIxS lib_reads_seqd - SampleSheet.csv [reads], library reads sequenced
-    # TODO - add MIxS lib_layout - SampleSheet.csv?, Specify whether to expect single, paired, or other configuration of reads
     # TODO - add MIxS lib_vector - Cloning vector type(s) used in construction of libraries
     # TODO - add MIxS lib_screen? library screening strategy (enriched, screened, normalized); Specific enrichment or screening methods applied before and/or after creating libraries
     lib_prep_experiment_name = models.CharField("Experiment Name", max_length=255)

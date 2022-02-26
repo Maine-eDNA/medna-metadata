@@ -389,6 +389,12 @@ class CheckoutActions(models.TextChoices):
     REMOVE = 'perm_removed', _('Permanent Removal')
 
 
+# BIOINFORMATICS CHOICES
+class QualityChecks(models.TextChoices):
+    NONE = 'none', _('None')
+    MANUAL = 'manual_edit', _('Manually Edited')
+
+
 # class InvCategories(models.TextChoices):
 #    FIELDSAMPLE = 'fieldsample', _('Field Sample')
 #    LABSAMPLE = 'labsample', _('Lab Sample')
