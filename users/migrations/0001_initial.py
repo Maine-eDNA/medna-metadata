@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
-                ('profile_image', models.FileField(max_length=255, blank=True, storage=medna_metadata.storage_backends.PrivateMediaStorage(), upload_to='', verbose_name='Profile Image')),
+                ('profile_image', models.FileField(blank=True, max_length=255, storage=medna_metadata.storage_backends.select_private_media_storage, upload_to='', verbose_name='Profile Image')),
                 ('phone_number', phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=128, null=True, region=None)),
                 ('agol_username', models.CharField(blank=True, max_length=255, verbose_name='ArcGIS Online Username')),
                 ('expiration_date', models.DateTimeField(default=users.models.now_plus_max, verbose_name='Expiration Date')),

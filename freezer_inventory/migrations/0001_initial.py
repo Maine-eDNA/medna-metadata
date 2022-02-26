@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('freezer_inventory_slug', models.SlugField(max_length=27, unique=True, verbose_name='Freezer Inventory Slug')),
-                ('freezer_inventory_type', models.CharField(choices=[('filter', 'Filter'), ('subcore', 'SubCore'), ('extraction', 'Extraction')], max_length=50, verbose_name='Freezer Inventory Type')),
+                ('freezer_inventory_type', models.CharField(choices=[('filter', 'Filter'), ('subcore', 'SubCore'), ('extraction', 'Extraction'), ('pooled_lib', 'Pooled Library')], max_length=50, verbose_name='Freezer Inventory Type')),
                 ('freezer_inventory_status', models.CharField(choices=[('in', 'In Stock'), ('out', 'Checked Out'), ('perm_removed', 'Permanently Removed')], default='in', max_length=50, verbose_name='Freezer Inventory Status')),
                 ('freezer_inventory_loc_status', models.CharField(choices=[('empty', 'Empty'), ('filled', 'Filled')], default='filled', max_length=50, verbose_name='Freezer Inventory Location Status')),
                 ('freezer_inventory_column', models.PositiveIntegerField(verbose_name='Freezer Box Column')),
@@ -148,7 +148,7 @@ class Migration(migrations.Migration):
                 ('freezer_log', models.OneToOneField(limit_choices_to={'freezer_log_action': 'return'}, on_delete=django.db.models.deletion.RESTRICT, related_name='freezer_return_metadata', primary_key=True, serialize=False, to='freezer_inventory.freezerinventorylog')),
                 ('freezer_return_slug', models.SlugField(max_length=255, verbose_name='Return Slug')),
                 ('freezer_return_metadata_entered', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Metadata Entered')),
-                ('freezer_return_actions', models.ManyToManyField(blank=True, related_name='freezer_return_actions', to='freezer_inventory.returnaction', verbose_name='Return Action(s)')),
+                ('freezer_return_actions', models.ManyToManyField(blank=True, related_name='freezer_return_actions', to='freezer_inventory.ReturnAction', verbose_name='Return Action(s)')),
                 ('freezer_return_vol_taken', models.DecimalField(blank=True, null=True, decimal_places=10, max_digits=15, verbose_name='Volume Taken')),
                 ('freezer_return_vol_units', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('microliter', 'microliter (µL)'), ('milliliter', 'milliliter (mL)')], max_length=50, verbose_name='Volume Units')),
                 ('freezer_return_notes', models.TextField(blank=True, verbose_name='Return Notes')),
