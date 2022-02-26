@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from .serializers import QualityMetadataSerializer, DenoiseClusterMethodSerializer, DenoiseClusterMetadataSerializer, \
     FeatureOutputSerializer, FeatureReadSerializer
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead
@@ -19,7 +19,7 @@ class QualityMetadataFilter(filters.FilterSet):
 
 
 class QualityMetadataViewSet(viewsets.ModelViewSet):
-    serializer_class = DenoiseClusterMetadataSerializer
+    serializer_class = QualityMetadataSerializer
     queryset = QualityMetadata.objects.prefetch_related('created_by', 'process_location', 'run_result', )
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location__process_location_name_slug',
