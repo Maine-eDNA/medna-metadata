@@ -39,7 +39,7 @@ from freezer_inventory.views import ReturnActionViewSet, FreezerViewSet, Freezer
     FreezerInventoryViewSet, FreezerInventoryLogViewSet, FreezerInventoryReturnMetadataViewSet, \
     FreezerInventoryLocNestedViewSet, FreezerInventoryLogsNestedViewSet, FreezerInventoryReturnsNestedViewSet
 from bioinfo_denoclust.views import DenoiseClusterMethodViewSet, DenoiseClusterMetadataViewSet, \
-    FeatureOutputViewSet, FeatureReadViewSet
+    FeatureOutputViewSet, FeatureReadViewSet, QualityMetadataViewSet
 from bioinfo_taxon.views import ReferenceDatabaseViewSet, \
     TaxonDomainViewSet, TaxonKingdomViewSet, TaxonPhylumViewSet, \
     TaxonClassViewSet, TaxonOrderViewSet, TaxonFamilyViewSet, \
@@ -187,6 +187,7 @@ router.register(r'freezer_inventory/inventory_location', FreezerInventoryLocNest
 router.register(r'freezer_inventory/inventory_logs', FreezerInventoryLogsNestedViewSet, 'inventory_logs')
 router.register(r'freezer_inventory/inventory_returns', FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
 # bioinfo_denoclust
+router.register(r'bioinfo/quality_metadata', QualityMetadataViewSet, 'quality_metadata')
 router.register(r'bioinfo/denoisecluster_method', DenoiseClusterMethodViewSet, 'denoisecluster_method')
 router.register(r'bioinfo/denoisecluster_metadata', DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
 router.register(r'bioinfo/feature', FeatureOutputViewSet, 'feature')
