@@ -70,7 +70,7 @@ class DenoiseClusterMethodAdminResource(resources.ModelResource):
 class DenoiseClusterMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = DenoiseClusterMetadata
-        import_id_fields = ('analysis_name', 'run_result', 'analysis_datetime',
+        import_id_fields = ('analysis_name', 'quality_metadata', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
         fields = ('id', 'analysis_name', 'process_location', 'analysis_datetime',
                   'denoise_cluster_slug', 'quality_metadata',
