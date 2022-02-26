@@ -38,7 +38,6 @@
       <div class="section text-start">
         <!-- -------- START Grids -------- -->
           <div class="container">
-            <!-- -------- START loop -------- -->
             {% if project.project_description %}
               <h5 class="font-weight-bolder mt-3">Description</h5>
               <p class="pe-5">{{ project.project_description }}</p>
@@ -46,7 +45,6 @@
             {{ markers|json_script:"markers-data" }}
             <div id="map"></div>
             <p id="map_empty" class="lead"></p>
-            <!-- -------- END loop -------- -->
           </div>
         <!-- -------- END Grids -------- -->
       </div>
