@@ -1,12 +1,12 @@
 # https://stackoverflow.com/questions/2719038/where-should-signal-handlers-live-in-a-django-project
 # https://docs.djangoproject.com/en/3.2/topics/signals/
-from bioinfo_taxon.tasks import update_domain, update_phylum, update_family, update_class, update_genus, \
-    update_order, update_kingdom
-from bioinfo_taxon.models import TaxonKingdom, TaxonPhylum, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
-    TaxonSpecies, TaxonDomain
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import transaction
+from .tasks import update_domain, update_phylum, update_family, update_class, update_genus, \
+    update_order, update_kingdom
+from .models import TaxonKingdom, TaxonPhylum, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
+    TaxonSpecies, TaxonDomain
 
 
 @receiver(post_save, sender=TaxonDomain, dispatch_uid="update_domain")

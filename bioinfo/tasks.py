@@ -1,11 +1,11 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
 # from medna_metadata.celery import app
 # from celery import Task
+from django.core.exceptions import ObjectDoesNotExist
+from celery.utils.log import get_task_logger
 from celery import shared_task
 from .models import TaxonDomain, TaxonKingdom, TaxonPhylum, TaxonClass, TaxonOrder, TaxonFamily, \
     TaxonGenus, TaxonSpecies
-from django.core.exceptions import ObjectDoesNotExist
-from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 
