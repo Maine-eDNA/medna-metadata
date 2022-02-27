@@ -1,0 +1,1 @@
+[{"model": "bioinfo.taxonkingdom", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2022-01-30T03:12:41.309Z", "created_datetime": "2022-01-30T03:30:36.795Z", "taxon_kingdom": "Animalia", "taxon_kingdom_slug": "animalia", "taxon_domain": 1, "taxon_url": "https://en.wikipedia.org/wiki/Animal", "taxon_domain_slug": "eukaryote"}}]
