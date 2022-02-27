@@ -87,14 +87,12 @@ GROUPS = {
         "Inventory Log": ["add", "delete", "change", "view"],
         "Inventory Return Metadata": ["add", "delete", "change", "view"],
 
-        # bioinfo_denoclust
+        # bioinfo
         "Quality Metadata":  ["add", "delete", "change", "view"],
         "DenoiseCluster Method": ["add", "delete", "change", "view"],
         "DenoiseCluster Metadata": ["add", "delete", "change", "view"],
         "Feature Output": ["add", "delete", "change", "view"],
         "Feature Read": ["add", "delete", "change", "view"],
-
-        # bioinfo_taxon
         "Reference Database": ["add", "delete", "change", "view"],
         "Taxon Domain": ["add", "delete", "change", "view"],
         "Taxon Kingdom": ["add", "delete", "change", "view"],
@@ -189,14 +187,12 @@ GROUPS = {
         "Inventory Log": ["add", "change", "view"],
         "Inventory Return Metadata": ["add", "change", "view"],
 
-        # bioinfo_denoclust
+        # bioinfo
         "Quality Metadata":  ["add", "change", "view"],
         "DenoiseCluster Method": ["add", "change", "view"],
         "DenoiseCluster Metadata": ["add", "change", "view"],
         "Feature Output": ["view"],
         "Feature Read": ["view"],
-
-        # bioinfo_taxon
         "Reference Database": ["add", "change", "view"],
         "Taxon Domain": ["add", "change", "view"],
         "Taxon Kingdom": ["add", "change", "view"],
@@ -276,14 +272,12 @@ GROUPS = {
         "Inventory Log": ["add", "change", "view"],
         "Inventory Return Metadata": ["change", "view"],
 
-        # bioinfo_denoclust
+        # bioinfo
         "Quality Metadata":  ["view"],
         "DenoiseCluster Method": ["view"],
         "DenoiseCluster Metadata": ["view"],
         "Feature Output": ["view"],
         "Feature Read": ["view"],
-
-        # bioinfo_taxon
         "Reference Database": ["view"],
         "Taxon Domain": ["view"],
         "Taxon Kingdom": ["view"],
