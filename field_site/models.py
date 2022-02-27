@@ -439,8 +439,12 @@ class System(DateTimeUserMixin):
     system_label = models.CharField("System Label", max_length=255)
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.system_code,
-                                        label=self.system_label)
+        return '{code}: {label}'.format(code=self.system_code, label=self.system_label)
+
+    class Meta:
+        app_label = 'field_site'
+        verbose_name = 'System'
+        verbose_name_plural = 'Systems'
 
 
 class Watershed(DateTimeUserMixin):
@@ -459,6 +463,11 @@ class Watershed(DateTimeUserMixin):
     def __str__(self):
         return '{code}: {label}'.format(code=self.watershed_code,
                                         label=self.watershed_label)
+
+    class Meta:
+        app_label = 'field_site'
+        verbose_name = 'Watershed'
+        verbose_name_plural = 'Watersheds'
 
 
 class FieldSite(DateTimeUserMixin):

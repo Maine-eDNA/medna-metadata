@@ -367,7 +367,7 @@ class FieldSiteFilter(filters.FilterSet):
                   'envo_feature_sixth', 'envo_feature_seventh']
 
 
-class GeoFieldSitesViewSet(viewsets.ModelViewSet):
+class GeoFieldSiteViewSet(viewsets.ModelViewSet):
     serializer_class = GeoFieldSiteSerializer
     queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
@@ -389,7 +389,7 @@ class GeoFieldSitesViewSet(viewsets.ModelViewSet):
     swagger_tags = ["field sites"]
 
 
-class FieldSitesViewSet(viewsets.ModelViewSet):
+class FieldSiteViewSet(viewsets.ModelViewSet):
     serializer_class = FieldSiteSerializer
     queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
@@ -411,7 +411,7 @@ class FieldSitesViewSet(viewsets.ModelViewSet):
     swagger_tags = ["field sites"]
 
 
-class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
+class FieldSiteFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
@@ -435,7 +435,7 @@ class FieldSitesFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
     swagger_tags = ["field sites"]
 
 
-class FieldSitesListView(generics.ListAPIView):
+class FieldSiteListView(generics.ListAPIView):
     queryset = FieldSite.objects.prefetch_related('created_by')
     serializer_class = FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]

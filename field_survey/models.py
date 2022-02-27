@@ -536,7 +536,7 @@ class SampleFilterETL(DateTimeUserMixin):
     filter_fname = models.CharField("Filterer First Name", blank=True, max_length=255)
     filter_lname = models.CharField("Filterer Last Name", blank=True, max_length=255)
     filter_sample_label = models.CharField("Filter Sample Label", blank=True, max_length=255)
-    # needs to fk to samplelabels at some point
+    # needs to fk to samplelabel at some point
     filter_barcode = models.CharField("Filter Sample Barcode", blank=True, max_length=16)
     filter_datetime = models.DateTimeField("Filter DateTime", blank=True, null=True)
     filter_method = models.CharField("Filter Method", blank=True, max_length=255)

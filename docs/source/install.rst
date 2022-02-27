@@ -151,8 +151,8 @@ process of deplying the Maine-eDNA Metadata application::
 
     python manage.py migrate users
     python manage.py migrate utility
-    python manage.py migrate field_sites
-    python manage.py migrate sample_labels
+    python manage.py migrate field_site
+    python manage.py migrate sample_label
     python manage.py migrate field_survey
     python manage.py migrate wet_lab
     python manage.py migrate freezer_inventory

@@ -105,7 +105,7 @@ router.register(r'field_site/envo_feature_sixth', field_site_views.EnvoFeatureSi
 router.register(r'field_site/envo_feature_seventh', field_site_views.EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
 router.register(r'field_site/system', field_site_views.SystemViewSet, 'system')
 router.register(r'field_site/watershed', field_site_views.GeoWatershedViewSet, 'watershed')
-router.register(r'field_site/field_site', field_site_views.GeoFieldSitesViewSet, 'field_site')
+router.register(r'field_site/field_site', field_site_views.GeoFieldSiteViewSet, 'field_site')
 # sample_label
 router.register(r'sample_label/sample_type', sample_label_views.SampleTypeViewSet, 'sample_type')
 router.register(r'sample_label/sample_material', sample_label_views.SampleMaterialViewSet, 'sample_material')

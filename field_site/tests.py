@@ -5,7 +5,6 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureFirst, EnvoFeatu
 from utility.models import Grant
 from utility.tests import GrantTestCase
 # Create your tests here.
-# TODO - add remaining biome and feature tests
 
 
 class EnvoBiomeFirstTestCase(TestCase):

@@ -1,1 +1,1 @@
-default_app_config = 'sample_label.apps.SampleLabelsConfig'
+default_app_config = 'sample_label.apps.SampleLabelConfig'

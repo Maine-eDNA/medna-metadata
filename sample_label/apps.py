@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class SampleLabelsConfig(AppConfig):
+class SampleLabelConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'sample_label'
 
