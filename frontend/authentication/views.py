@@ -100,5 +100,4 @@ def dashboard_register_user(request):
     else:
         form = SignUpForm()
 
-    return render(request, "account/django-material-dashboard/register.html",
-                  {"form": form, "msg": msg, "success": success})
+    return render(request, "account/django-material-dashboard/register.html", {"form": form, "msg": msg, "success": success})

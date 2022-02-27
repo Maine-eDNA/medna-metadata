@@ -11,7 +11,7 @@ from utility.views import ProjectSurveyTemplateView, ProjectsTemplateView, Publi
 urlpatterns = [
     # https://stackoverflow.com/questions/59907011/matching-either-pattern-with-re-path-in-django-3-0
     # The home page
-    path('', views.main_index, name='home'),
+    path('', views.IndexTemplateView.as_view(), name='home'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
     path('main/project_detail/<int:pk>/', ProjectSurveyTemplateView.as_view(), name='project_detail'),
     path('main/projects/', ProjectsTemplateView.as_view(), name='projects'),

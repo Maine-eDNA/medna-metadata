@@ -3,24 +3,23 @@
 # from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-import json
 from django.core.serializers import serialize
+from django.views.generic.base import TemplateView
+# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from field_survey.models import FieldSurvey
 from .serializers import ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
     InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes, LibLayouts
-from field_survey.models import FieldSurvey
-from django.views.generic.base import TemplateView
-# from django_filters.rest_framework import DjangoFilterBackend
-from django_filters import rest_framework as filters
-# import json
+import json
 # import ast
 
 
