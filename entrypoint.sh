@@ -23,8 +23,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	#python manage.py makemigrations field_survey
 	#python manage.py makemigrations wet_lab
 	#python manage.py makemigrations freezer_inventory
-	#python manage.py makemigrations bioinfo_denoclust
-	#python manage.py makemigrations bioinfo_taxon
+	#python manage.py makemigrations bioinfo
 	echo "${0}: Applying database migrations"
 	python manage.py migrate users
 	python manage.py migrate utility
@@ -33,8 +32,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	python manage.py migrate field_survey
 	python manage.py migrate wet_lab
 	python manage.py migrate freezer_inventory
-	python manage.py migrate bioinfo_denoclust
-	python manage.py migrate bioinfo_taxon
+	python manage.py migrate bioinfo
 	python manage.py migrate
 fi
 
@@ -122,24 +120,23 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventory.json
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventorylog.json
   python manage.py loaddata fixtures/prod/freezer_inventory_freezerinventoryreturn.json
-  # bioinfo_denoclust
-  python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermethod.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoclust_denoiseclustermetadata.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoclust_featureoutput.json
-  python manage.py loaddata fixtures/prod/bioinfo_denoclust_featureread.json
-  # bioinfo_taxon
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_referencedatabase.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxondomain.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonkingdom.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonphylum.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonclass.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonorder.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonfamily.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxongenus.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonspecies.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_annotationmethod.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_annotationmetadata.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxon_taxonomicannotation.json
+  # bioinfo
+  python manage.py loaddata fixtures/prod/bioinfo_denoiseclustermethod.json
+  python manage.py loaddata fixtures/prod/bioinfo_denoiseclustermetadata.json
+  python manage.py loaddata fixtures/prod/bioinfo_featureoutput.json
+  python manage.py loaddata fixtures/prod/bioinfo_featureread.json
+  python manage.py loaddata fixtures/prod/bioinfo_referencedatabase.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxondomain.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonkingdom.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonphylum.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonclass.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonorder.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonfamily.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxongenus.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonspecies.json
+  python manage.py loaddata fixtures/prod/bioinfo_annotationmethod.json
+  python manage.py loaddata fixtures/prod/bioinfo_annotationmetadata.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonomicannotation.json
 fi
 
 # Start server
