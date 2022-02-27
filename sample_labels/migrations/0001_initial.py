@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('field_sites', '0001_initial'),
+        ('field_site', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),
                 ('sample_type', models.ForeignKey(default=sample_labels.models.get_unassigned_sample_type, on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.sampletype')),
-                ('site_id', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.fieldsite')),
+                ('site_id', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.fieldsite')),
             ],
             options={
                 'verbose_name': 'SampleLabelRequest',
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('sample_label_request', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplelabelrequest')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),
                 ('sample_type', models.ForeignKey(default=sample_labels.models.get_unassigned_sample_type, on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.sampletype')),
-                ('site_id', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_sites.fieldsite')),
+                ('site_id', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.fieldsite')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

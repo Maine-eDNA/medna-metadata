@@ -2,7 +2,7 @@
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-# from field_sites.models import FieldSite
+# from field_site.models import FieldSite
 from utility.models import DateTimeUserMixin, slug_date_format
 from django.core.validators import MinValueValidator
 from django.utils.text import slugify
@@ -86,7 +86,7 @@ class SampleMaterial(DateTimeUserMixin):
 class SampleLabelRequest(DateTimeUserMixin):
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    site_id = models.ForeignKey('field_sites.FieldSite', on_delete=models.RESTRICT)
+    site_id = models.ForeignKey('field_site.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])
@@ -156,7 +156,7 @@ class SampleBarcode(DateTimeUserMixin):
     in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    site_id = models.ForeignKey('field_sites.FieldSite', on_delete=models.RESTRICT)
+    site_id = models.ForeignKey('field_site.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])

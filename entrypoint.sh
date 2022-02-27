@@ -18,7 +18,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	#echo "${0}: Creating database migrations"
 	#python manage.py makemigrations users
 	#python manage.py makemigrations utility
-	#python manage.py makemigrations field_sites
+	#python manage.py makemigrations field_site
 	#python manage.py makemigrations sample_labels
 	#python manage.py makemigrations field_survey
 	#python manage.py makemigrations wet_lab
@@ -28,7 +28,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	echo "${0}: Applying database migrations"
 	python manage.py migrate users
 	python manage.py migrate utility
-	python manage.py migrate field_sites
+	python manage.py migrate field_site
 	python manage.py migrate sample_labels
 	python manage.py migrate field_survey
 	python manage.py migrate wet_lab
@@ -66,22 +66,22 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 	python manage.py loaddata fixtures/prod/utility_grant.json
   python manage.py loaddata fixtures/prod/utility_project.json
   python manage.py loaddata fixtures/prod/utility_processlocation.json
-  # field_sites
-  python manage.py loaddata fixtures/prod/field_sites_envobiomefirst.json
-  python manage.py loaddata fixtures/prod/field_sites_envobiomesecond.json
-  python manage.py loaddata fixtures/prod/field_sites_envobiomethird.json
-  python manage.py loaddata fixtures/prod/field_sites_envobiomefourth.json
-  python manage.py loaddata fixtures/prod/field_sites_envobiomefifth.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeaturefirst.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeaturesecond.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeaturethird.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeaturefourth.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeaturefifth.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeaturesixth.json
-  python manage.py loaddata fixtures/prod/field_sites_envofeatureseventh.json
-  python manage.py loaddata fixtures/prod/field_sites_system.json
-  python manage.py loaddata fixtures/prod/field_sites_watershed.json
-  python manage.py loaddata fixtures/prod/field_sites_fieldsite.json
+  # field_site
+  python manage.py loaddata fixtures/prod/field_site_envobiomefirst.json
+  python manage.py loaddata fixtures/prod/field_site_envobiomesecond.json
+  python manage.py loaddata fixtures/prod/field_site_envobiomethird.json
+  python manage.py loaddata fixtures/prod/field_site_envobiomefourth.json
+  python manage.py loaddata fixtures/prod/field_site_envobiomefifth.json
+  python manage.py loaddata fixtures/prod/field_site_envofeaturefirst.json
+  python manage.py loaddata fixtures/prod/field_site_envofeaturesecond.json
+  python manage.py loaddata fixtures/prod/field_site_envofeaturethird.json
+  python manage.py loaddata fixtures/prod/field_site_envofeaturefourth.json
+  python manage.py loaddata fixtures/prod/field_site_envofeaturefifth.json
+  python manage.py loaddata fixtures/prod/field_site_envofeaturesixth.json
+  python manage.py loaddata fixtures/prod/field_site_envofeatureseventh.json
+  python manage.py loaddata fixtures/prod/field_site_system.json
+  python manage.py loaddata fixtures/prod/field_site_watershed.json
+  python manage.py loaddata fixtures/prod/field_site_fieldsite.json
   # sample_labels
   python manage.py loaddata fixtures/prod/sample_labels_sampletype.json
   python manage.py loaddata fixtures/prod/sample_labels_samplematerial.json

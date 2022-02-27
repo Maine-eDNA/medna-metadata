@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .models import SampleMaterial, SampleBarcode, SampleLabelRequest, SampleType
-from field_sites.models import FieldSite
-from field_sites.tests import FieldSiteTestCase
+from field_site.models import FieldSite
+from field_site.tests import FieldSiteTestCase
 # Create your tests here.
 
 

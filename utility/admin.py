@@ -6,7 +6,7 @@ from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss
 
 
 class GrantAdmin(ImportExportActionModelAdmin):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     # below are import_export configs
     resource_class = GrantAdminResource
     # changes the order of how the tables are displayed and specifies what to display

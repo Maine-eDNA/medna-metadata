@@ -20,7 +20,7 @@ GROUPS = {
         "session": ["add", "delete", "change", "view"],
 
         # django app model specific permissions
-        # field_sites
+        # field_site
         "ENVO Biome 1st Tier": ["add", "delete", "change", "view"],
         "ENVO Biome 2nd Tier": ["add", "delete", "change", "view"],
         "ENVO Biome 3rd Tier": ["add", "delete", "change", "view"],
@@ -126,7 +126,7 @@ GROUPS = {
         "session": ["view"],
 
         # django app model specific permissions
-        # field_sites
+        # field_site
         "ENVO Biome 1st Tier": ["add", "change", "view"],
         "ENVO Biome 2nd Tier": ["add", "change", "view"],
         "ENVO Biome 3rd Tier": ["add", "change", "view"],
@@ -213,7 +213,7 @@ GROUPS = {
 
     "internstudent-permissions": {
         # django app model specific permissions
-        # field_sites
+        # field_site
         "ENVO Biome 1st Tier": ["view"],
         "ENVO Biome 2nd Tier": ["view"],
         "ENVO Biome 3rd Tier": ["view"],

@@ -50,7 +50,7 @@ class GrantFilter(filters.FilterSet):
 
 
 class GrantViewSet(viewsets.ModelViewSet):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     serializer_class = GrantSerializer
     queryset = Grant.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend

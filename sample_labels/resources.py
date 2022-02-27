@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import SampleLabelRequest, SampleBarcode, SampleMaterial, SampleType
-from field_sites.models import FieldSite
+from field_site.models import FieldSite
 from users.models import CustomUser
 from django.db import transaction
 

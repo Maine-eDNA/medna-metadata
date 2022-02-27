@@ -1,0 +1,71 @@
+{% extends "users/filters.html" %}
+{% load static widget_tweaks crispy_forms_tags %}
+{% load i18n %}
+{% load django_tables2 %}
+{% load custom_filter_list %}
+
+{% block content %}
+<div id="content-main">
+  {% block object-tools %}
+  <ul class="object-tools">
+    {# {% for format in view.export_formats %} #}
+    {# <li><a class="export_link" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li> #}
+    {# {% endfor %} #}
+    <li><a class="import_link" href="{% url 'users:sites_index' %}">{% translate 'View ' %} {% firstof user.get_short_name user.get_username|split_email %}'s {% translate ' sites' %}</a></li>
+    <li><a class="import_link" href="{% url 'users:site' %}">{% translate 'View all sites' %}</a></li>
+  </ul>
+  {% endblock %}
+  <div class="module filtered" id="changelist">
+    {% block filters %}
+    <div id="changelist-filter">
+      <h2>{% translate 'Filter' %}</h2>
+      <form method="get" id="changelist-form" >
+        <h3> {{ filter.form.year_added.label_tag }} </h3>
+        <ul class="user-filter-year_added">
+          <li>{% render_field filter.form.year_added class="form-control" %}</li>
+        </ul>
+        <h3>{{ filter.form.grant.label_tag }}</h3>
+        <ul class="user-filter-grant">
+            {% for choice in filter.form.grant %}
+          <li>
+            <label class="checkbox-inline">
+                {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          </li>
+          {% endfor %}
+        </ul>
+        <h3>{{ filter.form.system.label_tag }}</h3>
+        <ul class="user-filter-system">
+            {% for choice in filter.form.system %}
+          <li>
+            <label class="checkbox-inline">
+              {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          </li>
+          {% endfor %}
+        </ul>
+        <h3>{{ filter.form.watershed.label_tag }}</h3>
+        <ul class="user-filter-watershed">
+            {% for choice in filter.form.watershed %}
+          <li>
+            <label class="checkbox-inline">
+              {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          </li>
+          {% endfor %}
+        </ul>
+        <ul class="user-filter-submit">
+          <li> <input type="submit" class="import_link" value="Search" /></li>
+        </ul>
+      </div>
+      {% endblock %}
+      {% block result_list %}
+      {% custom_filter_actions %}
+      <div class="results changelist-form-results">
+        {% render_table table %}
+      </div>
+    </form>
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}

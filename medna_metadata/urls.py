@@ -21,7 +21,7 @@ from dj_rest_auth.registration.views import VerifyEmailView
 from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from field_sites import views as field_sites_views
+from field_site import views as field_site_views
 from sample_labels import views as sample_labels_views
 from field_survey import views as field_survey_views
 from wet_lab import views as wet_lab_views
@@ -90,22 +90,22 @@ router.register(r'utility/choices_inv_status', utility_views.InvStatusChoicesVie
 router.register(r'utility/choices_inv_loc_status', utility_views.InvLocStatusChoicesViewSet, 'choices_inv_loc_status')
 router.register(r'utility/choices_inv_types', utility_views.InvTypesChoicesViewSet, 'choices_inv_types')
 router.register(r'utility/choices_checkout_actions', utility_views.CheckoutActionsChoicesViewSet, 'choices_checkout_actions')
-# field_sites
-router.register(r'field_sites/envo_biome_first', field_sites_views.EnvoBiomeFirstViewSet, 'envo_biome_first')
-router.register(r'field_sites/envo_biome_second', field_sites_views.EnvoBiomeSecondViewSet, 'envo_biome_second')
-router.register(r'field_sites/envo_biome_third', field_sites_views.EnvoBiomeThirdViewSet, 'envo_biome_third')
-router.register(r'field_sites/envo_biome_fourth', field_sites_views.EnvoBiomeFourthViewSet, 'envo_biome_fourth')
-router.register(r'field_sites/envo_biome_fifth', field_sites_views.EnvoBiomeFifthViewSet, 'envo_biome_fifth')
-router.register(r'field_sites/envo_feature_first', field_sites_views.EnvoFeatureFirstViewSet, 'envo_feature_first')
-router.register(r'field_sites/envo_feature_second', field_sites_views.EnvoFeatureSecondViewSet, 'envo_feature_second')
-router.register(r'field_sites/envo_feature_third', field_sites_views.EnvoFeatureThirdViewSet, 'envo_feature_third')
-router.register(r'field_sites/envo_feature_fourth', field_sites_views.EnvoFeatureFourthViewSet, 'envo_feature_fourth')
-router.register(r'field_sites/envo_feature_fifth', field_sites_views.EnvoFeatureFifthViewSet, 'envo_feature_fifth')
-router.register(r'field_sites/envo_feature_sixth', field_sites_views.EnvoFeatureSixthViewSet, 'envo_feature_sixth')
-router.register(r'field_sites/envo_feature_seventh', field_sites_views.EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
-router.register(r'field_sites/system', field_sites_views.SystemViewSet, 'system')
-router.register(r'field_sites/watershed', field_sites_views.GeoWatershedViewSet, 'watershed')
-router.register(r'field_sites/field_site', field_sites_views.GeoFieldSitesViewSet, 'field_site')
+# field_site
+router.register(r'field_site/envo_biome_first', field_site_views.EnvoBiomeFirstViewSet, 'envo_biome_first')
+router.register(r'field_site/envo_biome_second', field_site_views.EnvoBiomeSecondViewSet, 'envo_biome_second')
+router.register(r'field_site/envo_biome_third', field_site_views.EnvoBiomeThirdViewSet, 'envo_biome_third')
+router.register(r'field_site/envo_biome_fourth', field_site_views.EnvoBiomeFourthViewSet, 'envo_biome_fourth')
+router.register(r'field_site/envo_biome_fifth', field_site_views.EnvoBiomeFifthViewSet, 'envo_biome_fifth')
+router.register(r'field_site/envo_feature_first', field_site_views.EnvoFeatureFirstViewSet, 'envo_feature_first')
+router.register(r'field_site/envo_feature_second', field_site_views.EnvoFeatureSecondViewSet, 'envo_feature_second')
+router.register(r'field_site/envo_feature_third', field_site_views.EnvoFeatureThirdViewSet, 'envo_feature_third')
+router.register(r'field_site/envo_feature_fourth', field_site_views.EnvoFeatureFourthViewSet, 'envo_feature_fourth')
+router.register(r'field_site/envo_feature_fifth', field_site_views.EnvoFeatureFifthViewSet, 'envo_feature_fifth')
+router.register(r'field_site/envo_feature_sixth', field_site_views.EnvoFeatureSixthViewSet, 'envo_feature_sixth')
+router.register(r'field_site/envo_feature_seventh', field_site_views.EnvoFeatureSeventhViewSet, 'envo_feature_seventh')
+router.register(r'field_site/system', field_site_views.SystemViewSet, 'system')
+router.register(r'field_site/watershed', field_site_views.GeoWatershedViewSet, 'watershed')
+router.register(r'field_site/field_site', field_site_views.GeoFieldSitesViewSet, 'field_site')
 # sample_labels
 router.register(r'sample_labels/sample_type', sample_labels_views.SampleTypeViewSet, 'sample_type')
 router.register(r'sample_labels/sample_material', sample_labels_views.SampleMaterialViewSet, 'sample_material')

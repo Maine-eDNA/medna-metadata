@@ -1,9 +1,0 @@
-{% extends "utility/base.html" %}
-
-{% block title %}{{ title }} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}
-
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'index' %}">{{ site_header|default:_('Maine-eDNA Metadata') }}</a></h1>
-{% endblock %}
-
-{% block nav-global %}{% endblock %}

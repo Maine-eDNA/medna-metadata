@@ -4,7 +4,7 @@ from utility.enumerations import YesNo
 from django_tables2.export.export import TableExport
 from django.core.exceptions import ImproperlyConfigured
 from .models import SampleMaterial, SampleBarcode, SampleLabelRequest, SampleType
-from field_sites.models import FieldSite
+from field_site.models import FieldSite
 from django.core.validators import MinValueValidator
 from rest_framework.validators import UniqueValidator
 

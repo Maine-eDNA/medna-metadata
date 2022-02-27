@@ -63,7 +63,7 @@ class PeriodicTaskRun(models.Model):
 
 class Grant(DateTimeUserMixin):
     # e: Maine-eDNA
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     grant_code = models.CharField("Grant Code", unique=True, max_length=1)
     grant_label = models.CharField("Grant Label", max_length=255)
     grant_description = models.TextField("Grant Description", blank=True)

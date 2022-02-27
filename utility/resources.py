@@ -5,7 +5,7 @@ from users.models import CustomUser
 
 
 class GrantAdminResource(resources.ModelResource):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     # Maine-eDNA, None
     class Meta:
         model = Grant

@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('utility', '0001_initial'),
-        ('field_sites', '0001_initial'),
+        ('field_site', '0001_initial'),
         ('sample_labels', '0001_initial'),
     ]
 
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                 ('qa_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='qa_editor', to=settings.AUTH_USER_MODEL, verbose_name='Quality Editor')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='survey_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Record Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='survey_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Record Editor')),
-                ('site_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='field_sites.fieldsite')),
+                ('site_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='field_site.fieldsite')),
                 ('supervisor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='supervisor', to=settings.AUTH_USER_MODEL, verbose_name='Supervisor')),
                 ('username', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='username', to=settings.AUTH_USER_MODEL, verbose_name='Username')),
                 ('water_filterer', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='water_filterer', to=settings.AUTH_USER_MODEL, verbose_name='Designated Filterer')),

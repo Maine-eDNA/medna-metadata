@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-# from field_sites.models import FieldSite
+# from field_site.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user
 # from django.utils.text import slugify
 # from django.db.models import Q
@@ -30,7 +30,7 @@ class FieldSurvey(DateTimeUserMixin):
     # recdr_lname
     recorder_lname = models.CharField("Recorder Last Name", blank=True, max_length=255)
     arrival_datetime = models.DateTimeField("Arrival DateTime", blank=True, null=True)
-    site_id = models.ForeignKey('field_sites.FieldSite', blank=True, null=True, on_delete=models.RESTRICT)
+    site_id = models.ForeignKey('field_site.FieldSite', blank=True, null=True, on_delete=models.RESTRICT)
     site_id_other = models.CharField("Site ID - Other", blank=True, max_length=255)
     site_name = models.CharField("General Location Name", blank=True, max_length=255)
     lat_manual = models.DecimalField("Latitude (DD)", max_digits=22, decimal_places=16)

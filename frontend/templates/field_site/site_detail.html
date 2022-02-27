@@ -1,0 +1,59 @@
+{% extends "users/forms.html" %}
+{% load i18n static %}
+
+{% block content %}
+<br>
+{% if site %}
+<h4>{{ site.site_id }}</h4>
+  <table>
+      <tbody>
+          <tr>
+              <th>{% translate 'Grant:' %}</th>
+              <td>{{ site.grant }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'System:' %}</th>
+              <td>{{ site.system }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'Watershed:' %}</th>
+              <td>{{ site.watershed }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'General Location Name:' %}</th>
+              <td>{{ site.general_location_name }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'Purpose:' %}</th>
+              <td>{{ site.purpose }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'Spatial Reference Identifier (SRID)' %}</th>
+              <td>{{ site.geom.srid }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'Latitude (DD WGS84)' %}</th>
+              <td>{{ site.geom.y }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'Longitude (DD WGS84)' %}</th>
+              <td>{{ site.geom.x }}</td>
+          </tr>
+          <tr>
+              <th>{% translate 'Added By:' %}</th>
+              <td><a href="{% url 'users:user_detail' site.added_by.id %}">{{ site.added_by }}</a></td>
+          </tr>
+          <tr>
+              <th>{% translate 'Date Added:' %}</th>
+              <td>{{ site.added_date }}</td>
+          </tr>
+      </tbody>
+  </table>
+{% else %}
+<p>{% translate 'No sites are available' %}</p>
+{% endif %}
+<br>
+<a class="btn btn-outline-primary" href="{% url 'users:site' %}">{% translate 'Back to list' %}</a>
+<a class="btn btn-outline-primary" href="{% url 'users:site_detail_export' site.id %}">{% translate 'Export .csv' %}</a>
+<a class="btn btn-warning" href="{% url 'users:site_samplelabel_add' site.id %}">{% translate 'Add label' %}</a>
+{% endblock %}

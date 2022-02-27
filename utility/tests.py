@@ -7,7 +7,7 @@ from users.models import CustomUser
 
 # Create your tests here.
 class GrantTestCase(TestCase):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     def setUp(self):
         Grant.objects.get_or_create(grant_code="e", defaults={'grant_label': "Maine-eDNA",
                                                               'grant_description': 'test description'})
@@ -19,7 +19,7 @@ class GrantTestCase(TestCase):
 
 
 class ProjectTestCase(TestCase):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     def setUp(self):
         manytomany_list = []
         grant_test = GrantTestCase()
@@ -39,7 +39,7 @@ class ProjectTestCase(TestCase):
 
 
 class PublicationTestCase(TestCase):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     def setUp(self):
         manytomany_prj_list = []
         manytomany_usr_list = []
@@ -63,7 +63,7 @@ class PublicationTestCase(TestCase):
 
 
 class ProcessLocationTestCase(TestCase):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     def setUp(self):
         ProcessLocation.objects.get_or_create(process_location_name="CORE",
                                               defaults={

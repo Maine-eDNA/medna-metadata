@@ -67,7 +67,7 @@ class CreatedBySlugRelatedField(serializers.SlugRelatedField):
 
 # Django REST Framework to allow the automatic downloading of data!
 class GrantSerializer(serializers.ModelSerializer):
-    # formerly Project in field_sites.models
+    # formerly Project in field_site.models
     id = serializers.IntegerField(read_only=True)
     grant_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Grant.objects.all())])
     grant_label = serializers.CharField(max_length=255)

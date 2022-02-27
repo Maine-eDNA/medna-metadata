@@ -10,7 +10,7 @@ from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     CoreMethods
 from utility.serializers import EagerLoadingMixin
 # from utility.models import Project
-# from field_sites.models import FieldSite
+# from field_site.models import FieldSite
 # from users.models import CustomUser
 # from sample_labels.models import SampleMaterial, SampleBarcode
 

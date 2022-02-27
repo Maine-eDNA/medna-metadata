@@ -4,7 +4,7 @@ from medna_metadata.tasks import BaseTaskWithRetry
 from utility.models import PeriodicTaskRun, Project
 from utility.enumerations import CollectionTypes
 from users.models import CustomUser
-from field_sites.models import FieldSite
+from field_site.models import FieldSite
 from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
