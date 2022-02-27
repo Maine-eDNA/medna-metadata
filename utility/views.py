@@ -26,7 +26,41 @@ from django_filters import rest_framework as filters
 
 # Create your views here.
 # FRONTEND VIEWS
-class ProjectSurveyTemplateView(LoginRequiredMixin, TemplateView):
+class AboutUsTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/about-us.html'
+
+
+class ProjectsTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/projects.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["project_list"] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
+        return context
+
+
+class PublicationsTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/publications.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["pub_list"] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
+        return context
+
+
+class ProjectSurveyTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/project_detail.html'
@@ -38,6 +72,20 @@ class ProjectSurveyTemplateView(LoginRequiredMixin, TemplateView):
         context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
         context["project"] = self.project
         return context
+
+
+class MetadataStandardsTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/metadata-standards.html'
+
+
+class ContactUsTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/contact-us.html'
 
 
 # SERIALIZER VIEWS
