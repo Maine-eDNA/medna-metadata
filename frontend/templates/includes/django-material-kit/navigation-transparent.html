@@ -14,9 +14,6 @@
       </button>
       <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5" id="navigation">
         <ul class="navbar-nav navbar-nav-hover ms-auto">
-
-          {% if request.user.is_authenticated %}
-
             <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
               <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
@@ -27,7 +24,7 @@
               <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages8">
                 <div class="d-none d-lg-block">
                   <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
-                    Landing Pages
+                    Overview Pages
                   </h6>
                   <a href="/main/about-us.html" class="dropdown-item border-radius-md">
                     <span>About Us</span>
@@ -53,7 +50,7 @@
                 </div>
                 <div class="d-lg-none">
                   <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
-                    Landing Pages
+                    Overview Pages
                   </h6>
                   <a href="/main/about-us.html" class="dropdown-item border-radius-md">
                     <span>About Us</span>
@@ -79,6 +76,9 @@
                 </div>
               </div>
             </li>
+
+          {% if request.user.is_authenticated %}
+
             <li class="nav-item dropdown dropdown-hover mx-2">
               <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="material-icons opacity-6 me-2 text-md">view_day</i>
