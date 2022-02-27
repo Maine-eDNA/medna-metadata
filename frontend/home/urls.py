@@ -14,7 +14,7 @@ urlpatterns = [
     # The home page
     path('', views.IndexTemplateView.as_view(), name='home'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
-    path('dashboard/profile/', UserProfileDetailView.as_view, name='dashboard_profile'),
+    path('dashboard/profile/', UserProfileDetailView.as_view(), name='dashboard_profile'),
     path('main/project_detail/<int:pk>/', ProjectSurveyTemplateView.as_view(), name='project_detail'),
     path('main/projects/', ProjectsTemplateView.as_view(), name='projects'),
     path('main/publications/', PublicationsTemplateView.as_view(), name='publications'),
