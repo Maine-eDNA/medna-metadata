@@ -1,9 +1,5 @@
-# Generated manually on 02-10-2022
 from django.db import migrations, models
 import django.utils.timezone
-import phonenumber_field.modelfields
-import users.models
-import medna_metadata.storage_backends
 
 
 class Migration(migrations.Migration):
