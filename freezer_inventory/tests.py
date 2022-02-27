@@ -2,8 +2,8 @@ from django.test import TestCase
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import TempUnits, MeasureUnits, CheckoutActions, YesNo, InvStatus, InvLocStatus, InvTypes
-from sample_labels.tests import SampleBarcodeTestCase
-from sample_labels.models import SampleBarcode
+from sample_label.tests import SampleBarcodeTestCase
+from sample_label.models import SampleBarcode
 
 
 class ReturnActionTestCase(TestCase):

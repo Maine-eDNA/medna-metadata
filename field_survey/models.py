@@ -235,12 +235,12 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    field_sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', primary_key=True, related_name="field_sample_barcode", on_delete=models.RESTRICT)
+    field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', primary_key=True, related_name="field_sample_barcode", on_delete=models.RESTRICT)
     sample_global_id = models.CharField("Global ID", unique=True, max_length=255)
     collection_global_id = models.ForeignKey(FieldCollection, db_column="collection_global_id", related_name="field_samples", on_delete=models.CASCADE)
     barcode_slug = models.SlugField("Field Sample Barcode Slug", max_length=16)
     is_extracted = models.CharField("Extracted", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    sample_material = models.ForeignKey('sample_labels.SampleMaterial', on_delete=models.RESTRICT)
+    sample_material = models.ForeignKey('sample_label.SampleMaterial', on_delete=models.RESTRICT)
     record_create_datetime = models.DateTimeField("Field Sample Creation DateTime", blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Field Sample Creator", on_delete=models.SET(get_sentinel_user), related_name="field_sample_record_creator")
     record_edit_datetime = models.DateTimeField("Field Sample Edit DateTime", blank=True, null=True)
@@ -250,7 +250,7 @@ class FieldSample(DateTimeUserMixin):
         return '{barcode}_{sid}'.format(barcode=self.barcode_slug, sid=self.sample_global_id)
 
     def save(self, *args, **kwargs):
-        from sample_labels.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
+        from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
         # update_barcode_sample_type must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         # update barcode to type == Field Sample

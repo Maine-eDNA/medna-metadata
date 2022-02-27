@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('utility', '0001_initial'),
         ('field_site', '0001_initial'),
-        ('sample_labels', '0001_initial'),
+        ('sample_label', '0001_initial'),
     ]
 
     operations = [
@@ -219,7 +219,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSample',
             fields=[
-                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, primary_key=True, related_name='field_sample_barcode', serialize=False, to='sample_labels.samplebarcode')),
+                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, primary_key=True, related_name='field_sample_barcode', serialize=False, to='sample_label.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Field Sample Barcode Slug')),
                 ('sample_global_id', models.CharField(max_length=255, unique=True, verbose_name='Global ID')),
                 ('is_extracted', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Extracted')),
@@ -228,7 +228,7 @@ class Migration(migrations.Migration):
                 ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='field_samples', to='field_survey.fieldcollection')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Editor')),
-                ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplematerial')),
+                ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplematerial')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

@@ -2,7 +2,7 @@
 # from medna_metadata.celery import app
 # from celery import Task
 from celery import shared_task
-from sample_labels.models import SampleBarcode, SampleLabelRequest
+from sample_label.models import SampleBarcode, SampleLabelRequest
 from django.core.exceptions import ObjectDoesNotExist
 from celery.utils.log import get_task_logger
 import numpy as np

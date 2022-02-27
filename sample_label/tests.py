@@ -6,7 +6,7 @@ from field_site.tests import FieldSiteTestCase
 
 
 class SampleTypeTestCase(TestCase):
-    # fixtures = ['sample_labels_sampletype.json']
+    # fixtures = ['sample_label_sampletype.json']
     def setUp(self):
         SampleType.objects.get_or_create(sample_type_code="sc", defaults={'sample_type_label': "Subcore"})
         SampleType.objects.get_or_create(sample_type_code="ft", defaults={'sample_type_label': "Filter"})
@@ -23,7 +23,7 @@ class SampleTypeTestCase(TestCase):
 
 
 class SampleMaterialTestCase(TestCase):
-    # fixtures = ['sample_labels_samplematerial.json']
+    # fixtures = ['sample_label_samplematerial.json']
     def setUp(self):
         SampleMaterial.objects.get_or_create(sample_material_code="s", defaults={'sample_material_label': "Sediment"})
         SampleMaterial.objects.get_or_create(sample_material_code="w", defaults={'sample_material_label': "Water"})
@@ -37,7 +37,7 @@ class SampleMaterialTestCase(TestCase):
 
 
 class SampleLabelRequestTestCase(TestCase):
-    # fixtures = ['sample_labels_samplelabelrequest.json']
+    # fixtures = ['sample_label_samplelabelrequest.json']
     def setUp(self):
         # get first record in queryset
         field_site_test = FieldSiteTestCase()
@@ -69,7 +69,7 @@ class SampleLabelRequestTestCase(TestCase):
 
 
 class SampleBarcodeTestCase(TestCase):
-    # fixtures = ['sample_labels_samplelabel.json']
+    # fixtures = ['sample_label_samplelabel.json']
     def setUp(self):
         # get first record in queryset
         sample_label_request_test = SampleLabelRequestTestCase()

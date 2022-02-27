@@ -63,7 +63,7 @@ class SampleType(DateTimeUserMixin):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
 
     class Meta:
-        app_label = 'sample_labels'
+        app_label = 'sample_label'
         verbose_name = 'Sample Type'
         verbose_name_plural = 'Sample Types'
 
@@ -78,7 +78,7 @@ class SampleMaterial(DateTimeUserMixin):
         return '{code}: {label}'.format(code=self.sample_material_code, label=self.sample_material_label)
 
     class Meta:
-        app_label = 'sample_labels'
+        app_label = 'sample_label'
         verbose_name = 'Sample Material'
         verbose_name_plural = 'Sample Materials'
 
@@ -144,7 +144,7 @@ class SampleLabelRequest(DateTimeUserMixin):
         super(SampleLabelRequest, self).save(*args, **kwargs)
 
     class Meta:
-        app_label = 'sample_labels'
+        app_label = 'sample_label'
         verbose_name = 'SampleLabelRequest'
         verbose_name_plural = 'Sample Label Requests'
 
@@ -170,7 +170,7 @@ class SampleBarcode(DateTimeUserMixin):
         super(SampleBarcode, self).save(*args, **kwargs)
 
     class Meta:
-        app_label = 'sample_labels'
+        app_label = 'sample_label'
         verbose_name = 'SampleBarcode'
         verbose_name_plural = 'Sample Barcodes'
 

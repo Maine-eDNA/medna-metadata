@@ -22,7 +22,7 @@ from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from field_site import views as field_site_views
-from sample_labels import views as sample_labels_views
+from sample_label import views as sample_label_views
 from field_survey import views as field_survey_views
 from wet_lab import views as wet_lab_views
 from freezer_inventory import views as freezer_inventory_views
@@ -106,11 +106,11 @@ router.register(r'field_site/envo_feature_seventh', field_site_views.EnvoFeature
 router.register(r'field_site/system', field_site_views.SystemViewSet, 'system')
 router.register(r'field_site/watershed', field_site_views.GeoWatershedViewSet, 'watershed')
 router.register(r'field_site/field_site', field_site_views.GeoFieldSitesViewSet, 'field_site')
-# sample_labels
-router.register(r'sample_labels/sample_type', sample_labels_views.SampleTypeViewSet, 'sample_type')
-router.register(r'sample_labels/sample_material', sample_labels_views.SampleMaterialViewSet, 'sample_material')
-router.register(r'sample_labels/sample_label_req', sample_labels_views.SampleLabelRequestViewSet, 'sample_label_req')
-router.register(r'sample_labels/sample_barcode', sample_labels_views.SampleBarcodeViewSet, 'sample_barcode')
+# sample_label
+router.register(r'sample_label/sample_type', sample_label_views.SampleTypeViewSet, 'sample_type')
+router.register(r'sample_label/sample_material', sample_label_views.SampleMaterialViewSet, 'sample_material')
+router.register(r'sample_label/sample_label_req', sample_label_views.SampleLabelRequestViewSet, 'sample_label_req')
+router.register(r'sample_label/sample_barcode', sample_label_views.SampleBarcodeViewSet, 'sample_barcode')
 # field_survey:post-transform
 router.register(r'field_survey/field_survey', field_survey_views.GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'field_survey/field_crew', field_survey_views.FieldCrewViewSet, 'field_crew')

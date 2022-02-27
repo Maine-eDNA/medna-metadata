@@ -2,7 +2,7 @@ from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from users.models import CustomUser

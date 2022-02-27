@@ -3,7 +3,7 @@ from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
     RunResult, FastqFile, AmplificationMethod
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from users.models import CustomUser

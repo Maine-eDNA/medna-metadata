@@ -10,7 +10,7 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 from django.utils import timezone
 from django.db.models import Count
 import numpy as np

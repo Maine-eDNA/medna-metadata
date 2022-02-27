@@ -225,7 +225,7 @@ class ExtractionMethod(DateTimeUserMixin):
 
 
 class Extraction(DateTimeUserMixin):
-    extraction_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
+    extraction_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Extraction Barcode Slug", max_length=16)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
     process_location = models.ForeignKey(ProcessLocation, blank=True, null=True, on_delete=models.RESTRICT, default=get_default_process_location)
@@ -243,7 +243,7 @@ class Extraction(DateTimeUserMixin):
     extraction_notes = models.TextField("Extraction Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        from sample_labels.models import update_barcode_sample_type, get_extraction_sample_type
+        from sample_label.models import update_barcode_sample_type, get_extraction_sample_type
         # update_extraction_method must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         update_extraction_status(self.barcode_slug, self.field_sample)
@@ -366,7 +366,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_label = models.CharField("Pooled Library Label", unique=True, max_length=255)
     pooled_lib_slug = models.SlugField("Pooled Library Label Slug", max_length=255)
     pooled_lib_datetime = models.DateTimeField("Pooled Library Date")
-    pooled_lib_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT)
+    pooled_lib_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField("Pooled Library Barcode Slug", max_length=16)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
@@ -379,7 +379,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_notes = models.TextField("Pooled Library Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        from sample_labels.models import update_barcode_sample_type, get_pooled_library_sample_type
+        from sample_label.models import update_barcode_sample_type, get_pooled_library_sample_type
         # update_barcode_sample_type must come before creating barcode_slug
         # because need to grab old barcode_slug value on updates
         # update barcode to type == Pooled Library

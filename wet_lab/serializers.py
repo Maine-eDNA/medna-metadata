@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
     RunResult, FastqFile, AmplificationMethod
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, \

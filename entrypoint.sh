@@ -19,7 +19,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	#python manage.py makemigrations users
 	#python manage.py makemigrations utility
 	#python manage.py makemigrations field_site
-	#python manage.py makemigrations sample_labels
+	#python manage.py makemigrations sample_label
 	#python manage.py makemigrations field_survey
 	#python manage.py makemigrations wet_lab
 	#python manage.py makemigrations freezer_inventory
@@ -29,7 +29,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	python manage.py migrate users
 	python manage.py migrate utility
 	python manage.py migrate field_site
-	python manage.py migrate sample_labels
+	python manage.py migrate sample_label
 	python manage.py migrate field_survey
 	python manage.py migrate wet_lab
 	python manage.py migrate freezer_inventory
@@ -82,11 +82,11 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python manage.py loaddata fixtures/prod/field_site_system.json
   python manage.py loaddata fixtures/prod/field_site_watershed.json
   python manage.py loaddata fixtures/prod/field_site_fieldsite.json
-  # sample_labels
-  python manage.py loaddata fixtures/prod/sample_labels_sampletype.json
-  python manage.py loaddata fixtures/prod/sample_labels_samplematerial.json
-  python manage.py loaddata fixtures/prod/sample_labels_samplelabelrequest.json
-  python manage.py loaddata fixtures/prod/sample_labels_samplebarcode.json
+  # sample_label
+  python manage.py loaddata fixtures/prod/sample_label_sampletype.json
+  python manage.py loaddata fixtures/prod/sample_label_samplematerial.json
+  python manage.py loaddata fixtures/prod/sample_label_samplelabelrequest.json
+  python manage.py loaddata fixtures/prod/sample_label_samplebarcode.json
   # field_survey_etl
   python manage.py loaddata fixtures/prod/field_survey_fieldsurveyetl.json
   python manage.py loaddata fixtures/prod/field_survey_fieldcrewetl.json

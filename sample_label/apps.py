@@ -3,7 +3,7 @@ from django.apps import AppConfig
 
 class SampleLabelsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'sample_labels'
+    name = 'sample_label'
 
     def ready(self):
-        import sample_labels.signals
+        import sample_label.signals

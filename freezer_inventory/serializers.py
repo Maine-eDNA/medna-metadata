@@ -5,7 +5,7 @@ from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, I
     CheckoutActions, YesNo
 from utility.serializers import EagerLoadingMixin
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 

@@ -6,7 +6,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
 from utility.models import Project
 from users.models import CustomUser
-from sample_labels.models import SampleBarcode, SampleMaterial
+from sample_label.models import SampleBarcode, SampleMaterial
 
 
 class FieldSurveyAdminResource(resources.ModelResource):

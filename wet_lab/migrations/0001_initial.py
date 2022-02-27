@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('field_survey', '0001_initial'),
         ('utility', '0001_initial'),
-        ('sample_labels', '0001_initial'),
+        ('sample_label', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
     operations = [
@@ -149,7 +149,7 @@ class Migration(migrations.Migration):
             name='Extraction',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('extraction_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
+                ('extraction_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Extraction Barcode Slug')),
                 ('field_sample', models.OneToOneField(limit_choices_to={'is_extracted': 'no'}, on_delete=django.db.models.deletion.RESTRICT, to='field_survey.fieldsample')),
                 ('process_location', models.ForeignKey(null=True, blank=True, default=utility.models.get_default_process_location, on_delete=django.db.models.deletion.RESTRICT, to='utility.processlocation')),
@@ -261,7 +261,7 @@ class Migration(migrations.Migration):
                 ('pooled_lib_label', models.CharField(max_length=255, unique=True, verbose_name='Pooled Library Label')),
                 ('pooled_lib_slug', models.SlugField(max_length=255, verbose_name='Pooled Library Label Slug')),
                 ('pooled_lib_datetime', models.DateTimeField(verbose_name='Pooled Library Date')),
-                ('pooled_lib_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_labels.samplebarcode')),
+                ('pooled_lib_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Pooled Library Barcode Slug')),
                 ('process_location', models.ForeignKey(default=utility.models.get_default_process_location, on_delete=django.db.models.deletion.RESTRICT, to='utility.processlocation')),
                 ('library_prep', models.ManyToManyField(related_name='libraryprep_to_pooledlibrary', to='wet_lab.LibraryPrep')),

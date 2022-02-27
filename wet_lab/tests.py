@@ -6,7 +6,7 @@ from utility.enumerations import TargetGenes, SubFragments, PcrTypes, VolUnits, 
     LibPrepTypes, PhiXConcentrationUnits, LibLayouts
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from field_survey.tests import FieldSampleTestCase
 from django.utils import timezone

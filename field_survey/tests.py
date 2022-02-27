@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .models import FieldSample, FieldCollection, FieldSurvey
-from sample_labels.models import SampleMaterial, SampleBarcode
-from sample_labels.tests import SampleBarcodeTestCase
+from sample_label.models import SampleMaterial, SampleBarcode
+from sample_label.tests import SampleBarcodeTestCase
 from field_site.tests import FieldSiteTestCase
 from field_site.models import FieldSite
 from utility.enumerations import YesNo, CollectionTypes, TurbidTypes, PrecipTypes, WindSpeeds, CloudCovers

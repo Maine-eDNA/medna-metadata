@@ -38,7 +38,7 @@ GROUPS = {
         "Field Site": ["add", "change", "view"],
         "World Border": ["change", "view"],
 
-        # sample_labels
+        # sample_label
         "Sample Type": ["add", "change", "view"],
         "SampleLabelRequest": ["add", "change", "view"],
         "SampleBarcode": ["view"],
@@ -144,7 +144,7 @@ GROUPS = {
         "Field Site": ["view"],
         "World Border": ["view"],
 
-        # sample_labels
+        # sample_label
         "Sample Type": ["view"],
         "SampleLabelRequest": ["view"],
         "SampleBarcode": ["view"],
@@ -231,7 +231,7 @@ GROUPS = {
         "Field Site": ["view"],
         "World Border": ["view"],
 
-        # sample_labels
+        # sample_label
         "Sample Type": ["view"],
         "SampleLabelRequest": ["view"],
         "SampleBarcode": ["view"],

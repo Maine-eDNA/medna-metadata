@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
 # from django.db.models import Q
-from sample_labels.models import SampleBarcode
+from sample_label.models import SampleBarcode
 # from field_survey.models import FieldSample
 # from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
@@ -176,7 +176,7 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT, related_name="freezer_box")
-    sample_barcode = models.OneToOneField('sample_labels.SampleBarcode', on_delete=models.RESTRICT, limit_choices_to={'in_freezer': YesNo.NO})
+    sample_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT, limit_choices_to={'in_freezer': YesNo.NO})
     freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", unique=True, max_length=27)
     freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50, choices=InvTypes.choices)
     freezer_inventory_status = models.CharField("Freezer Inventory Status", max_length=50, choices=InvStatus.choices, default=InvStatus.IN)
