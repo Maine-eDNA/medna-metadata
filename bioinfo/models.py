@@ -5,7 +5,6 @@ from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format,
 from utility.enumerations import YesNo, QualityChecks
 
 
-
 # Create your models here.
 class QualityMetadata(DateTimeUserMixin):
     analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
