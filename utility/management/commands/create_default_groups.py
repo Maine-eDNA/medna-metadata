@@ -33,8 +33,8 @@ GROUPS = {
         "ENVO Feature 5th Tier": ["add", "delete", "change", "view"],
         "ENVO Feature 6th Tier": ["add", "delete", "change", "view"],
         "ENVO Feature 7th Tier": ["add", "delete", "change", "view"],
-        "system": ["add", "change", "view"],
-        "watershed": ["change", "view"],
+        "System": ["add", "change", "view"],
+        "Watershed": ["change", "view"],
         "Field Site": ["add", "change", "view"],
         "World Border": ["change", "view"],
 
@@ -137,8 +137,8 @@ GROUPS = {
         "ENVO Feature 5th Tier": ["add", "change", "view"],
         "ENVO Feature 6th Tier": ["add", "change", "view"],
         "ENVO Feature 7th Tier": ["add", "change", "view"],
-        "system": ["view"],
-        "watershed": ["view"],
+        "System": ["view"],
+        "Watershed": ["view"],
         "Field Site": ["view"],
         "World Border": ["view"],
 
@@ -222,8 +222,8 @@ GROUPS = {
         "ENVO Feature 5th Tier": ["view"],
         "ENVO Feature 6th Tier": ["view"],
         "ENVO Feature 7th Tier": ["view"],
-        "system": ["view"],
-        "watershed": ["view"],
+        "System": ["view"],
+        "Watershed": ["view"],
         "Field Site": ["view"],
         "World Border": ["view"],
 
