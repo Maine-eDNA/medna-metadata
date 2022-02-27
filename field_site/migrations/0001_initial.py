@@ -300,7 +300,8 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
-                'abstract': False,
+                'verbose_name': 'Watershed',
+                'verbose_name_plural': 'Watersheds',
             },
         ),
         migrations.CreateModel(
@@ -314,7 +315,8 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
-                'abstract': False,
+                'verbose_name': 'System',
+                'verbose_name_plural': 'Systems',
             },
         ),
         migrations.CreateModel(
