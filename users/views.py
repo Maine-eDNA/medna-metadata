@@ -1,3 +1,5 @@
+from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import viewsets
 from .serializers import CustomUserSerializer
 from .models import CustomUser
@@ -10,11 +12,21 @@ from dj_rest_auth.registration.views import LoginView
 
 
 # FRONTEND VIEWS
-class CustomLoginView(LoginView):
-    authentication_classes = (TokenAuthentication, )
+class UserProfileDetailView(DetailView, LoginRequiredMixin):
+    fields = ['email', 'profile_image_url', 'full_name', 'phone_number',
+              'agol_username', 'affiliated_projects', ]
+
+    template_name = 'home/django-material-dashboard/profile.html'
+
+    def get_object(self):
+        return self.request.user
 
 
 # SERIALIZER VIEWS
+class CustomRestAuthLoginView(LoginView):
+    authentication_classes = (TokenAuthentication, )
+
+
 class CustomUserFilter(filters.FilterSet):
     email = filters.CharFilter(field_name='email', lookup_expr='iexact')
     agol_username = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
