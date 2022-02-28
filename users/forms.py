@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.http import HttpRequest
 from django.middleware.csrf import get_token
 from django import forms
+from django.urls import reverse_lazy
 from allauth.account.forms import LoginForm, SignupForm, AddEmailForm, ChangePasswordForm, \
     SetPasswordForm, ResetPasswordForm, ResetPasswordKeyForm
 from .models import CustomUser
@@ -17,6 +18,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )
+        success_url = reverse_lazy('dashboard_profile')
 
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
