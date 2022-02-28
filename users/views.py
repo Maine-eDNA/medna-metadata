@@ -14,7 +14,7 @@ from .forms import CustomUserUpdateForm
 
 
 # FRONTEND VIEWS
-class UserProfileDetailView(DetailView, LoginRequiredMixin):
+class UserProfileDetailView(DetailView):
     fields = ['email', 'profile_image_url', 'full_name', 'phone_number',
               'agol_username', 'affiliated_projects', ]
 
@@ -24,7 +24,7 @@ class UserProfileDetailView(DetailView, LoginRequiredMixin):
         return self.request.user
 
 
-class UserProfileUpdateView(UpdateView, LoginRequiredMixin):
+class UserProfileUpdateView(UpdateView):
     model = CustomUser
     form_class = CustomUserUpdateForm
     template_name = 'home/django-material-dashboard/profile-update.html'
