@@ -11,8 +11,9 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('field_site', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('utility', '0001_initial'),
+        ('field_site', '0001_initial'),
     ]
 
     operations = [
