@@ -15,11 +15,11 @@ from crispy_forms.layout import Layout, Submit, Row, Column, Field, Div
 # FRONTEND
 class CustomUserUpdateForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
-    success_url = reverse_lazy('dashboard_profile')
 
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )
+        success_url = reverse_lazy('dashboard_profile')
 
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
