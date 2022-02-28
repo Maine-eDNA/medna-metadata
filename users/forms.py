@@ -15,7 +15,7 @@ from crispy_forms.layout import Submit
 class CustomUserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username')
+        fields = ('first_name', 'last_name', 'phone_number', 'agol_username' 'profile_image', 'affiliated_projects', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
