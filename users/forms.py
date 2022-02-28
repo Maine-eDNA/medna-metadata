@@ -8,14 +8,31 @@ from .models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 from allauth.account.views import PasswordResetView
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, MultiField, Field
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 # FRONTEND
 class CustomUserUpdateForm(forms.ModelForm):
+    # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('first_name', css_class='form-group col-md-6 mb-0'),
+                Column('last_name', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            'phone_number',
+            'agol_username',
+            'profile_image',
+            'affiliated_projects',
+            Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100")
+        )
 
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
