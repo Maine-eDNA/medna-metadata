@@ -1,14 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from allauth.account.forms import LoginForm, SignupForm, AddEmailForm, ChangePasswordForm, \
-    SetPasswordForm, ResetPasswordForm, ResetPasswordKeyForm
-from .models import CustomUser
 from django.http import HttpRequest
 from django.middleware.csrf import get_token
 from django import forms
+from allauth.account.forms import LoginForm, SignupForm, AddEmailForm, ChangePasswordForm, \
+    SetPasswordForm, ResetPasswordForm, ResetPasswordKeyForm
+from .models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 from allauth.account.views import PasswordResetView
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, MultiField, Field
 
 
 # FRONTEND

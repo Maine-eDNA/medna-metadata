@@ -16,22 +16,49 @@
       </div>
       <div class="card card-body mx-3 mx-md-4 mt-n6">
           <form role="form" id="contact-form" method="post" autocomplete="off">
-            {% csrf_token %}
 
             <div class="card-body">
 
-              <div class="row">
-                {{ form|crispy }}
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-group input-group-dynamic mb-4">
+                {{ form.first_name|as_crispy_field }}
+                </div>
               </div>
+              <div class="col-md-6 ps-2">
+                <div class="input-group input-group-dynamic">
+                {{ form.first_name|as_crispy_field }}
+                </div>
+              </div>
+            </div>
 
+            <div class="row">
+              <div class="col-md-12">
+                {{ form.phone_number|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                {{ form.agol_username|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                {{ form.profile_image|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                {{ form.affiliated_projects|as_crispy_field }}
+              </div>
+            </div>
               <div class="row">
                 <div class="col-md-12">
                   <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
                 </div>
               </div>
-
             </div>
-
           </form>
       </div>
     </div>
