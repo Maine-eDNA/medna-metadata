@@ -18,27 +18,6 @@ class CustomUserUpdateForm(forms.ModelForm):
         model = CustomUser
         fields = ('first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'contact-form'
-        self.helper.form_role = 'form'
-        self.helper.layout = Layout(
-            Row(
-                Column(Field('last_name', css_class='form-control'), css_class='form-group col-md-6 mb-0'),
-                Column(Field('first_name', css_class='form-control'), css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Field('phone_number', css_class='form-control'),
-            Field('agol_username', css_class='form-control'),
-            Div(
-                Field('profile_image', css_class='form-control'),
-                css_class="form-group col-md-6 mb-0 w-100"
-            ),
-            Field('affiliated_projects', css_class='form-control'),
-            Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"),
-        )
-
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
 class CustomLoginForm(LoginForm):
