@@ -8,7 +8,7 @@ from .models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 from allauth.account.views import PasswordResetView
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Layout, Submit, Row, Column, Field
 
 
 # FRONTEND
@@ -29,10 +29,10 @@ class CustomUserUpdateForm(forms.ModelForm):
                 Column('last_name', css_class='col-md-6 ps-2 input-group input-group-dynamic'),
                 css_class='row'
             ),
-            Row('phone_number', css_class='input-group input-group-dynamic'),
-            Row('agol_username', css_class='input-group input-group-dynamic'),
-            Row('affiliated_projects', css_class='input-group input-group-dynamic'),
-            Row('profile_image', css_class='input-group input-group-dynamic'),
+            Field('phone_number', css_class='input-group input-group-dynamic'),
+            Field('agol_username', css_class='input-group input-group-dynamic'),
+            Field('affiliated_projects', css_class='input-group input-group-dynamic'),
+            Field('profile_image', css_class='input-group input-group-dynamic'),
             Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"),
         )
 
