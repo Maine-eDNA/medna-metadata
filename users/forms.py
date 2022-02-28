@@ -2,8 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.http import HttpRequest
 from django.middleware.csrf import get_token
 from django import forms
-from django.urls import reverse_lazy
-from django.views.generic.edit import ModelFormMixin
+from django.urls import reverse
 from allauth.account.forms import LoginForm, SignupForm, AddEmailForm, ChangePasswordForm, \
     SetPasswordForm, ResetPasswordForm, ResetPasswordKeyForm
 from .models import CustomUser
@@ -14,13 +13,15 @@ from crispy_forms.layout import Layout, Submit, Row, Column, Field, Div
 
 
 # FRONTEND
-class CustomUserUpdateForm(ModelFormMixin, forms.ModelForm):
+class CustomUserUpdateForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
-    success_url = reverse_lazy('dashboard_profile')
 
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )
+
+    def get_absolute_url(self):
+        return reverse('dashboard_profile')
 
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
