@@ -71,8 +71,8 @@ INSTALLED_APPS = [
     'import_export',  # django-import-export - https://github.com/django-import-export/django-import-export
     'django_filters', # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework. - https://github.com/carltongibson/django-filter
     'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite] - https://github.com/stefanfoulis/django-phonenumber-field
-    # 'crispy_forms',  # crispy forms for pretty forms - https://github.com/django-crispy-forms/django-crispy-forms
-    # 'crispy_bootstrap5', # bootstrap5 template pack for django-crispy-forms - https://github.com/django-crispy-forms/crispy-bootstrap5
+    'crispy_forms',  # crispy forms for pretty forms - https://github.com/django-crispy-forms/django-crispy-forms
+    'crispy_bootstrap5', # bootstrap5 template pack for django-crispy-forms - https://github.com/django-crispy-forms/crispy-bootstrap5
     # 'django_tables2', # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
     # 'django_admin_listfilter_dropdown', # django-admin-list-filter-dropdown - Use dropdowns in Django admin list filter - https://github.com/mrts/django-admin-list-filter-dropdown
     # 'leaflet', # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
@@ -522,11 +522,11 @@ CELERYBEAT_SCHEDULE = {
 ###########################################
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html
 # crispy forms template packs: bootstrap, bootstrap3, bootstrap4, and uni-form
-# CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
-# CRISPY_TEMPLATE_PACK = 'bootstrap5'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # delete this line when done debugging
-# CRISPY_FAIL_SILENTLY = not DEBUG
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 ########################################
 # DJANGO-PHONENUMBER-FIELD CONFIG      #
