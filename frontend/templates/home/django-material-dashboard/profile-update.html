@@ -18,7 +18,7 @@
 
         <form method="post">
           {% csrf_token %}
-          {{ form|crispy }}
+          {% crispy form %}
           <br>
           <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
         </form>
