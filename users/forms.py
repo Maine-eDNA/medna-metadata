@@ -26,16 +26,13 @@ class CustomUserUpdateForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Div(
-                    Div(
-                        Column('last_name', css_class='form-control'),
-                        css_class='input-group input-group-dynamic mb-4'),
+                    Column(Field('last_name', css_class='form-control'), css_class='input-group input-group-dynamic mb-4'),
                     css_class='col-md-6'),
                 Div(
-                    Div(
-                        Column('first_name', css_class='form-control'),
-                        css_class='input-group input-group-dynamic'),
-                    css_class='col-md-6 ps-2'),
-                css_class='row'),
+                    Column(Field('first_name', css_class='form-control'), css_class='input-group input-group-dynamic'),
+                    css_class='col-md-6 ps-2'
+                ),
+            ),
             Field('phone_number', css_class='input-group input-group-dynamic'),
             Field('agol_username', css_class='input-group input-group-dynamic'),
             Field('affiliated_projects', css_class='input-group input-group-dynamic'),
