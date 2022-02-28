@@ -14,19 +14,22 @@ from .forms import CustomUserUpdateForm
 
 
 # FRONTEND VIEWS
-class UserProfileDetailView(DetailView):
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
     fields = ['email', 'profile_image_url', 'full_name', 'phone_number',
               'agol_username', 'affiliated_projects', ]
-
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/profile.html'
 
     def get_object(self):
         return self.request.user
 
 
-class UserProfileUpdateView(UpdateView):
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     form_class = CustomUserUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/profile-update.html'
 
     def get_object(self):

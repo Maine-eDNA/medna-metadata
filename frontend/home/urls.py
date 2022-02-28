@@ -15,8 +15,8 @@ urlpatterns = [
     # The home page
     path('', views.IndexTemplateView.as_view(), name='home'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
-    path('dashboard/profile/', login_required(UserProfileDetailView.as_view()), name='dashboard_profile'),
-    path('dashboard/profile/update/', login_required(UserProfileUpdateView.as_view()), name='dashboard_profile_update'),
+    path('dashboard/profile/', UserProfileDetailView.as_view(), name='dashboard_profile'),
+    path('dashboard/profile/update/', UserProfileUpdateView.as_view(), name='dashboard_profile_update'),
     path('main/project_detail/<int:pk>/', ProjectSurveyTemplateView.as_view(), name='project_detail'),
     path('main/projects/', ProjectsTemplateView.as_view(), name='projects'),
     path('main/publications/', PublicationsTemplateView.as_view(), name='publications'),
