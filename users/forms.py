@@ -29,23 +29,11 @@ class CustomUserUpdateForm(forms.ModelForm):
                 Column('last_name', css_class='col-md-6 ps-2 input-group input-group-dynamic'),
                 css_class='row'
             ),
-            Row(
-                Column('phone_number', css_class='input-group input-group-dynamic'),
-                css_class='mb-4'
-            ),
-            Row(
-                Column('agol_username', css_class='input-group input-group-dynamic'),
-                css_class='mb-4'
-            ),
-            Row(
-                Column('affiliated_projects', css_class='input-group input-group-dynamic'),
-                css_class='mb-4'
-            ),
-            Row(
-                Column('profile_image', css_class='input-group input-group-dynamic'),
-                css_class='form-group form-file-upload form-file-multiple'
-            ),
-            Row(Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"), css_class='col-md-12')
+            Row('phone_number', css_class='input-group input-group-dynamic'),
+            Row('agol_username', css_class='input-group input-group-dynamic'),
+            Row('affiliated_projects', css_class='input-group input-group-dynamic'),
+            Row('profile_image', css_class='input-group input-group-dynamic'),
+            Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"),
         )
 
 
