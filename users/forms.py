@@ -26,7 +26,7 @@ class CustomUserUpdateForm(forms.ModelForm):
         self.helper.label_class = 'form-label'
         self.helper.field_class = 'form-control'
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Submit', css_class='btn bg-gradient-dark w-100'))
+        self.helper.add_input(Submit('submit', 'Submit'))
 
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
