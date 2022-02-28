@@ -21,16 +21,30 @@ class CustomUserUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_id = 'contact-form'
+        self.helper.form_role = 'form'
         self.helper.layout = Layout(
             Row(
-                Column('first_name', css_class='form-group col-md-6 mb-0'),
-                Column('last_name', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
+                Column('first_name', css_class='col-md-6 input-group input-group-dynamic mb-4'),
+                Column('last_name', css_class='col-md-6 ps-2 input-group input-group-dynamic'),
+                css_class='row'
             ),
-            Row('phone_number', css_class='col-md-12'),
-            Row('agol_username', css_class='col-md-12'),
-            Row('profile_image', css_class='col-md-12'),
-            Row('affiliated_projects', css_class='col-md-12'),
+            Row(
+                Column('phone_number', css_class='input-group input-group-dynamic'),
+                css_class='mb-4'
+            ),
+            Row(
+                Column('agol_username', css_class='input-group input-group-dynamic'),
+                css_class='mb-4'
+            ),
+            Row(
+                Column('affiliated_projects', css_class='input-group input-group-dynamic'),
+                css_class='mb-4'
+            ),
+            Row(
+                Column('profile_image', css_class='input-group input-group-dynamic'),
+                css_class='form-group form-file-upload form-file-multiple'
+            ),
             Row(Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"), css_class='col-md-12')
         )
 
