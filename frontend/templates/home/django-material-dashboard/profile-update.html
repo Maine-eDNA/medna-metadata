@@ -15,51 +15,7 @@
       </div>
       <div class="card card-body mx-3 mx-md-4 mt-n6">
 
-          <div class="container py-4">
-              <div class="row">
-                  <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
-                      <h3 class="text-center">Update profile</h3>
-                      <form role="form" id="contact-form" method="post" autocomplete="off">
-                          {% csrf_token %}
-                          <div class="card-body">
-                              <div class="row">
-                                  <div class="col-md-6">
-                                    <div class="input-group input-group-dynamic mb-4">
-                                      <label class="form-label">First Name</label>
-                                      <input type="text" id="first_name" name="first_name" class="form-control" aria-label="First Name..." value="{{ first_name }}">
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6 ps-2">
-                                    <div class="input-group input-group-dynamic">
-                                      <label class="form-label">Last Name</label>
-                                      <input type="text" id="last_name" name="last_name" class="form-control" aria-label="Last Name..." value="{{ last_name }}">
-                                    </div>
-                                  </div>
-                              </div>
-
-                              <div class="input-group mb-4 input-group-static">
-                                <div class="col-md-6 ps-2 custom-file">
-                                  <input type="file" id="profile_image" name="profile_image" class="custom-file-input">
-                                  <label class="custom-file-label" for="profile_image">{{ profile_image.profile_image_filename }}</label>
-                                </div>
-                              </div>
-
-                              <div class="form-control">
-                                  <select name="affiliated_projects" class="selectmultiple form-select" required id="id_affiliated_projects" multiple></select>
-                              </div>
-
-
-                                  <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
-                                    </div>
-                                  </div>
-
-                        </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
+        {{ form }}
 
       </div>
     </div>
