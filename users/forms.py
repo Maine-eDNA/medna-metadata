@@ -27,11 +27,11 @@ class CustomUserUpdateForm(forms.ModelForm):
                 Column('last_name', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
-            'phone_number',
-            'agol_username',
-            'profile_image',
-            'affiliated_projects',
-            Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100")
+            Row('phone_number', css_class='col-md-12'),
+            Row('agol_username', css_class='col-md-12'),
+            Row('profile_image', css_class='col-md-12'),
+            Row('affiliated_projects', css_class='col-md-12'),
+            Row(Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"), css_class='col-md-12')
         )
 
 
