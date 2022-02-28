@@ -419,6 +419,7 @@
       </div>
     </section>
     <!-- -------- END Content Contributor Block ------- -->
+    {% if request.user.is_authenticated %}
     <section class="my-5">
       <div class="container">
         <div class="row">
@@ -446,6 +447,7 @@
         </div>
       </div>
     </section>
+    {% endif %}
     <!-- -------   START PRE-FOOTER 2 - simple social line w/ title & 3 buttons    -------- -->
     <div class="py-5">
       <div class="container">
