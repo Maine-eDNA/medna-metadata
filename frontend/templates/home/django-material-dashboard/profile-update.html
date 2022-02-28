@@ -15,11 +15,13 @@
         <span class="mask bg-gradient-dark opacity-6"></span>
       </div>
       <div class="card card-body mx-3 mx-md-4 mt-n6">
-        <div class="card-body">
+        <div class="row">
+          <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+            <h3 class="text-center">Update Profile</h3>
 
-          {% csrf_token %}
-          {% crispy form %}
-        </div>
+              {% csrf_token %}
+              {% crispy form %}
+          </div>
       </div>
       </div>
     </div>
