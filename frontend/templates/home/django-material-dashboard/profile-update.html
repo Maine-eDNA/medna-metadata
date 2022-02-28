@@ -14,12 +14,67 @@
         <span class="mask bg-gradient-dark opacity-6"></span>
       </div>
       <div class="card card-body mx-3 mx-md-4 mt-n6">
-        {{ form }}
+          <form role="form" id="contact-form" method="post" autocomplete="off">
+            {% csrf_token %}
 
-        <div class="col-md-12">
-          <button type="submit" class="btn bg-gradient-dark w-100">Send Message</button>
-        </div>
+            <div class="card-body">
 
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="input-group input-group-dynamic mb-4">
+                    <label for="id_first_name" class="form-label">First Name</label>
+                    <input type="text" id="id_first_name" name="first_name" value="{{ first_name }}" class="form-control" maxlength="150" aria-label="First Name..."  >
+                  </div>
+                </div>
+                <div class="col-md-6 ps-2">
+                  <div class="input-group input-group-dynamic">
+                    <label for="id_last_name" class="form-label">Last Name</label>
+                    <input type="text" id="id_last_name" name="last_name" value="{{ last_name }}" class="form-control" maxlength="150" aria-label="Last Name..." >
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="input-group input-group-dynamic">
+                  <label for="id_phone_number" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" name="phone_number" maxlength="128" id="id_phone_number" value="{{ phone_number }}">
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="input-group input-group-dynamic">
+                  <label for="id_agol_username" class="form-label">ArcGIS Online Username</label>
+                  <input type="text" class="form-control" name="agol_username" maxlength="255" id="id_agol_username" value="{{ agol_username }}">
+                </div>
+              </div>
+
+              <div class="custom-file mb-4">
+                <div class="input-group input-group-dynamic">
+                  Currently: <a href="{{ url profile_image.profile_image_url }}">{{ profile_image.profile_image_filename }}</a>
+                    <label for="profile_image-clear_id">Clear</label><br>
+                    <input type="checkbox" class="form-check-input" name="profile_image-clear" id="profile_image-clear_id">
+                    Change:
+                  <label for="customFile" class="custom-file-label form-label">Choose file</label>
+                  <input type="file" class="custom-file-input form-control" name="profile_image" id="customFile" >
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="input-group input-group-dynamic">
+                  <label for="id_affiliated_projects" class="form-label">Affiliated Project(s)</label>
+                  <select name="affiliated_projects" class="form-control" required id="id_affiliated_projects" multiple></select>
+                </div>
+              </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
+              </div>
+            </div>
+
+          </div>
+
+          </form>
       </div>
     </div>
 
