@@ -79,9 +79,7 @@ class GrantSerializer(serializers.ModelSerializer):
         model = Grant
         fields = ['id', 'grant_code', 'grant_label', 'grant_description',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -98,9 +96,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals',
                   'grant_names', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     grant_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
 
@@ -116,14 +112,10 @@ class PublicationSerializer(serializers.ModelSerializer):
         model = Publication
         fields = ['id', 'publication_title', 'publication_url', 'project_names', 'publication_authors',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    project_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='project_label',
-                                                 queryset=Project.objects.all())
-    publication_authors = serializers.SlugRelatedField(many=True, read_only=False, slug_field='email',
-                                                       queryset=CustomUser.objects.all())
+    project_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='project_label', queryset=Project.objects.all())
+    publication_authors = serializers.SlugRelatedField(many=True, read_only=False, slug_field='email', queryset=CustomUser.objects.all())
 
 
 class ProcessLocationSerializer(serializers.ModelSerializer):
@@ -148,9 +140,24 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
                   'location_email_address', 'point_of_contact_email_address',
                   'point_of_contact_first_name', 'point_of_contact_last_name',
                   'location_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class ContactUsSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    contact_slug = serializers.SlugField(read_only=True, max_length=255)
+    full_name = serializers.CharField(max_length=255)
+    contact_email = serializers.EmailField()
+    contact_context = serializers.CharField(max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = ProcessLocation
+        fields = ['id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -193,9 +200,7 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
                   'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
                   'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -238,12 +243,9 @@ class CustomUserCssSerializer(serializers.ModelSerializer):
                   'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
                   'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    user = serializers.SlugRelatedField(many=False, read_only=False, slug_field='email',
-                                        queryset=CustomUser.objects.all())
+    user = serializers.SlugRelatedField(many=False, read_only=False, slug_field='email', queryset=CustomUser.objects.all())
 
 
 # https://aldnav.com/blog/django-table-exporter/

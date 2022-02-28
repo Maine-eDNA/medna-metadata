@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Grant, Project, Publication, ProcessLocation, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, Grant, Project, Publication, ProcessLocation, DefaultSiteCss, CustomUserCss
 from users.tests import UsersManagersTests
 from users.models import CustomUser
 # from django.contrib.auth import get_user_model
@@ -79,6 +79,21 @@ class ProcessLocationTestCase(TestCase):
     def test_was_added_recently(self):
         # test if date is added correctly
         medna = ProcessLocation.objects.get(process_location_name="CORE")
+        self.assertIs(medna.was_added_recently(), True)
+
+
+class ContactUsTestCase(TestCase):
+    # formerly Project in field_site.models
+    def setUp(self):
+        ContactUs.objects.get_or_create(full_name="test person",
+                                        defaults={
+                                            'contact_email': "test@test.com",
+                                            'contact_context': "test first",
+                                        })
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        medna = ContactUs.objects.get(full_name="test person")
         self.assertIs(medna.was_added_recently(), True)
 
 

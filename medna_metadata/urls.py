@@ -50,6 +50,7 @@ router.register(r'users/user', users_views.CustomUserViewSet, 'users')
 router.register(r'utility/grant', utility_views.GrantViewSet, 'grant')
 router.register(r'utility/project', utility_views.ProjectViewSet, 'project')
 router.register(r'utility/process_location', utility_views.ProcessLocationViewSet, 'process_location')
+router.register(r'utility/contact_us', utility_views.ContactUsViewSet, 'contact_us')
 router.register(r'utility/default_site_css', utility_views.DefaultSiteCssViewSet, 'default_site_css')
 router.register(r'utility/custom_user_css', utility_views.CustomUserCssViewSet, 'custom_user_css')
 # utility:enums

@@ -10,9 +10,9 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from field_survey.models import FieldSurvey
-from .serializers import ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
+from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
 from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
@@ -85,6 +85,12 @@ class ContactUsTemplateView(TemplateView):
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/contact-us.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["contact_list"] = ContactUs.objects.prefetch_related('created_by').order_by('-pk')
+        return context
 
 
 # SERIALIZER VIEWS
@@ -160,6 +166,24 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
     filterset_class = ProcessLocationFilter
+    swagger_tags = ["utility"]
+
+
+class ContactUsFilter(filters.FilterSet):
+    created_datetime = filters.DateFilter(field_name='created_datetime', input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    contact_slug = filters.CharFilter(field_name='contact_slug', lookup_expr='iexact')
+
+    class Meta:
+        model = ContactUs
+        fields = ['contact_slug', 'created_datetime', ]
+
+
+class ContactUsViewSet(viewsets.ModelViewSet):
+    serializer_class = ContactUsSerializer
+    queryset = ContactUs.objects.prefetch_related('created_by')
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'process_location_name_slug']
+    filterset_class = ContactUsFilter
     swagger_tags = ["utility"]
 
 

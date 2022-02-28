@@ -160,6 +160,30 @@ class ProcessLocation(DateTimeUserMixin):
         verbose_name_plural = 'Process Locations'
 
 
+class ContactUs(DateTimeUserMixin):
+    full_name = models.CharField("Full Name", max_length=255)
+    contact_email = models.EmailField(_('Email Address'))
+    contact_context = models.TextField("Context")
+    contact_slug = models.SlugField("Contact Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.contact_slug = '{name}_{date}'.format(name=slugify(self.full_name), date=created_date_fmt)
+        super(ContactUs, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{email} [{date}]'.format(email=self.email, date=self.created_datetime)
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Contact Us'
+        verbose_name_plural = 'Contact Us'
+
+
+# FREEZER_INVENTORY mobile app CSS
 class DefaultSiteCss(DateTimeUserMixin):
     default_css_label = models.CharField("Default CSS Label", unique=True, max_length=255)
     # selected CSS

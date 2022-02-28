@@ -1,8 +1,9 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
-from .resources import ProcessLocationAdminResource, PublicationAdminResource, ProjectAdminResource, GrantAdminResource, \
+from .resources import ContactUsAdminResource, ProcessLocationAdminResource, PublicationAdminResource, \
+    ProjectAdminResource, GrantAdminResource, \
     DefaultSiteCssAdminResource, CustomUserCssAdminResource
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 
 
 class GrantAdmin(ImportExportActionModelAdmin):
@@ -175,6 +176,41 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(ProcessLocation, ProcessLocationAdmin)
+
+
+class ContactUsAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    resource_class = ContactUsAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'created_datetime', 'created_by')
+    readonly_fields = ('contact_slug', 'modified_datetime', 'created_datetime', )
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['full_name', 'contact_email', 'contact_context', ]
+
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(ContactUsAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['contact_slug', 'full_name', 'contact_email', 'contact_context',
+                       'created_by', 'modified_datetime', 'created_datetime']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(ContactUsAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+
+admin.site.register(ContactUs, ContactUsAdmin)
 
 
 class DefaultSiteCssAdmin(ImportExportActionModelAdmin):

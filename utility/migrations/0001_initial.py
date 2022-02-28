@@ -98,6 +98,23 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='ContactUs',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('full_name', models.CharField(max_length=255, verbose_name='Full Name')),
+                ('contact_slug', models.SlugField(max_length=255, verbose_name='Contact Slug')),
+                ('contact_email', models.EmailField(max_length=254, verbose_name='Email Address')),
+                ('contact_context', models.TextField(verbose_name='Context')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+            ],
+            options={
+                'verbose_name': 'Contact Us',
+                'verbose_name_plural': 'Contact Us',
+            },
+        ),
+        migrations.CreateModel(
             name='DefaultSiteCss',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

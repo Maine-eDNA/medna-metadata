@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from users.models import CustomUser
 
 
@@ -91,6 +91,25 @@ class ProcessLocationAdminResource(resources.ModelResource):
                         'location_email_address', 'point_of_contact_email_address',
                         'point_of_contact_first_name', 'point_of_contact_last_name',
                         'location_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class ContactUsAdminResource(resources.ModelResource):
+    class Meta:
+        model = ContactUs
+        import_id_fields = ('id', 'contact_slug', )
+        fields = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
