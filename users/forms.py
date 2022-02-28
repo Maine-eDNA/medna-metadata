@@ -25,17 +25,16 @@ class CustomUserUpdateForm(forms.ModelForm):
         self.helper.form_role = 'form'
         self.helper.layout = Layout(
             Row(
-                Div(
-                    Column(Field('last_name', css_class='form-control'), css_class='form-group form-group-outline col-md-6 mb-0'),
-                    css_class='input-group col-md-6'),
-                Div(
-                    Column(Field('first_name', css_class='form-control'), css_class='form-group form-group-outline col-md-6 mb-0'),
-                    css_class='input-group col-md-6 ps-2'
-                ),
-                css_class='form-row'),
+                Column(Field('last_name', css_class='form-control'), css_class='form-group col-md-6 mb-0'),
+                Column(Field('first_name', css_class='form-control'), css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
             Field('phone_number', css_class='form-control'),
             Field('agol_username', css_class='form-control'),
-            Div(Field('profile_image', css_class='form-control w-100'), css_class="input-group mb-4 input-group-static"),
+            Div(
+                Field('profile_image', css_class='form-control'),
+                css_class="form-group col-md-6 mb-0 w-100"
+            ),
             Field('affiliated_projects', css_class='form-control'),
             Submit('submit', 'Update Profile', css_class="btn bg-gradient-dark w-100"),
         )
