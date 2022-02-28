@@ -24,7 +24,7 @@ class UserProfileDetailView(DetailView, LoginRequiredMixin):
         return self.request.user
 
 
-class UserProfileUpdateView(UpdateView):
+class UserProfileUpdateView(UpdateView, LoginRequiredMixin):
     model = CustomUser
     form_class = CustomUserUpdateForm
     template_name = 'home/django-material-dashboard/profile-update.html'
