@@ -1,14 +1,16 @@
 from django.views.generic import DetailView
+from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework import viewsets
-from .serializers import CustomUserSerializer
-from .models import CustomUser
-from django_filters import rest_framework as filters
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 # from dj_rest_auth.registration.views import SocialLoginView
 from rest_framework.authentication import TokenAuthentication
+from django_filters import rest_framework as filters
 from dj_rest_auth.registration.views import LoginView
+from rest_framework import viewsets
+from .serializers import CustomUserSerializer
+from .models import CustomUser
+from .forms import CustomUserUpdateForm
 
 
 # FRONTEND VIEWS
@@ -17,6 +19,15 @@ class UserProfileDetailView(DetailView, LoginRequiredMixin):
               'agol_username', 'affiliated_projects', ]
 
     template_name = 'home/django-material-dashboard/profile.html'
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserUpdateView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserUpdateForm
+    template_name = 'home/django-material-dashboard/profile-update.html'
 
     def get_object(self):
         return self.request.user

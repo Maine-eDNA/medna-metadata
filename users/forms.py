@@ -7,6 +7,26 @@ from django.middleware.csrf import get_token
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from allauth.account.views import PasswordResetView
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+
+
+# FRONTEND
+class CustomUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'contact-form'
+        self.helper.role = 'form'
+        # self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'form-label'
+        self.helper.field_class = 'form-control'
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Submit', css_class='btn bg-gradient-dark w-100'))
 
 
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
@@ -66,7 +86,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('email',)
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserAdminChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'custom_user_css', 'affiliated_projects')
