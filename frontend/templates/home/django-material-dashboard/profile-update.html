@@ -18,7 +18,9 @@
         <form role="form" id="contact-form" method="post" autocomplete="off">
           {% csrf_token %}
           {{ form }}
-          <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
+          <div class="col-md-12">
+            <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
+          </div>
         </form>
       </div>
     </div>
