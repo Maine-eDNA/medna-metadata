@@ -20,31 +20,46 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
+        </li>
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'tables' in segment %} active bg-gradient-primary {% endif %}" 
-             href="/dashboard/tables.html">
+          <a class="nav-link text-white {% if 'field-sites' in segment %} active bg-gradient-primary {% endif %}"
+             href="/dashboard/field-sites.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
-            <span class="nav-link-text ms-1">Tables</span>
+            <span class="nav-link-text ms-1">View</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'billing' in segment %} active bg-gradient-primary {% endif %}" 
-             href="/dashboard/billing.html">
+          <a class="nav-link text-white {% if 'field-sites' in segment %} active bg-gradient-primary {% endif %}"
+             href="/dashboard/field-site-add.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">add_box</i>
             </div>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">Add</span>
+          </a>
+        </li>
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Sample Labels</h6>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link text-white {% if 'sample-labels' in segment %} active bg-gradient-primary {% endif %}"
+             href="/dashboard/sample-labels.html">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">table_view</i>
+            </div>
+            <span class="nav-link-text ms-1">View</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'notifications' in segment %} active bg-gradient-primary {% endif %}" 
-             href="/dashboard/notifications.html">
+          <a class="nav-link text-white {% if 'sample-label-add' in segment %} active bg-gradient-primary {% endif %}"
+             href="/dashboard/sample-label-add.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">notifications</i>
+              <i class="material-icons opacity-10">add_box</i>
             </div>
-            <span class="nav-link-text ms-1">Notifications</span>
+            <span class="nav-link-text ms-1">Add</span>
           </a>
         </li>
         <li class="nav-item mt-3">
