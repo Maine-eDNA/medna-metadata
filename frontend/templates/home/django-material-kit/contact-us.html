@@ -60,7 +60,7 @@
                 {% if form.non_field_errors %}
                 <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
                 {% endif %}
-                <form class="p-3" id="contact-form" method="post" action="">
+                <form method="post" class="p-3" id="contact-form" >
                   {% csrf_token %}
                   <div class="card-header px-4 py-sm-5 py-3">
                     <h2>Contact Us</h2>
