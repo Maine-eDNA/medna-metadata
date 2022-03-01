@@ -175,7 +175,7 @@ class ContactUs(DateTimeUserMixin):
         super(ContactUs, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{email} [{date}]'.format(email=self.email, date=self.created_datetime)
+        return '{email} [{date}]'.format(email=self.contact_email, date=self.created_datetime)
 
     class Meta:
         app_label = 'utility'
