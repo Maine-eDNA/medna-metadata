@@ -96,6 +96,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EnvMeasureType',
             fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('env_measure_type_code', models.CharField(max_length=255, unique=True, verbose_name='Type Code')),
                 ('env_measure_type_label', models.CharField(max_length=255, verbose_name='Type Label')),
                 ('env_measure_type_slug', models.SlugField(max_length=255, verbose_name='Type Slug')),
@@ -126,7 +127,7 @@ class Migration(migrations.Migration):
                 ('env_niskin_number', models.IntegerField(blank=True, null=True, verbose_name='Niskin Number')),
                 ('env_niskin_notes', models.TextField(blank=True, verbose_name='Niskin Notes')),
                 ('env_inst_other', models.TextField(blank=True, verbose_name='Other Instruments')),
-                ('env_measurement', models.ManyToManyField(related_name='env_measure_types', to='field_survey.EnvMeasureType', verbose_name='Environmental Measurement(s)')),
+                ('env_measurement', models.ManyToManyField(blank=True, related_name='env_measure_types', to='field_survey.EnvMeasureType', verbose_name='Environmental Measurement(s)')),
                 ('env_flow_rate', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Flow Rate (m/s)')),
                 ('env_water_temp', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Water Temperature (C)')),
                 ('env_salinity', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Salinity (PSU)')),
