@@ -17,6 +17,7 @@ class ContactUsForm(forms.Form):
             }
         )
     )
+    full_name.widget.attrs.pop('id', None)
     contact_email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(
