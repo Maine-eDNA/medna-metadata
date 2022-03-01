@@ -14,12 +14,20 @@
         <span class="mask bg-gradient-dark opacity-6"></span>
     </div>
     <div class="card card-body mx-3 mx-md-4 mt-n6">
+      {% if perms.field_site.add_fieldsite %}
       <div class="row min-vh-80 h-100">
         <div class="col-12">
           <h3 class="text-center">Field Site Add</h3>
         </div>
       </div>
+      {% else %}
+      <div class="row min-vh-80 h-100">
+        <div class="col-12">
+          <h3 class="text-center">You do not have permission to view this page.</h3>
+        </div>
+      </div>
     </div>
+    {% endif %}
 
     {% include 'includes/django-material-dashboard/footer.html' %}
 
