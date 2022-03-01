@@ -188,7 +188,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='survey_global_id'
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_blank=True, slug_field='env_measure_method_code')
+    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_method_code')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
