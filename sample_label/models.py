@@ -100,7 +100,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     sample_label_request_slug = models.SlugField("Sample Label Request Slug", max_length=255)
 
     def __str__(self):
-        return '{label}'.format(label=self.sample_label_request_slug)
+        return self.sample_label_request_slug
 
     def save(self, *args, **kwargs):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
@@ -163,7 +163,7 @@ class SampleBarcode(DateTimeUserMixin):
     purpose = models.CharField("Sample Barcode Purpose", max_length=255)
 
     def __str__(self):
-        return '{label}'.format(label=self.sample_barcode_id)
+        return self.sample_barcode_id
 
     def save(self, *args, **kwargs):
         self.barcode_slug = slugify(self.sample_barcode_id)

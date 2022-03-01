@@ -18,7 +18,7 @@ class EnvoBiomeFirst(DateTimeUserMixin):
         super(EnvoBiomeFirst, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{biome1}'.format(biome1=self.biome_first_tier_slug)
+        return self.biome_first_tier_slug
 
     class Meta:
         app_label = 'field_site'
@@ -186,7 +186,7 @@ class EnvoFeatureFirst(DateTimeUserMixin):
         super(EnvoFeatureFirst, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{feature1}'.format(feature1=self.feature_first_tier_slug)
+        return self.feature_first_tier_slug
 
     class Meta:
         app_label = 'field_site'
@@ -461,8 +461,7 @@ class Watershed(DateTimeUserMixin):
     geom = models.MultiPolygonField()
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.watershed_code,
-                                        label=self.watershed_label)
+        return '{code}: {label}'.format(code=self.watershed_code, label=self.watershed_label)
 
     class Meta:
         app_label = 'field_site'

@@ -87,7 +87,7 @@ class FieldSurvey(DateTimeUserMixin):
         return self.geom.srid
 
     def __str__(self):
-        return '{survey_global_id}'.format(survey_global_id=self.survey_global_id)
+        return self.survey_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -106,7 +106,7 @@ class FieldCrew(DateTimeUserMixin):
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="field_crew", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
+        return self.crew_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -131,7 +131,7 @@ class EnvMeasureType(DateTimeUserMixin):
         super(EnvMeasureType, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.env_measure_type_slug
+        return '{code}: {label}'.format(code=self.env_measure_type_code, label=self.env_measure_type_label)
 
     class Meta:
         app_label = 'field_survey'
@@ -184,7 +184,7 @@ class EnvMeasurement(DateTimeUserMixin):
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="env_measurements", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{env_global_id}'.format(env_global_id=self.env_global_id)
+        return self.env_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -202,7 +202,7 @@ class FieldCollection(DateTimeUserMixin):
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Collection Editor", on_delete=models.SET(get_sentinel_user), related_name="collection_record_editor")
 
     def __str__(self):
-        return '{collection_global_id}'.format(collection_global_id=self.collection_global_id)
+        return self.collection_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -228,7 +228,7 @@ class WaterCollection(DateTimeUserMixin):
     was_filtered = models.CharField("Filtered", blank=True, max_length=50, choices=YesNo.choices)
 
     def __str__(self):
-        return '{collection_global_id}'.format(collection_global_id=self.field_collection.collection_global_id)
+        return self.field_collection.collection_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -253,7 +253,7 @@ class SedimentCollection(DateTimeUserMixin):
     subcores_taken = models.CharField("Sub-Cored", blank=True, max_length=50, choices=YesNo.choices)
 
     def __str__(self):
-        return '{collection_global_id}'.format(collection_global_id=self.field_collection.collection_global_id)
+        return self.field_collection.collection_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -314,7 +314,7 @@ class FilterSample(DateTimeUserMixin):
     filter_notes = models.TextField("Filter Notes", blank=True)
 
     def __str__(self):
-        return '{field_sample}'.format(field_sample=self.field_sample)
+        return self.field_sample
 
     class Meta:
         app_label = 'field_survey'
@@ -337,7 +337,7 @@ class SubCoreSample(DateTimeUserMixin):
     # TODO - add subcore_notes field to app?
 
     def __str__(self):
-        return '{field_sample}'.format(field_sample=self.field_sample)
+        return self.field_sample
 
     class Meta:
         app_label = 'field_survey'
@@ -420,7 +420,7 @@ class FieldSurveyETL(DateTimeUserMixin):
         return self.geom.srid
 
     def __str__(self):
-        return '{survey_global_id}'.format(survey_global_id=self.survey_global_id)
+        return self.survey_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -439,7 +439,7 @@ class FieldCrewETL(DateTimeUserMixin):
     survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcrew_etl", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{crew_global_id}'.format(crew_global_id=self.crew_global_id)
+        return self.crew_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -492,7 +492,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
     survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_envmeasurement_etl", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{env_global_id}'.format(env_global_id=self.env_global_id)
+        return self.env_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -548,7 +548,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     survey_global_id = models.ForeignKey(FieldSurveyETL, db_column="survey_global_id", related_name="fieldsurvey_to_fieldcollection_etl", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{collection_global_id}'.format(collection_global_id=self.collection_global_id)
+        return self.collection_global_id
 
     class Meta:
         app_label = 'field_survey'
@@ -581,7 +581,7 @@ class SampleFilterETL(DateTimeUserMixin):
     collection_global_id = models.ForeignKey(FieldCollectionETL, db_column="collection_global_id", related_name="fieldcollection_to_samplefilter_etl", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{filter_global_id}'.format(filter_global_id=self.filter_global_id)
+        return self.filter_global_id
 
     class Meta:
         app_label = 'field_survey'

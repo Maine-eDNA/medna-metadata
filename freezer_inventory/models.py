@@ -58,7 +58,7 @@ class ReturnAction(DateTimeUserMixin):
         super(ReturnAction, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{label}'.format(label=self.action_label)
+        return self.action_label
 
     class Meta:
         app_label = 'freezer_inventory'
@@ -280,7 +280,7 @@ class FreezerInventoryReturnMetadata(DateTimeUserMixin):
     freezer_return_notes = models.TextField("Return Notes", blank=True)
 
     def __str__(self):
-        return '{pk}'.format(pk=self.freezer_log)
+        return self.freezer_log
 
     def save(self, *args, **kwargs):
         self.freezer_return_slug = '{slug}'.format(slug=self.freezer_log.freezer_log_slug)

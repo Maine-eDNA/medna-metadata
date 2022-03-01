@@ -34,7 +34,7 @@ class QualityMetadata(DateTimeUserMixin):
         super(QualityMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.analysis_name)
+        return self.analysis_name
 
     class Meta:
         app_label = 'bioinfo'
@@ -60,8 +60,7 @@ class DenoiseClusterMethod(DateTimeUserMixin):
         super(DenoiseClusterMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{package}, {name}'.format(package=self.denoise_cluster_method_software_package,
-                                          name=self.denoise_cluster_method_name)
+        return '{package}, {name}'.format(package=self.denoise_cluster_method_software_package, name=self.denoise_cluster_method_name)
 
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
@@ -89,7 +88,7 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
         super(DenoiseClusterMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.analysis_name)
+        return self.analysis_name
 
     class Meta:
         app_label = 'bioinfo'
@@ -178,8 +177,7 @@ class TaxonDomain(DateTimeUserMixin):
         super(TaxonDomain, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{tax_domain}'.format(
-            tax_domain=self.taxon_domain_slug)
+        return self.taxon_domain_slug
 
     class Meta:
         app_label = 'bioinfo'
@@ -461,8 +459,8 @@ class AnnotationMetadata(DateTimeUserMixin):
 
     def __str__(self):
         analysis_date_fmt = slug_date_format(self.analysis_datetime)
-        return '{method} {date}'.format(method=self.annotation_method.annotation_method_name,
-                                        date=analysis_date_fmt)
+        return '{method} [{date}]'.format(method=self.analysis_name,
+                                          date=analysis_date_fmt)
 
     class Meta:
         app_label = 'bioinfo'
