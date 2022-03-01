@@ -21,7 +21,7 @@ class ContactUsForm(forms.ModelForm):
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Full Name'
+                'placeholder': 'example@mail.com'
             }
         )
     )
