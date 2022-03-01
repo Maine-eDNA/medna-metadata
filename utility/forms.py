@@ -12,7 +12,8 @@ class ContactUsForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'style': 'form-control',
-                'placeholder': 'Full Name'
+                'placeholder': 'Full Name',
+                'id': None
             }
         )
     )
