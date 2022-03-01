@@ -104,8 +104,8 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
-                'verbose_name': 'Env Measure Method',
-                'verbose_name_plural': 'Env Measure Methods',
+                'verbose_name': 'Env Measure Type',
+                'verbose_name_plural': 'Env Measure Types',
             },
         ),
         migrations.CreateModel(

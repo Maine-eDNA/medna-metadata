@@ -136,8 +136,8 @@ class EnvMeasureType(DateTimeUserMixin):
 
     class Meta:
         app_label = 'field_survey'
-        verbose_name = 'Env Measure Method'
-        verbose_name_plural = 'Env Measure Methods'
+        verbose_name = 'Env Measure Type'
+        verbose_name_plural = 'Env Measure Types'
 
 
 class EnvMeasurement(DateTimeUserMixin):
