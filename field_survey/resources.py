@@ -123,10 +123,10 @@ class FieldCrewAdminResource(resources.ModelResource):
 class EnvMeasureTypeAdminResource(resources.ModelResource):
     class Meta:
         model = EnvMeasureType
-        import_id_fields = ('env_measure_method_code', )
-        fields = ('env_measure_method_code', 'env_measure_method_label', 'env_measure_method_slug',
+        import_id_fields = ('env_measure_type_code', )
+        fields = ('env_measure_type_code', 'env_measure_type_label', 'env_measure_type_slug',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('env_measure_method_code', 'env_measure_method_label', 'env_measure_method_slug',
+        export_order = ('env_measure_type_code', 'env_measure_type_label', 'env_measure_type_slug',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
@@ -170,7 +170,7 @@ class EnvMeasurementAdminResource(resources.ModelResource):
     env_measurement = fields.Field(
         column_name='env_measurement',
         attribute='env_measurement',
-        widget=ManyToManyWidget(EnvMeasureType, 'env_measure_method_label'))
+        widget=ManyToManyWidget(EnvMeasureType, 'env_measure_type_label'))
 
     record_creator = fields.Field(
         column_name='record_creator',

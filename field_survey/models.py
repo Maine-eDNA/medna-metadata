@@ -118,21 +118,20 @@ class EnvMeasureType(DateTimeUserMixin):
     # env_flow, env_water_temp, env_salinity, env_ph, env_par1, env_par2, env_turbidity, env_conductivity,
     # env_do, env_pheophytin, env_chla, env_no3no2, env_no2, env_nh4, env_phosphate, env_substrate,
     # env_labdatetime, env_dnotes
-    env_measure_method_code = models.CharField("Method Code", unique=True, max_length=255)
-    env_measure_method_label = models.CharField("Method Label", max_length=255)
-    env_measure_method_slug = models.SlugField("Method Slug", max_length=255)
+    env_measure_type_code = models.CharField("Type Code", unique=True, max_length=255)
+    env_measure_type_label = models.CharField("Type Label", max_length=255)
+    env_measure_type_slug = models.SlugField("Type Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.env_measure_method_slug = '{name}_{date}'.format(name=slugify(self.env_measure_method_code),
-                                                              date=created_date_fmt)
+        self.env_measure_type_slug = '{name}_{date}'.format(name=slugify(self.env_measure_type_code), date=created_date_fmt)
         super(EnvMeasureType, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.env_measure_method_slug
+        return self.env_measure_type_slug
 
     class Meta:
         app_label = 'field_survey'

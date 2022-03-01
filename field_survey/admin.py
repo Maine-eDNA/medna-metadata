@@ -100,11 +100,11 @@ class EnvMeasureTypeAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = EnvMeasureTypeAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('env_measure_method_slug', 'env_measure_method_code', 'env_measure_method_label', )
-    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'env_measure_method_slug', )
+    list_display = ('env_measure_type_slug', 'env_measure_type_code', 'env_measure_type_label', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'env_measure_type_slug', )
 
     def add_view(self, request, extra_content=None):
-        self.fields = ['env_measure_method_code', 'env_measure_method_label', ]
+        self.fields = ['env_measure_type_code', 'env_measure_type_label', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -112,7 +112,7 @@ class EnvMeasureTypeAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['env_measure_method_slug', 'env_measure_method_code', 'env_measure_method_label',
+        self.fields = ['env_measure_type_slug', 'env_measure_type_code', 'env_measure_type_label',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasureTypeAdmin, self).change_view(request, object_id)

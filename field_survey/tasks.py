@@ -180,7 +180,7 @@ def update_record_env_measurement(record, pk):
             if not env_type.strip():
                 # if project is blank, replace it with blank
                 env_type = 'none'
-            env_measure_type = EnvMeasureType.objects.get(env_measure_method_code=env_type)
+            env_measure_type = EnvMeasureType.objects.get(env_measure_type_code=env_type)
             env_type_list.append(env_measure_type)
 
         env_measurement, created = EnvMeasurement.objects.update_or_create(

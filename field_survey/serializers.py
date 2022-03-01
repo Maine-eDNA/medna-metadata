@@ -114,15 +114,15 @@ class FieldCrewSerializer(serializers.ModelSerializer):
 
 
 class EnvMeasureTypeSerializer(serializers.ModelSerializer):
-    env_measure_method_code = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=EnvMeasureType.objects.all())])
-    env_measure_method_label = serializers.CharField(read_only=False, max_length=255)
-    env_measure_method_slug = serializers.SlugField(read_only=True, max_length=255)
+    env_measure_type_code = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=EnvMeasureType.objects.all())])
+    env_measure_type_label = serializers.CharField(read_only=False, max_length=255)
+    env_measure_type_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = EnvMeasureType
-        fields = ['env_measure_method_code', 'env_measure_method_label', 'env_measure_method_slug',
+        fields = ['env_measure_type_code', 'env_measure_type_label', 'env_measure_type_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -188,7 +188,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='survey_global_id'
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_method_code')
+    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_type_code')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
@@ -425,7 +425,7 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', ]
 
-    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_method_code')
+    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_type_code')
 
 
 class FilterSampleNestedSerializer(serializers.ModelSerializer):

@@ -96,9 +96,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EnvMeasureType',
             fields=[
-                ('env_measure_method_code', models.CharField(max_length=255, unique=True, verbose_name='Method Code')),
-                ('env_measure_method_label', models.CharField(max_length=255, verbose_name='Method Label')),
-                ('env_measure_method_slug', models.SlugField(max_length=255, verbose_name='Method Slug')),
+                ('env_measure_type_code', models.CharField(max_length=255, unique=True, verbose_name='Type Code')),
+                ('env_measure_type_label', models.CharField(max_length=255, verbose_name='Type Label')),
+                ('env_measure_type_slug', models.SlugField(max_length=255, verbose_name='Type Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

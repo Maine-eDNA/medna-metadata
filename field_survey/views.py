@@ -82,11 +82,11 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class EnvMeasureTypeFilter(filters.FilterSet):
-    env_measure_method_code = filters.CharFilter(field_name='env_measure_method_code', lookup_expr='iexact')
+    env_measure_type_code = filters.CharFilter(field_name='env_measure_type_code', lookup_expr='iexact')
 
     class Meta:
         model = EnvMeasurement
-        fields = ['env_measure_method_code']
+        fields = ['env_measure_type_code']
 
 
 class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -104,7 +104,7 @@ class EnvMeasurementFilter(filters.FilterSet):
     survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
-    env_measurement = filters.CharFilter(field_name='env_measurement__env_measure_method_code', lookup_expr='iexact')
+    env_measurement = filters.CharFilter(field_name='env_measurement__env_measure_type_code', lookup_expr='iexact')
 
     class Meta:
         model = EnvMeasurement
