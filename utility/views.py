@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView
+from django.utils import timezone
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
@@ -111,6 +112,13 @@ class ContactUsCreateView(CreateView):
     #     # It should return an HttpResponse.
     #     # form.send_email()
     #     return super().form_valid(form)
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated():
+            # if logged in, add current user to created_by
+            self.object = form.save(commit=False)
+            self.object.created_by = self.request.user
+            return super().form_valid(form)
 
 
 class ContactUsReceivedTemplateView(TemplateView):
