@@ -12,11 +12,12 @@ class ContactUsForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'style': 'form-control',
-                'placeholder': 'Full Name',
-                'id': None
+                'placeholder': 'Full Name'
             }
         )
     )
+    # remove id attr from <input> field
+    full_name.widget.attrs.pop('id', None)
     contact_email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(
