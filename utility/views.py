@@ -15,6 +15,7 @@ from .models import ContactUs, ProcessLocation, Publication, Project, Grant, Def
 from field_survey.models import FieldSurvey
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
+from .forms import ContactUsForm
 from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
@@ -85,7 +86,7 @@ class ContactUsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/contact-us.html'
+    template_name = 'home/django-material-kit/contact-us-list.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -98,9 +99,10 @@ class ContactUsCreateView(CreateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/contact-us.html'
-
     model = ContactUs
+    form_class = ContactUsForm
+    template_name = 'home/django-material-kit/contact-us.html'
+    redirect_field_name = 'next'
     fields = ['full_name', 'contact_email', 'contact_context', ]
 
 #    def form_valid(self, form):
