@@ -13,22 +13,78 @@
            style="background-image: url('https://images.unsplash.com/photo-1533084417605-e538a510d50a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');">
         <span class="mask bg-gradient-dark opacity-6"></span>
       </div>
-      <div class="card card-body mx-3 mx-md-4 mt-n6">
-        <div class="row gx-4 mb-2">
-          <div class="col-auto">
-            <h3 class="text-center">Update Profile</h3>
-            <form role="form" id="contact-form" method="post" autocomplete="off">
-              {% csrf_token %}
-              <table>
-              {{ form }}
-                </table>
-              <div class="col-md-12">
-                <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
-              </div>
-            </form>
-          </div>
+
+     <div class="card card-body mx-3 mx-md-4 mt-n6">
+
+      <div class="row min-vh-80 h-100">
+        <div class="col-12">
+          <h3 class="text-center">Update Profile</h3>
         </div>
+        <!-- START FORM ERRORS -->
+        {% if form.subject.errors %}
+        <div class="row">
+          {% for error in form.subject.errors %}
+          <div class="alert alert-primary text-white font-weight-bold" role="alert">{{ error|escape }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <!-- END FORM ERRORS -->
+        <!-- START FORM -->
+        <form method="post" class="p-3" id="contact-form" >
+          {% csrf_token %}
+          <div class="card-body pt-1">
+
+           <div class="row">
+
+            <div class="col-md-12 pe-2 mb-3">
+             <div class="input-group input-group-static mb-4">
+              <label>First Name</label>
+               {{ form.first_name }}
+             </div>
+            </div>
+            <div class="col-md-12 pe-2 mb-3">
+              <div class="input-group input-group-static mb-4">
+                <label>Last Name</label>
+                {{ form.last_name }}
+              </div>
+            </div>
+            <div class="col-md-12 pe-2 mb-3">
+             <div class="input-group input-group-static mb-4">
+               <label>Phone Number</label>
+               {{ form.phone_number }}
+             </div>
+            </div>
+            <div class="col-md-12 pe-2 mb-3">
+             <div class="input-group input-group-static mb-4">
+               <label>ArcGIS Online Username</label>
+               {{ form.agol_username }}
+             </div>
+            </div>
+           </div>
+           <div class="col-md-12 pe-2 mb-3">
+             <div class="input-group input-group-static mb-4">
+               <label>Profile Image</label>
+               {{ form.profile_image }}
+             </div>
+            </div>
+           <div class="col-md-12 pe-2 mb-3">
+             <div class="input-group input-group-static mb-4">
+               <label>Affiliated Project(s)</label>
+               {{ form.affiliated_projects }}
+             </div>
+            </div>
+          <div class="col-md-6 text-end ms-auto">
+            <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Send Message</button>
+          </div>
+          </div>
+        </form>
+
       </div>
+
+     </div>
 
     {% include 'includes/django-material-dashboard/footer.html' %}
   </div>

@@ -4,16 +4,69 @@ from django.middleware.csrf import get_token
 from django import forms
 from allauth.account.forms import LoginForm, SignupForm, AddEmailForm, ChangePasswordForm, \
     SetPasswordForm, ResetPasswordForm, ResetPasswordKeyForm
-from .models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 from allauth.account.views import PasswordResetView
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column, Field, Div
+# from crispy_forms.helper import FormHelper
+# from crispy_forms.layout import Layout, Submit, Row, Column, Field, Div
+from .models import CustomUser
+from utility.models import Project
 
 
 # FRONTEND
 class CustomUserUpdateForm(forms.ModelForm):
-    # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
+    # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+    first_name = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name'
+            }
+        )
+    )
+    last_name = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name'
+            }
+        )
+    )
+    phone_number = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={
+                'type': 'tel',
+                'class': 'form-control',
+                'placeholder': 'Last Name'
+            }
+        )
+    )
+    agol_username = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'AGOL Username'
+            }
+        )
+    )
+    profile_image = forms.FileField(
+        widget=forms.ClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    affiliated_projects = forms.ModelMultipleChoiceField(
+        required=True,
+        queryset=Project.objects.all(),
+        widget=forms.SelectMultiple(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
 
     class Meta:
         model = CustomUser
