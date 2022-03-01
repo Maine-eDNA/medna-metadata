@@ -57,46 +57,11 @@
                     {% endfor %}
                     </ol>
                 {% endif %}
-                <form class="p-3" id="contact-form" method="post">
+              <form method="post">
                   {% csrf_token %}
-                  <div class="card-header px-4 py-sm-5 py-3">
-                    <h2>Contact Us</h2>
-                    <p class="lead"> For further questions, please fill out and submit this form.</p>
-                  </div>
-                  <div class="card-body pt-1">
-                    <div class="row">
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>Full Name</label>
-                          {{ form.full_name }}
-                          <!-- <input type="text" name="full_name" class="form-control" placeholder="Full Name" required> -->
-                          <!-- <input type="text" class="form-control" placeholder="Full Name"> -->
-                        </div>
-                      </div>
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>Email</label>
-                          {{ form.contact_email }}
-                          <!-- <input type="email" name="contact_email" class="form-control" placeholder="example@mail.com" required> -->
-                          <!-- <input type="text" class="form-control" placeholder="What you love"> -->
-                        </div>
-                      </div>
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>How can we help you?</label>
-                          {{ form.contact_context }}
-                          <!-- <textarea name="contact_context" class="form-control" id="message" rows="6" placeholder="Describe your problem in at least 250 characters" required></textarea> -->
-                          <!-- <textarea name="message" class="form-control" id="message" rows="6" placeholder="I want to say that..."></textarea> -->
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 text-end ms-auto">
-                        <button type="submit" class="btn bg-gradient-dark w-100">Send Message</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
+                  {{ form }}
+                  <input type="submit" value="Submit">
+              </form>
               </div>
             </div>
           </div>
