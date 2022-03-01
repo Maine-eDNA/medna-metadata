@@ -11,18 +11,16 @@ class ContactUsForm(forms.Form):
         max_length=255,
         widget=forms.TextInput(
             attrs={
-                'style': 'form-control',
-                'placeholder': 'Full Name',
-                'id': None,
+                'class': 'form-control',
+                'placeholder': 'Full Name'
             }
         )
     )
-    full_name.widget.attrs.pop('id', None)
     contact_email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(
             attrs={
-                'style': 'form-control',
+                'class': 'form-control',
                 'placeholder': 'Full Name'
             }
         )
@@ -31,7 +29,7 @@ class ContactUsForm(forms.Form):
         required=True,
         widget=forms.Textarea(
             attrs={
-                'style': 'form-control',
+                'class': 'form-control',
                 'placeholder': 'Describe your problem in at least 250 characters',
                 'id': 'message',
                 'rows': 6,
