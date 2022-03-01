@@ -19,7 +19,7 @@
             <h3 class="text-center">Update Profile</h3>
             <form role="form" id="contact-form" method="post" autocomplete="off">
               {% csrf_token %}
-              {{ form.as_p }}
+              {{ form.as_table }}
               <div class="col-md-12">
                 <button type="submit" class="btn bg-gradient-dark w-100">Update Profile</button>
               </div>
