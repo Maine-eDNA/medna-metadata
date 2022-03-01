@@ -15,7 +15,7 @@ from .forms import CustomUserUpdateForm
 
 # FRONTEND VIEWS
 class UserProfileDetailView(LoginRequiredMixin, DetailView):
-    fields = ['email', 'profile_image_url', 'full_name', 'phone_number',
+    fields = ['email', 'profile_image', 'profile_image_url', 'full_name', 'phone_number',
               'agol_username', 'affiliated_projects', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
