@@ -98,7 +98,7 @@ class Project(DateTimeUserMixin):
     grant_names = models.ManyToManyField(Grant, verbose_name="Affiliated Grant(s)", related_name="grant_names")
 
     def __str__(self):
-        return '{label}'.format(label=self.project_label)
+        return self.project_label
 
     class Meta:
         app_label = 'utility'
@@ -118,7 +118,7 @@ class Publication(DateTimeUserMixin):
         super(Publication, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{title}'.format(title=self.publication_title)
+        return self.publication_title
 
     class Meta:
         app_label = 'utility'
@@ -151,8 +151,7 @@ class ProcessLocation(DateTimeUserMixin):
         super(ProcessLocation, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{affiliation}: {name}'.format(affiliation=self.affiliation,
-                                              name=self.process_location_name)
+        return '{affiliation}: {name}'.format(affiliation=self.affiliation, name=self.process_location_name)
 
     class Meta:
         app_label = 'utility'
@@ -209,11 +208,18 @@ class DefaultSiteCss(DateTimeUserMixin):
     freezer_empty_inventory_css_text_color = models.CharField("Empty Freezer Inv Text CSS", max_length=255, default="white")
     freezer_inuse_inventory_css_background_color = models.CharField("InUse Freezer Inv BG CSS", max_length=255, default="orange")
     freezer_inuse_inventory_css_text_color = models.CharField("InUse Freezer Inv Text CSS", max_length=255, default="white")
+    default_css_slug = models.SlugField("Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.default_css_slug = '{name}_{date}'.format(name=slugify(self.default_css_label), date=created_date_fmt)
+        super(DefaultSiteCss, self).save(*args, **kwargs)
 
     def __str__(self):
-        date_fmt = slug_date_format(self.created_datetime)
-        return '{date}_{label}'.format(date=date_fmt,
-                                       label=slugify(self.default_css_label))
+        return self.default_css_slug
 
     class Meta:
         app_label = 'utility'
@@ -222,7 +228,7 @@ class DefaultSiteCss(DateTimeUserMixin):
 
 
 class CustomUserCss(DateTimeUserMixin):
-    custom_css_label = models.CharField("Custom CSS Label", unique=True, max_length=255)
+    custom_css_label = models.CharField("Custom CSS Label", max_length=255)
     # selected CSS
     css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
     css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
@@ -246,12 +252,18 @@ class CustomUserCss(DateTimeUserMixin):
     freezer_empty_inventory_css_text_color = models.CharField("Empty Freezer Inv Text CSS", max_length=255, default="white")
     freezer_inuse_inventory_css_background_color = models.CharField("InUse Freezer Inv BG CSS", max_length=255, default="orange")
     freezer_inuse_inventory_css_text_color = models.CharField("InUse Freezer Inv Text CSS", max_length=255, default="white")
+    custom_css_slug = models.SlugField("Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.custom_css_slug = '{user}_{name}_{date}'.format(user=slugify(self.created_by), name=slugify(self.custom_css_label), date=created_date_fmt)
+        super(CustomUserCss, self).save(*args, **kwargs)
 
     def __str__(self):
-        date_fmt = slug_date_format(self.created_datetime)
-        return '{user}_{date}_{label}'.format(user=self.created_by,
-                                              date=date_fmt,
-                                              label=slugify(self.custom_css_label))
+        return self.custom_css_slug
 
     class Meta:
         app_label = 'utility'

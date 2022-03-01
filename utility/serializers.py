@@ -186,10 +186,11 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
     freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
     freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
     freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+    default_css_slug = serializers.SlugField(max_length=255, read_only=True)
 
     class Meta:
         model = DefaultSiteCss
-        fields = ['id', 'default_css_label',
+        fields = ['id', 'default_css_slug', 'default_css_label',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                   'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -205,7 +206,7 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
 
 
 class CustomUserCssSerializer(serializers.ModelSerializer):
-    custom_css_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=CustomUserCss.objects.all())])
+    custom_css_label = serializers.CharField(max_length=255)
     # selected CSS
     css_selected_background_color = serializers.CharField(max_length=255, default="green")
     css_selected_text_color = serializers.CharField(max_length=255, default="black")
@@ -229,10 +230,11 @@ class CustomUserCssSerializer(serializers.ModelSerializer):
     freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
     freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
     freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+    custom_css_slug = serializers.SlugField(max_length=255, read_only=True)
 
     class Meta:
         model = CustomUserCss
-        fields = ['id', 'custom_css_label', 'user',
+        fields = ['id', 'custom_css_slug', 'custom_css_label', 'user',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                   'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
