@@ -104,7 +104,7 @@ class ContactUsFormView(FormView):
     model = ContactUs
     template_name = 'home/django-material-kit/contact-us.html'
     form_class = ContactUsForm
-    success_url = 'contact_us_received'
+    success_url = reverse_lazy('contact_us_received')
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
