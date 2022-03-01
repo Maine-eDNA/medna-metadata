@@ -10,6 +10,8 @@ from frontend.home import views
 from utility.views import ProjectSurveyTemplateView, ProjectsTemplateView, PublicationsTemplateView, \
     AboutUsTemplateView, MetadataStandardsTemplateView, ContactUsFormView
 from users.views import UserProfileDetailView, UserProfileUpdateView
+# permissions
+# https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
 
 urlpatterns = [
     # https://stackoverflow.com/questions/59907011/matching-either-pattern-with-re-path-in-django-3-0
