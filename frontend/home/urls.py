@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django.urls import path, re_path
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from frontend.home import views
 from utility.views import ProjectSurveyTemplateView, ProjectsTemplateView, PublicationsTemplateView, \

@@ -1,6 +1,8 @@
-# from django.shortcuts import render
+from django.shortcuts import render
+from django.urls import reverse_lazy
 # from django.views.generic import ListView
 # from django.views.generic import DetailView
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
@@ -100,10 +102,19 @@ class ContactUsCreateView(CreateView):
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     model = ContactUs
-    form_class = ContactUsForm
-    template_name = 'home/django-material-kit/contact-us.html'
-    redirect_field_name = 'next'
-    fields = ['full_name', 'contact_email', 'contact_context', ]
+    fields = ['full_name', 'contact_email', 'contact_context']
+
+    def get(self, request, *args, **kwargs):
+        context = {'form': ContactUsForm()}
+        return render(request, 'home/django-material-kit/contact-us.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            contact_us = form.save()
+            contact_us.save()
+            return HttpResponseRedirect(reverse_lazy('contact_us'))
+        return render(request, 'home/django-material-kit/contact-us.html', {'form': form})
 
 #    def form_valid(self, form):
 #        # https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-editing/
