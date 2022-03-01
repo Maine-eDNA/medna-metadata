@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
-    PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
+    PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
 # from utility.models import Project
