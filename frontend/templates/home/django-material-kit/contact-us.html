@@ -50,7 +50,7 @@
                 </div>
               </div>
               <div class="col-lg-7">
-                <form class="p-3" id="contact-form" method="post">
+                <form class="p-3" id="contact-form" method="post"> {% csrf_token %}
                   <div class="card-header px-4 py-sm-5 py-3">
                     <h2>Contact Us</h2>
                     <p class="lead"> For further questions, please fill out and submit this form.</p>
@@ -60,19 +60,19 @@
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
                           <label>Full Name</label>
-                          <input type="text" class="form-control" placeholder="Full Name">
+                          <input type="text" name="full_name" class="form-control" placeholder="Full Name">
                         </div>
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
                           <label>Email</label>
-                          <input type="email" class="form-control" placeholder="example@mail.com">
+                          <input type="email" name="contact_email" class="form-control" placeholder="example@mail.com">
                         </div>
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
                           <label>How can we help you?</label>
-                          <textarea name="message" class="form-control" id="message" rows="6" placeholder="Describe your problem in at least 250 characters"></textarea>
+                          <textarea name="message" name="contact_context" class="form-control" id="message" rows="6" placeholder="Describe your problem in at least 250 characters"></textarea>
                         </div>
                       </div>
                     </div>
