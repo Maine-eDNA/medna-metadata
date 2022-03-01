@@ -114,7 +114,7 @@ class ContactUsCreateView(CreateView):
     #     return super().form_valid(form)
 
     def form_valid(self, form):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             # if logged in, add current user to created_by
             self.object = form.save(commit=False)
             self.object.created_by = self.request.user
