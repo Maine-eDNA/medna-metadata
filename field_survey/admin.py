@@ -1,13 +1,13 @@
 # from django.contrib import admin
 from django.contrib.gis import admin
 # from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from .resources import FieldSurveyAdminResource, \
+from .resources import EnvMeasureTypeAdminResource, FieldSurveyAdminResource, \
     FieldCrewAdminResource, EnvMeasurementAdminResource, \
     FieldCollectionAdminResource, WaterCollectionAdminResource, SedimentCollectionAdminResource, \
     FieldSampleAdminResource, FilterSampleAdminResource, SubCoreSampleAdminResource, \
     FieldSurveyETLAdminResource, FieldCrewETLAdminResource, EnvMeasurementETLAdminResource, \
     FieldCollectionETLAdminResource, SampleFilterETLAdminResource
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+from .models import EnvMeasureType, FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
@@ -93,6 +93,40 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(FieldCrew, FieldCrewAdmin)
+
+
+class EnvMeasureTypeAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = EnvMeasureTypeAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('env_measure_method_slug', 'env_measure_method_code', 'env_measure_method_label', )
+    readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'env_measure_method_slug', )
+
+    def add_view(self, request, extra_content=None):
+        self.fields = ['env_measure_method_code', 'env_measure_method_label', ]
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(EnvMeasureTypeAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['env_measure_method_slug', 'env_measure_method_code', 'env_measure_method_label',
+                       'created_by', 'modified_datetime', 'created_datetime']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(EnvMeasureTypeAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(EnvMeasureType, EnvMeasureTypeAdmin)
 
 
 class EnvMeasurementAdmin(ImportExportActionModelAdmin):

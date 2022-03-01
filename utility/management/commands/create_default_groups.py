@@ -55,6 +55,7 @@ GROUPS = {
         # field_survey
         "Field Survey": ["view"],
         "Field Crew": ["view"],
+        "Env Measure Type": ["view"],
         "Env Measurement": ["view"],
         "Field Collection": ["view"],
         "Field Sample": ["view"],
@@ -160,6 +161,7 @@ GROUPS = {
         # field_survey
         "Field Survey": ["view"],
         "Field Crew": ["view"],
+        "Env Measure Type": ["view"],
         "Env Measurement": ["view"],
         "Field Collection": ["view"],
         "Field Sample": ["view"],
@@ -246,6 +248,7 @@ GROUPS = {
         # field_survey
         "Field Survey": ["view"],
         "Field Crew": ["view"],
+        "Env Measure Type": ["view"],
         "Env Measurement": ["view"],
         "Field Collection": ["view"],
         "Field Sample": ["view"],

@@ -54,15 +54,11 @@ class PrimerPair(DateTimeUserMixin):
             created_date_fmt = slug_date_format(timezone.now())
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
-        self.primer_slug = '{name}_{date}'.format(name=slugify(self.primer_set_name), date=created_date_fmt)
+        self.primer_slug = '{name}_{gene}_{date}'.format(name=slugify(self.primer_set_name), gene=slugify(self.primer_target_gene), date=created_date_fmt)
         super(PrimerPair, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{primer_set_name}, ' \
-               '{primer_target_gene}, ' \
-               '{primer_subfragment}'.format(primer_set_name=self.primer_set_name,
-                                             primer_target_gene=self.primer_target_gene,
-                                             primer_subfragment=self.primer_subfragment)
+        return self.primer_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -90,7 +86,7 @@ class IndexPair(DateTimeUserMixin):
         super(IndexPair, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{i7}_{i5}'.format(i7=self.i7_index_id, i5=self.i5_index_id)
+        return self.index_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -114,9 +110,7 @@ class IndexRemovalMethod(DateTimeUserMixin):
         super(IndexRemovalMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        created_date_fmt = slug_date_format(self.created_datetime)
-        return '{name}_{date}'.format(name=slugify(self.index_removal_method_name),
-                                      date=created_date_fmt)
+        return self.index_removal_method_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -141,7 +135,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
         super(SizeSelectionMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.size_selection_method_name)
+        return self.size_selection_method_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -164,7 +158,7 @@ class QuantificationMethod(DateTimeUserMixin):
         super(QuantificationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.quant_method_name)
+        return self.quant_method_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -188,7 +182,7 @@ class AmplificationMethod(DateTimeUserMixin):
         super(AmplificationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.amplification_method_name)
+        return self.amplification_method_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -214,8 +208,7 @@ class ExtractionMethod(DateTimeUserMixin):
         super(ExtractionMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{manufacturer} {name}'.format(manufacturer=self.extraction_method_manufacturer,
-                                              name=self.extraction_method_name)
+        return self.extraction_method_slug
 
     class Meta:
         unique_together = ['extraction_method_name', 'extraction_method_manufacturer', ]
@@ -253,7 +246,7 @@ class Extraction(DateTimeUserMixin):
         super(Extraction, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{barcode}'.format(barcode=self.barcode_slug)
+        return self.barcode_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -301,7 +294,7 @@ class Pcr(DateTimeUserMixin):
         super(Pcr, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{experiment_name}'.format(experiment_name=self.pcr_experiment_name)
+        return self.pcr_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -353,7 +346,7 @@ class LibraryPrep(DateTimeUserMixin):
         super(LibraryPrep, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name}'.format(name=self.lib_prep_experiment_name)
+        return self.lib_prep_slug
 
     class Meta:
         unique_together = ['lib_prep_experiment_name', 'extraction']
@@ -390,7 +383,7 @@ class PooledLibrary(DateTimeUserMixin):
         super(PooledLibrary, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{label}'.format(label=self.pooled_lib_label)
+        return self.pooled_lib_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -420,7 +413,7 @@ class RunPrep(DateTimeUserMixin):
         super(RunPrep, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{label}'.format(label=self.run_prep_label)
+        return self.run_prep_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -449,7 +442,7 @@ class RunResult(DateTimeUserMixin):
         super(RunResult, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{run_id}: {run_experiment_name}'.format(run_id=self.run_id, run_experiment_name=self.run_experiment_name)
+        return self.run_slug
 
     class Meta:
         app_label = 'wet_lab'
@@ -489,8 +482,7 @@ class FastqFile(DateTimeUserMixin):
         super(FastqFile, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{runid}: {fastq}'.format(runid=self.run_result.run_id,
-                                         fastq=self.fastq_datafile.name)
+        return self.fastq_slug
 
     class Meta:
         app_label = 'wet_lab'

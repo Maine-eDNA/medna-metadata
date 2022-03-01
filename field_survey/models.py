@@ -1,14 +1,16 @@
 from django.contrib.gis.db import models
 from django.conf import settings
-# from field_site.models import FieldSite
-from utility.models import DateTimeUserMixin, get_sentinel_user
 # from django.utils.text import slugify
 # from django.db.models import Q
+from django.utils import timezone
+from django.utils.text import slugify
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
 # from utility.models import Project
+# from field_site.models import FieldSite
+from utility.models import DateTimeUserMixin, get_sentinel_user, slug_date_format
 
 
 #################################
@@ -112,6 +114,32 @@ class FieldCrew(DateTimeUserMixin):
         verbose_name_plural = 'Field Crew'
 
 
+class EnvMeasureType(DateTimeUserMixin):
+    # env_flow, env_water_temp, env_salinity, env_ph, env_par1, env_par2, env_turbidity, env_conductivity,
+    # env_do, env_pheophytin, env_chla, env_no3no2, env_no2, env_nh4, env_phosphate, env_substrate,
+    # env_labdatetime, env_dnotes
+    env_measure_method_code = models.CharField("Method Code", unique=True, max_length=255)
+    env_measure_method_label = models.CharField("Method Label", max_length=255)
+    env_measure_method_slug = models.SlugField("Method Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.env_measure_method_slug = '{name}_{date}'.format(name=slugify(self.env_measure_method_code),
+                                                              date=created_date_fmt)
+        super(EnvMeasureType, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.env_measure_method_slug
+
+    class Meta:
+        app_label = 'field_survey'
+        verbose_name = 'Env Measure Method'
+        verbose_name_plural = 'Env Measure Methods'
+
+
 class EnvMeasurement(DateTimeUserMixin):
     env_global_id = models.CharField("Global ID", primary_key=True, max_length=255)
     env_measure_datetime = models.DateTimeField("Measurement DateTime", blank=True, null=True)
@@ -130,7 +158,7 @@ class EnvMeasurement(DateTimeUserMixin):
     env_niskin_number = models.IntegerField("Niskin Number", blank=True, null=True)
     env_niskin_notes = models.TextField("Niskin Notes", blank=True)
     env_inst_other = models.TextField("Other Instruments", blank=True)
-    env_measurement = models.TextField("Environmental Measurements", blank=True, choices=EnvMeasurements.choices)
+    env_measurement = models.ManyToManyField(EnvMeasureType, blank=True, verbose_name="Environmental Measurement(s)", related_name="env_measure_types")
     env_flow_rate = models.DecimalField("Flow Rate (m/s)", blank=True, null=True, max_digits=15, decimal_places=10)
     env_water_temp = models.DecimalField("Water Temperature (C)", blank=True, null=True, max_digits=15, decimal_places=10)
     # env_sal

@@ -94,6 +94,21 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='EnvMeasureType',
+            fields=[
+                ('env_measure_method_code', models.CharField(max_length=255, unique=True, verbose_name='Method Code')),
+                ('env_measure_method_label', models.CharField(max_length=255, verbose_name='Method Label')),
+                ('env_measure_method_slug', models.SlugField(max_length=255, verbose_name='Method Slug')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+            ],
+            options={
+                'verbose_name': 'Env Measure Method',
+                'verbose_name_plural': 'Env Measure Methods',
+            },
+        ),
+        migrations.CreateModel(
             name='EnvMeasurement',
             fields=[
                 ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
@@ -111,7 +126,7 @@ class Migration(migrations.Migration):
                 ('env_niskin_number', models.IntegerField(blank=True, null=True, verbose_name='Niskin Number')),
                 ('env_niskin_notes', models.TextField(blank=True, verbose_name='Niskin Notes')),
                 ('env_inst_other', models.TextField(blank=True, verbose_name='Other Instruments')),
-                ('env_measurement', models.TextField(blank=True, choices=[(None, '(Unknown)'), ('env_flow', 'Flow'), ('env_water_temp', 'Water Temp'), ('env_salinity', 'Salinity'), ('env_ph', 'pH'), ('env_par1', 'PAR1'), ('env_par2', 'PAR2'), ('env_turbidity', 'Turbidity'), ('env_conductivity', 'Cond'), ('env_do', 'DO'), ('env_pheophytin', 'Pheo'), ('env_chla', 'Chl-a'), ('env_no3no2', 'NO3NO2'), ('env_no2', 'NO2'), ('env_nh4', 'NH4'), ('env_phosphate', 'PO4'), ('env_substrate', 'Substrate'), ('env_labdatetime', 'Lab Date'), ('env_dnotes', 'Notes')], verbose_name='Environmental Measurements')),
+                ('env_measurement', models.ManyToManyField(related_name='env_measure_types', to='field_survey.EnvMeasureType', verbose_name='Environmental Measurement(s)')),
                 ('env_flow_rate', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Flow Rate (m/s)')),
                 ('env_water_temp', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Water Temperature (C)')),
                 ('env_salinity', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Salinity (PSU)')),

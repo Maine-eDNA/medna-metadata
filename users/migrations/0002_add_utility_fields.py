@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='CustomUser',
             name='affiliated_projects',
-            field=models.ManyToManyField(related_name='affiliated_projects', to='utility.Project', verbose_name='Affiliated Project(s)'),
+            field=models.ManyToManyField(blank=True, related_name='affiliated_projects', to='utility.Project', verbose_name='Affiliated Project(s)'),
         ),
     ]

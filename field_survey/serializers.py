@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+from rest_framework.validators import UniqueValidator
+from .models import EnvMeasureType, FieldSurvey, FieldCrew, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldCollectionETL, FieldSurveyETL, SampleFilterETL, FieldCrewETL, EnvMeasurementETL
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
-    PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, EnvMeasurements, \
+    PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
     CoreMethods
 from utility.serializers import EagerLoadingMixin
@@ -112,6 +113,23 @@ class FieldCrewSerializer(serializers.ModelSerializer):
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
+class EnvMeasureTypeSerializer(serializers.ModelSerializer):
+    env_measure_method_code = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=EnvMeasureType.objects.all())])
+    env_measure_method_label = serializers.CharField(read_only=False, max_length=255)
+    env_measure_method_slug = serializers.SlugField(read_only=True, max_length=255)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = EnvMeasureType
+        fields = ['env_measure_method_code', 'env_measure_method_label', 'env_measure_method_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
 class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_global_id = serializers.CharField(read_only=True, max_length=255)
     env_measure_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
@@ -130,7 +148,6 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     env_niskin_number = serializers.IntegerField(read_only=True, allow_null=True)
     env_niskin_notes = serializers.CharField(read_only=True, allow_blank=True)
     env_inst_other = serializers.CharField(read_only=True, allow_blank=True)
-    env_measurement = serializers.ChoiceField(read_only=True, choices=EnvMeasurements.choices, allow_blank=True)
     env_flow_rate = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     env_water_temp = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     # env_sal
@@ -171,6 +188,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     # slug_field='survey_global_id'
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_blank=True, slug_field='env_measure_method_code')
     record_creator = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
@@ -378,7 +396,6 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
     env_niskin_number = serializers.IntegerField(read_only=True, allow_null=True)
     env_niskin_notes = serializers.CharField(read_only=True, allow_blank=True)
     env_inst_other = serializers.CharField(read_only=True, allow_blank=True)
-    env_measurement = serializers.ChoiceField(read_only=True, choices=EnvMeasurements.choices, allow_blank=True)
     env_flow_rate = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     env_water_temp = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     # env_sal
@@ -407,6 +424,8 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', ]
+
+    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_blank=True)
 
 
 class FilterSampleNestedSerializer(serializers.ModelSerializer):
@@ -713,7 +732,7 @@ class FieldSurveySubCoresNestedSerializer(GeoFeatureModelSerializer, EagerLoadin
 # PRE TRANSFORM                 #
 #################################
 class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
-    survey_global_id = serializers.CharField(read_only=False, max_length=255)
+    survey_global_id = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=FieldSurveyETL.objects.all())])
     username = serializers.CharField(max_length=255, allow_blank=True)
     survey_datetime = serializers.DateTimeField(allow_null=True)
     project_ids = serializers.CharField(max_length=255, allow_blank=True)
@@ -782,7 +801,7 @@ class GeoFieldSurveyETLSerializer(GeoFeatureModelSerializer):
 
 
 class FieldCrewETLSerializer(serializers.ModelSerializer):
-    crew_global_id = serializers.CharField(read_only=False, max_length=255)
+    crew_global_id = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=FieldCrewETL.objects.all())])
     crew_fname = serializers.CharField(max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(max_length=255, allow_blank=True)
     record_create_datetime = serializers.DateTimeField(allow_null=True)
@@ -806,7 +825,7 @@ class FieldCrewETLSerializer(serializers.ModelSerializer):
 
 
 class EnvMeasurementETLSerializer(serializers.ModelSerializer):
-    env_global_id = serializers.CharField(read_only=False, max_length=255)
+    env_global_id = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=EnvMeasurementETL.objects.all())])
     env_measure_datetime = serializers.DateTimeField(allow_null=True)
     env_measure_depth = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
     env_instrument = serializers.CharField(max_length=255, allow_blank=True)
@@ -869,7 +888,7 @@ class EnvMeasurementETLSerializer(serializers.ModelSerializer):
 
 
 class FieldCollectionETLSerializer(serializers.ModelSerializer):
-    collection_global_id = serializers.CharField(read_only=False, max_length=255)
+    collection_global_id = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=FieldCollectionETL.objects.all())])
     collection_type = serializers.CharField(max_length=255, allow_blank=True)
     water_control = serializers.CharField(max_length=3, allow_blank=True)
     water_control_type = serializers.CharField(max_length=255, allow_blank=True)
@@ -939,7 +958,7 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
 
 
 class SampleFilterETLSerializer(serializers.ModelSerializer):
-    filter_global_id = serializers.CharField(read_only=False, max_length=255)
+    filter_global_id = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=SampleFilterETL.objects.all())])
     filter_location = serializers.CharField(max_length=255, allow_blank=True)
     is_prefilter = serializers.CharField(max_length=3, allow_blank=True)
     filter_fname = serializers.CharField(max_length=255, allow_blank=True)

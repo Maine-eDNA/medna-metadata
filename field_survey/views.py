@@ -1,12 +1,13 @@
 # from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, EnvMeasurementSerializer, \
+from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, \
+    EnvMeasureTypeSerializer, EnvMeasurementSerializer, \
     FieldCollectionSerializer, WaterCollectionSerializer, SedimentCollectionSerializer, \
     FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
     GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
     FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
     SampleFilterETLSerializer, FieldSurveyFiltersNestedSerializer, FieldSurveySubCoresNestedSerializer
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
@@ -80,11 +81,30 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
     swagger_tags = ["field survey"]
 
 
+class EnvMeasureTypeFilter(filters.FilterSet):
+    env_measure_method_code = filters.CharFilter(field_name='env_measure_method_code', lookup_expr='iexact')
+
+    class Meta:
+        model = EnvMeasurement
+        fields = ['env_measure_method_code']
+
+
+class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = EnvMeasureTypeSerializer
+    queryset = EnvMeasureType.objects.prefetch_related('created_by', )
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'survey_global_id',
+    #                    'record_creator__agol_username', 'record_editor__agol_username']
+    filterset_class = EnvMeasureTypeFilter
+    swagger_tags = ["field survey"]
+
+
 class EnvMeasurementFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
     record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
+    env_measurement = filters.CharFilter(field_name='env_measurement__env_measure_method_code', lookup_expr='iexact')
 
     class Meta:
         model = EnvMeasurement
@@ -93,7 +113,7 @@ class EnvMeasurementFilter(filters.FilterSet):
 
 class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = EnvMeasurementSerializer
-    queryset = EnvMeasurement.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
+    queryset = EnvMeasurement.objects.prefetch_related('created_by', 'survey_global_id', 'env_measurement', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'survey_global_id',
     #                    'record_creator__agol_username', 'record_editor__agol_username']

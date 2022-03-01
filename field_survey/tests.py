@@ -10,6 +10,7 @@ from utility.tests import ProjectTestCase
 from django.utils import timezone
 
 
+# TODO add remaining field survey tests
 # Create your tests here.
 class FieldSurveyTestCase(TestCase):
     def setUp(self):

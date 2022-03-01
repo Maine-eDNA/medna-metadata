@@ -5,7 +5,7 @@ from utility.models import PeriodicTaskRun, Project
 from utility.enumerations import CollectionTypes
 from users.models import CustomUser
 from field_site.models import FieldSite
-from field_survey.models import FieldSurvey, FieldCrew, EnvMeasurement, \
+from field_survey.models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
@@ -75,6 +75,13 @@ def update_record_field_survey(record, pk):
         prj_list = []
         prjs = record.project_ids.split(',')
 
+        for prj in prjs:
+            if not prj.strip():
+                # if project is blank, replace it with prj_medna, the default base project
+                prj = 'prj_medna'
+            project = Project.objects.get(project_code=prj)
+            prj_list.append(project)
+
         if record.site_id == "other":
             record_site_id = "eOT_O01"
         else:
@@ -84,13 +91,6 @@ def update_record_field_survey(record, pk):
 
         # print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
         #      " "+record.qa_editor+" "+record.record_creator+" "+record.record_editor)
-
-        for prj in prjs:
-            if not prj.strip():
-                # if project is blank, replace it with prj_medna, the default base project
-                prj = 'prj_medna'
-            project = Project.objects.get(project_code=prj)
-            prj_list.append(project)
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
@@ -170,6 +170,19 @@ def update_record_field_crew(record, pk):
 
 def update_record_env_measurement(record, pk):
     try:
+        env_type_list = []
+        env_types = record.env_measurement.split(',')
+
+        # print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
+        #      " "+record.qa_editor+" "+record.record_creator+" "+record.record_editor)
+
+        for env_type in env_types:
+            if not env_type.strip():
+                # if project is blank, replace it with blank
+                env_type = 'none'
+            env_measure_type = EnvMeasureType.objects.get(env_measure_method_code=env_type)
+            env_type_list.append(env_measure_type)
+
         env_measurement, created = EnvMeasurement.objects.update_or_create(
             env_global_id=pk,
             defaults={
@@ -188,7 +201,6 @@ def update_record_env_measurement(record, pk):
                 'env_niskin_number': record.env_niskin_number,
                 'env_niskin_notes': record.env_niskin_notes,
                 'env_inst_other': record.env_inst_other,
-                'env_measurement': record.env_measurement,
                 'env_flow_rate': record.env_flow_rate,
                 'env_water_temp': record.env_water_temp,
                 'env_salinity': record.env_salinity,
@@ -214,6 +226,8 @@ def update_record_env_measurement(record, pk):
                 'created_by': record.created_by,
             }
         )
+        # ManyToManyFields must be added separately though set(). clear=True clears the fields first
+        env_measurement.env_measurement.set(env_type_list, clear=True)
 
         return env_measurement, created
     except Exception as err:

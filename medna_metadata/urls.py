@@ -69,7 +69,7 @@ router.register(r'utility/choices_envo_materials', utility_views.EnvoMaterialsCh
 router.register(r'utility/choices_measure_modes', utility_views.MeasureModesChoicesViewSet, 'choices_measure_modes')
 router.register(r'utility/choices_env_instruments', utility_views.EnvInstrumentsChoicesViewSet, 'choices_env_instruments')
 router.register(r'utility/choices_ysi_models', utility_views.YsiModelsChoicesViewSet, 'choices_ysi_models')
-router.register(r'utility/choices_env_measurements', utility_views.EnvMeasurementsChoicesViewSet, 'choices_env_measurements')
+# router.register(r'utility/choices_env_measurements', utility_views.EnvMeasurementsChoicesViewSet, 'choices_env_measurements')
 router.register(r'utility/choices_bottom_substrates', utility_views.BottomSubstratesChoicesViewSet, 'choices_bottom_substrates')
 router.register(r'utility/choices_water_collection_modes', utility_views.WaterCollectionModesChoicesViewSet, 'choices_water_collection_modes')
 router.register(r'utility/choices_collection_types', utility_views.CollectionTypesChoicesViewSet, 'choices_collection_types')

@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
-from .models import FieldSurvey, FieldCrew, EnvMeasurement, \
+from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
@@ -120,6 +120,24 @@ class FieldCrewAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
+class EnvMeasureTypeAdminResource(resources.ModelResource):
+    class Meta:
+        model = EnvMeasureType
+        import_id_fields = ('env_measure_method_code', )
+        fields = ('env_measure_method_code', 'env_measure_method_label', 'env_measure_method_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('env_measure_method_code', 'env_measure_method_label', 'env_measure_method_slug',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
 class EnvMeasurementAdminResource(resources.ModelResource):
     class Meta:
         # SampleBarcode
@@ -148,6 +166,11 @@ class EnvMeasurementAdminResource(resources.ModelResource):
         column_name='survey_global_id',
         attribute='survey_global_id',
         widget=ForeignKeyWidget(FieldSurvey, 'survey_global_id'))
+
+    env_measurement = fields.Field(
+        column_name='env_measurement',
+        attribute='env_measurement',
+        widget=ManyToManyWidget(EnvMeasureType, 'env_measure_method_label'))
 
     record_creator = fields.Field(
         column_name='record_creator',

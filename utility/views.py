@@ -21,7 +21,7 @@ from .serializers import ContactUsSerializer, ProcessLocationSerializer, Publica
 from .forms import ContactUsForm
 from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
     WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
-    YsiModels, EnvMeasurements, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
+    YsiModels, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
     ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
     InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes, LibLayouts
 import json
@@ -430,15 +430,16 @@ class YsiModelsChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
-
-    def list(self, request, format=None):
-        choices = []
-        for choice in EnvMeasurements:
-            choices.append(choice.value)
-        initial_data = {'choices': choices}
-        return Response(initial_data, status=status.HTTP_200_OK)
+# migrated to model
+# class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
+#     swagger_tags = ["choices"]
+#
+#     def list(self, request, format=None):
+#         choices = []
+#         for choice in EnvMeasurements:
+#             choices.append(choice.value)
+#         initial_data = {'choices': choices}
+#         return Response(initial_data, status=status.HTTP_200_OK)
 
 
 class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
