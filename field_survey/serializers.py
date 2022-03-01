@@ -425,7 +425,7 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', ]
 
-    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_blank=True)
+    env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_method_code')
 
 
 class FilterSampleNestedSerializer(serializers.ModelSerializer):
