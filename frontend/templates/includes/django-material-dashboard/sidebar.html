@@ -20,9 +20,11 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+        {% if perms.field_site %}
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
         </li>
+        {% if perms.field_site.view_fieldsite %}
         <li class="nav-item">
           <a class="nav-link text-white {% if 'field-sites' in segment %} active bg-gradient-primary {% endif %}"
              href="/dashboard/field-sites.html">
@@ -32,6 +34,8 @@
             <span class="nav-link-text ms-1">View</span>
           </a>
         </li>
+        {% endif %}
+        {% if perms.field_site.add_fieldsite %}
         <li class="nav-item">
           <a class="nav-link text-white {% if 'field-site-add' in segment %} active bg-gradient-primary {% endif %}"
              href="/dashboard/field-site-add.html">
@@ -41,9 +45,13 @@
             <span class="nav-link-text ms-1">Add</span>
           </a>
         </li>
+        {% endif %}
+        {% endif %}
+        {% if perms.sample_label %}
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Sample Labels</h6>
         </li>
+        {% if perms.sample_label.view_samplelabelrequest %}
          <li class="nav-item">
           <a class="nav-link text-white {% if 'sample-labels' in segment %} active bg-gradient-primary {% endif %}"
              href="/dashboard/sample-labels.html">
@@ -53,6 +61,8 @@
             <span class="nav-link-text ms-1">View</span>
           </a>
         </li>
+        {% endif %}
+        {% if perms.sample_label.add_samplelabelrequest %}
         <li class="nav-item">
           <a class="nav-link text-white {% if 'sample-label-add' in segment %} active bg-gradient-primary {% endif %}"
              href="/dashboard/sample-label-add.html">
@@ -62,6 +72,8 @@
             <span class="nav-link-text ms-1">Add</span>
           </a>
         </li>
+        {% endif %}
+        {% endif %}
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
