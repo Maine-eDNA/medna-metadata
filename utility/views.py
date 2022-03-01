@@ -118,7 +118,7 @@ class ContactUsCreateView(CreateView):
             # if logged in, add current user to created_by
             self.object = form.save(commit=False)
             self.object.created_by = self.request.user
-            return super().form_valid(form)
+        return super().form_valid(form)
 
 
 class ContactUsReceivedTemplateView(TemplateView):
