@@ -25,7 +25,7 @@ urlpatterns = [
     path('main/publications/', PublicationsTemplateView.as_view(), name='publications'),
     path('main/about-us/', AboutUsTemplateView.as_view(), name='about_us'),
     path('main/metadata-standards/', MetadataStandardsTemplateView.as_view(), name='metadata_standards'),
-    path('main/contact-us/', ContactUsFormView.as_view(), name='contact_us'),
+    path('main/contact-us/', ContactUsFormView.as_view(success_url=reverse_lazy('contact_us_received')), name='contact_us'),
     path('main/contact-us/received/', ContactUsReceivedTemplateView.as_view(), name='contact_us_received'),
     # Matches any html file
     re_path(r'^[main]+/.*\.*', views.main_pages, name='main_pages'),

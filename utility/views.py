@@ -102,9 +102,9 @@ class ContactUsFormView(FormView):
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     model = ContactUs
-    template_name = 'home/django-material-kit/contact-us.html'
     form_class = ContactUsForm
-    success_url = reverse_lazy('contact_us_received')
+    template_name = 'home/django-material-kit/contact-us.html'
+    # success_url = reverse_lazy('contact_us_received') # placed in urls.py
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
