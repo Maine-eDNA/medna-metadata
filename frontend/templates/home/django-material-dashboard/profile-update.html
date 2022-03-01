@@ -30,29 +30,27 @@
           {% csrf_token %}
           <div class="card-body pt-1">
            <div class="row">
-
              {% for field in form %}
              <div class="col-md-12 pe-2 mb-3">
-                {{ field.errors }}
-                {{ field.label_tag }}
-             <div class="input-group input-group-static mb-4">
+               {{ field.errors }}
+               {{ field.label_tag }}
+               <div class="input-group input-group-static mb-4">
                 {{ field }}
                 {% if field.help_text %}
-                <p class="help">{{ field.help_text|safe }}</p>
+                 <p class="help">{{ field.help_text|safe }}</p>
                 {% endif %}
+               </div>
              </div>
-            </div>
              {% endfor %}
-          <div class="col-md-6 text-end ms-auto">
-            <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Update Profile</button>
-          </div>
+           </div>
+            <div class="col-md-6 text-end ms-auto">
+              <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Update Profile</button>
+            </div>
           </div>
         </form>
-
+        <!-- END FORM -->
       </div>
-
      </div>
-
     {% include 'includes/django-material-dashboard/footer.html' %}
   </div>
 
