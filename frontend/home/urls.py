@@ -8,7 +8,7 @@ from django.urls import path, re_path
 from django.urls import reverse_lazy
 from frontend.home import views
 from utility.views import ProjectSurveyTemplateView, ProjectsTemplateView, PublicationsTemplateView, \
-    AboutUsTemplateView, MetadataStandardsTemplateView, ContactUsCreateView
+    AboutUsTemplateView, MetadataStandardsTemplateView, ContactUsFormView
 from users.views import UserProfileDetailView, UserProfileUpdateView
 
 urlpatterns = [
@@ -23,7 +23,7 @@ urlpatterns = [
     path('main/publications/', PublicationsTemplateView.as_view(), name='publications'),
     path('main/about-us/', AboutUsTemplateView.as_view(), name='about_us'),
     path('main/metadata-standards/', MetadataStandardsTemplateView.as_view(), name='metadata_standards'),
-    path('main/contact-us/', ContactUsCreateView.as_view(), name='contact_us'),
+    path('main/contact-us/', ContactUsFormView.as_view(), name='contact_us'),
     # Matches any html file
     re_path(r'^[main]+/.*\.*', views.main_pages, name='main_pages'),
     re_path(r'^[dashboard]+/.*\.*', views.dashboard_pages, name='dashboard_pages'),

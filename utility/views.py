@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
@@ -97,32 +97,21 @@ class ContactUsTemplateView(TemplateView):
         return context
 
 
-class ContactUsCreateView(CreateView):
+class ContactUsFormView(FormView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     model = ContactUs
-    fields = ['full_name', 'contact_email', 'contact_context']
 
-    def get(self, request, *args, **kwargs):
-        context = {'form': ContactUsForm()}
-        return render(request, 'home/django-material-kit/contact-us.html', context)
+    template_name = 'home/django-material-kit/contact-us.html'
+    form_class = ContactUsForm
+    success_url = '/main/contact-us-received.html'
 
-    def post(self, request, *args, **kwargs):
-        form = ContactUsForm(request.POST)
-        if form.is_valid():
-            contact_us = form.save()
-            contact_us.save()
-            return HttpResponseRedirect(reverse_lazy('contact_us'))
-        return render(request, 'home/django-material-kit/contact-us.html', {'form': form})
-
-#    def form_valid(self, form):
-#        # https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-editing/
-#        # This method is called when valid form data has been POSTed.
-#        # It should return an HttpResponse.
-#        form.send_email()
-#        return super().form_valid(form)
-
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        # form.send_email()
+        return super().form_valid(form)
 
 
 # SERIALIZER VIEWS

@@ -8,3 +8,7 @@ class ContactUsForm(forms.ModelForm):
     class Meta:
         model = ContactUs
         fields = ('full_name', 'contact_email', 'contact_context', )
+
+    def send_email(self):
+        # send email using the self.cleaned_data dictionary
+        pass
