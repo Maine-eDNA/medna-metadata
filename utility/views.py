@@ -104,13 +104,20 @@ class ContactUsFormView(FormView):
     model = ContactUs
     template_name = 'home/django-material-kit/contact-us.html'
     form_class = ContactUsForm
-    success_url = '/main/contact-us-received.html'
+    success_url = 'contact_us_received'
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         # form.send_email()
         return super().form_valid(form)
+
+
+class ContactUsReceivedTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/contact-us-received.html'
 
 
 # SERIALIZER VIEWS
