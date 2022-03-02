@@ -130,6 +130,7 @@ def update_queryset_fastq_file(queryset):
 #     try:
 #         now = timezone.now()
 #         if PeriodicTaskRun.objects.filter(task=self.name).exists():
+#             # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset
 #             last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
 #             new_records = RunResult.objects.filter(created_datetime__range=[last_run.task_datetime, now])
 #         else:
