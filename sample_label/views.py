@@ -125,7 +125,7 @@ class AddSampleLabelRequestView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect(reverse_lazy())
+        return redirect('main/field-perms-required.html')
 
 
 ###############
