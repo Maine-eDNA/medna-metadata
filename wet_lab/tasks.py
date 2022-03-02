@@ -129,8 +129,8 @@ def update_queryset_fastq_file(queryset):
 #     # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
 #     try:
 #         now = timezone.now()
-#         last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
-#         if last_run:
+#         if PeriodicTaskRun.objects.filter(task=self.name).exists():
+#             last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
 #             new_records = RunResult.objects.filter(created_datetime__range=[last_run.task_datetime, now])
 #         else:
 #             # task has never been ran, so there is no timestamp to reference

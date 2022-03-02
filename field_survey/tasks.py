@@ -627,10 +627,8 @@ def transform_field_survey_etls(queryset):
 def transform_new_records_field_survey_task(self):
     try:
         now = timezone.now()
-        print(self.name)
-        last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
-        if last_run:
-            # range includes start and end dates, eg (start, end)
+        if PeriodicTaskRun.objects.filter(task=self.name).exists():
+            last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
             new_records = FieldSurveyETL.objects.filter(modified_datetime__range=[last_run.task_datetime, now])
         else:
             # task has never been ran, so there is no timestamp to reference
