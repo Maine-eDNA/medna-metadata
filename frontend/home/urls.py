@@ -20,7 +20,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard_index, name='dashboard'),
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='dashboard_profile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('dashboard_profile')), name='update_dashboardprofile'),
-    path('dashboard/samplelabel/detail/<int:pk>/', samplelabel_views.SampleLabelRequestDetailView.as_view(), name='detail_samplelabelrequest'),
+    path('dashboard/samplelabel/detail/<int:site_id>/<int:sample_material>/<str:purpose>/', samplelabel_views.SampleLabelRequestDetailView.as_view(), name='detail_samplelabelrequest'),
     path('dashboard/samplelabel/add/', samplelabel_views.AddSampleLabelRequestView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
     path('dashboard/samplelabel/view/', samplelabel_views.SampleLabelRequestFilterView.as_view(filterset_class=samplelabel_filters.SampleLabelRequestFilter), name='view_samplelabelrequest'),
     path('dashboard/fieldsite/detail/', samplelabel_views.SampleLabelRequestFilterView.as_view(), name='detail_fieldsite'),
