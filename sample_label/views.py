@@ -23,13 +23,14 @@ from .filters import SampleLabelRequestFilter
 ###############
 # FRONTEND    #
 ###############
-class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
+class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
     """View SampleBarcode filter view with REST serializers and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
     template_name = 'home/django-material-dashboard/field-list.html'
+    permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
     # Implement lazy pagination, preventing any count() queries.
     # table_pagination = {
     #    'paginator_class': LazyPaginator,
@@ -49,18 +50,49 @@ class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, Sing
         context["export_formats"] = self.export_formats
         return context
 
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
 
-class SampleLabelRequestDetailView(DetailView):
+
+class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
-    context_object_name = 'samplelabelrequest'
+    template_name = 'main/django-material-dashboard/field-detail.html'
+    permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
+    # context_object_name = 'field'
+    page_title = "Sample Label Request"
 
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = self.page_title
+        return context
 
-class SampleLabelRequestExportDetailView(DetailView):
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
+
+class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
     """View sample label detail"""
     model = SampleLabelRequest
     context_object_name = 'samplelabelrequest'
+    permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
+    page_title = "Sample Label Request"
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = self.page_title
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
 
     def render_to_response(self, context, **response_kwargs):
         # If I wanted to iterate through num to create 0001:0020 labels, this is where I could add it

@@ -20,6 +20,19 @@
         </div>
       </div>
       <!-- insert detail view here -->
+          <div class="card-body pt-1">
+           <div class="row">
+             {% for field in object %}
+             <div class="col-md-12 pe-2 mb-3">
+               <div class="input-group input-group-static mb-4">
+                {{ field }}
+               </div>
+             </div>
+             {% endfor %}
+           </div>
+
+          </div>
+
     </div>
     </div>
 
