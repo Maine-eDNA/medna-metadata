@@ -372,10 +372,11 @@ class FieldCrewNestedSerializer(serializers.ModelSerializer):
     crew_global_id = serializers.CharField(read_only=True, max_length=255)
     crew_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = FieldCrew
-        fields = ['crew_global_id', 'crew_fname', 'crew_lname', ]
+        fields = ['crew_global_id', 'survey_global_id', 'crew_fname', 'crew_lname', ]
 
 
 class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
@@ -418,7 +419,7 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnvMeasurement
-        fields = ['env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument', 'env_ctd_filename',
+        fields = ['env_global_id', 'survey_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument', 'env_ctd_filename',
                   'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn', 'env_ysi_notes',
                   'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes', 'env_inst_other',
                   'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
@@ -426,6 +427,7 @@ class EnvMeasurementNestedSerializer(serializers.ModelSerializer):
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', ]
 
     env_measurement = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='env_measure_type_code')
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 class FieldSurveyEnvsNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
@@ -628,12 +630,13 @@ class WaterFieldCollectionNestedSerializer(serializers.ModelSerializer, EagerLoa
 
     class Meta:
         model = FieldCollection
-        fields = ['collection_global_id', 'water_collection', 'field_samples', ]
+        fields = ['collection_global_id', 'survey_global_id', 'water_collection', 'field_samples', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     water_collection = WaterCollectionNestedSerializer(many=False, read_only=True)
     field_samples = FilterFieldSampleNestedSerializer(many=True, read_only=True)
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer, EagerLoadingMixin):
@@ -643,12 +646,13 @@ class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer, Eager
 
     class Meta:
         model = FieldCollection
-        fields = ['collection_global_id', 'sediment_collection', 'field_samples', ]
+        fields = ['collection_global_id', 'survey_global_id', 'sediment_collection', 'field_samples', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     sediment_collection = SedimentCollectionNestedSerializer(many=False, read_only=True)
     field_samples = SubCoreFieldSampleNestedSerializer(many=True, read_only=True)
+    survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
 
 class FieldSurveyFiltersNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMixin):
