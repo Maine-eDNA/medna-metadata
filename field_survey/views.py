@@ -6,7 +6,8 @@ from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, \
     FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
     GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
     FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
-    SampleFilterETLSerializer, FieldSurveyFiltersNestedSerializer, FieldSurveySubCoresNestedSerializer
+    SampleFilterETLSerializer, FieldSurveyEnvsNestedSerializer, \
+    FieldSurveyFiltersNestedSerializer, FieldSurveySubCoresNestedSerializer
 from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -85,7 +86,7 @@ class EnvMeasureTypeFilter(filters.FilterSet):
     env_measure_type_code = filters.CharFilter(field_name='env_measure_type_code', lookup_expr='iexact')
 
     class Meta:
-        model = EnvMeasurement
+        model = EnvMeasureType
         fields = ['env_measure_type_code']
 
 
@@ -258,6 +259,38 @@ class FilterJoinFilter(filters.FilterSet):
 #################################
 # NESTED VIEWS                  #
 #################################
+class FieldSurveyEnvsNestedFilter(filters.FilterSet):
+    # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
+    site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
+    water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
+    survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
+    env_measure_type = filters.CharFilter(field_name='env_measurements__env_measurement__env_measure_type_code', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
+
+
+class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = FieldSurveyEnvsNestedSerializer
+    # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
+    # https://www.django-rest-framework.org/api-guide/relations/
+    # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
+    #                                                'water_filterer', 'qa_editor', 'record_creator',
+    #                                                'record_editor')
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = FieldSurveyEnvsNestedFilter
+    swagger_tags = ["field survey"]
+
+    def get_queryset(self):
+        queryset = FieldSurvey.objects.all()
+        return self.get_serializer_class().setup_eager_loading(queryset)
+
+
 class FieldSurveyFiltersNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
