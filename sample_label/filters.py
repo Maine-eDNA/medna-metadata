@@ -1,19 +1,12 @@
 from django import forms
 from django_filters import rest_framework as filters
-from .models import SampleLabelRequest, SampleType, SampleMaterial
+from .models import SampleLabelRequest, SampleType, SampleMaterial, year_choices
 from field_site.models import FieldSite
-
-
-def get_choices(model, field):
-    choices = []
-    for k in model.objects.values_list(field, flat=True).distinct().order_by(field):
-        choices.append((k, str(k)))
-    return choices
 
 
 class SampleLabelRequestFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget())
-    sample_year = filters.ChoiceFilter(choices=get_choices(SampleLabelRequest, 'sample_year'))
+    sample_year = filters.ChoiceFilter(choices=year_choices())
     sample_material = filters.ModelMultipleChoiceFilter(queryset=SampleMaterial.objects.all(), widget=forms.CheckboxSelectMultiple)
     sample_type = filters.ModelMultipleChoiceFilter(queryset=SampleType.objects.all(), widget=forms.CheckboxSelectMultiple)
     site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(), widget=forms.CheckboxSelectMultiple)
