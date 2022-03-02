@@ -17,12 +17,13 @@ from .models import SampleMaterial, SampleLabelRequest, SampleBarcode, SampleTyp
 from .tables import SampleLabelRequestTable
 from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
     SampleBarcodeSerializer, SampleTypeSerializer, SampleLabelRequestSerializerExportMixin
-from .filters import SampleLabelRequestFilter
+import sample_label.filters as samplelabel_filters
 
 
-###############
-# FRONTEND    #
-###############
+# Create your views here.
+########################################
+# FRONTEND VIEWS                       #
+########################################
 class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
     """View SampleBarcode filter view with REST serializers and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
@@ -32,9 +33,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     template_name = 'home/django-material-dashboard/field-list.html'
     permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
     # Implement lazy pagination, preventing any count() queries.
-    # table_pagination = {
-    #    'paginator_class': LazyPaginator,
-    # }
+    # table_pagination = {'paginator_class': LazyPaginator,}
     # the name of the exported file
     export_name = 'samplelabel_' + str(timezone.now().replace(microsecond=0).isoformat())
     # where the data is coming from when it is being exported -- foreign keys to grab the appropriate columns
@@ -74,6 +73,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/field-perms-required.html')
+
 
 class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
@@ -169,82 +169,36 @@ class AddSampleLabelRequestView(LoginRequiredMixin, PermissionRequiredMixin, Cre
         return redirect('main/field-perms-required.html')
 
 
-###############
-# SERIALIZERS #
-###############
-class SampleTypeFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-
-    class Meta:
-        model = SampleType
-        fields = ['created_by', ]
-
-
+########################################
+# SERIALIZER VIEWS                     #
+########################################
 class SampleTypeViewSet(viewsets.ModelViewSet):
     serializer_class = SampleTypeSerializer
     queryset = SampleType.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email']
-    filterset_class = SampleTypeFilter
+    filterset_class = samplelabel_filters.SampleTypeFilter
     swagger_tags = ["sample labels"]
-
-
-class SampleMaterialFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-
-    class Meta:
-        model = SampleMaterial
-        fields = ['created_by', ]
 
 
 class SampleMaterialViewSet(viewsets.ModelViewSet):
     serializer_class = SampleMaterialSerializer
     queryset = SampleMaterial.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email']
-    filterset_class = SampleMaterialFilter
+    filterset_class = samplelabel_filters.SampleMaterialFilter
     swagger_tags = ["sample labels"]
-
-
-class SampleLabelRequestFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
-    sample_type = filters.CharFilter(field_name='sample_type__sample_type_code', lookup_expr='iexact')
-    sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
-
-    class Meta:
-        model = SampleLabelRequest
-        fields = ['created_by', 'site_id', 'sample_type', 'sample_material']
 
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
     queryset = SampleLabelRequest.objects.prefetch_related('created_by', 'site_id', 'sample_type', 'sample_material')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_type__sample_type_code', 'sample_material__sample_material_code']
-    filterset_class = SampleLabelRequestFilter
+    filterset_class = samplelabel_filters.SampleLabelRequestFilter
     swagger_tags = ["sample labels"]
-
-
-class SampleBarcodeFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
-    sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
-    sample_type = filters.CharFilter(field_name='sample_type__sample_type_code', lookup_expr='iexact')
-    sample_label_request = filters.CharFilter(field_name='sample_label_request__sample_label_request_slug', lookup_expr='iexact')
-    in_freezer = filters.CharFilter(field_name='in_freezer', lookup_expr='iexact')
-
-    class Meta:
-        model = SampleBarcode
-        fields = ['created_by', 'site_id', 'sample_material', 'sample_type', 'sample_label_request', 'in_freezer']
 
 
 class SampleBarcodeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SampleBarcodeSerializer
     queryset = SampleBarcode.objects.prefetch_related('created_by', 'site_id', 'sample_material', 'sample_label_request', 'sample_type')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'site_id__site_id', 'sample_material__sample_material_code',
-    #                     'sample_type__sample_type_code', 'sample_label_request__sample_label_request_slug',
-    #                     'sample_barcode_id', 'in_freezer']
-    filterset_class = SampleBarcodeFilter
+    filterset_class = samplelabel_filters.SampleBarcodeFilter
     swagger_tags = ["sample labels"]
