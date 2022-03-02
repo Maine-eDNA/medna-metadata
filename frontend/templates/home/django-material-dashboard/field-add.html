@@ -15,10 +15,9 @@
     </div>
 
     <div class="card card-body mx-3 mx-md-4 mt-n6">
-      {% if perms.field_site.add_fieldsite %}
       <div class="row min-vh-80 h-100">
         <div class="col-12">
-          <h3 class="text-center">Field Site Add</h3>
+          <h3 class="text-center">{{ title|title }}</h3>
         </div>
         <!-- START FORM ERRORS -->
         {% if form.non_field_errors %}
@@ -37,27 +36,21 @@
                <div class="input-group input-group-static mb-4">
                 {{ field }}
                 {% if field.help_text %}
-                 <p class="help">{{ field.help_text|safe }}</p>
+                 <div class="alert alert-primary text-white font-weight-bold" role="alert">{{ field.help_text|safe }}</div>
                 {% endif %}
                </div>
              </div>
              {% endfor %}
            </div>
             <div class="col-md-6 text-end ms-auto">
-              <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Update Profile</button>
+              <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Update</button>
             </div>
           </div>
         </form>
         <!-- END FORM -->
       </div>
-      {% else %}
-      <div class="row min-vh-80 h-100">
-        <div class="col-12">
-          <h3 class="text-center">You do not have permission to view this page.</h3>
-        </div>
-      </div>
     </div>
-    {% endif %}
+
 
     {% include 'includes/django-material-dashboard/footer.html' %}
 

@@ -15,6 +15,10 @@ def current_year():
     return datetime.date.today().year
 
 
+def year_choices():
+    return [(r, r) for r in range(2018, datetime.date.today().year + 1)]
+
+
 def get_unassigned_sample_type():
     return SampleType.objects.get_or_create(sample_type_code='un',
                                             defaults={'sample_type_label': "Unassigned"})[0]

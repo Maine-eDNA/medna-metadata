@@ -83,13 +83,9 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id',
-                                           queryset=FieldSite.objects.all())
-    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
-                                               queryset=SampleType.objects.all())
-    sample_material = serializers.SlugRelatedField(many=False, read_only=False,
-                                                   slug_field='sample_material_code',
-                                                   queryset=SampleMaterial.objects.all())
+    site_id = serializers.SlugRelatedField(many=False, read_only=False, slug_field='site_id', queryset=FieldSite.objects.all())
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code', queryset=SampleType.objects.all())
+    sample_material = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_material_code', queryset=SampleMaterial.objects.all())
 
 
 class SampleBarcodeSerializer(serializers.ModelSerializer):
@@ -113,11 +109,8 @@ class SampleBarcodeSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     site_id = serializers.SlugRelatedField(many=False, read_only=True, slug_field='site_id')
     sample_material = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sample_material_code')
-    sample_label_request = serializers.SlugRelatedField(many=False, read_only=False,
-                                                        slug_field='sample_label_request_slug',
-                                                        queryset=SampleLabelRequest.objects.all())
-    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code',
-                                               queryset=SampleType.objects.all())
+    sample_label_request = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_label_request_slug', queryset=SampleLabelRequest.objects.all())
+    sample_type = serializers.SlugRelatedField(many=False, read_only=False, slug_field='sample_type_code', queryset=SampleType.objects.all())
 
 
 class SampleLabelRequestSerializerTableExport(TableExport):
@@ -134,26 +127,27 @@ class SampleLabelRequestSerializerTableExport(TableExport):
         if len(serializer_data) > 0:
             self.dataset.headers = ('id', 'sample_label', 'sample_barcode', 'sample_label_cap',
                                     'created_by', 'created_datetime')
+
             for row in serializer_data:
                 samplelabel_id = row['id']
                 samplelabel_prefix = row['sample_label_prefix']
                 samplelabel_reqnum = row['req_sample_label_num']
                 samplelabel_siteid = row['site_id']
-                addedby_email = row['created_by']
+                created_email = row['created_by']
                 samplelabel_created_datetime = row['created_datetime']
                 if samplelabel_reqnum < 2:
                     year_added = samplelabel_prefix[-3:]
                     sequence = row['min_sample_label_id'][-4:]
                     label_cap = samplelabel_siteid + "\n" + year_added + "\n" + sequence
                     self.dataset.append((samplelabel_id, row['min_sample_label_id'], row['min_sample_label_id'],
-                                         label_cap, addedby_email, samplelabel_created_datetime))
+                                         label_cap, created_email, samplelabel_created_datetime))
                 else:
                     sequence = row['min_sample_label_id'][-4:]
                     for label_seq in range(samplelabel_reqnum):
                         year_added = samplelabel_prefix[-3:]
                         sample_label = samplelabel_prefix + "_" + sequence
                         label_cap = samplelabel_siteid + "\n" + year_added + "\n" + sequence
-                        self.dataset.append((samplelabel_id, sample_label, sample_label, label_cap, addedby_email,
+                        self.dataset.append((samplelabel_id, sample_label, sample_label, label_cap, created_email,
                                              samplelabel_created_datetime))
                         # row.values()
                         sequence = str(int(sequence) + 1).zfill(4)

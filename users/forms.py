@@ -52,7 +52,7 @@ class CustomUserUpdateForm(forms.ModelForm):
         )
     )
     profile_image = forms.FileField(
-        widget=forms.ClearableFileInput(
+        widget=forms.FileInput(
             attrs={
                 'class': 'form-control',
             }

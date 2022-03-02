@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite] - https://github.com/stefanfoulis/django-phonenumber-field
     # 'crispy_forms',  # crispy forms for pretty forms - https://github.com/django-crispy-forms/django-crispy-forms
     # 'crispy_bootstrap5', # bootstrap5 template pack for django-crispy-forms - https://github.com/django-crispy-forms/crispy-bootstrap5
-    # 'django_tables2', # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
+    'django_tables2', # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
     # 'django_admin_listfilter_dropdown', # django-admin-list-filter-dropdown - Use dropdowns in Django admin list filter - https://github.com/mrts/django-admin-list-filter-dropdown
     # 'leaflet', # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
     'rest_framework',  # djangorestframework - integrates with django-filter - https://github.com/encode/django-rest-framework/tree/master
