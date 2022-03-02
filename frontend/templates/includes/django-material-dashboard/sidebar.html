@@ -65,7 +65,7 @@
         {% if perms.sample_label.add_samplelabelrequest %}
         <li class="nav-item">
           <a class="nav-link text-white {% if 'sample-label-add' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url add_samplelabelrequest %}">
+             href="{% url 'add_samplelabelrequest' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">add_box</i>
             </div>
