@@ -627,6 +627,7 @@ def transform_field_survey_etls(queryset):
 def transform_new_records_field_survey_task(self):
     try:
         now = timezone.now()
+        print(self.name)
         last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
         if last_run:
             # range includes start and end dates, eg (start, end)
