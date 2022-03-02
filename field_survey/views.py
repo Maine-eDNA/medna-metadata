@@ -268,7 +268,7 @@ class FieldSurveyEnvsNestedFilter(filters.FilterSet):
     water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
-    env_measure_type = filters.CharFilter(field_name='env_measurements__env_measurement__env_measure_type_code', lookup_expr='icontains')
+    env_measure_type = filters.CharFilter(field_name='env_measurements__env_measurement__env_measure_type_code', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
