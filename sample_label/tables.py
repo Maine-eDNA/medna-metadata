@@ -7,14 +7,14 @@ class SampleLabelRequestTable(tables.Table):
     # id = tables.CheckBoxColumn(accessor='pk')
     # add hyperlinked column - this is to view the samplelabel detail
     # same as <a href="{% url 'users:samplelabel_detail' samplelabel.id %}"> {{ samplelabel.max_sample_label_id }}</a>
-    max_sample_label_id = tables.LinkColumn('users:samplelabel_detail', args=[A('pk')],
+    max_sample_label_id = tables.LinkColumn('detail_samplelabelrequest', args=[A('pk')],
                                             attrs={"th": {"class": "field-max_sample_label_id"}})
     # Change column header
     min_sample_label_num = tables.Column(verbose_name="Min Label Num",
                                          attrs={"th": {"class": "field-min_sample_label_num"}})
     # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id
     # samplelabel.sample_material.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
-    add_label = tables.LinkColumn("users:samplelabel_samplelabel_add",
+    add_label = tables.LinkColumn("add_samplelabelrequest",
                                   attrs={"td": {"class": "addlink"}},
                                   text='Add', args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
     # formatting for date column
