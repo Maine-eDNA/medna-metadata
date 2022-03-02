@@ -137,7 +137,7 @@ class GrantViewSet(viewsets.ModelViewSet):
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email']
-    filterset_class = utility_filters.GrantFilter
+    filterset_class = utility_filters.GrantSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -146,7 +146,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.prefetch_related('created_by', 'grant_names')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
-    filterset_class = utility_filters.ProjectFilter
+    filterset_class = utility_filters.ProjectSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -155,7 +155,7 @@ class PublicationViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
-    filterset_class = utility_filters.PublicationFilter
+    filterset_class = utility_filters.PublicationSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -164,7 +164,7 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     queryset = ProcessLocation.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
-    filterset_class = utility_filters.ProcessLocationFilter
+    filterset_class = utility_filters.ProcessLocationSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -173,7 +173,7 @@ class ContactUsViewSet(viewsets.ModelViewSet):
     queryset = ContactUs.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
-    filterset_class = utility_filters.ContactUsFilter
+    filterset_class = utility_filters.ContactUsSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -182,7 +182,7 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     queryset = DefaultSiteCss.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
-    filterset_class = utility_filters.DefaultSiteCssFilter
+    filterset_class = utility_filters.DefaultSiteCssSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -191,7 +191,7 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
     queryset = CustomUserCss.objects.prefetch_related('created_by',)
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
-    filterset_class = utility_filters.CustomUserCssFilter
+    filterset_class = utility_filters.CustomUserCssSerializerFilter
     swagger_tags = ["utility"]
 
 
@@ -212,7 +212,7 @@ class YesNoChoicesViewSet(viewsets.ViewSet):
 
 
 ########################################
-# UNITS CHOICES                        #
+# CHOICE SERIALIZERS - UNITS           #
 ########################################
 class TempUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
@@ -281,7 +281,7 @@ class PcrUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 ########################################
-# FIELD_SURVEY CHOICES                 #
+# CHOICE SERIALIZERS - FIELD_SURVEY    #
 ########################################
 class WindSpeedsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
@@ -471,7 +471,7 @@ class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 ########################################
-# WET_LAB CHOICES                      #
+# CHOICE SERIALIZERS - WET_LAB         #
 ########################################
 class TargetGenesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
@@ -561,9 +561,9 @@ class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-########################################
-# FREEZER_INVENTORY CHOICES            #
-########################################
+##########################################
+# CHOICE SERIALIZERS - FREEZER_INVENTORY #
+##########################################
 class InvStatusChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
