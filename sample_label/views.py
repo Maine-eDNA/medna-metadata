@@ -97,7 +97,7 @@ class AddSampleLabelRequestView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     permission_required = 'sample_label.add_samplelabelrequest'
     model = SampleLabelRequest
     fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-kit/field-add.html'
+    template_name = 'home/django-material-dashboard/field-add.html'
     page_title = "Sample Label Request"
 
     def get_context_data(self, **kwargs):
