@@ -29,6 +29,7 @@ class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, Sing
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
+    template = 'home/django-material-dashboard/field-list.html'
     # Implement lazy pagination, preventing any count() queries.
     # table_pagination = {
     #    'paginator_class': LazyPaginator,
