@@ -14,6 +14,7 @@ from .forms import CustomUserUpdateForm
 import users.filters as user_filters
 
 
+# Create your views here.
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
@@ -51,7 +52,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.prefetch_related('custom_user_css', 'groups', 'affiliated_projects')
     # filterset_fields = ['email', 'agol_username', 'is_staff', 'is_active', 'expiration_date']
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = user_filters.CustomUserFilter
+    filterset_class = user_filters.CustomUserSerializerFilter
     swagger_tags = ["user"]
 
 

@@ -2,7 +2,11 @@ from django_filters import rest_framework as filters
 from .models import CustomUser
 
 
-class CustomUserFilter(filters.FilterSet):
+# Create your filters here.
+########################################
+# SERIALIZER FILTERS                   #
+########################################
+class CustomUserSerializerFilter(filters.FilterSet):
     email = filters.CharFilter(field_name='email', lookup_expr='iexact')
     agol_username = filters.CharFilter(field_name='agol_username', lookup_expr='iexact')
     is_staff = filters.BooleanFilter(field_name='is_staff')
