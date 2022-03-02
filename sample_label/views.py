@@ -17,6 +17,7 @@ from .models import SampleMaterial, SampleLabelRequest, SampleBarcode, SampleTyp
 from .tables import SampleLabelRequestTable
 from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
     SampleBarcodeSerializer, SampleTypeSerializer, SampleLabelRequestSerializerExportMixin
+from .filters import SampleLabelRequestFilter
 
 
 ###############
@@ -38,47 +39,54 @@ class SampleLabelRequestFilterView(SampleLabelRequestSerializerExportMixin, Sing
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
     filter_backends = [filters.DjangoFilterBackend]
+    page_title = "Sample Label Request"
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = self.page_title
+        context["export_formats"] = self.export_formats
+        return context
 
 
 class SampleLabelRequestDetailView(DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
-    context_object_name = 'samplelabel'
+    context_object_name = 'samplelabelrequest'
 
 
 class SampleLabelRequestExportDetailView(DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
     """View sample label detail"""
     model = SampleLabelRequest
-    context_object_name = 'samplelabel'
+    context_object_name = 'samplelabelrequest'
 
     def render_to_response(self, context, **response_kwargs):
         # If I wanted to iterate through num to create 0001:0020 labels, this is where I could add it
-        samplelabel = context.get('samplelabel')  # getting User object from context using context_object_name
-        file_name = 'samplelabel'
+        samplelabelrequest = context.get('samplelabelrequest')  # getting User object from context using context_object_name
+        file_name = 'samplelabelrequest'
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
-            timezone.now().replace(microsecond=0).isoformat()) + '.csv'
+        response['Content-Disposition'] = 'attachment; filename=' + file_name + str(timezone.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
         writer.writerow(['id', 'sample_label', 'sample_barcode', 'sample_label_cap', 'created_by', 'created_datetime'])
 
-        samplelabel_reqnum = samplelabel.req_sample_label_num
-        samplelabel_id = samplelabel.id
-        createdby_email = samplelabel.created_by.email
-        samplelabel_created_datetime = samplelabel.created_datetime
+        samplelabelrequest_reqnum = samplelabelrequest.req_sample_label_num
+        samplelabelrequest_id = samplelabelrequest.id
+        createdby_email = samplelabelrequest.created_by.email
+        samplelabelrequest_created_datetime = samplelabelrequest.created_datetime
 
-        if samplelabel_reqnum < 2:
-            year_added = samplelabel.sample_label_prefix[-3:]
-            sequence = samplelabel.min_sample_label_id[-4:]
-            label_cap = samplelabel.site_id.site_id + "\n" + year_added + "\n" + sequence
-            writer.writerow([samplelabel_id, samplelabel.min_sample_label_id, samplelabel.min_sample_label_id, label_cap, createdby_email, samplelabel_created_datetime])
+        if samplelabelrequest_reqnum < 2:
+            year_added = samplelabelrequest.sample_label_prefix[-3:]
+            sequence = samplelabelrequest.min_sample_label_id[-4:]
+            label_cap = samplelabelrequest.site_id.site_id + "\n" + year_added + "\n" + sequence
+            writer.writerow([samplelabelrequest_id, samplelabelrequest.min_sample_label_id, samplelabelrequest.min_sample_label_id, label_cap, createdby_email, samplelabelrequest_created_datetime])
         else:
-            sequence = samplelabel.min_sample_label_id[-4:]
-            for label_seq in range(samplelabel_reqnum):
-                year_added = samplelabel.sample_label_prefix[-3:]
-                sample_label = samplelabel.sample_label_prefix + "_" + sequence
-                label_cap = samplelabel.site_id.site_id + "\n" + year_added + "\n" + sequence
-                writer.writerow([samplelabel_id, sample_label, sample_label, label_cap, createdby_email, samplelabel_created_datetime])
+            sequence = samplelabelrequest.min_sample_label_id[-4:]
+            for label_seq in range(samplelabelrequest_reqnum):
+                year_added = samplelabelrequest.sample_label_prefix[-3:]
+                sample_label = samplelabelrequest.sample_label_prefix + "_" + sequence
+                label_cap = samplelabelrequest.site_id.site_id + "\n" + year_added + "\n" + sequence
+                writer.writerow([samplelabelrequest_id, sample_label, sample_label, label_cap, createdby_email, samplelabelrequest_created_datetime])
                 sequence = str(int(sequence) + 1).zfill(4)
         return response
 

@@ -1,7 +1,8 @@
 {% extends "layouts/django-material-dashboard/base.html" %}
 {% load static %}
+{% load django_tables2 %}
 
-{% block title %} Field Sites {% endblock %}
+{% block title %} {{ page_title|title }} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -16,9 +17,10 @@
     <div class="card card-body mx-3 mx-md-4 mt-n6">
       <div class="row min-vh-80 h-100">
         <div class="col-12">
-          <h3 class="text-center">{{ title|title }}</h3>
+          <h3 class="text-center">{{ page_title|title }}</h3>
         </div>
         <!-- insert table here -->
+        {% render_table table %}
       </div>
     </div>
 
