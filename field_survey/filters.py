@@ -135,7 +135,7 @@ class FilterJoinSerializerFilter(filters.FilterSet):
 ########################################
 # SERIALIZERS - NESTED FILTERS         #
 ########################################
-class FieldSurveyEnvsNestedSerializerFilter(filters.FilterSet):
+class FieldSurveyEnvsNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
@@ -151,7 +151,7 @@ class FieldSurveyEnvsNestedSerializerFilter(filters.FilterSet):
         fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
-class FieldSurveyFiltersNestedSerializerFilter(filters.FilterSet):
+class FieldSurveyFiltersNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
@@ -166,7 +166,7 @@ class FieldSurveyFiltersNestedSerializerFilter(filters.FilterSet):
         fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
-class FieldSurveySubCoresNestedSerializerFilter(filters.FilterSet):
+class FieldSurveySubCoresNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
