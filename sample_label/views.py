@@ -59,7 +59,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
 class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
-    template_name = 'main/django-material-dashboard/field-detail.html'
+    template_name = 'home/django-material-dashboard/field-detail.html'
     permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
     # context_object_name = 'field'
     page_title = "Sample Label Request"
