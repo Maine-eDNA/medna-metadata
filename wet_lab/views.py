@@ -14,11 +14,14 @@ import wet_lab.filters as wetlab_filters
 
 
 # Create your views here.
+########################################
+# SERIALIZER VIEWS                     #
+########################################
 class PrimerPairViewSet(viewsets.ModelViewSet):
     serializer_class = PrimerPairSerializer
     queryset = PrimerPair.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.PrimerPairFilter
+    filterset_class = wetlab_filters.PrimerPairSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -27,7 +30,7 @@ class IndexPairViewSet(viewsets.ModelViewSet):
     queryset = IndexPair.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['index_slug', 'created_by__email']
-    filterset_class = wetlab_filters.IndexPairFilter
+    filterset_class = wetlab_filters.IndexPairSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -35,7 +38,7 @@ class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
     serializer_class = IndexRemovalMethodSerializer
     queryset = IndexRemovalMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.IndexRemovalMethodFilter
+    filterset_class = wetlab_filters.IndexRemovalMethodSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -43,7 +46,7 @@ class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
     serializer_class = SizeSelectionMethodSerializer
     queryset = SizeSelectionMethod.objects.prefetch_related('created_by', 'primer_set')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.SizeSelectionMethodFilter
+    filterset_class = wetlab_filters.SizeSelectionMethodSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -51,7 +54,7 @@ class QuantificationMethodViewSet(viewsets.ModelViewSet):
     serializer_class = QuantificationMethodSerializer
     queryset = QuantificationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.QuantificationMethodFilter
+    filterset_class = wetlab_filters.QuantificationMethodSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -59,7 +62,7 @@ class AmplificationMethodViewSet(viewsets.ModelViewSet):
     serializer_class = AmplificationMethodSerializer
     queryset = AmplificationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.AmplificationMethodFilter
+    filterset_class = wetlab_filters.AmplificationMethodSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -67,7 +70,7 @@ class ExtractionMethodViewSet(viewsets.ModelViewSet):
     serializer_class = ExtractionMethodSerializer
     queryset = ExtractionMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.ExtractionMethodFilter
+    filterset_class = wetlab_filters.ExtractionMethodSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -75,7 +78,7 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     serializer_class = ExtractionSerializer
     queryset = Extraction.objects.prefetch_related('created_by', 'extraction_barcode', 'process_location', 'field_sample', 'extraction_method', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.ExtractionFilter
+    filterset_class = wetlab_filters.ExtractionSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -84,7 +87,7 @@ class PcrReplicateViewSet(viewsets.ModelViewSet):
     queryset = PcrReplicate.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['id', 'created_by__email']
-    filterset_class = wetlab_filters.PcrReplicateFilter
+    filterset_class = wetlab_filters.PcrReplicateSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -92,7 +95,7 @@ class PcrViewSet(viewsets.ModelViewSet):
     serializer_class = PcrSerializer
     queryset = Pcr.objects.prefetch_related('created_by', 'process_location', 'extraction', 'primer_set', 'pcr_replicate')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.PcrFilter
+    filterset_class = wetlab_filters.PcrSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -102,7 +105,7 @@ class LibraryPrepViewSet(viewsets.ModelViewSet):
                                                     'index_pair', 'index_removal_method', 'size_selection_method',
                                                     'quantification_method', 'amplification_method')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.LibraryPrepFilter
+    filterset_class = wetlab_filters.LibraryPrepSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -110,7 +113,7 @@ class PooledLibraryViewSet(viewsets.ModelViewSet):
     serializer_class = PooledLibrarySerializer
     queryset = PooledLibrary.objects.prefetch_related('created_by', 'pooled_lib_barcode', 'process_location', 'library_prep', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.PooledLibraryFilter
+    filterset_class = wetlab_filters.PooledLibrarySerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -118,7 +121,7 @@ class RunPrepViewSet(viewsets.ModelViewSet):
     serializer_class = RunPrepSerializer
     queryset = RunPrep.objects.prefetch_related('created_by', 'process_location', 'pooled_library', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.RunPrepFilter
+    filterset_class = wetlab_filters.RunPrepSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -126,7 +129,7 @@ class RunResultViewSet(viewsets.ModelViewSet):
     serializer_class = RunResultSerializer
     queryset = RunResult.objects.prefetch_related('created_by', 'process_location', 'run_prep')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.RunResultFilter
+    filterset_class = wetlab_filters.RunResultSerializerFilter
     swagger_tags = ["wet lab"]
 
 
@@ -134,5 +137,5 @@ class FastqFileViewSet(viewsets.ModelViewSet):
     serializer_class = FastqFileSerializer
     queryset = FastqFile.objects.prefetch_related('created_by', 'run_result', 'extraction')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = wetlab_filters.FastqFileFilter
+    filterset_class = wetlab_filters.FastqFileSerializerFilter
     swagger_tags = ["wet lab"]

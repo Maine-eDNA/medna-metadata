@@ -5,7 +5,10 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
 
 
 # Create your filters here.
-class PrimerPairFilter(filters.FilterSet):
+########################################
+# SERIALIZER FILTERS                   #
+########################################
+class PrimerPairSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     primer_set_name = filters.CharFilter(field_name='primer_set_name', lookup_expr='iexact')
     primer_slug = filters.CharFilter(field_name='primer_slug', lookup_expr='iexact')
@@ -17,7 +20,7 @@ class PrimerPairFilter(filters.FilterSet):
         fields = ['created_by', 'primer_set_name', 'primer_slug', 'primer_target_gene', 'primer_subfragment', ]
 
 
-class IndexPairFilter(filters.FilterSet):
+class IndexPairSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     index_slug = filters.CharFilter(field_name='index_slug', lookup_expr='iexact')
 
@@ -26,7 +29,7 @@ class IndexPairFilter(filters.FilterSet):
         fields = ['created_by', 'index_slug', ]
 
 
-class IndexRemovalMethodFilter(filters.FilterSet):
+class IndexRemovalMethodSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     index_removal_method_name = filters.CharFilter(field_name='index_removal_method_name', lookup_expr='iexact')
     index_removal_method_slug = filters.CharFilter(field_name='index_removal_method_slug', lookup_expr='iexact')
@@ -37,7 +40,7 @@ class IndexRemovalMethodFilter(filters.FilterSet):
         fields = ['created_by', 'index_removal_method_name', 'index_removal_method_slug', 'index_removal_sop_url', ]
 
 
-class SizeSelectionMethodFilter(filters.FilterSet):
+class SizeSelectionMethodSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     primer_set = filters.CharFilter(field_name='primer_set__primer_slug', lookup_expr='iexact')
     size_selection_method_name = filters.CharFilter(field_name='size_selection_method_name', lookup_expr='iexact')
@@ -49,7 +52,7 @@ class SizeSelectionMethodFilter(filters.FilterSet):
         fields = ['created_by', 'primer_set', 'size_selection_method_name', 'size_selection_method_slug', 'size_selection_sop_url', ]
 
 
-class QuantificationMethodFilter(filters.FilterSet):
+class QuantificationMethodSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     quant_method_name = filters.CharFilter(field_name='quant_method_name', lookup_expr='iexact')
     quant_method_slug = filters.CharFilter(field_name='quant_method_slug', lookup_expr='iexact')
@@ -59,7 +62,7 @@ class QuantificationMethodFilter(filters.FilterSet):
         fields = ['created_by', 'quant_method_name', 'quant_method_slug', ]
 
 
-class AmplificationMethodFilter(filters.FilterSet):
+class AmplificationMethodSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     amplification_method_name = filters.CharFilter(field_name='amplification_method_name', lookup_expr='iexact')
     amplification_method_slug = filters.CharFilter(field_name='amplification_method_slug', lookup_expr='iexact')
@@ -69,7 +72,7 @@ class AmplificationMethodFilter(filters.FilterSet):
         fields = ['created_by', 'amplification_method_name', 'amplification_method_slug', ]
 
 
-class ExtractionMethodFilter(filters.FilterSet):
+class ExtractionMethodSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     extraction_method_name = filters.CharFilter(field_name='extraction_method_name', lookup_expr='iexact')
     extraction_method_manufacturer = filters.CharFilter(field_name='extraction_method_manufacturer', lookup_expr='iexact')
@@ -80,7 +83,7 @@ class ExtractionMethodFilter(filters.FilterSet):
         fields = ['created_by', 'extraction_method_name', 'extraction_method_manufacturer', 'extraction_method_slug', ]
 
 
-class ExtractionFilter(filters.FilterSet):
+class ExtractionSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     barcode_slug = filters.CharFilter(field_name='barcode_slug', lookup_expr='iexact')
     extraction_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
@@ -93,7 +96,7 @@ class ExtractionFilter(filters.FilterSet):
         fields = ['created_by', 'barcode_slug', 'extraction_datetime', 'process_location', 'field_sample', 'extraction_method', ]
 
 
-class PcrReplicateFilter(filters.FilterSet):
+class PcrReplicateSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     id = filters.NumberFilter(field_name='id', lookup_expr='iexact')
 
@@ -102,7 +105,7 @@ class PcrReplicateFilter(filters.FilterSet):
         fields = ['created_by', 'id', ]
 
 
-class PcrFilter(filters.FilterSet):
+class PcrSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     pcr_experiment_name = filters.CharFilter(field_name='pcr_experiment_name', lookup_expr='iexact')
     pcr_slug = filters.CharFilter(field_name='pcr_slug', lookup_expr='iexact')
@@ -119,7 +122,7 @@ class PcrFilter(filters.FilterSet):
                   'extraction', 'primer_set', 'pcr_replicate', ]
 
 
-class LibraryPrepFilter(filters.FilterSet):
+class LibraryPrepSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     lib_prep_experiment_name = filters.CharFilter(field_name='lib_prep_experiment_name', lookup_expr='iexact')
     lib_prep_slug = filters.CharFilter(field_name='lib_prep_slug', lookup_expr='iexact')
@@ -146,7 +149,7 @@ class LibraryPrepFilter(filters.FilterSet):
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', ]
 
 
-class PooledLibraryFilter(filters.FilterSet):
+class PooledLibrarySerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     pooled_lib_label = filters.CharFilter(field_name='pooled_lib_label', lookup_expr='iexact')
     pooled_lib_slug = filters.CharFilter(field_name='pooled_lib_slug', lookup_expr='iexact')
@@ -161,7 +164,7 @@ class PooledLibraryFilter(filters.FilterSet):
                   'pooled_lib_datetime', 'barcode_slug', 'process_location', 'library_prep', ]
 
 
-class RunPrepFilter(filters.FilterSet):
+class RunPrepSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     run_prep_label = filters.CharFilter(field_name='run_prep_label', lookup_expr='iexact')
     run_prep_slug = filters.CharFilter(field_name='run_prep_slug', lookup_expr='iexact')
@@ -175,7 +178,7 @@ class RunPrepFilter(filters.FilterSet):
                   'pooled_library', 'process_location', ]
 
 
-class RunResultFilter(filters.FilterSet):
+class RunResultSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     run_experiment_name = filters.CharFilter(field_name='run_experiment_name', lookup_expr='iexact')
     run_slug = filters.CharFilter(field_name='run_slug', lookup_expr='iexact')
@@ -192,7 +195,7 @@ class RunResultFilter(filters.FilterSet):
                   'run_prep', 'run_completion_datetime', 'run_instrument', ]
 
 
-class FastqFileFilter(filters.FilterSet):
+class FastqFileSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
     run_result = filters.CharFilter(field_name='run_result__run_id', lookup_expr='iexact')
