@@ -17,6 +17,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
     first_name = forms.CharField(
         max_length=255,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -26,6 +27,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     )
     last_name = forms.CharField(
         max_length=255,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -34,11 +36,12 @@ class CustomUserUpdateForm(forms.ModelForm):
         )
     )
     phone_number = PhoneNumberField(
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'type': 'tel',
                 'class': 'form-control',
-                'placeholder': 'Last Name'
+                'placeholder': 'Phone Number'
             }
         )
     )
@@ -52,6 +55,7 @@ class CustomUserUpdateForm(forms.ModelForm):
         )
     )
     profile_image = forms.FileField(
+        required=False,
         widget=forms.FileInput(
             attrs={
                 'class': 'form-control',
@@ -59,7 +63,7 @@ class CustomUserUpdateForm(forms.ModelForm):
         )
     )
     affiliated_projects = forms.ModelMultipleChoiceField(
-        required=True,
+        required=False,
         queryset=Project.objects.all(),
         widget=forms.SelectMultiple(
             attrs={

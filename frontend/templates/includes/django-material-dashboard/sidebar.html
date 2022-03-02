@@ -26,8 +26,8 @@
         </li>
         {% if perms.field_site.view_fieldsite %}
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'field-sites' in segment %} active bg-gradient-primary {% endif %}"
-             href="/dashboard/field-sites.html">
+          <a class="nav-link text-white {% if 'fieldsite/view' in segment %} active bg-gradient-primary {% endif %}"
+             href="{% url 'view_fieldsite' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -37,8 +37,8 @@
         {% endif %}
         {% if perms.field_site.add_fieldsite %}
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'field-site-add' in segment %} active bg-gradient-primary {% endif %}"
-             href="/dashboard/field-site/add">
+          <a class="nav-link text-white {% if 'fieldsite/add' in segment %} active bg-gradient-primary {% endif %}"
+             href="{% url 'add_fieldsite' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">add_box</i>
             </div>
@@ -53,8 +53,8 @@
         </li>
         {% if perms.sample_label.view_samplelabelrequest %}
          <li class="nav-item">
-          <a class="nav-link text-white {% if 'sample-labels' in segment %} active bg-gradient-primary {% endif %}"
-             href="/dashboard/sample-labels/">
+          <a class="nav-link text-white {% if 'samplelabel/view' in segment %} active bg-gradient-primary {% endif %}"
+             href="{% url 'view_samplelabelrequest' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -64,7 +64,7 @@
         {% endif %}
         {% if perms.sample_label.add_samplelabelrequest %}
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'sample-label-add' in segment %} active bg-gradient-primary {% endif %}"
+          <a class="nav-link text-white {% if 'samplelabel/add' in segment %} active bg-gradient-primary {% endif %}"
              href="{% url 'add_samplelabelrequest' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">add_box</i>
