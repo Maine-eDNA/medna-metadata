@@ -176,7 +176,7 @@ class SampleTypeViewSet(viewsets.ModelViewSet):
     serializer_class = SampleTypeSerializer
     queryset = SampleType.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = samplelabel_filters.SampleTypeFilter
+    filterset_class = samplelabel_filters.SampleTypeSerializerFilter
     swagger_tags = ["sample labels"]
 
 
@@ -184,7 +184,7 @@ class SampleMaterialViewSet(viewsets.ModelViewSet):
     serializer_class = SampleMaterialSerializer
     queryset = SampleMaterial.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = samplelabel_filters.SampleMaterialFilter
+    filterset_class = samplelabel_filters.SampleMaterialSerializerFilter
     swagger_tags = ["sample labels"]
 
 
@@ -192,7 +192,7 @@ class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SampleLabelRequestSerializer
     queryset = SampleLabelRequest.objects.prefetch_related('created_by', 'site_id', 'sample_type', 'sample_material')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = samplelabel_filters.SampleLabelRequestFilter
+    filterset_class = samplelabel_filters.SampleLabelRequestSerializerFilter
     swagger_tags = ["sample labels"]
 
 
@@ -200,5 +200,5 @@ class SampleBarcodeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SampleBarcodeSerializer
     queryset = SampleBarcode.objects.prefetch_related('created_by', 'site_id', 'sample_material', 'sample_label_request', 'sample_type')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = samplelabel_filters.SampleBarcodeFilter
+    filterset_class = samplelabel_filters.SampleBarcodeSerializerFilter
     swagger_tags = ["sample labels"]

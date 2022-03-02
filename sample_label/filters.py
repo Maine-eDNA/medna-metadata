@@ -5,6 +5,9 @@ from field_site.models import FieldSite
 
 
 # Create your filters here.
+########################################
+# FRONTEND FILTERS                     #
+########################################
 class SampleLabelRequestFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget())
     sample_year = filters.ChoiceFilter(choices=year_choices)
@@ -39,7 +42,7 @@ class UserSampleLabelRequestFilter(filters.FilterSet):
 ########################################
 # SERIALIZER FILTERS                   #
 ########################################
-class SampleTypeFilter(filters.FilterSet):
+class SampleTypeSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:
@@ -47,7 +50,7 @@ class SampleTypeFilter(filters.FilterSet):
         fields = ['created_by', ]
 
 
-class SampleMaterialFilter(filters.FilterSet):
+class SampleMaterialSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:
@@ -55,7 +58,7 @@ class SampleMaterialFilter(filters.FilterSet):
         fields = ['created_by', ]
 
 
-class SampleLabelRequestFilter(filters.FilterSet):
+class SampleLabelRequestSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     sample_type = filters.CharFilter(field_name='sample_type__sample_type_code', lookup_expr='iexact')
@@ -66,7 +69,7 @@ class SampleLabelRequestFilter(filters.FilterSet):
         fields = ['created_by', 'site_id', 'sample_type', 'sample_material']
 
 
-class SampleBarcodeFilter(filters.FilterSet):
+class SampleBarcodeSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
