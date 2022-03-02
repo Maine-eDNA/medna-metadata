@@ -1,50 +1,27 @@
-from django.shortcuts import render
+# from django.shortcuts import render
+# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
+from rest_framework import viewsets
 from .serializers import ReturnActionSerializer, FreezerSerializer, FreezerRackSerializer, \
     FreezerBoxSerializer, FreezerInventorySerializer, FreezerInventoryLogSerializer, \
     FreezerInventoryReturnMetadataSerializer, FreezerInventoryLocNestedSerializer, \
     FreezerInventoryLogsNestedSerializer, FreezerInventoryReturnsMetadataNestedSerializer
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
-# from django_filters.rest_framework import DjangoFilterBackend
-from django_filters import rest_framework as filters
-from rest_framework import viewsets
+import freezer_inventory.filters as freezerinventory_filters
 
 
 # Create your views here.
-class ReturnActionFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    action_code = filters.CharFilter(field_name='action_code', lookup_expr='iexact')
-    action_label = filters.CharFilter(field_name='action_label', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = ReturnAction
-        fields = ['created_by', 'action_code', 'action_label', 'created_datetime', 'modified_datetime', ]
-
-
+########################################
+# SERIALIZER VIEWS                     #
+########################################
 class ReturnActionViewSet(viewsets.ModelViewSet):
     serializer_class = ReturnActionSerializer
     queryset = ReturnAction.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'action_code', 'action_label', 'created_datetime', 'modified_datetime', ]
-    filterset_class = ReturnActionFilter
+    filterset_class = freezerinventory_filters.ReturnActionSerializerFilter
     swagger_tags = ["freezer inventory"]
-
-
-class FreezerFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_label = filters.CharFilter(field_name='freezer_label', lookup_expr='iexact')
-    freezer_label_slug = filters.CharFilter(field_name='freezer_label_slug', lookup_expr='iexact')
-    freezer_room_name = filters.CharFilter(field_name='freezer_room_name', lookup_expr='iexact')
-    freezer_rated_temp = filters.NumberFilter(field_name='freezer_rated_temp', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = Freezer
-        fields = ['created_by', 'freezer_label', 'freezer_label_slug', 'freezer_room_name',
-                  'freezer_rated_temp', 'created_datetime', 'modified_datetime', ]
 
 
 class FreezerViewSet(viewsets.ModelViewSet):
@@ -53,22 +30,8 @@ class FreezerViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer_label', 'freezer_label_slug', 'freezer_room_name',
     #                    'freezer_rated_temp', 'created_datetime', 'modified_datetime', ]
-    filterset_class = FreezerFilter
+    filterset_class = freezerinventory_filters.FreezerSerializerFilter
     swagger_tags = ["freezer inventory"]
-
-
-class FreezerRackFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer = filters.CharFilter(field_name='freezer__freezer_label_slug', lookup_expr='iexact')
-    freezer_rack_label = filters.CharFilter(field_name='freezer_rack_label', lookup_expr='iexact')
-    freezer_rack_label_slug = filters.CharFilter(field_name='freezer_rack_label_slug', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerRack
-        fields = ['created_by', 'freezer', 'freezer_rack_label', 'freezer_rack_label_slug',
-                  'created_datetime', 'modified_datetime', ]
 
 
 class FreezerRackViewSet(viewsets.ModelViewSet):
@@ -77,22 +40,8 @@ class FreezerRackViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer__freezer_label_slug', 'freezer_rack_label',
     #                    'freezer_rack_label_slug', 'created_datetime', 'modified_datetime', ]
-    filterset_class = FreezerRackFilter
+    filterset_class = freezerinventory_filters.FreezerRackSerializerFilter
     swagger_tags = ["freezer inventory"]
-
-
-class FreezerBoxFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_rack = filters.CharFilter(field_name='freezer_rack__freezer_rack_label_slug', lookup_expr='iexact')
-    freezer_box_label = filters.CharFilter(field_name='freezer_rack_label', lookup_expr='iexact')
-    freezer_box_label_slug = filters.CharFilter(field_name='freezer_rack_label_slug', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerBox
-        fields = ['created_by', 'freezer_rack', 'freezer_box_label', 'freezer_box_label_slug',
-                  'created_datetime', 'modified_datetime', ]
 
 
 class FreezerBoxViewSet(viewsets.ModelViewSet):
@@ -101,23 +50,8 @@ class FreezerBoxViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['freezer_rack__freezer_rack_label_slug', 'freezer_box_label', 'freezer_box_label_slug',
     #                    'created_datetime', 'modified_datetime', 'created_by__email']
-    filterset_class = FreezerBoxFilter
+    filterset_class = freezerinventory_filters.FreezerBoxSerializerFilter
     swagger_tags = ["freezer inventory"]
-
-
-class FreezerInventoryFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_box = filters.CharFilter(field_name='freezer_box__freezer_box_label_slug', lookup_expr='iexact')
-    freezer_inventory_type = filters.CharFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
-    freezer_inventory_status = filters.CharFilter(field_name='freezer_inventory_status', lookup_expr='iexact')
-    sample_barcode = filters.CharFilter(field_name='sample_barcode__barcode_slug', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerInventory
-        fields = ['created_by', 'freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
-                  'created_datetime', 'modified_datetime', ]
 
 
 class FreezerInventoryViewSet(viewsets.ModelViewSet):
@@ -127,20 +61,8 @@ class FreezerInventoryViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['created_by__email', 'freezer_box__freezer_box_label_slug', 'freezer_inventory_type',
     #                    'freezer_inventory_status', 'sample_barcode__barcode_slug',
     #                    'created_datetime', 'modified_datetime']
-    filterset_class = FreezerInventoryFilter
+    filterset_class = freezerinventory_filters.FreezerInventorySerializerFilter
     swagger_tags = ["freezer inventory"]
-
-
-class FreezerInventoryLogFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_inventory = filters.CharFilter(field_name='freezer_inventory__freezer_inventory_slug', lookup_expr='iexact')
-    freezer_log_action = filters.CharFilter(field_name='freezer_log_action', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerInventoryLog
-        fields = ['created_by', 'freezer_inventory', 'freezer_log_action', 'created_datetime', 'modified_datetime', ]
 
 
 class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
@@ -149,23 +71,8 @@ class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer_inventory__freezer_inventory_slug', 'freezer_log_action',
     #                    'created_datetime', 'modified_datetime', ]
-    filterset_class = FreezerInventoryLogFilter
+    filterset_class = freezerinventory_filters.FreezerInventoryLogSerializerFilter
     swagger_tags = ["freezer inventory"]
-
-
-class FreezerInventoryReturnMetadataFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_return_slug = filters.CharFilter(field_name='freezer_return_slug', lookup_expr='iexact')
-    freezer_log = filters.CharFilter(field_name='freezer_log__freezer_log_slug', lookup_expr='iexact')
-    freezer_return_metadata_entered = filters.CharFilter(field_name='freezer_return_metadata_entered', lookup_expr='iexact')
-    freezer_return_actions = filters.CharFilter(field_name='freezer_return_actions__action_code', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerInventoryReturnMetadata
-        fields = ['created_by', 'freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered',
-                  'freezer_return_actions', 'created_datetime', 'modified_datetime']
 
 
 class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
@@ -175,62 +82,30 @@ class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['created_by__email', 'freezer_log__freezer_log_slug', 'freezer_return_metadata_entered',
     #                     'freezer_return_actions__action_code',
     #                     'created_datetime', 'modified_datetime']
-    filterset_class = FreezerInventoryReturnMetadataFilter
+    filterset_class = freezerinventory_filters.FreezerInventoryReturnMetadataSerializerFilter
     swagger_tags = ["freezer inventory"]
 
 
-#################################
-# NESTED VIEWS                  #
-#################################
-class FreezerInventoryLocNestedFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_box = filters.CharFilter(field_name='freezer_box__freezer_box_label_slug', lookup_expr='iexact')
-    freezer_inventory_type = filters.CharFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
-    freezer_inventory_status = filters.CharFilter(field_name='freezer_inventory_status', lookup_expr='iexact')
-    sample_barcode = filters.CharFilter(field_name='sample_barcode__barcode_slug', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerInventory
-        fields = ['created_by', 'freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
-                  'created_datetime', 'modified_datetime', ]
-
-
+########################################
+# NESTED VIEWS                         #
+########################################
 class FreezerInventoryLocNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FreezerInventoryLocNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = FreezerInventoryLocNestedFilter
+    filterset_class = freezerinventory_filters.FreezerInventoryLocNestedFilter
     swagger_tags = ["freezer inventory"]
 
     def get_queryset(self):
         queryset = FreezerInventory.objects.all()
         return self.get_serializer_class().setup_eager_loading(queryset)
-
-
-class FreezerInventoryLogsNestedFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    logs_created_by = filters.CharFilter(field_name='freezer_inventory_logs__created_by__email', lookup_expr='iexact')
-    freezer_box = filters.CharFilter(field_name='freezer_box__freezer_box_label_slug', lookup_expr='iexact')
-    freezer_inventory_type = filters.CharFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
-    freezer_inventory_status = filters.CharFilter(field_name='freezer_inventory_status', lookup_expr='iexact')
-    sample_barcode = filters.CharFilter(field_name='sample_barcode__barcode_slug', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerInventory
-        fields = ['created_by', 'freezer_inventory_logs', 'freezer_box', 'freezer_inventory_type',
-                  'freezer_inventory_status', 'sample_barcode',
-                  'created_datetime', 'modified_datetime', ]
 
 
 class FreezerInventoryLogsNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FreezerInventoryLogsNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = FreezerInventoryLogsNestedFilter
+    filterset_class = freezerinventory_filters.FreezerInventoryLogsNestedFilter
     swagger_tags = ["freezer inventory"]
 
     def get_queryset(self):
@@ -238,27 +113,11 @@ class FreezerInventoryLogsNestedViewSet(viewsets.ReadOnlyModelViewSet):
         return self.get_serializer_class().setup_eager_loading(queryset)
 
 
-class FreezerInventoryReturnsNestedFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    freezer_return_slug = filters.CharFilter(field_name='freezer_return_slug', lookup_expr='iexact')
-    freezer_log = filters.CharFilter(field_name='freezer_log__freezer_log_slug', lookup_expr='iexact')
-    sample_barcode = filters.CharFilter(field_name='freezer_log__freezer_inventory__sample_barcode__barcode_slug', lookup_expr='iexact')
-    freezer_return_metadata_entered = filters.CharFilter(field_name='freezer_return_metadata_entered', lookup_expr='iexact')
-    freezer_return_actions = filters.CharFilter(field_name='freezer_return_actions__action_code', lookup_expr='iexact')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = FreezerInventoryReturnMetadata
-        fields = ['created_by', 'freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered',
-                  'freezer_return_actions', 'created_datetime', 'modified_datetime']
-
-
 class FreezerInventoryReturnsNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FreezerInventoryReturnsMetadataNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = FreezerInventoryReturnsNestedFilter
+    filterset_class = freezerinventory_filters.FreezerInventoryReturnsNestedFilter
     swagger_tags = ["freezer inventory"]
 
     def get_queryset(self):
