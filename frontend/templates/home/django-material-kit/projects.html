@@ -36,7 +36,7 @@
                     {% if project.project_label != 'Maine eDNA' %}
                     {% if project.project_description %}
                     <h3>{{ project.project_label }}</h3>
-                    <a href="{% url 'project_detail' project.pk %}"><div class="row">
+                    <a href="{% url 'detail_project' project.pk %}"><div class="row">
                         <div class="col">
                             <h5 class="font-weight-bolder mt-3">Description</h5>
                             <p class="pe-5">{{ project.project_description }}</p>
