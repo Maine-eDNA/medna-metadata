@@ -14,22 +14,21 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+import json
+# import ast
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from field_survey.models import FieldSurvey
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
 from .forms import ContactUsForm
-from .enumerations import YesNo, TempUnits, MeasureUnits, VolUnits, ConcentrationUnits, PhiXConcentrationUnits, PcrUnits, \
-    WindSpeeds, CloudCovers, PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
-    YsiModels, BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, \
-    ControlTypes, FilterMethods, FilterTypes, CoreMethods, SubCoreMethods, TargetGenes, PcrTypes, LibPrepTypes, LibPrepKits, \
-    InvStatus, InvLocStatus, InvTypes, CheckoutActions, SubFragments, SeqMethods, InvestigationTypes, LibLayouts
-import json
-# import ast
+import utility.enumerations as utility_enums
+import utility.filters as utility_filters
 
 
 # Create your views here.
-# FRONTEND VIEWS
+########################################
+# FRONTEND VIEWS                       #
+########################################
 class AboutUsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
@@ -128,15 +127,9 @@ class ContactUsReceivedTemplateView(TemplateView):
     template_name = 'home/django-material-kit/contact-us-received.html'
 
 
-# SERIALIZER VIEWS
-class GrantFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-
-    class Meta:
-        model = Grant
-        fields = ['created_by', ]
-
-
+########################################
+# SERIALIZER VIEWS                     #
+########################################
 class GrantViewSet(viewsets.ModelViewSet):
     # formerly Project in field_site.models
     serializer_class = GrantSerializer
@@ -144,17 +137,8 @@ class GrantViewSet(viewsets.ModelViewSet):
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email']
-    filterset_class = GrantFilter
+    filterset_class = utility_filters.GrantFilter
     swagger_tags = ["utility"]
-
-
-class ProjectFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    grant_names = filters.CharFilter(field_name='grant_names__grant_code', lookup_expr='iexact')
-
-    class Meta:
-        model = Project
-        fields = ['created_by', 'grant_names', ]
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -162,19 +146,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.prefetch_related('created_by', 'grant_names')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
-    filterset_class = ProjectFilter
+    filterset_class = utility_filters.ProjectFilter
     swagger_tags = ["utility"]
-
-
-class PublicationFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    publication_title = filters.CharFilter(field_name='publication_title', lookup_expr='icontains')
-    project_names = filters.CharFilter(field_name='project_names__project_code', lookup_expr='iexact')
-    publication_authors = filters.CharFilter(field_name='publication_authors__email', lookup_expr='iexact')
-
-    class Meta:
-        model = Publication
-        fields = ['created_by', 'publication_title', 'project_names', 'publication_authors', ]
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
@@ -182,17 +155,8 @@ class PublicationViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
-    filterset_class = PublicationFilter
+    filterset_class = utility_filters.PublicationFilter
     swagger_tags = ["utility"]
-
-
-class ProcessLocationFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    process_location_name_slug = filters.CharFilter(field_name='process_location_name_slug', lookup_expr='icontains')
-
-    class Meta:
-        model = ProcessLocation
-        fields = ['created_by', 'process_location_name_slug', ]
 
 
 class ProcessLocationViewSet(viewsets.ModelViewSet):
@@ -200,17 +164,8 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     queryset = ProcessLocation.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
-    filterset_class = ProcessLocationFilter
+    filterset_class = utility_filters.ProcessLocationFilter
     swagger_tags = ["utility"]
-
-
-class ContactUsFilter(filters.FilterSet):
-    created_datetime = filters.DateFilter(field_name='created_datetime', input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-    contact_slug = filters.CharFilter(field_name='contact_slug', lookup_expr='iexact')
-
-    class Meta:
-        model = ContactUs
-        fields = ['contact_slug', 'created_datetime', ]
 
 
 class ContactUsViewSet(viewsets.ModelViewSet):
@@ -218,18 +173,8 @@ class ContactUsViewSet(viewsets.ModelViewSet):
     queryset = ContactUs.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
-    filterset_class = ContactUsFilter
+    filterset_class = utility_filters.ContactUsFilter
     swagger_tags = ["utility"]
-
-
-class DefaultSiteCssFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    default_css_label = filters.CharFilter(field_name='default_css_label', lookup_expr='icontains')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = DefaultSiteCss
-        fields = ['created_by', 'default_css_label', 'created_datetime', ]
 
 
 class DefaultSiteCssViewSet(viewsets.ModelViewSet):
@@ -237,18 +182,8 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     queryset = DefaultSiteCss.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
-    filterset_class = DefaultSiteCssFilter
+    filterset_class = utility_filters.DefaultSiteCssFilter
     swagger_tags = ["utility"]
-
-
-class CustomUserCssFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    custom_css_label = filters.CharFilter(field_name='custom_css_label', lookup_expr='icontains')
-    created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
-
-    class Meta:
-        model = CustomUserCss
-        fields = ['created_by', 'custom_css_label', 'created_datetime', ]
 
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
@@ -256,31 +191,35 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
     queryset = CustomUserCss.objects.prefetch_related('created_by',)
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
-    filterset_class = CustomUserCssFilter
+    filterset_class = utility_filters.CustomUserCssFilter
     swagger_tags = ["utility"]
 
 
+########################################
+# GENERIC CHOICE SERIALIZERS           #
+########################################
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
-# GENERIC CHOICE SERIALIZERS
 class YesNoChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
-        for choice in YesNo:
+        for choice in utility_enums.YesNo:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-# UNITS CHOICES
+########################################
+# UNITS CHOICES                        #
+########################################
 class TempUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
-        for choice in TempUnits:
+        for choice in utility_enums.TempUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -291,7 +230,7 @@ class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in MeasureUnits:
+        for choice in utility_enums.MeasureUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -302,7 +241,7 @@ class VolUnitsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in VolUnits:
+        for choice in utility_enums.VolUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -313,7 +252,7 @@ class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in ConcentrationUnits:
+        for choice in utility_enums.ConcentrationUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -324,7 +263,7 @@ class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in PhiXConcentrationUnits:
+        for choice in utility_enums.PhiXConcentrationUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -335,19 +274,21 @@ class PcrUnitsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in PcrUnits:
+        for choice in utility_enums.PcrUnits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-# FIELD_SURVEY CHOICES
+########################################
+# FIELD_SURVEY CHOICES                 #
+########################################
 class WindSpeedsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
-        for choice in WindSpeeds:
+        for choice in utility_enums.WindSpeeds:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -358,7 +299,7 @@ class CloudCoversChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in CloudCovers:
+        for choice in utility_enums.CloudCovers:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -369,7 +310,7 @@ class PrecipTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in PrecipTypes:
+        for choice in utility_enums.PrecipTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -380,7 +321,7 @@ class TurbidTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in TurbidTypes:
+        for choice in utility_enums.TurbidTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -391,7 +332,7 @@ class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in EnvoMaterials:
+        for choice in utility_enums.EnvoMaterials:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -402,7 +343,7 @@ class MeasureModesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in MeasureModes:
+        for choice in utility_enums.MeasureModes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -413,7 +354,7 @@ class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in EnvInstruments:
+        for choice in utility_enums.EnvInstruments:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -424,22 +365,10 @@ class YsiModelsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in YsiModels:
+        for choice in utility_enums.YsiModels:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
-
-
-# migrated to model
-# class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
-#     swagger_tags = ["choices"]
-#
-#     def list(self, request, format=None):
-#         choices = []
-#         for choice in EnvMeasurements:
-#             choices.append(choice.value)
-#         initial_data = {'choices': choices}
-#         return Response(initial_data, status=status.HTTP_200_OK)
 
 
 class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
@@ -447,7 +376,7 @@ class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in BottomSubstrates:
+        for choice in utility_enums.BottomSubstrates:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -458,7 +387,7 @@ class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in WaterCollectionModes:
+        for choice in utility_enums.WaterCollectionModes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -469,7 +398,7 @@ class CollectionTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in CollectionTypes:
+        for choice in utility_enums.CollectionTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -480,7 +409,7 @@ class FilterLocationsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in FilterLocations:
+        for choice in utility_enums.FilterLocations:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -491,7 +420,7 @@ class ControlTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in ControlTypes:
+        for choice in utility_enums.ControlTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -502,7 +431,7 @@ class FilterMethodsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in FilterMethods:
+        for choice in utility_enums.FilterMethods:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -513,7 +442,7 @@ class FilterTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in FilterTypes:
+        for choice in utility_enums.FilterTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -524,7 +453,7 @@ class CoreMethodsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in CoreMethods:
+        for choice in utility_enums.CoreMethods:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -535,19 +464,21 @@ class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in SubCoreMethods:
+        for choice in utility_enums.SubCoreMethods:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-# WET_LAB CHOICES
+########################################
+# WET_LAB CHOICES                      #
+########################################
 class TargetGenesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
-        for choice in TargetGenes:
+        for choice in utility_enums.TargetGenes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -558,7 +489,7 @@ class SubFragmentsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in SubFragments:
+        for choice in utility_enums.SubFragments:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -569,7 +500,7 @@ class PcrTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in PcrTypes:
+        for choice in utility_enums.PcrTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -580,7 +511,7 @@ class LibLayoutsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in LibLayouts:
+        for choice in utility_enums.LibLayouts:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -591,7 +522,7 @@ class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in LibPrepTypes:
+        for choice in utility_enums.LibPrepTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -602,7 +533,7 @@ class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in LibPrepKits:
+        for choice in utility_enums.LibPrepKits:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -613,7 +544,7 @@ class SeqMethodsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in SeqMethods:
+        for choice in utility_enums.SeqMethods:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -624,19 +555,21 @@ class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in InvestigationTypes:
+        for choice in utility_enums.InvestigationTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-# FREEZER_INVENTORY CHOICES
+########################################
+# FREEZER_INVENTORY CHOICES            #
+########################################
 class InvStatusChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
 
     def list(self, request, format=None):
         choices = []
-        for choice in InvStatus:
+        for choice in utility_enums.InvStatus:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -647,7 +580,7 @@ class InvLocStatusChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in InvLocStatus:
+        for choice in utility_enums.InvLocStatus:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -658,7 +591,7 @@ class InvTypesChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in InvTypes:
+        for choice in utility_enums.InvTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -669,7 +602,19 @@ class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
 
     def list(self, request, format=None):
         choices = []
-        for choice in CheckoutActions:
+        for choice in utility_enums.CheckoutActions:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
+
+
+# migrated to db model
+# class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
+#     swagger_tags = ["choices"]
+#
+#     def list(self, request, format=None):
+#         choices = []
+#         for choice in EnvMeasurements:
+#             choices.append(choice.value)
+#         initial_data = {'choices': choices}
+#         return Response(initial_data, status=status.HTTP_200_OK)
