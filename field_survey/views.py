@@ -111,9 +111,6 @@ class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
     swagger_tags = ["field survey"]
 
 
-########################################
-# SERIALIZERS - NESTED VIEWS           #
-########################################
 class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = FieldSurveyEnvsNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers

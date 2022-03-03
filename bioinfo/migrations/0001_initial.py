@@ -108,6 +108,7 @@ class Migration(migrations.Migration):
                 ('number_reads', models.PositiveIntegerField(verbose_name='Number Reads')),
                 ('feature', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo.featureoutput')),
                 ('extraction', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, blank=True, null=True, to='wet_lab.extraction')),
+                ('read_slug', models.SlugField(max_length=255, verbose_name='Read Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

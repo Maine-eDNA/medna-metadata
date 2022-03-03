@@ -228,7 +228,7 @@ class WaterCollection(DateTimeUserMixin):
     was_filtered = models.CharField("Filtered", blank=True, max_length=50, choices=YesNo.choices)
 
     def __str__(self):
-        return self.field_collection.collection_global_id
+        return self.field_collection
 
     class Meta:
         app_label = 'field_survey'
@@ -253,7 +253,7 @@ class SedimentCollection(DateTimeUserMixin):
     subcores_taken = models.CharField("Sub-Cored", blank=True, max_length=50, choices=YesNo.choices)
 
     def __str__(self):
-        return self.field_collection.collection_global_id
+        return self.field_collection
 
     class Meta:
         app_label = 'field_survey'
@@ -274,7 +274,7 @@ class FieldSample(DateTimeUserMixin):
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Field Sample Editor", on_delete=models.SET(get_sentinel_user), related_name="field_sample_record_editor")
 
     def __str__(self):
-        return '{barcode}_{sid}'.format(barcode=self.barcode_slug, sid=self.sample_global_id)
+        return self.barcode_slug
 
     def save(self, *args, **kwargs):
         from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type

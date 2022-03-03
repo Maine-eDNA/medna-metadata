@@ -7,9 +7,9 @@ from utility.enumerations import YesNo, QualityChecks
 
 # Create your models here.
 class QualityMetadata(DateTimeUserMixin):
-    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
+    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
@@ -60,7 +60,7 @@ class DenoiseClusterMethod(DateTimeUserMixin):
         super(DenoiseClusterMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{package}, {name}'.format(package=self.denoise_cluster_method_software_package, name=self.denoise_cluster_method_name)
+        return self.denoise_cluster_method_slug
 
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
@@ -71,9 +71,9 @@ class DenoiseClusterMethod(DateTimeUserMixin):
 
 
 class DenoiseClusterMetadata(DateTimeUserMixin):
-    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
-    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     quality_metadata = models.ForeignKey(QualityMetadata, on_delete=models.RESTRICT)
+    process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
+    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
@@ -83,12 +83,12 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
     denoise_cluster_slug = models.SlugField("Metadata Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.denoise_cluster_slug = '{name}_{method}'.format(name=slugify(self.analysis_name),
-                                                             method=slugify(self.denoise_cluster_method.denoise_cluster_method_name))
+        analysis_date_fmt = slug_date_format(self.analysis_datetime)
+        self.denoise_cluster_slug = '{name}_{method}_{date}'.format(name=slugify(self.analysis_name), method=slugify(self.denoise_cluster_method), date=analysis_date_fmt)
         super(DenoiseClusterMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.analysis_name
+        return self.denoise_cluster_slug
 
     class Meta:
         app_label = 'bioinfo'
@@ -97,6 +97,7 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
 
 
 class FeatureOutput(DateTimeUserMixin):
+    # TODO - runid + ASV is not necssarily unique, e.g., ASV_0001 for each run vs UUID ASV_ID
     denoise_cluster_metadata = models.ForeignKey(DenoiseClusterMetadata, on_delete=models.RESTRICT)
     feature_id = models.TextField("Feature ID")
     feature_sequence = models.TextField("Feature Sequence")
@@ -104,15 +105,12 @@ class FeatureOutput(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.denoise_cluster_metadata.analysis_datetime)
-        truncated_feat_id = self.feature_id[0:24]
-        self.feature_slug = '{feature}_{date}'.format(feature=slugify(truncated_feat_id), date=slugify(analysis_date_fmt))
+        # truncated_feat_id = self.feature_id[0:24]
+        self.feature_slug = '{feature}_{date}'.format(feature=slugify(self.feature_id), date=analysis_date_fmt)
         super(FeatureOutput, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{id}: {date}, {method}'.format(
-            id=self.feature_id,
-            date=self.denoise_cluster_metadata.analysis_datetime,
-            method=self.denoise_cluster_metadata.denoise_cluster_slug)
+        return self.feature_slug
 
     class Meta:
         app_label = 'bioinfo'
@@ -124,11 +122,14 @@ class FeatureRead(DateTimeUserMixin):
     feature = models.ForeignKey(FeatureOutput, on_delete=models.RESTRICT)
     extraction = models.ForeignKey('wet_lab.Extraction', blank=True, null=True, on_delete=models.RESTRICT)
     number_reads = models.PositiveIntegerField("Number Reads")
+    read_slug = models.SlugField("Read Slug", max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.read_slug = '{id}_{num_reads}'.format(id=slugify(self.feature), num_reads=slugify(self.number_reads))
+        super(FeatureRead, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{id}: {num_reads}'.format(
-            id=self.feature.feature_id,
-            num_reads=self.number_reads)
+        return self.read_slug
 
     class Meta:
         app_label = 'bioinfo'
@@ -146,15 +147,11 @@ class ReferenceDatabase(DateTimeUserMixin):
     refdb_notes = models.TextField("Reference Database Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.refdb_slug = '{name}v{version}'.format(name=slugify(self.refdb_name),
-                                                    version=slugify(self.refdb_version))
+        self.refdb_slug = '{name}v{version}'.format(name=slugify(self.refdb_name), version=slugify(self.refdb_version))
         super(ReferenceDatabase, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{name} {version}, {coverage}%'.format(
-            name=self.refdb_name,
-            version=self.refdb_version,
-            coverage=self.redfb_coverage_score)
+        return self.refdb_slug
 
     class Meta:
         # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
@@ -429,8 +426,7 @@ class AnnotationMethod(DateTimeUserMixin):
         super(AnnotationMethod, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{package}, {name}'.format(package=self.annotation_method_software_package,
-                                          name=self.annotation_method_name)
+        return self.annotation_method_name_slug
 
     class Meta:
         unique_together = ['annotation_method_name', 'annotation_method_software_package']
@@ -458,9 +454,7 @@ class AnnotationMetadata(DateTimeUserMixin):
         super(AnnotationMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        analysis_date_fmt = slug_date_format(self.analysis_datetime)
-        return '{method} [{date}]'.format(method=self.analysis_name,
-                                          date=analysis_date_fmt)
+        return self.annotation_slug
 
     class Meta:
         app_label = 'bioinfo'
@@ -500,9 +494,7 @@ class TaxonomicAnnotation(DateTimeUserMixin):
         super(TaxonomicAnnotation, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{taxon} {feature}'.format(
-            taxon=self.ta_taxon,
-            feature=self.feature.feature_id)
+        return self.annotation_slug
 
     class Meta:
         app_label = 'bioinfo'
