@@ -59,8 +59,8 @@
         <ul class="pagination">
             {% if table.page.has_previous %}
                 {% block pagination.previous %}
-                    <li class="previous page-item disabled">
-                        <a class="page-link" href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}" tabindex="-1">
+                    <li class="previous page-item">
+                        <a class="page-link" href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}">
                             <span class="material-icons">
                               keyboard_arrow_left
                             </span>
