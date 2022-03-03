@@ -72,7 +72,7 @@
             {% if table.page.has_previous or table.page.has_next %}
             {% block pagination.range %}
                 {% for p in table.page|table_page_range:table.paginator %}
-                    <li class="page-item" {% if p == table.page.number %}class="active"{% endif %}>
+                {% if p == table.page.number %}<li class="page-item active"><span class="sr-only">{% translate 'current' %}</span>{% else %}<li class="page-item">{% endif %}
                         {% if p == '...' %}
                             <a class="page-item" href="#">{{ p }}</a>
                         {% else %}
