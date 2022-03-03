@@ -23,7 +23,6 @@ class FieldSurvey(DateTimeUserMixin):
     username = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Username", on_delete=models.SET(get_sentinel_user), related_name="username")
     # date
     survey_datetime = models.DateTimeField("Survey DateTime", blank=True, null=True)
-
     # prj_ids
     project_ids = models.ManyToManyField('utility.Project', verbose_name="Affiliated Project(s)", related_name="project_ids")
     supervisor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Supervisor", on_delete=models.SET(get_sentinel_user), related_name="supervisor")
@@ -85,6 +84,14 @@ class FieldSurvey(DateTimeUserMixin):
     @property
     def srid(self):
         return self.geom.srid
+
+    @property
+    def survey_year(self):
+        return self.survey_datetime.year
+
+    @property
+    def survey_month(self):
+        return self.survey_datetime.month
 
     def __str__(self):
         return self.survey_global_id

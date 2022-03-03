@@ -1,5 +1,7 @@
 # from django.shortcuts import render
-from django.db.models import Count
+from django.views.generic import ListView
+from django.db.models import Q, Count
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import generics
@@ -21,6 +23,20 @@ import field_survey.filters as fieldsurvey_filters
 
 
 # Create your views here.
+########################################
+# FRONTEND VIEWS                       #
+########################################
+class SampleLabelRequestListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """View sample label detail"""
+    model = FieldSurvey
+    template_name = 'home/django-material-dashboard/field-detail.html'
+    permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
+    # context_object_name = 'field'
+    page_title = "Field Survey"
+
+    def get_queryset(self):
+        return FieldSurvey.objects.annotate(year=Q('survey_datetime__year'), month=Q('survey_datetime__month')).values('year', 'month').annotate(Count('pk'))
+
 ########################################
 # SERIALIZERS - POST TRANSFORM VIEWS   #
 ########################################
