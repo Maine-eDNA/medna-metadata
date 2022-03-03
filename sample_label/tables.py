@@ -17,7 +17,8 @@ class SampleLabelRequestTable(tables.Table):
     # samplelabel.sample_material.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn(viewname="add_samplelabelrequestdetail",
                                   attrs={"td": {"class": "addlink"}},
-                                  text='Add', args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
+                                  text='Add',
+                                  args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y",
                                              attrs={"th": {"class": "text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 field-created_datetime"}})
@@ -35,6 +36,7 @@ class SampleLabelRequestTable(tables.Table):
         model = SampleLabelRequest
         fields = ("_selected_action", "max_sample_label_id", "min_sample_label_num", "sample_year",
                   "sample_material", "purpose", "created_datetime")
+        attrs = {"class": "table align-items-center mb-0"}
         # set table css class to "result_lust"
         # attrs = {"class": "result_list"}
         # this is NOT the template it writes to, this is the template it uses to load with
