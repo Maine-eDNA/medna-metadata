@@ -187,7 +187,7 @@ class FeatureReadAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('modified_datetime', 'created_datetime', 'read_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -200,7 +200,7 @@ class FeatureReadAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['feature', 'extraction', 'number_reads',
+        self.fields = ['read_slug', 'feature', 'extraction', 'number_reads',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FeatureReadAdmin, self).change_view(request, object_id)

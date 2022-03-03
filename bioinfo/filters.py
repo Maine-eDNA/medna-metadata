@@ -52,6 +52,7 @@ class FeatureOutputSerializerFilter(filters.FilterSet):
 
 class FeatureReadSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    read_slug = filters.CharFilter(field_name='read_slug', lookup_expr='iexact')
     extraction = filters.CharFilter(field_name='extraction__barcode_slug', lookup_expr='iexact')
     feature = filters.CharFilter(field_name='feature__feature_slug', lookup_expr='iexact')
 

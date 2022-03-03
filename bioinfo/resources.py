@@ -139,10 +139,10 @@ class FeatureOutputAdminResource(resources.ModelResource):
 class FeatureReadAdminResource(resources.ModelResource):
     class Meta:
         model = FeatureRead
-        import_id_fields = ('feature', )
-        fields = ('id', 'feature', 'extraction', 'number_reads',
+        import_id_fields = ('id', 'read_slug', )
+        fields = ('id', 'read_slug', 'feature', 'extraction', 'number_reads',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'feature', 'number_reads',
+        export_order = ('id', 'read_slug', 'feature', 'number_reads',
                         'created_by', 'created_datetime',)
 
     feature = fields.Field(

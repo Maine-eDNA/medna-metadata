@@ -128,29 +128,26 @@ class FeatureOutputSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    denoise_cluster_metadata = serializers.SlugRelatedField(many=False, read_only=False,
-                                                            slug_field='denoise_cluster_slug',
-                                                            queryset=DenoiseClusterMetadata.objects.all())
+    denoise_cluster_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all())
 
 
 class FeatureReadSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     number_reads = serializers.IntegerField(min_value=0)
+    read_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FeatureRead
-        fields = ['id', 'feature', 'extraction', 'number_reads',
+        fields = ['id', 'read_slug', 'feature', 'extraction', 'number_reads',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='barcode_slug',
-                                              queryset=Extraction.objects.all())
-    feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug',
-                                           queryset=FeatureOutput.objects.all())
+    extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='barcode_slug', queryset=Extraction.objects.all())
+    feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug', queryset=FeatureOutput.objects.all())
 
 
 class ReferenceDatabaseSerializer(serializers.ModelSerializer):
