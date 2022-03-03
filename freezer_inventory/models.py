@@ -113,8 +113,7 @@ class FreezerRack(DateTimeUserMixin):
     freezer_rack_depth_end = models.PositiveIntegerField("Freezer Rack Depth End")
 
     def save(self, *args, **kwargs):
-        self.freezer_rack_label_slug = '{label}_{name}'.format(label=self.freezer.freezer_label_slug,
-                                                               name=slugify(self.freezer_rack_label))
+        self.freezer_rack_label_slug = '{label}_{name}'.format(label=self.freezer.freezer_label_slug, name=slugify(self.freezer_rack_label))
         super(FreezerRack, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -154,8 +153,7 @@ class FreezerBox(DateTimeUserMixin):
     freezer_box_capacity_row = models.PositiveIntegerField("Box Row Capacity (Inventory)")
 
     def save(self, *args, **kwargs):
-        self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug,
-                                                              name=slugify(self.freezer_box_label))
+        self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug, name=slugify(self.freezer_box_label))
         super(FreezerBox, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -245,11 +243,6 @@ class FreezerInventoryLog(DateTimeUserMixin):
     freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)
     freezer_log_notes = models.TextField("Inventory Log Notes", blank=True)
 
-    def __str__(self):
-        return '{barcode}, ' \
-               '{log_action}'.format(barcode=self.freezer_inventory.freezer_inventory_slug,
-                                     log_action=self.get_freezer_log_action_display())
-
     def save(self, *args, **kwargs):
         update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_log_action)
 
@@ -263,6 +256,9 @@ class FreezerInventoryLog(DateTimeUserMixin):
                                                                              date=created_date_fmt)
         # all done, time to save changes to the db
         super(FreezerInventoryLog, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.freezer_log_slug
 
     class Meta:
         app_label = 'freezer_inventory'
@@ -279,13 +275,13 @@ class FreezerInventoryReturnMetadata(DateTimeUserMixin):
     freezer_return_vol_units = models.CharField("Volume Units", max_length=50, choices=VolUnits.choices, blank=True)
     freezer_return_notes = models.TextField("Return Notes", blank=True)
 
-    def __str__(self):
-        return self.freezer_log
-
     def save(self, *args, **kwargs):
         self.freezer_return_slug = '{slug}'.format(slug=self.freezer_log.freezer_log_slug)
         # all done, time to save changes to the db
         super(FreezerInventoryReturnMetadata, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.freezer_return_slug
 
     class Meta:
         app_label = 'freezer_inventory'
