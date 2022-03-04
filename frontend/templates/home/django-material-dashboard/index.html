@@ -85,6 +85,7 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
               <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                 <div class="chart">
+                  {{ survey_count|json_script:"survey-count-data" }}
                   <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
                 </div>
               </div>
@@ -494,7 +495,6 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
-{% include 'includes/django-material-dashboard/index-charts.html' %}
-
+<script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
+<script src="{% static 'assets/js/index-charts.js' %}"></script>
 {% endblock javascripts %}
