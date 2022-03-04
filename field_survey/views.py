@@ -48,16 +48,15 @@ def return_json(queryset):
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class ProjectSurveyMapListView(generics.ListAPIView):
+class ProjectSurveyMapTemplateView(TemplateView):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
 
-    filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = fieldsurvey_filters.GeoFieldSurveyMapFilter
-
-    def get_queryset(self):
-        pk = self.kwargs['pk']
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['project']
         return json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=pk).only('geom', 'survey_datetime', 'site_name')))
 
 
