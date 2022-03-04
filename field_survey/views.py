@@ -4,6 +4,7 @@ from django.db.models import Q, F, Count
 from django.db.models.functions import TruncMonth
 from django.shortcuts import render
 from django.core.serializers import serialize
+from django.core.serializers.json import DjangoJSONEncoder
 import json
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -28,16 +29,8 @@ import field_survey.filters as fieldsurvey_filters
 
 
 def return_json(queryset):
-    labels = []
-    data = []
-    for field in queryset:
-        labels.append(field.name)
-        data.append(field.count)
+    return json.dumps(list(queryset), cls=DjangoJSONEncoder)
 
-    return JsonResponse(data={
-        'labels': labels,
-        'data': data,
-    })
 
 # Create your views here.
 ########################################
