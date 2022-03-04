@@ -5,7 +5,7 @@ $(function () {
     //document.getElementById('survey_count').remove()
 
     //console.log(json_data)
-    console.log(survey_count)
+    //console.log(survey_count)
 
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {
@@ -87,17 +87,18 @@ $(function () {
     });
 
 
-  var $chartLine = $("#chart-line");
+  var chartSurveyCount = $("#chartSurveyCount");
   $.ajax({
-    url: $chartLine.survey_count("url"),
-    success: function (survey_count) {
+    url: chartSurveyCount.data("url"),
+    success: function (data) {
 
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
+    //var ctx2 = document.getElementById("chart-line").getContext("2d");
+    var ctx2 = $chartLine[0].getContext("2d");
 
     new Chart(ctx2, {
       type: "line",
       data: {
-        labels: survey_count.data.labels,
+        labels: data.labels,
         datasets: [{
           label: "Survey Count",
           tension: 0,
@@ -110,7 +111,7 @@ $(function () {
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: survey_count.data.data,
+          data: data.data,
           maxBarThickness: 6
 
         }],

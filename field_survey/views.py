@@ -47,6 +47,9 @@ def return_json(queryset):
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
+def survey_count_chart(request):
+    return return_json(FieldSurvey.objects.annotate(label=TruncMonth('survey_datetime')).values('label').annotate(data=Count('pk')))
+
 class FieldSurveyTemplateView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """View sample label detail"""
     template_name = 'home/django-material-dashboard/index.html'
