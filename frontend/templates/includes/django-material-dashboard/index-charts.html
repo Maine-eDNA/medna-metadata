@@ -1,10 +1,11 @@
 {% load static %}
 <script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
 <script>
-    var survey_count = JSON.parse(document.getElementById('survey_count').textContent);
+    var survey_count = JSON.parse({{ survey_count }});
     // the information in this tag is no longer being used, so remove the content from the page
     //document.getElementById('survey_count').remove()
 
+    console.log({{ survey_count }})
     console.log(survey_count)
 
     var ctx = document.getElementById("chart-bars").getContext("2d");
