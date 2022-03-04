@@ -187,26 +187,28 @@ $(function () {
     }
   });
 
-    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+  // Pie chart
+  var $chartSurveySystemCount = $("#chartSurveySystemCount");
+  $.ajax({
+    url: $chartSurveySystemCount.data("url"),
+    success: function (data) {
+
+    var ctx3 = $chartSurveySystemCount[0].getContext("2d");
 
     new Chart(ctx3, {
-      type: "line",
+      type: "pie",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: data.labels,
         datasets: [{
-          label: "Mobile apps",
-          tension: 0,
-          borderWidth: 0,
-          pointRadius: 5,
-          pointBackgroundColor: "rgba(255, 255, 255, .8)",
-          pointBorderColor: "transparent",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderWidth: 4,
-          backgroundColor: "transparent",
-          fill: true,
-          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-          maxBarThickness: 6
-
+          label: "Survey Count",
+          weight: 9,
+          cutout: 0,
+          tension: 0.9,
+          pointRadius: 2,
+          borderWidth: 2,
+          backgroundColor: ['#17c1e8', '#e3316e', '#3A416F', '#a8b8d8'],
+          data: data.data,
+          fill: false
         }],
       },
       options: {
@@ -225,23 +227,12 @@ $(function () {
           y: {
             grid: {
               drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
+              display: false,
+              drawOnChartArea: false,
               drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
             },
             ticks: {
-              display: true,
-              padding: 10,
-              color: '#f8f9fa',
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
+              display: false
             }
           },
           x: {
@@ -250,23 +241,16 @@ $(function () {
               display: false,
               drawOnChartArea: false,
               drawTicks: false,
-              borderDash: [5, 5]
             },
             ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
+              display: false,
             }
           },
         },
       },
     });
+
+    }
+  });
 
 });
