@@ -20,9 +20,14 @@ $(function () {
 
 // line chart
   var $chartSurveyCount = $("#chartSurveyCount");
+  var $surveyTotal = $("#surveyTotal");
   $.ajax({
     url: $chartSurveyCount.data("url"),
     success: function (data) {
+
+    var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+
+    $surveyTotal.val(surveySum);
 
     var ctx1 = $chartSurveyCount[0].getContext("2d");
 
