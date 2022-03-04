@@ -8,6 +8,7 @@ $(function () {
     //console.log(survey_count)
 
   function getRandomColor(count) {
+      // https://stackoverflow.com/questions/52098989/how-to-put-dynamic-colors-for-pie-chart-chart-js
       var letters = '0123456789ABCDEF'.split('');
       var color = '#';
       var colors = []
