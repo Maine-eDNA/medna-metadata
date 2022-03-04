@@ -5,15 +5,6 @@ var json_data = document.getElementById('survey-count-data').textContent;
 
 console.log(json_data)
 
-var labels = json_data.fields.map(function(e) {
-   return e.field;
-});
-console.log(labels)
-var data = json_data.fields.map(function(e) {
-   return e.count;
-});;
-console.log(data)
-
 var ctx = document.getElementById("chart-bars").getContext("2d");
 new Chart(ctx, {
   type: "bar",
@@ -93,88 +84,99 @@ new Chart(ctx, {
   },
 });
 
+$(function () {
 
-var ctx2 = document.getElementById("chart-line").getContext("2d");
+  var $chartLine = $("#chart-line");
+  $.ajax({
+    url: $chartLine.survey_count("url"),
+    success: function (survey_count) {
 
-new Chart(ctx2, {
-  type: "line",
-  data: {
-    labels: labels,
-    datasets: [{
-      label: "Survey Count",
-      tension: 0,
-      borderWidth: 0,
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(255, 255, 255, .8)",
-      pointBorderColor: "transparent",
-      borderColor: "rgba(255, 255, 255, .8)",
-      borderColor: "rgba(255, 255, 255, .8)",
-      borderWidth: 4,
-      backgroundColor: "transparent",
-      fill: true,
-      data: data,
-      maxBarThickness: 6
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
 
-    }],
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      }
-    },
-    interaction: {
-      intersect: false,
-      mode: 'index',
-    },
-    scales: {
-      y: {
-        grid: {
-          drawBorder: false,
-          display: true,
-          drawOnChartArea: true,
-          drawTicks: false,
-          borderDash: [5, 5],
-          color: 'rgba(255, 255, 255, .2)'
-        },
-        ticks: {
-          display: true,
-          color: '#f8f9fa',
-          padding: 10,
-          font: {
-            size: 14,
-            weight: 300,
-            family: "Roboto",
-            style: 'normal',
-            lineHeight: 2
-          },
-        }
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: survey_count.data.labels,
+        datasets: [{
+          label: "Survey Count",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: survey_count.data.data,
+          maxBarThickness: 6
+
+        }],
       },
-      x: {
-        grid: {
-          drawBorder: false,
-          display: false,
-          drawOnChartArea: false,
-          drawTicks: false,
-          borderDash: [5, 5]
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
         },
-        ticks: {
-          display: true,
-          color: '#f8f9fa',
-          padding: 10,
-          font: {
-            size: 14,
-            weight: 300,
-            family: "Roboto",
-            style: 'normal',
-            lineHeight: 2
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
           },
-        }
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
       },
-    },
-  },
+    });
+
+    }
+  });
+
 });
 
 var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");

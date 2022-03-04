@@ -29,8 +29,18 @@ import field_survey.filters as fieldsurvey_filters
 
 
 def return_json(queryset):
-    # https://stackoverflow.com/questions/7650448/how-to-serialize-django-queryset-values-into-json
-    return json.dumps(['fields', list(queryset)], cls=DjangoJSONEncoder)
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    labels = []
+    data = []
+
+    for field in queryset:
+        labels.append(field['label'])
+        data.append(field['data'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
 
 
 # Create your views here.
@@ -50,13 +60,13 @@ class FieldSurveyTemplateView(LoginRequiredMixin, PermissionRequiredMixin, Templ
         context["page_title"] = "Index"
         context["segment"] = "index"
         # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
-        context["survey_count"] = json.loads(return_json(FieldSurvey.objects.annotate(field=TruncMonth('survey_datetime')).values('field').annotate(count=Count('pk'))))
-        context["survey_site_count"] = json.loads(return_json(FieldSurvey.objects.annotate(field=F('site_id')).values('field').annotate(count=Count('pk'))))
+        context["survey_count"] = return_json(FieldSurvey.objects.annotate(label=TruncMonth('survey_datetime')).values('label').annotate(data=Count('pk')))
+        context["survey_site_count"] = return_json(FieldSurvey.objects.annotate(label=F('site_id')).values('label').annotate(data=Count('pk')))
         # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-        context["survey_system_count"] = json.loads(return_json(FieldSurvey.objects.annotate(field=F('site_id__system__system_label')).values('field').annotate(count=Count('pk'))))
-        context["filter_type_count"] = json.loads(return_json(FilterSample.objects.annotate(field=F('filter_type')).values('field').annotate(count=Count('pk'))))
-        context["filter_site_count"] = json.loads(return_json(FilterSample.objects.annotate(field=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('field').annotate(count=Count('pk'))))
-        context["filter_system_count"] = json.loads(return_json(FilterSample.objects.annotate(field=F('field_sample__field_sample_barcode__site_id__site_id')).values('field').annotate(count=Count('pk'))))
+        context["survey_system_count"] = return_json(FieldSurvey.objects.annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')))
+        context["filter_type_count"] = return_json(FilterSample.objects.annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')))
+        context["filter_site_count"] = return_json(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')))
+        context["filter_system_count"] = return_json(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')))
         return context
 
 
