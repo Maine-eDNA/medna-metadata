@@ -52,6 +52,7 @@ class ProjectSurveyMapTemplateView(TemplateView):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/project-detail.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
