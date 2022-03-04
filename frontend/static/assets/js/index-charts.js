@@ -27,6 +27,7 @@ $(function () {
 
     var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
 
+    console.log(surveySum)
     $surveyTotal.val(surveySum);
 
     var ctx1 = $chartSurveyCount[0].getContext("2d");
