@@ -7,6 +7,15 @@ $(function () {
     //console.log(json_data)
     //console.log(survey_count)
 
+  function getRandomColor() {
+      var letters = '0123456789ABCDEF'.split('');
+      var color = '#';
+      for (var i = 0; i < 6; i++ ) {
+          color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+  }
+
   var $chartSurveySiteCount = $("#chartSurveySiteCount");
   $.ajax({
     url: $chartSurveySiteCount.data("url"),
@@ -206,7 +215,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: ['#17c1e8', '#e3316e', '#3A416F', '#a8b8d8'],
+          backgroundColor: getRandomColor(),
           data: data.data,
           fill: false
         }],

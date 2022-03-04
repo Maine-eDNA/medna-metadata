@@ -59,7 +59,7 @@ def survey_count_chart(request):
 @login_required(login_url='dashboard_login')
 def survey_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-    return return_json(FieldSurvey.objects.annotate(label=F('site_id')).values('label').annotate(data=Count('pk')))
+    return return_json(FieldSurvey.objects.annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')))
 
 
 @login_required(login_url='dashboard_login')
