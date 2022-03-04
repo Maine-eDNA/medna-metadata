@@ -53,7 +53,7 @@ def project_survey_map(request, pk):
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
     # project = get_object_or_404(Project, pk=pk)
-    return json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=pk).only('geom', 'survey_datetime', 'site_name')))
+    return JsonResponse(data={json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=pk).only('geom', 'survey_datetime', 'site_name')))})
 
 
 @login_required(login_url='dashboard_login')
