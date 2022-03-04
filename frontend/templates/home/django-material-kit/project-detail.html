@@ -43,7 +43,7 @@
               <p class="pe-5">{{ project.project_description }}</p>
             {% endif %}
             <!-- {{ markers|json_script:"markers-data" }} -->
-            <div id="map" data-url="{% url 'map_projectsurvey' %}"></div>
+            <div id="map" data-url="{% url 'map_projectsurvey' pk %}"></div>
             <p id="map_empty" class="lead"></p>
           </div>
         <!-- -------- END Grids -------- -->

@@ -56,7 +56,7 @@ class ProjectSurveyMapTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs['project']
+        pk = self.kwargs['pk']
         return json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=pk).only('geom', 'survey_datetime', 'site_name')))
 
 
