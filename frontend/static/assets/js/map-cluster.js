@@ -10,7 +10,7 @@ $(function () {
         url: $map.data("url"),
         success: function (data) {
 
-        var markers = JSON.parse(data);
+        var markers = data;
         var geoJsonLayer = L.geoJSON(markers, {
             onEachFeature: function (feature, layer) {
                 layer.bindPopup(feature.properties.site_name);
