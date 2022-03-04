@@ -1,20 +1,20 @@
 # Register your models here.
 # from django.contrib import admin
+# from django.db.models import Exists, OuterRef
 from django.contrib.gis import admin
+# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+# from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
+from import_export.admin import ImportExportActionModelAdmin
 from .models import PrimerPair, IndexPair, AmplificationMethod, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
     RunResult, FastqFile
 # from field_survey.models import FieldSample
 # from utility.enumerations import YesNo
-# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-# from import_export.admin import ImportExportActionModelAdmin, ExportActionModelAdmin, ImportMixin, ExportActionMixin
-from import_export.admin import ImportExportActionModelAdmin
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
     SizeSelectionMethodAdminResource, QuantificationMethodAdminResource, ExtractionMethodAdminResource, \
     ExtractionAdminResource, PcrReplicateAdminResource, PcrAdminResource, LibraryPrepAdminResource, \
     PooledLibraryAdminResource, RunPrepAdminResource, RunResultAdminResource, \
     FastqFileAdminResource, AmplificationMethodAdminResource
-# from django.db.models import Exists, OuterRef
 
 
 class PrimerPairAdmin(ImportExportActionModelAdmin):
