@@ -40,7 +40,7 @@ $(function () {
               backgroundColor: 'transparent',
               data: data.data,
               maxBarThickness: 6
-            },
+            }],
         },
         options: {
           responsive: true,
