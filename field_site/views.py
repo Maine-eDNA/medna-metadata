@@ -8,8 +8,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 # import datetime
 import csv
-from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import generics, viewsets
 # from django_tables2.paginators import LazyPaginator
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_tables2.views import SingleTableMixin
