@@ -7,13 +7,17 @@ $(function () {
     //console.log(json_data)
     //console.log(survey_count)
 
-  function getRandomColor() {
+  function getRandomColor(count) {
       var letters = '0123456789ABCDEF'.split('');
       var color = '#';
-      for (var i = 0; i < 6; i++ ) {
-          color += letters[Math.floor(Math.random() * 16)];
+      var colors = []
+      for (var i = 0; j < count; i++){
+          for (var j = 0; j < 6; j++ ) {
+              color += letters[Math.floor(Math.random() * 16)];
+          }
+          colors.push(color)
       }
-      return color;
+      return colors;
   }
 
   var $chartSurveySiteCount = $("#chartSurveySiteCount");
@@ -215,7 +219,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: getRandomColor(),
+          backgroundColor: getRandomColor(data.labels.length),
           data: data.data,
           fill: false
         }],
