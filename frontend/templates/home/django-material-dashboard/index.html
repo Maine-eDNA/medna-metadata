@@ -14,16 +14,12 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">summarize</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Surveys</p>
                 <h4 id="surveyTotal" class="mb-0"></h4>
               </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than lask week</p>
             </div>
           </div>
         </div>
@@ -31,16 +27,12 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">person</i>
+                <i class="material-icons opacity-10">filter_alt</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                <h4 class="mb-0">2,300</h4>
+                <p class="text-sm mb-0 text-capitalize">Total Filters</p>
+                <h4 id="filterTotal" class="mb-0"></h4>
               </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than lask month</p>
             </div>
           </div>
         </div>
@@ -79,7 +71,7 @@
           </div>
         </div>
       </div>
-      <!-- START charts -->
+      <!-- START survey charts -->
       <div class="row mt-4">
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
           <div class="bg-gray-200 card z-index-2 ">
@@ -132,8 +124,61 @@
           </div>
         </div>
       </div>
-
-      <!-- END charts -->
+      <!-- END survey charts -->
+      <!-- START filter charts -->
+      <div class="row mt-4">
+        <div class="col-lg-6 col-md-6 mt-4 mb-4">
+          <div class="bg-gray-200 card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="shadow-dark border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chartFilterTypeCount" data-url="{% url 'chart_filtertypecount' %}" class="chart-canvas" height="250"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 "> Filter Types </h6>
+              <p class="text-sm "> Filters per type. </p>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 mt-4 mb-4">
+          <div class="bg-gray-200 card z-index-2  ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="shadow-dark border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chartFilterSystemCount" data-url="{% url 'chart_filtersystemcount' %}" class="chart-canvas" height="250"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">System Filters</h6>
+              <p class="text-sm ">Filters per system type.</p>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="bg-gray-200 card mb-3">
+          <div class="card-body p-3">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="shadow-dark border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chartFilterSiteCount" data-url="{%url 'chart_filtersitecount' %}" class="chart-canvas" height="250"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Site Filters</h6>
+              <p class="text-sm ">Filters per site.</p>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END filter charts -->
       <div class="row mb-4">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">
