@@ -22,14 +22,21 @@
         </li>
         {% if perms.field_site %}
           <!-- begin field site -->
-        <li class="nav-item mt-3">
-            <a data-toggle="collapse" href="#collapseFieldSite" role="button" aria-expanded="false" aria-controls="collapseFieldSite">
-              <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
-            </a>
-        </li>
+        <div class="accordion opacity-8" id="accordionFieldSite">
+          <div class="card">
+            <div class="card-header" id="headingFieldSite">
 
-        <div class="collapse" id="collapseFieldSite">
-          <div class="card card-body">
+                <li class="nav-item mt-3">
+                    <a data-toggle="collapse" href="#collapseFieldSite" role="button" aria-expanded="false" aria-controls="collapseFieldSite">
+                      <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
+                    </a>
+                </li>
+            </div>
+          </div>
+        </div>
+
+    <div id="collapseFieldSite" class="collapse show" aria-labelledby="headingFieldSite" data-parent="#accordionFieldSite">
+      <div class="card-body">
             {% if perms.field_site.view_fieldsite %}
             <li class="nav-item">
               <a class="nav-link text-white {% if 'view_fieldsite' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'view_fieldsite' %}">
@@ -52,6 +59,7 @@
             {% endif %}
           </div>
           </div>
+
 
         <!-- end field site -->
         {% endif %}
