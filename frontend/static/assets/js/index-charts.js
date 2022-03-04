@@ -1,5 +1,5 @@
 // https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-var json_data = JSON.parse(document.getElementById('survey-count-data').textContent);
+var json_data = document.getElementById('survey-count-data').textContent;
 // the information in this tag is no longer being used, so remove the content from the page
 //document.getElementById('survey_count').remove()
 
