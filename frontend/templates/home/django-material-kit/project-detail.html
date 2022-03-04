@@ -43,6 +43,12 @@
               <p class="pe-5">{{ project.project_description }}</p>
             {% endif %}
             <!-- {{ markers|json_script:"markers-data" }} -->
+            <div id="map_loading" class="d-flex justify-content-center">
+              <button class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Map Loading...
+              </button>
+            </div>
             <div id="map" data-url="{% url 'map_projectsurvey' pk %}"></div>
             <p id="map_empty" class="lead"></p>
           </div>
