@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
-from django.db.models import Q, F, Count
+from django.db.models import Q, F, Count, Func, Value, CharField
 from django.db.models.functions import TruncMonth
 from django.shortcuts import render
 from django.core.serializers import serialize
@@ -48,7 +48,9 @@ def return_json(queryset):
 # FRONTEND VIEWS                       #
 ########################################
 def survey_count_chart(request):
-    return return_json(FieldSurvey.objects.annotate(label=TruncMonth('survey_datetime')).values('label').annotate(data=Count('pk')))
+    # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
+    return return_json(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').annotate(data=Count('pk')).annotate(label=Func(F('survey_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+
 
 class FieldSurveyTemplateView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """View sample label detail"""

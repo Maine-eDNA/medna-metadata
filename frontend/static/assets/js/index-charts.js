@@ -87,7 +87,7 @@ $(function () {
     });
 
 
-  var chartSurveyCount = $("#chartSurveyCount");
+  var $chartSurveyCount = $("#chartSurveyCount");
   $.ajax({
     url: $chartSurveyCount.data("url"),
     success: function (data) {
