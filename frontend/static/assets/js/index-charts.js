@@ -5,11 +5,11 @@ var json_data = document.getElementById('survey-count-data').textContent;
 
 console.log(json_data)
 
-var labels = json_data.map(function(e) {
+var labels = json_data.fields.map(function(e) {
    return e.field;
 });
 console.log(labels)
-var data = json_data.map(function(e) {
+var data = json_data.fields.map(function(e) {
    return e.count;
 });;
 console.log(data)
@@ -99,9 +99,9 @@ var ctx2 = document.getElementById("chart-line").getContext("2d");
 new Chart(ctx2, {
   type: "line",
   data: {
-    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: labels,
     datasets: [{
-      label: "Mobile apps",
+      label: "Survey Count",
       tension: 0,
       borderWidth: 0,
       pointRadius: 5,
@@ -112,7 +112,7 @@ new Chart(ctx2, {
       borderWidth: 4,
       backgroundColor: "transparent",
       fill: true,
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+      data: data,
       maxBarThickness: 6
 
     }],

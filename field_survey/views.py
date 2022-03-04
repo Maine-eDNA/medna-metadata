@@ -30,7 +30,7 @@ import field_survey.filters as fieldsurvey_filters
 
 def return_json(queryset):
     # https://stackoverflow.com/questions/7650448/how-to-serialize-django-queryset-values-into-json
-    return json.dumps(list(queryset), cls=DjangoJSONEncoder)
+    return json.dumps(['fields', list(queryset)], cls=DjangoJSONEncoder)
 
 
 # Create your views here.
