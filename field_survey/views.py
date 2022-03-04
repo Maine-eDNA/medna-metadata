@@ -1,6 +1,11 @@
 # from django.shortcuts import render
 from django.views.generic import ListView
-from django.db.models import Q, Count
+from django.db.models import Q, F, Count
+from django.db.models.functions import TruncMonth
+from django.shortcuts import render
+from django.core.serializers import serialize
+import json
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -26,16 +31,46 @@ import field_survey.filters as fieldsurvey_filters
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class SampleLabelRequestListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+def population_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    labels = []
+    data = []
+
+    queryset = FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').annotate(count=Count('pk')).order_by('survey_date')
+    for count in queryset:
+        labels.append(count.name)
+        data.append(count.count)
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+
+
+class FieldSurveyListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """View sample label detail"""
     model = FieldSurvey
-    template_name = 'home/django-material-dashboard/field-detail.html'
-    permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
+    template_name = 'home/django-material-dashboard/index.html'
+    permission_required = ('field_survey.view_fieldsurvey', )
     # context_object_name = 'field'
-    page_title = "Field Survey"
+    page_title = "Index"
 
-    def get_queryset(self):
-        return FieldSurvey.objects.annotate(year=Q('survey_datetime__year'), month=Q('survey_datetime__month')).values('year', 'month').annotate(Count('pk'))
+    def get_context_data(self, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = self.page_title
+        context["segment"] = "index"
+        # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
+        context["survey_count"] = json.loads(serialize("json", FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').annotate(count=Count('pk'))))
+        context["survey_site_count"] = json.loads(serialize("json", FieldSurvey.objects.values('site_id').annotate(count=Count('pk'))))
+        # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
+        context["survey_system_count"] = json.loads(serialize("json", FieldSurvey.objects.annotate(system=F('site_id__system__system_label')).values('system').annotate(count=Count('pk'))))
+        context["filter_type_count"] = json.loads(serialize("json", FilterSample.objects.annotate(filter=F('filter_type')).values('filter').annotate(count=Count('pk'))))
+        context["filter_site_count"] = json.loads(serialize("json", FilterSample.objects.annotate(filter=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('filter').annotate(count=Count('pk'))))
+        context["filter_system_count"] = json.loads(serialize("json", FilterSample.objects.annotate(filter=F('field_sample__field_sample_barcode__site_id__site_id')).values('filter').annotate(count=Count('pk'))))
+        return context
+
 
 ########################################
 # SERIALIZERS - POST TRANSFORM VIEWS   #

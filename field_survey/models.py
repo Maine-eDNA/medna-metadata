@@ -85,14 +85,6 @@ class FieldSurvey(DateTimeUserMixin):
     def srid(self):
         return self.geom.srid
 
-    @property
-    def survey_year(self):
-        return self.survey_datetime.year
-
-    @property
-    def survey_month(self):
-        return self.survey_datetime.month
-
     def __str__(self):
         return self.survey_global_id
 
