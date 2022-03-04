@@ -6,6 +6,14 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollectionETL, SampleFilterETL
 
 
+class GeoFieldSurveyMapFilter(filters.FilterSet):
+    pk = filters.CharFilter(field_name='project_ids', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['project_ids', ]
+
+
 ########################################
 # SERIALIZERS - POST TRANSFORM FILTERS #
 ########################################
