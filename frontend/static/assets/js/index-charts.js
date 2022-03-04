@@ -116,7 +116,7 @@ $(function () {
 	data: {
 	  labels: data.labels,
 	  datasets: [{
-		label: "Sales by age",
+		label: "Surveys by Site",
 		weight: 5,
 		borderWidth: 0,
 		borderRadius: 4,
