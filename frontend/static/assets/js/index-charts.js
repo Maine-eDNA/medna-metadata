@@ -93,7 +93,7 @@ $(function () {
     success: function (data) {
 
     //var ctx2 = document.getElementById("chart-line").getContext("2d");
-    var ctx2 = $chartLine[0].getContext("2d");
+    var ctx2 = $chartSurveyCount[0].getContext("2d");
 
     new Chart(ctx2, {
       type: "line",
