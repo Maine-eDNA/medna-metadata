@@ -21,31 +21,42 @@
           </a>
         </li>
         {% if perms.field_site %}
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
-        </li>
-        {% if perms.field_site.view_fieldsite %}
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'view_fieldsite' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url 'view_fieldsite' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
+          <!-- begin field site -->
+          <li class="nav-item mt-3 accordion" id="accordionFieldSite">
+            <div class="card">
+              <div class="card-header" id="headingFieldSite">
+                <a data-toggle="collapse" href="#collapseFieldSite" role="button" aria-expanded="false" aria-controls="collapseFieldSite">
+                  <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
+                </a>
+              </div>
             </div>
-            <span class="nav-link-text ms-1">View</span>
-          </a>
-        </li>
-        {% endif %}
-        {% if perms.field_site.add_fieldsite %}
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'add_fieldsite' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url 'add_fieldsite' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">add_box</i>
-            </div>
-            <span class="nav-link-text ms-1">Add</span>
-          </a>
-        </li>
-        {% endif %}
+          </li>
+
+        <div id="collapseFieldSite" class="collapse show" aria-labelledby="headingFieldSite" data-parent="#accordionFieldSite">
+          <div class="card-body">
+            {% if perms.field_site.view_fieldsite %}
+            <li class="nav-item">
+              <a class="nav-link text-white {% if 'view_fieldsite' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'view_fieldsite' %}">
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">table_view</i>
+                </div>
+                <span class="nav-link-text ms-1">View</span>
+              </a>
+            </li>
+            {% endif %}
+            {% if perms.field_site.add_fieldsite %}
+            <li class="nav-item">
+              <a class="nav-link text-white {% if 'add_fieldsite' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'add_fieldsite' %}">
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">add_box</i>
+                </div>
+                <span class="nav-link-text ms-1">Add</span>
+              </a>
+            </li>
+            {% endif %}
+          </div>
+        </div>
+        <!-- end field site -->
         {% endif %}
         {% if perms.sample_label %}
         <li class="nav-item mt-3">
