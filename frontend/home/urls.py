@@ -35,7 +35,7 @@ urlpatterns = [
     path('dashboard/fieldsite/add/', samplelabel_views.SampleLabelRequestFilterView.as_view(), name='add_fieldsite'),
     path('dashboard/fieldsite/view/', samplelabel_views.SampleLabelRequestFilterView.as_view(filterset_class=samplelabel_filters.SampleLabelRequestFilter), name='view_fieldsite'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
-    path('main/map/project_survey/<int:pk>/', fieldsurvey_views.ProjectSurveyMapListView, name='map_projectsurvey'),
+    path('main/map/project_survey/<int:pk>/', fieldsurvey_views.ProjectSurveyMapListView.as_view(), name='map_projectsurvey'),
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='projects'),
     path('main/publications/', utility_views.PublicationsTemplateView.as_view(), name='publications'),
     path('main/about-us/', utility_views.AboutUsTemplateView.as_view(), name='about_us'),
