@@ -7,19 +7,25 @@ $(function () {
     //console.log(json_data)
     //console.log(survey_count)
 
-    var ctx = document.getElementById("chart-bars").getContext("2d");
+  var $chartSurveySiteCount = $("#chartSurveySiteCount");
+  $.ajax({
+    url: $chartSurveySiteCount.data("url"),
+    success: function (data) {
+
+    var ctx = $chartSurveySiteCount[0].getContext("2d");
+
     new Chart(ctx, {
       type: "bar",
       data: {
-        labels: ["M", "T", "W", "T", "F", "S", "S"],
+        labels: data.labels,
         datasets: [{
-          label: "Sales",
+          label: "Survey Count",
           tension: 0.4,
           borderWidth: 0,
           borderRadius: 4,
           borderSkipped: false,
           backgroundColor: "rgba(255, 255, 255, .8)",
-          data: [50, 20, 10, 22, 50, 10, 40],
+          data: data.data,
           maxBarThickness: 6
         }, ],
       },
@@ -86,12 +92,14 @@ $(function () {
       },
     });
 
+    }
+  });
 
   var $chartSurveyCount = $("#chartSurveyCount");
   $.ajax({
     url: $chartSurveyCount.data("url"),
     success: function (data) {
-    console.log(data);
+    //console.log(data);
     //var ctx2 = document.getElementById("chart-line").getContext("2d");
     var ctx2 = $chartSurveyCount[0].getContext("2d");
 
