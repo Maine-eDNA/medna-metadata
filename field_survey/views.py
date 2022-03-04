@@ -48,17 +48,12 @@ def return_json(queryset):
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class ProjectSurveyMapTemplateView(TemplateView):
+def project_survey_map(request, pk):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/project-detail.html'
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        pk = self.kwargs['pk']
-        return json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=pk).only('geom', 'survey_datetime', 'site_name')))
+    # project = get_object_or_404(Project, pk=pk)
+    return json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=pk).only('geom', 'survey_datetime', 'site_name')))
 
 
 @login_required(login_url='dashboard_login')
