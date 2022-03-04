@@ -35,6 +35,13 @@ class AboutUsTemplateView(TemplateView):
     # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/about-us.html'
 
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "aboutus"
+        context["page_title"] = "About Us"
+        return context
+
 
 class ProjectsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
@@ -45,6 +52,8 @@ class ProjectsTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "projects"
+        context["page_title"] = "Projects"
         context["project_list"] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
         return context
 
@@ -58,6 +67,8 @@ class PublicationsTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "publications"
+        context["page_title"] = "Publications"
         context["pub_list"] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
         return context
 
@@ -71,60 +82,73 @@ class ProjectSurveyTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["page_title"] = "Project Surveys"
+        context["segment"] = "projectsurvey"
         self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
+        # context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
         context["project"] = self.project
         return context
 
 
 class MetadataStandardsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
-    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
-    # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/metadata-standards.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Metadata Standards"
+        context["segment"] = "metadatastandards"
 
 
 class ContactUsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
-    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
-    # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/contact-us-list.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["page_title"] = "Contact Us"
+        context["segment"] = "contactus"
         context["contact_list"] = ContactUs.objects.prefetch_related('created_by').order_by('-pk')
         return context
 
 
 class ContactUsCreateView(CreateView):
     # public template, to make private add LoginRequiredMixin
-    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
-    # https://leafletjs.com/examples/geojson/
     model = ContactUs
     form_class = ContactUsForm
     template_name = 'home/django-material-kit/contact-us.html'
     # success_url = reverse_lazy('contact_us_received') # placed in urls.py
 
-    # def form_valid(self, form):
-    #     # This method is called when valid form data has been POSTed.
-    #     # It should return an HttpResponse.
-    #     # form.send_email()
-    #     return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Contact Us"
+        context["segment"] = "contactus"
+        return context
 
     def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+         # It should return an HttpResponse.
         if self.request.user.is_authenticated:
             # if logged in, add current user to created_by
             self.object = form.save(commit=False)
             self.object.created_by = self.request.user
+            # form.send_email()
         return super().form_valid(form)
 
 
 class ContactUsReceivedTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
-    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
-    # https://leafletjs.com/examples/geojson/
     template_name = 'home/django-material-kit/contact-us-received.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Contact Us"
+        context["segment"] = "contactus"
+        return context
 
 
 ########################################

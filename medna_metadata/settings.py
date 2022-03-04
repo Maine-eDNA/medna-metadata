@@ -550,7 +550,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 ########################################
 # https://django-tables2.readthedocs.io/en/latest/
 # Django-tables2 default formatting settings for tables
-DJANGO_TABLES2_TEMPLATE = 'django_tables2/semantic.html'
+DJANGO_TABLES2_TEMPLATE = 'django_tables2/table.html'
 DJANGO_TABLES2_PAGE_RANGE = 5
 
 ########################################

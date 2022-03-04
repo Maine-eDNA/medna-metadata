@@ -10,6 +10,7 @@ import utility.views as utility_views
 import users.views as user_views
 import sample_label.views as samplelabel_views
 import sample_label.filters as samplelabel_filters
+import field_survey.views as fieldsurvey_views
 # permissions
 # https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
 
@@ -18,6 +19,12 @@ urlpatterns = [
     # The home page
     path('', views.IndexTemplateView.as_view(), name='home'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
+    path('dashboard/chart/survey_count/', fieldsurvey_views.survey_count_chart, name='chart_surveycount'),
+    path('dashboard/chart/survey_system_count/', fieldsurvey_views.survey_system_count_chart, name='chart_surveysystemcount'),
+    path('dashboard/chart/survey_site_count/', fieldsurvey_views.survey_site_count_chart, name='chart_surveysitecount'),
+    path('dashboard/chart/filter_type_count/', fieldsurvey_views.filter_type_count_chart, name='chart_filtertypecount'),
+    path('dashboard/chart/filter_system_count/', fieldsurvey_views.filter_system_count_chart, name='chart_filtersystemcount'),
+    path('dashboard/chart/filter_site_count/', fieldsurvey_views.filter_site_count_chart, name='chart_filtersitecount'),
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='dashboard_profile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('dashboard_profile')), name='update_dashboardprofile'),
     path('dashboard/samplelabel/detail/<int:pk>/', samplelabel_views.SampleLabelRequestDetailView.as_view(), name='detail_samplelabelrequest'),
@@ -28,6 +35,7 @@ urlpatterns = [
     path('dashboard/fieldsite/add/', samplelabel_views.SampleLabelRequestFilterView.as_view(), name='add_fieldsite'),
     path('dashboard/fieldsite/view/', samplelabel_views.SampleLabelRequestFilterView.as_view(filterset_class=samplelabel_filters.SampleLabelRequestFilter), name='view_fieldsite'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
+    path('main/map/project_survey/<int:pk>/', fieldsurvey_views.project_survey_map, name='map_projectsurvey'),
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='projects'),
     path('main/publications/', utility_views.PublicationsTemplateView.as_view(), name='publications'),
     path('main/about-us/', utility_views.AboutUsTemplateView.as_view(), name='about_us'),

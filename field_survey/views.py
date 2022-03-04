@@ -1,5 +1,14 @@
 # from django.shortcuts import render
-from django.db.models import Count
+from django.views.generic import ListView, TemplateView
+from django.db.models import Q, F, Count, Func, Value, CharField
+from django.db.models.functions import TruncMonth
+from django.shortcuts import render
+from django.core.serializers import serialize
+from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth.decorators import login_required
+import json
+from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import generics
@@ -20,7 +29,77 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
 import field_survey.filters as fieldsurvey_filters
 
 
+def return_json(queryset):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    labels = []
+    data = []
+
+    for field in queryset:
+        labels.append(field['label'])
+        data.append(field['data'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+
+
 # Create your views here.
+########################################
+# FRONTEND VIEWS                       #
+########################################
+def project_survey_map(request, pk):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    # project = get_object_or_404(Project, pk=pk)
+    qs = FieldSurvey.objects.only('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids').prefetch_related('project_ids').filter(project_ids=pk)
+    qs_json = serialize("geojson", qs, fields=('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids'))
+    return JsonResponse(json.loads(qs_json))
+
+
+@login_required(login_url='dashboard_login')
+def survey_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
+    # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
+    return return_json(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').order_by('survey_date').annotate(data=Count('pk')).annotate(label=Func(F('survey_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+
+
+@login_required(login_url='dashboard_login')
+def survey_system_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
+    return return_json(FieldSurvey.objects.annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+
+
+@login_required(login_url='dashboard_login')
+def survey_site_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    return return_json(FieldSurvey.objects.annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+
+
+@login_required(login_url='dashboard_login')
+def filter_type_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
+    return return_json(FilterSample.objects.annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
+
+
+@login_required(login_url='dashboard_login')
+def filter_system_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
+    return return_json(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+
+
+@login_required(login_url='dashboard_login')
+def filter_site_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
+    return return_json(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+
+
 ########################################
 # SERIALIZERS - POST TRANSFORM VIEWS   #
 ########################################

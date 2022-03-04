@@ -1,6 +1,6 @@
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -45,6 +45,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "view_samplelabelrequest"
         context["page_title"] = self.page_title
         context["export_formats"] = self.export_formats
         return context
@@ -55,7 +56,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
         return redirect('main/field-perms-required.html')
 
 
-class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """View sample label detail"""
     model = SampleLabelRequest
     template_name = 'home/django-material-dashboard/field-detail.html'
@@ -66,6 +67,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_samplelabelrequest"
         context["page_title"] = self.page_title
         return context
 
@@ -73,6 +75,9 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/field-perms-required.html')
+
+    def get_queryset(self):
+        return SampleLabelRequest.objects.filter(pk=self.kwargs['pk'])
 
 
 class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -144,6 +149,7 @@ class AddSampleLabelRequestView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "add_samplelabelrequest"
         context["page_title"] = self.page_title
         return context
 
