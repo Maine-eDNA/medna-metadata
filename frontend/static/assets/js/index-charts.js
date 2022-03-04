@@ -11,11 +11,8 @@ $(function () {
       var letters = '0123456789ABCDEF'.split('');
       var color = '#';
       var colors = []
-      for (var i = 0; j < count; i++){
-          for (var j = 0; j < 6; j++ ) {
-              color += letters[Math.floor(Math.random() * 16)];
-          }
-          colors.push(color)
+      for (var i = 0; i < count; i++){
+          colors.push('#'+Math.floor(Math.random()*16777215).toString(16));
       }
       return colors;
   }
