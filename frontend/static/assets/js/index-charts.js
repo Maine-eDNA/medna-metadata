@@ -89,9 +89,9 @@ $(function () {
 
   var chartSurveyCount = $("#chartSurveyCount");
   $.ajax({
-    url: chartSurveyCount.data("url"),
+    url: $chartSurveyCount.data("url"),
     success: function (data) {
-
+    console.log(data);
     //var ctx2 = document.getElementById("chart-line").getContext("2d");
     var ctx2 = $chartSurveyCount[0].getContext("2d");
 
