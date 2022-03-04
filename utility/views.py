@@ -71,6 +71,7 @@ class ProjectSurveyTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["page_title"] = "Index"
         self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
         context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
         context["project"] = self.project

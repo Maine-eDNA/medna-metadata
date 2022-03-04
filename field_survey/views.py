@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.db.models import Q, F, Count
 from django.db.models.functions import TruncMonth
 from django.shortcuts import render
@@ -37,19 +37,17 @@ def return_json(queryset):
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class FieldSurveyListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class FieldSurveyTemplateView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """View sample label detail"""
-    model = FieldSurvey
     template_name = 'home/django-material-dashboard/index.html'
     permission_required = ('field_survey.view_fieldsurvey', )
     # context_object_name = 'field'
-    page_title = "Index"
 
     def get_context_data(self, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["page_title"] = self.page_title
+        context["page_title"] = "Index"
         context["segment"] = "index"
         # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
         context["survey_count"] = json.loads(return_json(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').annotate(count=Count('pk'))))

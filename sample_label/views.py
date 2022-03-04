@@ -45,6 +45,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "view_samplelabelrequest"
         context["page_title"] = self.page_title
         context["export_formats"] = self.export_formats
         return context
@@ -66,6 +67,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_samplelabelrequest"
         context["page_title"] = self.page_title
         return context
 
@@ -147,6 +149,7 @@ class AddSampleLabelRequestView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
+        context["segment"] = "add_samplelabelrequest"
         context["page_title"] = self.page_title
         return context
 
