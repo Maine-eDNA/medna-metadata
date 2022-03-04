@@ -5,11 +5,11 @@ var json_data = JSON.parse(document.getElementById('survey-count-data').textCont
 
 console.log(json_data)
 
-var labels = json_data.jsonarray.map(function(e) {
+var labels = json_data.map(function(e) {
    return e.field;
 });
 console.log(labels)
-var data = json_data.jsonarray.map(function(e) {
+var data = json_data.map(function(e) {
    return e.count;
 });;
 console.log(data)
