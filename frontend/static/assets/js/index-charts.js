@@ -1,9 +1,18 @@
 // https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-var survey_count = JSON.parse(document.getElementById('survey-count-data').textContent);
+var json_data = JSON.parse(document.getElementById('survey-count-data').textContent);
 // the information in this tag is no longer being used, so remove the content from the page
 //document.getElementById('survey_count').remove()
 
-console.log(survey_count)
+console.log(json_data)
+
+var labels = json_data.jsonarray.map(function(e) {
+   return e.field;
+});
+console.log(labels)
+var data = json_data.jsonarray.map(function(e) {
+   return e.count;
+});;
+console.log(data)
 
 var ctx = document.getElementById("chart-bars").getContext("2d");
 new Chart(ctx, {
