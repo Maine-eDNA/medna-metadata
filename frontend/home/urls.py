@@ -11,6 +11,7 @@ import users.views as user_views
 import sample_label.views as samplelabel_views
 import sample_label.filters as samplelabel_filters
 import field_survey.views as fieldsurvey_views
+import wet_lab.views as wetlab_views
 # permissions
 # https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
 
@@ -19,12 +20,14 @@ urlpatterns = [
     # The home page
     path('', views.IndexTemplateView.as_view(), name='home'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
-    path('dashboard/chart/survey_count/', fieldsurvey_views.survey_count_chart, name='chart_surveycount'),
-    path('dashboard/chart/survey_system_count/', fieldsurvey_views.survey_system_count_chart, name='chart_surveysystemcount'),
-    path('dashboard/chart/survey_site_count/', fieldsurvey_views.survey_site_count_chart, name='chart_surveysitecount'),
-    path('dashboard/chart/filter_type_count/', fieldsurvey_views.filter_type_count_chart, name='chart_filtertypecount'),
-    path('dashboard/chart/filter_system_count/', fieldsurvey_views.filter_system_count_chart, name='chart_filtersystemcount'),
-    path('dashboard/chart/filter_site_count/', fieldsurvey_views.filter_site_count_chart, name='chart_filtersitecount'),
+    path('dashboard/chart/survey/count/', fieldsurvey_views.survey_count_chart, name='chart_surveycount'),
+    path('dashboard/chart/survey/system_count/', fieldsurvey_views.survey_system_count_chart, name='chart_surveysystemcount'),
+    path('dashboard/chart/survey/site_count/', fieldsurvey_views.survey_site_count_chart, name='chart_surveysitecount'),
+    path('dashboard/chart/fieldsample/count/', fieldsurvey_views.field_sample_count_chart, name='chart_fieldsamplecount'),
+    path('dashboard/chart/filter/type_count/', fieldsurvey_views.filter_type_count_chart, name='chart_filtertypecount'),
+    path('dashboard/chart/filter/system_count/', fieldsurvey_views.filter_system_count_chart, name='chart_filtersystemcount'),
+    path('dashboard/chart/filter/site_count/', fieldsurvey_views.filter_site_count_chart, name='chart_filtersitecount'),
+    path('dashboard/chart/extraction/count/', wetlab_views.extraction_count_chart, name='chart_extractioncount'),
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='detail_dashboardprofile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('detail_dashboardprofile')), name='update_dashboardprofile'),
     path('dashboard/samplelabel/detail/<int:pk>/', samplelabel_views.SampleLabelRequestDetailView.as_view(), name='detail_samplelabelrequest'),

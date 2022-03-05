@@ -7,19 +7,8 @@ $(function () {
     //console.log(json_data)
     //console.log(survey_count)
 
-  function getRandomColor(count) {
-      // https://stackoverflow.com/questions/52098989/how-to-put-dynamic-colors-for-pie-chart-chart-js
-      var letters = '0123456789ABCDEF'.split('');
-      var color = '#';
-      var colors = []
-      for (var i = 0; i < count; i++){
-          colors.push('#'+Math.floor(Math.random()*16777215).toString(16));
-      }
-      return colors;
-  }
-
-// SURVEY CHARTS
-// line chart
+  // SURVEY CHARTS
+  // line chart
   var $chartSurveyCount = $("#chartSurveyCount");
   var $surveyTotal = $("#surveyTotal");
   $.ajax({
@@ -110,7 +99,7 @@ $(function () {
     }
   });
 
-// bar chart
+  // bar chart
   var $chartSurveySiteCount = $("#chartSurveySiteCount");
   $.ajax({
     url: $chartSurveySiteCount.data("url"),
@@ -195,7 +184,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: getRandomColor(data.labels.length),
+          backgroundColor: palette('qualitative', data.labels.length),
           data: data.data,
           fill: false
         }],
@@ -242,19 +231,125 @@ $(function () {
     }
   });
 
-// FILTER CHARTS
+  // Field Sample CHARTS
+  // line chart
+  var $chartFieldSampleCount = $("#chartFieldSampleCount");
+  var $fieldSampleTotal = $("#fieldSampleTotal");
+  $.ajax({
+    url: $chartFieldSampleCount.data("url"),
+    success: function (data) {
+
+    var fieldSampleSum = data.fieldsample_data.reduce((partialSum, a) => partialSum + a, 0);
+    var filterSum = data.filter_data.reduce((partialSum, a) => partialSum + a, 0);
+    var subCoreSum = data.subcore_data.reduce((partialSum, a) => partialSum + a, 0);
+
+    //console.log(surveySum);
+    $fieldSampleTotal.text(fieldSampleSum);
+    $filterTotal.text(filterSum);
+    $subCoreTotal.text(subCoreSum);
+
+    var ctx4 = $chartFieldSampleCount[0].getContext("2d");
+
+      new Chart(ctx4, {
+        type: "line",
+        data: {
+          labels: data.count_labels,
+          datasets: [{
+              label: "Filter Count",
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 2,
+              pointBackgroundColor: "#e3316e",
+              borderColor: "#e3316e",
+              borderWidth: 3,
+              backgroundColor: 'transparent',
+              data: data.filter_data,
+              maxBarThickness: 6
+            },
+            {
+              label: "SubCore Count",
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 2,
+              pointBackgroundColor: "#3A416F",
+              borderColor: "#3A416F",
+              borderWidth: 3,
+              backgroundColor: 'transparent',
+              data: data.subcore_data,
+              maxBarThickness: 6
+            },
+
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false,
+            }
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index',
+          },
+          scales: {
+            y: {
+              grid: {
+                drawBorder: false,
+                display: true,
+                drawOnChartArea: true,
+                drawTicks: false,
+                borderDash: [5, 5]
+              },
+              ticks: {
+                display: true,
+                padding: 10,
+                color: '#b2b9bf',
+                font: {
+                  size: 11,
+                  family: "Open Sans",
+                  style: 'normal',
+                  lineHeight: 2
+                },
+              }
+            },
+            x: {
+              grid: {
+                drawBorder: false,
+                display: true,
+                drawOnChartArea: true,
+                drawTicks: true,
+                borderDash: [5, 5]
+              },
+              ticks: {
+                display: true,
+                color: '#b2b9bf',
+                padding: 10,
+                font: {
+                  size: 11,
+                  family: "Open Sans",
+                  style: 'normal',
+                  lineHeight: 2
+                },
+              }
+            },
+          },
+        },
+      });
+
+    }
+  });
+
   // Pie chart
   var $chartFilterTypeCount = $("#chartFilterTypeCount");
-  var $filterTotal = $("#filterTotal");
   $.ajax({
     url: $chartFilterTypeCount.data("url"),
     success: function (data) {
 
-    var ctx4 = $chartFilterTypeCount[0].getContext("2d");
-    var filterSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
-    $filterTotal.text(filterSum);
+    var ctx5 = $chartFilterTypeCount[0].getContext("2d");
 
-    new Chart(ctx4, {
+    new Chart(ctx5, {
       type: "pie",
       data: {
         labels: data.labels,
@@ -265,7 +360,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: getRandomColor(data.labels.length),
+          backgroundColor: palette('qualitative', data.labels.length),
           data: data.data,
           fill: false
         }],
@@ -312,15 +407,15 @@ $(function () {
     }
   });
 
-// bar chart
+  // bar chart
   var $chartFilterSiteCount = $("#chartFilterSiteCount");
   $.ajax({
     url: $chartFilterSiteCount.data("url"),
     success: function (data) {
 
-    var ctx5 = $chartFilterSiteCount[0].getContext("2d");
+    var ctx6 = $chartFilterSiteCount[0].getContext("2d");
 
-    new Chart(ctx5, {
+    new Chart(ctx6, {
 	type: "bar",
 	data: {
 	  labels: data.labels,
@@ -384,9 +479,9 @@ $(function () {
     url: $chartFilterSystemCount.data("url"),
     success: function (data) {
 
-    var ctx6 = $chartFilterSystemCount[0].getContext("2d");
+    var ctx7 = $chartFilterSystemCount[0].getContext("2d");
 
-    new Chart(ctx6, {
+    new Chart(ctx7, {
       type: "pie",
       data: {
         labels: data.labels,
@@ -397,7 +492,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: getRandomColor(data.labels.length),
+          backgroundColor: palette('qualitative', data.labels.length),
           data: data.data,
           fill: false
         }],
@@ -443,6 +538,5 @@ $(function () {
 
     }
   });
-
 
 });

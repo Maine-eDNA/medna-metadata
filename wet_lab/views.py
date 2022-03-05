@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q, F, Count, Func, Value, CharField
+from django.db.models.functions import TruncMonth
+from django.http import JsonResponse
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
@@ -13,7 +17,33 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
 import wet_lab.filters as wetlab_filters
 
 
+def return_json(queryset):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    labels = []
+    data = []
+
+    for field in queryset:
+        labels.append(field['label'])
+        data.append(field['data'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+
+
 # Create your views here.
+########################################
+# FRONTEND VIEWS                       #
+########################################
+@login_required(login_url='dashboard_login')
+def extraction_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
+    # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
+    return return_json(Extraction.objects.annotate(extraction_date=TruncMonth('extraction_datetime')).values('extraction_date').order_by('extraction_date').annotate(data=Count('pk')).annotate(label=Func(F('extraction_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+
+
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################

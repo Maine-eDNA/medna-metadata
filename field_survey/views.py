@@ -6,9 +6,9 @@ from django.shortcuts import render
 from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
-import json
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+import json
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import generics
@@ -29,19 +29,73 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
 import field_survey.filters as fieldsurvey_filters
 
 
-def return_json(queryset):
+def return_lists(queryset):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     labels = []
     data = []
-
     for field in queryset:
         labels.append(field['label'])
         data.append(field['data'])
+    return labels, data
 
-    return JsonResponse(data={
-        'labels': labels,
-        'data': data,
-    })
+
+def fill_month_zeros(labels, data, colname):
+    import pandas as pd
+    if len(data) == 0:
+        df2 = pd.DataFrame(columns=['label', colname])
+        df2['label'] = pd.to_datetime(df2['label'], format='%m/%Y')
+        df2['label'] = df2['label'].dt.to_period('M')
+        df2 = df2.set_index('label')
+    else:
+        # convert labels and data array into one dataframe
+        # https://stackoverflow.com/questions/46379095/convert-two-numpy-array-to-dataframe
+        df = pd.DataFrame({'label': labels, colname: data}, columns=['label', colname])
+        # convert label to date type
+        df['label'] = pd.to_datetime(df['label'], format='%m/%Y')
+        # convert date column to monthly period type
+        # https://stackoverflow.com/questions/45304531/extracting-the-first-day-of-month-of-a-datetime-type-column-in-pandas
+        df['label'] = df['label'].dt.to_period('M')
+        # set index column to label and sort by label
+        df2 = df.set_index('label').sort_index()
+        # create period_range that starts with earliest date and ends with latest date in input labels
+        # and reindexes by the range
+        # https://stackoverflow.com/questions/17343726/pandas-add-data-for-missing-months
+        df2 = df2.reindex(pd.period_range(df2.index[0], df2.index[-1], freq='M'))
+        # fill NaN with 0, ultimately filling missing months with 0 value
+        df2 = df2.fillna(0.0)
+    return df2
+
+
+def merge_data_labels(labels_array, data_array):
+    import pandas as pd
+    dfs = []
+    if len(labels_array) != len(data_array):
+        raise Exception("Length of labels array does not match data array")
+    for i in range(len(data_array)):
+        colname = "data_"+str(i)
+        df = fill_month_zeros(labels_array[i], data_array[i], colname)
+        dfs.append(df)
+    # merge dfs into one df
+    df_merge = pd.concat(dfs, axis=0)
+    # fill any NaN with zero
+    df_merge = df_merge.fillna(0.0)
+    # sort merged dfs
+    df_merge = df_merge.sort_index()
+    # reindex and fill in any missing months
+    df_merge = df_merge.reindex(pd.period_range(df_merge.index[0], df_merge.index[-1], freq='M'))
+    # fill any NaN with zero
+    df_merge = df_merge.fillna(0.0)
+    # convert index to list
+    # https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
+    df_merge['label'] = df_merge.index
+    labels = df_merge["label"].astype(str).tolist()
+    # convert all data columns to list and append them to array
+    data_array = []
+    data_cols = [col for col in df_merge if col.startswith('data')]
+    for col in data_cols:
+        data = df_merge[col].tolist()
+        data_array.append(data)
+    return labels, data_array
 
 
 # Create your views here.
@@ -64,41 +118,67 @@ def survey_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
     # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
-    return return_json(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').order_by('survey_date').annotate(data=Count('pk')).annotate(label=Func(F('survey_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    labels, data = return_lists(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').order_by('survey_date').annotate(data=Count('pk')).annotate(label=Func(F('survey_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    return JsonResponse(data={'labels': labels, 'data': data, })
 
 
 @login_required(login_url='dashboard_login')
 def survey_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    return return_json(FieldSurvey.objects.annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_lists(FieldSurvey.objects.annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    return JsonResponse(data={'labels': labels, 'data': data, })
 
 
 @login_required(login_url='dashboard_login')
 def survey_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-    return return_json(FieldSurvey.objects.annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_lists(FieldSurvey.objects.annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    return JsonResponse(data={'labels': labels, 'data': data, })
+
+
+@login_required(login_url='dashboard_login')
+def field_sample_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
+    # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
+    filter_labels, filter_data = return_lists(FilterSample.objects.annotate(filter_date=TruncMonth('filter_datetime')).values('filter_date').annotate(data=Count('pk')).annotate(label=Func(F('filter_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    subcore_labels, subcore_data = return_lists(SubCoreSample.objects.annotate(subcore_date=TruncMonth('subcore_datetime_start')).values('subcore_date').annotate(data=Count('pk')).annotate(label=Func(F('subcore_datetime_start'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    fieldsample_labels, fieldsample_data = return_lists(FieldSample.objects.annotate(label=F('is_extracted')).values('label').annotate(data=Count('pk')).order_by('-label'))
+
+    labels, data_array, = merge_data_labels([filter_labels, subcore_labels], [filter_data, subcore_data])
+
+    return JsonResponse(data={
+        'fieldsample_labels': fieldsample_labels,
+        'fieldsample_data': fieldsample_data,
+        'count_labels': labels,
+        'filter_data': data_array[0],
+        'subcore_data': data_array[1],
+    })
 
 
 @login_required(login_url='dashboard_login')
 def filter_type_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    return return_json(FilterSample.objects.annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_lists(FilterSample.objects.annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    return JsonResponse(data={'labels': labels, 'data': data, })
 
 
 @login_required(login_url='dashboard_login')
 def filter_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    return return_json(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_lists(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    return JsonResponse(data={'labels': labels, 'data': data, })
 
 
 @login_required(login_url='dashboard_login')
 def filter_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    return return_json(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_lists(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    return JsonResponse(data={'labels': labels, 'data': data, })
 
 
 ########################################
