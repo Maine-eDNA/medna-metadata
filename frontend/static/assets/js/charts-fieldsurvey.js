@@ -15,86 +15,98 @@ $(function () {
     url: $chartSurveyCount.data("url"),
     success: function (data) {
 
-    var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+    if (data.data.length == undefined || data.data.length == 0) {
+        var surveySum = 0;
 
-    //console.log(surveySum);
-    $surveyTotal.text(surveySum);
+        $surveyTotal.text(surveySum);
 
-    var ctx1 = $chartSurveyCount[0].getContext("2d");
+        var ctx1 = $chartSurveyCount[0].getContext("2d");
+        ctx1.fillStyle = "white";
+        ctx1.font = "bold 18px Arial";
+        ctx1.fillText("There are 0 surveys.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+    } else {
 
-      new Chart(ctx1, {
-        type: "line",
-        data: {
-          labels: data.labels,
-          datasets: [{
-              label: "Survey Count",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 2,
-              pointBackgroundColor: "#e3316e",
-              borderColor: "#e3316e",
-              borderWidth: 3,
-              backgroundColor: 'transparent',
-              data: data.data,
-              maxBarThickness: 6
-            }],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: '#b2b9bf',
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
-                },
-              }
+        var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+
+        //console.log(surveySum);
+        $surveyTotal.text(surveySum);
+
+        var ctx1 = $chartSurveyCount[0].getContext("2d");
+
+          new Chart(ctx1, {
+            type: "line",
+            data: {
+              labels: data.labels,
+              datasets: [{
+                  label: "Survey Count",
+                  tension: 0.4,
+                  borderWidth: 0,
+                  pointRadius: 2,
+                  pointBackgroundColor: "#e3316e",
+                  borderColor: "#e3316e",
+                  borderWidth: 3,
+                  backgroundColor: 'transparent',
+                  data: data.data,
+                  maxBarThickness: 6
+                }],
             },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: true,
-                borderDash: [5, 5]
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                }
               },
-              ticks: {
-                display: true,
-                color: '#b2b9bf',
-                padding: 10,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
+              interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+              scales: {
+                y: {
+                  grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                  },
+                  ticks: {
+                    display: true,
+                    padding: 10,
+                    color: '#b2b9bf',
+                    font: {
+                      size: 11,
+                      family: "Open Sans",
+                      style: 'normal',
+                      lineHeight: 2
+                    },
+                  }
                 },
-              }
+                x: {
+                  grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: true,
+                    borderDash: [5, 5]
+                  },
+                  ticks: {
+                    display: true,
+                    color: '#b2b9bf',
+                    padding: 10,
+                    font: {
+                      size: 11,
+                      family: "Open Sans",
+                      style: 'normal',
+                      lineHeight: 2
+                    },
+                  }
+                },
+              },
             },
-          },
-        },
-      });
+          });
+        }
 
     }
   });
@@ -246,104 +258,121 @@ $(function () {
     url: $chartFieldSampleCount.data("url"),
     success: function (data) {
 
-    var fieldSampleSum = data.fieldsample_data.reduce((partialSum, a) => partialSum + a, 0);
-    var filterSum = data.filter_data.reduce((partialSum, a) => partialSum + a, 0);
-    var subCoreSum = data.subcore_data.reduce((partialSum, a) => partialSum + a, 0);
+    if (data.fieldsample_data.length == undefined || data.fieldsample_data.length == 0) {
+        var fieldSampleSum = 0;
+        var filterSum = 0;
+        var subCoreSum = 0;
 
-    //console.log(surveySum);
-    $fieldSampleTotal.text(fieldSampleSum);
-    $filterTotal.text(filterSum);
-    $subCoreTotal.text(subCoreSum);
+        $fieldSampleTotal.text(fieldSampleSum);
+        $filterTotal.text(filterSum);
+        $subCoreTotal.text(subCoreSum);
 
-    var ctx4 = $chartFieldSampleCount[0].getContext("2d");
+        var ctx4 = $chartFieldSampleCount[0].getContext("2d");
+        ctx4.fillStyle = "white";
+        ctx4.font = "bold 18px Arial";
+        ctx4.fillText("There are 0 field samples.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+    } else {
 
-      new Chart(ctx4, {
-        type: "line",
-        data: {
-          labels: data.count_labels,
-          datasets: [{
-              label: "Filter Count",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 2,
-              pointBackgroundColor: "#e3316e",
-              borderColor: "#e3316e",
-              borderWidth: 3,
-              backgroundColor: 'transparent',
-              data: data.filter_data,
-              maxBarThickness: 6
-            },
-            {
-              label: "SubCore Count",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 2,
-              pointBackgroundColor: "#3A416F",
-              borderColor: "#3A416F",
-              borderWidth: 3,
-              backgroundColor: 'transparent',
-              data: data.subcore_data,
-              maxBarThickness: 6
-            },
+        var fieldSampleSum = data.fieldsample_data.reduce((partialSum, a) => partialSum + a, 0);
+        var filterSum = data.filter_data.reduce((partialSum, a) => partialSum + a, 0);
+        var subCoreSum = data.subcore_data.reduce((partialSum, a) => partialSum + a, 0);
 
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index',
-          },
-          scales: {
-            y: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: false,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                padding: 10,
-                color: '#b2b9bf',
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
+        //console.log(surveySum);
+        $fieldSampleTotal.text(fieldSampleSum);
+        $filterTotal.text(filterSum);
+        $subCoreTotal.text(subCoreSum);
+
+        var ctx4 = $chartFieldSampleCount[0].getContext("2d");
+
+          new Chart(ctx4, {
+            type: "line",
+            data: {
+              labels: data.count_labels,
+              datasets: [{
+                  label: "Filter Count",
+                  tension: 0.4,
+                  borderWidth: 0,
+                  pointRadius: 2,
+                  pointBackgroundColor: "#e3316e",
+                  borderColor: "#e3316e",
+                  borderWidth: 3,
+                  backgroundColor: 'transparent',
+                  data: data.filter_data,
+                  maxBarThickness: 6
                 },
-              }
-            },
-            x: {
-              grid: {
-                drawBorder: false,
-                display: true,
-                drawOnChartArea: true,
-                drawTicks: true,
-                borderDash: [5, 5]
-              },
-              ticks: {
-                display: true,
-                color: '#b2b9bf',
-                padding: 10,
-                font: {
-                  size: 11,
-                  family: "Open Sans",
-                  style: 'normal',
-                  lineHeight: 2
+                {
+                  label: "SubCore Count",
+                  tension: 0.4,
+                  borderWidth: 0,
+                  pointRadius: 2,
+                  pointBackgroundColor: "#3A416F",
+                  borderColor: "#3A416F",
+                  borderWidth: 3,
+                  backgroundColor: 'transparent',
+                  data: data.subcore_data,
+                  maxBarThickness: 6
                 },
-              }
+
+              ],
             },
-          },
-        },
-      });
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                }
+              },
+              interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+              scales: {
+                y: {
+                  grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5]
+                  },
+                  ticks: {
+                    display: true,
+                    padding: 10,
+                    color: '#b2b9bf',
+                    font: {
+                      size: 11,
+                      family: "Open Sans",
+                      style: 'normal',
+                      lineHeight: 2
+                    },
+                  }
+                },
+                x: {
+                  grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: true,
+                    borderDash: [5, 5]
+                  },
+                  ticks: {
+                    display: true,
+                    color: '#b2b9bf',
+                    padding: 10,
+                    font: {
+                      size: 11,
+                      family: "Open Sans",
+                      style: 'normal',
+                      lineHeight: 2
+                    },
+                  }
+                },
+              },
+            },
+          });
+
+        }
 
     }
   });
