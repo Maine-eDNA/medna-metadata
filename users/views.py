@@ -25,6 +25,13 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/profile.html'
 
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_dashboardprofile"
+        context["page_title"] = "User Profile"
+        return context
+
     def get_object(self):
         return self.request.user
 
@@ -35,6 +42,13 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/profile-update.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_dashboardprofile"
+        context["page_title"] = "User Profile"
+        return context
 
     def get_object(self):
         return self.request.user
