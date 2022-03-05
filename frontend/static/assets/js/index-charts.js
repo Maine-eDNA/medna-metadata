@@ -205,7 +205,7 @@ $(function () {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            position: 'left',
           }
         },
         interaction: {
@@ -275,7 +275,7 @@ $(function () {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            position: 'left',
           }
         },
         interaction: {
@@ -407,7 +407,7 @@ $(function () {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            position: 'left',
           }
         },
         interaction: {
