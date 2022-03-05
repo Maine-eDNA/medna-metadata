@@ -17,7 +17,6 @@ from rest_framework import status
 import json
 # import ast
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
-from field_survey.models import FieldSurvey
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
 from .forms import ContactUsForm
