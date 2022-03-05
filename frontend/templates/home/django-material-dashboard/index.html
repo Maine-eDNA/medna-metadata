@@ -51,8 +51,8 @@
                 <i class="material-icons opacity-10">person</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                <h4 class="mb-0">3,462</h4>
+                <p class="text-sm mb-0 text-capitalize">Total Extractions</p>
+                <h4 id="extractionTotal" class="mb-0"></h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -205,6 +205,25 @@
         </div>
       </div>
       <!-- END filter charts -->
+      <!-- START EXTRACTION CHARTS -->
+      <div class="row mt-4">
+        <div class="col-lg-6 col-md-6 mt-4 mb-4">
+          <div class="bg-gray-200 card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="shadow-dark border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chartExtractionCount" data-url="{% url 'chart_extractioncount' %}" class="chart-canvas" height="250"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 "> Monthly Extractions </h6>
+              <p class="text-sm "> Extractions per month. </p>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+      <!-- END EXTRACTION CHARTS -->
       <div class="row mb-4">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">
