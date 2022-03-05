@@ -173,6 +173,11 @@ $(function () {
 
     var ctx3 = $chartSurveySystemCount[0].getContext("2d");
 
+    console.log(parseInt(data.labels.length))
+    console.log(data.labels.length)
+    console.log(palette('qualitative', parseInt(data.labels.length)))
+    console.log(palette('qualitative', 6))
+
     new Chart(ctx3, {
       type: "pie",
       data: {
@@ -184,7 +189,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette('qualitative', data.labels.length),
+          backgroundColor: palette('qualitative', parseInt(data.labels.length)),
           data: data.data,
           fill: false
         }],
