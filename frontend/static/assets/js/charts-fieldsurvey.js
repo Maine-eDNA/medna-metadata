@@ -199,7 +199,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: colors),
+          backgroundColor: colors,
           data: data.data,
           fill: false
         }],
@@ -397,7 +397,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: colors),
+          backgroundColor: colors,
           data: data.data,
           fill: false
         }],
@@ -532,7 +532,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: colors),
+          backgroundColor: colors,
           data: data.data,
           fill: false
         }],
