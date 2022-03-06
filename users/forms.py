@@ -10,7 +10,7 @@ from allauth.account.views import PasswordResetView
 # from crispy_forms.layout import Layout, Submit, Row, Column, Field, Div
 from .models import CustomUser
 from utility.models import Project
-# from utility.widgets import CustomClearableFileInput, CustomFileInput
+from utility.widgets import CustomClearableFileInput, CustomFileInput
 
 
 # FRONTEND
@@ -58,7 +58,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     profile_image = forms.FileField(
         required=False,
 
-        widget=forms.ClearableFileInput(
+        widget=CustomClearableFileInput(
             attrs={
                 'class': 'form-control',
             }
