@@ -27,6 +27,10 @@ Additional libraries include:
 - `Django Extensions <https://github.com/django-extensions/django-extensions>`__
 - `Django Dashboard Material <https://github.com/app-generator/django-material-dashboard>`__
 - `Django Material Kit <https://github.com/app-generator/django-material-kit>`__
+- `Palette.js <https://github.com/google/palette.js>`__
+- `Chart.js <https://github.com/chartjs/Chart.js>`__
+- `Leaflet.js <https://leafletjs.com/>`__
+- `Bootstrap <https://github.com/twbs/bootstrap>`__
 
 
 .. note::
