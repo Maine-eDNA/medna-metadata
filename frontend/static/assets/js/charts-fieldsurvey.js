@@ -183,12 +183,10 @@ $(function () {
     url: $chartSurveySystemCount.data("url"),
     success: function (data) {
 
-    var ctx3 = $chartSurveySystemCount[0].getContext("2d");
+    var colors = palette(['tol', 'qualitative'], data.labels.length)
+    colors = colors.map(i => '#' + i);
 
-    console.log(parseInt(data.labels.length))
-    console.log(data.labels.length)
-    console.log(palette(['tol', 'qualitative'], parseInt(data.labels.length)))
-    console.log(palette(['tol', 'qualitative'], 6))
+    var ctx3 = $chartSurveySystemCount[0].getContext("2d");
 
     new Chart(ctx3, {
       type: "pie",
@@ -201,7 +199,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette(['tol', 'qualitative'], parseInt(data.labels.length)),
+          backgroundColor: colors),
           data: data.data,
           fill: false
         }],
@@ -383,6 +381,9 @@ $(function () {
     url: $chartFilterTypeCount.data("url"),
     success: function (data) {
 
+    var colors = palette(['tol', 'qualitative'], data.labels.length)
+    colors = colors.map(i => '#' + i);
+
     var ctx5 = $chartFilterTypeCount[0].getContext("2d");
 
     new Chart(ctx5, {
@@ -396,7 +397,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette(['tol', 'qualitative'], data.labels.length),
+          backgroundColor: colors),
           data: data.data,
           fill: false
         }],
@@ -515,6 +516,9 @@ $(function () {
     url: $chartFilterSystemCount.data("url"),
     success: function (data) {
 
+    var colors = palette(['tol', 'qualitative'], data.labels.length)
+    colors = colors.map(i => '#' + i);
+
     var ctx7 = $chartFilterSystemCount[0].getContext("2d");
 
     new Chart(ctx7, {
@@ -528,7 +532,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette(['tol', 'qualitative'], data.labels.length),
+          backgroundColor: colors),
           data: data.data,
           fill: false
         }],
