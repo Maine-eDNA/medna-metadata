@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.gis',
+    'django.forms',
     'users',
     'utility',
     'field_site',
@@ -169,6 +170,10 @@ TEMPLATES = [
         },
     },
 ]
+
+# https://docs.djangoproject.com/en/4.0/ref/forms/renderers/#templatessetting
+# https://stackoverflow.com/questions/45844032/django-templatedoesnotexist-in-case-of-a-custom-widget
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
