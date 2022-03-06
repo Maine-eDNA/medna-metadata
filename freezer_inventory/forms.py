@@ -21,7 +21,7 @@ class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):
     )
     freezer_return_metadata_entered = forms.ChoiceField(
         choices=YesNo.choices,
-        widget=forms.TextInput(
+        widget=forms.Select(
             attrs={
                 'class': 'form-control',
             }
@@ -49,7 +49,7 @@ class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):
     freezer_return_vol_units = forms.ChoiceField(
         required=False,
         choices=VolUnits.choices,
-        widget=forms.TextInput(
+        widget=forms.Select(
             attrs={
                 'class': 'form-control',
             }
