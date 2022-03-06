@@ -5,7 +5,7 @@ from django.template import loader
 
 
 class CustomClearableFileInput(forms.ClearableFileInput):
-    template_name = 'django/custom_forms/widgets/clearable_file_input.html'
+    template_name = 'custom_forms/widgets/clearable_file_input.html'
 
     def get_context(self, name, value, attrs):
         return {
@@ -26,7 +26,7 @@ class CustomClearableFileInput(forms.ClearableFileInput):
 
 
 class CustomFileInput(forms.ClearableFileInput):
-    template_name = 'django/custom_forms/widgets/file.html'
+    template_name = 'custom_forms/widgets/file.html'
 
     def get_context(self, name, value, attrs):
         return {
