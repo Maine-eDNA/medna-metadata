@@ -23,6 +23,16 @@ from utility.charts import return_queryset_lists, return_zeros_lists, return_mer
 # FRONTEND VIEWS                       #
 ########################################
 @login_required(login_url='dashboard_login')
+def run_result_count_chart(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
+    # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
+    labels, data = return_queryset_lists(RunResult.objects.annotate(run_completion_date=TruncMonth('run_completion_datetime')).values('run_completion_date').order_by('run_completion_date').annotate(data=Count('pk')).annotate(label=Func(F('run_completion_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    labels, data = return_zeros_lists(labels, data)
+    return JsonResponse(data={'labels': labels, 'data': data, })
+
+
+@login_required(login_url='dashboard_login')
 def extraction_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
