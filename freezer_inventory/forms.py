@@ -21,7 +21,6 @@ class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):
     )
     freezer_return_metadata_entered = forms.ChoiceField(
         choices=YesNo.choices,
-        default=YesNo.NO,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
