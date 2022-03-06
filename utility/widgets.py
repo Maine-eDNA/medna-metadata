@@ -6,8 +6,8 @@ from django.template.loader import render_to_string
 class CustomClearableFileInput(forms.ClearableFileInput):
     template_name = 'django/forms/widgets/clearable_file_input.html'
 
-    def get_context(self, **kwargs):
-        context = super().get_context()
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
         context['widget'].update({
             'template_name': self.template_name,
         })
@@ -17,8 +17,8 @@ class CustomClearableFileInput(forms.ClearableFileInput):
 class CustomFileInput(forms.ClearableFileInput):
     template_name = 'django/forms/widgets/file.html'
 
-    def get_context(self, **kwargs):
-        context = super().get_context()
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
         context['widget'].update({
             'template_name': self.template_name,
         })
