@@ -70,10 +70,7 @@ class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, UpdateView):
 @login_required(login_url='dashboard_login')
 def freezer_inventory_return_metadata_table(request):
     return_metadata_table = FreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
-
-    return render(request, "home/django-material-dashboard/field-list.html", {
-        "return_metadata_table": return_metadata_table
-    })
+    return return_metadata_table
 
 
 ########################################
