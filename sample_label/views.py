@@ -18,6 +18,7 @@ from .tables import SampleLabelRequestTable
 from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer, \
     SampleBarcodeSerializer, SampleTypeSerializer, SampleLabelRequestSerializerExportMixin
 import sample_label.filters as samplelabel_filters
+from .forms import AddSampleLabelForm
 
 
 # Create your views here.
@@ -139,6 +140,7 @@ class AddSampleLabelRequestView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'sample_label.add_samplelabelrequest'
     model = SampleLabelRequest
+    form_class = AddSampleLabelForm
     fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/field-add.html'
 
