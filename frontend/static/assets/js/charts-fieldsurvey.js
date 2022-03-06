@@ -187,8 +187,8 @@ $(function () {
 
     console.log(parseInt(data.labels.length))
     console.log(data.labels.length)
-    console.log(palette('qualitative', parseInt(data.labels.length)))
-    console.log(palette('qualitative', 6))
+    console.log(palette(['tol', 'qualitative'], parseInt(data.labels.length)))
+    console.log(palette(['tol', 'qualitative'], 6))
 
     new Chart(ctx3, {
       type: "pie",
@@ -201,7 +201,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette('qualitative', parseInt(data.labels.length)),
+          backgroundColor: palette(['tol', 'qualitative'], parseInt(data.labels.length)),
           data: data.data,
           fill: false
         }],
@@ -396,7 +396,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette('qualitative', data.labels.length),
+          backgroundColor: palette(['tol', 'qualitative'], data.labels.length),
           data: data.data,
           fill: false
         }],
@@ -528,7 +528,7 @@ $(function () {
           tension: 0.9,
           pointRadius: 2,
           borderWidth: 2,
-          backgroundColor: palette('qualitative', data.labels.length),
+          backgroundColor: palette(['tol', 'qualitative'], data.labels.length),
           data: data.data,
           fill: false
         }],
