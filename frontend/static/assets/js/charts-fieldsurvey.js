@@ -259,8 +259,8 @@ $(function () {
   // Field Sample CHARTS
   // line chart
   var $chartFieldSampleCount = $("#chartFieldSampleCount");
-  var $chartFieldSampleCountLoading = $('#chartFieldSampleCount');
-  var $chartFieldSampleCountEmpty = $('#chartFieldSampleCount');
+  var $chartFieldSampleCountLoading = $('#chartFieldSampleCountLoading');
+  var $chartFieldSampleCountEmpty = $('#chartFieldSampleCountEmpty');
   var $fieldSampleTotal = $("#fieldSampleTotal");
   var $filterTotal = $("#filterTotal");
   var $subCoreTotal = $("#subCoreTotal");
