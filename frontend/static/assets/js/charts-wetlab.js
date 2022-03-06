@@ -5,6 +5,8 @@ $(function () {
   // line chart
   var $chartExtractionCount = $("#chartExtractionCount");
   var $extractionTotal = $("#extractionTotal");
+  var $chartExtractionCountLoading = $('#chartExtractionCountLoading');
+  var $chartExtractionCountEmpty = $('#chartExtractionCountEmpty');
   $.ajax({
     url: $chartExtractionCount.data("url"),
     success: function (data) {
@@ -12,14 +14,15 @@ $(function () {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var extractionSum = 0;
             $extractionTotal.text(extractionSum);
-            var wlCtx1 = $chartExtractionCount[0].getContext("2d");
-            wlCtx1.fillStyle = "black";
-            wlCtx1.font = "bold 18px Arial";
-            wlCtx1.fillText("There are 0 extractions.", ($chartExtractionCount.width / 2) - 17, ($chartExtractionCount.height / 2) + 8);
+            $chartExtractionCountLoading.remove();
+            $chartExtractionCount.remove();
+            $chartExtractionCountEmpty.text("There are 0 extractions.")
         } else {
             var extractionSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
             //console.log(surveySum);
             $extractionTotal.text(extractionSum);
+            $chartExtractionCountLoading.remove();
+            $chartExtractionCountEmpty.remove();
             var wlCtx1 = $chartExtractionCount[0].getContext("2d");
             new Chart(wlCtx1, {
               type: "line",

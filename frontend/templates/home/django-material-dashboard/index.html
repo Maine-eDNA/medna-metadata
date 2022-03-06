@@ -51,7 +51,7 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">person</i>
+                <i class="material-icons opacity-10">science</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Extractions</p>
@@ -88,8 +88,10 @@
           <div class="bg-gray-200 card z-index-2 ">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartSurveyCount" data-url="{% url 'chart_surveycount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartSurveyCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartSurveyCount" data-url="{% url 'chart_surveycount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -104,8 +106,10 @@
           <div class="bg-gray-200 card z-index-2  ">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartSurveySystemCount" data-url="{% url 'chart_surveysystemcount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartSurveySystemCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartSurveySystemCount" data-url="{% url 'chart_surveysystemcount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -122,8 +126,10 @@
           <div class="card-body p-3">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartSurveySiteCount" data-url="{%url 'chart_surveysitecount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartSurveySiteCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartSurveySiteCount" data-url="{%url 'chart_surveysitecount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -142,8 +148,10 @@
           <div class="card-body p-3">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartFieldSampleCount" data-url="{%url 'chart_fieldsamplecount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartFieldSampleCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartFieldSampleCount" data-url="{%url 'chart_fieldsamplecount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -160,8 +168,10 @@
           <div class="bg-gray-200 card z-index-2 ">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartFilterTypeCount" data-url="{% url 'chart_filtertypecount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartFilterTypeCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartFilterTypeCount" data-url="{% url 'chart_filtertypecount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,8 +186,10 @@
           <div class="bg-gray-200 card z-index-2  ">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartFilterSystemCount" data-url="{% url 'chart_filtersystemcount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartFilterSystemCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartFilterSystemCount" data-url="{% url 'chart_filtersystemcount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -194,8 +206,10 @@
           <div class="card-body p-3">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartFilterSiteCount" data-url="{%url 'chart_filtersitecount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartFilterSiteCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartFilterSiteCount" data-url="{%url 'chart_filtersitecount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>
@@ -214,8 +228,16 @@
           <div class="card-body p-3">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="shadow-dark border-radius-lg py-3 pe-1">
-                <div class="chart">
-                  <canvas id="chartExtractionCount" data-url="{% url 'chart_extractioncount' %}" class="chart-canvas" height="250"></canvas>
+                <div id="chartExtractionCountLoading" class="d-flex justify-content-center">
+                  <button class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Chart Loading...
+                  </button>
+                </div>
+                <div id="chartExtractionCountEmpty" class="mb-0 ">
+                  <div class="chart">
+                    <canvas id="chartExtractionCount" data-url="{% url 'chart_extractioncount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
                 </div>
               </div>
             </div>

@@ -22,13 +22,13 @@ $(function () {
 
         //console.log(geoJsonLayer.getLayers().length);
         if (geoJsonLayer.getLayers().length == 0) {
-            document.getElementById('map_loading').remove()
+            document.getElementById('mapLoading').remove()
             document.getElementById('map').remove()
             // update the page to notify the user that there are no records
-            document.getElementById('map_empty').textContent="This project does not have any survey records.";
+            document.getElementById('mapEmpty').textContent="This project does not have any survey records.";
         } else {
-            document.getElementById('map_empty').remove()
-            document.getElementById('map_loading').remove()
+            document.getElementById('mapEmpty').remove()
+            document.getElementById('mapLoading').remove()
             var markersGroup = new L.markerClusterGroup();
             var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             var map = L.map('map')
