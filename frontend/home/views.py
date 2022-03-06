@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from utility.models import Project, Publication
+from freezer_inventory.views import freezer_inventory_return_metadata_table
 
 
 class IndexTemplateView(TemplateView):
@@ -53,7 +54,9 @@ def main_pages(request):
 
 @login_required(redirect_field_name='next', login_url="/dashboard/login/")
 def dashboard_index(request):
-    context = {'segment': 'index'}
+    return_metadata_table = freezer_inventory_return_metadata_table(request)
+    context = {'segment': 'index',
+               'return_metadata_table': return_metadata_table}
 
     html_template = loader.get_template('home/django-material-dashboard/index.html')
     return HttpResponse(html_template.render(context, request))
