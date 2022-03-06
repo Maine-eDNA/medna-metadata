@@ -1,4 +1,8 @@
-# from django.shortcuts import render
+from django.shortcuts import render
+from django.views.generic import DetailView
+from django.views.generic.edit import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
@@ -8,10 +12,70 @@ from .serializers import ReturnActionSerializer, FreezerSerializer, FreezerRackS
     FreezerInventoryLogsNestedSerializer, FreezerInventoryReturnsMetadataNestedSerializer
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
+from .tables import FreezerInventoryReturnMetadataTable
+from .forms import FreezerInventoryReturnMetadataUpdateForm
 import freezer_inventory.filters as freezerinventory_filters
 
 
 # Create your views here.
+########################################
+# FRONTEND VIEWS                       #
+########################################
+class FreezerInventoryLogDetailView(LoginRequiredMixin, DetailView):
+    model = FreezerInventoryLog
+    fields = ['freezer_inventory', 'freezer_log_slug', 'freezer_log_action', 'freezer_log_notes', ]
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/field-detail.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_freezerinventorylog"
+        context["page_title"] = "Freezer Inventory Log"
+        return context
+
+
+class FreezerInventoryReturnMetadataDetailView(LoginRequiredMixin, DetailView):
+    model = FreezerInventoryReturnMetadata
+    fields = ['freezer_log', 'freezer_return_slug', 'freezer_return_metadata_entered', 'freezer_return_actions',
+              'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes', ]
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/field-detail.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_freezerinventoryreturnmetadata"
+        context["page_title"] = "Freezer Inventory Return Metadata"
+        return context
+
+
+class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, UpdateView):
+    model = FreezerInventoryReturnMetadata
+    form_class = FreezerInventoryReturnMetadataUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/field-update.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_freezerinventoryreturnmetadata"
+        context["page_title"] = "Freezer Inventory Return Metadata"
+        return context
+
+
+@login_required(login_url='dashboard_login')
+def freezer_inventory_return_metadata_table(request):
+    return_metadata_table = FreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
+
+    return render(request, "home/django-material-dashboard/field-list.html", {
+        "return_metadata_table": return_metadata_table
+    })
+
+
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################

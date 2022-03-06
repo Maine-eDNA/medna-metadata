@@ -1,6 +1,6 @@
 import django_tables2 as tables
-from .models import SampleLabelRequest
 from django_tables2.utils import A
+from .models import SampleLabelRequest
 
 
 class SampleLabelRequestTable(tables.Table):

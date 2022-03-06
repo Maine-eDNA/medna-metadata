@@ -40,13 +40,12 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
     filter_backends = [filters.DjangoFilterBackend]
-    page_title = "Sample Label Request"
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
         context["segment"] = "view_samplelabelrequest"
-        context["page_title"] = self.page_title
+        context["page_title"] = "Sample Label Request"
         context["export_formats"] = self.export_formats
         return context
 
@@ -62,13 +61,12 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     template_name = 'home/django-material-dashboard/field-detail.html'
     permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
     # context_object_name = 'field'
-    page_title = "Sample Label Request"
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
         context["segment"] = "detail_samplelabelrequest"
-        context["page_title"] = self.page_title
+        context["page_title"] = "Sample Label Request"
         return context
 
     def handle_no_permission(self):
@@ -86,12 +84,11 @@ class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredM
     model = SampleLabelRequest
     context_object_name = 'samplelabelrequest'
     permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
-    page_title = "Sample Label Request"
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["page_title"] = self.page_title
+        context["page_title"] = "Sample Label Request"
         return context
 
     def handle_no_permission(self):

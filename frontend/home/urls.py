@@ -12,6 +12,7 @@ import sample_label.views as samplelabel_views
 import sample_label.filters as samplelabel_filters
 import field_survey.views as fieldsurvey_views
 import wet_lab.views as wetlab_views
+import freezer_inventory.views as freezerinventory_views
 # permissions
 # https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
 
@@ -31,6 +32,9 @@ urlpatterns = [
     path('dashboard/chart/runresult/count/', wetlab_views.run_result_count_chart, name='chart_runresultcount'),
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='detail_dashboardprofile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('detail_dashboardprofile')), name='update_dashboardprofile'),
+    path('dashboard/freezermetadata/update/', freezerinventory_views.FreezerInventoryReturnMetadataUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventoryreturnmetadata')), name='update_freezerinventoryreturnmetadata'),
+    path('dashboard/freezermetadata/detail/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(name='detail_freezerinventoryreturnmetadata')),
+    path('dashboard/freezerlog/detail/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(name='detail_freezerinventorylog')),
     path('dashboard/samplelabel/detail/<int:pk>/', samplelabel_views.SampleLabelRequestDetailView.as_view(), name='detail_samplelabelrequest'),
     path('dashboard/samplelabel/add/<int:site_id>/<int:sample_material>/<str:purpose>/', samplelabel_views.AddSampleLabelRequestView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestdetail'),
     path('dashboard/samplelabel/add/', samplelabel_views.AddSampleLabelRequestView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
