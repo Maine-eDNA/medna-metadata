@@ -20,7 +20,7 @@ $(function () {
             var fsCtx1 = $chartSurveyCount[0].getContext("2d");
             fsCtx1.fillStyle = "white";
             fsCtx1.font = "bold 18px Arial";
-            fsCtx1.fillText("There are 0 surveys.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx1.fillText("There are 0 surveys.", ($chartSurveyCount.width / 2) - 17, ($chartSurveyCount.height / 2) + 8);
         } else {
             var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
             //console.log(surveySum);
@@ -113,7 +113,7 @@ $(function () {
             var fsCtx2 = $chartSurveySiteCount[0].getContext("2d");
             fsCtx2.fillStyle = "white";
             fsCtx2.font = "bold 18px Arial";
-            fsCtx2.fillText("There are 0 surveys.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx2.fillText("There are 0 surveys.", ($chartSurveySiteCount.width / 2) - 17, ($chartSurveySiteCount.height / 2) + 8);
         } else {
             var fsCtx2 = $chartSurveySiteCount[0].getContext("2d");
             new Chart(fsCtx2, {
@@ -184,7 +184,7 @@ $(function () {
             var fsCtx3 = $chartSurveySystemCount[0].getContext("2d");
             fsCtx3.fillStyle = "white";
             fsCtx3.font = "bold 18px Arial";
-            fsCtx3.fillText("There are 0 surveys.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx3.fillText("There are 0 surveys.", ($chartSurveySystemCount.width / 2) - 17, ($chartSurveySystemCount.height / 2) + 8);
         } else {
             var colors = palette(['tol', 'qualitative'], data.labels.length)
             colors = colors.map(i => '#' + i);
@@ -266,7 +266,7 @@ $(function () {
             var fsCtx4 = $chartFieldSampleCount[0].getContext("2d");
             fsCtx4.fillStyle = "white";
             fsCtx4.font = "bold 18px Arial";
-            fsCtx4.fillText("There are 0 field samples.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx4.fillText("There are 0 field samples.", ($chartFieldSampleCount.width / 2) - 17, ($chartFieldSampleCount.height / 2) + 8);
         } else {
             var fieldSampleSum = data.fieldsample_data.reduce((partialSum, a) => partialSum + a, 0);
             var filterSum = data.filter_data.reduce((partialSum, a) => partialSum + a, 0);
@@ -377,7 +377,7 @@ $(function () {
             var fsCtx5 = $chartFilterTypeCount[0].getContext("2d");
             fsCtx5.fillStyle = "white";
             fsCtx5.font = "bold 18px Arial";
-            fsCtx5.fillText("There are 0 filters.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx5.fillText("There are 0 filters.", ($chartFilterTypeCount.width / 2) - 17, ($chartFilterTypeCount.height / 2) + 8);
         } else {
             var colors = palette(['tol', 'qualitative'], data.labels.length)
             colors = colors.map(i => '#' + i);
@@ -450,7 +450,7 @@ $(function () {
             var fsCtx6 = $chartFilterSiteCount[0].getContext("2d");
             fsCtx6.fillStyle = "white";
             fsCtx6.font = "bold 18px Arial";
-            fsCtx6.fillText("There are 0 filters.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx6.fillText("There are 0 filters.", ($chartFilterSiteCount.width / 2) - 17, ($chartFilterSiteCount.height / 2) + 8);
         } else {
             var fsCtx6 = $chartFilterSiteCount[0].getContext("2d");
             new Chart(fsCtx6, {
@@ -521,7 +521,7 @@ $(function () {
             var fsCtx7 = $chartFilterSystemCount[0].getContext("2d");
             fsCtx7.fillStyle = "white";
             fsCtx7.font = "bold 18px Arial";
-            fsCtx7.fillText("There are 0 filters.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+            fsCtx7.fillText("There are 0 filters.", ($chartFilterSystemCount.width / 2) - 17, ($chartFilterSystemCount.height / 2) + 8);
         } else {
             var colors = palette(['tol', 'qualitative'], data.labels.length)
             colors = colors.map(i => '#' + i);
