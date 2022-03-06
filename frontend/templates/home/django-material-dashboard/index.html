@@ -68,11 +68,11 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">weekend</i>
+                <i class="material-icons opacity-10">desktop_windows</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Sales</p>
-                <h4 class="mb-0">$103,430</h4>
+                <p class="text-sm mb-0 text-capitalize">Total NGS Runs</p>
+                <h4 id="runResultTotal" class="mb-0"></h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -273,7 +273,6 @@
                     <h6 id="chartExtractionCountEmpty" class="mb-4 mt-4 text-center"></h6>
                     <canvas id="chartExtractionCount" data-url="{% url 'chart_extractioncount' %}" class="chart-canvas" height="250"></canvas>
                   </div>
-
               </div>
             </div>
             <div class="card-body">
@@ -285,6 +284,33 @@
         </div>
       </div>
       <!-- END EXTRACTION CHARTS -->
+      <!-- START run result charts -->
+      <div class="row mt-4">
+        <div class="bg-gray-200 card mb-3">
+          <div class="card-body p-3">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="shadow-dark border-radius-lg py-3 pe-1">
+                  <div class="chart">
+                    <div id="chartRunResultCountLoading" class="d-flex justify-content-center mb-4 mt-4">
+                      <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Chart Loading...
+                      </button>
+                    </div>
+                    <h6 id="chartRunResultCountEmpty" class="mb-4 mt-4 text-center"></h6>
+                    <canvas id="chartRunResultCount" data-url="{% url 'chart_runresultcount' %}" class="chart-canvas" height="250"></canvas>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 "> Monthly Extractions </h6>
+              <p class="text-sm "> Extractions per month. </p>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END run result charts -->
       <div class="row mb-4">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">

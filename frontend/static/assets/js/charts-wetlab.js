@@ -102,5 +102,105 @@ $(function () {
     }
   });
 
+  // RUN RESULT CHARTS
+  // line chart
+  var $chartRunResultCount = $("#chartRunResultCount");
+  var $runResultTotal = $("#runResultTotal");
+  var $chartRunResultCountLoading = $('#chartRunResultCountLoading');
+  var $chartRunResultCountEmpty = $('#chartRunResultCountEmpty');
+  $.ajax({
+    url: $chartRunResultCount.data("url"),
+    success: function (data) {
+        //console.log(data.data.length)
+        if (!Array.isArray(data.data) == undefined || !data.data.length) {
+            var runResultSum = 0;
+            $runResultTotal.text(runResultSum);
+            $chartRunResultCount.remove();
+            $chartRunResultCountLoading.remove();
+            $chartRunResultCountEmpty.text("There are 0 run results.")
+        } else {
+            var runResultSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+            //console.log(surveySum);
+            $runResultTotal.text(runResultSum);
+            $chartRunResultCountLoading.remove();
+            $chartRunResultCountEmpty.remove();
+            var wlCtx1 = $chartRunResultCount[0].getContext("2d");
+            new Chart(wlCtx1, {
+              type: "line",
+              data: {
+                labels: data.labels,
+                datasets: [{
+                    label: "Extraction Count",
+                    tension: 0.4,
+                    borderWidth: 0,
+                    pointRadius: 2,
+                    pointBackgroundColor: "#e3316e",
+                    borderColor: "#e3316e",
+                    borderWidth: 3,
+                    backgroundColor: 'transparent',
+                    data: data.data,
+                    maxBarThickness: 6
+                  }],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false,
+                  }
+                },
+                interaction: {
+                  intersect: false,
+                  mode: 'index',
+                },
+                scales: {
+                  y: {
+                    grid: {
+                      drawBorder: false,
+                      display: true,
+                      drawOnChartArea: true,
+                      drawTicks: false,
+                      borderDash: [5, 5]
+                    },
+                    ticks: {
+                      display: true,
+                      padding: 10,
+                      color: '#b2b9bf',
+                      font: {
+                        size: 11,
+                        family: "Open Sans",
+                        style: 'normal',
+                        lineHeight: 2
+                      },
+                    }
+                  },
+                  x: {
+                    grid: {
+                      drawBorder: false,
+                      display: true,
+                      drawOnChartArea: true,
+                      drawTicks: true,
+                      borderDash: [5, 5]
+                    },
+                    ticks: {
+                      display: true,
+                      color: '#b2b9bf',
+                      padding: 10,
+                      font: {
+                        size: 11,
+                        family: "Open Sans",
+                        style: 'normal',
+                        lineHeight: 2
+                      },
+                    }
+                  },
+                },
+              },
+            });
+        }
+
+    }
+  });
 
 });
