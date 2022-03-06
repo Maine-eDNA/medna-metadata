@@ -18,7 +18,7 @@ $(function () {
             var surveySum = 0;
             $surveyTotal.text(surveySum);
             var fsCtx1 = $chartSurveyCount[0].getContext("2d");
-            fsCtx1.fillStyle = "white";
+            fsCtx1.fillStyle = "black";
             fsCtx1.font = "bold 18px Arial";
             fsCtx1.fillText("There are 0 surveys.", ($chartSurveyCount.width / 2) - 17, ($chartSurveyCount.height / 2) + 8);
         } else {
@@ -111,7 +111,7 @@ $(function () {
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var fsCtx2 = $chartSurveySiteCount[0].getContext("2d");
-            fsCtx2.fillStyle = "white";
+            fsCtx2.fillStyle = "black";
             fsCtx2.font = "bold 18px Arial";
             fsCtx2.fillText("There are 0 surveys.", ($chartSurveySiteCount.width / 2) - 17, ($chartSurveySiteCount.height / 2) + 8);
         } else {
@@ -182,7 +182,7 @@ $(function () {
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var fsCtx3 = $chartSurveySystemCount[0].getContext("2d");
-            fsCtx3.fillStyle = "white";
+            fsCtx3.fillStyle = "black";
             fsCtx3.font = "bold 18px Arial";
             fsCtx3.fillText("There are 0 surveys.", ($chartSurveySystemCount.width / 2) - 17, ($chartSurveySystemCount.height / 2) + 8);
         } else {
@@ -264,7 +264,7 @@ $(function () {
             $filterTotal.text(filterSum);
             $subCoreTotal.text(subCoreSum);
             var fsCtx4 = $chartFieldSampleCount[0].getContext("2d");
-            fsCtx4.fillStyle = "white";
+            fsCtx4.fillStyle = "black";
             fsCtx4.font = "bold 18px Arial";
             fsCtx4.fillText("There are 0 field samples.", ($chartFieldSampleCount.width / 2) - 17, ($chartFieldSampleCount.height / 2) + 8);
         } else {
@@ -375,7 +375,7 @@ $(function () {
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var fsCtx5 = $chartFilterTypeCount[0].getContext("2d");
-            fsCtx5.fillStyle = "white";
+            fsCtx5.fillStyle = "black";
             fsCtx5.font = "bold 18px Arial";
             fsCtx5.fillText("There are 0 filters.", ($chartFilterTypeCount.width / 2) - 17, ($chartFilterTypeCount.height / 2) + 8);
         } else {
@@ -448,7 +448,7 @@ $(function () {
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var fsCtx6 = $chartFilterSiteCount[0].getContext("2d");
-            fsCtx6.fillStyle = "white";
+            fsCtx6.fillStyle = "black";
             fsCtx6.font = "bold 18px Arial";
             fsCtx6.fillText("There are 0 filters.", ($chartFilterSiteCount.width / 2) - 17, ($chartFilterSiteCount.height / 2) + 8);
         } else {
@@ -519,7 +519,7 @@ $(function () {
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var fsCtx7 = $chartFilterSystemCount[0].getContext("2d");
-            fsCtx7.fillStyle = "white";
+            fsCtx7.fillStyle = "black";
             fsCtx7.font = "bold 18px Arial";
             fsCtx7.fillText("There are 0 filters.", ($chartFilterSystemCount.width / 2) - 17, ($chartFilterSystemCount.height / 2) + 8);
         } else {

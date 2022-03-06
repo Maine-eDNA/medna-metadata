@@ -13,7 +13,7 @@ $(function () {
             var extractionSum = 0;
             $extractionTotal.text(extractionSum);
             var wlCtx1 = $chartExtractionCount[0].getContext("2d");
-            wlCtx1.fillStyle = "white";
+            wlCtx1.fillStyle = "black";
             wlCtx1.font = "bold 18px Arial";
             wlCtx1.fillText("There are 0 extractions.", ($chartExtractionCount.width / 2) - 17, ($chartExtractionCount.height / 2) + 8);
         } else {
