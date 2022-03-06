@@ -5,6 +5,6 @@
 </div>
 {% endif %}<br>
 {{ widget.input_text }}:{% endif %}
-<div class="row">
+<div class="input-group input-group-static mb-4">
     <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
 </div>
