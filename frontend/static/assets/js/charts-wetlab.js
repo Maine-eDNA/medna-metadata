@@ -9,24 +9,26 @@ $(function () {
     url: $chartExtractionCount.data("url"),
     success: function (data) {
 
+    console.log(data.data.length)
+
     if (data.data.length == undefined || data.data.length == 0) {
         var extractionSum = 0;
 
         $extractionTotal.text(extractionSum);
 
-        var ctx1 = $chartExtractionCount[0].getContext("2d");
-        ctx1.fillStyle = "white";
-        ctx1.font = "bold 18px Arial";
-        ctx1.fillText("There are 0 extractions.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+        var wlctx1 = $chartExtractionCount[0].getContext("2d");
+        wlctx1.fillStyle = "white";
+        wlctx1.font = "bold 18px Arial";
+        wlctx1.fillText("There are 0 extractions.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
     } else {
         var extractionSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
 
         //console.log(surveySum);
         $extractionTotal.text(extractionSum);
 
-        var ctx1 = $chartExtractionCount[0].getContext("2d");
+        var wlctx1 = $chartExtractionCount[0].getContext("2d");
 
-          new Chart(ctx1, {
+          new Chart(wlctx1, {
             type: "line",
             data: {
               labels: data.labels,
