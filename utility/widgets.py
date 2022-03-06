@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.safestring import mark_safe
 from django.template import loader
-from django.template.loader import render_to_string
+# from django.template.loader import render_to_string
 
 
 class CustomClearableFileInput(forms.ClearableFileInput):
@@ -19,10 +19,10 @@ class CustomClearableFileInput(forms.ClearableFileInput):
             },
         }
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
+        """Render the widget as an HTML string."""
         context = self.get_context(name, value, attrs)
-        template = loader.get_template(self.template_name).render(context)
-        return mark_safe(template)
+        return self._render(self.template_name, context, renderer)
 
 
 class CustomFileInput(forms.ClearableFileInput):
@@ -40,7 +40,7 @@ class CustomFileInput(forms.ClearableFileInput):
             },
         }
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
+        """Render the widget as an HTML string."""
         context = self.get_context(name, value, attrs)
-        template = loader.get_template(self.template_name).render(context)
-        return mark_safe(template)
+        return self._render(self.template_name, context, renderer)
