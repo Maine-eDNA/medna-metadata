@@ -11,20 +11,23 @@ $(function () {
   // line chart
   var $chartSurveyCount = $("#chartSurveyCount");
   var $surveyTotal = $("#surveyTotal");
+  var $chartSurveyCountLoading = $('#chartSurveyCountLoading');
+  var $chartSurveyCountEmpty = $('#chartSurveyCountEmpty');
   $.ajax({
     url: $chartSurveyCount.data("url"),
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var surveySum = 0;
             $surveyTotal.text(surveySum);
-            var fsCtx1 = $chartSurveyCount[0].getContext("2d");
-            fsCtx1.fillStyle = "black";
-            fsCtx1.font = "bold 18px Arial";
-            fsCtx1.fillText("There are 0 surveys.", ($chartSurveyCount.width / 2) - 17, ($chartSurveyCount.height / 2) + 8);
+            $chartSurveyCount.remove();
+            $chartSurveyCountLoading.remove();
+            $chartSurveyCountEmpty.text("There are 0 surveys.");
         } else {
             var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
             //console.log(surveySum);
             $surveyTotal.text(surveySum);
+            $chartSurveyCountLoading.remove();
+            $chartSurveyCountEmpty.remove();
             var fsCtx1 = $chartSurveyCount[0].getContext("2d");
             new Chart(fsCtx1, {
               type: "line",
@@ -106,15 +109,18 @@ $(function () {
 
   // bar chart
   var $chartSurveySiteCount = $("#chartSurveySiteCount");
+  var $chartSurveySiteCountLoading = $('#chartSurveySiteCountLoading');
+  var $chartSurveySiteCountEmpty = $('#chartSurveySiteCountEmpty');
   $.ajax({
     url: $chartSurveySiteCount.data("url"),
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
-            var fsCtx2 = $chartSurveySiteCount[0].getContext("2d");
-            fsCtx2.fillStyle = "black";
-            fsCtx2.font = "bold 18px Arial";
-            fsCtx2.fillText("There are 0 surveys.", ($chartSurveySiteCount.width / 2) - 17, ($chartSurveySiteCount.height / 2) + 8);
+            $chartSurveySiteCount.remove();
+            $chartSurveySiteCountLoading.remove();
+            $chartSurveySiteCountEmpty.text("There are 0 surveys.");
         } else {
+            $chartSurveySiteCountLoading.remove();
+            $chartSurveySiteCountEmpty.remove();
             var fsCtx2 = $chartSurveySiteCount[0].getContext("2d");
             new Chart(fsCtx2, {
             type: "bar",
@@ -177,15 +183,18 @@ $(function () {
 
   // Pie chart
   var $chartSurveySystemCount = $("#chartSurveySystemCount");
+  var $chartSurveySystemCountLoading = $('#chartSurveySystemCountLoading');
+  var $chartSurveySystemCountEmpty = $('#chartSurveySystemCountEmpty');
   $.ajax({
     url: $chartSurveySystemCount.data("url"),
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
-            var fsCtx3 = $chartSurveySystemCount[0].getContext("2d");
-            fsCtx3.fillStyle = "black";
-            fsCtx3.font = "bold 18px Arial";
-            fsCtx3.fillText("There are 0 surveys.", ($chartSurveySystemCount.width / 2) - 17, ($chartSurveySystemCount.height / 2) + 8);
+            $chartSurveySystemCount.remove();
+            $chartSurveySystemCountLoading.remove();
+            $chartSurveySystemCountEmpty.text("There are 0 surveys.");
         } else {
+            $chartSurveySystemCountLoading.remove();
+            $chartSurveySystemCountEmpty.remove();
             var colors = palette(['tol', 'qualitative'], data.labels.length)
             colors = colors.map(i => '#' + i);
             var fsCtx3 = $chartSurveySystemCount[0].getContext("2d");
@@ -250,6 +259,8 @@ $(function () {
   // Field Sample CHARTS
   // line chart
   var $chartFieldSampleCount = $("#chartFieldSampleCount");
+  var $chartFieldSampleCountLoading = $('#chartFieldSampleCount');
+  var $chartFieldSampleCountEmpty = $('#chartFieldSampleCount');
   var $fieldSampleTotal = $("#fieldSampleTotal");
   var $filterTotal = $("#filterTotal");
   var $subCoreTotal = $("#subCoreTotal");
@@ -263,11 +274,12 @@ $(function () {
             $fieldSampleTotal.text(fieldSampleSum);
             $filterTotal.text(filterSum);
             $subCoreTotal.text(subCoreSum);
-            var fsCtx4 = $chartFieldSampleCount[0].getContext("2d");
-            fsCtx4.fillStyle = "black";
-            fsCtx4.font = "bold 18px Arial";
-            fsCtx4.fillText("There are 0 field samples.", ($chartFieldSampleCount.width / 2) - 17, ($chartFieldSampleCount.height / 2) + 8);
+            $chartFieldSampleCount.remove();
+            $chartFieldSampleCountLoading.remove();
+            $chartFieldSampleCountEmpty.text("There are 0 surveys.");
         } else {
+            $chartFieldSampleCountLoading.remove();
+            $chartFieldSampleCountEmpty.remove();
             var fieldSampleSum = data.fieldsample_data.reduce((partialSum, a) => partialSum + a, 0);
             var filterSum = data.filter_data.reduce((partialSum, a) => partialSum + a, 0);
             var subCoreSum = data.subcore_data.reduce((partialSum, a) => partialSum + a, 0);
@@ -370,15 +382,18 @@ $(function () {
 
   // Pie chart
   var $chartFilterTypeCount = $("#chartFilterTypeCount");
+  var $chartFilterTypeCountLoading = $('#chartFilterTypeCountLoading');
+  var $chartFilterTypeCountEmpty = $('#chartFilterTypeCountEmpty');
   $.ajax({
     url: $chartFilterTypeCount.data("url"),
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
-            var fsCtx5 = $chartFilterTypeCount[0].getContext("2d");
-            fsCtx5.fillStyle = "black";
-            fsCtx5.font = "bold 18px Arial";
-            fsCtx5.fillText("There are 0 filters.", ($chartFilterTypeCount.width / 2) - 17, ($chartFilterTypeCount.height / 2) + 8);
+            $chartFilterTypeCount.remove();
+            $chartFilterTypeCountLoading.remove();
+            $chartFilterTypeCountEmpty.text("There are 0 filters.");
         } else {
+            $chartFilterTypeCountLoading.remove();
+            $chartFilterTypeCountEmpty.remove();
             var colors = palette(['tol', 'qualitative'], data.labels.length)
             colors = colors.map(i => '#' + i);
             var fsCtx5 = $chartFilterTypeCount[0].getContext("2d");
@@ -443,15 +458,18 @@ $(function () {
 
   // bar chart
   var $chartFilterSiteCount = $("#chartFilterSiteCount");
+  var $chartFilterSiteCountLoading = $('#chartFilterSiteCountLoading');
+  var $chartFilterSiteCountEmpty = $('#chartFilterSiteCountEmpty');
   $.ajax({
     url: $chartFilterSiteCount.data("url"),
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
-            var fsCtx6 = $chartFilterSiteCount[0].getContext("2d");
-            fsCtx6.fillStyle = "black";
-            fsCtx6.font = "bold 18px Arial";
-            fsCtx6.fillText("There are 0 filters.", ($chartFilterSiteCount.width / 2) - 17, ($chartFilterSiteCount.height / 2) + 8);
+            $chartFilterSiteCount.remove();
+            $chartFilterSiteCountLoading.remove();
+            $chartFilterSiteCountEmpty.text("There are 0 filters.");
         } else {
+            $chartFilterSiteCountLoading.remove();
+            $chartFilterSiteCountEmpty.remove();
             var fsCtx6 = $chartFilterSiteCount[0].getContext("2d");
             new Chart(fsCtx6, {
             type: "bar",
@@ -514,15 +532,18 @@ $(function () {
 
   // Pie chart
   var $chartFilterSystemCount = $("#chartFilterSystemCount");
+  var $chartFilterSystemCountLoading = $('#chartFilterSystemCountLoading');
+  var $chartFilterSystemCountEmpty = $('#chartFilterSystemCountEmpty');
   $.ajax({
     url: $chartFilterSystemCount.data("url"),
     success: function (data) {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
-            var fsCtx7 = $chartFilterSystemCount[0].getContext("2d");
-            fsCtx7.fillStyle = "black";
-            fsCtx7.font = "bold 18px Arial";
-            fsCtx7.fillText("There are 0 filters.", ($chartFilterSystemCount.width / 2) - 17, ($chartFilterSystemCount.height / 2) + 8);
+            $chartFilterSystemCount.remove();
+            $chartFilterSystemCountLoading.remove();
+            $chartFilterSystemCountEmpty.text("There are 0 filters.");
         } else {
+            $chartFilterSystemCountLoading.remove();
+            $chartFilterSystemCountEmpty.remove();
             var colors = palette(['tol', 'qualitative'], data.labels.length)
             colors = colors.map(i => '#' + i);
             var fsCtx7 = $chartFilterSystemCount[0].getContext("2d");
