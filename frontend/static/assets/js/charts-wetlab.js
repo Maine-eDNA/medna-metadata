@@ -5,6 +5,7 @@ $(function () {
   // line chart
   var $chartExtractionCount = $("#chartExtractionCount");
   var $extractionTotal = $("#extractionTotal");
+  var $lastExtractionDate = $('#lastExtractionDate');
   var $chartExtractionCountLoading = $('#chartExtractionCountLoading');
   var $chartExtractionCountEmpty = $('#chartExtractionCountEmpty');
   $.ajax({
@@ -16,11 +17,14 @@ $(function () {
             $extractionTotal.text(extractionSum);
             $chartExtractionCountLoading.remove();
             $chartExtractionCount.remove();
-            $chartExtractionCountEmpty.text("There are 0 extractions.")
+            $lastExtractionDate.text("No extractions.");
+            $chartExtractionCountEmpty.text("There are 0 extractions.");
         } else {
             var extractionSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+            var lastExtraction = data.labels.slice(-1)[0];
             //console.log(surveySum);
             $extractionTotal.text(extractionSum);
+            $lastExtractionDate.text(lastExtraction);
             $chartExtractionCountLoading.remove();
             $chartExtractionCountEmpty.remove();
             var wlCtx1 = $chartExtractionCount[0].getContext("2d");
@@ -106,6 +110,7 @@ $(function () {
   // line chart
   var $chartRunResultCount = $("#chartRunResultCount");
   var $runResultTotal = $("#runResultTotal");
+  var $lastRunResultDate = $('#lastRunResultDate');
   var $chartRunResultCountLoading = $('#chartRunResultCountLoading');
   var $chartRunResultCountEmpty = $('#chartRunResultCountEmpty');
   $.ajax({
@@ -117,11 +122,14 @@ $(function () {
             $runResultTotal.text(runResultSum);
             $chartRunResultCount.remove();
             $chartRunResultCountLoading.remove();
-            $chartRunResultCountEmpty.text("There are 0 run results.")
+            $lastRunResultDate.text("No run results.");
+            $chartRunResultCountEmpty.text("There are 0 run results.");
         } else {
             var runResultSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+            var lastRunResult = data.labels.slice(-1)[0];
             //console.log(surveySum);
             $runResultTotal.text(runResultSum);
+            $lastRunResultDate.text(lastRunResult);
             $chartRunResultCountLoading.remove();
             $chartRunResultCountEmpty.remove();
             var wlCtx1 = $chartRunResultCount[0].getContext("2d");

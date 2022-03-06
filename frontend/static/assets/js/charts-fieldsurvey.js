@@ -11,6 +11,7 @@ $(function () {
   // line chart
   var $chartSurveyCount = $("#chartSurveyCount");
   var $surveyTotal = $("#surveyTotal");
+  var $lastSurveyDate = $('#lastSurveyDate');
   var $chartSurveyCountLoading = $('#chartSurveyCountLoading');
   var $chartSurveyCountEmpty = $('#chartSurveyCountEmpty');
   $.ajax({
@@ -19,13 +20,16 @@ $(function () {
         if (!Array.isArray(data.data) == undefined || !data.data.length) {
             var surveySum = 0;
             $surveyTotal.text(surveySum);
+            $lastSurveyDate.text('No surveys.');
             $chartSurveyCount.remove();
             $chartSurveyCountLoading.remove();
             $chartSurveyCountEmpty.text("There are 0 surveys.");
         } else {
             var surveySum = data.data.reduce((partialSum, a) => partialSum + a, 0);
+            var lastSurvey = data.labels.slice(-1)[0];
             //console.log(surveySum);
             $surveyTotal.text(surveySum);
+            $lastSurveyDate.text(lastSurvey);
             $chartSurveyCountLoading.remove();
             $chartSurveyCountEmpty.remove();
             var fsCtx1 = $chartSurveyCount[0].getContext("2d");
