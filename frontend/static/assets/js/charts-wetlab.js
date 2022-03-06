@@ -16,19 +16,19 @@ $(function () {
 
         $extractionTotal.text(extractionSum);
 
-        var wlctx1 = $chartExtractionCount[0].getContext("2d");
-        wlctx1.fillStyle = "white";
-        wlctx1.font = "bold 18px Arial";
-        wlctx1.fillText("There are 0 extractions.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
+        var wlCtx1 = $chartExtractionCount[0].getContext("2d");
+        wlCtx1.fillStyle = "white";
+        wlCtx1.font = "bold 18px Arial";
+        wlCtx1.fillText("There are 0 extractions.", (canvas.width / 2) - 17, (canvas.height / 2) + 8);
     } else {
         var extractionSum = data.data.reduce((partialSum, a) => partialSum + a, 0);
 
         //console.log(surveySum);
         $extractionTotal.text(extractionSum);
 
-        var wlctx1 = $chartExtractionCount[0].getContext("2d");
+        var wlCtx1 = $chartExtractionCount[0].getContext("2d");
 
-          new Chart(wlctx1, {
+          new Chart(wlCtx1, {
             type: "line",
             data: {
               labels: data.labels,
