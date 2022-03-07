@@ -10,16 +10,14 @@
   <div class="card-body pt-1">
       {% for field in form %}
    <div class="row">
-     <div class="col-md-12 pe-2 mb-3">
        {{ field.errors }}
        {{ field.label_tag }}
-       <div class="input-group input-group-outline mb-4">
+       <div class="input-group input-group-outline my-3">
         {{ field }}
         {% if field.help_text %}
          <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
        </div>
-     </div>
    </div>
       {% endfor %}
       <div class="row">
