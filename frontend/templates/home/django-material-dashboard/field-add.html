@@ -19,35 +19,7 @@
         <div class="col-12">
           <h3 class="text-center">{{ page_title|title }}</h3>
         </div>
-        <!-- START FORM ERRORS -->
-        {% if form.non_field_errors %}
-        <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
-        {% endif %}
-        <!-- END FORM ERRORS -->
-        <!-- START FORM -->
-        <form method="post" class="p-3" id="contact-form" >
-          {% csrf_token %}
-          <div class="card-body pt-1">
-           <div class="row">
-             {% for field in form %}
-             <div class="col-md-12 pe-2 mb-3">
-               {{ field.errors }}
-               {{ field.label_tag }}
-               <div class="input-group input-group-static mb-4">
-                {{ field }}
-                {% if field.help_text %}
-                 <div class="alert alert-primary text-white font-weight-bold" role="alert">{{ field.help_text|safe }}</div>
-                {% endif %}
-               </div>
-             </div>
-             {% endfor %}
-           </div>
-            <div class="col-md-6 text-end ms-auto">
-              <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Add</button>
-            </div>
-          </div>
-        </form>
-        <!-- END FORM -->
+          {% include 'includes/django-material-dashboard/form.html' %}
       </div>
     </div>
 

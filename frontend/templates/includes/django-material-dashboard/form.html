@@ -1,0 +1,32 @@
+
+<!-- START FORM ERRORS -->
+{% if form.non_field_errors %}
+<div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+{% endif %}
+<!-- END FORM ERRORS -->
+<!-- START FORM -->
+<form method="post" class="p-3" id="contact-form" >
+  {% csrf_token %}
+  <div class="card-body pt-1">
+      {% for field in form %}
+   <div class="row">
+     <div class="col-md-12 pe-2 mb-3">
+       {{ field.errors }}
+       {{ field.label_tag }}
+       <div class="input-group input-group-outline mb-4">
+        {{ field }}
+        {% if field.help_text %}
+         <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+       </div>
+     </div>
+   </div>
+      {% endfor %}
+      <div class="row">
+    <div class="col-md-6 text-end ms-auto">
+      <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
+    </div>
+      </div>
+  </div>
+</form>
+<!-- END FORM -->
