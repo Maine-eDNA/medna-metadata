@@ -1,10 +1,9 @@
 {% if widget.is_initial %}
-<div class="row">
+<div class="row w-100">
     <div class="col-12">{{ widget.initial_text }}:</div>
 </div>
-<div class="page-break"></div>
 {% if not widget.required %}
-<div class="row">
+<div class="row w-100">
     <div class="col-4"><a href="{{ widget.value.url }}">{{ widget.value }}</a></div>
     <div class="col-8">
         <div class="form-check">
@@ -13,10 +12,11 @@
         </div>
     </div>
 </div>
-<div class="page-break"></div>
 {% endif %}
-{{ widget.input_text }}:
-<div class="page-break"></div>
+<div class="row w-100">
+    {{ widget.input_text }}:
+</div>
 {% endif %}
-<input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
-
+<div class="row w-100">
+    <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+</div>
