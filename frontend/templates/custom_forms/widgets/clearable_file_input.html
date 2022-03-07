@@ -1,6 +1,6 @@
 {% if widget.is_initial %}
 <div class="row w-100">
-    <p class="lead">{{ widget.initial_text }}:</p>
+    <p class="lead"><small>{{ widget.initial_text }}:</small></p>
 </div>
 {% if not widget.required %}
 <div class="row w-100">
@@ -14,7 +14,7 @@
 </div>
 {% endif %}
 <div class="row w-100">
-    <p class="lead">{{ widget.input_text }}:</p>
+    <p class="lead"><small>{{ widget.input_text }}:</small></p>
 </div>
 {% endif %}
 <div class="row w-100">
