@@ -1,10 +1,22 @@
-{% if widget.is_initial %}{{ widget.initial_text }}: <a href="{{ widget.value.url }}">{{ widget.value }}</a>{% if not widget.required %}
-<div class="form-check">
-    <input class="form-check-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %}>
-    <label class="custom-control-label" for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
+{% if widget.is_initial %}
+<div class="row">
+    <div class="col-sm-4">{{ widget.initial_text }}:</div>
+    <div class="col-sm-8"><a href="{{ widget.value.url }}">{{ widget.value }}</a></div>
 </div>
-{% endif %}<br>
-{{ widget.input_text }}:{% endif %}
-<div class="input-group input-group-static mb-4">
-    <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+{% if not widget.required %}
+<div class="row">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %}>
+        <label class="custom-control-label" for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    {{ widget.input_text }}:
+    </div>
+    {% endif %}
+<div class="row">
+    <div class="input-group input-group-outline mb-4">
+        <input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    </div>
 </div>
