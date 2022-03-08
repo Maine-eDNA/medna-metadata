@@ -265,7 +265,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_domain', 'taxon_url', ]
+        self.fields = ['taxon_domain', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -301,11 +301,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_kingdom', 'taxon_domain', 'taxon_url', ]
-        # self.list_filter = (
-        #     ('taxon_domain', RelatedDropdownFilter)
-        # )
-        #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        self.fields = ['taxon_kingdom', 'taxon_domain', 'taxon_url', 'created_by', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
@@ -341,7 +337,7 @@ class TaxonSupergroupAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_supergroup', 'taxon_kingdom', 'taxon_url', ]
+        self.fields = ['taxon_supergroup', 'taxon_kingdom', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -379,7 +375,7 @@ class TaxonPhylumDivisionAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_phylum_division', 'taxon_supergroup', 'taxon_url', ]
+        self.fields = ['taxon_phylum_division', 'taxon_supergroup', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -418,7 +414,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class', 'taxon_phylum_division', 'taxon_url', ]
+        self.fields = ['taxon_class', 'taxon_phylum_division', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -460,7 +456,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_order', 'taxon_class', 'taxon_url', ]
+        self.fields = ['taxon_order', 'taxon_class', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -503,7 +499,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_family', 'taxon_order', 'taxon_url', ]
+        self.fields = ['taxon_family', 'taxon_order', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -547,7 +543,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_genus', 'taxon_family', 'taxon_url', ]
+        self.fields = ['taxon_genus', 'taxon_family', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -594,7 +590,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_species', 'taxon_genus', 'taxon_common_name', 'is_endemic', 'taxon_url', ]
+        self.fields = ['taxon_species', 'taxon_genus', 'taxon_common_name', 'is_endemic', 'taxon_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
