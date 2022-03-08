@@ -24,11 +24,11 @@
         {% if perms.field_site %}
           <!-- begin field site -->
       <ul class="nav nav-fill p-1" role="tablist">
-          <li class="nav-item mt-2">
-            <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
+          <li class="nav-item mt-2 col-8">
+            <h6 class="text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
           </li>
             {% if perms.field_site.view_fieldsite %}
-            <li class="nav-item">
+            <li class="nav-item col-1">
               <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_fieldsite' in segment or 'detail_fieldsite' in segment %} active bg-gradient-primary {% endif %}"
                  href="{% url 'view_fieldsite' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -38,7 +38,7 @@
             </li>
             {% endif %}
             {% if perms.field_site.add_fieldsite %}
-            <li class="nav-item">
+            <li class="nav-item col-1">
               <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldsite' in segment %} active bg-gradient-primary {% endif %}"
                  href="{% url 'add_fieldsite' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -52,11 +52,11 @@
         {% endif %}
         {% if perms.sample_label %}
       <ul class="nav nav-fill p-1" role="tablist">
-        <li class="nav-item mt-2">
-          <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Sample Labels</h6>
+        <li class="nav-item mt-2 col-8">
+          <h6 class="text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Sample Labels</h6>
         </li>
         {% if perms.sample_label.view_samplelabelrequest %}
-         <li class="nav-item">
+         <li class="nav-item col-1">
           <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_samplelabelrequest' in segment or 'detail_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
              href="{% url 'view_samplelabelrequest' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -66,7 +66,7 @@
         </li>
         {% endif %}
         {% if perms.sample_label.add_samplelabelrequest %}
-        <li class="nav-item">
+        <li class="nav-item col-1">
           <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
              href="{% url 'add_samplelabelrequest' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -77,7 +77,6 @@
         {% endif %}
         </ul>
         {% endif %}
-
     </div>
   <hr class="horizontal light mt-0 mb-2">
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
