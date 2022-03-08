@@ -14,6 +14,7 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 import json
 # import ast
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
@@ -239,6 +240,7 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
 # enum serializers to return choices
 class YesNoChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -253,6 +255,7 @@ class YesNoChoicesViewSet(viewsets.ViewSet):
 ########################################
 class TempUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -264,6 +267,7 @@ class TempUnitsChoicesViewSet(viewsets.ViewSet):
 
 class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -275,6 +279,7 @@ class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
 
 class VolUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -286,6 +291,7 @@ class VolUnitsChoicesViewSet(viewsets.ViewSet):
 
 class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -297,6 +303,7 @@ class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
 class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -308,6 +315,7 @@ class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
 class PcrUnitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -322,6 +330,7 @@ class PcrUnitsChoicesViewSet(viewsets.ViewSet):
 ########################################
 class WindSpeedsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -333,6 +342,7 @@ class WindSpeedsChoicesViewSet(viewsets.ViewSet):
 
 class CloudCoversChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -344,6 +354,7 @@ class CloudCoversChoicesViewSet(viewsets.ViewSet):
 
 class PrecipTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -355,6 +366,7 @@ class PrecipTypesChoicesViewSet(viewsets.ViewSet):
 
 class TurbidTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -366,6 +378,7 @@ class TurbidTypesChoicesViewSet(viewsets.ViewSet):
 
 class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -377,6 +390,7 @@ class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
 
 class MeasureModesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -388,6 +402,7 @@ class MeasureModesChoicesViewSet(viewsets.ViewSet):
 
 class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -399,6 +414,7 @@ class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
 
 class YsiModelsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -410,6 +426,7 @@ class YsiModelsChoicesViewSet(viewsets.ViewSet):
 
 class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -421,6 +438,7 @@ class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
 
 class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -432,6 +450,7 @@ class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
 
 class CollectionTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -443,6 +462,7 @@ class CollectionTypesChoicesViewSet(viewsets.ViewSet):
 
 class FilterLocationsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -454,6 +474,7 @@ class FilterLocationsChoicesViewSet(viewsets.ViewSet):
 
 class ControlTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -465,6 +486,7 @@ class ControlTypesChoicesViewSet(viewsets.ViewSet):
 
 class FilterMethodsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -476,6 +498,7 @@ class FilterMethodsChoicesViewSet(viewsets.ViewSet):
 
 class FilterTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -487,6 +510,7 @@ class FilterTypesChoicesViewSet(viewsets.ViewSet):
 
 class CoreMethodsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -498,6 +522,7 @@ class CoreMethodsChoicesViewSet(viewsets.ViewSet):
 
 class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -512,6 +537,7 @@ class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
 ########################################
 class TargetGenesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -523,6 +549,7 @@ class TargetGenesChoicesViewSet(viewsets.ViewSet):
 
 class SubFragmentsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -534,6 +561,7 @@ class SubFragmentsChoicesViewSet(viewsets.ViewSet):
 
 class PcrTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -545,6 +573,7 @@ class PcrTypesChoicesViewSet(viewsets.ViewSet):
 
 class LibLayoutsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -556,6 +585,7 @@ class LibLayoutsChoicesViewSet(viewsets.ViewSet):
 
 class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -567,6 +597,7 @@ class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
 
 class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -578,6 +609,7 @@ class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
 
 class SeqMethodsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -589,6 +621,7 @@ class SeqMethodsChoicesViewSet(viewsets.ViewSet):
 
 class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -603,6 +636,7 @@ class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
 ##########################################
 class InvStatusChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -614,6 +648,7 @@ class InvStatusChoicesViewSet(viewsets.ViewSet):
 
 class InvLocStatusChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -625,6 +660,7 @@ class InvLocStatusChoicesViewSet(viewsets.ViewSet):
 
 class InvTypesChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
@@ -636,6 +672,7 @@ class InvTypesChoicesViewSet(viewsets.ViewSet):
 
 class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ["choices"]
+    permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
