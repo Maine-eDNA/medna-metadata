@@ -45,9 +45,6 @@
               </a>
             </li>
             {% endif %}
-
-
-
         <!-- end field site -->
         {% endif %}
         {% if perms.sample_label %}
@@ -80,7 +77,9 @@
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-      <div class="nav-item">
+            <ul class="navbar-nav">
+        <li class="nav-item">
+
         <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'detail_dashboardprofile' %}">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -88,25 +87,26 @@
           </div>
           <span class="nav-link-text ms-1">Profile</span>
         </a>
-      </div>
+      </li>
       {% if user.is_active and user.is_staff %}
-      <div class="nav-item">
+      <li class="nav-item">
         <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">admin_panel_settings</i>
           </div>
           <span class="nav-link-text ms-1">Admin</span>
         </a>
-      </div>
+      </li>
       {% endif %}
-      <div class="nav-item">
+      <li class="nav-item">
         <a class="nav-link text-white " href="{% url 'logout' %}">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">directions_run</i>
           </div>
           <span class="nav-link-text ms-1">Logout</span>
         </a>
-      </div>
+      </li>
+              </ul>
       <div class="mx-3">
         <a class="btn bg-gradient-primary mt-4 w-100" 
            target="_blank" 
