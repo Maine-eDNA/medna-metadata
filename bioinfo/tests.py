@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils import timezone
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonSpecies, TaxonFamily, TaxonDomain, TaxonGenus, TaxonOrder, TaxonClass, \
-    TaxonPhylum, TaxonKingdom, TaxonomicAnnotation, AnnotationMethod, AnnotationMetadata
+    TaxonPhylumDivision, TaxonKingdom, TaxonomicAnnotation, AnnotationMethod, AnnotationMetadata
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
 from wet_lab.tests import RunResultTestCase, ExtractionTestCase
@@ -157,25 +157,25 @@ class TaxonKingdomTestCase(TestCase):
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class TaxonPhylumTestCase(TestCase):
+class TaxonPhylumDivisionTestCase(TestCase):
     def setUp(self):
         taxon_test = TaxonKingdomTestCase()
         taxon_test.setUp()
         taxon = TaxonKingdom.objects.filter()[:1].get()
-        TaxonPhylum.objects.get_or_create(taxon_phylum="test_phylum", defaults={'taxon_kingdom': taxon, 'taxon_url': "https://testtaxon.com"})
+        TaxonPhylumDivision.objects.get_or_create(taxon_phylum_division="test_phylum", defaults={'taxon_kingdom': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = TaxonPhylum.objects.filter(taxon_phylum="test_phylum")[:1].get()
+        test_exists = TaxonPhylumDivision.objects.filter(taxon_phylum_division="test_phylum")[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class TaxonClassTestCase(TestCase):
     def setUp(self):
-        taxon_test = TaxonPhylumTestCase()
+        taxon_test = TaxonPhylumDivisionTestCase()
         taxon_test.setUp()
-        taxon = TaxonPhylum.objects.filter()[:1].get()
-        TaxonClass.objects.get_or_create(taxon_class="test_class", defaults={'taxon_phylum': taxon, 'taxon_url': "https://testtaxon.com"})
+        taxon = TaxonPhylumDivision.objects.filter()[:1].get()
+        TaxonClass.objects.get_or_create(taxon_class="test_class", defaults={'taxon_phylum_division': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -295,7 +295,7 @@ class TaxonomicAnnotationTestCase(TestCase):
         manual_family = TaxonFamily.objects.filter()[:1].get()
         manual_order = TaxonOrder.objects.filter()[:1].get()
         manual_class = TaxonClass.objects.filter()[:1].get()
-        manual_phylum = TaxonPhylum.objects.filter()[:1].get()
+        manual_phylum_division = TaxonPhylumDivision.objects.filter()[:1].get()
         manual_kingdom = TaxonKingdom.objects.filter()[:1].get()
         manual_domain = TaxonDomain.objects.filter()[:1].get()
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
@@ -307,7 +307,7 @@ class TaxonomicAnnotationTestCase(TestCase):
                                                       'ta_taxon': "test_taxon",
                                                       'ta_domain': "test_domain",
                                                       'ta_kingdom': "test_kingdom",
-                                                      'ta_phylum': "test_phylum",
+                                                      'ta_phylum_division': "test_phylum",
                                                       'ta_class': "test_class",
                                                       'ta_order': "test_order",
                                                       'ta_family': "test_family",
@@ -316,7 +316,7 @@ class TaxonomicAnnotationTestCase(TestCase):
                                                       'ta_common_name': "test_common_name",
                                                       'manual_domain': manual_domain,
                                                       'manual_kingdom': manual_kingdom,
-                                                      'manual_phylum': manual_phylum,
+                                                      'manual_phylum_division': manual_phylum_division,
                                                       'manual_class': manual_class,
                                                       'manual_order': manual_order,
                                                       'manual_family': manual_family,

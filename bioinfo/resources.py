@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import QualityMetadata, DenoiseClusterMethod, FeatureRead, FeatureOutput, DenoiseClusterMetadata, \
-    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
+    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
     TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 from utility.models import ProcessLocation
 from wet_lab.models import RunResult, Extraction
@@ -207,9 +207,9 @@ class TaxonKingdomAdminResource(resources.ModelResource):
         model = TaxonKingdom
         import_id_fields = ('taxon_domain_slug', 'taxon_kingdom', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom', 'taxon_url',
+        fields = ('id', 'taxon_domain_slug', 'taxon_domain', 'taxon_kingdom', 'taxon_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom', 'taxon_url',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_domain', 'taxon_kingdom', 'taxon_url',
                         'created_by', 'created_datetime', )
 
     taxon_domain = fields.Field(
@@ -226,20 +226,22 @@ class TaxonKingdomAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class TaxonPhylumAdminResource(resources.ModelResource):
+class TaxonSupergroupAdminResource(resources.ModelResource):
     class Meta:
-        model = TaxonPhylum
-        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum', )
+        model = TaxonSupergroup
+        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id',
                   'taxon_domain_slug',
                   'taxon_kingdom_slug',
-                  'taxon_phylum', 'taxon_url',
+                  'taxon_kingdom',
+                  'taxon_supergroup', 'taxon_url',
                   'created_by', 'created_datetime', )
         export_order = ('id',
                         'taxon_domain_slug',
                         'taxon_kingdom_slug',
-                        'taxon_phylum', 'taxon_url',
+                        'taxon_kingdom',
+                        'taxon_supergroup', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_kingdom = fields.Field(
@@ -256,20 +258,54 @@ class TaxonPhylumAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
+class TaxonPhylumDivisionAdminResource(resources.ModelResource):
+    class Meta:
+        model = TaxonPhylumDivision
+        import_id_fields = ('taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('id',
+                  'taxon_domain_slug',
+                  'taxon_kingdom_slug',
+                  'taxon_supergroup',
+                  'taxon_supergroup_slug',
+                  'taxon_phylum_division', 'taxon_url',
+                  'created_by', 'created_datetime', )
+        export_order = ('id',
+                        'taxon_domain_slug',
+                        'taxon_kingdom_slug',
+                        'taxon_supergroup',
+                        'taxon_supergroup_slug',
+                        'taxon_phylum_division', 'taxon_url',
+                        'created_by', 'created_datetime',)
+
+    taxon_supergroup = fields.Field(
+        column_name='taxon_supergroup',
+        attribute='taxon_supergroup',
+        widget=ForeignKeyWidget(TaxonSupergroup, 'taxon_supergroup_slug'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
 class TaxonClassAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonClass
-        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class', )
+        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class', 'taxon_url',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class', 'taxon_url',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class', 'taxon_url',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class', 'taxon_url',
                         'created_by', 'created_datetime',)
 
-    taxon_phylum = fields.Field(
-        column_name='taxon_phylum',
-        attribute='taxon_phylum',
-        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum_slug'))
+    taxon_phylum_division = fields.Field(
+        column_name='taxon_phylum_division',
+        attribute='taxon_phylum_division',
+        widget=ForeignKeyWidget(TaxonPhylumDivision, 'taxon_phylum_division_slug'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -283,14 +319,14 @@ class TaxonClassAdminResource(resources.ModelResource):
 class TaxonOrderAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonOrder
-        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                             'taxon_order', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug',
-                  'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order', 'taxon_url',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug',
+                  'taxon_phylum_division_slug', 'taxon_class_slug', 'taxon_order', 'taxon_url',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug',
-                        'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order', 'taxon_url',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug',
+                        'taxon_phylum_division_slug', 'taxon_class_slug', 'taxon_order', 'taxon_url',
                         'created_by', 'created_datetime',)
 
     taxon_class = fields.Field(
@@ -310,13 +346,13 @@ class TaxonOrderAdminResource(resources.ModelResource):
 class TaxonFamilyAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonFamily
-        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                             'taxon_order_slug', 'taxon_family',)
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug',
                   'taxon_class_slug', 'taxon_order_slug', 'taxon_family', 'taxon_url',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug',
                         'taxon_class_slug', 'taxon_order_slug', 'taxon_family', 'taxon_url',
                         'created_by', 'created_datetime',)
 
@@ -337,13 +373,13 @@ class TaxonFamilyAdminResource(resources.ModelResource):
 class TaxonGenusAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonGenus
-        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                             'taxon_order_slug', 'taxon_family_slug', 'taxon_genus', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                   'taxon_order_slug', 'taxon_family_slug', 'taxon_genus', 'taxon_url',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                         'taxon_order_slug', 'taxon_family_slug', 'taxon_genus', 'taxon_url',
                         'created_by', 'created_datetime',)
 
@@ -364,14 +400,14 @@ class TaxonGenusAdminResource(resources.ModelResource):
 class TaxonSpeciesAdminResource(resources.ModelResource):
     class Meta:
         model = TaxonSpecies
-        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        import_id_fields = ('taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                             'taxon_order_slug', 'taxon_family_slug', 'taxon_genus_slug', 'taxon_species',)
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        fields = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                   'taxon_order_slug', 'taxon_family_slug', 'taxon_genus_slug', 'taxon_species',
                   'taxon_common_name', 'is_endemic', 'taxon_url',
                   'created_by', 'created_datetime',)
-        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug',
+        export_order = ('id', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug',
                         'taxon_order_slug', 'taxon_family_slug', 'taxon_genus_slug', 'taxon_species',
                         'taxon_common_name', 'is_endemic', 'taxon_url',
                         'created_by', 'created_datetime',)
@@ -457,10 +493,10 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         fields = ('id', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom',
-                  'ta_phylum', 'ta_class', 'ta_order',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
                   'ta_common_name', 'manual_domain',
-                  'manual_kingdom', 'manual_phylum',
+                  'manual_kingdom', 'manual_phylum_division',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species', 'manual_notes',
@@ -469,10 +505,10 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         export_order = ('id', 'feature', 'annotation_metadata',
                         'reference_database', 'confidence',
                         'ta_taxon', 'ta_domain', 'ta_kingdom',
-                        'ta_phylum', 'ta_class', 'ta_order',
+                        'ta_phylum_division', 'ta_class', 'ta_order',
                         'ta_family', 'ta_genus', 'ta_species',
                         'ta_common_name', 'manual_domain',
-                        'manual_kingdom', 'manual_phylum',
+                        'manual_kingdom', 'manual_phylum_division',
                         'manual_class', 'manual_order',
                         'manual_family', 'manual_genus',
                         'manual_species', 'manual_notes',
@@ -504,10 +540,10 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         attribute='manual_kingdom',
         widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom_slug'))
 
-    manual_phylum = fields.Field(
-        column_name='manual_phylum',
-        attribute='manual_phylum',
-        widget=ForeignKeyWidget(TaxonPhylum, 'taxon_phylum_slug'))
+    manual_phylum_division = fields.Field(
+        column_name='manual_phylum_division',
+        attribute='manual_phylum_division',
+        widget=ForeignKeyWidget(TaxonPhylumDivision, 'taxon_phylum_division_slug'))
 
     manual_class = fields.Field(
         column_name='manual_class',

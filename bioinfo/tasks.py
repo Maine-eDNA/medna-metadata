@@ -4,7 +4,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from celery.utils.log import get_task_logger
 from celery import shared_task
-from .models import TaxonDomain, TaxonKingdom, TaxonPhylum, TaxonClass, TaxonOrder, TaxonFamily, \
+from .models import TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, \
     TaxonGenus, TaxonSpecies
 logger = get_task_logger(__name__)
 
@@ -31,10 +31,14 @@ def update_domain(instance_pk, new_taxa):
             kingdom_queryset = TaxonKingdom.objects.filter(taxon_domain_slug=new_taxa)
             if kingdom_queryset:
                 update_queryset(kingdom_queryset)
-            TaxonPhylum.objects.filter(taxon_domain_slug=old_taxa).update(taxon_domain_slug=new_taxa)
-            phylum_queryset = TaxonPhylum.objects.filter(taxon_domain_slug=new_taxa)
-            if phylum_queryset:
-                update_queryset(phylum_queryset)
+            TaxonSupergroup.objects.filter(taxon_domain_slug=old_taxa).update(taxon_domain_slug=new_taxa)
+            supergroup_queryset = TaxonSupergroup.objects.filter(taxon_domain_slug=new_taxa)
+            if supergroup_queryset:
+                update_queryset(supergroup_queryset)
+            TaxonPhylumDivision.objects.filter(taxon_domain_slug=old_taxa).update(taxon_domain_slug=new_taxa)
+            phylum_division_queryset = TaxonPhylumDivision.objects.filter(taxon_domain_slug=new_taxa)
+            if phylum_division_queryset:
+                update_queryset(phylum_division_queryset)
             TaxonClass.objects.filter(taxon_domain_slug=old_taxa).update(taxon_domain_slug=new_taxa)
             class_queryset = TaxonClass.objects.filter(taxon_domain_slug=new_taxa)
             if class_queryset:
@@ -66,14 +70,18 @@ def update_kingdom(instance_pk, new_taxa):
         logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
     else:
         # cascade update all proceeding models
-        taxa_obj = TaxonPhylum.objects.filter(taxon_kingdom=instance.pk).first()
+        taxa_obj = TaxonSupergroup.objects.filter(taxon_kingdom=instance.pk).first()
         if taxa_obj:
             old_taxa = taxa_obj.taxon_kingdom_slug
             # update remaining with new_taxa
-            TaxonPhylum.objects.filter(taxon_kingdom_slug=old_taxa).update(taxon_kingdom_slug=new_taxa)
-            phylum_queryset = TaxonPhylum.objects.filter(taxon_kingdom_slug=new_taxa)
-            if phylum_queryset:
-                update_queryset(phylum_queryset)
+            TaxonSupergroup.objects.filter(taxon_kingdom_slug=old_taxa).update(taxon_kingdom_slug=new_taxa)
+            supergroup_queryset = TaxonSupergroup.objects.filter(taxon_kingdom_slug=new_taxa)
+            if supergroup_queryset:
+                update_queryset(supergroup_queryset)
+            TaxonPhylumDivision.objects.filter(taxon_kingdom_slug=old_taxa).update(taxon_kingdom_slug=new_taxa)
+            phylum_division_queryset = TaxonPhylumDivision.objects.filter(taxon_kingdom_slug=new_taxa)
+            if phylum_division_queryset:
+                update_queryset(phylum_division_queryset)
             TaxonClass.objects.filter(taxon_kingdom_slug=old_taxa).update(taxon_kingdom_slug=new_taxa)
             class_queryset = TaxonClass.objects.filter(taxon_kingdom_slug=new_taxa)
             if class_queryset:
@@ -97,36 +105,75 @@ def update_kingdom(instance_pk, new_taxa):
 
 
 @shared_task
-def update_phylum(instance_pk, new_taxa):
+def update_supergroup(instance_pk, new_taxa):
     try:
-        instance = TaxonPhylum.objects.get(pk=instance_pk)
+        instance = TaxonSupergroup.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
         logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
     else:
         # cascade update all proceeding models
-        taxa_obj = TaxonClass.objects.filter(taxon_phylum=instance.pk).first()
+        taxa_obj = TaxonPhylumDivision.objects.filter(taxon_supergroup=instance.pk).first()
         if taxa_obj:
-            old_taxa = taxa_obj.taxon_phylum_slug
+            old_taxa = taxa_obj.taxon_supergroup_slug
             # update remaining with new_taxa
-            TaxonClass.objects.filter(taxon_phylum_slug=old_taxa).update(taxon_phylum_slug=new_taxa)
-            class_queryset = TaxonClass.objects.filter(taxon_phylum_slug=new_taxa)
+            TaxonPhylumDivision.objects.filter(taxon_supergroup_slug=old_taxa).update(taxon_supergroup_slug=new_taxa)
+            phylum_division_queryset = TaxonPhylumDivision.objects.filter(taxon_supergroup_slug=new_taxa)
+            if phylum_division_queryset:
+                update_queryset(phylum_division_queryset)
+            TaxonClass.objects.filter(taxon_supergroup_slug=old_taxa).update(taxon_supergroup_slug=new_taxa)
+            class_queryset = TaxonClass.objects.filter(taxon_supergroup_slug=new_taxa)
             if class_queryset:
                 update_queryset(class_queryset)
-            TaxonOrder.objects.filter(taxon_phylum_slug=old_taxa).update(taxon_phylum_slug=new_taxa)
-            order_queryset = TaxonOrder.objects.filter(taxon_phylum_slug=new_taxa)
+            TaxonOrder.objects.filter(taxon_supergroup_slug=old_taxa).update(taxon_supergroup_slug=new_taxa)
+            order_queryset = TaxonOrder.objects.filter(taxon_supergroup_slug=new_taxa)
             if order_queryset:
                 update_queryset(order_queryset)
-            TaxonFamily.objects.filter(taxon_phylum_slug=old_taxa).update(taxon_phylum_slug=new_taxa)
-            family_queryset = TaxonFamily.objects.filter(taxon_phylum_slug=new_taxa)
+            TaxonFamily.objects.filter(taxon_supergroup_slug=old_taxa).update(taxon_supergroup_slug=new_taxa)
+            family_queryset = TaxonFamily.objects.filter(taxon_supergroup_slug=new_taxa)
             if family_queryset:
                 update_queryset(family_queryset)
-            TaxonGenus.objects.filter(taxon_phylum_slug=old_taxa).update(taxon_phylum_slug=new_taxa)
-            genus_queryset = TaxonGenus.objects.filter(taxon_phylum_slug=new_taxa)
+            TaxonGenus.objects.filter(taxon_supergroup_slug=old_taxa).update(taxon_supergroup_slug=new_taxa)
+            genus_queryset = TaxonGenus.objects.filter(taxon_supergroup_slug=new_taxa)
             if genus_queryset:
                 update_queryset(genus_queryset)
-            TaxonSpecies.objects.filter(taxon_phylum_slug=old_taxa).update(taxon_phylum_slug=new_taxa)
-            species_queryset = TaxonSpecies.objects.filter(taxon_phylum_slug=new_taxa)
+            TaxonSpecies.objects.filter(taxon_supergroup_slug=old_taxa).update(taxon_supergroup_slug=new_taxa)
+            species_queryset = TaxonSpecies.objects.filter(taxon_supergroup_slug=new_taxa)
+            if species_queryset:
+                update_queryset(species_queryset)
+
+
+@shared_task
+def update_phylum_division(instance_pk, new_taxa):
+    try:
+        instance = TaxonPhylumDivision.objects.get(pk=instance_pk)
+    except ObjectDoesNotExist:
+        # Abort
+        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+    else:
+        # cascade update all proceeding models
+        taxa_obj = TaxonClass.objects.filter(taxon_phylum_division=instance.pk).first()
+        if taxa_obj:
+            old_taxa = taxa_obj.taxon_phylum_division_slug
+            # update remaining with new_taxa
+            TaxonClass.objects.filter(taxon_phylum_division_slug=old_taxa).update(taxon_phylum_division_slug=new_taxa)
+            class_queryset = TaxonClass.objects.filter(taxon_phylum_division_slug=new_taxa)
+            if class_queryset:
+                update_queryset(class_queryset)
+            TaxonOrder.objects.filter(taxon_phylum_division_slug=old_taxa).update(taxon_phylum_division_slug=new_taxa)
+            order_queryset = TaxonOrder.objects.filter(taxon_phylum_division_slug=new_taxa)
+            if order_queryset:
+                update_queryset(order_queryset)
+            TaxonFamily.objects.filter(taxon_phylum_division_slug=old_taxa).update(taxon_phylum_division_slug=new_taxa)
+            family_queryset = TaxonFamily.objects.filter(taxon_phylum_division_slug=new_taxa)
+            if family_queryset:
+                update_queryset(family_queryset)
+            TaxonGenus.objects.filter(taxon_phylum_division_slug=old_taxa).update(taxon_phylum_division_slug=new_taxa)
+            genus_queryset = TaxonGenus.objects.filter(taxon_phylum_division_slug=new_taxa)
+            if genus_queryset:
+                update_queryset(genus_queryset)
+            TaxonSpecies.objects.filter(taxon_phylum_division_slug=old_taxa).update(taxon_phylum_division_slug=new_taxa)
+            species_queryset = TaxonSpecies.objects.filter(taxon_phylum_division_slug=new_taxa)
             if species_queryset:
                 update_queryset(species_queryset)
 

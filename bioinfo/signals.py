@@ -3,10 +3,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import transaction
-from .tasks import update_domain, update_phylum, update_family, update_class, update_genus, \
-    update_order, update_kingdom
-from .models import TaxonKingdom, TaxonPhylum, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
-    TaxonSpecies, TaxonDomain
+from .tasks import update_domain, update_kingdom, update_supergroup, update_phylum_division, update_family, update_class, update_genus, \
+    update_order
+from .models import TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus
 
 
 @receiver(post_save, sender=TaxonDomain, dispatch_uid="update_domain")
@@ -19,9 +18,14 @@ def update_kingdom_post_save(sender, instance, **kwargs):
     transaction.on_commit(update_kingdom.s(instance.pk, instance.taxon_kingdom_slug).delay)
 
 
-@receiver(post_save, sender=TaxonPhylum, dispatch_uid="update_phylum")
-def update_phylum_post_save(sender, instance, **kwargs):
-    transaction.on_commit(update_phylum.s(instance.pk, instance.taxon_phylum_slug).delay)
+@receiver(post_save, sender=TaxonSupergroup, dispatch_uid="update_supergroup")
+def update_supergroup_post_save(sender, instance, **kwargs):
+    transaction.on_commit(update_supergroup.s(instance.pk, instance.taxon_supergroup_slug).delay)
+
+
+@receiver(post_save, sender=TaxonPhylumDivision, dispatch_uid="update_phylum_division")
+def update_phylum_division_post_save(sender, instance, **kwargs):
+    transaction.on_commit(update_phylum_division.s(instance.pk, instance.taxon_phylum_division_slug).delay)
 
 
 @receiver(post_save, sender=TaxonClass, dispatch_uid="update_class")

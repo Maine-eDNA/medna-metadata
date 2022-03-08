@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
-    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, TaxonClass,  TaxonOrder, TaxonFamily, TaxonGenus, \
-    TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  TaxonOrder, \
+    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 
 
 # Create your filters here.
@@ -88,61 +88,77 @@ class TaxonKingdomSerializerFilter(filters.FilterSet):
         fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', ]
 
 
-class TaxonPhylumSerializerFilter(filters.FilterSet):
+class TaxonSupergroupSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
     taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
-    taxon_phylum_slug = filters.CharFilter(field_name='taxon_phylum_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
 
     class Meta:
-        model = TaxonPhylum
-        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', ]
+        model = TaxonSupergroup
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', ]
+
+
+class TaxonPhylumDivisionSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
+    taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
+    taxon_phylum_division_slug = filters.CharFilter(field_name='taxon_phylum_division_slug', lookup_expr='iexact')
+
+    class Meta:
+        model = TaxonPhylumDivision
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', ]
 
 
 class TaxonClassSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
     taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
-    taxon_phylum_slug = filters.CharFilter(field_name='taxon_phylum_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
+    taxon_phylum_division_slug = filters.CharFilter(field_name='taxon_phylum_division_slug', lookup_expr='iexact')
     taxon_class_slug = filters.CharFilter(field_name='taxon_class_slug', lookup_expr='iexact')
 
     class Meta:
         model = TaxonClass
-        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug', ]
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug', ]
 
 
 class TaxonOrderSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
     taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
-    taxon_phylum_slug = filters.CharFilter(field_name='taxon_phylum_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
+    taxon_phylum_division_slug = filters.CharFilter(field_name='taxon_phylum_division_slug', lookup_expr='iexact')
     taxon_class_slug = filters.CharFilter(field_name='taxon_class_slug', lookup_expr='iexact')
     taxon_order_slug = filters.CharFilter(field_name='taxon_order_slug', lookup_expr='iexact')
 
     class Meta:
         model = TaxonOrder
-        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order_slug']
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug', 'taxon_order_slug']
 
 
 class TaxonFamilySerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
     taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
-    taxon_phylum_slug = filters.CharFilter(field_name='taxon_phylum_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
+    taxon_phylum_division_slug = filters.CharFilter(field_name='taxon_phylum_division_slug', lookup_expr='iexact')
     taxon_class_slug = filters.CharFilter(field_name='taxon_class_slug', lookup_expr='iexact')
     taxon_order_slug = filters.CharFilter(field_name='taxon_order_slug', lookup_expr='iexact')
     taxon_family_slug = filters.CharFilter(field_name='taxon_family_slug', lookup_expr='iexact')
 
     class Meta:
         model = TaxonFamily
-        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order_slug', 'taxon_family_slug', ]
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug', 'taxon_order_slug', 'taxon_family_slug', ]
 
 
 class TaxonGenusSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
     taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
-    taxon_phylum_slug = filters.CharFilter(field_name='taxon_phylum_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
+    taxon_phylum_division_slug = filters.CharFilter(field_name='taxon_phylum_division_slug', lookup_expr='iexact')
     taxon_class_slug = filters.CharFilter(field_name='taxon_class_slug', lookup_expr='iexact')
     taxon_order_slug = filters.CharFilter(field_name='taxon_order_slug', lookup_expr='iexact')
     taxon_family_slug = filters.CharFilter(field_name='taxon_family_slug', lookup_expr='iexact')
@@ -150,7 +166,7 @@ class TaxonGenusSerializerFilter(filters.FilterSet):
 
     class Meta:
         model = TaxonGenus
-        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order_slug',
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug', 'taxon_order_slug',
                   'taxon_family_slug', 'taxon_genus_slug', ]
 
 
@@ -158,7 +174,8 @@ class TaxonSpeciesSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     taxon_domain_slug = filters.CharFilter(field_name='taxon_domain_slug', lookup_expr='iexact')
     taxon_kingdom_slug = filters.CharFilter(field_name='taxon_kingdom_slug', lookup_expr='iexact')
-    taxon_phylum_slug = filters.CharFilter(field_name='taxon_phylum_slug', lookup_expr='iexact')
+    taxon_supergroup_slug = filters.CharFilter(field_name='taxon_supergroup_slug', lookup_expr='iexact')
+    taxon_phylum_division_slug = filters.CharFilter(field_name='taxon_phylum_division_slug', lookup_expr='iexact')
     taxon_class_slug = filters.CharFilter(field_name='taxon_class_slug', lookup_expr='iexact')
     taxon_order_slug = filters.CharFilter(field_name='taxon_order_slug', lookup_expr='iexact')
     taxon_family_slug = filters.CharFilter(field_name='taxon_family_slug', lookup_expr='iexact')
@@ -167,7 +184,7 @@ class TaxonSpeciesSerializerFilter(filters.FilterSet):
 
     class Meta:
         model = TaxonSpecies
-        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_phylum_slug', 'taxon_class_slug', 'taxon_order_slug',
+        fields = ['created_by', 'taxon_domain_slug', 'taxon_kingdom_slug', 'taxon_supergroup_slug', 'taxon_phylum_division_slug', 'taxon_class_slug', 'taxon_order_slug',
                   'taxon_family_slug', 'taxon_genus_slug', 'taxon_species_slug', ]
 
 
@@ -201,7 +218,7 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
     ta_taxon = filters.CharFilter(field_name='ta_taxon', lookup_expr='iexact')
     ta_domain = filters.CharFilter(field_name='ta_domain', lookup_expr='iexact')
     ta_kingdom = filters.CharFilter(field_name='ta_kingdom', lookup_expr='iexact')
-    ta_phylum = filters.CharFilter(field_name='ta_phylum', lookup_expr='iexact')
+    ta_phylum_division = filters.CharFilter(field_name='ta_phylum_division', lookup_expr='iexact')
     ta_class = filters.CharFilter(field_name='ta_class', lookup_expr='iexact')
     ta_order = filters.CharFilter(field_name='ta_order', lookup_expr='iexact')
     ta_family = filters.CharFilter(field_name='ta_family', lookup_expr='iexact')
@@ -210,7 +227,7 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
     ta_common_name = filters.CharFilter(field_name='ta_common_name', lookup_expr='iexact')
     manual_domain = filters.CharFilter(field_name='manual_domain__taxon_domain_slug', lookup_expr='iexact')
     manual_kingdom = filters.CharFilter(field_name='manual_kingdom__taxon_kingdom_slug', lookup_expr='iexact')
-    manual_phylum = filters.CharFilter(field_name='manual_phylum__taxon_phylum_slug', lookup_expr='iexact')
+    manual_phylum_division = filters.CharFilter(field_name='manual_phylum_division__taxon_phylum_division_slug', lookup_expr='iexact')
     manual_class = filters.CharFilter(field_name='manual_class__taxon_class_slug', lookup_expr='iexact')
     manual_order = filters.CharFilter(field_name='manual_order__taxon_order_slug', lookup_expr='iexact')
     manual_family = filters.CharFilter(field_name='manual_family__taxon_family_slug', lookup_expr='iexact')
@@ -221,10 +238,10 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
         model = TaxonomicAnnotation
         fields = ['created_by', 'feature', 'annotation_metadata', 'reference_database',
                   'ta_taxon', 'ta_domain', 'ta_kingdom',
-                  'ta_phylum', 'ta_class', 'ta_order',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
                   'ta_common_name', 'manual_domain',
-                  'manual_kingdom', 'manual_phylum',
+                  'manual_kingdom', 'manual_phylum_division',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species']

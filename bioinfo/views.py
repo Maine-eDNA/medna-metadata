@@ -1,12 +1,12 @@
 from rest_framework import viewsets
 from django_filters import rest_framework as filters
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
-    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, TaxonClass,  TaxonOrder, TaxonFamily, TaxonGenus, \
-    TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  \
+    TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 from .serializers import QualityMetadataSerializer, DenoiseClusterMethodSerializer, DenoiseClusterMetadataSerializer, \
     FeatureOutputSerializer, FeatureReadSerializer, \
     ReferenceDatabaseSerializer, TaxonDomainSerializer, \
-    TaxonKingdomSerializer, TaxonPhylumSerializer, TaxonClassSerializer, \
+    TaxonKingdomSerializer, TaxonSupergroupSerializer, TaxonPhylumDivisionSerializer, TaxonClassSerializer, \
     TaxonOrderSerializer, TaxonFamilySerializer, TaxonGenusSerializer, \
     TaxonSpeciesSerializer, AnnotationMethodSerializer, AnnotationMetadataSerializer, \
     TaxonomicAnnotationSerializer
@@ -82,17 +82,25 @@ class TaxonKingdomViewSet(viewsets.ModelViewSet):
     swagger_tags = ["bioinformatics taxonomy"]
 
 
-class TaxonPhylumViewSet(viewsets.ModelViewSet):
-    serializer_class = TaxonPhylumSerializer
-    queryset = TaxonPhylum.objects.prefetch_related('created_by', 'taxon_kingdom')
+class TaxonSupergroupViewSet(viewsets.ModelViewSet):
+    serializer_class = TaxonSupergroupSerializer
+    queryset = TaxonSupergroup.objects.prefetch_related('created_by', 'taxon_kingdom')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = bioinfo_filters.TaxonPhylumSerializerFilter
+    filterset_class = bioinfo_filters.TaxonSupergroupSerializerFilter
+    swagger_tags = ["bioinformatics taxonomy"]
+
+
+class TaxonPhylumDivisionViewSet(viewsets.ModelViewSet):
+    serializer_class = TaxonPhylumDivisionSerializer
+    queryset = TaxonPhylumDivision.objects.prefetch_related('created_by', 'taxon_supergroup')
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = bioinfo_filters.TaxonPhylumDivisionSerializerFilter
     swagger_tags = ["bioinformatics taxonomy"]
 
 
 class TaxonClassViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonClassSerializer
-    queryset = TaxonClass.objects.prefetch_related('created_by', 'taxon_phylum')
+    queryset = TaxonClass.objects.prefetch_related('created_by', 'taxon_phylum_division')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonClassSerializerFilter
     swagger_tags = ["bioinformatics taxonomy"]
@@ -150,7 +158,7 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonomicAnnotationSerializer
     queryset = TaxonomicAnnotation.objects.prefetch_related('created_by', 'feature', 'annotation_metadata',
                                                             'reference_database', 'manual_domain', 'manual_kingdom',
-                                                            'manual_phylum', 'manual_class', 'manual_order',
+                                                            'manual_phylum_division', 'manual_class', 'manual_order',
                                                             'manual_family', 'manual_genus', 'manual_species')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonomicAnnotationSerializerFilter

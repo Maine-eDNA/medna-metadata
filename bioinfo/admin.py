@@ -3,12 +3,12 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
-    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylum, \
+    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylumDivision, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
 from .resources import QualityMetadataAdminResource, DenoiseClusterMethodAdminResource, \
     DenoiseClusterMetadataAdminResource, FeatureOutputAdminResource, FeatureReadAdminResource, \
-    ReferenceDatabaseAdminResource, TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonPhylumAdminResource, \
+    ReferenceDatabaseAdminResource, TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonPhylumDivisionAdminResource, \
     TaxonClassAdminResource, TaxonOrderAdminResource, TaxonFamilyAdminResource, \
     TaxonGenusAdminResource, TaxonSpeciesAdminResource, \
     AnnotationMethodAdminResource, AnnotationMetadataAdminResource, TaxonomicAnnotationAdminResource
@@ -331,31 +331,31 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
 admin.site.register(TaxonKingdom, TaxonKingdomAdmin)
 
 
-class TaxonPhylumAdmin(ImportExportActionModelAdmin):
+class TaxonSupergroupAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
-    resource_class = TaxonPhylumAdminResource
+    resource_class = TaxonSupergroupAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_phylum', 'taxon_kingdom', 'taxon_url', ]
+        self.fields = ['taxon_supergroup', 'taxon_kingdom', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(TaxonPhylumAdmin, self).add_view(request)
+        return super(TaxonSupergroupAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['taxon_phylum_slug', 'taxon_phylum',
+        self.fields = ['taxon_supergroup_slug', 'taxon_supergroup',
                        'taxon_kingdom_slug', 'taxon_kingdom', 'taxon_url',
                        'taxon_domain_slug',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(TaxonPhylumAdmin, self).change_view(request, object_id)
+        return super(TaxonSupergroupAdmin, self).change_view(request, object_id)
 
     # removes "delete selected" from drop down menu
     def get_actions(self, request):
@@ -366,7 +366,45 @@ class TaxonPhylumAdmin(ImportExportActionModelAdmin):
     # import_export configs - export ONLY
 
 
-admin.site.register(TaxonPhylum, TaxonPhylumAdmin)
+admin.site.register(TaxonSupergroup, TaxonSupergroupAdmin)
+
+
+class TaxonPhylumDivisionAdmin(ImportExportActionModelAdmin):
+    # import_export configs - export ONLY
+    resource_class = TaxonPhylumDivisionAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    # search_fields = ['project', 'system', 'watershed']
+    list_display = ('__str__', 'created_by', 'created_datetime',)
+    readonly_fields = ('taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['taxon_phylum_division', 'taxon_supergroup', 'taxon_url', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(TaxonPhylumDivisionAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify the fields that can be viewed in change view
+        self.fields = ['taxon_phylum_division_slug', 'taxon_phylum_division',
+                       'taxon_supergroup_slug', 'taxon_supergroup', 'taxon_url',
+                       'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(TaxonPhylumDivisionAdmin, self).change_view(request, object_id)
+
+    # removes "delete selected" from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # import_export configs - export ONLY
+
+
+admin.site.register(TaxonPhylumDivision, TaxonPhylumDivisionAdmin)
 
 
 class TaxonClassAdmin(ImportExportActionModelAdmin):
@@ -375,12 +413,12 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_class_slug', 'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+    readonly_fields = ('taxon_class_slug', 'taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['taxon_class', 'taxon_phylum', 'taxon_url', ]
+        self.fields = ['taxon_class', 'taxon_phylum_division', 'taxon_url', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -390,7 +428,8 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_class_slug', 'taxon_class',
-                       'taxon_phylum_slug', 'taxon_phylum', 'taxon_url',
+                       'taxon_phylum_division_slug', 'taxon_phylum_division', 'taxon_url',
+                       'taxon_supergroup_slug',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -415,8 +454,8 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
-    readonly_fields = ('taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_slug',
-                       'taxon_kingdom_slug', 'taxon_domain_slug',
+    readonly_fields = ('taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_division_slug',
+                       'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -432,7 +471,8 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['taxon_order_slug', 'taxon_order',
                        'taxon_class_slug', 'taxon_class', 'taxon_url',
-                       'taxon_phylum_slug',
+                       'taxon_phylum_division_slug',
+                       'taxon_supergroup_slug',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -458,7 +498,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_family_slug', 'taxon_order_slug', 'taxon_class_slug',
-                       'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -475,7 +515,8 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
         self.fields = ['taxon_family_slug', 'taxon_family',
                        'taxon_order_slug', 'taxon_order', 'taxon_url',
                        'taxon_class_slug',
-                       'taxon_phylum_slug',
+                       'taxon_phylum_division_slug',
+                       'taxon_supergroup_slug',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -501,7 +542,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('taxon_genus_slug', 'taxon_family_slug', 'taxon_order_slug',
-                       'taxon_class_slug', 'taxon_phylum_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'taxon_class_slug', 'taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -519,7 +560,8 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
                        'taxon_family_slug', 'taxon_family', 'taxon_url',
                        'taxon_order_slug',
                        'taxon_class_slug',
-                       'taxon_phylum_slug',
+                       'taxon_phylum_division_slug',
+                       'taxon_supergroup_slug',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -546,8 +588,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'taxon_common_name', 'created_by', 'created_datetime', )
     list_filter = ('is_endemic', )
     readonly_fields = ('taxon_species_slug', 'taxon_genus_slug', 'taxon_family_slug',
-                       'taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_slug',
-                       'taxon_kingdom_slug', 'taxon_domain_slug',
+                       'taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_division_slug',
+                       'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
 
     def add_view(self, request, extra_content=None):
@@ -567,7 +609,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
                        'taxon_family_slug',
                        'taxon_order_slug',
                        'taxon_class_slug',
-                       'taxon_phylum_slug',
+                       'taxon_phylum_division_slug',
+                       'taxon_supergroup_slug',
                        'taxon_kingdom_slug',
                        'taxon_domain_slug',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -675,10 +718,10 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
         self.fields = ['feature', 'annotation_metadata',
                        'reference_database', 'confidence',
                        'ta_taxon', 'ta_domain', 'ta_kingdom',
-                       'ta_phylum', 'ta_class', 'ta_order',
+                       'ta_phylum_division', 'ta_class', 'ta_order',
                        'ta_family', 'ta_genus', 'ta_species',
                        'ta_common_name', 'manual_domain',
-                       'manual_kingdom', 'manual_phylum',
+                       'manual_kingdom', 'manual_phylum_division',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
                        'manual_species', 'manual_notes', ]
@@ -693,10 +736,10 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
         self.fields = ['annotation_slug', 'feature', 'annotation_metadata',
                        'reference_database', 'confidence',
                        'ta_taxon', 'ta_domain', 'ta_kingdom',
-                       'ta_phylum', 'ta_class', 'ta_order',
+                       'ta_phylum_division', 'ta_class', 'ta_order',
                        'ta_family', 'ta_genus', 'ta_species',
                        'ta_common_name', 'manual_domain',
-                       'manual_kingdom', 'manual_phylum',
+                       'manual_kingdom', 'manual_phylum_division',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
                        'manual_species', 'manual_notes',
