@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 from .models import QualityMetadata, DenoiseClusterMethod, FeatureRead, FeatureOutput, DenoiseClusterMetadata, \
-    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
+    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
     TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 from utility.models import ProcessLocation
 from wet_lab.models import RunResult, Extraction
