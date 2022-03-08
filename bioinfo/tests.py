@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils import timezone
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonSpecies, TaxonFamily, TaxonDomain, TaxonGenus, TaxonOrder, TaxonClass, \
-    TaxonPhylumDivision, TaxonKingdom, TaxonomicAnnotation, AnnotationMethod, AnnotationMetadata
+    TaxonPhylumDivision, TaxonKingdom, TaxonSupergroup, TaxonomicAnnotation, AnnotationMethod, AnnotationMetadata
 from utility.tests import ProcessLocationTestCase
 from utility.models import ProcessLocation
 from wet_lab.tests import RunResultTestCase, ExtractionTestCase
@@ -157,12 +157,25 @@ class TaxonKingdomTestCase(TestCase):
         self.assertIs(test_exists.was_added_recently(), True)
 
 
-class TaxonPhylumDivisionTestCase(TestCase):
+class TaxonSupergroupTestCase(TestCase):
     def setUp(self):
         taxon_test = TaxonKingdomTestCase()
         taxon_test.setUp()
         taxon = TaxonKingdom.objects.filter()[:1].get()
-        TaxonPhylumDivision.objects.get_or_create(taxon_phylum_division="test_phylum", defaults={'taxon_kingdom': taxon, 'taxon_url': "https://testtaxon.com"})
+        TaxonSupergroup.objects.get_or_create(taxon_supergroup="test_supergroup", defaults={'taxon_kingdom': taxon, 'taxon_url': "https://testtaxon.com"})
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        test_exists = TaxonSupergroup.objects.filter(taxon_supergroup="test_supergroup")[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
+
+
+class TaxonPhylumDivisionTestCase(TestCase):
+    def setUp(self):
+        taxon_test = TaxonSupergroupTestCase()
+        taxon_test.setUp()
+        taxon = TaxonSupergroup.objects.filter()[:1].get()
+        TaxonPhylumDivision.objects.get_or_create(taxon_phylum_division="test_phylum", defaults={'taxon_supergroup': taxon, 'taxon_url': "https://testtaxon.com"})
 
     def test_was_added_recently(self):
         # test if date is added correctly
