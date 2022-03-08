@@ -3,13 +3,13 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
-    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonPhylumDivision, \
+    ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
 from .resources import QualityMetadataAdminResource, DenoiseClusterMethodAdminResource, \
     DenoiseClusterMetadataAdminResource, FeatureOutputAdminResource, FeatureReadAdminResource, \
-    ReferenceDatabaseAdminResource, TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonPhylumDivisionAdminResource, \
-    TaxonClassAdminResource, TaxonOrderAdminResource, TaxonFamilyAdminResource, \
+    ReferenceDatabaseAdminResource, TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonSupergroupAdminResource, \
+    TaxonPhylumDivisionAdminResource, TaxonClassAdminResource, TaxonOrderAdminResource, TaxonFamilyAdminResource, \
     TaxonGenusAdminResource, TaxonSpeciesAdminResource, \
     AnnotationMethodAdminResource, AnnotationMetadataAdminResource, TaxonomicAnnotationAdminResource
 
