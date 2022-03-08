@@ -106,12 +106,18 @@ class FreezerInventoryReturnMetadataSerializerFilter(filters.FilterSet):
 ########################################
 # NESTED FILTERS                       #
 ########################################
+class CharInFilter(filters.BaseInFilter, filters.CharFilter):
+    # https://stackoverflow.com/questions/31029792/how-do-you-use-the-django-filter-package-with-a-list-of-parameters
+    pass
+
+
 class FreezerInventoryLocNestedFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     freezer_box = filters.CharFilter(field_name='freezer_box__freezer_box_label_slug', lookup_expr='iexact')
     freezer_inventory_type = filters.CharFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
     freezer_inventory_status = filters.CharFilter(field_name='freezer_inventory_status', lookup_expr='iexact')
     sample_barcode = filters.CharFilter(field_name='sample_barcode__barcode_slug', lookup_expr='iexact')
+    sample_barcode_list = CharInFilter(field_name='sample_barcode__barcode_slug', lookup_expr='in')
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
