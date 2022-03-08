@@ -5,7 +5,7 @@
 {% endif %}
 <!-- END FORM ERRORS -->
 <!-- START FORM -->
-<form method="post" class="p-3" id="contact-form" >
+<form method="post" enctype="multipart/form-data" class="p-3">
   {% csrf_token %}
   <div class="card-body pt-1">
       {% for field in form %}
