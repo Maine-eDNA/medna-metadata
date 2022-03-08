@@ -23,9 +23,9 @@
       </ul>
         {% if perms.field_site %}
           <!-- begin field site -->
-      <ul class="nav nav-pills nav-fill p-1" role="tablist">
+      <ul class="nav nav-fill p-1" role="tablist">
           <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
+            <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
           </li>
             {% if perms.field_site.view_fieldsite %}
             <li class="nav-item">
@@ -34,7 +34,7 @@
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">table_view</i>
                 </div>
-                <span class="nav-link-text text-center ms-1">View</span>
+                <h8 class="nav-link-text ms-1 text-uppercase text-xs text-white font-weight-bolder opacity-8">View</h8>
               </a>
             </li>
             {% endif %}
@@ -44,7 +44,7 @@
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">add_box</i>
                 </div>
-                <span class="nav-link-text text-center ms-1">Add</span>
+                <h8 class="nav-link-text ms-1 text-uppercase text-xs text-white font-weight-bolder opacity-8">Add</h8>
               </a>
             </li>
             {% endif %}
