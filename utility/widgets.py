@@ -8,5 +8,5 @@ class CustomClearableFileInput(forms.ClearableFileInput):
     template_name = 'custom_forms/widgets/clearable_file_input.html'
 
 
-class CustomFileInput(forms.ClearableFileInput):
+class CustomFileInput(forms.FileInput):
     template_name = 'custom_forms/widgets/file.html'
