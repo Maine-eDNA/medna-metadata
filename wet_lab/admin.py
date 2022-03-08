@@ -23,6 +23,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('primer_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['primer_set_name', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -68,6 +69,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('index_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['i7_index_id', 'i5_index_id', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -103,6 +105,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('index_removal_method_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['index_removal_method_name', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -138,6 +141,8 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('size_selection_method_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['size_selection_method_name', ]
+    autocomplete_fields = ['primer_set', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -173,6 +178,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('quant_method_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['quant_method_name', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -207,6 +213,7 @@ class AmplificationMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('amplification_method_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['amplification_method_name', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -242,6 +249,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('extraction_method_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['extraction_method_name', 'extraction_method_manufacturer', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -282,6 +290,9 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('barcode_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['barcode_slug', ]
+    autocomplete_fields = ['extraction_barcode', 'field_sample', 'process_location',
+                           'extraction_method', 'quantification_method', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -339,6 +350,7 @@ class PcrReplicateAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['id', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -373,6 +385,8 @@ class PcrAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('pcr_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['pcr_experiment_name', ]
+    autocomplete_fields = ['process_location', 'extraction', 'primer_set', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -418,6 +432,10 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('lib_prep_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['lib_prep_experiment_name', ]
+    autocomplete_fields = ['process_location', 'extraction', 'amplification_method',
+                           'primer_set', 'size_selection_method', 'index_removal_method',
+                           'quantification_method', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -481,6 +499,8 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('pooled_lib_slug', 'barcode_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['pooled_lib_label', ]
+    autocomplete_fields = ['pooled_lib_barcode', 'process_location', 'quantification_method', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -536,6 +556,8 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('run_prep_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['run_prep_label', ]
+    autocomplete_fields = ['process_location', 'quantification_method', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -580,6 +602,8 @@ class RunResultAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['run_experiment_name', 'run_id', ]
+    autocomplete_fields = ['process_location', 'run_prep', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -618,6 +642,8 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('fastq_slug', 'uuid', 'modified_datetime', 'created_datetime', )
+    search_fields = ['fastq_datafile', ]
+    autocomplete_fields = ['run_result', 'extraction', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

@@ -22,6 +22,8 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_by', 'created_datetime', )
     # list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
     readonly_fields = ('quality_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['analysis_name']
+    autocomplete_fields = ['process_location', 'run_result', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -69,6 +71,7 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('denoise_cluster_method_slug', 'modified_datetime', 'created_datetime', )
     # list_filter = ('denoise_cluster_method_pipeline', )
+    search_fields = ['denoise_cluster_method_name', 'denoise_cluster_method_software_package']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -108,6 +111,8 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_by', 'created_datetime', )
     # list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
     readonly_fields = ('denoise_cluster_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['analysis_name', ]
+    autocomplete_fields = ['process_location', 'quality_metadata', 'denoise_cluster_method', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -152,6 +157,8 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_by', 'created_datetime', )
     # list_filter = ('denoise_cluster_metadata__denoise_cluster_slug', )
     readonly_fields = ('feature_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_id', 'feature_sequence', ]
+    autocomplete_fields = ['denoise_cluster_metadata', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -188,6 +195,7 @@ class FeatureReadAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', 'read_slug', )
+    autocomplete_fields = ['feature', 'extraction', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -224,6 +232,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('refdb_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['refdb_name', 'refdb_slug', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -262,6 +271,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_domain_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_domain', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -298,6 +308,8 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_kingdom', ]
+    autocomplete_fields = ['taxon_domain', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -334,6 +346,8 @@ class TaxonSupergroupAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_supergroup', ]
+    autocomplete_fields = ['taxon_kingdom', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -372,6 +386,8 @@ class TaxonPhylumDivisionAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_phylum_division', ]
+    autocomplete_fields = ['taxon_supergroup', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -411,6 +427,8 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_by', 'created_datetime',)
     readonly_fields = ('taxon_class_slug', 'taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_class', ]
+    autocomplete_fields = ['taxon_phylum_division', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -453,6 +471,8 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
     readonly_fields = ('taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_division_slug',
                        'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_order', ]
+    autocomplete_fields = ['taxon_class', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -496,6 +516,8 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
     readonly_fields = ('taxon_family_slug', 'taxon_order_slug', 'taxon_class_slug',
                        'taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_family', ]
+    autocomplete_fields = ['taxon_order', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -540,6 +562,8 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
     readonly_fields = ('taxon_genus_slug', 'taxon_family_slug', 'taxon_order_slug',
                        'taxon_class_slug', 'taxon_phylum_division_slug', 'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_genus', ]
+    autocomplete_fields = ['taxon_family', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -587,6 +611,8 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
                        'taxon_order_slug', 'taxon_class_slug', 'taxon_phylum_division_slug',
                        'taxon_supergroup_slug', 'taxon_kingdom_slug', 'taxon_domain_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['taxon_species', ]
+    autocomplete_fields = ['taxon_genus', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -632,6 +658,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('annotation_method_name_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['annotation_method_name', 'annotation_method_software_package', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -669,6 +696,8 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'analysis_datetime', )
     readonly_fields = ('annotation_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['analysis_name', ]
+    autocomplete_fields = ['process_location', 'denoise_cluster_metadata', 'annotation_method', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -708,6 +737,10 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', 'annotation_slug', )
+    search_fields = ['annotation_slug', ]
+    autocomplete_fields = ['feature', 'annotation_metadata', 'reference_database',
+                           'manual_domain', 'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
+                           'manual_class', 'manual_order', 'manual_family', 'manual_genus', 'manual_species', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

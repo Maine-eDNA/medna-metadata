@@ -22,6 +22,7 @@ class EnvoBiomeFirstAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('biome_first_tier_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['biome_first_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -56,6 +57,8 @@ class EnvoBiomeSecondAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by', )
     readonly_fields = ('biome_first_tier_slug', 'biome_second_tier_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['biome_second_tier']
+    autocomplete_fields = ['biome_first_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -96,6 +99,8 @@ class EnvoBiomeThirdAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_datetime', 'created_by',)
     readonly_fields = ('biome_third_tier_slug', 'biome_second_tier_slug', 'biome_first_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['biome_third_tier']
+    autocomplete_fields = ['biome_second_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -134,6 +139,8 @@ class EnvoBiomeFourthAdmin(ImportExportActionModelAdmin):
     readonly_fields = ('biome_first_tier_slug', 'biome_second_tier_slug',
                        'biome_third_tier_slug', 'biome_fourth_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['biome_fourth_tier']
+    autocomplete_fields = ['biome_third_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -174,10 +181,12 @@ class EnvoBiomeFifthAdmin(ImportExportActionModelAdmin):
                        'biome_third_tier_slug', 'biome_fourth_tier_slug',
                        'biome_fifth_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['biome_fifth_tier']
+    autocomplete_fields = ['biome_fourth_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['biome_fourth_tier', 'biome_fifth_tier', 'envo_identifier', 'ontology_url', 'created_by', ]
+        self.fields = ['biome_fifth_tier', 'biome_fourth_tier', 'envo_identifier', 'ontology_url', 'created_by', ]
         self.exclude = ('id', 'modified_datetime', 'created_datetime', )
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -212,6 +221,7 @@ class EnvoFeatureFirstAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by',)
     readonly_fields = ('feature_first_tier_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_first_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -246,6 +256,8 @@ class EnvoFeatureSecondAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by',)
     readonly_fields = ('feature_first_tier_slug', 'feature_second_tier_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_second_tier']
+    autocomplete_fields = ['feature_first_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -282,6 +294,8 @@ class EnvoFeatureThirdAdmin(ImportExportActionModelAdmin):
     list_display = ('__str__', 'created_datetime', 'created_by',)
     readonly_fields = ('feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_third_tier']
+    autocomplete_fields = ['feature_second_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -320,6 +334,8 @@ class EnvoFeatureFourthAdmin(ImportExportActionModelAdmin):
     readonly_fields = ('feature_first_tier_slug', 'feature_second_tier_slug',
                        'feature_third_tier_slug', 'feature_fourth_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_fourth_tier']
+    autocomplete_fields = ['feature_third_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -360,6 +376,8 @@ class EnvoFeatureFifthAdmin(ImportExportActionModelAdmin):
                        'feature_third_tier_slug', 'feature_fourth_tier_slug',
                        'feature_fifth_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_fifth_tier']
+    autocomplete_fields = ['feature_fourth_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -400,6 +418,8 @@ class EnvoFeatureSixthAdmin(ImportExportActionModelAdmin):
     readonly_fields = ('feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug',
                        'feature_fourth_tier_slug', 'feature_fifth_tier_slug', 'feature_sixth_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_sixth_tier']
+    autocomplete_fields = ['feature_fifth_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -442,6 +462,8 @@ class EnvoFeatureSeventhAdmin(ImportExportActionModelAdmin):
                        'feature_fourth_tier_slug', 'feature_fifth_tier_slug', 'feature_sixth_tier_slug',
                        'feature_seventh_tier_slug',
                        'modified_datetime', 'created_datetime', )
+    search_fields = ['feature_seventh_tier']
+    autocomplete_fields = ['feature_sixth_tier']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -483,6 +505,7 @@ class SystemAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['system_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -516,6 +539,7 @@ class GeoWatershedAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['watershed_label']
 
     def add_view(self, request, extra_content=None):
         self.fields = ['watershed_code', 'watershed_label', 'huc8', 'states',
@@ -576,6 +600,13 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     list_display = ('site_id', 'general_location_name', 'grant', 'system', 'watershed')
     # list_filter = ('grant', 'system', 'watershed', )
     readonly_fields = ('site_id', 'modified_datetime', 'created_datetime', )
+    search_fields = ['site_id']
+    autocomplete_fields = ['watershed', 'system', 'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+                           'envo_biome_second', 'envo_biome_first',
+                           'envo_feature_seventh', 'envo_feature_sixth',
+                           'envo_feature_fifth', 'envo_feature_fourth',
+                           'envo_feature_third', 'envo_feature_second',
+                           'envo_feature_first', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

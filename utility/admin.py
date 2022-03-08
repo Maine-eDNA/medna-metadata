@@ -13,6 +13,7 @@ class GrantAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['grant_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -55,6 +56,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['project_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -106,6 +108,7 @@ class PublicationAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['publication_title']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -142,6 +145,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('process_location_name_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['process_location_name']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -184,6 +188,7 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('contact_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['contact_email']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -219,6 +224,7 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('default_css_label', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', 'default_css_slug', )
+    search_fields = ['default_css_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -273,6 +279,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('custom_css_label', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', 'custom_css_slug', )
+    search_fields = ['custom_css_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view

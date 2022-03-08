@@ -27,9 +27,12 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # SampleMaterialAdminResource
     resource_class = FieldSurveyAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('username', 'site_id', 'site_name', 'survey_datetime',
+    list_display = ('survey_global_id', 'username', 'site_id', 'site_name', 'survey_datetime',
                     'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', )
+    search_fields = ['survey_global_id', ]
+    autocomplete_fields = ['project_ids', 'username', 'supervisor', 'site_id', 'core_subcorer',
+                           'water_filterer', 'qa_editor', 'record_creator', 'record_editor', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -70,6 +73,8 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
     list_display = ('crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'survey_global_id', 'crew_global_id', )
+    search_fields = ['crew_global_id', ]
+    autocomplete_fields = ['survey_global_id', 'record_creator', 'record_editor', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -102,6 +107,7 @@ class EnvMeasureTypeAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('env_measure_type_slug', 'env_measure_type_code', 'env_measure_type_label', )
     readonly_fields = ('modified_datetime', 'created_datetime', 'env_measure_type_slug', )
+    search_fields = ['env_measure_type_label', ]
 
     def add_view(self, request, extra_content=None):
         self.fields = ['env_measure_type_code', 'env_measure_type_label', 'created_by', ]
@@ -137,6 +143,8 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
     list_display = ('env_global_id', 'env_measure_datetime', 'survey_global_id',
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'survey_global_id', 'env_global_id', )
+    search_fields = ['env_global_id', ]
+    autocomplete_fields = ['survey_global_id', 'env_measurement', 'record_creator', 'record_editor', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -177,6 +185,8 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('created_by', 'modified_datetime', 'created_datetime',
                        'survey_global_id', 'collection_global_id',)
+    search_fields = ['collection_global_id', ]
+    autocomplete_fields = ['survey_global_id', 'record_creator', 'record_editor', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -209,6 +219,8 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'water_collect_datetime', 'water_vessel_label', 'water_control', 'was_filtered', )
     readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'field_collection', )
+    search_fields = ['water_vessel_label', ]
+    autocomplete_fields = ['field_collection', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -243,6 +255,8 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'core_datetime_start', 'core_label', 'core_control', 'subcores_taken', )
     readonly_fields = ('created_by', 'modified_datetime', 'created_datetime', 'field_collection', )
+    search_fields = ['core_label', ]
+    autocomplete_fields = ['field_collection', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -279,6 +293,8 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
                     'record_creator', 'record_create_datetime', 'record_edit_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', 'collection_global_id',
                        'sample_global_id', 'field_sample_barcode', 'barcode_slug', )
+    search_fields = ['sample_global_id', ]
+    autocomplete_fields = ['collection_global_id', 'field_sample_barcode', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -323,6 +339,8 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'filter_sample_label', 'filter_type', 'filter_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', 'field_sample', )
+    search_fields = ['filter_sample_label', ]
+    autocomplete_fields = ['field_sample', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery
@@ -369,6 +387,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'subcore_datetime_start')
     readonly_fields = ('modified_datetime', 'created_datetime', 'field_sample', )
+    autocomplete_fields = ['field_sample', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add because this model is populated by ETL tasks in tasks.py with celery

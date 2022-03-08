@@ -13,6 +13,7 @@ class SampleTypeAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['sample_type_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -47,6 +48,7 @@ class SampleMaterialAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
+    search_fields = ['sample_material_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -81,6 +83,8 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('max_sample_label_id', 'min_sample_label_id', 'sample_material', 'sample_type')
     readonly_fields = ('sample_label_request_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['sample_label_request_slug']
+    autocomplete_fields = ['site_id', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -120,6 +124,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('sample_barcode_id', 'sample_type', 'purpose', 'created_datetime', 'created_by', )
     readonly_fields = ('barcode_slug', 'sample_barcode_id', 'modified_datetime', 'created_datetime', )
+    search_fields = ['barcode_slug', 'sample_barcode_id',]
 
     def has_add_permission(self, request, obj=None):
         # disable add on SampleBarcode because it is populated on insert on SampleLabelRequest
