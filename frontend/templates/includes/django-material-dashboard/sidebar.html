@@ -51,29 +51,27 @@
         <!-- end field site -->
         {% endif %}
         {% if perms.sample_label %}
-      <ul class="navbar-nav">
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Sample Labels</h6>
+      <ul class="nav nav-fill p-1" role="tablist">
+        <li class="nav-item mt-2">
+          <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Sample Labels</h6>
         </li>
         {% if perms.sample_label.view_samplelabelrequest %}
          <li class="nav-item">
-          <a class="nav-link text-white {% if 'view_samplelabelrequest' in segment or 'detail_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url 'view_samplelabelrequest' %}">
+          <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_samplelabelrequest' in segment or 'detail_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
+             href="{% url 'view_samplelabelrequest' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
-            <span class="nav-link-text ms-1">View</span>
           </a>
         </li>
         {% endif %}
         {% if perms.sample_label.add_samplelabelrequest %}
         <li class="nav-item">
-          <a class="nav-link text-white {% if 'add_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url 'add_samplelabelrequest' %}">
+          <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
+             href="{% url 'add_samplelabelrequest' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">add_box</i>
             </div>
-            <span class="nav-link-text ms-1">Add</span>
           </a>
         </li>
         {% endif %}
