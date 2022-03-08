@@ -77,44 +77,40 @@
         </li>
         {% endif %}
         {% endif %}
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url 'detail_dashboardprofile' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
-        {% if user.is_active and user.is_staff %}
-        <li class="nav-item">
-          <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}"
-             href="{% url 'admin:index' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">admin_panel_settings</i>
-            </div>
-            <span class="nav-link-text ms-1">Admin</span>
-          </a>
-        </li>
-        {% endif %}
-        <li class="nav-item">
-          <a class="nav-link text-white " href="{% url 'logout' %}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">directions_run</i>
-            </div>
-            <span class="nav-link-text ms-1">Logout</span>
-          </a>
-        </li>
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
+        <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'detail_dashboardprofile' %}">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">person</i>
+          </div>
+          <span class="nav-link-text ms-1">Profile</span>
+        </a>
+      </div>
+      {% if user.is_active and user.is_staff %}
+      <div class="mx-3">
+        <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">admin_panel_settings</i>
+          </div>
+          <span class="nav-link-text ms-1">Admin</span>
+        </a>
+      </div>
+      {% endif %}
+      <div class="mx-3">
+        <a class="nav-link text-white " href="{% url 'logout' %}">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">directions_run</i>
+          </div>
+          <span class="nav-link-text ms-1">Logout</span>
+        </a>
+      </div>
+      <div class="mx-3">
         <a class="btn bg-gradient-primary mt-4 w-100" 
            target="_blank" 
-           href="/" type="button">Main</a>
+           href="{% url 'home' %}" type="button">Main</a>
       </div>
     </div>
   </aside>
