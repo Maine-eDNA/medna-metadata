@@ -169,7 +169,7 @@ router.register(r'bioinfo/feature_read', bioinfo_views.FeatureReadViewSet, 'feat
 router.register(r'bioinfo/refdb', bioinfo_views.ReferenceDatabaseViewSet, 'refdb')
 router.register(r'bioinfo/domain', bioinfo_views.TaxonDomainViewSet, 'domain')
 router.register(r'bioinfo/kingdom', bioinfo_views.TaxonKingdomViewSet, 'kingdom')
-router.register(r'bioinfo/phylum', bioinfo_views.TaxonPhylumViewSet, 'phylum')
+router.register(r'bioinfo/phylum_division', bioinfo_views.TaxonPhylumDivisionViewSet, 'phylum_division')
 router.register(r'bioinfo/class', bioinfo_views.TaxonClassViewSet, 'class')
 router.register(r'bioinfo/order', bioinfo_views.TaxonOrderViewSet, 'order')
 router.register(r'bioinfo/family', bioinfo_views.TaxonFamilyViewSet, 'family')

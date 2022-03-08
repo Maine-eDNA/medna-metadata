@@ -590,6 +590,6 @@ APP_ORDER = OrderedDict([
     ("bioinfo", ["QualityMetadata", "DenoiseClusterMethod", "DenoiseClusterMetadata",
                  "FeatureOutput", "FeatureRead",
                  "ReferenceDatabase", "AnnotationMethod", "AnnotationMetadata", "TaxonomicAnnotation",
-                 "TaxonDomain", "TaxonKingdom", "TaxonPhylum", "TaxonClass",
+                 "TaxonDomain", "TaxonKingdom", "TaxonSupergroup", "TaxonPhylumDivision", "TaxonClass",
                  "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies"]),
 ])

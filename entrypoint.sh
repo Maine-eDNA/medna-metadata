@@ -128,7 +128,7 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python manage.py loaddata fixtures/prod/bioinfo_referencedatabase.json
   python manage.py loaddata fixtures/prod/bioinfo_taxondomain.json
   python manage.py loaddata fixtures/prod/bioinfo_taxonkingdom.json
-  python manage.py loaddata fixtures/prod/bioinfo_taxonphylum.json
+  python manage.py loaddata fixtures/prod/bioinfo_taxonphylumdivision.json
   python manage.py loaddata fixtures/prod/bioinfo_taxonclass.json
   python manage.py loaddata fixtures/prod/bioinfo_taxonorder.json
   python manage.py loaddata fixtures/prod/bioinfo_taxonfamily.json
