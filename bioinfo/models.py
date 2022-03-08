@@ -199,6 +199,11 @@ class TaxonKingdom(DateTimeUserMixin):
             tax_domain=self.taxon_domain_slug,
             tax_kingdom=self.taxon_kingdom_slug)
 
+    class Meta:
+        app_label = 'bioinfo'
+        verbose_name = 'Taxon Kingdom'
+        verbose_name_plural = 'Taxon Kingdoms'
+
 
 class TaxonSupergroup(DateTimeUserMixin):
     taxon_supergroup = models.CharField("Supergroup", unique=True, max_length=255)
@@ -222,8 +227,8 @@ class TaxonSupergroup(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo'
-        verbose_name = 'Taxon Phylum/Division'
-        verbose_name_plural = 'Taxon Phyla/Division'
+        verbose_name = 'Taxon Supergroup'
+        verbose_name_plural = 'Taxon Supergroups'
 
 
 class TaxonPhylumDivision(DateTimeUserMixin):
@@ -251,8 +256,8 @@ class TaxonPhylumDivision(DateTimeUserMixin):
 
     class Meta:
         app_label = 'bioinfo'
-        verbose_name = 'Taxon Phylum'
-        verbose_name_plural = 'Taxon Phyla'
+        verbose_name = 'Taxon Phylum/Division'
+        verbose_name_plural = 'Taxon Phyla/Divisions'
 
 
 class TaxonClass(DateTimeUserMixin):
