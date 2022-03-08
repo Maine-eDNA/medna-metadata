@@ -492,11 +492,11 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
-                  'ta_taxon', 'ta_domain', 'ta_kingdom',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                   'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
                   'ta_common_name', 'manual_domain',
-                  'manual_kingdom', 'manual_phylum_division',
+                  'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species', 'manual_notes',
@@ -508,7 +508,7 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
                         'ta_phylum_division', 'ta_class', 'ta_order',
                         'ta_family', 'ta_genus', 'ta_species',
                         'ta_common_name', 'manual_domain',
-                        'manual_kingdom', 'manual_phylum_division',
+                        'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                         'manual_class', 'manual_order',
                         'manual_family', 'manual_genus',
                         'manual_species', 'manual_notes',
@@ -539,6 +539,11 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         column_name='manual_kingdom',
         attribute='manual_kingdom',
         widget=ForeignKeyWidget(TaxonKingdom, 'taxon_kingdom_slug'))
+
+    manual_supergroup = fields.Field(
+        column_name='manual_supergroup',
+        attribute='manual_supergroup',
+        widget=ForeignKeyWidget(TaxonSupergroup, 'manual_supergroup_slug'))
 
     manual_phylum_division = fields.Field(
         column_name='manual_phylum_division',

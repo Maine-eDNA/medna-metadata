@@ -717,11 +717,11 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['feature', 'annotation_metadata',
                        'reference_database', 'confidence',
-                       'ta_taxon', 'ta_domain', 'ta_kingdom',
+                       'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                        'ta_phylum_division', 'ta_class', 'ta_order',
                        'ta_family', 'ta_genus', 'ta_species',
                        'ta_common_name', 'manual_domain',
-                       'manual_kingdom', 'manual_phylum_division',
+                       'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
                        'manual_species', 'manual_notes', ]
@@ -735,11 +735,11 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['annotation_slug', 'feature', 'annotation_metadata',
                        'reference_database', 'confidence',
-                       'ta_taxon', 'ta_domain', 'ta_kingdom',
+                       'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                        'ta_phylum_division', 'ta_class', 'ta_order',
                        'ta_family', 'ta_genus', 'ta_species',
                        'ta_common_name', 'manual_domain',
-                       'manual_kingdom', 'manual_phylum_division',
+                       'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
                        'manual_species', 'manual_notes',

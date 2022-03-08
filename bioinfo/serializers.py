@@ -463,6 +463,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     ta_taxon = serializers.CharField(allow_blank=True)
     ta_domain = serializers.CharField(max_length=255, allow_blank=True)
     ta_kingdom = serializers.CharField(max_length=255, allow_blank=True)
+    ta_supergroup = serializers.CharField(max_length=255, allow_blank=True)
     ta_phylum_division = serializers.CharField(max_length=255, allow_blank=True)
     ta_class = serializers.CharField(max_length=255, allow_blank=True)
     ta_order = serializers.CharField(max_length=255, allow_blank=True)
@@ -479,11 +480,11 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
         model = TaxonomicAnnotation
         fields = ['id', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
-                  'ta_taxon', 'ta_domain', 'ta_kingdom',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                   'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
                   'ta_common_name', 'manual_domain',
-                  'manual_kingdom', 'manual_phylum_division',
+                  'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species', 'manual_notes',
@@ -498,6 +499,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     reference_database = serializers.SlugRelatedField(many=False, read_only=False, slug_field='refdb_slug', queryset=ReferenceDatabase.objects.all())
     manual_domain = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_domain_slug', queryset=TaxonDomain.objects.all())
     manual_kingdom = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_kingdom_slug', queryset=TaxonKingdom.objects.all())
+    manual_supergroup = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_supergroup_slug', queryset=TaxonSupergroup.objects.all())
     manual_phylum_division = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_phylum_division_slug', queryset=TaxonPhylumDivision.objects.all())
     manual_class = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_class_slug', queryset=TaxonClass.objects.all())
     manual_order = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_order_slug', queryset=TaxonOrder.objects.all())

@@ -218,6 +218,7 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
     ta_taxon = filters.CharFilter(field_name='ta_taxon', lookup_expr='iexact')
     ta_domain = filters.CharFilter(field_name='ta_domain', lookup_expr='iexact')
     ta_kingdom = filters.CharFilter(field_name='ta_kingdom', lookup_expr='iexact')
+    ta_supergroup = filters.CharFilter(field_name='ta_supergroup', lookup_expr='iexact')
     ta_phylum_division = filters.CharFilter(field_name='ta_phylum_division', lookup_expr='iexact')
     ta_class = filters.CharFilter(field_name='ta_class', lookup_expr='iexact')
     ta_order = filters.CharFilter(field_name='ta_order', lookup_expr='iexact')
@@ -227,6 +228,7 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
     ta_common_name = filters.CharFilter(field_name='ta_common_name', lookup_expr='iexact')
     manual_domain = filters.CharFilter(field_name='manual_domain__taxon_domain_slug', lookup_expr='iexact')
     manual_kingdom = filters.CharFilter(field_name='manual_kingdom__taxon_kingdom_slug', lookup_expr='iexact')
+    manual_supergroup = filters.CharFilter(field_name='manual_supergroup__taxon_supergroup_slug', lookup_expr='iexact')
     manual_phylum_division = filters.CharFilter(field_name='manual_phylum_division__taxon_phylum_division_slug', lookup_expr='iexact')
     manual_class = filters.CharFilter(field_name='manual_class__taxon_class_slug', lookup_expr='iexact')
     manual_order = filters.CharFilter(field_name='manual_order__taxon_order_slug', lookup_expr='iexact')
@@ -237,11 +239,11 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
     class Meta:
         model = TaxonomicAnnotation
         fields = ['created_by', 'feature', 'annotation_metadata', 'reference_database',
-                  'ta_taxon', 'ta_domain', 'ta_kingdom',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                   'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
                   'ta_common_name', 'manual_domain',
-                  'manual_kingdom', 'manual_phylum_division',
+                  'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species']

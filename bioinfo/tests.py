@@ -309,6 +309,7 @@ class TaxonomicAnnotationTestCase(TestCase):
         manual_order = TaxonOrder.objects.filter()[:1].get()
         manual_class = TaxonClass.objects.filter()[:1].get()
         manual_phylum_division = TaxonPhylumDivision.objects.filter()[:1].get()
+        manual_supergroup = TaxonSupergroup.objects.filter()[:1].get()
         manual_kingdom = TaxonKingdom.objects.filter()[:1].get()
         manual_domain = TaxonDomain.objects.filter()[:1].get()
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
@@ -320,6 +321,7 @@ class TaxonomicAnnotationTestCase(TestCase):
                                                       'ta_taxon': "test_taxon",
                                                       'ta_domain': "test_domain",
                                                       'ta_kingdom': "test_kingdom",
+                                                      'ta_supergroup': "test_supergroup",
                                                       'ta_phylum_division': "test_phylum",
                                                       'ta_class': "test_class",
                                                       'ta_order': "test_order",
@@ -329,6 +331,7 @@ class TaxonomicAnnotationTestCase(TestCase):
                                                       'ta_common_name': "test_common_name",
                                                       'manual_domain': manual_domain,
                                                       'manual_kingdom': manual_kingdom,
+                                                      'manual_supergroup': manual_supergroup,
                                                       'manual_phylum_division': manual_phylum_division,
                                                       'manual_class': manual_class,
                                                       'manual_order': manual_order,

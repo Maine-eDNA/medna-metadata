@@ -158,6 +158,7 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
     serializer_class = TaxonomicAnnotationSerializer
     queryset = TaxonomicAnnotation.objects.prefetch_related('created_by', 'feature', 'annotation_metadata',
                                                             'reference_database', 'manual_domain', 'manual_kingdom',
+                                                            'manual_supergroup',
                                                             'manual_phylum_division', 'manual_class', 'manual_order',
                                                             'manual_family', 'manual_genus', 'manual_species')
     filter_backends = [filters.DjangoFilterBackend]
