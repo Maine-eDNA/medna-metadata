@@ -16,7 +16,7 @@ class GrantAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant_label', 'grant_code', 'grant_description', ]
+        self.fields = ['grant_label', 'grant_code', 'grant_description', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -59,7 +59,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['project_code', 'project_label', 'project_description', 'project_goals',
-                       'grant_names', ]
+                       'grant_names', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -109,7 +109,7 @@ class PublicationAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['publication_title', 'publication_url', 'project_names', 'publication_authors', ]
+        self.fields = ['publication_title', 'publication_url', 'project_names', 'publication_authors', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -149,7 +149,7 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
                        'process_location_url', 'phone_number',
                        'location_email_address', 'point_of_contact_email_address',
                        'point_of_contact_first_name', 'point_of_contact_last_name',
-                       'location_notes', ]
+                       'location_notes', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -187,7 +187,7 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['full_name', 'contact_email', 'contact_context', ]
+        self.fields = ['full_name', 'contact_email', 'contact_context', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -218,7 +218,7 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
     resource_class = DefaultSiteCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('default_css_label', 'created_datetime', 'created_by')
-    readonly_fields = ('modified_datetime', 'created_datetime', 'created_by', 'default_css_slug', )
+    readonly_fields = ('modified_datetime', 'created_datetime', 'default_css_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -231,7 +231,8 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
                        'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
-                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color', ]
+                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                       'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -271,7 +272,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
     resource_class = CustomUserCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('custom_css_label', 'created_datetime', 'created_by')
-    readonly_fields = ('modified_datetime', 'created_datetime', 'created_by', 'custom_css_slug', )
+    readonly_fields = ('modified_datetime', 'created_datetime', 'custom_css_slug', )
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -284,7 +285,8 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
                        'freezer_empty_box_css_background_color', 'freezer_empty_box_css_text_color',
                        'freezer_inuse_box_css_background_color', 'freezer_inuse_box_css_text_color',
                        'freezer_empty_inventory_css_background_color', 'freezer_empty_inventory_css_text_color',
-                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color', ]
+                       'freezer_inuse_inventory_css_background_color', 'freezer_inuse_inventory_css_text_color',
+                       'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()

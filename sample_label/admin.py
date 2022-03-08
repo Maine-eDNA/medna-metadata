@@ -16,7 +16,7 @@ class SampleTypeAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_type_code', 'sample_type_label', ]
+        self.fields = ['sample_type_code', 'sample_type_label', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -50,7 +50,7 @@ class SampleMaterialAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['sample_material_code', 'sample_material_label', ]
+        self.fields = ['sample_material_code', 'sample_material_label', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -85,7 +85,7 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['site_id', 'sample_material', 'sample_type', 'purpose',
-                       'sample_year', 'req_sample_label_num', ]
+                       'sample_year', 'req_sample_label_num', 'created_by', ]
         # self.list_filter = (
         #    ('sample_material', RelatedDropdownFilter),
         # )

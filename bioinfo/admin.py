@@ -30,7 +30,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
                        'seq_quality_check', 'chimera_check',
                        'trim_length_forward', 'trim_length_reverse',
                        'min_read_length', 'max_read_length',
-                       'analysis_sop_url', 'analysis_script_repo_url', ]
+                       'analysis_sop_url', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -73,7 +73,7 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['denoise_cluster_method_name', 'denoise_cluster_method_software_package',
-                       'denoise_cluster_method_env_url', ]
+                       'denoise_cluster_method_env_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -114,7 +114,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
         self.fields = ['analysis_name', 'process_location', 'quality_metadata',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
                        'denoise_cluster_method',
-                       'analysis_sop_url', 'analysis_script_repo_url', ]
+                       'analysis_sop_url', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -155,7 +155,7 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['feature_id', 'feature_sequence', 'denoise_cluster_metadata', ]
+        self.fields = ['feature_id', 'feature_sequence', 'denoise_cluster_metadata', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -228,7 +228,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['refdb_name', 'refdb_version', 'refdb_datetime', 'redfb_coverage_score',
-                       'refdb_repo_url', 'refdb_notes', ]
+                       'refdb_repo_url', 'refdb_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -635,7 +635,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['annotation_method_name', 'annotation_method_software_package', 'annotation_method_env_url', ]
+        self.fields = ['annotation_method_name', 'annotation_method_software_package', 'annotation_method_env_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -673,7 +673,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
-                       'analyst_first_name', 'analyst_last_name', 'analysis_sop_url', 'analysis_script_repo_url', ]
+                       'analyst_first_name', 'analyst_last_name', 'analysis_sop_url', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -720,7 +720,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
                        'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
                        'manual_class', 'manual_order',
                        'manual_family', 'manual_genus',
-                       'manual_species', 'manual_notes', ]
+                       'manual_species', 'manual_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user

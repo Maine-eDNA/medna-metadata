@@ -31,7 +31,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
                        'primer_name_forward', 'primer_name_reverse',
                        'primer_forward', 'primer_reverse',
                        'primer_amplicon_length_min', 'primer_amplicon_length_max',
-                       'primer_ref_biomaterial_url', 'primer_pair_notes', ]
+                       'primer_ref_biomaterial_url', 'primer_pair_notes', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -71,7 +71,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter', ]
+        self.fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -106,7 +106,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['index_removal_method_name', 'index_removal_sop_url', ]
+        self.fields = ['index_removal_method_name', 'index_removal_sop_url', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -141,7 +141,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['size_selection_method_name', 'primer_set', 'size_selection_sop_url', ]
+        self.fields = ['size_selection_method_name', 'primer_set', 'size_selection_sop_url', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -176,7 +176,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['quant_method_name', ]
+        self.fields = ['quant_method_name', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -210,7 +210,7 @@ class AmplificationMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['amplification_method_name', 'amplification_sop_url', ]
+        self.fields = ['amplification_method_name', 'amplification_sop_url', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -247,7 +247,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['extraction_method_name',
                        'extraction_method_manufacturer',
-                       'extraction_sop_url', ]
+                       'extraction_sop_url', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -290,7 +290,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                       'extraction_notes', ]
+                       'extraction_notes', 'created_by', ]
         # self.list_filter = (
         #    ('field_sample', RelatedDropdownFilter),
         #    ('extraction_method', RelatedDropdownFilter),
@@ -342,7 +342,7 @@ class PcrReplicateAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['pcr_replicate_results', 'pcr_replicate_results_units', 'pcr_replicate_notes', ]
+        self.fields = ['pcr_replicate_results', 'pcr_replicate_results_units', 'pcr_replicate_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -382,7 +382,7 @@ class PcrAdmin(ImportExportActionModelAdmin):
                        'pcr_probe', 'pcr_results', 'pcr_results_units',
                        'pcr_replicate',
                        'pcr_thermal_cond', 'pcr_sop_url',
-                       'pcr_notes', ]
+                       'pcr_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -432,7 +432,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout',
                        'lib_prep_thermal_cond', 'lib_prep_sop_url',
-                       'lib_prep_notes', ]
+                       'lib_prep_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -490,7 +490,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
                        'quantification_method',
                        'pooled_lib_concentration', 'pooled_lib_concentration_units',
                        'pooled_lib_volume', 'pooled_lib_volume_units',
-                       'pooled_lib_notes', ]
+                       'pooled_lib_notes', 'created_by', ]
         self.inlines = (LibraryPrepInline, )
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -543,7 +543,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
                        'quantification_method',
                        'run_prep_concentration', 'run_prep_concentration_units',
                        'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
-                       'run_prep_notes', ]
+                       'run_prep_notes', 'created_by', ]
         self.inlines = (PooledLibraryInline,)
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -585,7 +585,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['run_experiment_name', 'run_id', 'run_date',
                        'process_location', 'run_prep',
-                       'run_completion_datetime', 'run_instrument', ]
+                       'run_completion_datetime', 'run_instrument', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -621,7 +621,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['run_result', 'extraction', 'fastq_datafile', 'submitted_to_insdc', ]
+        self.fields = ['run_result', 'extraction', 'fastq_datafile', 'submitted_to_insdc', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
