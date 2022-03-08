@@ -1,1 +1,0 @@
-[{"model": "bioinfo.taxondomain", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2022-01-30T03:12:25.045Z", "created_datetime": "2022-01-30T03:30:36.697Z", "taxon_domain": "Eukaryote", "taxon_domain_slug": "eukaryote", "taxon_url": "https://en.wikipedia.org/wiki/Eukaryote"}}]
