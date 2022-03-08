@@ -433,14 +433,14 @@
               who also developed the open-source frontend <a href="https://github.com/app-generator/django-material-kit" target="_blank">Django Material Kit</a>.
             </p>
             <div class="github-buttons">
-              <a href="/dashboard/" target="_blank" class="btn bg-gradient-primary mb-5 mb-sm-0">Dashboard</a>
+              <a href="{% url 'dashboard' %}" target="_blank" class="btn bg-gradient-primary mb-5 mb-sm-0">Dashboard</a>
               <div class="github-button">
                 <span></span>
               </div>
             </div>
           </div>
           <div class="col-md-5 col-12 my-auto">
-            <a target="_blank" href="/dashboard/">
+            <a target="_blank" href="{% url 'dashboard' %}">
               <img class="w-100 border-radius-lg shadow-lg" src="{% static 'assets/img/screenshots/screenshot-dashboard.png' %}" alt="dashboard">
             </a>
           </div>
