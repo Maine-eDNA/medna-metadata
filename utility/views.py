@@ -28,6 +28,20 @@ import utility.filters as utility_filters
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
+class AccountExpiredTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/account-expired.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "accountexpired"
+        context["page_title"] = "Account Expired"
+        return context
+
+
 class AboutUsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
