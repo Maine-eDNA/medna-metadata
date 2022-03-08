@@ -392,7 +392,7 @@ class Migration(migrations.Migration):
                 ('ta_common_name', models.CharField(blank=True, max_length=255, verbose_name='Common Name')),
                 ('manual_domain', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_domain', to='bioinfo.taxondomain')),
                 ('manual_kingdom', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_kingdom', to='bioinfo.taxonkingdom')),
-                ('manual_supergroup', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_supergroup', to='bioinfo.supergroup')),
+                ('manual_supergroup', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_supergroup', to='bioinfo.taxonsupergroup')),
                 ('manual_phylum_division', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_phylum_division', to='bioinfo.taxonphylumdivision')),
                 ('manual_class', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_class', to='bioinfo.taxonclass')),
                 ('manual_order', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, related_name='manual_order', to='bioinfo.taxonorder')),
