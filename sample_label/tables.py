@@ -16,7 +16,7 @@ class SampleLabelRequestTable(tables.Table):
     # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id
     # samplelabel.sample_material.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn(viewname="add_samplelabelrequestdetail",
-                                  attrs={"td": {"class": "addlink text-secondary font-weight-bold text-xs"}},
+                                  attrs={"td": {"class": "fa fa-plus text-secondary font-weight-bold text-xs"}},
                                   text='Add',
                                   args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
     # formatting for date column
