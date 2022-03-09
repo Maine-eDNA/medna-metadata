@@ -17,7 +17,7 @@ class FreezerInventoryReturnMetadataTable(tables.Table):
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y", attrs={"th": {"class": "field-created_datetime"}})
     edit_label = tables.LinkColumn(viewname='update_freezerinventoryreturnmetadata',
-                           args=[A('id')], text='Edit',
+                           args=[A('pk')], text='Edit',
                            attrs={"td": {"class": "fa fa-edit text-secondary font-weight-bold text-xs"}})
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
