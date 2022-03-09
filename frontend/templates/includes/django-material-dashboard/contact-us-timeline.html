@@ -2,18 +2,19 @@
 
 <div class="timeline timeline-one-side">
 {% for field in contactus_list %}
-    <a href="mailto:{{ field.contact_email }}?subject=Re: {{ field.contact_context }}"<div class="timeline-block mb-3">
-      <span class="timeline-step">
-        <i class="material-icons {% if field.created_season == 1 %}text-info text-gradient {% endif %}{% if field.created_season == 2 %}text-success text-gradient {% endif %}{% if field.created_season == 3 %}text-danger text-gradient {% endif %}{% if field.created_season == 4 %}text-warning text-gradient{% endif %}">
-            {% if field.created_season == 1 %}ac_unit{% endif %}{% if field.created_season == 2 %}emoji_nature{% endif %}{% if field.created_season == 3 %}brightness_low{% endif %}{% if field.created_season == 4 %}energy_savings_leaf{% endif %}</i>
-      </span>
-      <div class="timeline-content">
-        <h6 class="text-dark text-sm font-weight-bold mb-0">{{ field.created_datetime|date:"M d Y"}} @ {{ field.created_datetime|time:"h:iA"}}</h6>
-          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"><span class="text-dark text-xs mt-1 mb-0">{{ field.contact_email }}</span>: {{ field.contact_context }}</p>
-      </div>
-    </div>
+    <a href="mailto:{{ field.contact_email }}?subject=Re: {{ field.contact_context }}">
+        <div class="timeline-block mb-3">
+            <span class="timeline-step">
+                <i class="material-icons {% if field.created_season == 1 %}text-info text-gradient {% endif %}{% if field.created_season == 2 %}text-success text-gradient {% endif %}{% if field.created_season == 3 %}text-danger text-gradient {% endif %}{% if field.created_season == 4 %}text-warning text-gradient{% endif %}">
+                    {% if field.created_season == 1 %}ac_unit{% endif %}{% if field.created_season == 2 %}emoji_nature{% endif %}{% if field.created_season == 3 %}brightness_low{% endif %}{% if field.created_season == 4 %}energy_savings_leaf{% endif %}</i>
+            </span>
+            <div class="timeline-content">
+                <h6 class="text-dark text-sm font-weight-bold mb-0">{{ field.created_datetime|date:"M d Y"}} @ {{ field.created_datetime|time:"h:iA"}}</h6>
+                <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"><span class="text-dark text-xs mt-1 mb-0">{{ field.contact_email }}</span>: {{ field.contact_context }}</p>
+            </div>
+        </div>
     </a>
-{% endfor %}
+    {% endfor %}
 </div>
 {% else %}
 <p class="lead">No results are available.</p>
