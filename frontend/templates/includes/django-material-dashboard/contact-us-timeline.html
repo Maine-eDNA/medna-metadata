@@ -5,8 +5,8 @@
     <a href="{% url 'update_contactus' field.pk %} ">
         <div class="timeline-block mb-3">
             <span class="timeline-step">
-                <i class="{% if field.replied == 'yes' %}fa fa-check text-Success text-gradient {% endif %}{% if field.replied == 'no' %}fa fa-times text-danger text-gradient {% endif %}"></i>
-                <i class="{% if field.created_daypart == 1 %}fa fa-moon text-info text-gradient {% endif %}{% if field.created_daypart == 2 %}fa fa-sun-o text-secondary {% endif %}{% if field.created_daypart == 3 %}fa fa-sun text-warning text-gradient {% endif %}{% if field.created_daypart == 4 %}fa fa-moon-o text-secondary {% endif %}"></i>
+                <i class="{% if field.replied == 'yes' %}fa fa-check text-success {% endif %}{% if field.replied == 'no' %}fa fa-times text-danger {% endif %}"></i>
+                &nbsp;<i class="{% if field.created_daypart == 1 %}fa fa-moon text-info text-gradient {% endif %}{% if field.created_daypart == 2 %}fa fa-sun-o text-secondary {% endif %}{% if field.created_daypart == 3 %}fa fa-sun text-warning text-gradient {% endif %}{% if field.created_daypart == 4 %}fa fa-moon-o text-secondary {% endif %}"></i>
             </span>
             <div class="timeline-content">
                 <h6 class="text-dark text-sm font-weight-bold mb-0">{{ field.created_datetime|date:"M d Y"}} @ {{ field.created_datetime|time:"h:iA"}}</h6>
