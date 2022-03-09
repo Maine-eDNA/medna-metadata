@@ -14,7 +14,7 @@
        {{ field.label_tag }}
 
        <div class="{% if field.field.widget|field_type == CustomRadioSelect %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
-        {{ field.name|field_type }}
+        {{ field.field.widget|field_type }}
         {{ field }}
        </div>
        {% if field.help_text %}
