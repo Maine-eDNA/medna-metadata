@@ -10,3 +10,8 @@ class CustomClearableFileInput(forms.ClearableFileInput):
 
 class CustomFileInput(forms.FileInput):
     template_name = 'custom_forms/widgets/file.html'
+
+
+class CustomRadioSelect(forms.RadioSelect):
+    template_name = 'custom_forms/widgets/radio.html'
+    option_template_name = 'custom_forms/widgets/radio_option.html'

@@ -1,5 +1,10 @@
-{% with id=widget.attrs.id %}<div{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %} class="{{ widget.attrs.class }}"{% endif %}>{% for group, options, index in widget.optgroups %}{% if group %}
-  <div><label>{{ group }}</label>{% endif %}{% for option in options %}<div>
-    {% include option.template_name with widget=option %}</div>{% endfor %}{% if group %}
+{% with id=widget.attrs.id %}
+<div{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %} class="form-check mb-3 {{ widget.attrs.class }}"{% endif %}>
+{% for group, options, index in widget.optgroups %}{% if group %}
+  <div>
+    <label class="custom-control-label">{{ group }}</label>{% endif %}{% for option in options %}
+    <div>
+    {% include option.template_name with widget=option %}
+    </div>{% endfor %}{% if group %}
   </div>{% endif %}{% endfor %}
 </div>{% endwith %}

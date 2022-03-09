@@ -1,1 +1,4 @@
-{% if widget.wrap_label %}<label{% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %}>{% endif %}{% include "custom_forms/widgets/input.html" %}{% if widget.wrap_label %} {{ widget.label }}</label>{% endif %}
+{% if widget.wrap_label %}
+<label{% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %} class="custom-control-label">
+{% endif %}{% include "custom_forms/widgets/input.html" %}{% if widget.wrap_label %} {{ widget.label }}
+</label>{% endif %}

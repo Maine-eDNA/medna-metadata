@@ -5,6 +5,7 @@ from django.utils import timezone
 import datetime
 from .models import SampleLabelRequest, SampleMaterial, SampleType, current_year, year_choices
 from field_site.models import FieldSite
+from utility.widgets import CustomRadioSelect
 # from users.models import CustomUser
 
 
@@ -21,18 +22,18 @@ class AddSampleLabelForm(forms.ModelForm):
     sample_material = forms.ModelChoiceField(
         required=True,
         queryset=SampleMaterial.objects.all(),
-        widget=forms.RadioSelect(
+        widget=CustomRadioSelect(
             attrs={
-                'class': 'form-control',
+                'class': 'form-check-input',
             }
         )
     )
     sample_type = forms.ModelChoiceField(
         required=True,
         queryset=SampleType.objects.all(),
-        widget=forms.RadioSelect(
+        widget=CustomRadioSelect(
             attrs={
-                'class': 'form-control',
+                'class': 'form-check-input',
             }
         )
     )
