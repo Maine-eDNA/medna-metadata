@@ -26,7 +26,7 @@
                       <h6 class="mb-0">{{ page_title|title }} Detail</h6>
                     </div>
                     <div class="col-md-4 text-end">
-                      <a href="{% url 'update_contactus' %}">
+                      <a href="{% url 'update_contactus' object.pk %}">
                         <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Contact Us"></i>
                       </a>
                     </div>
