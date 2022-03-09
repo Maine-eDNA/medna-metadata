@@ -1,5 +1,5 @@
 {% with id=widget.attrs.id %}
-<div{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %}{% endif %}>
+<div{% if id %} id="{{ id }}"{% endif %} class="col-auto">
 {% for group, options, index in widget.optgroups %}{% if group %}
 <label class="form-check-label">{{ group }}</label>{% endif %}{% for option in options %}
 {% include option.template_name with widget=option %}
