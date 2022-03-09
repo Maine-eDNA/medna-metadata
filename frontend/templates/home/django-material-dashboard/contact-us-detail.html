@@ -41,7 +41,7 @@
                       <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Replied DateTime:</strong> &nbsp; {{ object.replied_datetime|date:"M d Y"}} @ {{ object.replied_datetime|time:"h:iA"}}</li>
                   </ul>
                 </div>
-                  <a href="mailto:{{ object.contact_email }}?subject=Re: {{ object.contact_context }}&body={{ object.replied_context }}"
+                  <a href="mailto:{{ object.contact_email }}?subject=Re: {{ object.contact_context|truncatechars:40 }}...&body={{ object.replied_context }}"
                      class="btn btn-secondary btn-lg w-100" role="button"><span class="btn-inner--icon"><i class="material-icons">email</i></span> Send Email
                   </a>
               </div>
@@ -50,7 +50,6 @@
 
     </div>
     </div>
-
 
     {% include 'includes/django-material-dashboard/footer.html' %}
 
