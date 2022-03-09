@@ -1,5 +1,5 @@
 {% with id=widget.attrs.id %}
-<div{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %} class="form-check form-check-inline mb-3 {{ widget.attrs.class }}"{% endif %}>
+<div{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %} class="{{ widget.attrs.class }}"{% endif %}>
 {% for group, options, index in widget.optgroups %}{% if group %}
   <div>
     <label class="custom-control-label">{{ group }}</label>{% endif %}{% for option in options %}
