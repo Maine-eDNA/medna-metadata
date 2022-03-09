@@ -57,6 +57,11 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
         initial['replied_datetime'] = timezone.now()
         return initial
 
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_contactus', kwargs={"pk": self.object.pk})
+
 
 class ContactUsDetailView(LoginRequiredMixin, DetailView):
     template_name = 'home/django-material-kit/contact-us-detail.html'
@@ -68,11 +73,6 @@ class ContactUsDetailView(LoginRequiredMixin, DetailView):
         context["page_title"] = "Contact Us"
         context["segment"] = "detail_contactus"
         return context
-
-    def get_success_url(self):
-        # after successfully filling out and submitting a form,
-        # show the user the detail view of the label
-        return reverse('detail_contactus', kwargs={"pk": self.object.pk})
 
 
 ########################################
