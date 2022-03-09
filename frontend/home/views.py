@@ -55,10 +55,11 @@ def main_pages(request):
 
 @login_required(redirect_field_name='next', login_url="/dashboard/login/")
 def dashboard_index(request):
-    return_metadata_table = freezer_inventory_return_metadata_table(request)
+    return_metadata_table, return_metadata_count = freezer_inventory_return_metadata_table(request)
     contactus_list, replied_count = contact_us_list(request)
     context = {'segment': 'index',
                'return_metadata_table': return_metadata_table,
+               'return_metadata_count': return_metadata_count,
                'contactus_list': contactus_list,
                'replied_count': replied_count}
 

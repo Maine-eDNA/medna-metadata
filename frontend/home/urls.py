@@ -50,7 +50,7 @@ urlpatterns = [
     path('main/metadata-standards/', utility_views.MetadataStandardsTemplateView.as_view(), name='metadata_standards'),
     path('main/contact-us/', utility_views.ContactUsCreateView.as_view(success_url=reverse_lazy('contact_us_received')), name='contact_us'),
     path('main/contact-us/received/', utility_views.ContactUsReceivedTemplateView.as_view(), name='contact_us_received'),
-    path('main/contact-us/update/<int:pk>/', utility_views.ContactUsUpdateView.as_view(success_url=reverse_lazy('detail_contactus')), name='update_contactus'),
+    path('main/contact-us/update/<int:pk>/', utility_views.ContactUsUpdateView.as_view(), name='update_contactus'),
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),
     path('main/account/expired/', utility_views.AccountExpiredTemplateView.as_view(), name='account_expired'),
     # Matches any html file

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 # from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.http import HttpResponseRedirect
@@ -60,6 +60,7 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
 
 class ContactUsDetailView(LoginRequiredMixin, DetailView):
     template_name = 'home/django-material-kit/contact-us-detail.html'
+    fields = ['full_name', 'contact_email', 'contact_context', 'replied_context', 'replied_datetime', ]
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -67,6 +68,11 @@ class ContactUsDetailView(LoginRequiredMixin, DetailView):
         context["page_title"] = "Contact Us"
         context["segment"] = "detail_contactus"
         return context
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_contactus', kwargs={"pk": self.object.pk})
 
 
 ########################################

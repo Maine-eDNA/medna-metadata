@@ -15,6 +15,7 @@ from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInven
 from .tables import FreezerInventoryReturnMetadataTable
 from .forms import FreezerInventoryReturnMetadataUpdateForm
 import freezer_inventory.filters as freezerinventory_filters
+from utility.enumerations import YesNo
 
 
 # Create your views here.
@@ -70,7 +71,8 @@ class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, UpdateView):
 @login_required(login_url='dashboard_login')
 def freezer_inventory_return_metadata_table(request):
     return_metadata_table = FreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
-    return return_metadata_table
+    return_metadata_count = FreezerInventoryReturnMetadata.objects.filter(created_by=request.user, freezer_return_metadata_entered=YesNo.YES).count()
+    return return_metadata_table, return_metadata_count
 
 
 ########################################
