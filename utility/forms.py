@@ -66,7 +66,6 @@ class ContactUsUpdateForm(forms.ModelForm):
         )
     )
     contact_context = forms.CharField(
-        required=True,
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control',
@@ -92,6 +91,7 @@ class ContactUsUpdateForm(forms.ModelForm):
         widget=forms.DateTimeInput(
             attrs={
                 'class': 'form-control',
+                'readonly': 'readonly'
             }
         )
     )

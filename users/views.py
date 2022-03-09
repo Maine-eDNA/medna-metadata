@@ -23,7 +23,7 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
               'agol_username', 'affiliated_projects', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/profile.html'
+    template_name = 'home/django-material-dashboard/profile-detail.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 # from django.views.generic import ListView
-# from django.views.generic import DetailView
+from django.views.generic import DetailView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,7 +43,7 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ContactUsUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/contact-us-update.html'
+    template_name = 'home/django-material-dashboard/field-update.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -56,6 +56,17 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
         initial = super(ContactUsUpdateView, self).get_initial()
         initial['replied_datetime'] = timezone.now()
         return initial
+
+
+class ContactUsDetailView(LoginRequiredMixin, DetailView):
+    template_name = 'home/django-material-kit/contact-us-detail.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Contact Us"
+        context["segment"] = "detail_contactus"
+        return context
 
 
 ########################################
@@ -145,18 +156,6 @@ class MetadataStandardsTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Metadata Standards"
         context["segment"] = "metadatastandards"
-
-
-class ContactUsTemplateView(LoginRequiredMixin, TemplateView):
-    template_name = 'home/django-material-kit/contact-us-list.html'
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        context["page_title"] = "Contact Us"
-        context["segment"] = "contactus"
-        context["contact_list"] = ContactUs.objects.prefetch_related('created_by').order_by('-pk')
-        return context
 
 
 class ContactUsCreateView(CreateView):
