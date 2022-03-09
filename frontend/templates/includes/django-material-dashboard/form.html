@@ -13,7 +13,7 @@
        {{ field.errors }}
        {{ field.label_tag }}
 
-       <div class="{% if form.field_name|field_type = CustomRadioSelect %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
+       <div class="{% if form.field_name|field_type == CustomRadioSelect %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
 
         {{ field }}
        </div>
