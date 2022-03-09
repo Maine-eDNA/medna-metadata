@@ -2,7 +2,7 @@
 
 <div class="timeline timeline-one-side">
 {% for field in contactus_list %}
-    <a href="{% url 'update_contactus' {{field.pk}} %} ">
+    <a href="{% url 'update_contactus' field.pk %} ">
         <div class="timeline-block mb-3">
             <span class="timeline-step">
                 <i class="{% if field.replied == 'yes' %}fa fa-check text-Success text-gradient {% endif %}{% if field.replied == 'no' %}fa fa-times text-danger text-gradient {% endif %}"></i>
