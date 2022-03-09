@@ -33,7 +33,6 @@
                   </div>
                 </div>
                 <div class="card-body p-3">
-                  <hr class="horizontal gray-light my-4">
                   <ul class="list-group">
                       <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Contact Full Name:</strong> &nbsp; {{ object.full_name }}</li>
                       <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Contact Email:</strong> &nbsp; {{ object.contact_email }}</li>
@@ -41,6 +40,9 @@
                       <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Replied Context:</strong> &nbsp; {{ object.replied_context }}</li>
                       <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Replied DateTime:</strong> &nbsp; {{ object.replied_datetime|date:"M d Y"}} @ {{ object.replied_datetime|time:"h:iA"}}</li>
                   </ul>
+                    <a href="mailto:{{ object.contact_email }}?subject=Re: {{ object.contact_context }}&body={{ object.replied_context }}"
+                       class="btn btn-secondary btn-lg w-100" role="button">
+                        <span class="btn-inner--icon"><i class="material-icons">email</i></span>Send Email</a>
                 </div>
               </div>
             </div>
