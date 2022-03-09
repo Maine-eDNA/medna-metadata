@@ -64,6 +64,7 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ContactUsDetailView(LoginRequiredMixin, DetailView):
+    model = ContactUs
     template_name = 'home/django-material-kit/contact-us-detail.html'
     fields = ['full_name', 'contact_email', 'contact_context', 'replied_context', 'replied_datetime', ]
 
