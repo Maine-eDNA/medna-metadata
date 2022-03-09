@@ -9,7 +9,7 @@
       </span>
       <div class="timeline-content">
         <h6 class="text-dark text-sm font-weight-bold mb-0">{{ field.created_datetime|date:"M d Y"}} {{ field.created_datetime|time:"h:iA"}}</h6>
-          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"><span class="text-dark text-sm font-weight-bold mb-0">{{ field.contact_email }}</span>: {{ field.contact_context }}</p>
+          <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"><a href="mailto:" class="text-dark text-xs mt-1 mb-0">{{ field.contact_email }}</a>: {{ field.contact_context }}</p>
       </div>
     </div>
 {% endfor %}
