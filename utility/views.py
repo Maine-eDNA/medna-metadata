@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.utils import timezone
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -29,6 +31,12 @@ import utility.filters as utility_filters
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
+@login_required(login_url='dashboard_login')
+def contact_us_list(request):
+    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context')
+    return contactus_list
+
+
 class AccountExpiredTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/

@@ -165,6 +165,13 @@ class ContactUs(DateTimeUserMixin):
     contact_context = models.TextField("Context")
     contact_slug = models.SlugField("Contact Slug", max_length=255)
 
+    @property
+    def created_season(self):
+        seasons = [month % 12 // 3 + 1 for month in range(1, 13)]
+        season_dict = dict(zip(range(1, 13), seasons))
+        created_month = self.created_datetime.month
+        return season_dict.get(created_month)
+
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
