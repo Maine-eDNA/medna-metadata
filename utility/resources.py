@@ -108,8 +108,10 @@ class ContactUsAdminResource(resources.ModelResource):
         model = ContactUs
         import_id_fields = ('id', 'contact_slug', )
         fields = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                        'replied', 'replied_context', 'replied_datetime',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(

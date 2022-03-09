@@ -33,7 +33,7 @@ import utility.filters as utility_filters
 ########################################
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
-    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context')
+    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime',)
     return contactus_list
 
 
@@ -123,8 +123,7 @@ class MetadataStandardsTemplateView(TemplateView):
         context["segment"] = "metadatastandards"
 
 
-class ContactUsTemplateView(TemplateView):
-    # public template, to make private add LoginRequiredMixin
+class ContactUsTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'home/django-material-kit/contact-us-list.html'
 
     def get_context_data(self, **kwargs):

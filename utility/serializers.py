@@ -7,6 +7,7 @@ from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
+from utility.enumerations import YesNo
 
 
 class EagerLoadingMixin:
@@ -150,12 +151,16 @@ class ContactUsSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(max_length=255)
     contact_email = serializers.EmailField()
     contact_context = serializers.CharField(max_length=255)
+    replied = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    replied_context = serializers.CharField(max_length=255)
+    replied_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = ProcessLocation
         fields = ['id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

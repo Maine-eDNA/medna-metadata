@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 # from medna_metadata import settings
+from utility.enumerations import YesNo
 
 
 def slug_date_format(date):
@@ -114,7 +115,7 @@ class Publication(DateTimeUserMixin):
     publication_slug = models.SlugField("Publication Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.publication_slug = '{title}'.format(title=slugify(self.publication_title))
+        self.publication_slug = slugify(self.publication_title)
         super(Publication, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -147,7 +148,7 @@ class ProcessLocation(DateTimeUserMixin):
     location_notes = models.TextField("Notes", blank=True)
 
     def save(self, *args, **kwargs):
-        self.process_location_name_slug = '{name}'.format(name=slugify(self.process_location_name))
+        self.process_location_name_slug = slugify(self.process_location_name)
         super(ProcessLocation, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -164,6 +165,9 @@ class ContactUs(DateTimeUserMixin):
     contact_email = models.EmailField(_('Email Address'))
     contact_context = models.TextField("Context")
     contact_slug = models.SlugField("Contact Slug", max_length=255)
+    replied = models.CharField("Replied", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    replied_context = models.TextField("Replied Context", blank=True)
+    replied_datetime = models.DateTimeField("Replied DateTime", blank=True, null=True)
 
     @property
     def created_season(self):
@@ -182,11 +186,12 @@ class ContactUs(DateTimeUserMixin):
         return daypart_dict.get(created_hour)
 
     def save(self, *args, **kwargs):
-        if self.created_datetime is None:
+        # only create slug on INSERT, not UPDATE
+        if self.pk is None:
             created_date_fmt = slug_date_format(timezone.now())
-        else:
-            created_date_fmt = slug_date_format(self.created_datetime)
-        self.contact_slug = '{name}_{date}'.format(name=slugify(self.full_name), date=created_date_fmt)
+            self.contact_slug = '{name}_{date}'.format(name=slugify(self.full_name), date=created_date_fmt)
+        if self.replied_context is not None and self.replied_datetime is not None and self.pk is not None:
+            self.replied = YesNo.YES
         super(ContactUs, self).save(*args, **kwargs)
 
     def __str__(self):
