@@ -21,7 +21,7 @@ class AddSampleLabelForm(forms.ModelForm):
     sample_material = forms.ModelChoiceField(
         required=True,
         queryset=SampleMaterial.objects.all(),
-        widget=forms.Select(
+        widget=forms.RadioSelect(
             attrs={
                 'class': 'form-control',
             }
@@ -30,7 +30,7 @@ class AddSampleLabelForm(forms.ModelForm):
     sample_type = forms.ModelChoiceField(
         required=True,
         queryset=SampleType.objects.all(),
-        widget=forms.Select(
+        widget=forms.RadioSelect(
             attrs={
                 'class': 'form-control',
             }
