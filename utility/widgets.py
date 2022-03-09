@@ -20,7 +20,8 @@ class CustomRadioSelect(forms.RadioSelect):
 class CustomSelect2(forms.Select):
     class Media:
         css = {'all': ('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', )}
-        js = ('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+        js = ('assets/js/plugins/jquery-3.4.1.min.js',
+              'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
               'assets/js/custom-select2.js', )
 
     template_name = 'custom_forms/widgets/select2.html'
@@ -34,7 +35,8 @@ class CustomSelect2(forms.Select):
 class CustomSelect2Multiple(forms.SelectMultiple):
     class Media:
         css = {'all': ('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', )}
-        js = ('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+        js = ('assets/js/plugins/jquery-3.4.1.min.js',
+              'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
               'assets/js/custom-select2.js', )
 
     template_name = 'custom_forms/widgets/select2.html'
