@@ -17,7 +17,7 @@ class SampleLabelRequestTable(tables.Table):
     # samplelabel.sample_material.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
     add = tables.LinkColumn(viewname="add_samplelabelrequestdetail",
                             attrs={"td": {"class": "fa fa-plus text-secondary font-weight-bold text-xs"}},
-                            # text='Add',
+                            text='Add',
                             args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y",
