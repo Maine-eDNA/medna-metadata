@@ -34,7 +34,8 @@ import utility.filters as utility_filters
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
     contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
-    return contactus_list
+    replied_count = ContactUs.objects.filter(replied='yes').count()
+    return contactus_list, replied_count
 
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
