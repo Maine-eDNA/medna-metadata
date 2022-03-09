@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
@@ -22,21 +22,44 @@ import json
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
-from .forms import ContactUsForm
+from .forms import ContactUsForm, ContactUsUpdateForm
 import utility.enumerations as utility_enums
 import utility.filters as utility_filters
 
 
 # Create your views here.
 ########################################
-# FRONTEND VIEWS                       #
+# FRONTEND PRIVATE VIEWS               #
 ########################################
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
-    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime',)
+    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
     return contactus_list
 
 
+class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
+    model = ContactUs
+    form_class = ContactUsUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/contact-us-update.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_contactus"
+        context["page_title"] = "Contact Us"
+        return context
+
+    def get_initial(self):
+        initial = super(ContactUsUpdateView, self).get_initial()
+        initial['replied_datetime'] = timezone.now()
+        return initial
+
+
+########################################
+# FRONTEND PUBLIC VIEWS                #
+########################################
 class AccountExpiredTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
