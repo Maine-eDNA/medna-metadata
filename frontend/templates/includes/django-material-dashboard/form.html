@@ -1,3 +1,7 @@
+{% block extrahead %}
+    {{ form.media }}
+{% endblock %}
+
 {% load html_tags %}
 <!-- START FORM ERRORS -->
 {% if form.non_field_errors %}
