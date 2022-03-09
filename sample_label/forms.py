@@ -24,7 +24,7 @@ class AddSampleLabelForm(forms.ModelForm):
         queryset=SampleMaterial.objects.all(),
         widget=CustomRadioSelect(
             attrs={
-                'class': 'form-check-input',
+                'class': 'btn-check',
             }
         )
     )
@@ -33,7 +33,7 @@ class AddSampleLabelForm(forms.ModelForm):
         queryset=SampleType.objects.all(),
         widget=CustomRadioSelect(
             attrs={
-                'class': 'form-check-input',
+                'class': 'btn-check',
             }
         )
     )
