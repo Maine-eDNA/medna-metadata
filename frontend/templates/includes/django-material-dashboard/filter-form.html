@@ -9,13 +9,13 @@
 {% endif %}
 <!-- END FORM ERRORS -->
 <!-- START FORM -->
-<form action="" method="get" class="p-3">
+<form action="" method="get" class="changelist-form p-3">
   {% csrf_token %}
 
       <div class="row">
       {% for field in filter.form %}
 
-       <div class="col-md-4">
+       <div class="col-md-3">
        {{ field.errors }}
        {{ field.label_tag }}
        <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
