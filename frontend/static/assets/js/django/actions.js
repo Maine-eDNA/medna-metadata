@@ -110,29 +110,6 @@
             lastChecked = target;
             updateCounter();
         });
-        $('form#changelist-form table#result_list tr').on('change', 'td:gt(0) :input', function() {
-            list_editable_changed = true;
-        });
-        $('form#changelist-form button[name="index"]').on('click', function(event) {
-            if (list_editable_changed) {
-                return confirm(gettext("You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost."));
-            }
-        });
-        $('form#changelist-form input[name="_save"]').on('click', function(event) {
-            let action_changed = false;
-            $('select option:selected', options.actionContainer).each(function() {
-                if ($(this).val()) {
-                    action_changed = true;
-                }
-            });
-            if (action_changed) {
-                if (list_editable_changed) {
-                    return confirm(gettext("You have selected an action, but you haven’t saved your changes to individual fields yet. Please click OK to save. You’ll need to re-run the action."));
-                } else {
-                    return confirm(gettext("You have selected an action, and you haven’t made any changes on individual fields. You’re probably looking for the Go button rather than the Save button."));
-                }
-            }
-        });
     };
     /* Setup plugin defaults */
     $.fn.actions.defaults = {
@@ -150,5 +127,25 @@
         if ($actionsEls.length > 0) {
             $actionsEls.actions();
         }
+        // from action_formats.js in import_export
+        var $actionsSelect, $formatsElement, $dataSelect;
+        if ($('body').hasClass('grp-change-list')) {
+            // using grappelli
+            $actionsSelect = $('#grp-changelist-form select[name="action"]');
+            $formatsElement = $('#grp-changelist-form select[name="file_format"]');
+        } else {
+            // using default admin
+            $actionsSelect = $('#export_actions select[name="action"]');
+            $formatsElement = $('#export_actions select[name="file_format"]');
+        }
+        $actionsSelect.change(function() {
+          if (($(this).val() === 'export_action_table') || ($(this).val() === 'export_action_select')) {
+            $formatsElement.show();
+          } else {
+            $formatsElement.hide();
+          }
+        });
+        $actionsSelect.change();
+        // end action_formats.js
     });
 }
