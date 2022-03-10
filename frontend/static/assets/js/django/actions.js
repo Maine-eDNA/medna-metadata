@@ -84,7 +84,7 @@
         acrossInput: "div.actions input.select-across",
         acrossQuestions: "div.actions span.question",
         acrossClears: "div.actions span.clear",
-        allToggleId: "#action-toggle",
+        allToggleId: "action-toggle",
         selectedClass: "selected"
     };
 
