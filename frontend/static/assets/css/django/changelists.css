@@ -2,12 +2,12 @@
 
 /* CHANGELIST TABLES */
 
-#changelist table thead th.action-checkbox-column {
+#result_list table thead th.action-checkbox-column {
     width: 1.5em;
     text-align: center;
 }
 
-#changelist table tbody td.action-checkbox {
+#result_list table tbody td.action-checkbox {
     text-align: center;
 }
 
@@ -17,16 +17,16 @@
     border-right: none;
 }
 
-#changelist table input {
+#result_list table input {
     margin: 0;
     vertical-align: baseline;
 }
 
-#changelist table tbody tr.selected {
+#result_list table tbody tr.selected {
     background-color: #ffa;
 }
 
-#changelist .actions {
+#result_list .actions {
     padding: 10px;
     background: var(--body-bg);
     border-top: none;
@@ -36,25 +36,25 @@
     width: 100%;
 }
 
-#changelist .actions.selected { /* XXX Probably unused? */
+#result_list .actions.selected { /* XXX Probably unused? */
     background: var(--body-bg);
     border-top: 1px solid var(--body-bg);
     border-bottom: 1px solid #edecd6;
 }
 
-#changelist .actions span.all,
-#changelist .actions span.action-counter,
-#changelist .actions span.clear,
-#changelist .actions span.question {
+#result_list .actions span.all,
+#result_list .actions span.action-counter,
+#result_list .actions span.clear,
+#result_list .actions span.question {
     font-size: 13px;
     margin: 0 0.5em;
 }
 
-#changelist .actions:last-child {
+#result_list .actions:last-child {
     border-bottom: none;
 }
 
-#changelist .actions select {
+#result_list .actions select {
     vertical-align: top;
     height: 24px;
     color: var(--body-fg);
@@ -66,17 +66,17 @@
     margin-left: 10px;
 }
 
-#changelist .actions select:focus {
+#result_list .actions select:focus {
     border-color: var(--body-quiet-color);
 }
 
-#changelist .actions label {
+#result_list .actions label {
     display: inline-block;
     vertical-align: middle;
     font-size: 13px;
 }
 
-#changelist .actions .button {
+#result_list .actions .button {
     font-size: 13px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -90,6 +90,6 @@
     color: var(--body-fg);
 }
 
-#changelist .actions .button:focus, #changelist .actions .button:hover {
+#result_list .actions .button:focus, #changelist .actions .button:hover {
     border-color: var(--body-quiet-color);
 }
