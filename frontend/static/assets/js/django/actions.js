@@ -87,7 +87,7 @@
         acrossQuestions: "div.actions span.question",
         acrossClears: "div.actions span.clear",
         allToggleId: "action-toggle",
-        selectedClass: "selected"
+        selectedClass: "selected",
         checkBox: "tr input.action-select"
     };
 
