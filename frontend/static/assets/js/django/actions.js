@@ -88,6 +88,7 @@
         acrossClears: "div.actions span.clear",
         allToggleId: "action-toggle",
         selectedClass: "selected"
+        checkBox: "tr input.action-select"
     };
 
     window.Actions = function(actionCheckboxes, options) {
@@ -117,11 +118,14 @@
                     acrossInput.value = 1;
                 });
 
-                const checkboxes = Array.from(actionCheckboxes);
-                const all = document.querySelector(options.allContainer);
-                all.textContent = checkboxes.length;
-                console.log(checkboxes);
-                console.log(checkboxes.length);
+                const acrossCheckBoxes = document.querySelectorAll(options.checkBox);
+                console.log(acrossCheckBoxes.length);
+                if (acrossCheckBoxes.length > 0) {
+                    acrossCheckBoxes.forEach(function(checkBox) {
+                        checkBox.checked = true;
+                    });
+                }
+
 
                 showClear(options);
             });

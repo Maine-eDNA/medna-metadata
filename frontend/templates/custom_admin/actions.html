@@ -67,7 +67,7 @@ $(document).ready(function($){
     {% if actions_selection_counter %}
     <span class="action-counter" data-actions-icnt="{{ table.page.object_list|length }}">{{ selection_note }}</span>
     {% if table.page.object_list|length != table.rows|length %}
-    <span class="all hidden"></span>
+    <span class="all hidden">{% blocktranslate with table.rows|length as total_count %}Selected {{ total_count }} {{ module_name }}{% endblocktranslate %}</span>
     <span class="question hidden">
         <a href="#" class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
     </span>
