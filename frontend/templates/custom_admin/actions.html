@@ -2,6 +2,15 @@
 {% block extrahead %}
 <script type="text/javascript">
 $(document).ready(function($){
+    $("input.action-checkbox[type='checkbox']").change(function (e) {
+        if ($(this).is(":checked")) { //If the checkbox is checked
+            $(this).closest('tr').addClass("selected");
+            //Add class on checkbox checked
+        } else {
+            $(this).closest('tr').removeClass("selected");
+            //Remove class on checkbox uncheck
+        }
+    });
     $('#download_button').click(function(){
       var format = $('#export_actions select[name="file_format"]').val();
       var actionsSelect = $('#export_actions select[name="action"]').val();
