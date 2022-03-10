@@ -6,7 +6,9 @@
 {% block title %} {{ page_title|title }} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/django/changelists.css' %}">
+{% endblock stylesheets %}
 
 {% block content %}
 
