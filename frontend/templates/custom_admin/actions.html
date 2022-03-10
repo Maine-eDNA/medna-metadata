@@ -23,7 +23,7 @@ $(document).ready(function($){
         stateSave: true
     });
 
-    $("#selectAll").on("change", function(){
+    $("div.actions span.question").on("change", function(){
         oTable.$("input[type='checkbox']").attr('checked', $(this.checked));
     });
 
