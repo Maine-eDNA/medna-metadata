@@ -1,6 +1,7 @@
 {% extends "layouts/django-material-dashboard/base.html" %}
 {% load static i18n %}
 {% load django_tables2 %}
+{% load custom_filter_list %}
 
 {% block title %} {{ page_title|title }} {% endblock %}
 
@@ -19,7 +20,21 @@
           <div class="card-body px-0 pb-2">
           <!-- insert filter here -->
 
-            {% include 'includes/django-material-dashboard/export-formats.html' %}
+            <div class="dropdown">
+              <a href="#" class="btn bg-gradient-dark dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink">
+            <i class="fa fa-file-export" aria-hidden="true"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              {% for format in view.export_formats %}
+              <li>
+                <a class="export_link dropdown-item"
+                     data-bs-toggle="dropdown"
+                     href="{% export_url format %}">Export <code>.{{ format }}</code>
+                </a>
+              </li>
+              {% endfor %}
+              </ul>
+            </div>
 
               <div class="module filtered" id="changelist">
                 <div id="changelist-filter">
