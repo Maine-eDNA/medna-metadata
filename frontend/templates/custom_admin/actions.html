@@ -47,7 +47,7 @@ $(document).ready(function($){
     {% for field in action_form %}{% if field.label %}<label>{{ field.label }} {% endif %}{{ field }}{% if field.label %}</label>{% endif %}{% endfor %}
     {% endblock %}
     {% block actions-submit %}
-    <a class="btn btn-secondary btn-sm" role="button" title='{% translate "Run the selected action" %}' name="index" id="download_button" href='{% export_url ""%}'>{% translate "Go" %}</a>
+    <a class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Run the selected action" %}' name="index" id="download_button" href='{% export_url ""%}'>{% translate "Go" %}</a>
     {% endblock %}
     {% block actions-counter %}
     {% if actions_selection_counter %}
