@@ -20,9 +20,9 @@
           <!-- insert filter here -->
 
               <ul class="object-tools">
-                  {# {% for format in view.export_formats %} #}
-                  {# <li><a class="export_link" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li> #}
-                  {# {% endfor %} #}
+                  {% for format in view.export_formats %}
+                  <li><a class="export_link" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li>
+                  {% endfor %} #}
               </ul>
 
 
