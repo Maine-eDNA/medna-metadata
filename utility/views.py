@@ -39,13 +39,12 @@ def get_action_choices(default_choices=BLANK_CHOICE_DASH):
     return choices
 
 
-def export_context(request):
+def export_context(request, export_formats):
     """
     Return a dictionary of variables to put in the template context for
     pages with exportable tables
     """
     # export_formats = ['csv', 'xlsx']
-    export_formats = request.export_formats
     actions_selection_counter = True
     formats = []
     if export_formats:
