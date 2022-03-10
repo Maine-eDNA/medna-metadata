@@ -44,7 +44,8 @@ def export_context(request):
     Return a dictionary of variables to put in the template context for
     pages with exportable tables
     """
-    export_formats = ['csv', 'xlsx']
+    # export_formats = ['csv', 'xlsx']
+    export_formats = request.export_formats
     actions_selection_counter = True
     formats = []
     if export_formats:
