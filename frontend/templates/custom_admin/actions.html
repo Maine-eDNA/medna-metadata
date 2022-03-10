@@ -12,8 +12,8 @@ $(document).ready(function($){
         }
     });
     $('#download_button').click(function(){
-      var format = $('#export_actions select[name="file_format"]').val();
-      var actionsSelect = $('#export_actions select[name="action"]').val();
+      var format = $('div.actions select[name="file_format"]').val();
+      var actionsSelect = $('div.actions select[name="action"]').val();
       var rendered_href = '{% export_url "" %}';
       var dataSelect = $('tr input.action-select');
       var noSelect = $('span.no-selection');
@@ -41,7 +41,7 @@ $(document).ready(function($){
 </script>
 {% endblock %}
 
-<div class="actions" id="export_actions">
+<div class="actions">
     <!-- start block actions -->
     {% block actions %}
     <!-- start block actions-form -->
