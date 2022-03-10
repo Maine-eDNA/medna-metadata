@@ -13,7 +13,7 @@
         {% for field in filter.form %}
         <div class="col-md-4">
             {{ field.errors }}
-            <span class="text-white text-capitalize ps-3">{{ field.label_tag }}</span>
+            <label class="text-white text-capitalize" for="{{ field.auto_id }}">{{ field.label }}</label>
             <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
                 {{ field }}
             </div>
