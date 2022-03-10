@@ -69,9 +69,9 @@
                 cnt: actions_icnt
             }, true);
 
-        console.log(sel);
-        console.log(actions_icnt);
-        console.log(counter.textContent);
+        // console.log(sel);
+        // console.log(actions_icnt);
+        //console.log(counter.textContent);
 
         const allToggle = document.getElementById(options.allToggleId);
         allToggle.checked = sel === actionCheckboxes.length;
@@ -161,7 +161,8 @@
             });
         });
 
-        document.querySelector('div.actions button[name=index]').addEventListener('click', function(event) {
+        document.querySelector('#download_button').addEventListener('click', function(event) {
+            console.log(list_editable_changed);
             if (list_editable_changed) {
                 const confirmed = confirm(gettext("You have not made any selections."));
                 if (!confirmed) {
