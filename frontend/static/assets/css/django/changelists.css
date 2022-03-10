@@ -2,12 +2,6 @@
 
 /* CHANGELIST TABLES */
 
-#changelist table thead th {
-    padding: 0;
-    white-space: nowrap;
-    vertical-align: middle;
-}
-
 #changelist table thead th.action-checkbox-column {
     width: 1.5em;
     text-align: center;
@@ -15,10 +9,6 @@
 
 #changelist table tbody td.action-checkbox {
     text-align: center;
-}
-
-#changelist table tfoot {
-    color: var(--body-quiet-color);
 }
 
 /* ACTIONS */
@@ -33,7 +23,7 @@
 }
 
 #changelist table tbody tr.selected {
-    background-color: var(--selected-row);
+    background-color: #ffa;
 }
 
 #changelist .actions {
