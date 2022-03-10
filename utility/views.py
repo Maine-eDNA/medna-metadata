@@ -57,8 +57,6 @@ def export_context(request, export_formats):
     action_form = export_action_form(auto_id=None)
     action_form.fields['action'].choices = get_action_choices()
 
-    # formats = request.POST.get('view.export_formats')
-
     return {
         'actions_selection_counter': actions_selection_counter,
         # 'format_form':format_form,
