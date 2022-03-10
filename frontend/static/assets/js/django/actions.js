@@ -59,6 +59,7 @@
         const sel = Array.from(actionCheckboxes).filter(function(el) {
             return el.checked;
         }).length;
+
         const counter = document.querySelector(options.counterContainer);
         // data-actions-icnt is defined in the generated HTML
         // and contains the total amount of objects in the queryset
@@ -115,6 +116,13 @@
                 acrossInputs.forEach(function(acrossInput) {
                     acrossInput.value = 1;
                 });
+
+                const checkboxes = Array.from(actionCheckboxes);
+                const all = document.querySelector(options.allContainer);
+                all.textContent = checkboxes.length;
+                console.log(checkboxes);
+                console.log(checkboxes.length);
+
                 showClear(options);
             });
         });
