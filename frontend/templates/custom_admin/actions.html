@@ -43,47 +43,24 @@ $(document).ready(function($){
 
 <div class="actions" id="export_actions">
   {% block actions %}
-    <div class="row">
     {% block actions-form %}
-<div class="col-md-3">
-    {% for field in action_form %}
-
-            {% if field.label %}
-            <label>{{ field.label }} {% endif %}{{ field }}{% if field.label %}</label>
-            {% endif %}
-
-        {% endfor %}
-</div>
-            {% endblock %}
+    {% for field in action_form %}{% if field.label %}<label>{{ field.label }} {% endif %}{{ field }}{% if field.label %}</label>{% endif %}{% endfor %}
+    {% endblock %}
     {% block actions-submit %}
-        <div class="col-md-3">
-    <a class="btn" title='{% translate "Run the selected action" %}' name="index" id="download_button" href='{% export_url ""%}'>{% translate "Go" %}</a>
-        </div>
-            {% endblock %}
+    <a class="btn btn-secondary btn-sm" role="button" title='{% translate "Run the selected action" %}' name="index" id="download_button" href='{% export_url ""%}'>{% translate "Go" %}</a>
+    {% endblock %}
     {% block actions-counter %}
-        <div class="col-md-3">
     {% if actions_selection_counter %}
         <span class="action-counter" data-actions-icnt="{{ table.page.object_list|length }}">{{ selection_note }}</span>
-             </div>
-
         {% if table.page.object_list|length != table.rows|length %}
-        <div class="col-md-3">
         <span class="all hidden">{{ selection_note_all }}</span>
-            </div>
-        <div class="col-md-3">
         <span class="question hidden">
             <a href="#" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
         </span>
-        </div>
-        <div class="col-md-3">
         <span class="clear hidden"><a href="#">{% translate "Clear selection" %}</a></span>
-        </div>
         {% endif %}
     {% endif %}
-        <div class="col-md-3">
     <span class="no-selection" style="display:none;">{% translate "No data selected" %}</span>
-        </div>
     {% endblock %}
-        </div>
   {% endblock %}
 </div>
