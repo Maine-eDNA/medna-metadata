@@ -258,9 +258,7 @@ class CustomUserCssSerializer(serializers.ModelSerializer):
 # https://aldnav.com/blog/django-table-exporter/
 # allows for the combination of (SerializerExportMixin, SingleTableMixin, FilterView)
 # These mixed together equates to filtered views with downloadable data FROM the
-# backend dbase rather than the view of the table in HTML. Also -- this is restful API
-# so when I feel so inclined I could also set up R code to automatically download the
-# data: https://www.programmableweb.com/news/how-to-access-any-restful-api-using-r-language/how-to/2017/07/21
+# backend dbase rather than the view of the table in HTML.
 class SerializerTableExport(TableExport):
     def __init__(self, export_format, table, serializer=None, exclude_columns=None):
         if not self.is_valid_format(export_format):

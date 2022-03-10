@@ -19,6 +19,7 @@ from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer,
     SampleBarcodeSerializer, SampleTypeSerializer, SampleLabelRequestSerializerExportMixin
 import sample_label.filters as samplelabel_filters
 from .forms import AddSampleLabelForm
+from utility.views import export_context
 
 
 # Create your views here.
@@ -31,7 +32,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
-    template_name = 'home/django-material-dashboard/field-list.html'
+    template_name = 'home/django-material-dashboard/field-filter-list.html'
     permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
     # Implement lazy pagination, preventing any count() queries.
     # table_pagination = {'paginator_class': LazyPaginator,}
@@ -41,6 +42,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
     filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -48,6 +50,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
         context["segment"] = "view_samplelabelrequest"
         context["page_title"] = "Sample Label Request"
         context["export_formats"] = self.export_formats
+        context["extra_context"] = {**export_context(self.request)}
         return context
 
     def handle_no_permission(self):

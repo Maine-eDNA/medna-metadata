@@ -1,8 +1,29 @@
 from django import forms
+from django.contrib.admin.helpers import ActionForm
+from django.utils.translation import gettext_lazy as _
 from .models import ContactUs
 
 
-# FRONTEND
+# custom import from import_export/forms.py
+def export_action_form_factory(formats):
+    """
+    Returns an ActionForm subclass containing a ChoiceField populated with
+    the given formats.
+    """
+    class _ExportActionForm(ActionForm):
+        """
+        Action form with export format ChoiceField.
+        """
+        file_format = forms.ChoiceField(
+            label=_('Format'), choices=formats, required=False)
+    _ExportActionForm.__name__ = str('ExportActionForm')
+
+    return _ExportActionForm
+
+
+########################################
+# FRONTEND FORMS                       #
+########################################
 class ContactUsForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
     # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
@@ -103,4 +124,3 @@ class ContactUsUpdateForm(forms.ModelForm):
     # def send_email(self):
     #     # send email using the self.cleaned_data dictionary
     #     pass
-

@@ -11,6 +11,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
+from django.db.models import BLANK_CHOICE_DASH
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
@@ -25,6 +26,44 @@ from .serializers import ContactUsSerializer, ProcessLocationSerializer, Publica
 from .forms import ContactUsForm, ContactUsUpdateForm
 import utility.enumerations as utility_enums
 import utility.filters as utility_filters
+from utility.forms import export_action_form_factory
+
+
+def get_action_choices(default_choices=BLANK_CHOICE_DASH):
+    """
+    Return a list of choices for use in a form object.  Each choice is a
+    tuple (name, description).
+    """
+    choices = [('export_action_select', 'Export selected'),
+               ('export_action_table', 'Export table'), ] + default_choices
+    return choices
+
+
+def export_context(request):
+    """
+    Return a dictionary of variables to put in the template context for
+    pages with exportable tables
+    """
+    export_formats = ['csv', 'xlsx']
+    actions_selection_counter = True
+    formats = []
+    if export_formats:
+        formats.append(('', '---'))
+        for i, f in enumerate(export_formats):
+            formats.append((f, f))
+    export_action_form = export_action_form_factory(formats)
+
+    # Build the action form and populate it with available actions.
+    action_form = export_action_form(auto_id=None)
+    action_form.fields['action'].choices = get_action_choices()
+
+    # formats = request.POST.get('view.export_formats')
+
+    return {
+        'actions_selection_counter': actions_selection_counter,
+        # 'format_form':format_form,
+        'action_form': action_form,
+    }
 
 
 # Create your views here.
