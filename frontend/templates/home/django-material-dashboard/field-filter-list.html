@@ -18,6 +18,16 @@
             <h6 class="text-white text-capitalize ps-3">{{ page_title|title }} Table</h6>
           </div>
             <div class="card-body px-0 pb-2">
+
+                <!-- START filter -->
+                {% if filter %}
+                <div class="module filtered" id="changelist">
+                    <div id="changelist-filter">
+                        {% include 'includes/django-material-dashboard/filter-form.html' %}
+                    </div>
+                </div>
+                 {% endif %}
+                <!-- END filter -->
                 <!-- START export options -->
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,15 +41,6 @@
                     </ul>
                 </div>
                 <!-- END export options -->
-                <!-- START filter -->
-                {% if filter %}
-                <div class="module filtered" id="changelist">
-                    <div id="changelist-filter">
-                        {% include 'includes/django-material-dashboard/filter-form.html' %}
-                    </div>
-                </div>
-                 {% endif %}
-                <!-- END filter -->
                 <!-- START table -->
                 {% render_table table %}
                 <!-- END table -->
