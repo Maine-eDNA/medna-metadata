@@ -119,14 +119,16 @@
                 });
 
                 const acrossCheckBoxes = document.querySelectorAll(options.checkBox);
-                console.log(acrossCheckBoxes.length);
+                // console.log(acrossCheckBoxes.length);
+                /* TODO currently only selects across one page, not across pagination; will need to
+                pass array of ids and add function to actions.html to use that array
+                when input[name=select_across] === 1
                 if (acrossCheckBoxes.length > 0) {
                     acrossCheckBoxes.forEach(function(checkBox) {
                         checkBox.checked = true;
                     });
                 }
-
-
+                */
                 showClear(options);
             });
         });
@@ -170,7 +172,7 @@
         });
 
         document.querySelector('#download_button').addEventListener('click', function(event) {
-            console.log(list_editable_changed);
+            // console.log(list_editable_changed);
             if (list_editable_changed) {
                 const confirmed = confirm(gettext("You have not made any selections."));
                 if (!confirmed) {
