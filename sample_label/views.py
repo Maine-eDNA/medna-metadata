@@ -50,7 +50,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
         context["segment"] = "view_samplelabelrequest"
         context["page_title"] = "Sample Label Request"
         context["export_formats"] = self.export_formats
-        context["extra_context"] = {**export_context(self.request)}
+        context = {**context, **export_context(self.request)}
         return context
 
     def handle_no_permission(self):
