@@ -10,6 +10,11 @@
 <form action="" method="get" class="changelist-form p-3">
   {% csrf_token %}
     <div class="row">
+        <div class="col-md-6 text-end ms-auto">
+            <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
+        </div>
+    </div>
+    <div class="row">
         {% for field in filter.form %}
         <div class="col-md-4">
             {{ field.errors }}
@@ -24,11 +29,6 @@
             {% endif %}
         </div>
         {% endfor %}
-        <div class="row">
-            <div class="col-md-6 text-end ms-auto">
-                <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
-            </div>
-        </div>
     </div>
 </form>
 <!-- END FORM -->

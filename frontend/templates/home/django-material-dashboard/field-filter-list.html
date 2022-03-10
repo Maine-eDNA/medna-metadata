@@ -18,10 +18,8 @@
             <h6 class="text-white text-capitalize ps-3">{{ page_title|title }} Table</h6>
                 <!-- START filter -->
                 {% if filter %}
-                <div class="module filtered" id="changelist">
-                    <div id="changelist-filter">
-                        {% include 'includes/django-material-dashboard/filter-form.html' %}
-                    </div>
+                <div id="changelist">
+                    {% include 'includes/django-material-dashboard/filter-form.html' %}
                 </div>
                  {% endif %}
                 <!-- END filter -->
