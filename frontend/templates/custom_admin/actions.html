@@ -55,9 +55,11 @@ $(document).ready(function($){
         {% if table.page.object_list|length != table.rows|length %}
         <span class="all hidden">{{ selection_note_all }}</span>
         <span class="question hidden">
-            <a href="#" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
+            <a href="#" class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
         </span>
-        <span class="clear hidden"><a href="#">{% translate "Clear selection" %}</a></span>
+        <span class="clear hidden">
+            <a href="#" class="btn btn-outline-secondary btn-sm" role="button">{% translate "Clear selection" %}</a>
+        </span>
         {% endif %}
     {% endif %}
     <span class="no-selection" style="display:none;">{% translate "No data selected" %}</span>
