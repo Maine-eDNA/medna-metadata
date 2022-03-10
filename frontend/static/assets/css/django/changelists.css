@@ -12,6 +12,9 @@
 }
 
 /* ACTIONS */
+.hidden {
+    display: none;
+}
 
 .filtered .actions {
     border-right: none;
