@@ -1,7 +1,6 @@
 {% load i18n django_tables2 %}
 {% block extrahead %}
 <script type="text/javascript">
-const $ = django.jQuery;
 $(document).ready(function($){
     $('#download_button').click(function(){
       var format = $('#export_actions select[name="file_format"]').val();
