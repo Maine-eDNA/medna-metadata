@@ -1,0 +1,15 @@
+<div class="dropdown">
+  <a href="#" class="btn bg-gradient-dark dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink">
+<i class="fa fa-file-export" aria-hidden="true"></i>
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  {% for format in view.export_formats %}
+  <li>
+    <a class="export_link dropdown-item"
+         data-bs-toggle="dropdown"
+         href="{% export_url format %}">Export <code>.{{ format }}</code>
+    </a>
+  </li>
+  {% endfor %} #}
+  </ul>
+</div>

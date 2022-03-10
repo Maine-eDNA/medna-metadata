@@ -14,7 +14,7 @@ context_processor_error_msg = (
 register = template.Library()
 
 
-@register.inclusion_tag('users/actions.html', takes_context=True)
+@register.inclusion_tag('admin/actions.html', takes_context=True)
 def custom_filter_actions(context):
     """
     Track the number of times the action field has been rendered on the page,
@@ -22,11 +22,6 @@ def custom_filter_actions(context):
     """
     context['action_index'] = context.get('action_index', -1) + 1
     return context
-
-
-@register.filter
-def split_email(value):
-    return value.split('@')[0]
 
 
 class QuerystringNode(Node):
@@ -60,6 +55,7 @@ class QuerystringNode(Node):
         else:
             return value
 
+
 @register.simple_tag(takes_context=True)
 def custom_export_url(context, export_trigger_param=None):
     """
@@ -84,4 +80,3 @@ def custom_export_url(context, export_trigger_param=None):
     return QuerystringNode(updates={export_trigger_param: export_format}, removals=[]).render(
         context
     )
-

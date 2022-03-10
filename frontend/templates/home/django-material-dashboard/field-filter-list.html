@@ -1,7 +1,7 @@
 {% extends "layouts/django-material-dashboard/base.html" %}
 {% load static i18n %}
 {% load django_tables2 %}
-{% load custom_filter_list %}
+
 {% block title %} {{ page_title|title }} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
@@ -19,15 +19,9 @@
           <div class="card-body px-0 pb-2">
           <!-- insert filter here -->
 
-              <ul class="object-tools">
-                  {% for format in view.export_formats %}
-                  <li><a class="export_link" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li>
-                  {% endfor %} #}
-              </ul>
-
+            {% include 'includes/django-material-dashboard/export-list.html' %}
 
               <div class="module filtered" id="changelist">
-
                 <div id="changelist-filter">
                 {% if filter %}
                     <form action="" method="get" class="form form-inline">
@@ -36,6 +30,7 @@
                     </form>
                 {% endif %}
               </div>
+            </div>
 
           <!-- insert table here -->
           {% render_table table %}
@@ -47,7 +42,6 @@
     {% include 'includes/django-material-dashboard/footer.html' %}
 
   </div>
-
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
