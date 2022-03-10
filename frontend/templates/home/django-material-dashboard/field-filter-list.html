@@ -20,23 +20,25 @@
             <div class="card-body px-0 pb-2">
                 <!-- START export options -->
                 <div class="dropdown">
-                    <a href="#" class="btn bg-gradient-dark dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink"><i class="fa fa-file-export" aria-hidden="true"></i></a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-file-export" aria-hidden="true"></i>
+                    </button>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style>
                         {% for format in view.export_formats %}
-                        <li><a class="export_link dropdown-item" data-bs-toggle="dropdown" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li>
+                        <li><a class="dropdown-item" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li>
                         {% endfor %}
                     </ul>
                 </div>
                 <!-- END export options -->
                 <!-- START filter -->
+                {% if filter %}
                 <div class="module filtered" id="changelist">
                     <div id="changelist-filter">
-                        {% if filter %}
                         {% include 'includes/django-material-dashboard/filter-form.html' %}
-
-                        {% endif %}
                     </div>
                 </div>
+                 {% endif %}
                 <!-- END filter -->
                 <!-- START table -->
                 {% render_table table %}
