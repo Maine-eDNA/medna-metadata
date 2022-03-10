@@ -2,7 +2,7 @@
 {% load static i18n %}
 {% load django_tables2 %}
 {% load custom_filter_list %}
-
+{% load bootstrap3 %}
 {% block title %} {{ page_title|title }} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
@@ -33,59 +33,12 @@
 
                 {% block filters %}
                 <div id="changelist-filter">
-
-                  <h2>{% translate 'Filter' %}</h2>
-                  <form method="get" id="changelist-form" >
-                    <h3> {{ filter.form.created_datetime.label_tag }} </h3>
-                    <ul class="user-filter-created_datetime">
-                      <li>{% filter.form.created_datetime %}</li>
-                    </ul>
-                    <h3> {{ filter.form.sample_year.label_tag }} </h3>
-                    <ul class="user-filter-sample_year">
-                      <li>{% filter.form.sample_year %}</li>
-                    </ul>
-                    <h3> {{ filter.form.sample_material.label_tag }} </h3>
-                    <ul class="user-filter-sample_material">
-                      {% for choice in filter.form.sample_material %}
-                      <li>
-                        <label class="checkbox-inline">
-                          {{ choice.tag }} {{ choice.choice_label }}
-                        </label>
-                      </li>
-                      {% endfor %}
-                    </ul>
-                      <h3> {{ filter.form.sample_type.label_tag }} </h3>
-                    <ul class="user-filter-sample_type">
-                      {% for choice in filter.form.sample_type %}
-                      <li>
-                        <label class="checkbox-inline">
-                          {{ choice.tag }} {{ choice.choice_label }}
-                        </label>
-                      </li>
-                      {% endfor %}
-                    </ul>
-                    <h3> {{ filter.form.site_id.label_tag }} </h3>
-                    <ul class="user-filter-site_id">
-                      {% for choice in filter.form.site_id %}
-                      <li>
-                        <label class="checkbox-inline">
-                          {{ choice.tag }} {{ choice.choice_label }}
-                        </label>
-                      </li>
-                      {% endfor %}
-                    </ul>
-                    <ul class="user-filter-submit">
-                      <li> <input type="submit" class="import_link" value="Search" /></li>
-                    </ul>
-                  </div>
-                  {% endblock %}
-                  {% block result_list %}
-                  {% custom_filter_actions %}
-                  <div class="results changelist-form-results">
-                    {% render_table table %}
-                  </div>
-                </form>
-                {% endblock %}
+                {% if filter %}
+                    <form action="" method="get" class="form form-inline">
+                        {% bootstrap_form filter.form layout='inline' %}
+                        {% bootstrap_button 'filter' %}
+                    </form>
+                {% endif %}
 
               </div>
 
