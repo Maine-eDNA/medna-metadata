@@ -51,7 +51,7 @@
         }
         actionCheckboxes.forEach(function(el) {
             el.checked = checked;
-            el.closest('td').classList.toggle(options.selectedClass, checked);
+            el.closest('tr').classList.toggle(options.selectedClass, checked);
         });
     }
 
@@ -170,7 +170,7 @@
     }
 
     ready(function() {
-        const actionsEls = document.querySelectorAll('td input.action-select');
+        const actionsEls = document.querySelectorAll('tr input.action-select');
         if (actionsEls.length > 0) {
             Actions(actionsEls);
         }

@@ -4,10 +4,10 @@
 $(document).ready(function($){
     $("input.action-select[type='checkbox']").change(function (e) {
         if ($(this).is(":checked")) { //If the checkbox is checked
-            $(this).closest('td').addClass("selected");
+            $(this).closest('tr').addClass("selected");
             //Add class on checkbox checked
         } else {
-            $(this).closest('td').removeClass("selected");
+            $(this).closest('tr').removeClass("selected");
             //Remove class on checkbox uncheck
         }
     });
