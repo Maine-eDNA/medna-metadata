@@ -14,7 +14,7 @@ context_processor_error_msg = (
 register = template.Library()
 
 
-@register.inclusion_tag('admin/actions.html', takes_context=True)
+@register.inclusion_tag('custom_admin/actions.html', takes_context=True)
 def custom_filter_actions(context):
     """
     Track the number of times the action field has been rendered on the page,
