@@ -18,20 +18,20 @@
           </div>
           <div class="card-body px-0 pb-2">
           <!-- insert filter here -->
-              {% block object-tools %}
+
               <ul class="object-tools">
                   {# {% for format in view.export_formats %} #}
                   {# <li><a class="export_link" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li> #}
                   {# {% endfor %} #}
               </ul>
-              {% endblock %}
+
 
               <div class="module filtered" id="changelist">
 
                 <div id="changelist-filter">
                 {% if filter %}
                     <form action="" method="get" class="form form-inline">
-                        {{ filter.form.as_p }}
+                        {{ filter.form }}
                         <input type="submit" />
                     </form>
                 {% endif %}
