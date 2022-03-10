@@ -26,24 +26,10 @@
                 <!-- END filter -->
           </div>
             <div class="card-body px-0 pb-2">
-  <div class="card-body pt-1">
-
                 <!-- START export options -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-file-export" aria-hidden="true"></i> Export
-                    </button>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style>
-                        {% for format in view.export_formats %}
-                        <li><a class="dropdown-item" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <!-- END export options -->
-  </div>
-                <!-- START table -->
                 {% custom_filter_actions %}
+                <!-- END export options -->
+                <!-- START table -->
                 <div class="results changelist-form-results">
                 {% render_table table %}
                 </div>
