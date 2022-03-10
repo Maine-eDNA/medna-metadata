@@ -42,27 +42,39 @@ $(document).ready(function($){
 {% endblock %}
 
 <div class="actions" id="export_actions">
-  {% block actions %}
+    <!-- start block actions -->
+    {% block actions %}
+    <!-- start block actions-form -->
     {% block actions-form %}
-    {% for field in action_form %}{% if field.label %}<label>{{ field.label }} {% endif %}{{ field }}{% if field.label %}</label>{% endif %}{% endfor %}
+    {% for field in action_form %}
+    {% if field.label %}<label>{{ field.label }}{% endif %}
+    {{ field }}
+    {% if field.label %}</label>{% endif %}
+    {% endfor %}
     {% endblock %}
+    <!-- end block actions-form -->
+    <!-- start block actions-submit -->
     {% block actions-submit %}
     <a class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Run the selected action" %}' name="index" id="download_button" href='{% export_url ""%}'>{% translate "Go" %}</a>
     {% endblock %}
+    <!-- end block actions-submit -->
+    <!-- start block actions-counter -->
     {% block actions-counter %}
     {% if actions_selection_counter %}
-        <span class="action-counter" data-actions-icnt="{{ table.page.object_list|length }}">{{ selection_note }}</span>
-        {% if table.page.object_list|length != table.rows|length %}
-        <span class="all hidden">{{ selection_note_all }}</span>
-        <span class="question hidden">
-            <a href="#" class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
-        </span>
-        <span class="clear hidden">
-            <a href="#" class="btn btn-outline-secondary btn-sm" role="button">{% translate "Clear selection" %}</a>
-        </span>
-        {% endif %}
+    <span class="action-counter" data-actions-icnt="{{ table.page.object_list|length }}">{{ selection_note }}</span>
+    {% if table.page.object_list|length != table.rows|length %}
+    <span class="all hidden">{{ selection_note_all }}</span>
+    <span class="question hidden">
+        <a href="#" class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
+    </span>
+    <span class="clear hidden">
+        <a href="#" class="btn btn-outline-secondary btn-sm" role="button">{% translate "Clear selection" %}</a>
+    </span>
+    {% endif %}
     {% endif %}
     <span class="no-selection" style="display:none;">{% translate "No data selected" %}</span>
     {% endblock %}
+    <!-- end block actions-counter -->
   {% endblock %}
+    <!-- end block actions -->
 </div>
