@@ -69,10 +69,6 @@
                 cnt: actions_icnt
             }, true);
 
-        // console.log(sel);
-        // console.log(actions_icnt);
-        //console.log(counter.textContent);
-
         const allToggle = document.getElementById(options.allToggleId);
         allToggle.checked = sel === actionCheckboxes.length;
         if (allToggle.checked) {

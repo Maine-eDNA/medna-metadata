@@ -1,7 +1,14 @@
 {% load i18n django_tables2 %}
-{% block extrahead %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+{% endblock stylesheets %}
+
+{% block javascripts %}
+<script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function($){
+
     $("input.action-select[type='checkbox']").change(function (e) {
         if ($(this).is(":checked")) { //If the checkbox is checked
             $(this).closest('tr').addClass("selected");
@@ -11,6 +18,15 @@ $(document).ready(function($){
             //Remove class on checkbox uncheck
         }
     });
+
+    var oTable = $('#result_list').dataTable({
+        stateSave: true
+    });
+
+    $("#selectAll").on("change", function(){
+        oTable.$("input[type='checkbox']").attr('checked', $(this.checked));
+    });
+
     $('#download_button').click(function(){
       var format = $('div.actions select[name="file_format"]').val();
       var actionsSelect = $('div.actions select[name="action"]').val();
@@ -37,6 +53,7 @@ $(document).ready(function($){
         }
         $('#download_button').attr('href', new_href);
     });
+
 });
 </script>
 {% endblock %}
@@ -63,7 +80,7 @@ $(document).ready(function($){
     {% if actions_selection_counter %}
     <span class="action-counter" data-actions-icnt="{{ table.page.object_list|length }}">{{ selection_note }}</span>
     {% if table.page.object_list|length != table.rows|length %}
-    <span class="all hidden">{{ selection_note_all }}</span>
+    <span class="all hidden"></span>
     <span class="question hidden">
         <a href="#" class="btn btn-outline-secondary btn-sm" role="button" title='{% translate "Click here to select the objects across all pages" %}'>{% blocktranslate with table.rows|length as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktranslate %}</a>
     </span>
