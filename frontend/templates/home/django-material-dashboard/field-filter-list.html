@@ -2,7 +2,6 @@
 {% load static i18n %}
 {% load django_tables2 %}
 {% load custom_filter_list %}
-{% load bootstrap3 %}
 {% block title %} {{ page_title|title }} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
@@ -35,11 +34,10 @@
                 <div id="changelist-filter">
                 {% if filter %}
                     <form action="" method="get" class="form form-inline">
-                        {% bootstrap_form filter.form layout='inline' %}
-                        {% bootstrap_button 'filter' %}
+                        {{ filter.form.as_p }}
+                        <input type="submit" />
                     </form>
                 {% endif %}
-
               </div>
 
           <!-- insert table here -->
