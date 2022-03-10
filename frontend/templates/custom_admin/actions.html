@@ -1,11 +1,6 @@
 {% load i18n django_tables2 %}
-{% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-{% endblock stylesheets %}
 
 {% block javascripts %}
-<script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function($){
 
@@ -17,14 +12,6 @@ $(document).ready(function($){
             $(this).closest('tr').removeClass("selected");
             //Remove class on checkbox uncheck
         }
-    });
-
-    var oTable = $('#result_list').dataTable({
-        stateSave: true
-    });
-
-    $("div.actions span.question").on("change", function(){
-        oTable.$("input[type='checkbox']").attr('checked', $(this.checked));
     });
 
     $('#download_button').click(function(){
