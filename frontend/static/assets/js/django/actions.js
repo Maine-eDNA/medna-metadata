@@ -147,6 +147,20 @@
             return filtered;
         };
 
+        Array.from(document.getElementById('result_list').tBodies).forEach(function(el) {
+            el.addEventListener('change', function(event) {
+                const target = event.target;
+                if (target.classList.contains('action-select')) {
+                    const checkboxes = affectedCheckboxes(target, shiftPressed);
+                    checker(checkboxes, options, target.checked);
+                    updateCounter(actionCheckboxes, options);
+                    lastChecked = target;
+                } else {
+                    list_editable_changed = true;
+                }
+            });
+        });
+
         const el = document.querySelector('#changelist-form input[name=_save]');
         // The button does not exist if no fields are editable.
         if (el) {
