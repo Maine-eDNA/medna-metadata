@@ -21,7 +21,7 @@ urlpatterns = [
     # https://stackoverflow.com/questions/59907011/matching-either-pattern-with-re-path-in-django-3-0
     # The home page
     path('', views.IndexTemplateView.as_view(), name='home'),
-    path('jsi18n/', JavaScriptCatalog.as_view(), cacheable=True, name='jsi18n'),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='jsi18n'),
     path('dashboard/', views.dashboard_index, name='dashboard'),
     path('dashboard/chart/survey/count/', fieldsurvey_views.survey_count_chart, name='chart_surveycount'),
     path('dashboard/chart/survey/system_count/', fieldsurvey_views.survey_system_count_chart, name='chart_surveysystemcount'),
