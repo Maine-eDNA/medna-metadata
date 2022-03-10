@@ -28,7 +28,7 @@ class CustomSelect2(forms.Select):
     option_template_name = 'custom_forms/widgets/select2_option.html'
 
     def __init__(self, *args, **kwargs):
-        kwargs['attrs'] = {'class': 'js-example-basic-single'}
+        kwargs['attrs'] = {'class': 'js-example-basic-single form-control'}
         super(CustomSelect2, self).__init__(*args, **kwargs)
 
 
@@ -43,7 +43,7 @@ class CustomSelect2Multiple(forms.SelectMultiple):
     option_template_name = 'custom_forms/widgets/select2_option.html'
 
     def __init__(self, *args, **kwargs):
-        kwargs['attrs'] = {'class': 'js-example-basic-multiple'}
+        kwargs['attrs'] = {'class': 'js-example-basic-multiple form-control'}
         super(CustomSelect2Multiple, self).__init__(*args, **kwargs)
 
 
