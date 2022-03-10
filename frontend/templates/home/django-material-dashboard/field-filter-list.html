@@ -17,39 +17,31 @@
           <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
             <h6 class="text-white text-capitalize ps-3">{{ page_title|title }} Table</h6>
           </div>
-          <div class="card-body px-0 pb-2">
-          <!-- insert filter here -->
+            <div class="card-body px-0 pb-2">
+                <!-- START export options -->
+                <div class="dropdown">
+                    <a href="#" class="btn bg-gradient-dark dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink"><i class="fa fa-file-export" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% for format in view.export_formats %}
+                        <li><a class="export_link dropdown-item" data-bs-toggle="dropdown" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- END export options -->
+                <!-- START filter -->
+                <div class="module filtered" id="changelist">
+                    <div id="changelist-filter">
+                        {% if filter %}
+                        {% include 'includes/django-material-dashboard/filter-form.html' %}
 
-            <div class="dropdown">
-              <a href="#" class="btn bg-gradient-dark dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink">
-            <i class="fa fa-file-export" aria-hidden="true"></i>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              {% for format in view.export_formats %}
-              <li>
-                <a class="export_link dropdown-item"
-                     data-bs-toggle="dropdown"
-                     href="{% export_url format %}">Export <code>.{{ format }}</code>
-                </a>
-              </li>
-              {% endfor %}
-              </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- END filter -->
+                <!-- START table -->
+                {% render_table table %}
+                <!-- END table -->
             </div>
-
-              <div class="module filtered" id="changelist">
-                <div id="changelist-filter">
-                {% if filter %}
-                    <form action="" method="get" class="form form-inline">
-                        {{ filter.form }}
-                        <input type="submit" />
-                    </form>
-                {% endif %}
-              </div>
-            </div>
-
-          <!-- insert table here -->
-          {% render_table table %}
-          </div>
         </div>
       </div>
     </div>
