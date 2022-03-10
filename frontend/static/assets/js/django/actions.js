@@ -141,6 +141,30 @@
             const filtered = checkboxes.filter((el, index) => (startIndex <= index) && (index <= endIndex));
             return filtered;
         };
+
+        document.querySelector('#changelist-form button[name=index]').addEventListener('click', function(event) {
+            if (list_editable_changed) {
+                const confirmed = confirm(gettext("You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost."));
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+            }
+        });
+
+        const el = document.querySelector('#changelist-form input[name=_save]');
+        // The button does not exist if no fields are editable.
+        if (el) {
+            el.addEventListener('click', function(event) {
+                if (document.querySelector('[name=action]').value) {
+                    const text = list_editable_changed
+                        ? gettext("You have selected an action, but you haven’t saved your changes to individual fields yet. Please click OK to save. You’ll need to re-run the action.")
+                        : gettext("You have selected an action, and you haven’t made any changes on individual fields. You’re probably looking for the Go button rather than the Save button.");
+                    if (!confirm(text)) {
+                        event.preventDefault();
+                    }
+                }
+            });
+        }
     };
 
     // Call function fn when the DOM is loaded and ready. If it is already
