@@ -18,7 +18,7 @@
             <h6 class="text-white text-capitalize ps-3">{{ page_title|title }} Table</h6>
           </div>
             <div class="card-body px-0 pb-2">
-
+  <div class="card-body pt-1">
                 <!-- START filter -->
                 {% if filter %}
                 <div class="module filtered" id="changelist">
@@ -41,6 +41,7 @@
                     </ul>
                 </div>
                 <!-- END export options -->
+  </div>
                 <!-- START table -->
                 {% render_table table %}
                 <!-- END table -->

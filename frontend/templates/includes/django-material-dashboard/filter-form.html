@@ -11,7 +11,7 @@
 <!-- START FORM -->
 <form action="" method="get" class="p-3">
   {% csrf_token %}
-  <div class="card-body pt-1">
+
       <div class="row">
       {% for field in filter.form %}
 
@@ -30,11 +30,11 @@
 
       {% endfor %}
           </div>
-      <div class="row">
+
         <div class="col-md-6 text-end ms-auto">
           <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
         </div>
-      </div>
-  </div>
+
+
 </form>
 <!-- END FORM -->
