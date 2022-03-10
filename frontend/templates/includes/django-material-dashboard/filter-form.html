@@ -12,8 +12,10 @@
 <form action="" method="get" class="p-3">
   {% csrf_token %}
   <div class="card-body pt-1">
+      <div class="row">
       {% for field in filter.form %}
-   <div class="row">
+
+       <div class="col-md-4">
        {{ field.errors }}
        {{ field.label_tag }}
        <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
@@ -25,7 +27,9 @@
        </div>
        {% endif %}
    </div>
+
       {% endfor %}
+          </div>
       <div class="row">
         <div class="col-md-6 text-end ms-auto">
           <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
