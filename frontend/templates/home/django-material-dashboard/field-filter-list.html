@@ -23,8 +23,6 @@
                   {# {% for format in view.export_formats %} #}
                   {# <li><a class="export_link" href="{% export_url format %}">Export <code>.{{ format }}</code></a></li> #}
                   {# {% endfor %} #}
-                  <li><a class="import_link" href="{% url 'users:labels_index' %}">{% translate 'View ' %} {% firstof user.get_short_name user.get_username|split_email %}'s {% translate ' labels' %}</a></li>
-                  <li><a class="import_link" href="{% url 'users:samplelabel' %}">{% translate 'View all labels' %}</a></li>
               </ul>
               {% endblock %}
 
