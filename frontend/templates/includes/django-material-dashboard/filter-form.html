@@ -11,7 +11,7 @@
   {% csrf_token %}
     <div class="row">
         {% for field in filter.form %}
-        <div class="col-md-3">
+        <div class="col-md-4">
             {{ field.errors }}
             {{ field.label_tag }}
             <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">

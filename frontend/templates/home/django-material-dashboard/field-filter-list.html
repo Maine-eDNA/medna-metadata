@@ -14,11 +14,8 @@
     <div class="col-12">
       <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+          <div class="bg-gradient-secondary shadow-secondary border-radius-lg pt-4 pb-3">
             <h6 class="text-white text-capitalize ps-3">{{ page_title|title }} Table</h6>
-          </div>
-            <div class="card-body px-0 pb-2">
-  <div class="card-body pt-1">
                 <!-- START filter -->
                 {% if filter %}
                 <div class="module filtered" id="changelist">
@@ -28,6 +25,10 @@
                 </div>
                  {% endif %}
                 <!-- END filter -->
+          </div>
+            <div class="card-body px-0 pb-2">
+  <div class="card-body pt-1">
+
                 <!-- START export options -->
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
