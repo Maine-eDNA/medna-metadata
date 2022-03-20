@@ -104,6 +104,9 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/field-perms-required.html')
 
+    def get_absolute_url(self):
+        return reverse('detail_samplelabelrequest', kwargs={'pk': self.pk})
+
 
 class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
