@@ -104,8 +104,10 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/field-perms-required.html')
 
-    def get_absolute_url(self):
-        return reverse('detail_samplelabelrequest', kwargs={'pk': self.pk})
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_samplelabelrequest', kwargs={"pk": self.object.pk})
 
 
 class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
