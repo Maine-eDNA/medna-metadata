@@ -35,29 +35,25 @@
           </div>
       </div>
       <!-- insert detail view here -->
-          <div class="row">
-            <div class="col-12 col-xl-12">
-              <div class="card card-plain h-100">
-                <div class="card-body p-3">
-                  <hr class="horizontal gray-light my-4">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Label Prefix:</strong> &nbsp; {{ object.sample_label_prefix }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Requested Number:</strong> &nbsp; {{ object.req_sample_label_num }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Min Sample Label:</strong> &nbsp; {{ object.min_sample_label_id }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Max Sample Label:</strong> &nbsp; {{ object.max_sample_label_id }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Site ID:</strong> &nbsp; {{ object.site_id.site_id }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Year:</strong> &nbsp; {{ object.sample_year }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Material:</strong> &nbsp; {{ object.sample_material.sample_material_label }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Type:</strong> &nbsp; {{ object.sample_type.sample_type_label }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Purpose:</strong> &nbsp; {{ object.purpose }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created By:</strong> &nbsp; {{ object.created_by.email }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created DateTime:</strong> &nbsp; {{ object.created_datetime|date:"M d Y"}} @ {{ object.created_datetime|time:"h:iA"}}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Modified DateTime:</strong> &nbsp; {{ object.modified_datetime|date:"M d Y"}} @ {{ object.modified_datetime|time:"h:iA"}}</li>
-                  </ul>
-                </div>
-              </div>
-          </div>
+      <div class="row">
+        <div class="card-body p-3">
+          <hr class="horizontal gray-light my-2">
+          <ul class="list-group">
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Label Prefix:</strong> &nbsp; {{ object.sample_label_prefix }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Requested Number:</strong> &nbsp; {{ object.req_sample_label_num }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Min Sample Label:</strong> &nbsp; {{ object.min_sample_label_id }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Max Sample Label:</strong> &nbsp; {{ object.max_sample_label_id }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Site ID:</strong> &nbsp; {{ object.site_id.site_id }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Year:</strong> &nbsp; {{ object.sample_year }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Material:</strong> &nbsp; {{ object.sample_material.sample_material_label }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Type:</strong> &nbsp; {{ object.sample_type.sample_type_label }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Purpose:</strong> &nbsp; {{ object.purpose }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created By:</strong> &nbsp; {{ object.created_by.email }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created DateTime:</strong> &nbsp; {{ object.created_datetime|date:"M d Y"}} @ {{ object.created_datetime|time:"h:iA"}}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Modified DateTime:</strong> &nbsp; {{ object.modified_datetime|date:"M d Y"}} @ {{ object.modified_datetime|time:"h:iA"}}</li>
+          </ul>
         </div>
+      </div>
         <!-- end detail view -->
     </div>
     </div>
