@@ -14,7 +14,7 @@
         <span class="mask bg-gradient-dark opacity-6"></span>
     </div>
     <div class="card card-body mx-3 mx-md-4 mt-n6">
-      <div class="row min-vh-80 h-100">
+      <div class="row">
         <div class="col-md-8 d-flex align-items-center">
           <h3 class="text-center">{{ page_title|title }} Detail</h3>
         </div>
@@ -26,17 +26,15 @@
       </div>
       <!-- insert detail view here -->
         <div class="row">
-          <div class="row">
-            <div class="col-12 col-xl-12">
-              <div class="card card-plain h-100">
-                <div class="card-body p-3">
-                  <hr class="horizontal gray-light my-4">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; {{ object.full_name }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{ object.email|urlize }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Affiliated Project(s):</strong> &nbsp; {{ object.affiliated_projects.all|join:", " }}</li>
-                  </ul>
-                </div>
+          <div class="col-12 col-xl-12">
+            <div class="card card-plain h-100">
+              <div class="card-body p-3">
+                <hr class="horizontal gray-light my-4">
+                <ul class="list-group">
+                  <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; {{ object.full_name }}</li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{ object.email|urlize }}</li>
+                  <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Affiliated Project(s):</strong> &nbsp; {{ object.affiliated_projects.all|join:", " }}</li>
+                </ul>
               </div>
             </div>
           </div>
