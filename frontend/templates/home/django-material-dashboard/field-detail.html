@@ -15,27 +15,35 @@
     </div>
     <div class="card card-body mx-3 mx-md-4 mt-n6">
       <div class="row min-vh-80 h-100">
-        <div class="col-12">
+        <div class="col-md-8 d-flex align-items-center">
           <h3 class="text-center">{{ page_title|title }} Detail</h3>
         </div>
+          <div class="col-md-4 text-end">
+            <a href="{% url 'update_dashboardprofile' %}">
+              <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
+            </a>
+          </div>
       </div>
       <!-- insert detail view here -->
-          <div class="card-body pt-1">
-           <div class="row">
-             {% for field in object %}
-             <div class="col-md-12 pe-2 mb-3">
-               <div class="input-group input-group-static mb-4">
-                {{ field }}
-               </div>
-             </div>
-             {% endfor %}
-           </div>
-
+        <div class="row">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="card card-plain h-100">
+                <div class="card-body p-3">
+                  <hr class="horizontal gray-light my-4">
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Full Name:</strong> &nbsp; {{ object.full_name }}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{ object.email|urlize }}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Affiliated Project(s):</strong> &nbsp; {{ object.affiliated_projects.all|join:", " }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-
+        </div>
+        <!-- end detail view -->
     </div>
     </div>
-
 
     {% include 'includes/django-material-dashboard/footer.html' %}
 

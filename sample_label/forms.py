@@ -9,7 +9,7 @@ from utility.widgets import CustomRadioSelect, CustomSelect2
 # from users.models import CustomUser
 
 
-class AddSampleLabelForm(forms.ModelForm):
+class SampleLabelRequestCreateForm(forms.ModelForm):
     site_id = forms.ModelChoiceField(
         required=True,
         queryset=FieldSite.objects.all(),
@@ -69,3 +69,18 @@ class AddSampleLabelForm(forms.ModelForm):
     class Meta:
         model = SampleLabelRequest
         fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+
+
+class SampleLabelRequestUpdateForm(forms.ModelForm):
+    purpose = forms.CharField(
+        required=True,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = SampleLabelRequest
+        fields = ['purpose', ]
