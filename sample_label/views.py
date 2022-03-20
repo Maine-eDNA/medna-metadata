@@ -62,7 +62,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
 class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
-    fields = ['id', 'sample_label_prefix', 'req_sample_label_num',
+    fields = ['sample_label_prefix', 'req_sample_label_num',
               'min_sample_label_id', 'max_sample_label_id', 'site_id',
               'sample_year', 'sample_material', 'sample_type',
               'purpose', 'sample_label_request_slug', 'created_by', 'created_datetime', 'modified_datetime', ]
