@@ -9,6 +9,7 @@ from django.views.i18n import JavaScriptCatalog
 from frontend.home import views
 import utility.views as utility_views
 import users.views as user_views
+import field_site.views as fieldsite_views
 import sample_label.views as samplelabel_views
 import sample_label.filters as samplelabel_filters
 import field_survey.views as fieldsurvey_views
@@ -43,7 +44,7 @@ urlpatterns = [
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
     path('dashboard/labelrequest/view/', samplelabel_views.SampleLabelRequestFilterView.as_view(filterset_class=samplelabel_filters.SampleLabelRequestFilter), name='view_samplelabelrequest'),
     path('dashboard/fieldsite/detail/<int:pk>/', samplelabel_views.SampleLabelRequestFilterView.as_view(), name='detail_fieldsite'),
-    path('dashboard/fieldsite/update/<int:pk>/', samplelabel_views.SampleLabelRequestUpdateView.as_view(success_url=reverse_lazy('detail_fieldsite')), name='update_samplelabelrequest'),
+    path('dashboard/fieldsite/update/<int:pk>/', samplelabel_views.SampleLabelRequestUpdateView.as_view(success_url=reverse_lazy('detail_fieldsite')), name='update_fieldsite'),
     path('dashboard/fieldsite/add/', samplelabel_views.SampleLabelRequestFilterView.as_view(), name='add_fieldsite'),
     path('dashboard/fieldsite/view/', samplelabel_views.SampleLabelRequestFilterView.as_view(filterset_class=samplelabel_filters.SampleLabelRequestFilter), name='view_fieldsite'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
