@@ -59,7 +59,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
         return redirect('main/field-perms-required.html')
 
 
-class UserProfileDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """View sample label detail"""
     model = SampleLabelRequest
     fields = ['id', 'sample_label_prefix', 'req_sample_label_num',
