@@ -65,7 +65,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     fields = ['sample_label_prefix', 'req_sample_label_num',
               'min_sample_label_id', 'max_sample_label_id', 'site_id',
               'sample_year', 'sample_material', 'sample_type',
-              'purpose', 'sample_label_request_slug', 'created_by', 'created_datetime', 'modified_datetime', ]
+              'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/field-detail-samplelabelrequest.html'
@@ -84,12 +84,13 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
         return redirect('main/field-perms-required.html')
 
 
-class SampleLabelRequestUpdateView(LoginRequiredMixin, UpdateView):
+class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = SampleLabelRequest
     form_class = SampleLabelRequestUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/field-update.html'
+    permission_required = ('sample_label.update_samplelabelrequest', 'sample_label.view_samplelabelrequest', )
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -97,6 +98,11 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, UpdateView):
         context["segment"] = "update_samplelabelrequest"
         context["page_title"] = "Sample Label Request"
         return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
 
 
 class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):

@@ -40,7 +40,6 @@
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Material:</strong> &nbsp; {{ object.sample_material.sample_material_label }}</li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Type:</strong> &nbsp; {{ object.sample_type.sample_type_label }}</li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Purpose:</strong> &nbsp; {{ object.purpose }}</li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Slug:</strong> &nbsp; {{ object.sample_label_request_slug }}</li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created By:</strong> &nbsp; {{ object.created_by.email }}</li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created DateTime:</strong> &nbsp; {{ object.created_datetime|date:"M d Y"}} @ {{ object.created_datetime|time:"h:iA"}}</li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Modified DateTime:</strong> &nbsp; {{ object.modified_datetime|date:"M d Y"}} @ {{ object.modified_datetime|time:"h:iA"}}</li>
