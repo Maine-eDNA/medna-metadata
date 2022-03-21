@@ -8,7 +8,7 @@ class FieldSiteTable(tables.Table):
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     site_id = tables.LinkColumn('users:site_detail', args=[A('pk')])
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
-    add_label = tables.LinkColumn("users:site_samplelabel_add", attrs={"td": {"class": "addlink"}},
+    add_label = tables.LinkColumn("add_samplelabelrequestsite", attrs={"td": {"class": "addlink"}},
                                   text='Add', args=[A("pk")])
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")

@@ -33,7 +33,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
     template_name = 'home/django-material-dashboard/field-filter-list.html'
-    permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
+    permission_required = ('sample_label.view_samplelabelrequest', )
     # Implement lazy pagination, preventing any count() queries.
     # table_pagination = {'paginator_class': LazyPaginator,}
     # the name of the exported file
@@ -69,7 +69,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/field-detail-samplelabelrequest.html'
-    permission_required = ('sample_label.update_samplelabelrequest', 'sample_label.view_samplelabelrequest')
+    permission_required = ('sample_label.view_samplelabelrequest', )
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""

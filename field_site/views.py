@@ -1,7 +1,9 @@
 from django.urls import reverse
+from django.shortcuts import redirect
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 # from django.shortcuts import render
 # from django.http import HttpResponse
@@ -28,46 +30,103 @@ from .serializers import EnvoBiomeFirstSerializer, EnvoBiomeSecondSerializer,\
     EnvoFeatureSeventhSerializer, \
     SystemSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
     GeoWatershedSerializer
-from .forms import AddFieldSiteForm
+from .forms import FieldSiteCreateForm, FieldSiteUpdateForm
 import field_site.filters as fieldsite_filters
+from utility.views import export_context
 
 
 # Create your views here.
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class FieldSiteFilterView(SerializerExportMixin, SingleTableMixin, FilterView):
+class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
     table_class = FieldSiteTable
-#    table_pagination = {
-#        'paginator_class': LazyPaginator,
-#    }
+    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    permission_required = ('field_site.view_fieldsite', )
     export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
-                        'watershed__watershed_code', 'envo_biome_first__biome_first_tier_slug',
-                        'envo_biome_second__biome_second_tier_slug',
-                        'envo_biome_third__biome_third_tier_slug', 'envo_biome_fourth__biome_fourth_tier_slug',
-                        'envo_biome_fifth__biome_fifth_tier_slug',
-                        'envo_feature_first__feature_first_tier_slug', 'envo_feature_second__feature_second_tier_slug',
-                        'envo_feature_third__feature_third_tier_slug',
-                        'envo_feature_fourth__feature_fourth_tier_slug', 'envo_feature_fifth__feature_fifth_tier_slug',
-                        'envo_feature_sixth__feature_sixth_tier_slug',
-                        'envo_feature_seventh__feature_seventh_tier_slug']
-    swagger_tags = ["field sites"]
+                        'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
+                        'envo_biome_second__biome_second_tier',
+                        'envo_biome_third__biome_third_tier', 'envo_biome_fourth__biome_fourth_tier',
+                        'envo_biome_fifth__biome_fifth_tier',
+                        'envo_feature_first__feature_first_tier', 'envo_feature_second__feature_second_tier',
+                        'envo_feature_third__feature_third_tier',
+                        'envo_feature_fourth__feature_fourth_tier', 'envo_feature_fifth__feature_fifth_tier',
+                        'envo_feature_sixth__feature_sixth_tier',
+                        'envo_feature_seventh__feature_seventh_tier']
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_fieldsite"
+        context["page_title"] = "Field Site"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
 
 
-class FieldSiteDetailView(DetailView):
+class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['grant', 'system', 'watershed', 'general_location_name', 'purpose', 'geom',
-              'created_by', 'created_datetime']
+    fields = ['site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+              'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+              'envo_biome_second', 'envo_biome_first',
+              'envo_feature_seventh', 'envo_feature_sixth',
+              'envo_feature_fifth', 'envo_feature_fourth',
+              'envo_feature_third', 'envo_feature_second',
+              'envo_feature_first', 'created_by', 'created_datetime', 'modified_datetime', ]
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/field-detail-fieldsite.html'
+    permission_required = ('field_site.view_fieldsite', )
 
-#    def get_object(self, queryset=None):
-#        return queryset.get(self.kwargs['pk'])
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_fieldsite"
+        context["page_title"] = "Field Site"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
+
+
+class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FieldSite
+    form_class = FieldSiteUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/field-update.html'
+    permission_required = ('field_site.update_fieldsite', 'field_site.view_fieldsite', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_fieldsite"
+        context["page_title"] = "Field Site"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_fieldsite', kwargs={"pk": self.object.pk})
 
 
 class FieldSiteExportDetailView(DetailView):
@@ -91,21 +150,34 @@ class FieldSiteExportDetailView(DetailView):
         return response
 
 
-class AddFieldSiteView(LoginRequiredMixin, CreateView):
+class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
-    form_class = AddFieldSiteForm
-    # model = Site
-    # fields = ['grant', 'system', 'watershed', 'general_location_name', 'purpose', 'geom']
+    permission_required = 'field_site.add_fieldsite'
+    model = FieldSite
+    form_class = FieldSiteCreateForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/field-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_fieldsite"
+        context["page_title"] = "Field Site"
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.created_by__email = self.request.user
-        self.object.created_datetime = timezone.now()
+        self.object.created_by = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('users:site_detail', kwargs={"pk": self.object.pk})
+        return reverse('detail_fieldsite', kwargs={"pk": self.object.pk})
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
 
 
 ########################################
