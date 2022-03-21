@@ -180,13 +180,13 @@ class FieldSiteCreateForm(forms.ModelForm):
 
     class Meta:
         model = FieldSite
-        fields = ['grant', 'system', 'general_location_name', 'purpose', 'geom', 'watershed',
+        fields = ['grant', 'system', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
                   'envo_feature_fifth', 'envo_feature_fourth',
                   'envo_feature_third', 'envo_feature_second',
-                  'envo_feature_first', ]
+                  'envo_feature_first', 'geom', 'watershed', ]
 
 
 class FieldSiteUpdateForm(forms.ModelForm):
