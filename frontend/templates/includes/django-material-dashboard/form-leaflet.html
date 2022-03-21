@@ -27,7 +27,36 @@
    </div>
       {% endfor %}
       <!-- begin map -->
-
+      <div id="row mt-2">
+          <p> Manually specify your own latitude and longitude values and <strong>Jump there</strong> or add the site through the map.</p>
+      </div>
+      <div id="div_id_latlng" class="row d-flex align-items-center justify-content-center">
+              <div class="col-5">
+                  <label for="id_lat" class="requiredField sr-only">Latitude:<span class="asteriskField">*</span></label>
+                  <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" required id="id_lat" placeholder="Latitude (DD WGS84)*">
+                  </div>
+              </div>
+              <div class="col-5">
+                  <label for="id_lng" class="requiredField sr-only">Longitude:<span class="asteriskField">*</span></label>
+                  <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" required id="id_lng" placeholder="Longitude (DD WGS84)*">
+                  </div>
+              </div>
+              <div class="col-2">
+                  <input id="manual-latlng" type="button" class="btn btn-info mb-2" value="Jump there">
+              </div>
+          </div>
+      </div>
+      <div class="row mb-4">
+          <div id="div_readonly_id_geom" class="form-group">
+              <label for="readonly_id_geom" class="requiredField sr-only">
+                  JSON Geometry (populates after clicking <span>Jump there</span> or adding site through the map):<span class="asteriskField">*</span>
+              </label>
+              <input type="text" class="textinput textInput form-control readonly-geom text-secondary bg-light" required id="readonly_id_geom"
+                     placeholder="JSON Geometry: Populates after clicking [Jump there] or adding site through the map.*">
+          </div>
+      </div>
       <!-- end map -->
       <div class="row">
         <div class="col-md-6 text-end ms-auto">
