@@ -25,8 +25,7 @@ def delete_keys(keys, the_dict):
 # Django REST Framework to allow the automatic downloading of data!
 class SampleTypeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_type_code = serializers.CharField(max_length=2,
-                                             validators=[UniqueValidator(queryset=SampleType.objects.all())])
+    sample_type_code = serializers.CharField(max_length=2, validators=[UniqueValidator(queryset=SampleType.objects.all())])
     sample_type_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -43,8 +42,7 @@ class SampleTypeSerializer(serializers.ModelSerializer):
 
 class SampleMaterialSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    sample_material_code = serializers.CharField(max_length=1,
-                                                 validators=[UniqueValidator(queryset=SampleMaterial.objects.all())])
+    sample_material_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=SampleMaterial.objects.all())])
     sample_material_label = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
