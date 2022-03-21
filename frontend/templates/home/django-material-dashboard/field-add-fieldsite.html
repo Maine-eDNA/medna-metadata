@@ -4,11 +4,11 @@
 {% block title %} Add {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
+{% block stylesheets %}{% endblock stylesheets %}
+{% block extrahead %}
     {% leaflet_js plugins="forms" %}
     {% leaflet_css plugins="forms" %}
-{% endblock stylesheets %}
-{% block extrahead %}
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'assets/js/field_site/WBDHU8_MENH_NEA.js' %}"></script>
     <script src="{% static 'assets/js/field_site/site_add.js' %}"></script>
     <script src="{% static 'assets/js/field_site/site_add_readonly.js' %}"></script>
