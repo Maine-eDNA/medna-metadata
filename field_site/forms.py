@@ -10,7 +10,7 @@ from .models import FieldSite, System, Watershed, EnvoBiomeFirst, EnvoBiomeSecon
 
 
 class AllowEditLeaflet(LeafletWidget):
-    geometry_field_class = 'AllowEditLeaflet'
+    geometry_field_class = 'allowEditLeaflet'
 
 
 class FieldSiteCreateForm(forms.ModelForm):

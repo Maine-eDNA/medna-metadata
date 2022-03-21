@@ -9,7 +9,7 @@ $(window).on('map:init', function (e) {
     // subclass L.GeometryField.extend in leaflet.forms.js within django-leaflet app to allow
     // edit of drawnItems. This makes it so that markers can be programmatically
     // added to the map - e.g., by user submitted text field.
-    AllowEditLeaflet = L.GeometryField.extend({
+    allowEditLeaflet = L.GeometryField.extend({
         _controlDrawOptions: function () {
             return {
                 edit: {
