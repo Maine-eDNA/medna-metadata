@@ -6,7 +6,7 @@ from django_tables2.utils import A
 class FieldSiteTable(tables.Table):
     # id = tables.CheckBoxColumn(accessor='pk')
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
-    site_id = tables.LinkColumn('users:site_detail', args=[A('pk')])
+    site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn("add_samplelabelrequestsite", attrs={"td": {"class": "addlink"}},
                                   text='Add', args=[A("pk")])
