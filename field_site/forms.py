@@ -166,6 +166,21 @@ class FieldSiteCreateForm(forms.ModelForm):
             }
         )
     )
+    geom = FieldSiteAllowEditLeaflet(
+        attrs={
+            'map_width': 700,
+            'map_height': 600,
+            # 'display_raw':True,  # remove viewable text box
+            'map_srid': 4326,
+            'settings_overrides': {
+                'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
+                'DEFAULT_ZOOM': 8,
+                'TILES': [
+                    ('Open Street Map', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+                ],
+            },
+        }
+    )
 
     class Meta:
         model = FieldSite
@@ -176,25 +191,6 @@ class FieldSiteCreateForm(forms.ModelForm):
                   'envo_feature_fifth', 'envo_feature_fourth',
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first', 'geom', 'watershed', ]
-
-        widgets = {
-            # leaflet widget
-            'geom': FieldSiteAllowEditLeaflet(
-                attrs={
-                    'map_width': 700,
-                    'map_height': 600,
-                    # 'display_raw':True,  # remove viewable text box
-                    'map_srid': 4326,
-                    'settings_overrides': {
-                        'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
-                        'DEFAULT_ZOOM': 8,
-                        'TILES': [
-                            ('Open Street Map', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
-                        ],
-                    },
-                }
-            )
-        }
 
 
 class FieldSiteUpdateForm(forms.ModelForm):

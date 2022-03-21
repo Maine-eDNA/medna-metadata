@@ -567,7 +567,7 @@ LEAFLET_CONFIG = {
     'DEFAULT_ZOOM': 8,
     'DEFAULT_PRECISION': 6,
     'TILES': [
-        ('Open Street Map', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+        ('Open Street Map', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
     ],
 }
 # LEAFLET_WIDGET_ATTRS = {
