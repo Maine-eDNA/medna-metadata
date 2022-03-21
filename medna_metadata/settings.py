@@ -76,7 +76,7 @@ INSTALLED_APPS = [
     # 'crispy_bootstrap5', # bootstrap5 template pack for django-crispy-forms - https://github.com/django-crispy-forms/crispy-bootstrap5
     'django_tables2', # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
     # 'django_admin_listfilter_dropdown', # django-admin-list-filter-dropdown - Use dropdowns in Django admin list filter - https://github.com/mrts/django-admin-list-filter-dropdown
-    # 'leaflet', # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
+    'leaflet', # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
     'rest_framework',  # djangorestframework - integrates with django-filter - https://github.com/encode/django-rest-framework/tree/master
     'rest_framework.authtoken',  # for the creation of api tokens
     'rest_framework_gis',  # needed for geojson and geodjango - not compatible with import-export because tablib doesn't have geojson format. - https://github.com/openwisp/django-rest-framework-gis
@@ -544,7 +544,6 @@ PHONENUMBER_DEFAULT_REGION = 'US'
 ########################################
 # DJANGO-IMPORT-EXPORT CONFIG          #
 ########################################
-
 # settings for import-export to allow exporting data via csv
 # Controls if resource importing should use database transactions. Defaults to False. Using transactions makes imports
 # safer as a failure during import won’t import only part of the data set.
@@ -558,10 +557,26 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 DJANGO_TABLES2_TEMPLATE = 'django_tables2/table.html'
 DJANGO_TABLES2_PAGE_RANGE = 5
 
+
+###########################################
+# DJANGO-LEAFLET CONFIG                   #
+###########################################
+# https://django-leaflet.readthedocs.io/en/latest/
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (44, -69), # Latitude ,  Longitude
+    'DEFAULT_ZOOM': 8,
+    'DEFAULT_PRECISION': 6,
+}
+# LEAFLET_WIDGET_ATTRS = {
+#     'map_height': '600px',
+#     'map_width': '50%',
+#     'display_raw': 'True',
+#     'map_srid': 4326,
+# }
+
 ########################################
 # CUSTOM ADMIN APP ORDERING CONFIG     #
 ########################################
-
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/
 # https://stackoverflow.com/questions/48293930/reorder-app-and-models-in-django-admin
 # custom app ordering
