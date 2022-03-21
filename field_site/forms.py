@@ -9,8 +9,9 @@ from .models import FieldSite, System, Watershed, EnvoBiomeFirst, EnvoBiomeSecon
     EnvoFeatureThird, EnvoBiomeThird
 
 
-class AllowEditLeaflet(LeafletWidget):
+class FieldSiteAllowEditLeaflet(LeafletWidget):
     geometry_field_class = 'allowEditLeaflet'
+    template_name = 'leaflet/widget-add-fieldsite.html'
 
 
 class FieldSiteCreateForm(forms.ModelForm):
@@ -178,7 +179,7 @@ class FieldSiteCreateForm(forms.ModelForm):
 
         widgets = {
             # leaflet widget
-            'geom': AllowEditLeaflet(
+            'geom': FieldSiteAllowEditLeaflet(
                 attrs={
                     'map_width': 700,
                     'map_height': 600,
