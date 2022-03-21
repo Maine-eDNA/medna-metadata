@@ -188,7 +188,7 @@ class FieldSiteCreateForm(forms.ModelForm):
                     'settings_overrides': {
                         'DEFAULT_CENTER': (44, -69),
                         'DEFAULT_ZOOM': 8,
-                        'TILES': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'TILES': ['http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}],
                     },
                 }
             )
