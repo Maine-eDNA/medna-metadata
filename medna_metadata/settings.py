@@ -563,10 +563,12 @@ DJANGO_TABLES2_PAGE_RANGE = 5
 ###########################################
 # https://django-leaflet.readthedocs.io/en/latest/
 LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (44, -69), # Latitude ,  Longitude
+    'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
     'DEFAULT_ZOOM': 8,
     'DEFAULT_PRECISION': 6,
-    'TILES': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'TILES': [
+        ('Open Street Map', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+    ],
 }
 # LEAFLET_WIDGET_ATTRS = {
 #     'map_height': '600px',

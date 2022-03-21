@@ -183,12 +183,14 @@ class FieldSiteCreateForm(forms.ModelForm):
                 attrs={
                     'map_width': 700,
                     'map_height': 600,
-                    # 'display_raw':True, # remove viewable text box
+                    # 'display_raw':True,  # remove viewable text box
                     'map_srid': 4326,
                     'settings_overrides': {
-                        'DEFAULT_CENTER': (44, -69),
+                        'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
                         'DEFAULT_ZOOM': 8,
-                        'TILES': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'TILES': [
+                            ('Open Street Map', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+                        ],
                     },
                 }
             )
