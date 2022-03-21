@@ -11,10 +11,11 @@ import utility.views as utility_views
 import users.views as user_views
 import field_site.views as fieldsite_views
 import sample_label.views as samplelabel_views
-import sample_label.filters as samplelabel_filters
 import field_survey.views as fieldsurvey_views
 import wet_lab.views as wetlab_views
 import freezer_inventory.views as freezerinventory_views
+import field_site.filters as fieldsite_filters
+import sample_label.filters as samplelabel_filters
 # permissions
 # https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
 
@@ -47,7 +48,7 @@ urlpatterns = [
     path('dashboard/fieldsite/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_fieldsite'),
     path('dashboard/fieldsite/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_fieldsite')), name='update_fieldsite'),
     path('dashboard/fieldsite/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_fieldsite'),
-    path('dashboard/fieldsite/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=samplelabel_filters.SampleLabelRequestFilter), name='view_fieldsite'),
+    path('dashboard/fieldsite/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_fieldsite'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
     path('main/map/project_survey/<int:pk>/', fieldsurvey_views.project_survey_map, name='map_projectsurvey'),
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='projects'),
