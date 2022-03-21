@@ -165,18 +165,6 @@ class FieldSiteCreateForm(forms.ModelForm):
             }
         )
     )
-    geom = AllowEditLeaflet(
-        attrs={
-            'map_width': 700,
-            'map_height': 600,
-            # 'display_raw':True, # remove viewable text box
-            'map_srid': 4326,
-            'settings_overrides': {
-            'DEFAULT_CENTER': (44, -69),
-            'DEFAULT_ZOOM': 8,
-            },
-        }
-    )
 
     class Meta:
         model = FieldSite
@@ -187,6 +175,22 @@ class FieldSiteCreateForm(forms.ModelForm):
                   'envo_feature_fifth', 'envo_feature_fourth',
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first', 'geom', 'watershed', ]
+
+        widgets = {
+            # leaflet widget
+            'geom': AllowEditLeaflet(
+                attrs={
+                    'map_width': 700,
+                    'map_height': 600,
+                    # 'display_raw':True, # remove viewable text box
+                    'map_srid': 4326,
+                    'settings_overrides': {
+                        'DEFAULT_CENTER': (44, -69),
+                        'DEFAULT_ZOOM': 8,
+                    },
+                }
+            )
+        }
 
 
 class FieldSiteUpdateForm(forms.ModelForm):
