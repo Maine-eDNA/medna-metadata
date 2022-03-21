@@ -157,7 +157,7 @@ class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     model = FieldSite
     form_class = FieldSiteCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/field-add.html'
+    template_name = 'home/django-material-dashboard/field-add-fieldsite.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""

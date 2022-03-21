@@ -1,0 +1,63 @@
+{% block extrahead %}
+    {{ form.media }}
+{% endblock %}
+
+{% load html_tags %}
+<!-- START FORM ERRORS -->
+{% if form.non_field_errors %}
+<div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+{% endif %}
+<!-- END FORM ERRORS -->
+<!-- START FORM -->
+<form method="post" enctype="multipart/form-data" class="p-3">
+  {% csrf_token %}
+  <div class="card-body pt-1">
+      {% for field in form %}
+   <div class="row">
+       {{ field.errors }}
+       {{ field.label_tag }}
+       <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
+        {{ field }}
+       </div>
+       {% if field.help_text %}
+       <div class="row">
+           <p class="help">{{ field.help_text|safe }}</p>
+       </div>
+       {% endif %}
+   </div>
+      {% endfor %}
+      <!-- begin map -->
+      <div class="row">
+          <p> Manually specify your own latitude and longitude values and <strong>Jump there</strong> or add the site through the map.</p>
+          <div id="div_id_latlng" class="form-row align-items-center">
+              <div class="col-auto">
+                  <label for="id_lat" class="requiredField sr-only">Latitude:<span class="asteriskField">*</span></label>
+                  <input type="text" class="textinput textInput form-control mb-2" required id="id_lat" placeholder="Latitude (DD WGS84)*">
+              </div>
+              <div class="col-auto">
+                  <label for="id_lng" class="requiredField sr-only">Longitude:<span class="asteriskField">*</span></label>
+                  <input type="text" class="textinput textInput form-control mb-2" required id="id_lng" placeholder="Longitude (DD WGS84)*">
+              </div>
+              <div class="col-auto">
+                  <input id="manual-latlng" type="button" class="btn btn-info mb-2" value="Jump there">
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div id="div_readonly_id_geom" class="form-group">
+              <label for="readonly_id_geom" class="requiredField sr-only">
+                  JSON Geometry (populates after clicking <span>Jump there</span> or adding site through the map):<span class="asteriskField">*</span>
+              </label>
+              <input type="text" class="textinput textInput form-control readonly-geom text-secondary bg-light" required id="readonly_id_geom"
+                     placeholder="JSON Geometry: Populates after clicking [Jump there] or adding site through the map.*">
+          </div>
+      </div>
+      <!-- end map -->
+      <div class="row">
+        <div class="col-md-6 text-end ms-auto">
+          <button id="submit_button" type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
+        </div>
+      </div>
+  </div>
+</form>
+<!-- END FORM -->
