@@ -18,6 +18,7 @@
         <div class="col-md-9 d-flex align-items-center">
           <h3 class="text-center">{{ page_title|title }} Detail</h3>
         </div>
+        {% if object %}
         <div class="col-md-1 d-flex align-items-center">
             <a href="{% url 'view_samplelabelrequest' %}">
               <i class="material-icons text-secondary text-center me-2 d-flex align-items-center justify-content-center text-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="View {{ page_title|title }}">table_view</i>
@@ -33,12 +34,15 @@
               <i class="fas fa-user-edit text-secondary text-center me-2 d-flex align-items-center justify-content-center text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit {{ page_title|title }}"></i>
             </a>
           </div>
+        {% endif %}
       </div>
       <!-- insert detail view here -->
+
       <div class="row m-3">
         <div class="card-body">
           <hr class="horizontal gray-light my-2">
           <ul class="list-group">
+            {% if object %}
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Label Prefix:</strong> &nbsp; {{ object.sample_label_prefix }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Requested Number:</strong> &nbsp; {{ object.req_sample_label_num }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Min Sample Label:</strong> &nbsp; {{ object.min_sample_label_id }}</li>
@@ -47,10 +51,13 @@
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Year:</strong> &nbsp; {{ object.sample_year }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Material:</strong> &nbsp; {{ object.sample_material.sample_material_label }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Type:</strong> &nbsp; {{ object.sample_type.sample_type_label }}</li>
-            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Sample Purpose:</strong> &nbsp; {{ object.purpose }}</li>
+            <li class="list-group-item b order-0 ps-0 text-sm"><strong class="text-dark">Sample Purpose:</strong> &nbsp; {{ object.purpose }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created By:</strong> &nbsp; {{ object.created_by.email }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created DateTime:</strong> &nbsp; {{ object.created_datetime|date:"M d Y"}} @ {{ object.created_datetime|time:"h:iA"}}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Modified DateTime:</strong> &nbsp; {{ object.modified_datetime|date:"M d Y"}} @ {{ object.modified_datetime|time:"h:iA"}}</li>
+            {% else %}
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">No Data Available</strong></li>
+            {% endif %}
           </ul>
         </div>
       </div>
