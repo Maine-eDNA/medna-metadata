@@ -188,6 +188,7 @@ class FieldSiteCreateForm(forms.ModelForm):
                     'settings_overrides': {
                         'DEFAULT_CENTER': (44, -69),
                         'DEFAULT_ZOOM': 8,
+                        'TILES': 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     },
                 }
             )
