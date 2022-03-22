@@ -35,7 +35,7 @@ from .tables import FieldSurveyTable
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
@@ -68,8 +68,8 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_fieldsurvey"
-        context["page_title"] = "Field Survey"
+        context["segment"] = "view_fieldsurveyfilters"
+        context["page_title"] = "Field Survey Filters"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context

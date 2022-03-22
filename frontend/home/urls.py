@@ -62,7 +62,7 @@ urlpatterns = [
     path('dashboard/labelrequest/add/<int:site_id>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestsite'),
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
     # TODO FIELD SURVEY: FIELD SURVEY (VIEW) - MERGED TABLE
-    path('dashboard/fieldsurveyfilters/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFiltersNestedFilter), name='view_fieldsurveyfilters'),
+    path('dashboard/fieldsurveyfilters/view/', fieldsurvey_views.FieldSurveyFiltersFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFiltersNestedFilter), name='view_fieldsurveyfilters'),
 
     # TODO WET LAB: EXTRACTION (VIEW, ADD, UPDATE) w/ TABLE
     # TODO WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
