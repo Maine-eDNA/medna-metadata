@@ -43,6 +43,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
     filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
                         'envo_biome_second__biome_second_tier',

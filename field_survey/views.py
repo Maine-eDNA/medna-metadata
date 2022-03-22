@@ -49,6 +49,7 @@ class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     export_name = 'surveyfilters_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.FieldSurveyFiltersNestedSerializer
     filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
     filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
                         'supervisor__agol_username', 'username__agol_username',
                         'recorder_fname', 'recorder_lname', 'field_crew',
