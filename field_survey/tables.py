@@ -4,7 +4,7 @@ from django_tables2.utils import A
 
 
 class FieldSurveyTable(tables.Table):
-    _selected_action = tables.CheckBoxColumn(accessor="survey_global_id",
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
                                                     "input": {"class": "action-select"},
                                                     "th__input": {"id": "action-toggle"},

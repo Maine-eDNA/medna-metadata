@@ -300,5 +300,5 @@ class SerializerExportMixin(ExportMixin):
         selected_column_ids = self.request.GET.get("_selected_column_ids", None)
         if selected_column_ids:
             selected_column_ids = map(int, selected_column_ids.split(","))
-            return super().get_table_data().filter(id__in=selected_column_ids)
+            return super().get_table_data().filter(pk__in=selected_column_ids)
         return super().get_table_data()
