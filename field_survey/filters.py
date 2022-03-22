@@ -23,14 +23,13 @@ class GeoFieldSurveyMapFilter(filters.FilterSet):
 
 class FieldSurveyFiltersNestedFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
-    site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple)
-    username = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    supervisor = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    core_subcorer = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    water_filterer = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    site_id = filters.ModelMultipleChoiceFilter(field_name='site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple)
+    username = filters.ModelMultipleChoiceFilter(field_name='username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    supervisor = filters.ModelMultipleChoiceFilter(field_name='supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    core_subcorer = filters.ModelMultipleChoiceFilter(field_name='core_subcorer__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    water_filterer = filters.ModelMultipleChoiceFilter(field_name='water_filterer__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     survey_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
-    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
-    filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', queryset=FieldSample.objects.all(), widget=CustomSelect2Multiple)
 
     class Meta:
         model = FieldSurvey
