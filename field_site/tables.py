@@ -8,8 +8,8 @@ class FieldSiteTable(tables.Table):
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
-    add_label = tables.LinkColumn("add_samplelabelrequestsite", attrs={"td": {"class": "addlink"}},
-                                  text='Add', args=[A("pk")])
+    add_label = tables.LinkColumn("add_samplelabelrequestsite",
+                                  text='<i class="fa fa-plus" aria-hidden="true"></i>', args=[A("pk")])
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     _selected_action = tables.CheckBoxColumn(accessor="pk",
