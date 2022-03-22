@@ -10,7 +10,7 @@ class FieldSiteTable(tables.Table):
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn("add_samplelabelrequestsite",
                                   attrs={"td": {"class": "fa fa-plus"}},
-                                  text='', args=[A("pk")])
+                                  text='Add', args=[A("pk")])
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     _selected_action = tables.CheckBoxColumn(accessor="pk",
