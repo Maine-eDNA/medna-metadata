@@ -10,16 +10,11 @@ from utility.widgets import CustomSelect2Multiple
 # FRONTEND FILTERS                     #
 ########################################
 class SampleLabelRequestFilter(filters.FilterSet):
-    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains',
-                                          widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
-    sample_year = filters.MultipleChoiceFilter(choices=year_choices,
-                                               widget=CustomSelect2Multiple)
-    sample_material = filters.ModelMultipleChoiceFilter(queryset=SampleMaterial.objects.all(),
-                                                        widget=CustomSelect2Multiple)
-    sample_type = filters.ModelMultipleChoiceFilter(queryset=SampleType.objects.all(),
-                                                    widget=CustomSelect2Multiple)
-    site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(),
-                                                widget=CustomSelect2Multiple)
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    sample_year = filters.MultipleChoiceFilter(choices=year_choices, widget=CustomSelect2Multiple)
+    sample_material = filters.ModelMultipleChoiceFilter(queryset=SampleMaterial.objects.all(), widget=CustomSelect2Multiple)
+    sample_type = filters.ModelMultipleChoiceFilter(queryset=SampleType.objects.all(), widget=CustomSelect2Multiple)
+    site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple)
 
     class Meta:
         model = SampleLabelRequest

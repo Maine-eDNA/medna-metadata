@@ -16,14 +16,10 @@ class FieldSiteFilter(filters.FilterSet):
     class Meta:
         model = FieldSite
         fields = ['grant', 'system', 'watershed', 'created_datetime']
-    grant = filters.ModelMultipleChoiceFilter(queryset=Grant.objects.all(),
-                                              widget=CustomSelect2Multiple)
-    system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(),
-                                               widget=CustomSelect2Multiple)
-    watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(),
-                                                  widget=CustomSelect2Multiple)
-    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains',
-                                          widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    grant = filters.ModelMultipleChoiceFilter(queryset=Grant.objects.all(), widget=CustomSelect2Multiple)
+    system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2Multiple)
+    watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2Multiple)
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
 
 
 ########################################

@@ -1,4 +1,8 @@
+from django import forms
 from django_filters import rest_framework as filters
+from field_site.models import FieldSite
+from users.models import CustomUser
+from utility.widgets import CustomSelect2Multiple
 from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
@@ -6,12 +10,31 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollectionETL, SampleFilterETL
 
 
+########################################
+# FRONTEND - FILTERS                   #
+########################################
 class GeoFieldSurveyMapFilter(filters.FilterSet):
     pk = filters.CharFilter(field_name='project_ids', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
         fields = ['project_ids', ]
+
+
+class FieldSurveyFiltersNestedFilter(filters.FilterSet):
+    # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
+    site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple)
+    username = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    supervisor = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    core_subcorer = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    water_filterer = filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    survey_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
+    filters.ModelMultipleChoiceFilter(queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
 ########################################
@@ -143,7 +166,7 @@ class FilterJoinSerializerFilter(filters.FilterSet):
 ########################################
 # SERIALIZERS - NESTED FILTERS         #
 ########################################
-class FieldSurveyEnvsNestedFilter(filters.FilterSet):
+class FieldSurveyEnvsNestedSerializerFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
@@ -159,7 +182,7 @@ class FieldSurveyEnvsNestedFilter(filters.FilterSet):
         fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
-class FieldSurveyFiltersNestedFilter(filters.FilterSet):
+class FieldSurveyFiltersNestedSerializerFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
@@ -174,7 +197,7 @@ class FieldSurveyFiltersNestedFilter(filters.FilterSet):
         fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime', 'field_collections']
 
 
-class FieldSurveySubCoresNestedFilter(filters.FilterSet):
+class FieldSurveySubCoresNestedSerializerFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
     username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')

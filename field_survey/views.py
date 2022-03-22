@@ -261,7 +261,7 @@ class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
     #                                                'water_filterer', 'qa_editor', 'record_creator',
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = fieldsurvey_filters.FieldSurveyEnvsNestedFilter
+    filterset_class = fieldsurvey_filters.FieldSurveyEnvsNestedSerializerFilter
     swagger_tags = ["field survey"]
 
     def get_queryset(self):
@@ -277,7 +277,7 @@ class FieldSurveyFiltersNestedViewSet(viewsets.ReadOnlyModelViewSet):
     #                                                'water_filterer', 'qa_editor', 'record_creator',
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = fieldsurvey_filters.FieldSurveyFiltersNestedFilter
+    filterset_class = fieldsurvey_filters.FieldSurveyFiltersNestedSerializerFilter
     swagger_tags = ["field survey"]
 
     def get_queryset(self):
@@ -293,7 +293,7 @@ class FieldSurveySubCoresNestedViewSet(viewsets.ReadOnlyModelViewSet):
     #                                                'core_subcorer', 'qa_editor', 'record_creator',
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = fieldsurvey_filters.FieldSurveySubCoresNestedFilter
+    filterset_class = fieldsurvey_filters.FieldSurveySubCoresNestedSerializerFilter
     swagger_tags = ["field survey"]
 
     def get_queryset(self):
