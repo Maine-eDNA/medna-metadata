@@ -23,8 +23,7 @@ class ReturnActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReturnAction
-        fields = ['id', 'action_code', 'action_label',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
+        fields = ['id', 'action_code', 'action_label', 'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
@@ -126,8 +125,7 @@ class FreezerBoxSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    freezer_rack = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_rack_label_slug',
-                                                queryset=FreezerRack.objects.all())
+    freezer_rack = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_rack_label_slug', queryset=FreezerRack.objects.all())
 
 
 class FreezerInventorySerializer(serializers.ModelSerializer):
@@ -161,8 +159,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    freezer_box = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_box_label_slug',
-                                               queryset=FreezerBox.objects.all())
+    freezer_box = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_box_label_slug', queryset=FreezerBox.objects.all())
     sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
                                                   queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
 
