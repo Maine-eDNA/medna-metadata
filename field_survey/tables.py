@@ -18,7 +18,7 @@ class FieldSurveyTable(tables.Table):
     arrival_datetime = tables.DateTimeColumn(format="M d, Y")
     site_id = tables.Column(accessor='site_id.site_id')
     env_measurements = tables.Column(accessor='env_measurements.env_measure_type_label', verbose_name="Env Measurements")
-    env_notes = tables.TemplateColumn('{{ record.env_notes|linebreaks }}', orderable=False)
+    env_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_notes}}">{{ record.env_notes|truncatewords:5 }}', orderable=False)
     water_filterer = tables.Column(accessor='water_filterer.agol_username')
     qa_editor = tables.Column(accessor='qa_editor.agol_username')
     qa_datetime = tables.DateTimeColumn(format="M d, Y")
