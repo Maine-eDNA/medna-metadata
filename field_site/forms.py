@@ -188,9 +188,6 @@ class FieldSiteCreateForm(forms.ModelForm):
                     'settings_overrides': {
                         'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
                         'DEFAULT_ZOOM': 8,
-                        'TILES': [
-                            ('NASA Worldview', 'https://map1{a-c}.vis.earthdata.nasa.gov/wmts-webmerc/BlueMarble_ShadedRelief_Bathymetry/default/%7BTime%7D/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg', {'attribution': 'NASA Worldview'}),
-                        ],
                     },
                 }
             )

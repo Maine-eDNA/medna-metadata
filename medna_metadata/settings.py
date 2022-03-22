@@ -566,9 +566,9 @@ LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
     'DEFAULT_ZOOM': 8,
     'DEFAULT_PRECISION': 6,
-    'TILES': [
-        ('NASA Worldview', 'https://map1{a-c}.vis.earthdata.nasa.gov/wmts-webmerc/BlueMarble_ShadedRelief_Bathymetry/default/%7BTime%7D/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg', {'attribution': 'NASA Worldview'}),
-    ],
+#    'TILES': [
+#        ('NASA Worldview', 'https://map1{a-c}.vis.earthdata.nasa.gov/wmts-webmerc/BlueMarble_ShadedRelief_Bathymetry/default/%7BTime%7D/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg', {'attribution': 'NASA Worldview'}),
+#    ],
 }
 # LEAFLET_WIDGET_ATTRS = {
 #     'map_height': '600px',
