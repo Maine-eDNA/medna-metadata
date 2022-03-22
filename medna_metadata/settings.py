@@ -564,9 +564,9 @@ DJANGO_TABLES2_PAGE_RANGE = 5
 # https://django-leaflet.readthedocs.io/en/latest/
 LEAFLET_CONFIG = dict({
     'TILES': [
-        (_('OSM'),
-         '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors')
+        (_('Esri WorldStreetMap'),
+         'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+         'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012')
     ],
     # 'OVERLAYS': [],
     # 'ATTRIBUTION_PREFIX': None,
