@@ -9,7 +9,8 @@ class FieldSiteTable(tables.Table):
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn("add_samplelabelrequestsite",
-                                  text='<i class="fa fa-plus" aria-hidden="true"></i>', args=[A("pk")])
+                                  attrs={"td": {"class": "fa fa-plus"}},
+                                  text='', args=[A("pk")])
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     _selected_action = tables.CheckBoxColumn(accessor="pk",
