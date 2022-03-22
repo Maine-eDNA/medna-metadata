@@ -16,8 +16,8 @@ import wet_lab.views as wetlab_views
 import freezer_inventory.views as freezerinventory_views
 import field_site.filters as fieldsite_filters
 import sample_label.filters as samplelabel_filters
-# permissions
-# https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+import field_survey.filters as fieldsurvey_filters
+
 
 urlpatterns = [
     path('', views.IndexTemplateView.as_view(), name='home'),
@@ -34,12 +34,13 @@ urlpatterns = [
     path('dashboard/chart/filter/site_count/', fieldsurvey_views.filter_site_count_chart, name='chart_filtersitecount'),
     path('dashboard/chart/extraction/count/', wetlab_views.extraction_count_chart, name='chart_extractioncount'),
     path('dashboard/chart/runresult/count/', wetlab_views.run_result_count_chart, name='chart_runresultcount'),
+    # AJAX MAPS
+    path('main/map/project_survey/<int:pk>/', fieldsurvey_views.project_survey_map, name='map_projectsurvey'),
     # USERS: CUSTOM USER (VIEW, UPDATE)
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='detail_dashboardprofile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('detail_dashboardprofile')), name='update_dashboardprofile'),
     # UTILITY: PROJECT (VIEW)
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
-    path('main/map/project_survey/<int:pk>/', fieldsurvey_views.project_survey_map, name='map_projectsurvey'),
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='projects'),
     # UTILITY: PUBLICATION (VIEW)
     path('main/publications/', utility_views.PublicationsTemplateView.as_view(), name='publications'),
@@ -60,6 +61,9 @@ urlpatterns = [
     path('dashboard/labelrequest/add/<int:site_id>/<int:sample_material>/<str:purpose>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestdetail'),
     path('dashboard/labelrequest/add/<int:site_id>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestsite'),
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
+    # TODO FIELD SURVEY: FIELD SURVEY (VIEW) - MERGED TABLE
+    path('dashboard/fieldsurveyfilters/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFiltersNestedFilter), name='view_fieldsurveyfilters'),
+
     # TODO WET LAB: EXTRACTION (VIEW, ADD, UPDATE) w/ TABLE
     # TODO WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
     # TODO WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE

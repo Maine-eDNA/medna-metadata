@@ -1,39 +1,85 @@
 # from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+# from django.views.generic import ListView, TemplateView
 from django.db.models import Q, F, Count, Func, Value, CharField
 from django.db.models.functions import TruncMonth
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.core.serializers import serialize
-from django.core.serializers.json import DjangoJSONEncoder
+# from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
+from django.utils import timezone
 import json
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
+from django_tables2.views import SingleTableMixin
+from django_filters.views import FilterView
 from rest_framework import generics
 from rest_framework import viewsets
-from .serializers import GeoFieldSurveySerializer, FieldCrewSerializer, \
-    EnvMeasureTypeSerializer, EnvMeasurementSerializer, \
-    FieldCollectionSerializer, WaterCollectionSerializer, SedimentCollectionSerializer, \
-    FieldSampleSerializer, FilterSampleSerializer, SubCoreSampleSerializer, \
-    GeoFieldSurveyETLSerializer, FieldCollectionETLSerializer, \
-    FieldCrewETLSerializer, EnvMeasurementETLSerializer, \
-    SampleFilterETLSerializer, FieldSurveyEnvsNestedSerializer, \
-    FieldSurveyFiltersNestedSerializer, FieldSurveySubCoresNestedSerializer
+from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists
+from utility.views import export_context
+from utility.serializers import SerializerExportMixin
+import field_survey.filters as fieldsurvey_filters
+import field_survey.serializers as fieldsurvey_serializers
 from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
-import field_survey.filters as fieldsurvey_filters
-from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists
+from .tables import FieldSurveyTable
 
 
 # Create your views here.
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
+class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FieldSurvey
+    table_class = FieldSurveyTable
+    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    permission_required = ('field_survey.view_fieldsurvey', 'field_survey.view_fieldcrew',
+                           'field_survey.view_envmeasurement', 'field_survey.view_fieldcollection',
+                           'field_survey.view_watercollection', 'field_survey.view_fieldsample',
+                           'field_survey.view_filtersample', )
+    export_name = 'surveyfilters_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsurvey_serializers.FieldSurveyFiltersNestedSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
+                        'supervisor__agol_username', 'username__agol_username',
+                        'recorder_fname', 'recorder_lname', 'field_crew',
+                        'arrival_datetime', 'site_id__site_id', 'site_id_other', 'site_name',
+                        'lat_manual', 'long_manual', 'env_obs_turbidity',
+                        'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
+                        'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
+                        'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
+                        'env_measurements__env_measure_type_label',
+                        'water_filterer__agol_username',
+                        'field_collections',
+                        'survey_complete', 'qa_editor__agol_username', 'qa_datetime', 'qa_initial',
+                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
+                        'record_creator__agol_username', 'record_create_datetime',
+                        'record_editor__agol_username', 'record_edit_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_fieldsurvey"
+        context["page_title"] = "Field Survey"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
+
+
 def project_survey_map(request, pk):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
@@ -121,7 +167,7 @@ def filter_site_count_chart(request):
 # SERIALIZERS - POST TRANSFORM VIEWS   #
 ########################################
 class GeoFieldSurveyViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = GeoFieldSurveySerializer
+    serializer_class = fieldsurvey_serializers.GeoFieldSurveySerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
@@ -133,7 +179,7 @@ class GeoFieldSurveyViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldCrewSerializer
+    serializer_class = fieldsurvey_serializers.FieldCrewSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # https://www.django-rest-framework.org/api-guide/relations/#writable-nested-serializers
@@ -144,7 +190,7 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = EnvMeasureTypeSerializer
+    serializer_class = fieldsurvey_serializers.EnvMeasureTypeSerializer
     queryset = EnvMeasureType.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasureTypeSerializerFilter
@@ -152,7 +198,7 @@ class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = EnvMeasurementSerializer
+    serializer_class = fieldsurvey_serializers.EnvMeasurementSerializer
     queryset = EnvMeasurement.objects.prefetch_related('created_by', 'survey_global_id', 'env_measurement', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasurementSerializerFilter
@@ -160,7 +206,7 @@ class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FieldCollectionViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldCollectionSerializer
+    serializer_class = fieldsurvey_serializers.FieldCollectionSerializer
     queryset = FieldCollection.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCollectionSerializerFilter
@@ -168,7 +214,7 @@ class FieldCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = WaterCollectionSerializer
+    serializer_class = fieldsurvey_serializers.WaterCollectionSerializer
     queryset = WaterCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.WaterCollectionSerializerFilter
@@ -176,7 +222,7 @@ class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = SedimentCollectionSerializer
+    serializer_class = fieldsurvey_serializers.SedimentCollectionSerializer
     queryset = SedimentCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SedimentCollectionSerializerFilter
@@ -184,7 +230,7 @@ class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldSampleSerializer
+    serializer_class = fieldsurvey_serializers.FieldSampleSerializer
     queryset = FieldSample.objects.prefetch_related('created_by', 'collection_global_id', 'sample_material', 'field_sample_barcode', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldSampleSerializerFilter
@@ -192,7 +238,7 @@ class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FilterSampleSerializer
+    serializer_class = fieldsurvey_serializers.FilterSampleSerializer
     queryset = FilterSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FilterSampleSerializerFilter
@@ -200,7 +246,7 @@ class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = SubCoreSampleSerializer
+    serializer_class = fieldsurvey_serializers.SubCoreSampleSerializer
     queryset = SubCoreSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SubCoreSampleSerializerFilter
@@ -208,7 +254,7 @@ class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldSurveyEnvsNestedSerializer
+    serializer_class = fieldsurvey_serializers.FieldSurveyEnvsNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
@@ -224,7 +270,7 @@ class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FieldSurveyFiltersNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldSurveyFiltersNestedSerializer
+    serializer_class = fieldsurvey_serializers.FieldSurveyFiltersNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
@@ -240,7 +286,7 @@ class FieldSurveyFiltersNestedViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FieldSurveySubCoresNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FieldSurveySubCoresNestedSerializer
+    serializer_class = fieldsurvey_serializers.FieldSurveySubCoresNestedSerializer
     # https://stackoverflow.com/questions/39669553/django-rest-framework-setting-up-prefetching-for-nested-serializers
     # https://www.django-rest-framework.org/api-guide/relations/
     # queryset = FieldSurvey.objects.prefetch_related('created_by', 'project_ids', 'site_id', 'username', 'supervisor',
@@ -273,7 +319,7 @@ class FieldSurveySubCoresNestedViewSet(viewsets.ReadOnlyModelViewSet):
 # SERIALIZERS - PRE TRANSFORM VIEWS    #
 ########################################
 class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
-    serializer_class = GeoFieldSurveyETLSerializer
+    serializer_class = fieldsurvey_serializers.GeoFieldSurveyETLSerializer
     queryset = FieldSurveyETL.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.GeoFieldSurveyETLSerializerFilter
@@ -281,7 +327,7 @@ class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
 
 
 class FieldCrewETLViewSet(viewsets.ModelViewSet):
-    serializer_class = FieldCrewETLSerializer
+    serializer_class = fieldsurvey_serializers.FieldCrewETLSerializer
     queryset = FieldCrewETL.objects.prefetch_related('created_by', 'survey_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCrewETLSerializerFilter
@@ -289,7 +335,7 @@ class FieldCrewETLViewSet(viewsets.ModelViewSet):
 
 
 class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvMeasurementETLSerializer
+    serializer_class = fieldsurvey_serializers.EnvMeasurementETLSerializer
     queryset = EnvMeasurementETL.objects.prefetch_related('created_by', 'survey_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasurementETLSerializerFilter
@@ -297,7 +343,7 @@ class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
 
 
 class FieldCollectionETLViewSet(viewsets.ModelViewSet):
-    serializer_class = FieldCollectionETLSerializer
+    serializer_class = fieldsurvey_serializers.FieldCollectionETLSerializer
     queryset = FieldCollectionETL.objects.prefetch_related('created_by', 'survey_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCollectionETLSerializerFilter
@@ -305,7 +351,7 @@ class FieldCollectionETLViewSet(viewsets.ModelViewSet):
 
 
 class SampleFilterETLViewSet(viewsets.ModelViewSet):
-    serializer_class = SampleFilterETLSerializer
+    serializer_class = fieldsurvey_serializers.SampleFilterETLSerializer
     queryset = SampleFilterETL.objects.prefetch_related('created_by', 'collection_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SampleFilterETLSerializerFilter
@@ -313,7 +359,7 @@ class SampleFilterETLViewSet(viewsets.ModelViewSet):
 
 
 class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
-    serializer_class = SampleFilterETLSerializer
+    serializer_class = fieldsurvey_serializers.SampleFilterETLSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.DuplicateFilterSampleETLSerializerFilter
     swagger_tags = ["field survey"]
@@ -338,7 +384,7 @@ class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
 
 
 class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
-    serializer_class = FieldCollectionETLSerializer
+    serializer_class = fieldsurvey_serializers.FieldCollectionETLSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.DuplicateSubCoreSampleETLSerializerFilter
     swagger_tags = ["field survey"]

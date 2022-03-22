@@ -22,15 +22,8 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
-from .serializers import EnvoBiomeFirstSerializer, EnvoBiomeSecondSerializer,\
-    EnvoBiomeThirdSerializer, EnvoBiomeFourthSerializer, EnvoBiomeFifthSerializer,    \
-    EnvoFeatureFirstSerializer, EnvoFeatureSecondSerializer,\
-    EnvoFeatureThirdSerializer, EnvoFeatureFourthSerializer,\
-    EnvoFeatureFifthSerializer, EnvoFeatureSixthSerializer,\
-    EnvoFeatureSeventhSerializer, \
-    SystemSerializer, FieldSiteSerializer, GeoFieldSiteSerializer, \
-    GeoWatershedSerializer
 from .forms import FieldSiteCreateForm, FieldSiteUpdateForm
+import field_site.serializers as fieldsite_serializers
 import field_site.filters as fieldsite_filters
 from utility.views import export_context
 
@@ -40,6 +33,7 @@ from utility.views import export_context
 # FRONTEND VIEWS                       #
 ########################################
 class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
@@ -47,7 +41,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     template_name = 'home/django-material-dashboard/field-filter-list.html'
     permission_required = ('field_site.view_fieldsite', )
     export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = FieldSiteSerializer
+    serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
@@ -184,7 +178,7 @@ class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 # SERIALIZER VIEWS                     #
 ########################################
 class EnvoBiomeFirstViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoBiomeFirstSerializer
+    serializer_class = fieldsite_serializers.EnvoBiomeFirstSerializer
     queryset = EnvoBiomeFirst.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoBiomeFirstSerializerFilter
@@ -192,7 +186,7 @@ class EnvoBiomeFirstViewSet(viewsets.ModelViewSet):
 
 
 class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoBiomeSecondSerializer
+    serializer_class = fieldsite_serializers.EnvoBiomeSecondSerializer
     queryset = EnvoBiomeSecond.objects.prefetch_related('created_by', 'biome_first_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoBiomeSecondSerializerFilter
@@ -200,7 +194,7 @@ class EnvoBiomeSecondViewSet(viewsets.ModelViewSet):
 
 
 class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoBiomeThirdSerializer
+    serializer_class = fieldsite_serializers.EnvoBiomeThirdSerializer
     queryset = EnvoBiomeThird.objects.prefetch_related('created_by', 'biome_second_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoBiomeThirdSerializerFilter
@@ -208,7 +202,7 @@ class EnvoBiomeThirdViewSet(viewsets.ModelViewSet):
 
 
 class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoBiomeFourthSerializer
+    serializer_class = fieldsite_serializers.EnvoBiomeFourthSerializer
     queryset = EnvoBiomeFourth.objects.prefetch_related('created_by', 'biome_third_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoBiomeFourthSerializerFilter
@@ -216,7 +210,7 @@ class EnvoBiomeFourthViewSet(viewsets.ModelViewSet):
 
 
 class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoBiomeFifthSerializer
+    serializer_class = fieldsite_serializers.EnvoBiomeFifthSerializer
     queryset = EnvoBiomeFifth.objects.prefetch_related('created_by', 'biome_fourth_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoBiomeFifthSerializerFilter
@@ -224,7 +218,7 @@ class EnvoBiomeFifthViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureFirstSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureFirstSerializer
     queryset = EnvoFeatureFirst.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureFirstSerializerFilter
@@ -232,7 +226,7 @@ class EnvoFeatureFirstViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureSecondSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureSecondSerializer
     queryset = EnvoFeatureSecond.objects.prefetch_related('created_by', 'feature_first_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureSecondSerializerFilter
@@ -240,7 +234,7 @@ class EnvoFeatureSecondViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureThirdSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureThirdSerializer
     queryset = EnvoFeatureThird.objects.prefetch_related('created_by', 'feature_second_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureThirdSerializerFilter
@@ -248,7 +242,7 @@ class EnvoFeatureThirdViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureFourthSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureFourthSerializer
     queryset = EnvoFeatureFourth.objects.prefetch_related('created_by', 'feature_third_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureFourthSerializerFilter
@@ -256,7 +250,7 @@ class EnvoFeatureFourthViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureFifthSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureFifthSerializer
     queryset = EnvoFeatureFifth.objects.prefetch_related('created_by', 'feature_fourth_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureFifthSerializerFilter
@@ -264,7 +258,7 @@ class EnvoFeatureFifthViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureSixthSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureSixthSerializer
     queryset = EnvoFeatureSixth.objects.prefetch_related('created_by', 'feature_fifth_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureSixthSerializerFilter
@@ -272,7 +266,7 @@ class EnvoFeatureSixthViewSet(viewsets.ModelViewSet):
 
 
 class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):
-    serializer_class = EnvoFeatureSeventhSerializer
+    serializer_class = fieldsite_serializers.EnvoFeatureSeventhSerializer
     queryset = EnvoFeatureSeventh.objects.prefetch_related('created_by', 'feature_sixth_tier')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.EnvoFeatureSeventhSerializerFilter
@@ -280,7 +274,7 @@ class EnvoFeatureSeventhViewSet(viewsets.ModelViewSet):
 
 
 class SystemViewSet(viewsets.ModelViewSet):
-    serializer_class = SystemSerializer
+    serializer_class = fieldsite_serializers.SystemSerializer
     queryset = System.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.SystemSerializerFilter
@@ -288,7 +282,7 @@ class SystemViewSet(viewsets.ModelViewSet):
 
 
 class GeoWatershedViewSet(viewsets.ModelViewSet):
-    serializer_class = GeoWatershedSerializer
+    serializer_class = fieldsite_serializers.GeoWatershedSerializer
     queryset = Watershed.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsite_filters.WatershedSerializerFilter
@@ -296,7 +290,7 @@ class GeoWatershedViewSet(viewsets.ModelViewSet):
 
 
 class GeoFieldSiteViewSet(viewsets.ModelViewSet):
-    serializer_class = GeoFieldSiteSerializer
+    serializer_class = fieldsite_serializers.GeoFieldSiteSerializer
     queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
                                                   'envo_biome_fourth', 'envo_biome_fifth', 'envo_feature_first',
@@ -308,7 +302,7 @@ class GeoFieldSiteViewSet(viewsets.ModelViewSet):
 
 
 class FieldSiteViewSet(viewsets.ModelViewSet):
-    serializer_class = FieldSiteSerializer
+    serializer_class = fieldsite_serializers.FieldSiteSerializer
     queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
                                                   'envo_biome_fourth', 'envo_biome_fifth', 'envo_feature_first',
@@ -321,7 +315,7 @@ class FieldSiteViewSet(viewsets.ModelViewSet):
 
 class FieldSiteListView(generics.ListAPIView):
     queryset = FieldSite.objects.prefetch_related('created_by')
-    serializer_class = FieldSiteSerializer
+    serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier_slug',
