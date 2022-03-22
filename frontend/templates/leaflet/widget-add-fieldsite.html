@@ -38,9 +38,11 @@
 
 {% if not target_map %}
 {% block map %}
-    {% leaflet_map id_map callback=id_map_callback loadevent=loadevent settings_overrides=settings_overrides %}
 <div class="row mt-2">
     <p> Manually specify your own latitude and longitude values and <strong>Jump there</strong> or add the site through the map.</p>
+</div>
+<div class="row mt-2">
+    {% leaflet_map id_map callback=id_map_callback loadevent=loadevent settings_overrides=settings_overrides %}
 </div>
 <div id="div_id_latlng" class="row d-flex align-items-center justify-content-center">
     <div class="col-5">
