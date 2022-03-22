@@ -26,11 +26,9 @@ class SampleLabelRequestTable(tables.Table):
                                              attrs={"th": {"class": "text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"}})
     # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id
     # samplelabel.sample_material.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
-    add = tables.LinkColumn(viewname="add_samplelabelrequestdetail",
-                            attrs={"td": {"class": "fa fa-plus text-secondary font-weight-bold text-xs"},
-                                   "th": {"class": "text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"}},
-                            text='Add',
-                            args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
+    add_label = tables.LinkColumn(viewname="add_samplelabelrequestdetail",
+                                  text='Add',
+                                  args=[A("site_id.id"), A("sample_material.id"), A("purpose")])
 
 
     # attrs = { "th__input":
