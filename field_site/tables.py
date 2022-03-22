@@ -8,15 +8,15 @@ class FieldSiteTable(tables.Table):
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
-    add_label = tables.LinkColumn("add_samplelabelrequestsite",
-                                  text='Add', args=[A("pk")])
+    add_label = tables.LinkColumn("add_samplelabelrequestsite", text='Add', args=[A("pk")], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
                                                     "input": {"class": "action-select"},
                                                     "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}}, orderable=False)
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
 
     class Meta:
         model = FieldSite
