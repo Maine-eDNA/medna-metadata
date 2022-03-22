@@ -38,9 +38,7 @@
 
 {% if not target_map %}
 {% block map %}
-<div class="col-md-12">
-    <p> Manually specify your own latitude and longitude values and <strong>Jump there</strong> or add the site through the map.</p>
-</div>
+
 <div id="div_id_latlng" class="col-md-12 d-flex align-items-center justify-content-center">
     <div class="col-4 mx-2">
         <label for="id_lat" class="requiredField sr-only">Latitude:<span class="asteriskField">*</span></label>
@@ -58,7 +56,10 @@
         <input id="manual-latlng" type="button" class="btn btn-info mb-2" value="Jump there">
     </div>
 </div>
-<div class="col-md-12 mb-4">
+<div class="col-md-12">
+    <p class="text-sm"> Manually specify your own latitude and longitude values and <strong>Jump there</strong> or add the site through the map.</p>
+</div>
+<div class="col-md-12 mb-2">
     <div id="div_readonly_id_geom" class="form-group">
         <label for="readonly_id_geom" class="requiredField sr-only">
             JSON Geometry (populates after clicking <span>Jump there</span> or adding site through the map):<span class="asteriskField">*</span>
@@ -67,7 +68,7 @@
                placeholder="JSON Geometry: Populates after clicking [Jump there] or adding site through the map.*">
     </div>
 </div>
-<div class="col-md-12">
+<div class="col-md-12 mb-4">
     {% leaflet_map id_map callback=id_map_callback loadevent=loadevent settings_overrides=settings_overrides %}
 </div>
 

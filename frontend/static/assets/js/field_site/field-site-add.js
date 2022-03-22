@@ -141,12 +141,15 @@ $(window).on('map:init', function (e) {
             // find the id of the drop-down menu that matches the label based
             // on clicking on the map
             var dd = document.getElementById('id_watershed');
+            /*
             for (var i = 0; i < dd.options.length; i++) {
                 if (dd.options[i].text === reg_click) {
                     dd.selectedIndex = i;
                     break;
                 }
             }
+            */
+            dd.select2.val(reg_click).trigger('change');
         } else {
             clearSelectedWatershed();
             reg_click = "NW: No Watershed";
@@ -156,9 +159,12 @@ $(window).on('map:init', function (e) {
 
     var clearSelectedWatershed = function(){
         var dd = document.getElementById('id_watershed');
+        /*
         for (var i = 0; i < dd.options.length; i++) {
           dd.options[i].selected = false;
         }
+        */
+        dd.select2.val(null).trigger('change');
     }
 
     detail.map.on('draw:created', function (e) {
