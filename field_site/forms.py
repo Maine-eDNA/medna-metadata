@@ -189,7 +189,7 @@ class FieldSiteCreateForm(forms.ModelForm):
                         'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
                         'DEFAULT_ZOOM': 8,
                         'TILES': [
-                            ('Open Street Map', 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+                            ('NASA Worldview', 'https://map1{a-c}.vis.earthdata.nasa.gov/wmts-webmerc/BlueMarble_ShadedRelief_Bathymetry/default/%7BTime%7D/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg', {'attribution': 'NASA Worldview'}),
                         ],
                     },
                 }
