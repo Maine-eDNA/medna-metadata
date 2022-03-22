@@ -188,6 +188,9 @@ class FieldSiteCreateForm(forms.ModelForm):
                     'settings_overrides': {
                         'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
                         'DEFAULT_ZOOM': 8,
+                        'TILES': [
+                            ('Open Street Map', 'https://tile.openstreetmap.org/${z}/${x}/${y}.png', {'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+                        ],
                     },
                 }
             )
