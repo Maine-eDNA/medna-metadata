@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from django.core.management.utils import get_random_secret_key
+from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import logging.config
 import os
-from django.core.management.utils import get_random_secret_key
 from celery.schedules import crontab
 from collections import OrderedDict
 
@@ -562,20 +562,30 @@ DJANGO_TABLES2_PAGE_RANGE = 5
 # DJANGO-LEAFLET CONFIG                   #
 ###########################################
 # https://django-leaflet.readthedocs.io/en/latest/
-LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
+LEAFLET_CONFIG = dict({
+    'TILES': [
+        (_('OSM'),
+         '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors')
+    ],
+    # 'OVERLAYS': [],
+    # 'ATTRIBUTION_PREFIX': None,
+    # 'LOADEVENT': 'load',
     'DEFAULT_ZOOM': 8,
+    # 'MIN_ZOOM': None,
+    # 'MAX_ZOOM': None,
+    'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
     'DEFAULT_PRECISION': 6,
-#    'TILES': [
-#        ('NASA Worldview', 'https://map1{a-c}.vis.earthdata.nasa.gov/wmts-webmerc/BlueMarble_ShadedRelief_Bathymetry/default/%7BTime%7D/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg', {'attribution': 'NASA Worldview'}),
-#    ],
-}
-# LEAFLET_WIDGET_ATTRS = {
-#     'map_height': '600px',
-#     'map_width': '50%',
-#     'display_raw': 'True',
-#     'map_srid': 4326,
-# }
+    # 'FORCE_IMAGE_PATH': False,
+    'SRID': 4326,
+    # 'TILES_EXTENT': [],
+    # 'SCALE': 'metric',
+    # 'MINIMAP': False,
+    # 'RESET_VIEW': True,
+    # 'NO_GLOBALS': True,
+    # 'PLUGINS': OrderedDict(),
+    # 'SPATIAL_EXTENT': (-180, -90, 180, 90),
+})
 
 ########################################
 # CUSTOM ADMIN APP ORDERING CONFIG     #
