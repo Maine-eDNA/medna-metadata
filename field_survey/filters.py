@@ -2,6 +2,7 @@ from django import forms
 from django_filters import rest_framework as filters
 from field_site.models import FieldSite
 from users.models import CustomUser
+from utility.models import Project
 from utility.widgets import CustomSelect2Multiple
 from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
@@ -22,7 +23,7 @@ class GeoFieldSurveyMapFilter(filters.FilterSet):
 
 
 class FieldSurveyFiltersNestedFilter(filters.FilterSet):
-    # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
+    project_ids = filters.ModelMultipleChoiceFilter(field_name='project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
     site_id = filters.ModelMultipleChoiceFilter(field_name='site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
     username = filters.ModelMultipleChoiceFilter(field_name='username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')
     supervisor = filters.ModelMultipleChoiceFilter(field_name='supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Supervisor')
@@ -32,7 +33,7 @@ class FieldSurveyFiltersNestedFilter(filters.FilterSet):
 
     class Meta:
         model = FieldSurvey
-        fields = ['site_id', 'username', 'supervisor', 'water_filterer', 'survey_datetime']
+        fields = ['username', 'supervisor', 'water_filterer', 'survey_datetime', 'site_id', 'project_ids', ]
 
 
 ########################################
