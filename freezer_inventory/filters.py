@@ -50,8 +50,8 @@ class FreezerRackSerializerFilter(filters.FilterSet):
 class FreezerBoxSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     freezer_rack = filters.CharFilter(field_name='freezer_rack__freezer_rack_label_slug', lookup_expr='iexact')
-    freezer_box_label = filters.CharFilter(field_name='freezer_rack_label', lookup_expr='iexact')
-    freezer_box_label_slug = filters.CharFilter(field_name='freezer_rack_label_slug', lookup_expr='iexact')
+    freezer_box_label = filters.CharFilter(field_name='freezer_box_label', lookup_expr='iexact')
+    freezer_box_label_slug = filters.CharFilter(field_name='freezer_box_label_slug', lookup_expr='iexact')
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     modified_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
