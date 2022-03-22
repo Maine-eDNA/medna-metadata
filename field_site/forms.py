@@ -7,11 +7,29 @@ from utility.models import Grant
 from .models import FieldSite, System, Watershed, EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureSecond, EnvoBiomeFourth, \
     EnvoBiomeFifth, EnvoFeatureFourth, EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, EnvoFeatureFirst, \
     EnvoFeatureThird, EnvoBiomeThird
+from leaflet import PLUGINS, PLUGIN_FORMS
 
 
 class FieldSiteAllowEditLeaflet(LeafletWidget):
     geometry_field_class = 'allowEditLeaflet'
     template_name = 'leaflet/widget-add-fieldsite.html'
+
+    @property
+    def media(self):
+        if not self.include_media:
+            return forms.Media()
+
+        # We assume that including media for widget means there is
+        # no Leaflet at all in the page.
+        js = ['assets/js/plugins/jquery-3.4.1.min.js',
+              'leaflet/leaflet.js',
+              'assets/js/plugins/leaflet-providers.js',
+              'assets/js/field_site/WBDHU8_MENH_NEA.js',
+              'assets/js/field_site/field-site-add.js',
+              'assets/js/field_site/field-site-add-readonly.js',
+              'assets/js/field_site/leaflet-pip.js'] + PLUGINS[PLUGIN_FORMS]['js']
+        css = ['leaflet/leaflet.css'] + PLUGINS[PLUGIN_FORMS]['css']
+        return forms.Media(js=js, css={'screen': css})
 
 
 class FieldSiteCreateForm(forms.ModelForm):
