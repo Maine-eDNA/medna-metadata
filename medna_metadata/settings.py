@@ -577,7 +577,7 @@ LEAFLET_CONFIG = dict({
     'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
     'DEFAULT_PRECISION': 6,
     # 'FORCE_IMAGE_PATH': False,
-    'SRID': 4326,
+    # 'SRID': 4326,
     # 'TILES_EXTENT': [],
     # 'SCALE': 'metric',
     # 'MINIMAP': False,
