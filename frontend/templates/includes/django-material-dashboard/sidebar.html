@@ -9,7 +9,7 @@
     </a>
   </div>
   <hr class="horizontal light mt-0 mb-2">
-  <div class="collapse navbar-collapse w-auto max-height-vh-100" id="sidenav-collapse-main">
+  <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
     {% if perms.field_site %}
     <!-- begin field site -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -493,7 +493,6 @@
     <!-- end bioinfo -->
     {% endif %}
   </div>
-  <hr class="horizontal light mt-0 mb-2">
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
     <div class="mx-3">
     <ul class="nav nav-fill p-1">
@@ -525,9 +524,7 @@
         </a>
       </li>
     </ul>
-    </div>
-    <div class="mx-3">
-      <a class="btn bg-gradient-primary mt-3 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
+      <a class="btn bg-gradient-primary mt-4 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
     </div>
   </div>
 </aside>
