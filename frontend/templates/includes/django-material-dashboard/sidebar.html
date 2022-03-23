@@ -494,37 +494,37 @@
     {% endif %}
   </div>
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-    <div class="row">
-      <div class="col-4">
+    <ul class="nav nav-fill p-1">
+      <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'detail_dashboardprofile' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">person</i>
           </div>
-          <span class="nav-link-text ms-1">Profile</span>
+          <span class="nav-link-text">Profile</span>
         </a>
-      </div>
+      </li>
       {% if user.is_active and user.is_staff %}
-      <div class="col-4">
+      <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">admin_panel_settings</i>
           </div>
-          <span class="nav-link-text ms-1">Admin</span>
+          <span class="nav-link-text">Admin</span>
         </a>
-      </div>
+      </li>
       {% endif %}
-      <div class="col-4">
+      <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white " href="{% url 'logout' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">directions_run</i>
           </div>
-          <span class="nav-link-text ms-1">Logout</span>
+          <span class="nav-link-text">Logout</span>
         </a>
-      </div>
-    </div>
+      </li>
+    </ul>
     <div class="mx-3">
-      <a class="btn bg-gradient-primary mt-4 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
+      <a class="btn bg-gradient-primary mt-3 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
     </div>
   </div>
 </aside>
