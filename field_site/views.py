@@ -73,7 +73,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
 class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+    fields = ['geom', 'site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
               'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
               'envo_biome_second', 'envo_biome_first',
               'envo_feature_seventh', 'envo_feature_sixth',
