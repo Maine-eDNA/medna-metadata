@@ -276,7 +276,7 @@ class SerializerTableExport(TableExport):
             self.dataset.append(row.values())
 
 
-class SerializerExportMixin(ExportMixin):
+class CharSerializerExportMixin(ExportMixin):
     # export_action_param = "action"
 
     def create_export(self, export_format):
@@ -300,5 +300,5 @@ class SerializerExportMixin(ExportMixin):
         selected_column_ids = self.request.GET.get("_selected_column_ids", None)
         if selected_column_ids:
             selected_column_ids = map(int, selected_column_ids.split(","))
-            return super().get_table_data().filter(pk__in=selected_column_ids)
+            return super().get_table_data().filter(pk__overlap=selected_column_ids)
         return super().get_table_data()

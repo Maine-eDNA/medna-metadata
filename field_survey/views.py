@@ -20,7 +20,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists
 from utility.views import export_context
-from utility.serializers import SerializerExportMixin
+from utility.serializers import SerializerExportMixin, CharSerializerExportMixin
 import field_survey.filters as fieldsurvey_filters
 import field_survey.serializers as fieldsurvey_serializers
 from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
@@ -35,7 +35,7 @@ from .tables import FieldSurveyTable
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
