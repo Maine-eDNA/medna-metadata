@@ -27,7 +27,7 @@ class FreezerInventoryLogDetailView(LoginRequiredMixin, DetailView):
     fields = ['freezer_inventory', 'freezer_log_slug', 'freezer_log_action', 'freezer_log_notes', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-detail.html'
+    template_name = 'home/django-material-dashboard/model-detail.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -43,7 +43,7 @@ class FreezerInventoryReturnMetadataDetailView(LoginRequiredMixin, DetailView):
               'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-detail.html'
+    template_name = 'home/django-material-dashboard/model-detail.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -58,7 +58,7 @@ class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, UpdateView):
     form_class = FreezerInventoryReturnMetadataUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-update.html'
+    template_name = 'home/django-material-dashboard/model-update.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
