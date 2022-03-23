@@ -4,6 +4,9 @@ from .models import FreezerInventoryReturnMetadata
 
 
 class FreezerInventoryReturnMetadataTable(tables.Table):
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y", attrs={"th": {"class": "field-created_datetime"}},
+                                             verbose_name="Created Date")
     freezer_log = tables.LinkColumn(verbose_name="Freezer Log",
                                     viewname='detail_freezerinventorylog',
                                     args=[A('freezer_log.id')],
@@ -17,13 +20,12 @@ class FreezerInventoryReturnMetadataTable(tables.Table):
     freezer_return_vol_taken = tables.Column(attrs={"th": {"class": "field-freezer_return_vol_taken"}})
     freezer_return_vol_units = tables.Column(attrs={"th": {"class": "field-freezer_return_vol_units"}})
     freezer_return_notes = tables.Column(attrs={"th": {"class": "field-freezer_return_notes"}})
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y", attrs={"th": {"class": "field-created_datetime"}})
+
     edit = tables.LinkColumn(viewname='update_freezerinventoryreturnmetadata',
                              args=[A('pk')],
                              text='Edit')
 
     class Meta:
         model = FreezerInventoryReturnMetadata
-        fields = ("freezer_log", "freezer_return_metadata_entered", "freezer_return_actions", "freezer_return_vol_taken",
-                  "freezer_return_vol_units", "freezer_return_notes", "created_datetime", )
+        fields = ("created_datetime", "freezer_log", "freezer_return_metadata_entered", "freezer_return_actions", "freezer_return_vol_taken",
+                  "freezer_return_vol_units", "freezer_return_notes", )
