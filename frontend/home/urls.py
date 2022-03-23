@@ -101,10 +101,12 @@ urlpatterns = [
     path('dashboard/freezerinventory/inventory/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventory')), name='update_freezerinventory'),
     path('dashboard/freezerinventory/inventory/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_freezerinventory'),
     # FREEZER INVENTORY: FREEZER INVENTORY RETURN METADATA (VIEW, UPDATE)
-    path('dashboard/freezerinventory/metadata/view/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(), name='view_freezerinventoryreturnmetadata'),
+    path('dashboard/freezerinventory/metadata/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_freezerinventoryreturnmetadata'),
     path('dashboard/freezerinventory/metadata/detail/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(), name='detail_freezerinventoryreturnmetadata'),
     path('dashboard/freezerinventory/metadata/update/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventoryreturnmetadata')), name='update_freezerinventoryreturnmetadata'),
     # FREEZER INVENTORY: FREEZER INVENTORY LOG
+    path('dashboard/freezerinventory/log/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_freezerinventorylog'),
+    path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
     path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
     # TODO BIOINFO: QUALITY METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/qualitymetadata/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_qualitymetadata'),
