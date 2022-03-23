@@ -85,9 +85,9 @@ def dashboard_pages(request):
 
     except template.TemplateDoesNotExist:
 
-        html_template = loader.get_template('home/django-material-dashboard/page-404.html')
+        html_template = loader.get_template('home/django-material-kit/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
     except:
-        html_template = loader.get_template('home/django-material-dashboard/page-500.html')
+        html_template = loader.get_template('home/django-material-kit/page-500.html')
         return HttpResponse(html_template.render(context, request))
