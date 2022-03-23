@@ -490,14 +490,13 @@
     </ul>
     <!-- end taxonomicannotation -->
     {% endif %}
-    <hr class="horizontal light mt-0 mb-2">
     <!-- end bioinfo -->
     {% endif %}
   </div>
-  <hr class="horizontal light mt-0 mb-2">
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+    <hr class="horizontal light mt-0 mb-2">
     <ul class="nav nav-fill p-1">
-      <li class="nav-item">
+      <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'detail_dashboardprofile' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
@@ -507,7 +506,7 @@
         </a>
       </li>
       {% if user.is_active and user.is_staff %}
-      <li class="nav-item">
+      <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">admin_panel_settings</i>
@@ -516,7 +515,7 @@
         </a>
       </li>
       {% endif %}
-      <li class="nav-item">
+      <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white " href="{% url 'logout' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">directions_run</i>
@@ -526,7 +525,7 @@
       </li>
     </ul>
     <div class="mx-3">
-      <a class="btn bg-gradient-primary mt-4 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
+      <a class="btn bg-gradient-primary mt-3 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
     </div>
   </div>
 </aside>
