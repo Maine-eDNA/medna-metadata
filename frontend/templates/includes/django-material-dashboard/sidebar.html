@@ -494,7 +494,7 @@
     {% endif %}
   </div>
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-    <ul class="nav nav-fill p-1">
+    <ul class="nav nav-fill p-3">
       <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'detail_dashboardprofile' %}">
@@ -524,7 +524,7 @@
       </li>
     </ul>
     <div class="mx-3">
-      <a class="btn bg-gradient-primary mt-3 w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
+      <a class="btn bg-gradient-primary w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
     </div>
   </div>
 </aside>
