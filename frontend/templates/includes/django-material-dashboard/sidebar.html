@@ -83,7 +83,7 @@
     <!-- begin field survey -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
-        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Sites</h6>
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Survey</h6>
       </li>
       {% if perms.field_survey.view_fieldsurvey %}
       <li class="nav-item col-1">
@@ -97,6 +97,196 @@
       {% endif %}
     </ul>
     <!-- end field survey -->
+    {% endif %}
+    {% if perms.wet_lab %}
+    <hr class="horizontal light mt-0 mb-2">
+    <!-- begin wet lab -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-12">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Wet Lab</h6>
+      </li>
+    </ul>
+    {% if perms.wet_lab.view_extraction %}
+    <!-- begin extraction -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Extraction</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_extraction' in segment or 'detail_extraction' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_extraction' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+      {% if perms.wet_lab.add_extraction %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_extraction' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_extraction' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- end extraction -->
+    {% endif %}
+    {% if perms.wet_lab.view_pcr %}
+    <!-- begin pcr -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">PCR</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_pcr' in segment or 'detail_pcr' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_pcr' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+      {% if perms.wet_lab.add_pcr %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_pcr' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_pcr' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- end pcr -->
+    {% endif %}
+    {% if perms.wet_lab.view_libraryprep %}
+    <!-- begin libraryprep -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Library Prep</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_libraryprep' in segment or 'detail_libraryprep' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_libraryprep' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+      {% if perms.wet_lab.add_libraryprep %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_libraryprep' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_libraryprep' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- end libraryprep -->
+    {% endif %}
+    {% if perms.wet_lab.view_pooledlibrary %}
+    <!-- begin pooledlibrary -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Pooled Library</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_pooledlibrary' in segment or 'detail_pooledlibrary' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_pooledlibrary' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+      {% if perms.wet_lab.add_pooledlibrary %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_pooledlibrary' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_pooledlibrary' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- end pooledlibrary -->
+    {% endif %}
+    {% if perms.wet_lab.view_runprep %}
+    <!-- begin runprep -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Run Prep</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_runprep' in segment or 'detail_runprep' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_runprep' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+      {% if perms.wet_lab.add_runprep %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_runprep' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_runprep' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- end runprep -->
+    {% endif %}
+    {% if perms.wet_lab.view_runresult %}
+    <!-- begin runresult -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Run Result</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_runresult' in segment or 'detail_runresult' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_runresult' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+      {% if perms.wet_lab.add_runresult %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_runresult' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_runresult' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- end runresult -->
+    {% endif %}
+    {% if perms.wet_lab.view_fastqfile %}
+    <!-- begin fastqfile -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">FASTQ File</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_fastqfile' in segment or 'detail_fastqfile' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_fastqfile' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <!-- end fastqfile -->
+    {% endif %}
+    <hr class="horizontal light mt-0 mb-2">
+    <!-- end wet lab -->
     {% endif %}
   </div>
   <hr class="horizontal light mt-0 mb-2">
