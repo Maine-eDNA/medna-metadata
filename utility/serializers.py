@@ -276,6 +276,34 @@ class SerializerTableExport(TableExport):
             self.dataset.append(row.values())
 
 
+class SerializerExportMixin(ExportMixin):
+    # export_action_param = "action"
+
+    def create_export(self, export_format):
+        exporter = SerializerTableExport(
+            export_format=export_format,
+            table=self.get_table(**self.get_table_kwargs()),
+            serializer=self.serializer_class,
+            exclude_columns=self.exclude_columns,
+        )
+        return exporter.response(filename=self.get_export_filename(export_format))
+
+    def get_serializer(self, table):
+        if self.serializer_class is not None:
+            return self.serializer_class
+        else:
+            return getattr(
+                self, "{}Serializer".format(self.get_table().__class__.__name__), None
+            )
+
+    def get_table_data(self):
+        selected_column_ids = self.request.GET.get("_selected_column_ids", None)
+        if selected_column_ids:
+            selected_column_ids = map(int, selected_column_ids.split(","))
+            return super().get_table_data().filter(pk__in=selected_column_ids)
+        return super().get_table_data()
+
+
 class CharSerializerExportMixin(ExportMixin):
     # export_action_param = "action"
 
