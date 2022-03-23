@@ -348,7 +348,6 @@
     <hr class="horizontal light mt-0 mb-2">
     <!-- end freezer inventory -->
     {% endif %}
-
     {% if perms.bioinfo %}
     <!-- begin bioinfo -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -356,7 +355,6 @@
         <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Bioinformatics</h6>
       </li>
     </ul>
-
     {% if perms.bioinfo.view_denoiseclustermetadata %}
     <!-- begin denoiseclustermetadata -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -384,7 +382,6 @@
     </ul>
     <!-- end denoiseclustermetadata -->
     {% endif %}
-
     {% if perms.bioinfo.view_featureoutput %}
     <!-- begin featureoutput -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -412,7 +409,6 @@
     </ul>
     <!-- end featureoutput -->
     {% endif %}
-
     {% if perms.bioinfo.view_featureread %}
     <!-- begin featureread -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -440,7 +436,6 @@
     </ul>
     <!-- end featureread -->
     {% endif %}
-
     {% if perms.bioinfo.view_annotationmetadata %}
     <!-- begin annotationmetadata -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -468,7 +463,6 @@
     </ul>
     <!-- end annotationmetadata -->
     {% endif %}
-
     {% if perms.bioinfo.view_taxonomicannotation %}
     <!-- begin taxonomicannotation -->
     <ul class="nav nav-fill p-1" role="tablist">
@@ -496,18 +490,17 @@
     </ul>
     <!-- end taxonomicannotation -->
     {% endif %}
-
     <hr class="horizontal light mt-0 mb-2">
     <!-- end bioinfo -->
     {% endif %}
   </div>
   <hr class="horizontal light mt-0 mb-2">
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-    <ul class="navbar-nav">
+    <ul class="nav nav-fill p-1">
       <li class="nav-item">
         <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'detail_dashboardprofile' %}">
-          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+          <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">person</i>
           </div>
           <span class="nav-link-text ms-1">Profile</span>
@@ -516,7 +509,7 @@
       {% if user.is_active and user.is_staff %}
       <li class="nav-item">
         <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
-          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+          <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">admin_panel_settings</i>
           </div>
           <span class="nav-link-text ms-1">Admin</span>
@@ -525,7 +518,7 @@
       {% endif %}
       <li class="nav-item">
         <a class="nav-link text-white " href="{% url 'logout' %}">
-          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+          <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">directions_run</i>
           </div>
           <span class="nav-link-text ms-1">Logout</span>
