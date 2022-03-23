@@ -38,7 +38,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
     table_class = FieldSiteTable
-    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_site.view_fieldsite', )
     export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsite_serializers.FieldSiteSerializer
@@ -67,7 +67,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -82,7 +82,7 @@ class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
               'envo_feature_first', 'created_by', 'created_datetime', 'modified_datetime', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-detail-fieldsite.html'
+    template_name = 'home/django-material-dashboard/model-detail-fieldsite.html'
     permission_required = ('field_site.view_fieldsite', )
 
     def get_context_data(self, **kwargs):
@@ -95,7 +95,7 @@ class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -103,7 +103,7 @@ class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     form_class = FieldSiteUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-update.html'
+    template_name = 'home/django-material-dashboard/model-update.html'
     permission_required = ('field_site.update_fieldsite', 'field_site.view_fieldsite', )
 
     def get_context_data(self, **kwargs):
@@ -116,7 +116,7 @@ class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
     def get_success_url(self):
         # after successfully filling out and submitting a form,
@@ -152,7 +152,7 @@ class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     model = FieldSite
     form_class = FieldSiteCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/field-add-fieldsite.html'
+    template_name = 'home/django-material-dashboard/model-add-fieldsite.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -172,7 +172,7 @@ class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 ########################################

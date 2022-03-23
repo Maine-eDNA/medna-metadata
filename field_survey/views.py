@@ -41,7 +41,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSurvey
     table_class = FieldSurveyTable
-    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_survey.view_fieldsurvey', )
     export_name = 'fieldsurvey_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.GeoFieldSurveySerializer
@@ -75,7 +75,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
@@ -85,7 +85,7 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSurvey
     table_class = FieldSurveyTable
-    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_survey.view_fieldsurvey', 'field_survey.view_fieldcrew',
                            'field_survey.view_envmeasurement', 'field_survey.view_fieldcollection',
                            'field_survey.view_watercollection', 'field_survey.view_fieldsample',
@@ -122,7 +122,7 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 def project_survey_map(request, pk):

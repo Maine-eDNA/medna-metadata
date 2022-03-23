@@ -80,7 +80,7 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ContactUsUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-update.html'
+    template_name = 'home/django-material-dashboard/model-update.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""

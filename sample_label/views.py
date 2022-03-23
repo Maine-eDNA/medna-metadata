@@ -32,7 +32,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
-    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('sample_label.view_samplelabelrequest', )
     # Implement lazy pagination, preventing any count() queries.
     # table_pagination = {'paginator_class': LazyPaginator,}
@@ -56,7 +56,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
@@ -68,7 +68,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
               'purpose', 'created_by', 'created_datetime', 'modified_datetime', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-detail-samplelabelrequest.html'
+    template_name = 'home/django-material-dashboard/model-detail-samplelabelrequest.html'
     permission_required = ('sample_label.view_samplelabelrequest', )
 
     def get_context_data(self, **kwargs):
@@ -81,7 +81,7 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -89,7 +89,7 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
     form_class = SampleLabelRequestUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/field-update.html'
+    template_name = 'home/django-material-dashboard/model-update.html'
     permission_required = ('sample_label.update_samplelabelrequest', 'sample_label.view_samplelabelrequest', )
 
     def get_context_data(self, **kwargs):
@@ -102,7 +102,7 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
     def get_success_url(self):
         # after successfully filling out and submitting a form,
@@ -126,7 +126,7 @@ class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredM
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
     def render_to_response(self, context, **response_kwargs):
         # If I wanted to iterate through num to create 0001:0020 labels, this is where I could add it
@@ -173,7 +173,7 @@ class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
     model = SampleLabelRequest
     form_class = SampleLabelRequestCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/field-add.html'
+    template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -201,7 +201,7 @@ class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/field-perms-required.html')
+        return redirect('main/model-perms-required.html')
 
 
 ########################################
