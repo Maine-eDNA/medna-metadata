@@ -35,7 +35,51 @@ from .tables import FieldSurveyTable
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FieldSurvey
+    table_class = FieldSurveyTable
+    template_name = 'home/django-material-dashboard/field-filter-list.html'
+    permission_required = ('field_survey.view_fieldsurvey', )
+    export_name = 'fieldsurvey_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsurvey_serializers.GeoFieldSurveySerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
+                        'supervisor__agol_username', 'username__agol_username',
+                        'recorder_fname', 'recorder_lname', 'field_crew',
+                        'arrival_datetime', 'site_id__site_id', 'site_id_other', 'site_name',
+                        'lat_manual', 'long_manual', 'env_obs_turbidity',
+                        'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
+                        'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
+                        'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
+                        'env_measurements__env_measure_type_label',
+                        'water_filterer__agol_username',
+                        'field_collections',
+                        'survey_complete', 'qa_editor__agol_username', 'qa_datetime', 'qa_initial',
+                        'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
+                        'record_creator__agol_username', 'record_create_datetime',
+                        'record_editor__agol_username', 'record_edit_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_fieldsurvey"
+        context["page_title"] = "Field Survey"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/field-perms-required.html')
+
+
+class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # TODO change to FilterSampleFilterView
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
@@ -46,7 +90,7 @@ class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
                            'field_survey.view_envmeasurement', 'field_survey.view_fieldcollection',
                            'field_survey.view_watercollection', 'field_survey.view_fieldsample',
                            'field_survey.view_filtersample', )
-    export_name = 'surveyfilters_' + str(timezone.now().replace(microsecond=0).isoformat())
+    export_name = 'filtersample_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.FieldSurveyFiltersNestedSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
@@ -69,8 +113,8 @@ class FieldSurveyFiltersFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_fieldsurveyfilters"
-        context["page_title"] = "Field Survey Filters"
+        context["segment"] = "view_filtersample"
+        context["page_title"] = "Filter Sample"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context

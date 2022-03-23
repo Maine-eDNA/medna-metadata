@@ -22,7 +22,20 @@ class GeoFieldSurveyMapFilter(filters.FilterSet):
         fields = ['project_ids', ]
 
 
-class FieldSurveyFiltersNestedFilter(filters.FilterSet):
+class GeoFieldSurveyFilter(filters.FilterSet):
+    project_ids = filters.ModelMultipleChoiceFilter(field_name='project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
+    site_id = filters.ModelMultipleChoiceFilter(field_name='site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
+    username = filters.ModelMultipleChoiceFilter(field_name='username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')
+    supervisor = filters.ModelMultipleChoiceFilter(field_name='supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Supervisor')
+    water_filterer = filters.ModelMultipleChoiceFilter(field_name='water_filterer__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Water Filterer')
+    survey_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Survey DateTime')
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['username', 'supervisor', 'water_filterer', 'survey_datetime', 'site_id', 'project_ids', ]
+
+
+class FilterSampleFilter(filters.FilterSet):
     project_ids = filters.ModelMultipleChoiceFilter(field_name='project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
     site_id = filters.ModelMultipleChoiceFilter(field_name='site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
     username = filters.ModelMultipleChoiceFilter(field_name='username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')
