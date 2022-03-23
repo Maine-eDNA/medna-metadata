@@ -1,12 +1,14 @@
 {% load static %}
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
   <div class="sidenav-header">
+    <!-- begin sidebar header -->
     <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0"
        href="{% url 'dashboard' %}" target="_blank">
       <img src="{% static 'assets/img/logo-medna-light.png' %}" class="navbar-brand-img h-100" alt="main_logo">
       <span class="ms-1 font-weight-bold text-white">Metadata Dashboard</span>
     </a>
+    <!-- end sidebar header -->
   </div>
   <hr class="horizontal light mt-0 mb-2">
   <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
@@ -69,27 +71,54 @@
     <!-- end sample label -->
     {% endif %}
     {% if perms.field_survey %}
+    <!-- begin field collection -->
+    <hr class="horizontal light mt-0 mb-2">
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-12">
+        <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Collection</h6>
+      </li>
+    </ul>
+    {% if perms.field_survey.view_fieldsurvey %}
     <!-- begin field survey -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
         <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Field Survey</h6>
       </li>
-      {% if perms.field_survey.view_fieldsurvey %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_fieldsurveyfilters' in segment %} active bg-gradient-primary {% endif %}"
-           href="{% url 'view_fieldsurveyfilters' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_fieldsurvey' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_fieldsurvey' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">table_view</i>
           </div>
         </a>
       </li>
-      {% endif %}
     </ul>
-    <!-- end field survey -->
+     <!-- end field survey -->
     {% endif %}
+
+    {% if perms.field_survey.view_filtersample %}
+    <!-- begin filter sample -->
+    <ul class="nav nav-fill p-1" role="tablist">
+      <li class="nav-item mt-2 col-8">
+        <h6 class="ps-2 ms-2 text-start text-uppercase text-xs text-white font-weight-bolder opacity-8">Filter Sample</h6>
+      </li>
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'view_filtersample' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'view_filtersample' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">table_view</i>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <!-- end filter sample -->
+    {% endif %}
+    <!-- end field collection -->
+    {% endif %}
+
     {% if perms.wet_lab %}
-    <hr class="horizontal light mt-0 mb-2">
     <!-- begin wet lab -->
+    <hr class="horizontal light mt-0 mb-2">
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-12">
         <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Wet Lab</h6>
@@ -274,11 +303,11 @@
     </ul>
     <!-- end fastqfile -->
     {% endif %}
-    <hr class="horizontal light mt-0 mb-2">
     <!-- end wet lab -->
     {% endif %}
     {% if perms.freezer_inventory %}
     <!-- begin freezer inventory -->
+    <hr class="horizontal light mt-0 mb-2">
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-12">
         <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Freezer Inventory</h6>
@@ -345,11 +374,11 @@
     </ul>
     <!-- end freezerinventorylog -->
     {% endif %}
-    <hr class="horizontal light mt-0 mb-2">
     <!-- end freezer inventory -->
     {% endif %}
     {% if perms.bioinfo %}
     <!-- begin bioinfo -->
+    <hr class="horizontal light mt-0 mb-2">
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-12">
         <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Bioinformatics</h6>
@@ -490,11 +519,12 @@
     </ul>
     <!-- end taxonomicannotation -->
     {% endif %}
-    <hr class="horizontal light mt-0 mb-2">
     <!-- end bioinfo -->
     {% endif %}
   </div>
+  <hr class="horizontal light mt-0 mb-2">
   <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+    <!-- begin sidebar footer -->
     <ul class="nav nav-fill p-3">
       <li class="nav-item mt-2 col-4">
         <a class="nav-link text-white {% if 'detail_dashboardprofile' in segment or 'update_dashboardprofile' in segment %} active bg-gradient-primary {% endif %}"
@@ -527,6 +557,7 @@
     <div class="mx-3">
       <a class="btn bg-gradient-primary w-100" target="_blank" href="{% url 'home' %}" type="button">Main</a>
     </div>
+    <!-- end sidebar footer -->
   </div>
 </aside>
   

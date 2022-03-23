@@ -62,7 +62,8 @@ urlpatterns = [
     path('dashboard/labelrequest/add/<int:site_id>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestsite'),
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
     # TODO FIELD SURVEY: FIELD SURVEY (VIEW) - MERGED TABLE
-    path('dashboard/fieldsurveyfilters/view/', fieldsurvey_views.FieldSurveyFiltersFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFiltersNestedFilter), name='view_fieldsurveyfilters'),
+    path('dashboard/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.GeoFieldSurveyFilter), name='view_fieldsurvey'),
+    path('dashboard/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
     # TODO WET LAB: EXTRACTION (VIEW, ADD, UPDATE) w/ TABLE
     path('dashboard/wetlab/extraction/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_extraction'),
     path('dashboard/wetlab/extraction/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_extraction'),
