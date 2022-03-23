@@ -329,5 +329,5 @@ class CharSerializerExportMixin(ExportMixin):
         if selected_column_ids:
             # selected_column_ids = map(int, selected_column_ids.split(","))
             selected_column_ids = selected_column_ids.split(",")
-            return super().get_table_data().filter(id__contains=selected_column_ids)
+            return super().get_table_data().filter(pk__contains=selected_column_ids)
         return super().get_table_data()
