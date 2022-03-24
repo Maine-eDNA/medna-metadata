@@ -20,25 +20,18 @@
         <div class="col-md-8 mx-auto">
           <div class="text-center">
             <h1 class="text-white">{{ page_title|title }}</h1>
-            <p class="lead mb-4 text-white opacity-8">Peer-reviewed content</p>
+            <p class="lead mb-4 text-white opacity-8">{{ page_subtitle }}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
- <div class="container shadow-xl mx-3 mx-md-4 mt-n6">
-      <div class="row">
-        <div class="col">
-          <div class="card box-shadow-xl overflow-hidden mb-5">
-            <div class="row">
-              <div class="col-lg-5 position-relative bg-cover px-0" style="background-image: url('https://images.unsplash.com/photo-1633712940356-a9fc6c1e220b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80')" loading="lazy">
-                <div class="z-index-2 text-center d-flex h-100 w-100 d-flex m-auto justify-content-center">
-                  <div class="mask bg-gradient-dark opacity-8"></div>
-                  <div class="p-5 ps-sm-8 position-relative text-start my-auto z-index-2"></div>
-                </div>
-              </div>
-              <div class="col-lg-7">
+  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+    <div class="container">
+      <div class="section text-start py-5">
+        <!-- -------- START Grids -------- -->
+          <div class="container">
                 {% if perms.utility.add_publication %}
                 <!-- begin form -->
                 {% include 'includes/django-material-kit/form.html' %}
@@ -48,8 +41,6 @@
                   You do not have permission add a publication.
                 </div>
                 {% endif %}
-              </div>
-            </div>
           </div>
         </div>
       </div>
