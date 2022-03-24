@@ -14,9 +14,13 @@ import sample_label.views as samplelabel_views
 import field_survey.views as fieldsurvey_views
 import wet_lab.views as wetlab_views
 import freezer_inventory.views as freezerinventory_views
+import bioinfo.views as bioinfo_views
 import field_site.filters as fieldsite_filters
 import sample_label.filters as samplelabel_filters
 import field_survey.filters as fieldsurvey_filters
+import wet_lab.filters as wetlab_filters
+import freezer_inventory.filters as freezerinventory_filters
+import bioinfo.filters as bioinfo_filters
 
 
 urlpatterns = [
@@ -67,78 +71,78 @@ urlpatterns = [
     path('dashboard/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.GeoFieldSurveyFilter), name='view_fieldsurvey'),
     path('dashboard/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
     # TODO WET LAB: EXTRACTION (VIEW, ADD, UPDATE) w/ TABLE
-    path('dashboard/wetlab/extraction/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_extraction'),
-    path('dashboard/wetlab/extraction/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_extraction'),
-    path('dashboard/wetlab/extraction/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_extraction')), name='update_extraction'),
-    path('dashboard/wetlab/extraction/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_extraction'),
+    path('dashboard/wetlab/extraction/view/', wetlab_views.ExtractionFilterView.as_view(filterset_class=wetlab_filters.ExtractionFilter), name='view_extraction'),
+    path('dashboard/wetlab/extraction/detail/<int:pk>/', wetlab_views.ExtractionDetailView.as_view(), name='detail_extraction'),
+    path('dashboard/wetlab/extraction/update/<int:pk>/', wetlab_views.ExtractionUpdateView.as_view(success_url=reverse_lazy('detail_extraction')), name='update_extraction'),
+    path('dashboard/wetlab/extraction/add/', wetlab_views.ExtractionCreateView.as_view(), name='add_extraction'),
     # TODO WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
-    path('dashboard/wetlab/pcr/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_pcr'),
-    path('dashboard/wetlab/pcr/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_pcr'),
-    path('dashboard/wetlab/pcr/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_pcr')), name='update_pcr'),
-    path('dashboard/wetlab/pcr/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_pcr'),
+    path('dashboard/wetlab/pcr/view/', wetlab_views.PcrFilterView.as_view(filterset_class=wetlab_filters.PcrFilter), name='view_pcr'),
+    path('dashboard/wetlab/pcr/detail/<int:pk>/', wetlab_views.PcrDetailView.as_view(), name='detail_pcr'),
+    path('dashboard/wetlab/pcr/update/<int:pk>/', wetlab_views.PcrUpdateView.as_view(success_url=reverse_lazy('detail_pcr')), name='update_pcr'),
+    path('dashboard/wetlab/pcr/add/', wetlab_views.PcrCreateView.as_view(), name='add_pcr'),
     # TODO WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
-    path('dashboard/wetlab/libraryprep/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_libraryprep'),
-    path('dashboard/wetlab/libraryprep/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_libraryprep'),
-    path('dashboard/wetlab/libraryprep/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_libraryprep')), name='update_libraryprep'),
-    path('dashboard/wetlab/libraryprep/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_libraryprep'),
+    path('dashboard/wetlab/libraryprep/view/', wetlab_views.LibraryPrepFilterView.as_view(filterset_class=wetlab_filters.LibraryPrepFilter), name='view_libraryprep'),
+    path('dashboard/wetlab/libraryprep/detail/<int:pk>/', wetlab_views.LibraryPrepDetailView.as_view(), name='detail_libraryprep'),
+    path('dashboard/wetlab/libraryprep/update/<int:pk>/', wetlab_views.LibraryPrepUpdateView.as_view(success_url=reverse_lazy('detail_libraryprep')), name='update_libraryprep'),
+    path('dashboard/wetlab/libraryprep/add/', wetlab_views.LibraryPrepCreateView.as_view(), name='add_libraryprep'),
     # TODO WET LAB: POOLED LIBRARY (VIEW, ADD, UPDATE)
-    path('dashboard/wetlab/pooledlibrary/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_pooledlibrary'),
-    path('dashboard/wetlab/pooledlibrary/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_pooledlibrary'),
-    path('dashboard/wetlab/pooledlibrary/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_pooledlibrary')), name='update_pooledlibrary'),
-    path('dashboard/wetlab/pooledlibrary/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_pooledlibrary'),
+    path('dashboard/wetlab/pooledlibrary/view/', wetlab_views.PooledLibraryFilterView.as_view(filterset_class=wetlab_filters.PooledLibraryFilter), name='view_pooledlibrary'),
+    path('dashboard/wetlab/pooledlibrary/detail/<int:pk>/', wetlab_views.PooledLibraryDetailView.as_view(), name='detail_pooledlibrary'),
+    path('dashboard/wetlab/pooledlibrary/update/<int:pk>/', wetlab_views.PooledLibraryUpdateView.as_view(success_url=reverse_lazy('detail_pooledlibrary')), name='update_pooledlibrary'),
+    path('dashboard/wetlab/pooledlibrary/add/', wetlab_views.PooledLibraryCreateView.as_view(), name='add_pooledlibrary'),
     # TODO WET LAB: RUN PREP (VIEW, ADD, UPDATE)
-    path('dashboard/wetlab/runprep/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_runprep'),
-    path('dashboard/wetlab/runprep/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_runprep'),
-    path('dashboard/wetlab/runprep/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_runprep')), name='update_runprep'),
-    path('dashboard/wetlab/runprep/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_runprep'),
+    path('dashboard/wetlab/runprep/view/', wetlab_views.RunPrepFilterView.as_view(filterset_class=wetlab_filters.RunPrepFilter), name='view_runprep'),
+    path('dashboard/wetlab/runprep/detail/<int:pk>/', wetlab_views.RunPrepDetailView.as_view(), name='detail_runprep'),
+    path('dashboard/wetlab/runprep/update/<int:pk>/', wetlab_views.RunPrepUpdateView.as_view(success_url=reverse_lazy('detail_runprep')), name='update_runprep'),
+    path('dashboard/wetlab/runprep/add/', wetlab_views.RunPrepCreateView.as_view(), name='add_runprep'),
     # TODO WET LAB: RUN RESULT (VIEW, ADD, UPDATE)
-    path('dashboard/wetlab/runresult/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_runresult'),
-    path('dashboard/wetlab/runresult/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_runresult'),
-    path('dashboard/wetlab/runresult/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_runresult')), name='update_runresult'),
-    path('dashboard/wetlab/runresult/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_runresult'),
+    path('dashboard/wetlab/runresult/view/', wetlab_views.RunResultFilterView.as_view(filterset_class=wetlab_filters.RunResultFilter), name='view_runresult'),
+    path('dashboard/wetlab/runresult/detail/<int:pk>/', wetlab_views.RunResultDetailView.as_view(), name='detail_runresult'),
+    path('dashboard/wetlab/runresult/update/<int:pk>/', wetlab_views.RunResultUpdateView.as_view(success_url=reverse_lazy('detail_runresult')), name='update_runresult'),
+    path('dashboard/wetlab/runresult/add/', wetlab_views.RunResultCreateView.as_view(), name='add_runresult'),
     # TODO WET LAB: FASTQ FILE (VIEW)
-    path('dashboard/wetlab/fastqfile/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_fastqfile'),
+    path('dashboard/wetlab/fastqfile/view/', wetlab_views.FastqFileFilterView.as_view(filterset_class=wetlab_filters.FastqFileFilter), name='view_fastqfile'),
     # TODO FREEZER INVENTORY: FREEZER INVENTORY (VIEW, ADD, UPDATE)
-    path('dashboard/freezerinventory/inventory/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_freezerinventory'),
-    path('dashboard/freezerinventory/inventory/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_freezerinventory'),
-    path('dashboard/freezerinventory/inventory/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventory')), name='update_freezerinventory'),
-    path('dashboard/freezerinventory/inventory/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_freezerinventory'),
+    path('dashboard/freezerinventory/inventory/view/', freezerinventory_views.FreezerInventoryFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryFilter), name='view_freezerinventory'),
+    path('dashboard/freezerinventory/inventory/detail/<int:pk>/', freezerinventory_views.FreezerInventoryDetailView.as_view(), name='detail_freezerinventory'),
+    path('dashboard/freezerinventory/inventory/update/<int:pk>/', freezerinventory_views.FreezerInventoryUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventory')), name='update_freezerinventory'),
+    path('dashboard/freezerinventory/inventory/add/', freezerinventory_views.FreezerInventoryCreateView.as_view(), name='add_freezerinventory'),
     # FREEZER INVENTORY: FREEZER INVENTORY RETURN METADATA (VIEW, UPDATE)
-    path('dashboard/freezerinventory/metadata/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_freezerinventoryreturnmetadata'),
+    path('dashboard/freezerinventory/metadata/view/', freezerinventory_views.FreezerInventoryReturnMetadataFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryReturnMetadataFilter), name='view_freezerinventoryreturnmetadata'),
     path('dashboard/freezerinventory/metadata/detail/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(), name='detail_freezerinventoryreturnmetadata'),
     path('dashboard/freezerinventory/metadata/update/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventoryreturnmetadata')), name='update_freezerinventoryreturnmetadata'),
     # FREEZER INVENTORY: FREEZER INVENTORY LOG
-    path('dashboard/freezerinventory/log/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_freezerinventorylog'),
+    path('dashboard/freezerinventory/log/view/', freezerinventory_views.FreezerInventoryLogFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryLogFilter), name='view_freezerinventorylog'),
     path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
     path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
     # TODO BIOINFO: QUALITY METADATA (VIEW, ADD, UPDATE)
-    path('dashboard/bioinfo/qualitymetadata/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_qualitymetadata'),
-    path('dashboard/bioinfo/qualitymetadata/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_qualitymetadata'),
-    path('dashboard/bioinfo/qualitymetadata/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_qualitymetadata')), name='update_qualitymetadata'),
-    path('dashboard/bioinfo/qualitymetadata/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_qualitymetadata'),
+    path('dashboard/bioinfo/qualitymetadata/view/', bioinfo_views.QualityMetadataFilterView.as_view(filterset_class=bioinfo_filters.QualityMetadataFilter), name='view_qualitymetadata'),
+    path('dashboard/bioinfo/qualitymetadata/detail/<int:pk>/', bioinfo_views.QualityMetadataDetailView.as_view(), name='detail_qualitymetadata'),
+    path('dashboard/bioinfo/qualitymetadata/update/<int:pk>/', bioinfo_views.QualityMetadataUpdateView.as_view(success_url=reverse_lazy('detail_qualitymetadata')), name='update_qualitymetadata'),
+    path('dashboard/bioinfo/qualitymetadata/add/', bioinfo_views.QualityMetadataCreateView.as_view(), name='add_qualitymetadata'),
     # TODO BIOINFO: DENOISECLUSTER METADATA (VIEW, ADD, UPDATE)
-    path('dashboard/bioinfo/denoiseclustermetadata/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_denoiseclustermetadata'),
-    path('dashboard/bioinfo/denoiseclustermetadata/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_denoiseclustermetadata'),
-    path('dashboard/bioinfo/denoiseclustermetadata/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_denoiseclustermetadata')), name='update_denoiseclustermetadata'),
-    path('dashboard/bioinfo/denoiseclustermetadata/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_denoiseclustermetadata'),
+    path('dashboard/bioinfo/denoiseclustermetadata/view/', bioinfo_views.DenoiseClusterMetadataFilterView.as_view(filterset_class=bioinfo_filters.DenoiseClusterMetadataFilter), name='view_denoiseclustermetadata'),
+    path('dashboard/bioinfo/denoiseclustermetadata/detail/<int:pk>/', bioinfo_views.DenoiseClusterMetadataDetailView.as_view(), name='detail_denoiseclustermetadata'),
+    path('dashboard/bioinfo/denoiseclustermetadata/update/<int:pk>/', bioinfo_views.DenoiseClusterMetadataUpdateView.as_view(success_url=reverse_lazy('detail_denoiseclustermetadata')), name='update_denoiseclustermetadata'),
+    path('dashboard/bioinfo/denoiseclustermetadata/add/', bioinfo_views.DenoiseClusterMetadataCreateView.as_view(), name='add_denoiseclustermetadata'),
     # TODO BIOINFO: FEATURE OUTPUTS (VIEW, ADD) w/ TABLE
-    path('dashboard/bioinfo/featureoutput/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_featureoutput'),
-    path('dashboard/bioinfo/featureoutput/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_featureoutput'),
-    path('dashboard/bioinfo/featureoutput/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_featureoutput'),
+    path('dashboard/bioinfo/featureoutput/view/', bioinfo_views.FeatureOutputFilterView.as_view(filterset_class=bioinfo_filters.FeatureOutputFilter), name='view_featureoutput'),
+    path('dashboard/bioinfo/featureoutput/detail/<int:pk>/', bioinfo_views.FeatureOutputDetailView.as_view(), name='detail_featureoutput'),
+    path('dashboard/bioinfo/featureoutput/add/', bioinfo_views.FeatureOutputCreateView.as_view(), name='add_featureoutput'),
     # TODO BIOINFO: FEATURE READS (VIEW, ADD) w/ TABLE
-    path('dashboard/bioinfo/featureread/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_featureread'),
-    path('dashboard/bioinfo/featureread/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_featureread'),
-    path('dashboard/bioinfo/featureread/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_featureread'),
+    path('dashboard/bioinfo/featureread/view/', bioinfo_views.FeatureReadFilterView.as_view(filterset_class=bioinfo_filters.FeatureReadFilter), name='view_featureread'),
+    path('dashboard/bioinfo/featureread/detail/<int:pk>/', bioinfo_views.FeatureReadDetailView.as_view(), name='detail_featureread'),
+    path('dashboard/bioinfo/featureread/add/', bioinfo_views.FeatureReadCreateView.as_view(), name='add_featureread'),
     # TODO BIOINFO: ANNOTATION METADATA (VIEW, ADD, UPDATE)
-    path('dashboard/bioinfo/annotationmetadata/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_annotationmetadata'),
-    path('dashboard/bioinfo/annotationmetadata/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_annotationmetadata'),
-    path('dashboard/bioinfo/annotationmetadata/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_annotationmetadata')), name='update_annotationmetadata'),
-    path('dashboard/bioinfo/annotationmetadata/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_annotationmetadata'),
+    path('dashboard/bioinfo/annotationmetadata/view/', bioinfo_views.AnnotationMetadataFilterView.as_view(filterset_class=bioinfo_filters.AnnotationMetadataFilter), name='view_annotationmetadata'),
+    path('dashboard/bioinfo/annotationmetadata/detail/<int:pk>/', bioinfo_views.AnnotationMetadataDetailView.as_view(), name='detail_annotationmetadata'),
+    path('dashboard/bioinfo/annotationmetadata/update/<int:pk>/', bioinfo_views.AnnotationMetadataUpdateView.as_view(success_url=reverse_lazy('detail_annotationmetadata')), name='update_annotationmetadata'),
+    path('dashboard/bioinfo/annotationmetadata/add/', bioinfo_views.AnnotationMetadataCreateView.as_view(), name='add_annotationmetadata'),
     # TODO BIOINFO: TAXONOMIC ANNOTATION (VIEW, ADD, UPDATE)
-    path('dashboard/bioinfo/taxonomicannotation/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_taxonomicannotation'),
-    path('dashboard/bioinfo/taxonomicannotation/detail/<int:pk>/', fieldsite_views.FieldSiteDetailView.as_view(), name='detail_taxonomicannotation'),
-    path('dashboard/bioinfo/taxonomicannotation/update/<int:pk>/', fieldsite_views.FieldSiteUpdateView.as_view(success_url=reverse_lazy('detail_taxonomicannotation')), name='update_taxonomicannotation'),
-    path('dashboard/bioinfo/taxonomicannotation/add/', fieldsite_views.FieldSiteCreateView.as_view(), name='add_taxonomicannotation'),
+    path('dashboard/bioinfo/taxonomicannotation/view/', bioinfo_views.TaxonomicAnnotationFilterView.as_view(filterset_class=bioinfo_filters.TaxonomicAnnotationFilter), name='view_taxonomicannotation'),
+    path('dashboard/bioinfo/taxonomicannotation/detail/<int:pk>/', bioinfo_views.TaxonomicAnnotationDetailView.as_view(), name='detail_taxonomicannotation'),
+    path('dashboard/bioinfo/taxonomicannotation/update/<int:pk>/', bioinfo_views.TaxonomicAnnotationUpdateView.as_view(success_url=reverse_lazy('detail_taxonomicannotation')), name='update_taxonomicannotation'),
+    path('dashboard/bioinfo/taxonomicannotation/add/', bioinfo_views.TaxonomicAnnotationCreateView.as_view(), name='add_taxonomicannotation'),
     # TEMPLATE VIEWS (NO MODEL)
     path('main/about-us/', utility_views.AboutUsTemplateView.as_view(), name='about_us'),
     path('main/metadata-standards/', utility_views.MetadataStandardsTemplateView.as_view(), name='metadata_standards'),
