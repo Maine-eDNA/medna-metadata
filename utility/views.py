@@ -90,6 +90,7 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         context = super().get_context_data(**kwargs)
         context["segment"] = "update_publication"
         context["page_title"] = "Publication"
+        context["page_subtitle"] = "Peer-reviewed content"
         context["form_header"] = "Update Publication"
         context["form_subheader"] = "To update this publication, please fill out and submit this form."
         return context
@@ -119,6 +120,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         context = super().get_context_data(**kwargs)
         context["segment"] = "add_publication"
         context["page_title"] = "Publication"
+        context["page_subtitle"] = "Peer-reviewed content"
         context["form_header"] = "Add Publication"
         context["form_subheader"] = "To add a publication, please fill out and submit this form."
         return context
@@ -232,6 +234,7 @@ class PublicationTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["segment"] = "publications"
         context["page_title"] = "Publications"
+        context["page_subtitle"] = "Peer-reviewed content"
         context["pub_list"] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
         return context
 
