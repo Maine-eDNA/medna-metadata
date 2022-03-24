@@ -10,7 +10,7 @@ class FieldSurveyTable(tables.Table):
                                                     "th__input": {"id": "action-toggle"},
                                                     "th": {"class": "action-checkbox-column"}},
                                              orderable=False)
-    project_ids = tables.ManyToManyColumn(accessor='project_ids.project_label', verbose_name="Project")
+    project_ids = tables.TemplateColumn('{{ record.project_ids.all|join:", " }}', verbose_name="Project(s)")
     supervisor = tables.Column(accessor='supervisor.agol_username', verbose_name="Supervisor")
     username = tables.Column(accessor='username.agol_username', verbose_name="Username")
     survey_datetime = tables.DateTimeColumn(format="M d, Y")
