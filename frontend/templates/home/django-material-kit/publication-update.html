@@ -57,32 +57,32 @@
                     <div class="row">
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
-                          <label>Full Name</label>
-                          {{ form.full_name }}
-                          <!-- <input type="text" name="full_name" class="form-control" placeholder="Full Name" required> -->
-                          <!-- <input type="text" class="form-control" placeholder="Full Name"> -->
+                          <label>Publication Title</label>
+                          {{ form.publication_title }}
                         </div>
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
-                          <label>Email</label>
-                          {{ form.contact_email }}
-                          <!-- <input type="email" name="contact_email" class="form-control" placeholder="example@mail.com" required> -->
-                          <!-- <input type="text" class="form-control" placeholder="What you love"> -->
+                          <label>Publication URL</label>
+                          {{ form.publication_url }}
                         </div>
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
-                          <label>How can we help you?</label>
-                          {{ form.contact_context }}
-                          <!-- <textarea name="contact_context" class="form-control" id="message" rows="6" placeholder="Describe your problem in at least 250 characters" required></textarea> -->
-                          <!-- <textarea name="message" class="form-control" id="message" rows="6" placeholder="I want to say that..."></textarea> -->
+                          <label>Projects</label>
+                          {{ form.project_names }}
+                        </div>
+                      </div>
+                      <div class="col-md-12 pe-2 mb-3">
+                        <div class="input-group input-group-static mb-4">
+                          <label>Authors</label>
+                          {{ form.publication_authors }}
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6 text-end ms-auto">
-                        <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Send Message</button>
+                        <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Add Publication</button>
                       </div>
                     </div>
                   </div>
@@ -94,7 +94,6 @@
                 </div>
                 {% endif %}
               </div>
-
             </div>
           </div>
         </div>

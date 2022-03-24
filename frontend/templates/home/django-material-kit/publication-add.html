@@ -29,27 +29,14 @@
                 <div class="z-index-2 text-center d-flex h-100 w-100 d-flex m-auto justify-content-center">
                   <div class="mask bg-gradient-dark opacity-8"></div>
                   <div class="p-5 ps-sm-8 position-relative text-start my-auto z-index-2">
-                    <h3 class="text-white">Contact Information</h3>
-                    <p class="text-white opacity-8 mb-4">Fill out the form and our Team will get back to you.</p>
-                    <div class="d-flex p-2 text-white">
-                      <div>
-                        <i class="fas fa-map-marker-alt text-sm"></i>
-                      </div>
-                      <div class="ps-3">
-                        <a href="https://www.google.com/maps/place/University+of+Maine/@44.901867,-68.6710191,17z/data=!3m1!4b1!4m5!3m4!1s0x4cafb136b8bf012d:0x952e0ddbca41c786!8m2!3d44.901867!4d-68.6688251"><span class="text-sm text-white opacity-8">168 College Ave, Orono, ME 04469</span></a>
-                      </div>
-                    </div>
-                    <div class="mt-4">
-                      <a href="https://www.facebook.com/MaineEPSCoR/"><i class="fab fa-facebook btn btn-icon-only btn-link text-white btn-lg mb-0"></i></a>
-                      <a href="https://www.instagram.com/maine.epscor"><i class="fab fa-instagram btn btn-icon-only btn-link text-white btn-lg mb-0"></i></a>
-                      <a href="https://twitter.com/maineepscor"><i class="fab fa-twitter btn btn-icon-only btn-link text-white btn-lg mb-0"></i></a>
-                      <a href="https://github.com/maine-edna/medna-metadata"><i class="fa fa-github btn btn-icon-only btn-link text-white btn-lg mb-0"></i></a>
-                      <a href="https://umaine.edu/edna/"><i class="fas fa-home btn btn-icon-only btn-link text-white btn-lg mb-0"></i></a>
-                    </div>
+                    <h3 class="text-white">Add Publication</h3>
+                    <p class="text-white opacity-8 mb-4">Fill out the form to add a new publication.</p>
                   </div>
                 </div>
               </div>
               <div class="col-lg-7">
+                {% if perms.utility.add_publication %}
+                <!-- begin publication add -->
                 {% if form.subject.errors %}
                 <div class="row">
                   {% for error in form.subject.errors %}
@@ -63,43 +50,49 @@
                 <form method="post" class="p-3" id="contact-form" >
                   {% csrf_token %}
                   <div class="card-header px-4 py-sm-5 py-3">
-                    <h2>Contact Us</h2>
-                    <p class="lead"> For further questions, please fill out and submit this form.</p>
+                    <h2>Update</h2>
+                    <p class="lead"> To update the publication, please fill out and submit this form.</p>
                   </div>
                   <div class="card-body pt-1">
                     <div class="row">
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
-                          <label>Full Name</label>
-                          {{ form.full_name }}
-                          <!-- <input type="text" name="full_name" class="form-control" placeholder="Full Name" required> -->
-                          <!-- <input type="text" class="form-control" placeholder="Full Name"> -->
+                          <label>Publication Title</label>
+                          {{ form.publication_title }}
                         </div>
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
-                          <label>Email</label>
-                          {{ form.contact_email }}
-                          <!-- <input type="email" name="contact_email" class="form-control" placeholder="example@mail.com" required> -->
-                          <!-- <input type="text" class="form-control" placeholder="What you love"> -->
+                          <label>Publication URL</label>
+                          {{ form.publication_url }}
                         </div>
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <div class="input-group input-group-static mb-4">
-                          <label>How can we help you?</label>
-                          {{ form.contact_context }}
-                          <!-- <textarea name="contact_context" class="form-control" id="message" rows="6" placeholder="Describe your problem in at least 250 characters" required></textarea> -->
-                          <!-- <textarea name="message" class="form-control" id="message" rows="6" placeholder="I want to say that..."></textarea> -->
+                          <label>Projects</label>
+                          {{ form.project_names }}
+                        </div>
+                      </div>
+                      <div class="col-md-12 pe-2 mb-3">
+                        <div class="input-group input-group-static mb-4">
+                          <label>Authors</label>
+                          {{ form.publication_authors }}
                         </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6 text-end ms-auto">
-                        <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Send Message</button>
+                        <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Add Publication</button>
                       </div>
                     </div>
                   </div>
                 </form>
+                <!-- end publication add -->
+                {% else %}
+                <div class="row">
+                  You do not have permission to add a publication.
+                </div>
+                {% endif %}
               </div>
             </div>
           </div>
