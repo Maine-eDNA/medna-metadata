@@ -92,7 +92,7 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         context["page_title"] = "Publication"
         context["page_subtitle"] = "Peer-reviewed content"
         context["form_header"] = "Update Publication"
-        context["form_subheader"] = "To update this publication, please fill out and submit this form."
+        context["form_subheader"] = "Fill and submit."
         return context
 
     def handle_no_permission(self):
@@ -122,7 +122,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         context["page_title"] = "Publication"
         context["page_subtitle"] = "Peer-reviewed content"
         context["form_header"] = "Add Publication"
-        context["form_subheader"] = "To add a publication, please fill out and submit this form."
+        context["form_subheader"] = "Fill and submit."
         return context
 
     def form_valid(self, form):
