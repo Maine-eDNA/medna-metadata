@@ -25,7 +25,7 @@ import json
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
-from .forms import ContactUsForm, ContactUsUpdateForm
+from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm
 import utility.enumerations as utility_enums
 import utility.filters as utility_filters
 from utility.forms import export_action_form_factory
@@ -102,7 +102,7 @@ class PublicationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailV
 
 class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Publication
-    form_class = PublicationUpdateForm
+    form_class = PublicationForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-kit/publication-update.html'
@@ -124,6 +124,36 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         return reverse('detail_publication', kwargs={"pk": self.object.pk})
+
+
+class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'utility.add_publication'
+    model = Publication
+    form_class = PublicationForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/publication-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_publication"
+        context["page_title"] = "Publication"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('detail_publication', kwargs={"pk": self.object.pk})
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
 
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
