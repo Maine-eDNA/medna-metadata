@@ -112,7 +112,8 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         context = super().get_context_data(**kwargs)
         context["segment"] = "update_publication"
         context["page_title"] = "Publication"
-
+        context["form_header"] = "Update Publication"
+        context["form_subheader"] = "To update this publication, please fill out and submit this form."
         return context
 
     def handle_no_permission(self):
