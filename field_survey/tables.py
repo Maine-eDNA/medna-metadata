@@ -18,7 +18,6 @@ class FieldSurveyTable(tables.Table):
     site_id = tables.Column(accessor='site_id.site_id')
     lat_manual = tables.TemplateColumn('{{ record.lat_manual|floatformat:4 }}')
     long_manual = tables.TemplateColumn('{{ record.long_manual|floatformat:4 }}')
-    env_measurements = tables.Column(accessor='env_measurements.env_measure_type_label', verbose_name="Env Measurements")
     env_bottom_depth = tables.TemplateColumn('{{ record.env_bottom_depth|floatformat:2 }}')
     env_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_notes}}">{{ record.env_notes|truncatewords:5 }}', orderable=False)
     water_filterer = tables.Column(accessor='water_filterer.agol_username')
