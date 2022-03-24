@@ -24,8 +24,8 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     SizeSelectionMethod, QuantificationMethod, ExtractionMethod, \
     Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
-from .forms import ExtractionForm
-from .tables import ExtractionTable
+from .forms import ExtractionForm, PcrForm, LibraryPrepForm
+from .tables import ExtractionTable, PcrTable, LibraryPrepTable
 
 
 # Create your views here.
@@ -118,7 +118,7 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
     model = Extraction
     form_class = ExtractionForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add-fieldsite.html'
+    template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
@@ -133,7 +133,187 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('view_fieldsite')
+        return reverse('view_extraction')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = Pcr
+    table_class = PcrTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_pcr', )
+    export_name = 'pcr_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.PcrSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'pcr_datetime', 'process_location', 'pcr_experiment_name', 'pcr_slug', 'pcr_type',
+                        'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
+                        'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
+                        'pcr_thermal_cond', 'pcr_sop_url',
+                        'pcr_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_pcr"
+        context["page_title"] = "Pcr"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class PcrUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Pcr
+    form_class = PcrForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_pcr', 'wet_lab.view_pcr', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_pcr"
+        context["page_title"] = "Pcr"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_pcr')
+
+
+class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_pcr'
+    model = Pcr
+    form_class = PcrForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_pcr"
+        context["page_title"] = "Pcr"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_pcr')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = LibraryPrep
+    table_class = LibraryPrepTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_libraryprep', )
+    export_name = 'libraryprep_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.LibraryPrepSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'lib_prep_experiment_name', 'lib_prep_slug', 'lib_prep_datetime', 'process_location',
+                        'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
+                        'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
+                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
+                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_libraryprep"
+        context["page_title"] = "Library Prep"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class LibraryPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = LibraryPrep
+    form_class = LibraryPrepForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_libraryprep', 'wet_lab.view_libraryprep', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_libraryprep"
+        context["page_title"] = "Library Prep"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_libraryprep')
+
+
+class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_libraryprep'
+    model = Pcr
+    form_class = PcrForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_libraryprep"
+        context["page_title"] = "Library Prep"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_libraryprep')
 
     def handle_no_permission(self):
         if self.raise_exception:

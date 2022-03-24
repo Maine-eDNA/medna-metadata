@@ -1,13 +1,10 @@
 import django_tables2 as tables
-from .models import Extraction
+from .models import Extraction, LibraryPrep, Pcr
 from django_tables2.utils import A
 
 
 class ExtractionTable(tables.Table):
-    # id = tables.CheckBoxColumn(accessor='pk')
-    # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     extraction_barcode = tables.Column(verbose_name='barcode')
-    # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
     edit = tables.LinkColumn("update_extraction", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
@@ -27,8 +24,50 @@ class ExtractionTable(tables.Table):
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', )
-        # set table css class to "result_lust"
-        # attrs = {"class": "result_list"}
-        # this is NOT the template it writes to, this is the template it uses to load with
-        # when using the 'render_table table' tag in html
-        # template_name = "django_tables2/bootstrap.html" # now set in settings.py
+
+
+class PcrTable(tables.Table):
+    edit = tables.LinkColumn("update_extraction", text='Update', args=[A("pk")], orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_by = tables.Column(accessor='created_by.email')
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
+
+    class Meta:
+        model = Pcr
+        fields = ('_selected_action', 'id', 'pcr_datetime', 'process_location', 'pcr_experiment_name',
+                  'pcr_slug', 'pcr_type',
+                  'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
+                  'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
+                  'pcr_thermal_cond', 'pcr_sop_url',
+                  'pcr_notes', 'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class LibraryPrepTable(tables.Table):
+    edit = tables.LinkColumn("update_extraction", text='Update', args=[A("pk")], orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_by = tables.Column(accessor='created_by.email')
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
+
+    class Meta:
+        model = LibraryPrep
+        fields = ('_selected_action', 'id', 'lib_prep_experiment_name', 'lib_prep_slug', 'lib_prep_datetime',
+                  'process_location', 'extraction', 'amplification_method', 'primer_set', 'size_selection_method',
+                  'index_pair', 'index_removal_method', 'quantification_method', 'lib_prep_qubit_results',
+                  'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
+                  'lib_prep_final_concentration', 'lib_prep_final_concentration_units', 'lib_prep_kit',
+                  'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
