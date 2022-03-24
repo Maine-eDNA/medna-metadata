@@ -80,8 +80,7 @@ def contact_us_list(request):
 class PublicationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Publication
     context_object_name = 'pub'
-    fields = ['id', 'publication_title', 'publication_url', 'project_names', 'publication_authors',
-              'created_by', 'created_datetime', 'modified_datetime', ]
+    fields = ['id', 'publication_title', 'publication_url', 'project_names', 'publication_authors', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-kit/publication-detail.html'
@@ -113,6 +112,7 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         context = super().get_context_data(**kwargs)
         context["segment"] = "update_publication"
         context["page_title"] = "Publication"
+
         return context
 
     def handle_no_permission(self):
@@ -140,6 +140,8 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         context = super().get_context_data(**kwargs)
         context["segment"] = "add_publication"
         context["page_title"] = "Publication"
+        context["form_header"] = "Add Publication"
+        context["form_subheader"] = "To add a publication, please fill out and submit this form."
         return context
 
     def form_valid(self, form):
@@ -295,6 +297,8 @@ class ContactUsCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Contact Us"
         context["segment"] = "contactus"
+        context["form_header"] = "Contact Us"
+        context["form_subheader"] = "For further questions, please fill out and submit this form."
         return context
 
     def form_valid(self, form):

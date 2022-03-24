@@ -1,7 +1,9 @@
 {% extends "layouts/django-material-kit/base.html" %}
-{% load static %}
+{% load static html_tags %}
 
-{% block title %} Contact Us {% endblock %}
+{% block title %} {{ page_title|title }} {% endblock %}
+
+{% block extrahead %} {{ form.media }} {% endblock %}
 
 {% block body_class %} blog-author {% endblock %}
 
@@ -29,68 +31,19 @@
                 <div class="z-index-2 text-center d-flex h-100 w-100 d-flex m-auto justify-content-center">
                   <div class="mask bg-gradient-dark opacity-8"></div>
                   <div class="p-5 ps-sm-8 position-relative text-start my-auto z-index-2">
-                    <h3 class="text-white">Add Publication</h3>
-                    <p class="text-white opacity-8 mb-4">Fill out the form to add a new publication.</p>
+                    <h3 class="text-white">{{ page_title|title }} Add</h3>
+                    <p class="text-white opacity-8 mb-4">Fill out the form to add a publication.</p>
                   </div>
                 </div>
               </div>
               <div class="col-lg-7">
                 {% if perms.utility.add_publication %}
-                <!-- begin publication add -->
-                {% if form.subject.errors %}
-                <div class="row">
-                  {% for error in form.subject.errors %}
-                  <div class="alert alert-primary text-white font-weight-bold" role="alert">{{ error|escape }}</div>
-                  {% endfor %}
-                  </div>
-                {% endif %}
-                {% if form.non_field_errors %}
-                <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
-                {% endif %}
-                <form method="post" class="p-3" id="contact-form" >
-                  {% csrf_token %}
-                  <div class="card-header px-4 py-sm-5 py-3">
-                    <h2>Update</h2>
-                    <p class="lead"> To update the publication, please fill out and submit this form.</p>
-                  </div>
-                  <div class="card-body pt-1">
-                    <div class="row">
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>Publication Title</label>
-                          {{ form.publication_title }}
-                        </div>
-                      </div>
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>Publication URL</label>
-                          {{ form.publication_url }}
-                        </div>
-                      </div>
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>Projects</label>
-                          {{ form.project_names }}
-                        </div>
-                      </div>
-                      <div class="col-md-12 pe-2 mb-3">
-                        <div class="input-group input-group-static mb-4">
-                          <label>Authors</label>
-                          {{ form.publication_authors }}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 text-end ms-auto">
-                        <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Add Publication</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <!-- end publication add -->
+                <!-- begin form -->
+                {% include 'includes/django-material-kit/form.html' %}
+                <!-- end form -->
                 {% else %}
                 <div class="row">
-                  You do not have permission to add a publication.
+                  You do not have permission add a publication.
                 </div>
                 {% endif %}
               </div>
@@ -104,4 +57,15 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    <script src="{% static 'assets/js/django/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/js/django/jquery.init.js' %}"></script>
+    <script src="{% static 'assets/js/django/core.js' %}"></script>
+    <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
+    <script src="{% static 'assets/js/django/actions.js' %}"></script>
+    <script src="{% static 'assets/js/django/urlify.js' %}"></script>
+    <script src="{% static 'assets/js/django/prepopulate.js' %}"></script>
+    <script src="{% static 'assets/js/django/vendor/xregexp/xregexp.js' %}"></script>
+    <script src="{% static 'assets/js/selectbox_all.js' %}"></script>
+    <script src="{% url 'jsi18n' %}"></script>
+{% endblock javascripts %}
