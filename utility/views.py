@@ -134,7 +134,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     model = Publication
     form_class = PublicationForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/publication-add.html'
+    template_name = 'home/django-material-kit/publication-add.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
