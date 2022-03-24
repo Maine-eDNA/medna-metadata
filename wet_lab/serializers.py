@@ -47,7 +47,6 @@ class PrimerPairSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class IndexPairSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     index_slug = serializers.SlugField(read_only=True)
@@ -70,7 +69,6 @@ class IndexPairSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     index_removal_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=IndexRemovalMethod.objects.all())])
@@ -90,7 +88,6 @@ class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     size_selection_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=SizeSelectionMethod.objects.all())])
@@ -111,7 +108,6 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class QuantificationMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     quant_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=QuantificationMethod.objects.all())])
@@ -148,7 +144,6 @@ class AmplificationMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class ExtractionMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_method_name = serializers.CharField(max_length=255)
@@ -174,7 +169,6 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     barcode_slug = serializers.SlugField(max_length=16, read_only=True)
@@ -219,7 +213,6 @@ class ExtractionSerializer(serializers.ModelSerializer):
                                                          queryset=QuantificationMethod.objects.all())
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class PcrReplicateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     pcr_replicate_results = serializers.DecimalField(max_digits=15, decimal_places=10)

@@ -1,10 +1,26 @@
+from django import forms
 from django_filters import rest_framework as filters
+from utility.widgets import CustomSelect2Multiple
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     AmplificationMethod, ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile
 
 
 # Create your filters here.
+########################################
+# FRONTEND FILTERS                   #
+########################################
+class ExtractionFilter(filters.FilterSet):
+    barcode_slug = filters.ModelMultipleChoiceFilter(queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
+    extraction_method = filters.CharFilter(field_name='extraction_method__extraction_method_slug', lookup_expr='iexact')
+    extraction_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+
+    class Meta:
+        model = Extraction
+        fields = ['barcode_slug', 'extraction_method', 'extraction_datetime', 'created_by', ]
+
+
 ########################################
 # SERIALIZER FILTERS                   #
 ########################################
