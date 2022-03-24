@@ -2,7 +2,7 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss, ContactUs
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
@@ -158,7 +158,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = ProcessLocation
+        model = ContactUs
         fields = ['id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
                   'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]

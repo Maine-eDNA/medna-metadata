@@ -43,7 +43,10 @@ urlpatterns = [
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='projects'),
     # UTILITY: PUBLICATION (VIEW)
-    path('main/publications/', utility_views.PublicationsTemplateView.as_view(), name='publications'),
+    path('main/publications/', utility_views.PublicationTemplateView.as_view(), name='publications'),
+    path('main/publication/detail/<int:pk>/', utility_views.PublicationDetailView.as_view(), name='detail_publication'),
+    path('main/publication/update/<int:pk>/', utility_views.PublicationUpdateView.as_view(), name='update_publication'),
+    path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('detail_publication')), name='add_publication'),
     # UTILITY: CONTACT US (VIEW, ADD, UPDATE)
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),
     path('main/contact-us/update/<int:pk>/', utility_views.ContactUsUpdateView.as_view(), name='update_contactus'),

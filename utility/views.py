@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
 # from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView, UpdateView
@@ -73,6 +75,55 @@ def contact_us_list(request):
     contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
     replied_count = ContactUs.objects.filter(replied='yes').count()
     return contactus_list, replied_count
+
+
+class PublicationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    model = Publication
+    context_object_name = 'pub'
+    fields = ['id', 'publication_title', 'publication_url', 'project_names', 'publication_authors',
+              'created_by', 'created_datetime', 'modified_datetime', ]
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-kit/publication-detail.html'
+    permission_required = ('utility.view_publication', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "detail_publication"
+        context["page_title"] = "Publication"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Publication
+    form_class = PublicationUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-kit/publication-update.html'
+    permission_required = ('utility.update_publication', 'utility.view_publication', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_publication"
+        context["page_title"] = "Publication"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_publication', kwargs={"pk": self.object.pk})
 
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
@@ -159,7 +210,7 @@ class ProjectsTemplateView(TemplateView):
         return context
 
 
-class PublicationsTemplateView(TemplateView):
+class PublicationTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/

@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.admin.helpers import ActionForm
 from django.utils.translation import gettext_lazy as _
-from .models import ContactUs
+from users.models import CustomUser
+from .widgets import CustomSelect2Multiple
+from .models import ContactUs, Project, Publication
 
 
 # custom import from import_export/forms.py
@@ -24,6 +26,49 @@ def export_action_form_factory(formats):
 ########################################
 # FRONTEND FORMS                       #
 ########################################
+class PublicationForm(forms.ModelForm):
+    # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
+    # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+    publication_title = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    publication_url = forms.URLField(
+        required=True,
+        widget=forms.URLInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+    project_names = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=Project.objects.all(),
+        widget=CustomSelect2Multiple(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    publication_authors = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=CustomUser.objects.all(),
+        widget=CustomSelect2Multiple(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = Publication
+        fields = ['publication_title', 'publication_url', 'project_names', 'publication_authors', ]
+
+
 class ContactUsForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
     # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
