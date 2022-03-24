@@ -35,12 +35,12 @@
               {% for pub in pub_list %}
               <div class="row">
                   <a href="{{ pub.publication_url }}"><h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
-                      <div class="col-md-auto">
+                      <div class="col-md-8">
                           <h5 class="font-weight-bolder mt-3">URL</h5>
                           <p class="pe-5">{{ pub.publication_url }}</p>
                       </div>
                       {% if pub.project_names.all %}
-                      <div class="col-md-auto">
+                      <div class="col-md-3">
                           <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
                           <p class="pe-5">{{ pub.project_names.all|join:", " }}</p>
                       </div>
