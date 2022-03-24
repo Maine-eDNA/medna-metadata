@@ -77,28 +77,6 @@ def contact_us_list(request):
     return contactus_list, replied_count
 
 
-class PublicationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = Publication
-    context_object_name = 'pub'
-    fields = ['id', 'publication_title', 'publication_url', 'project_names', 'publication_authors', ]
-    login_url = '/dashboard/login/'
-    redirect_field_name = 'next'
-    template_name = 'home/django-material-kit/publication-detail.html'
-    permission_required = ('utility.view_publication', )
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        context["segment"] = "detail_publication"
-        context["page_title"] = "Publication"
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-
 class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Publication
     form_class = PublicationForm
@@ -124,7 +102,7 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
     def get_success_url(self):
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
-        return reverse('detail_publication', kwargs={"pk": self.object.pk})
+        return reverse('publications')
 
 
 class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -151,7 +129,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('detail_publication', kwargs={"pk": self.object.pk})
+        return reverse('publications')
 
     def handle_no_permission(self):
         if self.raise_exception:
