@@ -27,7 +27,7 @@ class ExtractionFilter(filters.FilterSet):
 class PcrFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     pcr_experiment_name = filters.ModelChoiceFilter(field_name='pcr_experiment_name', queryset=Pcr.objects.all(), widget=CustomSelect2)
-    pcr_type = filters.ChoiceFilter(field_name='pcr_type', choices=PcrTypes.choices)
+    pcr_type = filters.ChoiceFilter(field_name='pcr_type', choices=PcrTypes.choices, widget=CustomSelect2)
     pcr_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
@@ -48,9 +48,9 @@ class LibraryPrepFilter(filters.FilterSet):
     primer_set = filters.ModelChoiceFilter(field_name='primer_set__primer_slug', queryset=PrimerPair.objects.all(), widget=CustomSelect2)
     size_selection_method = filters.ModelChoiceFilter(field_name='size_selection_method__size_selection_method_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2)
     index_removal_method = filters.ModelChoiceFilter(field_name='index_removal_method__index_removal_method_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2)
-    lib_prep_kit = filters.ChoiceFilter(field_name='lib_prep_kit', choices=LibPrepKits.choices)
-    lib_prep_type = filters.ChoiceFilter(field_name='lib_prep_type', choices=LibPrepTypes.choices)
-    lib_prep_layout = filters.ChoiceFilter(field_name='lib_prep_layout', choices=LibLayouts.choices)
+    lib_prep_kit = filters.ChoiceFilter(field_name='lib_prep_kit', choices=LibPrepKits.choices, widget=CustomSelect2)
+    lib_prep_type = filters.ChoiceFilter(field_name='lib_prep_type', choices=LibPrepTypes.choices, widget=CustomSelect2)
+    lib_prep_layout = filters.ChoiceFilter(field_name='lib_prep_layout', choices=LibLayouts.choices, widget=CustomSelect2)
 
     class Meta:
         model = LibraryPrep
@@ -110,9 +110,9 @@ class FastqFileFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', lookup_expr='iexact')
     extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', lookup_expr='iexact')
-    submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices)
-    seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices)
-    investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices)
+    submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices, widget=CustomSelect2)
+    seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices, widget=CustomSelect2)
+    investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices, widget=CustomSelect2)
 
     class Meta:
         model = FastqFile

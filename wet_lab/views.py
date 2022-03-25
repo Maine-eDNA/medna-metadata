@@ -15,7 +15,7 @@ from django_filters import rest_framework as filters
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from rest_framework import viewsets
-from utility.serializers import SerializerExportMixin
+from utility.serializers import SerializerExportMixin, CharSerializerExportMixin
 from utility.views import export_context
 from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists, return_json
 import wet_lab.serializers as wetlab_serializers
@@ -590,7 +590,7 @@ class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
         return redirect('main/model-perms-required.html')
 
 
-class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
