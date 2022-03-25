@@ -93,7 +93,7 @@ class ExtractionForm(forms.ModelForm):
     extraction_volume_units = forms.ChoiceField(
         required=True,
         choices=VolUnits.choices,
-        default=VolUnits.MICROLITER,
+        initial=VolUnits.MICROLITER,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -121,7 +121,7 @@ class ExtractionForm(forms.ModelForm):
     extraction_concentration_units = forms.ChoiceField(
         required=True,
         choices=ConcentrationUnits.choices,
-        default=ConcentrationUnits.NGUL,
+        initial=ConcentrationUnits.NGUL,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -396,7 +396,7 @@ class LibraryPrepForm(forms.ModelForm):
     lib_prep_qubit_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
-        default=ConcentrationUnits.NGML,
+        initial=ConcentrationUnits.NGML,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -414,7 +414,7 @@ class LibraryPrepForm(forms.ModelForm):
     lib_prep_qpcr_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
-        default=ConcentrationUnits.NM,
+        initial=ConcentrationUnits.NM,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -432,7 +432,7 @@ class LibraryPrepForm(forms.ModelForm):
     lib_prep_final_concentration_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
-        default=ConcentrationUnits.NM,
+        initial=ConcentrationUnits.NM,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -442,7 +442,7 @@ class LibraryPrepForm(forms.ModelForm):
     lib_prep_kit = forms.ChoiceField(
         required=False,
         choices=LibPrepKits.choices,
-        default=LibPrepKits.NEXTERAXTV2,
+        initial=LibPrepKits.NEXTERAXTV2,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -812,7 +812,7 @@ class FastqFileForm(forms.ModelForm):
     submitted_to_insdc = forms.ChoiceField(
         required=True,
         choices=YesNo.choices,
-        default=YesNo.NO,
+        initial=YesNo.NO,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -822,7 +822,7 @@ class FastqFileForm(forms.ModelForm):
     seq_meth = forms.ChoiceField(
         required=True,
         choices=SeqMethods.choices,
-        default=SeqMethods.ILLUMINAMISEQ,
+        initial=SeqMethods.ILLUMINAMISEQ,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -832,7 +832,7 @@ class FastqFileForm(forms.ModelForm):
     investigation_type = forms.ChoiceField(
         required=True,
         choices=InvestigationTypes.choices,
-        default=InvestigationTypes.MIMARKSSURVEY,
+        initial=InvestigationTypes.MIMARKSSURVEY,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
