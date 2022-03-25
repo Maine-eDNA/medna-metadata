@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import Extraction, LibraryPrep, Pcr
+from .models import Extraction, LibraryPrep, Pcr, PooledLibrary, RunPrep, RunResult, FastqFile
 from django_tables2.utils import A
 
 
@@ -87,7 +87,7 @@ class PooledLibraryTable(tables.Table):
                                              orderable=False)
 
     class Meta:
-        model = LibraryPrep
+        model = PooledLibrary
         fields = ('_selected_action', 'id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
                   'pooled_lib_barcode', 'barcode_slug', 'process_location',
                   'library_prep', 'quantification_method',
@@ -111,7 +111,7 @@ class RunPrepTable(tables.Table):
                                              orderable=False)
 
     class Meta:
-        model = LibraryPrep
+        model = RunPrep
         fields = ('_selected_action', 'id', 'run_prep_label', 'run_prep_slug',
                   'run_prep_datetime', 'process_location', 'pooled_library',
                   'quantification_method', 'run_prep_concentration',
