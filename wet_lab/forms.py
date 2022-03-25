@@ -90,7 +90,7 @@ class ExtractionForm(forms.ModelForm):
             }
         )
     )
-    extraction_volume_units = forms.CharField(
+    extraction_volume_units = forms.ChoiceField(
         required=True,
         choices=VolUnits.choices,
         default=VolUnits.MICROLITER,
@@ -118,7 +118,7 @@ class ExtractionForm(forms.ModelForm):
             }
         )
     )
-    extraction_concentration_units = forms.CharField(
+    extraction_concentration_units = forms.ChoiceField(
         required=True,
         choices=ConcentrationUnits.choices,
         default=ConcentrationUnits.NGUL,
@@ -183,7 +183,7 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_type = forms.CharField(
+    pcr_type = forms.ChoiceField(
         required=True,
         choices=PcrTypes.choices,
         widget=CustomSelect2(
@@ -242,7 +242,7 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_results_units = forms.CharField(
+    pcr_results_units = forms.ChoiceField(
         required=False,
         choices=PcrUnits.choices,
         widget=CustomSelect2(
@@ -393,7 +393,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_qubit_units = forms.CharField(
+    lib_prep_qubit_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
         default=ConcentrationUnits.NGML,
@@ -411,7 +411,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_qpcr_units = forms.CharField(
+    lib_prep_qpcr_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
         default=ConcentrationUnits.NM,
@@ -429,7 +429,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_final_concentration_units = forms.CharField(
+    lib_prep_final_concentration_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
         default=ConcentrationUnits.NM,
@@ -439,7 +439,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_kit = forms.CharField(
+    lib_prep_kit = forms.ChoiceField(
         required=False,
         choices=LibPrepKits.choices,
         default=LibPrepKits.NEXTERAXTV2,
@@ -449,7 +449,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_type = forms.CharField(
+    lib_prep_type = forms.ChoiceField(
         required=True,
         choices=LibPrepTypes.choices,
         widget=CustomSelect2(
@@ -458,7 +458,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_layout = forms.CharField(
+    lib_prep_layout = forms.ChoiceField(
         required=True,
         choices=LibLayouts.choices,
         widget=CustomSelect2(
@@ -567,7 +567,7 @@ class PooledLibraryForm(forms.ModelForm):
             }
         )
     )
-    pooled_lib_concentration_units = forms.CharField(
+    pooled_lib_concentration_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
         widget=CustomSelect2(
@@ -584,7 +584,7 @@ class PooledLibraryForm(forms.ModelForm):
             }
         )
     )
-    pooled_lib_volume_units = forms.CharField(
+    pooled_lib_volume_units = forms.ChoiceField(
         required=False,
         choices=VolUnits.choices,
         widget=CustomSelect2(
@@ -664,7 +664,7 @@ class RunPrepForm(forms.ModelForm):
             }
         )
     )
-    run_prep_concentration_units = forms.CharField(
+    run_prep_concentration_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
         widget=CustomSelect2(
@@ -681,7 +681,7 @@ class RunPrepForm(forms.ModelForm):
             }
         )
     )
-    run_prep_phix_spike_in_units = forms.CharField(
+    run_prep_phix_spike_in_units = forms.ChoiceField(
         required=False,
         choices=ConcentrationUnits.choices,
         widget=CustomSelect2(
@@ -809,7 +809,7 @@ class FastqFileForm(forms.ModelForm):
             }
         )
     )
-    submitted_to_insdc = forms.CharField(
+    submitted_to_insdc = forms.ChoiceField(
         required=True,
         choices=YesNo.choices,
         default=YesNo.NO,
@@ -819,7 +819,7 @@ class FastqFileForm(forms.ModelForm):
             }
         )
     )
-    seq_meth = forms.CharField(
+    seq_meth = forms.ChoiceField(
         required=True,
         choices=SeqMethods.choices,
         default=SeqMethods.ILLUMINAMISEQ,
@@ -829,7 +829,7 @@ class FastqFileForm(forms.ModelForm):
             }
         )
     )
-    investigation_type = forms.CharField(
+    investigation_type = forms.ChoiceField(
         required=True,
         choices=InvestigationTypes.choices,
         default=InvestigationTypes.MIMARKSSURVEY,
