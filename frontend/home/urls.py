@@ -67,54 +67,57 @@ urlpatterns = [
     path('dashboard/labelrequest/add/<int:site_id>/<int:sample_material>/<str:purpose>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestdetail'),
     path('dashboard/labelrequest/add/<int:site_id>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestsite'),
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
-    # TODO FIELD SURVEY: FIELD SURVEY (VIEW) - MERGED TABLE
+    # FIELD SURVEY: FIELD SURVEY (VIEW)
+    # TODO add related fields to filtersample table
     path('dashboard/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.GeoFieldSurveyFilter), name='view_fieldsurvey'),
     path('dashboard/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
-    # TODO WET LAB: EXTRACTION (VIEW, ADD, UPDATE) w/ TABLE
+    # WET LAB: EXTRACTION (VIEW, ADD, UPDATE)
+    # TODO convert add_extraction to table update
     path('dashboard/wetlab/extraction/view/', wetlab_views.ExtractionFilterView.as_view(filterset_class=wetlab_filters.ExtractionFilter), name='view_extraction'),
     # path('dashboard/wetlab/extraction/detail/<int:pk>/', wetlab_views.ExtractionDetailView.as_view(), name='detail_extraction'),
     path('dashboard/wetlab/extraction/update/<int:pk>/', wetlab_views.ExtractionUpdateView.as_view(success_url=reverse_lazy('view_extraction')), name='update_extraction'),
     path('dashboard/wetlab/extraction/add/', wetlab_views.ExtractionCreateView.as_view(), name='add_extraction'),
-    # TODO WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
+    # WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
+    # TODO add PCR Replicate add popup
     path('dashboard/wetlab/pcr/view/', wetlab_views.PcrFilterView.as_view(filterset_class=wetlab_filters.PcrFilter), name='view_pcr'),
     # path('dashboard/wetlab/pcr/detail/<int:pk>/', wetlab_views.PcrDetailView.as_view(), name='detail_pcr'),
     path('dashboard/wetlab/pcr/update/<int:pk>/', wetlab_views.PcrUpdateView.as_view(success_url=reverse_lazy('view_pcr')), name='update_pcr'),
     path('dashboard/wetlab/pcr/add/', wetlab_views.PcrCreateView.as_view(), name='add_pcr'),
-    # TODO WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
+    # WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
+    # TODO add IndexPair add popup & convert add_libraryprep to table update
     path('dashboard/wetlab/libraryprep/view/', wetlab_views.LibraryPrepFilterView.as_view(filterset_class=wetlab_filters.LibraryPrepFilter), name='view_libraryprep'),
     # path('dashboard/wetlab/libraryprep/detail/<int:pk>/', wetlab_views.LibraryPrepDetailView.as_view(), name='detail_libraryprep'),
     path('dashboard/wetlab/libraryprep/update/<int:pk>/', wetlab_views.LibraryPrepUpdateView.as_view(success_url=reverse_lazy('view_libraryprep')), name='update_libraryprep'),
     path('dashboard/wetlab/libraryprep/add/', wetlab_views.LibraryPrepCreateView.as_view(), name='add_libraryprep'),
-    # TODO WET LAB: POOLED LIBRARY (VIEW, ADD, UPDATE)
+    # WET LAB: POOLED LIBRARY (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/pooledlibrary/view/', wetlab_views.PooledLibraryFilterView.as_view(filterset_class=wetlab_filters.PooledLibraryFilter), name='view_pooledlibrary'),
     # path('dashboard/wetlab/pooledlibrary/detail/<int:pk>/', wetlab_views.PooledLibraryDetailView.as_view(), name='detail_pooledlibrary'),
     path('dashboard/wetlab/pooledlibrary/update/<int:pk>/', wetlab_views.PooledLibraryUpdateView.as_view(success_url=reverse_lazy('view_pooledlibrary')), name='update_pooledlibrary'),
     path('dashboard/wetlab/pooledlibrary/add/', wetlab_views.PooledLibraryCreateView.as_view(), name='add_pooledlibrary'),
-    # TODO WET LAB: RUN PREP (VIEW, ADD, UPDATE)
+    # WET LAB: RUN PREP (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/runprep/view/', wetlab_views.RunPrepFilterView.as_view(filterset_class=wetlab_filters.RunPrepFilter), name='view_runprep'),
     # path('dashboard/wetlab/runprep/detail/<int:pk>/', wetlab_views.RunPrepDetailView.as_view(), name='detail_runprep'),
     path('dashboard/wetlab/runprep/update/<int:pk>/', wetlab_views.RunPrepUpdateView.as_view(success_url=reverse_lazy('view_runprep')), name='update_runprep'),
     path('dashboard/wetlab/runprep/add/', wetlab_views.RunPrepCreateView.as_view(), name='add_runprep'),
-    # TODO WET LAB: RUN RESULT (VIEW, ADD, UPDATE)
+    # WET LAB: RUN RESULT (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/runresult/view/', wetlab_views.RunResultFilterView.as_view(filterset_class=wetlab_filters.RunResultFilter), name='view_runresult'),
     # path('dashboard/wetlab/runresult/detail/<int:pk>/', wetlab_views.RunResultDetailView.as_view(), name='detail_runresult'),
     path('dashboard/wetlab/runresult/update/<int:pk>/', wetlab_views.RunResultUpdateView.as_view(success_url=reverse_lazy('view_runresult')), name='update_runresult'),
     path('dashboard/wetlab/runresult/add/', wetlab_views.RunResultCreateView.as_view(), name='add_runresult'),
-    # TODO WET LAB: FASTQ FILE (VIEW)
+    # WET LAB: FASTQ FILE (VIEW)
     path('dashboard/wetlab/fastqfile/view/', wetlab_views.FastqFileFilterView.as_view(filterset_class=wetlab_filters.FastqFileFilter), name='view_fastqfile'),
-    # TODO FREEZER INVENTORY: FREEZER INVENTORY (VIEW, ADD, UPDATE)
+    # FREEZER INVENTORY: FREEZER INVENTORY (VIEW, ADD, UPDATE)
     path('dashboard/freezerinventory/inventory/view/', freezerinventory_views.FreezerInventoryFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryFilter), name='view_freezerinventory'),
     # path('dashboard/freezerinventory/inventory/detail/<int:pk>/', freezerinventory_views.FreezerInventoryDetailView.as_view(), name='detail_freezerinventory'),
     path('dashboard/freezerinventory/inventory/update/<int:pk>/', freezerinventory_views.FreezerInventoryUpdateView.as_view(success_url=reverse_lazy('view_freezerinventory')), name='update_freezerinventory'),
     path('dashboard/freezerinventory/inventory/add/', freezerinventory_views.FreezerInventoryCreateView.as_view(), name='add_freezerinventory'),
-    # FREEZER INVENTORY: FREEZER INVENTORY RETURN METADATA (VIEW, UPDATE)
-    path('dashboard/freezerinventory/metadata/view/', freezerinventory_views.FreezerInventoryReturnMetadataFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryReturnMetadataFilter), name='view_freezerinventoryreturnmetadata'),
-    path('dashboard/freezerinventory/metadata/detail/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(), name='detail_freezerinventoryreturnmetadata'),
-    path('dashboard/freezerinventory/metadata/update/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataUpdateView.as_view(success_url=reverse_lazy('detail_freezerinventoryreturnmetadata')), name='update_freezerinventoryreturnmetadata'),
     # FREEZER INVENTORY: FREEZER INVENTORY LOG
     path('dashboard/freezerinventory/log/view/', freezerinventory_views.FreezerInventoryLogFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryLogFilter), name='view_freezerinventorylog'),
-    path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
-    path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
+    # path('dashboard/freezerinventory/log/detail/<int:pk>/', freezerinventory_views.FreezerInventoryLogDetailView.as_view(), name='detail_freezerinventorylog'),
+    # FREEZER INVENTORY: FREEZER INVENTORY RETURN METADATA (VIEW, UPDATE)
+    path('dashboard/freezerinventory/metadata/view/', freezerinventory_views.FreezerInventoryReturnMetadataFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryReturnMetadataFilter), name='view_freezerinventoryreturnmetadata'),
+    # path('dashboard/freezerinventory/metadata/detail/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(), name='detail_freezerinventoryreturnmetadata'),
+    path('dashboard/freezerinventory/metadata/update/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataUpdateView.as_view(success_url=reverse_lazy('view_freezerinventoryreturnmetadata')), name='update_freezerinventoryreturnmetadata'),
     # TODO BIOINFO: QUALITY METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/qualitymetadata/view/', bioinfo_views.QualityMetadataFilterView.as_view(filterset_class=bioinfo_filters.QualityMetadataFilter), name='view_qualitymetadata'),
     # path('dashboard/bioinfo/qualitymetadata/detail/<int:pk>/', bioinfo_views.QualityMetadataDetailView.as_view(), name='detail_qualitymetadata'),
