@@ -6,7 +6,7 @@ from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, \
-    LibPrepTypes, LibLayouts
+    LibPrepTypes, LibLayouts, InvestigationTypes, SeqMethods
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -47,7 +47,6 @@ class PrimerPairSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class IndexPairSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     index_slug = serializers.SlugField(read_only=True)
@@ -70,7 +69,6 @@ class IndexPairSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     index_removal_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=IndexRemovalMethod.objects.all())])
@@ -90,7 +88,6 @@ class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     size_selection_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=SizeSelectionMethod.objects.all())])
@@ -111,7 +108,6 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class QuantificationMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     quant_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=QuantificationMethod.objects.all())])
@@ -148,7 +144,6 @@ class AmplificationMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class ExtractionMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     extraction_method_name = serializers.CharField(max_length=255)
@@ -174,7 +169,6 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     barcode_slug = serializers.SlugField(max_length=16, read_only=True)
@@ -219,7 +213,6 @@ class ExtractionSerializer(serializers.ModelSerializer):
                                                          queryset=QuantificationMethod.objects.all())
 
 
-# Django REST Framework to allow the automatic downloading of data!
 class PcrReplicateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     pcr_replicate_results = serializers.DecimalField(max_digits=15, decimal_places=10)
@@ -417,13 +410,16 @@ class FastqFileSerializer(serializers.ModelSerializer):
     fastq_filename = serializers.CharField(max_length=255)
     fastq_datafile = serializers.FileField(max_length=255)
     submitted_to_insdc = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    seq_meth = serializers.ChoiceField(choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
+    investigation_type = serializers.ChoiceField(choices=InvestigationTypes.choices, default=InvestigationTypes.MIMARKSSURVEY)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FastqFile
         fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
-                  'submitted_to_insdc', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'submitted_to_insdc', 'seq_meth', 'investigation_type',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

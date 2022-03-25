@@ -46,10 +46,11 @@ class ProcessLocationSerializerFilter(filters.FilterSet):
 class ContactUsSerializerFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(field_name='created_datetime', input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     contact_slug = filters.CharFilter(field_name='contact_slug', lookup_expr='iexact')
+    replied = filters.CharFilter(field_name='replied', lookup_expr='iexact')
 
     class Meta:
         model = ContactUs
-        fields = ['contact_slug', 'created_datetime', ]
+        fields = ['contact_slug', 'replied', 'created_datetime', ]
 
 
 class DefaultSiteCssSerializerFilter(filters.FilterSet):

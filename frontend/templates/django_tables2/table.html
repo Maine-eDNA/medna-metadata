@@ -1,15 +1,16 @@
 {% load django_tables2 %}
 {% load i18n %}
+{% load humanize %}
 {% block table-wrapper %}
 <div class="table-responsive p-0">
     {% block table %}
-        <table class="table align-items-center mb-0" {% render_attrs table.attrs %}>
+        <table class="table align-items-center mb-0 table-striped" id="result_list" {% render_attrs table.attrs %}>
             {% block table.thead %}
             {% if table.show_header %}
                 <thead {{ table.attrs.thead.as_html }}>
                     <tr>
                     {% for column in table.columns %}
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" {{ column.attrs.th.as_html }}>
+                        <th scope="col" {{ column.attrs.th.as_html }}>
                             {% if column.orderable %}
                                 <a href="{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}">{{ column.header }}</a>
                             {% else %}

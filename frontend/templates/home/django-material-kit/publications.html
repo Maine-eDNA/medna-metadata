@@ -18,8 +18,8 @@
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="text-center">
-            <h1 class="text-white">Publications</h1>
-            <p class="lead mb-4 text-white opacity-8">Peer-reviewed content</p>
+            <h1 class="text-white">{{ page_title|title }}</h1>
+            <p class="lead mb-4 text-white opacity-8">{{ page_subtitle }}</p>
           </div>
         </div>
       </div>
@@ -30,33 +30,49 @@
       <div class="section text-start py-5">
         <!-- -------- START Grids -------- -->
           <div class="container">
-            <!-- -------- START loop -------- -->
+              {% if perms.utility.add_publication %}
+              <div class="row">
+                  <a href="{% url 'add_publication' %}" class="d-flex align-items-center justify-content-end">
+                      <i class="fa fa-plus text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Add New Publication"></i>
+                  </a>
+              </div>
+              {% endif %}
+              <!-- -------- START loop -------- -->
               {% if pub_list %}
-                {% for pub in pub_list %}
-                    <a href="{{ pub.publication_url }}"><h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">URL</h5>
+              {% for pub in pub_list %}
+              <div class="row">
+                  <div class="col-md-12">
+                      <h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
+                  </div>
+                  <div class="col-md-8">
+                      <a href="{{ pub.publication_url }}">
+                          <h5 class="font-weight-bolder mt-3">URL</h5>
                           <p class="pe-5">{{ pub.publication_url }}</p>
-                        </div>
-                        {% if pub.project_names.all %}
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
-                            <p class="pe-5">{{ pub.project_names.all|join:", " }}</p>
-                        </div>
-                        {% endif %}
-                    <div class="w-100"></div>
-                    </div></a>
-                    <hr/>
-                {% endfor %}
-            {% else %}
-            <p class="pe-5">No publications are available.</p>
-            {% endif %}
-
-
-            <!-- -------- END loop -------- -->
+                      </a>
+                  </div>
+                  {% if pub.project_names.all %}
+                  <div class="col-md-3">
+                      <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
+                      <p class="pe-5">{{ pub.project_names.all|join:", " }}</p>
+                  </div>
+                  {% if perms.utility.change_publication %}
+                  <div class="col-md-1">
+                      <a href="{% url 'update_publication' pub.pk %}">
+                          <i class="fas fa-user-edit text-secondary text-sm mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Publication"></i>
+                      </a>
+                  </div>
+                  {% endif %}
+              </div>
+              {% endif %}
+              <div class="w-100"></div>
+              <hr/>
+              {% endfor %}
+              {% else %}
+              <p class="pe-5">No publications are available.</p>
+              {% endif %}
+              <!-- -------- END loop -------- -->
           </div>
-        <!-- -------- END Grids -------- -->
+          <!-- -------- END Grids -------- -->
       </div>
     </div>
   </div>

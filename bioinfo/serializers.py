@@ -16,7 +16,7 @@ from utility.models import ProcessLocation
 # Django REST Framework to allow the automatic downloading of data!
 class QualityMetadataSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    analysis_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DenoiseClusterMetadata.objects.all())])
+    analysis_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DenoiseClusterMetadata.objects.all())])
     analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
@@ -34,7 +34,7 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QualityMetadata
-        fields = ['id', 'analysis_name', 'process_location', 'analysis_datetime',
+        fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
                   'run_result',
                   'analyst_first_name', 'analyst_last_name',
                   'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
@@ -81,7 +81,7 @@ class DenoiseClusterMethodSerializer(serializers.ModelSerializer):
 
 class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    analysis_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DenoiseClusterMetadata.objects.all())])
+    analysis_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DenoiseClusterMetadata.objects.all())])
     analysis_datetime = serializers.DateTimeField()
     denoise_cluster_slug = serializers.SlugField(max_length=255, read_only=True)
     analyst_first_name = serializers.CharField(max_length=255)
@@ -93,7 +93,7 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DenoiseClusterMetadata
-        fields = ['id', 'analysis_name', 'process_location', 'analysis_datetime',
+        fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
                   'quality_metadata', 'denoise_cluster_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url', 'denoise_cluster_slug',
@@ -432,7 +432,7 @@ class AnnotationMethodSerializer(serializers.ModelSerializer):
 
 class AnnotationMetadataSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    analysis_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=AnnotationMetadata.objects.all())])
+    analysis_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=AnnotationMetadata.objects.all())])
     analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
@@ -444,7 +444,7 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnnotationMetadata
-        fields = ['id', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+        fields = ['id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]

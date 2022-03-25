@@ -65,7 +65,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-sm-6">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
@@ -83,6 +83,46 @@
           </div>
         </div>
       </div>
+      <!-- BEGIN tables -->
+      <div class="row mt-4">
+        <div class="col-xl-9 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-6 col-7">
+                  <h6>Metadata Todo</h6>
+                </div>
+                <div class="col-lg-6 col-5 my-auto text-end">
+                  <p class="text-sm mb-0">
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                    <span class="font-weight-bold ms-1">{{ return_metadata_count }} complete</span> to date
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-3 pb-2">
+              {% render_table return_metadata_table %}
+            </div>
+          </div>
+        </div>
+        {% if user.is_active and user.is_staff %}
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card h-100">
+            <div class="card-header pb-0">
+              <h6>Contact Us Overview</h6>
+              <p class="text-sm">
+                <i class="fa fa-user text-success" aria-hidden="true"></i>
+                <span class="font-weight-bold">{{ replied_count }} reply</span> to date
+              </p>
+            </div>
+            <div class="card-body p-3">
+              {% include 'includes/django-material-dashboard/contact-us-timeline.html' %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <!-- END tables -->
       <!-- START survey charts -->
       <div class="row mt-4">
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
@@ -312,55 +352,6 @@
         </div>
       </div>
       <!-- END run result charts -->
-      <div class="row mb-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h6>Metadata Todo</h6>
-                  <p class="text-sm mb-0">
-                    <i class="fa fa-check text-info" aria-hidden="true"></i>
-                    <span class="font-weight-bold ms-1">30 complete</span> to date
-                  </p>
-                </div>
-                <div class="col-lg-6 col-5 my-auto text-end">
-                  <div class="dropdown float-lg-end pe-4">
-                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fa fa-ellipsis-v text-secondary"></i>
-                    </a>
-                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                      <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              {% render_table return_metadata_table %}
-            </div>
-          </div>
-        </div>
-        {% if user.is_active and user.is_staff %}
-        <div class="col-lg-4 col-md-6">
-          <div class="card h-100">
-            <div class="card-header pb-0">
-              <h6>Contact Us Overview</h6>
-              <p class="text-sm">
-                <i class="fa fa-user text-success" aria-hidden="true"></i>
-                <span class="font-weight-bold">1</span> request(s) this month
-              </p>
-            </div>
-            <div class="card-body p-3">
-              {% include 'includes/django-material-dashboard/contact-us-timeline.html' %}
-            </div>
-          </div>
-        </div>
-        {% endif %}
-      </div>
-
       {% include 'includes/django-material-dashboard/footer.html' %}
     </div>
 
@@ -368,8 +359,8 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{% static 'assets/js/plugins/palette.js' %}"></script>
 <script src="{% static 'assets/js/charts-fieldsurvey.js' %}"></script>
 <script src="{% static 'assets/js/charts-wetlab.js' %}"></script>

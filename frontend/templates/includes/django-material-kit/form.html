@@ -1,0 +1,40 @@
+{% load html_tags %}
+
+{% block extrahead %} {{ form.media }} {% endblock %}
+
+{% if form.non_field_errors %}
+<!-- start non field errors -->
+<div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+<!-- end non field errors -->
+{% endif %}
+
+<form method="post" class="p-3" id="{{ page_title|slugify }}-form" >
+    {% csrf_token %}
+    <div class="card-header text-center px-4 py-sm-5 py-3">
+        <h2>{{ form_header }}</h2>
+        <p class="lead"> {{ form_subheader }} </p>
+    </div>
+    <div class="card-body pt-1">
+        {% for field in form %}
+        <div class="row">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            <div class="col-md-12 pe-2 mb-3">
+                <div class="input-group input-group-static mb-4">
+                    {{ field }}
+                </div>
+                {% if field.help_text %}
+                <div class="row">
+                    <p class="help">{{ field.help_text|safe }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-6 text-end ms-auto">
+                <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>

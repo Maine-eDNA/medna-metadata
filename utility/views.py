@@ -1,16 +1,19 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
 # from django.views.generic import ListView
-# from django.views.generic import DetailView
+from django.views.generic import DetailView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
+from django.db.models import BLANK_CHOICE_DASH
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
@@ -22,21 +25,161 @@ import json
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
-from .forms import ContactUsForm
+from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm
 import utility.enumerations as utility_enums
 import utility.filters as utility_filters
+from utility.forms import export_action_form_factory
+
+
+def get_action_choices(default_choices=BLANK_CHOICE_DASH):
+    """
+    Return a list of choices for use in a form object.  Each choice is a
+    tuple (name, description).
+    """
+    choices = [('export_action_select', 'Export selected'),
+               ('export_action_table', 'Export table'), ] + default_choices
+    return choices
+
+
+def export_context(request, export_formats):
+    """
+    Return a dictionary of variables to put in the template context for
+    pages with exportable tables
+    """
+    # export_formats = ['csv', 'xlsx']
+    actions_selection_counter = True
+    formats = []
+    if export_formats:
+        formats.append(('', '---'))
+        for i, f in enumerate(export_formats):
+            formats.append((f, f))
+    export_action_form = export_action_form_factory(formats)
+
+    # Build the action form and populate it with available actions.
+    action_form = export_action_form(auto_id=None)
+    action_form.fields['action'].choices = get_action_choices()
+
+    return {
+        'actions_selection_counter': actions_selection_counter,
+        # 'format_form':format_form,
+        'action_form': action_form,
+    }
 
 
 # Create your views here.
 ########################################
-# FRONTEND VIEWS                       #
+# FRONTEND PRIVATE VIEWS               #
 ########################################
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
-    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context')
-    return contactus_list
+    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
+    replied_count = ContactUs.objects.filter(replied='yes').count()
+    return contactus_list, replied_count
 
 
+class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Publication
+    form_class = PublicationForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-kit/publication-update.html'
+    permission_required = ('utility.update_publication', 'utility.view_publication', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_publication"
+        context["page_title"] = "Publication"
+        context["page_subtitle"] = "Peer-reviewed content"
+        context["form_header"] = "Update Publication"
+        context["form_subheader"] = "Fill and submit."
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('publications')
+
+
+class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'utility.add_publication'
+    model = Publication
+    form_class = PublicationForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-kit/publication-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_publication"
+        context["page_title"] = "Publication"
+        context["page_subtitle"] = "Peer-reviewed content"
+        context["form_header"] = "Add Publication"
+        context["form_subheader"] = "Fill and submit."
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('publications')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
+    model = ContactUs
+    form_class = ContactUsUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_contactus"
+        context["page_title"] = "Contact Us"
+        return context
+
+    def get_initial(self):
+        initial = super(ContactUsUpdateView, self).get_initial()
+        initial['replied_datetime'] = timezone.now()
+        return initial
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_contactus', kwargs={"pk": self.object.pk})
+
+
+class ContactUsDetailView(LoginRequiredMixin, DetailView):
+    model = ContactUs
+    template_name = 'home/django-material-dashboard/contact-us-detail.html'
+    fields = ['full_name', 'contact_email', 'contact_context', 'replied_context', 'replied_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Contact Us"
+        context["segment"] = "detail_contactus"
+        return context
+
+
+########################################
+# FRONTEND PUBLIC VIEWS                #
+########################################
 class AccountExpiredTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
@@ -80,7 +223,7 @@ class ProjectsTemplateView(TemplateView):
         return context
 
 
-class PublicationsTemplateView(TemplateView):
+class PublicationTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -91,6 +234,7 @@ class PublicationsTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["segment"] = "publications"
         context["page_title"] = "Publications"
+        context["page_subtitle"] = "Peer-reviewed content"
         context["pub_list"] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
         return context
 
@@ -123,19 +267,6 @@ class MetadataStandardsTemplateView(TemplateView):
         context["segment"] = "metadatastandards"
 
 
-class ContactUsTemplateView(TemplateView):
-    # public template, to make private add LoginRequiredMixin
-    template_name = 'home/django-material-kit/contact-us-list.html'
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        context["page_title"] = "Contact Us"
-        context["segment"] = "contactus"
-        context["contact_list"] = ContactUs.objects.prefetch_related('created_by').order_by('-pk')
-        return context
-
-
 class ContactUsCreateView(CreateView):
     # public template, to make private add LoginRequiredMixin
     model = ContactUs
@@ -148,6 +279,8 @@ class ContactUsCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Contact Us"
         context["segment"] = "contactus"
+        context["form_header"] = "Contact Us"
+        context["form_subheader"] = "For further questions, please fill out and submit this form."
         return context
 
     def form_valid(self, form):

@@ -1,6 +1,52 @@
+from django import forms
+from django_filters import rest_framework as filters
+from users.models import CustomUser
+from sample_label.models import SampleBarcode
+from utility.widgets import CustomSelect2Multiple, CustomSelect2
+from utility.enumerations import YesNo, InvTypes, CheckoutActions
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
-from django_filters import rest_framework as filters
+
+
+########################################
+# FRONTEND FILTERS                     #
+########################################
+class FreezerInventoryFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    freezer_box = filters.ModelChoiceFilter(field_name='freezer_box__freezer_box_label_slug', queryset=FreezerBox.objects.all(), widget=CustomSelect2)
+    freezer_inventory_type = filters.ChoiceFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
+    freezer_inventory_status = filters.ChoiceFilter(field_name='freezer_inventory_status', choices=InvTypes.choices, widget=CustomSelect2)
+    sample_barcode = filters.ModelChoiceFilter(field_name='sample_barcode__barcode_slug', queryset=SampleBarcode.objects.all(), widget=CustomSelect2)
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+
+    class Meta:
+        model = FreezerInventory
+        fields = ['created_by', 'freezer_box', 'freezer_inventory_type', 'freezer_inventory_status', 'sample_barcode',
+                  'created_datetime', ]
+
+
+class FreezerInventoryLogFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    freezer_inventory = filters.ModelChoiceFilter(field_name='freezer_inventory__freezer_inventory_slug', queryset=FreezerInventory.objects.all(), widget=CustomSelect2)
+    freezer_log_action = filters.ChoiceFilter(field_name='freezer_log_action', choices=CheckoutActions.choices, widget=CustomSelect2)
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+
+    class Meta:
+        model = FreezerInventoryLog
+        fields = ['created_by', 'freezer_inventory', 'freezer_log_action', 'created_datetime',  ]
+
+
+class FreezerInventoryReturnMetadataFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    freezer_log = filters.ModelChoiceFilter(field_name='freezer_log__freezer_log_slug', queryset=FreezerInventoryLog.objects.all(), widget=CustomSelect2)
+    freezer_return_metadata_entered = filters.ChoiceFilter(field_name='freezer_return_metadata_entered', choices=YesNo.choices, widget=CustomSelect2)
+    freezer_return_actions = filters.ModelChoiceFilter(field_name='freezer_return_actions__action_code', queryset=ReturnAction.objects.all(), widget=CustomSelect2)
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+
+    class Meta:
+        model = FreezerInventoryReturnMetadata
+        fields = ['created_by', 'freezer_log', 'freezer_return_metadata_entered',
+                  'freezer_return_actions', 'created_datetime', ]
 
 
 ########################################

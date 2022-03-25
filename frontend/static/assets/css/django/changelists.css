@@ -1,0 +1,98 @@
+/* CHANGELISTS */
+
+/* CHANGELIST TABLES */
+
+#result_list table thead th.action-checkbox-column {
+    width: 1.5em;
+    text-align: center;
+}
+
+#result_list table tbody td.action-checkbox {
+    text-align: center;
+}
+
+/* ACTIONS */
+.hidden {
+    display: none;
+}
+
+.filtered .actions {
+    border-right: none;
+}
+
+#result_list table input {
+    margin: 0;
+    vertical-align: baseline;
+}
+
+#result_list table tbody tr.selected {
+    background-color: #ffa;
+}
+
+#result_list .actions {
+    padding: 10px;
+    background: var(--body-bg);
+    border-top: none;
+    border-bottom: none;
+    line-height: 24px;
+    color: var(--body-quiet-color);
+    width: 100%;
+}
+
+#result_list .actions.selected { /* XXX Probably unused? */
+    background: var(--body-bg);
+    border-top: 1px solid var(--body-bg);
+    border-bottom: 1px solid #edecd6;
+}
+
+#result_list .actions span.all,
+#result_list .actions span.action-counter,
+#result_list .actions span.clear,
+#result_list .actions span.question {
+    font-size: 13px;
+    margin: 0 0.5em;
+}
+
+#result_list .actions:last-child {
+    border-bottom: none;
+}
+
+#result_list .actions select {
+    vertical-align: top;
+    height: 24px;
+    color: var(--body-fg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 0 0 0 4px;
+    margin: 0;
+    margin-left: 10px;
+}
+
+#result_list .actions select:focus {
+    border-color: var(--body-quiet-color);
+}
+
+#result_list .actions label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+#result_list .actions .button {
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--body-bg);
+    box-shadow: 0 -15px 20px -10px rgba(0, 0, 0, 0.15) inset;
+    cursor: pointer;
+    height: 24px;
+    line-height: 1;
+    padding: 4px 8px;
+    margin: 0;
+    color: var(--body-fg);
+}
+
+#result_list .actions .button:focus, #changelist .actions .button:hover {
+    border-color: var(--body-quiet-color);
+}

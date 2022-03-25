@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name='QualityMetadata',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('analysis_name', models.CharField('Analysis Name', max_length=255, unique=True)),
+                ('analysis_label', models.CharField('Analysis Label', max_length=255, unique=True)),
                 ('process_location', models.ForeignKey(default=utility.models.get_default_process_location, on_delete=django.db.models.deletion.RESTRICT, to='utility.processlocation')),
                 ('analysis_datetime', models.DateTimeField(verbose_name='Analysis DateTime')),
                 ('analyst_first_name', models.CharField(max_length=255, verbose_name='Analyst First Name')),
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
             name='DenoiseClusterMetadata',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('analysis_name', models.CharField('Analysis Name', max_length=255, unique=True)),
+                ('analysis_label', models.CharField('Analysis Label', max_length=255, unique=True)),
                 ('process_location', models.ForeignKey(default=utility.models.get_default_process_location, on_delete=django.db.models.deletion.RESTRICT, to='utility.processlocation')),
                 ('quality_metadata', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo.qualitymetadata')),
                 ('analysis_datetime', models.DateTimeField(verbose_name='Analysis DateTime')),
@@ -352,7 +352,7 @@ class Migration(migrations.Migration):
             name='AnnotationMetadata',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('analysis_name', models.CharField(verbose_name='Analysis Name', max_length=255, unique=True)),
+                ('analysis_label', models.CharField(verbose_name='Analysis Label', max_length=255, unique=True)),
                 ('analysis_datetime', models.DateTimeField(verbose_name='Analysis DateTime')),
                 ('annotation_slug', models.SlugField(max_length=255, verbose_name='Annotation Metadata Slug')),
                 ('analyst_first_name', models.CharField(max_length=255, verbose_name='Analyst First Name')),

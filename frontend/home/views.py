@@ -55,11 +55,13 @@ def main_pages(request):
 
 @login_required(redirect_field_name='next', login_url="/dashboard/login/")
 def dashboard_index(request):
-    return_metadata_table = freezer_inventory_return_metadata_table(request)
-    contactus_list = contact_us_list(request)
+    return_metadata_table, return_metadata_count = freezer_inventory_return_metadata_table(request)
+    contactus_list, replied_count = contact_us_list(request)
     context = {'segment': 'index',
                'return_metadata_table': return_metadata_table,
-               'contactus_list': contactus_list}
+               'return_metadata_count': return_metadata_count,
+               'contactus_list': contactus_list,
+               'replied_count': replied_count}
 
     html_template = loader.get_template('home/django-material-dashboard/index.html')
     return HttpResponse(html_template.render(context, request))
@@ -83,9 +85,9 @@ def dashboard_pages(request):
 
     except template.TemplateDoesNotExist:
 
-        html_template = loader.get_template('home/django-material-dashboard/page-404.html')
+        html_template = loader.get_template('home/django-material-kit/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
     except:
-        html_template = loader.get_template('home/django-material-dashboard/page-500.html')
+        html_template = loader.get_template('home/django-material-kit/page-500.html')
         return HttpResponse(html_template.render(context, request))

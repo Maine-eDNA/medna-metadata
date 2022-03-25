@@ -372,11 +372,12 @@ class FieldCrewNestedSerializer(serializers.ModelSerializer):
     crew_global_id = serializers.CharField(read_only=True, max_length=255)
     crew_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     crew_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    crew_full_name = serializers.CharField(read_only=True, max_length=255)
     survey_global_id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = FieldCrew
-        fields = ['crew_global_id', 'survey_global_id', 'crew_fname', 'crew_lname', ]
+        fields = ['crew_global_id', 'survey_global_id', 'crew_fname', 'crew_lname', 'crew_full_name', ]
 
 
 class EnvMeasurementNestedSerializer(serializers.ModelSerializer):

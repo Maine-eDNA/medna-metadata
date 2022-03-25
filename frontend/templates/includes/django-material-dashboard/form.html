@@ -1,9 +1,15 @@
 {% load html_tags %}
-<!-- START FORM ERRORS -->
+
+{% block extrahead %}
+    {{ form.media }}
+{% endblock %}
+
 {% if form.non_field_errors %}
+<!-- START FORM ERRORS -->
 <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
-{% endif %}
 <!-- END FORM ERRORS -->
+{% endif %}
+
 <!-- START FORM -->
 <form method="post" enctype="multipart/form-data" class="p-3">
   {% csrf_token %}
@@ -12,7 +18,7 @@
    <div class="row">
        {{ field.errors }}
        {{ field.label_tag }}
-       <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
+       <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% elif field.field.widget|field_type == 'FieldSiteAllowEditLeaflet' %}col-md-12{% else %}input-group input-group-outline my-3{% endif %}">
         {{ field }}
        </div>
        {% if field.help_text %}

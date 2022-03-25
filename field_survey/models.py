@@ -104,6 +104,10 @@ class FieldCrew(DateTimeUserMixin):
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name="Crew Editor", on_delete=models.SET(get_sentinel_user), related_name="crew_record_editor")
     survey_global_id = models.ForeignKey(FieldSurvey, db_column="survey_global_id", related_name="field_crew", on_delete=models.CASCADE)
 
+    @property
+    def crew_full_name(self):
+        return '{fname} {lname}'.format(fname=self.crew_fname, lname=self.crew_lname)
+
     def __str__(self):
         return self.crew_global_id
 

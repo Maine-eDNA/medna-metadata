@@ -2,11 +2,12 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss, ContactUs
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
+from utility.enumerations import YesNo
 
 
 class EagerLoadingMixin:
@@ -150,12 +151,16 @@ class ContactUsSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(max_length=255)
     contact_email = serializers.EmailField()
     contact_context = serializers.CharField(max_length=255)
+    replied = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    replied_context = serializers.CharField(max_length=255)
+    replied_datetime = serializers.DateTimeField(allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = ProcessLocation
+        model = ContactUs
         fields = ['id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -253,9 +258,7 @@ class CustomUserCssSerializer(serializers.ModelSerializer):
 # https://aldnav.com/blog/django-table-exporter/
 # allows for the combination of (SerializerExportMixin, SingleTableMixin, FilterView)
 # These mixed together equates to filtered views with downloadable data FROM the
-# backend dbase rather than the view of the table in HTML. Also -- this is restful API
-# so when I feel so inclined I could also set up R code to automatically download the
-# data: https://www.programmableweb.com/news/how-to-access-any-restful-api-using-r-language/how-to/2017/07/21
+# backend dbase rather than the view of the table in HTML.
 class SerializerTableExport(TableExport):
     def __init__(self, export_format, table, serializer=None, exclude_columns=None):
         if not self.is_valid_format(export_format):
@@ -298,4 +301,33 @@ class SerializerExportMixin(ExportMixin):
         if selected_column_ids:
             selected_column_ids = map(int, selected_column_ids.split(","))
             return super().get_table_data().filter(id__in=selected_column_ids)
+        return super().get_table_data()
+
+
+class CharSerializerExportMixin(ExportMixin):
+    # export_action_param = "action"
+
+    def create_export(self, export_format):
+        exporter = SerializerTableExport(
+            export_format=export_format,
+            table=self.get_table(**self.get_table_kwargs()),
+            serializer=self.serializer_class,
+            exclude_columns=self.exclude_columns,
+        )
+        return exporter.response(filename=self.get_export_filename(export_format))
+
+    def get_serializer(self, table):
+        if self.serializer_class is not None:
+            return self.serializer_class
+        else:
+            return getattr(
+                self, "{}Serializer".format(self.get_table().__class__.__name__), None
+            )
+
+    def get_table_data(self):
+        selected_column_ids = self.request.GET.get("_selected_column_ids", None)
+        if selected_column_ids:
+            # selected_column_ids = map(int, selected_column_ids.split(","))
+            selected_column_ids = selected_column_ids.split(",")
+            return super().get_table_data().filter(pk__contains=selected_column_ids)
         return super().get_table_data()

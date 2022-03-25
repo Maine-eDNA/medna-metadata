@@ -1,0 +1,61 @@
+{% extends "layouts/django-material-dashboard/base.html" %}
+{% load static %}
+
+{% block title %} Detail {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+    <div class="page-header min-height-300 border-radius-xl mt-4"
+           style="background-image: url('https://images.unsplash.com/photo-1533084417605-e538a510d50a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+    </div>
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+
+      <!-- insert detail view here -->
+
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="card card-plain h-100">
+                <div class="card-header pb-0 p-3">
+                  <div class="row">
+                    <div class="col-md-8 d-flex align-items-center">
+                      <h6 class="mb-0">{{ page_title|title }} Detail</h6>
+                    </div>
+                    <div class="col-md-4 text-end">
+                      <a href="{% url 'update_contactus' object.pk %}">
+                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Contact Us"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body p-3">
+                  <ul class="list-group">
+                      <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Contact Full Name:</strong> &nbsp; {{ object.full_name }}</li>
+                      <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Contact Email:</strong> &nbsp; {{ object.contact_email }}</li>
+                      <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Contact Context:</strong> &nbsp; {{ object.contact_context }}</li>
+                      <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Replied Context:</strong> &nbsp; {{ object.replied_context }}</li>
+                      <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Replied DateTime:</strong> &nbsp; {{ object.replied_datetime|date:"M d Y"}} @ {{ object.replied_datetime|time:"h:iA"}}</li>
+                  </ul>
+                </div>
+                  <a href="mailto:{{ object.contact_email }}?subject=Re: {{ object.contact_context|truncatechars:40 }}...&body={{ object.replied_context }}"
+                     class="btn btn-secondary btn-lg w-100" role="button"><span class="btn-inner--icon"><i class="material-icons">email</i></span> Send Email
+                  </a>
+              </div>
+            </div>
+          </div>
+
+    </div>
+    </div>
+
+    {% include 'includes/django-material-dashboard/footer.html' %}
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

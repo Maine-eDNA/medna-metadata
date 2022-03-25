@@ -1,11 +1,28 @@
+from django import forms
 from django_filters import rest_framework as filters
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
+from utility.models import Grant
+from utility.widgets import CustomSelect2Multiple
 
 
 # Create your filters here.
+########################################
+# FRONTEND FILTERS                   #
+########################################
+class FieldSiteFilter(filters.FilterSet):
+    grant = filters.ModelMultipleChoiceFilter(queryset=Grant.objects.all(), widget=CustomSelect2Multiple)
+    system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2Multiple)
+    watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2Multiple)
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+
+    class Meta:
+        model = FieldSite
+        fields = ['grant', 'system', 'watershed', 'created_datetime']
+
+
 ########################################
 # SERIALIZER FILTERS                   #
 ########################################

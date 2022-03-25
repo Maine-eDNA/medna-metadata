@@ -1,4 +1,8 @@
 from django_filters import rest_framework as filters
+from users.models import CustomUser
+from utility.models import ProcessLocation
+from utility.widgets import CustomSelect2Multiple, CustomSelect2
+from wet_lab.models import RunResult, Extraction
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  TaxonOrder, \
     TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
@@ -6,17 +10,113 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 
 # Create your filters here.
 ########################################
+# FRONTEND FILTERS                     #
+########################################
+class QualityMetadataFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+    run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    analysis_label = filters.ModelChoiceFilter(field_name='analysis_label', queryset=QualityMetadata.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = QualityMetadata
+        fields = ['created_by', 'process_location', 'run_result', 'analysis_label', ]
+
+
+class DenoiseClusterMetadataFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+    quality_metadata = filters.ModelChoiceFilter(field_name='quality_metadata__quality_slug', queryset=QualityMetadata.objects.all(), widget=CustomSelect2)
+    analysis_label = filters.ModelChoiceFilter(field_name='analysis_label', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
+    denoise_cluster_method = filters.ModelChoiceFilter(field_name='denoise_cluster_method__denoise_cluster_method_slug', queryset=DenoiseClusterMethod.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = DenoiseClusterMetadata
+        fields = ['created_by', 'process_location', 'quality_metadata', 'analysis_label', 'denoise_cluster_method', ]
+
+
+class FeatureOutputFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    denoise_cluster_metadata = filters.ModelChoiceFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = FeatureOutput
+        fields = ['created_by', 'denoise_cluster_metadata', ]
+
+
+class FeatureReadFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
+    feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2Multiple)
+
+    class Meta:
+        model = FeatureRead
+        fields = ['created_by', 'extraction', 'feature', ]
+
+
+class AnnotationMetadataFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    analysis_label = filters.ModelChoiceFilter(field_name='analysis_label', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+    denoise_cluster_metadata = filters.ModelChoiceFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
+    annotation_method = filters.ModelChoiceFilter(field_name='annotation_method__annotation_method_name_slug', queryset=AnnotationMethod.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = AnnotationMetadata
+        fields = ['created_by', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'annotation_method', ]
+
+
+class TaxonomicAnnotationFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
+    annotation_metadata = filters.ModelChoiceFilter(field_name='annotation_metadata__annotation_slug', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
+    reference_database = filters.ModelChoiceFilter(field_name='reference_database__refdb_slug', queryset=ReferenceDatabase.objects.all(), widget=CustomSelect2)
+    ta_taxon = filters.ModelChoiceFilter(field_name='ta_taxon', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_domain = filters.ModelChoiceFilter(field_name='ta_domain', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_kingdom = filters.ModelChoiceFilter(field_name='ta_kingdom', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_supergroup = filters.ModelChoiceFilter(field_name='ta_supergroup', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_phylum_division = filters.ModelChoiceFilter(field_name='ta_phylum_division', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_class = filters.ModelChoiceFilter(field_name='ta_class', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_order = filters.ModelChoiceFilter(field_name='ta_order', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_family = filters.ModelChoiceFilter(field_name='ta_family', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_genus = filters.ModelChoiceFilter(field_name='ta_genus', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_species = filters.ModelChoiceFilter(field_name='ta_species', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_common_name = filters.ModelChoiceFilter(field_name='ta_common_name', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    manual_domain = filters.ModelChoiceFilter(field_name='manual_domain__taxon_domain_slug', queryset=TaxonDomain.objects.all(), widget=CustomSelect2)
+    manual_kingdom = filters.ModelChoiceFilter(field_name='manual_kingdom__taxon_kingdom_slug', queryset=TaxonKingdom.objects.all(), widget=CustomSelect2)
+    manual_supergroup = filters.ModelChoiceFilter(field_name='manual_supergroup__taxon_supergroup_slug', queryset=TaxonSupergroup.objects.all(), widget=CustomSelect2)
+    manual_phylum_division = filters.ModelChoiceFilter(field_name='manual_phylum_division__taxon_phylum_division_slug', queryset=TaxonPhylumDivision.objects.all(), widget=CustomSelect2)
+    manual_class = filters.ModelChoiceFilter(field_name='manual_class__taxon_class_slug', queryset=TaxonClass.objects.all(), widget=CustomSelect2)
+    manual_order = filters.ModelChoiceFilter(field_name='manual_order__taxon_order_slug', queryset=TaxonOrder.objects.all(), widget=CustomSelect2)
+    manual_family = filters.ModelChoiceFilter(field_name='manual_family__taxon_family_slug', queryset=TaxonFamily.objects.all(), widget=CustomSelect2)
+    manual_genus = filters.ModelChoiceFilter(field_name='manual_genus__taxon_genus_slug', queryset=TaxonGenus.objects.all(), widget=CustomSelect2)
+    manual_species = filters.ModelChoiceFilter(field_name='manual_species__taxon_species_slug', queryset=TaxonSpecies.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = TaxonomicAnnotation
+        fields = ['created_by', 'feature', 'annotation_metadata', 'reference_database',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', 'manual_domain',
+                  'manual_kingdom', 'manual_supergroup', 'manual_phylum_division',
+                  'manual_class', 'manual_order',
+                  'manual_family', 'manual_genus',
+                  'manual_species']
+
+
+########################################
 # SERIALIZER FILTERS                   #
 ########################################
 class QualityMetadataSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     process_location = filters.CharFilter(field_name='process_location__process_location_name_slug', lookup_expr='iexact')
     run_result = filters.CharFilter(field_name='run_result__run_id', lookup_expr='iexact')
-    analysis_name = filters.CharFilter(field_name='analysis_name', lookup_expr='iexact')
+    analysis_label = filters.CharFilter(field_name='analysis_label', lookup_expr='iexact')
 
     class Meta:
         model = QualityMetadata
-        fields = ['created_by', 'process_location', 'run_result', 'analysis_name', ]
+        fields = ['created_by', 'process_location', 'run_result', 'analysis_label', ]
 
 
 class DenoiseClusterMethodSerializerFilter(filters.FilterSet):
@@ -33,12 +133,12 @@ class DenoiseClusterMetadataSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     process_location = filters.CharFilter(field_name='process_location__process_location_name_slug', lookup_expr='iexact')
     quality_metadata = filters.CharFilter(field_name='quality_metadata__quality_slug', lookup_expr='iexact')
-    analysis_name = filters.CharFilter(field_name='analysis_name', lookup_expr='iexact')
+    analysis_label = filters.CharFilter(field_name='analysis_label', lookup_expr='iexact')
     denoise_cluster_method = filters.CharFilter(field_name='denoise_cluster_method__denoise_cluster_method_slug', lookup_expr='iexact')
 
     class Meta:
         model = DenoiseClusterMetadata
-        fields = ['created_by', 'process_location', 'quality_metadata', 'analysis_name', 'denoise_cluster_method', ]
+        fields = ['created_by', 'process_location', 'quality_metadata', 'analysis_label', 'denoise_cluster_method', ]
 
 
 class FeatureOutputSerializerFilter(filters.FilterSet):
@@ -58,7 +158,7 @@ class FeatureReadSerializerFilter(filters.FilterSet):
 
     class Meta:
         model = FeatureRead
-        fields = ['created_by', 'extraction', 'feature', ]
+        fields = ['created_by', 'read_slug', 'extraction', 'feature', ]
 
 
 class ReferenceDatabaseSerializerFilter(filters.FilterSet):
@@ -200,14 +300,14 @@ class AnnotationMethodSerializerFilter(filters.FilterSet):
 
 class AnnotationMetadataSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    analysis_name = filters.CharFilter(field_name='analysis_name', lookup_expr='iexact')
+    analysis_label = filters.CharFilter(field_name='analysis_label', lookup_expr='iexact')
     process_location = filters.CharFilter(field_name='process_location__process_location_name_slug', lookup_expr='iexact')
     denoise_cluster_metadata = filters.CharFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', lookup_expr='iexact')
     annotation_method = filters.CharFilter(field_name='annotation_method__annotation_method_name_slug', lookup_expr='iexact')
 
     class Meta:
         model = AnnotationMetadata
-        fields = ['created_by', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'annotation_method', ]
+        fields = ['created_by', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'annotation_method', ]
 
 
 class TaxonomicAnnotationSerializerFilter(filters.FilterSet):

@@ -19,7 +19,7 @@ class QualityMetadataTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         run_result = RunResult.objects.filter()[:1].get()
         QualityMetadata.objects.get_or_create(defaults={
-                                                         'analysis_name': "test_name",
+                                                         'analysis_label': "test_name",
                                                          'process_location': process_location,
                                                          'analysis_datetime': current_datetime,
                                                          'run_result': run_result,
@@ -66,7 +66,7 @@ class DenoiseClusterMetadataTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         quality_metadata = QualityMetadata.objects.filter()[:1].get()
         DenoiseClusterMetadata.objects.get_or_create(defaults={
-                                                         'analysis_name': "test_name",
+                                                         'analysis_label': "test_name",
                                                          'process_location': process_location,
                                                          'analysis_datetime': current_datetime,
                                                          'quality_metadata': quality_metadata,
@@ -274,7 +274,7 @@ class AnnotationMetadataTestCase(TestCase):
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method = AnnotationMethod.objects.filter()[:1].get()
         AnnotationMetadata.objects.get_or_create(defaults={
-                                                        'analysis_name': 'test_name',
+                                                        'analysis_label': 'test_name',
                                                         'process_location': process_location,
                                                         'denoise_cluster_metadata': denoise_cluster_metadata,
                                                         'analysis_datetime': current_datetime,
