@@ -9,7 +9,7 @@ from utility.enumerations import YesNo, QualityChecks
 class QualityMetadata(DateTimeUserMixin):
     run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
-    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
+    analysis_label = models.CharField("Analysis Label", max_length=255, unique=True)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
@@ -30,11 +30,11 @@ class QualityMetadata(DateTimeUserMixin):
     quality_slug = models.TextField("Quality Slug", max_length=255)
 
     def save(self, *args, **kwargs):
-        self.quality_slug = '{name}_{run_id}'.format(name=slugify(self.analysis_name), run_id=slugify(self.run_result.run_id))
+        self.quality_slug = '{name}_{run_id}'.format(name=slugify(self.analysis_label), run_id=slugify(self.run_result.run_id))
         super(QualityMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.analysis_name
+        return self.analysis_label
 
     class Meta:
         app_label = 'bioinfo'
@@ -73,7 +73,7 @@ class DenoiseClusterMethod(DateTimeUserMixin):
 class DenoiseClusterMetadata(DateTimeUserMixin):
     quality_metadata = models.ForeignKey(QualityMetadata, on_delete=models.RESTRICT)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
-    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
+    analysis_label = models.CharField("Analysis Label", max_length=255, unique=True)
     analysis_datetime = models.DateTimeField("Analysis DateTime")
     analyst_first_name = models.CharField("Analyst First Name", max_length=255)
     analyst_last_name = models.CharField("Analyst Last Name", max_length=255)
@@ -84,7 +84,7 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.analysis_datetime)
-        self.denoise_cluster_slug = '{name}_{method}_{date}'.format(name=slugify(self.analysis_name), method=slugify(self.denoise_cluster_method), date=analysis_date_fmt)
+        self.denoise_cluster_slug = '{name}_{method}_{date}'.format(name=slugify(self.analysis_label), method=slugify(self.denoise_cluster_method), date=analysis_date_fmt)
         super(DenoiseClusterMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -480,7 +480,7 @@ class AnnotationMethod(DateTimeUserMixin):
 
 
 class AnnotationMetadata(DateTimeUserMixin):
-    analysis_name = models.CharField("Analysis Name", max_length=255, unique=True)
+    analysis_label = models.CharField("Analysis Label", max_length=255, unique=True)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     denoise_cluster_metadata = models.ForeignKey(DenoiseClusterMetadata, on_delete=models.RESTRICT)
     analysis_datetime = models.DateTimeField("Analysis DateTime")

@@ -11,16 +11,16 @@ from users.models import CustomUser
 class QualityMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = QualityMetadata
-        import_id_fields = ('analysis_name', 'run_result', 'analysis_datetime',
+        import_id_fields = ('analysis_label', 'run_result', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
-        fields = ('id', 'quality_slug', 'analysis_name', 'process_location',
+        fields = ('id', 'quality_slug', 'analysis_label', 'process_location',
                   'run_result', 'analysis_datetime',
                   'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                   'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'quality_slug', 'analysis_name', 'process_location',
+        export_order = ('id', 'quality_slug', 'analysis_label', 'process_location',
                         'run_result', 'analysis_datetime',
                         'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                         'chimera_check', 'trim_length_forward', 'trim_length_reverse',
@@ -74,14 +74,14 @@ class DenoiseClusterMethodAdminResource(resources.ModelResource):
 class DenoiseClusterMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = DenoiseClusterMetadata
-        import_id_fields = ('analysis_name', 'quality_metadata', 'analysis_datetime',
+        import_id_fields = ('analysis_label', 'quality_metadata', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
-        fields = ('id', 'denoise_cluster_slug', 'analysis_name', 'process_location', 'analysis_datetime',
+        fields = ('id', 'denoise_cluster_slug', 'analysis_label', 'process_location', 'analysis_datetime',
                   'quality_metadata',
                   'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'denoise_cluster_slug', 'analysis_name', 'process_location', 'analysis_datetime',
+        export_order = ('id', 'denoise_cluster_slug', 'analysis_label', 'process_location', 'analysis_datetime',
                         'quality_metadata',
                         'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
                         'analysis_sop_url', 'analysis_script_repo_url',
@@ -449,14 +449,14 @@ class AnnotationMethodAdminResource(resources.ModelResource):
 class AnnotationMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = AnnotationMetadata
-        import_id_fields = ('analysis_name', 'analysis_datetime', 'annotation_method',
+        import_id_fields = ('analysis_label', 'analysis_datetime', 'annotation_method',
                             'analyst_first_name', 'analyst_last_name', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+        fields = ('id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop_url', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', )
-        export_order = ('id', 'analysis_name', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
+        export_order = ('id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                         'analyst_first_name', 'analyst_last_name',
                         'analysis_sop_url', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', )
