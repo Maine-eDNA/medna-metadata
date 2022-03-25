@@ -118,30 +118,32 @@ urlpatterns = [
     path('dashboard/freezerinventory/metadata/view/', freezerinventory_views.FreezerInventoryReturnMetadataFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryReturnMetadataFilter), name='view_freezerinventoryreturnmetadata'),
     # path('dashboard/freezerinventory/metadata/detail/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataDetailView.as_view(), name='detail_freezerinventoryreturnmetadata'),
     path('dashboard/freezerinventory/metadata/update/<int:pk>/', freezerinventory_views.FreezerInventoryReturnMetadataUpdateView.as_view(success_url=reverse_lazy('view_freezerinventoryreturnmetadata')), name='update_freezerinventoryreturnmetadata'),
-    # TODO BIOINFO: QUALITY METADATA (VIEW, ADD, UPDATE)
+    # BIOINFO: QUALITY METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/qualitymetadata/view/', bioinfo_views.QualityMetadataFilterView.as_view(filterset_class=bioinfo_filters.QualityMetadataFilter), name='view_qualitymetadata'),
     # path('dashboard/bioinfo/qualitymetadata/detail/<int:pk>/', bioinfo_views.QualityMetadataDetailView.as_view(), name='detail_qualitymetadata'),
     path('dashboard/bioinfo/qualitymetadata/update/<int:pk>/', bioinfo_views.QualityMetadataUpdateView.as_view(success_url=reverse_lazy('view_qualitymetadata')), name='update_qualitymetadata'),
     path('dashboard/bioinfo/qualitymetadata/add/', bioinfo_views.QualityMetadataCreateView.as_view(), name='add_qualitymetadata'),
-    # TODO BIOINFO: DENOISECLUSTER METADATA (VIEW, ADD, UPDATE)
+    # BIOINFO: DENOISECLUSTER METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/denoiseclustermetadata/view/', bioinfo_views.DenoiseClusterMetadataFilterView.as_view(filterset_class=bioinfo_filters.DenoiseClusterMetadataFilter), name='view_denoiseclustermetadata'),
     # path('dashboard/bioinfo/denoiseclustermetadata/detail/<int:pk>/', bioinfo_views.DenoiseClusterMetadataDetailView.as_view(), name='detail_denoiseclustermetadata'),
     path('dashboard/bioinfo/denoiseclustermetadata/update/<int:pk>/', bioinfo_views.DenoiseClusterMetadataUpdateView.as_view(success_url=reverse_lazy('view_denoiseclustermetadata')), name='update_denoiseclustermetadata'),
     path('dashboard/bioinfo/denoiseclustermetadata/add/', bioinfo_views.DenoiseClusterMetadataCreateView.as_view(), name='add_denoiseclustermetadata'),
-    # TODO BIOINFO: FEATURE OUTPUTS (VIEW, ADD) w/ TABLE
+    # BIOINFO: FEATURE OUTPUTS (VIEW, ADD) w/ TABLE
+    # TODO convert add_featureoutput to table update
     path('dashboard/bioinfo/featureoutput/view/', bioinfo_views.FeatureOutputFilterView.as_view(filterset_class=bioinfo_filters.FeatureOutputFilter), name='view_featureoutput'),
     # path('dashboard/bioinfo/featureoutput/detail/<int:pk>/', bioinfo_views.FeatureOutputDetailView.as_view(), name='detail_featureoutput'),
     path('dashboard/bioinfo/featureoutput/add/', bioinfo_views.FeatureOutputCreateView.as_view(), name='add_featureoutput'),
-    # TODO BIOINFO: FEATURE READS (VIEW, ADD) w/ TABLE
+    # BIOINFO: FEATURE READS (VIEW, ADD) w/ TABLE
+    # TODO convert add_featureread to table update
     path('dashboard/bioinfo/featureread/view/', bioinfo_views.FeatureReadFilterView.as_view(filterset_class=bioinfo_filters.FeatureReadFilter), name='view_featureread'),
     # path('dashboard/bioinfo/featureread/detail/<int:pk>/', bioinfo_views.FeatureReadDetailView.as_view(), name='detail_featureread'),
     path('dashboard/bioinfo/featureread/add/', bioinfo_views.FeatureReadCreateView.as_view(), name='add_featureread'),
-    # TODO BIOINFO: ANNOTATION METADATA (VIEW, ADD, UPDATE)
+    # BIOINFO: ANNOTATION METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/annotationmetadata/view/', bioinfo_views.AnnotationMetadataFilterView.as_view(filterset_class=bioinfo_filters.AnnotationMetadataFilter), name='view_annotationmetadata'),
     # path('dashboard/bioinfo/annotationmetadata/detail/<int:pk>/', bioinfo_views.AnnotationMetadataDetailView.as_view(), name='detail_annotationmetadata'),
     path('dashboard/bioinfo/annotationmetadata/update/<int:pk>/', bioinfo_views.AnnotationMetadataUpdateView.as_view(success_url=reverse_lazy('view_annotationmetadata')), name='update_annotationmetadata'),
     path('dashboard/bioinfo/annotationmetadata/add/', bioinfo_views.AnnotationMetadataCreateView.as_view(), name='add_annotationmetadata'),
-    # TODO BIOINFO: TAXONOMIC ANNOTATION (VIEW, ADD, UPDATE)
+    # BIOINFO: TAXONOMIC ANNOTATION (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/taxonomicannotation/view/', bioinfo_views.TaxonomicAnnotationFilterView.as_view(filterset_class=bioinfo_filters.TaxonomicAnnotationFilter), name='view_taxonomicannotation'),
     # path('dashboard/bioinfo/taxonomicannotation/detail/<int:pk>/', bioinfo_views.TaxonomicAnnotationDetailView.as_view(), name='detail_taxonomicannotation'),
     path('dashboard/bioinfo/taxonomicannotation/update/<int:pk>/', bioinfo_views.TaxonomicAnnotationUpdateView.as_view(success_url=reverse_lazy('view_taxonomicannotation')), name='update_taxonomicannotation'),
