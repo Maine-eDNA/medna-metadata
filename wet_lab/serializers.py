@@ -6,7 +6,7 @@ from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation
 from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, \
-    LibPrepTypes, LibLayouts
+    LibPrepTypes, LibLayouts, InvestigationTypes, SeqMethods
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -410,13 +410,16 @@ class FastqFileSerializer(serializers.ModelSerializer):
     fastq_filename = serializers.CharField(max_length=255)
     fastq_datafile = serializers.FileField(max_length=255)
     submitted_to_insdc = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    seq_meth = serializers.ChoiceField(choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
+    investigation_type = serializers.ChoiceField(choices=InvestigationTypes.choices, default=InvestigationTypes.MIMARKSSURVEY)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = FastqFile
         fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
-                  'submitted_to_insdc', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'submitted_to_insdc', 'seq_meth', 'investigation_type',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

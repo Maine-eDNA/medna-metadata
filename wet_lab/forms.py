@@ -4,12 +4,13 @@ from django.contrib.gis import forms
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
-    LibPrepKits, LibPrepTypes, LibLayouts
+    LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from .models import Extraction, ExtractionMethod, \
     QuantificationMethod, PrimerPair, Pcr, PcrReplicate, LibraryPrep, \
-    AmplificationMethod, SizeSelectionMethod, IndexRemovalMethod, IndexPair
+    AmplificationMethod, SizeSelectionMethod, IndexRemovalMethod, IndexPair, PooledLibrary, \
+    RunPrep, RunResult, FastqFile
 
 
 class ExtractionForm(forms.ModelForm):
@@ -603,9 +604,243 @@ class PooledLibraryForm(forms.ModelForm):
 
     class Meta:
         model = PooledLibrary
-        fields = ['id', 'pooled_lib_label', 'pooled_lib_datetime',
+        fields = ['pooled_lib_label', 'pooled_lib_datetime',
                   'pooled_lib_barcode', 'process_location',
                   'library_prep', 'quantification_method',
                   'pooled_lib_concentration', 'pooled_lib_concentration_units',
                   'pooled_lib_volume', 'pooled_lib_volume_units',
                   'pooled_lib_notes', ]
+
+
+class RunPrepForm(forms.ModelForm):
+    run_prep_label = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_datetime = forms.DateTimeField(
+        required=True,
+        widget=forms.DateTimeInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    process_location = forms.ModelChoiceField(
+        required=True,
+        queryset=ProcessLocation.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_library = forms.ModelChoiceField(
+        required=True,
+        queryset=PooledLibrary.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    quantification_method = forms.ModelChoiceField(
+        required=True,
+        queryset=QuantificationMethod.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_concentration = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_concentration_units = forms.CharField(
+        required=False,
+        widget=forms.ChoiceField(
+            choices=ConcentrationUnits.choices,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_phix_spike_in = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_phix_spike_in_units = forms.CharField(
+        required=False,
+        widget=forms.ChoiceField(
+            choices=ConcentrationUnits.choices,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_notes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = RunPrep
+        fields = ['run_prep_label', 'run_prep_datetime', 'process_location', 'pooled_library',
+                  'quantification_method',
+                  'run_prep_concentration', 'run_prep_concentration_units',
+                  'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
+                  'run_prep_notes', ]
+
+
+class RunResultForm(forms.ModelForm):
+    run_experiment_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_id = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_date = forms.DateTime(
+        required=True,
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    process_location = forms.ModelChoiceField(
+        required=True,
+        queryset=ProcessLocation.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep = forms.ModelChoiceField(
+        required=True,
+        queryset=RunPrep.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_completion_datetime = forms.DateTimeField(
+        required=True,
+        widget=forms.DateTimeInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_instrument = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = RunResult
+        fields = ['run_experiment_name', 'run_id', 'run_date', 'process_location', 'run_prep',
+                  'run_completion_datetime', 'run_instrument', ]
+
+
+class FastqFileForm(forms.ModelForm):
+    fastq_filename = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_result = forms.ModelChoiceField(
+        required=True,
+        queryset=RunResult.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    extraction = forms.ModelChoiceField(
+        required=True,
+        queryset=Extraction.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_instrument = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    submitted_to_insdc = forms.CharField(
+        required=True,
+        widget=forms.ChoiceField(
+            choices=YesNo.choices,
+            default=YesNo.NO,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    seq_meth = forms.CharField(
+        required=True,
+        widget=forms.ChoiceField(
+            choices=SeqMethods.choices,
+            default=SeqMethods.ILLUMINAMISEQ,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    investigation_type = forms.CharField(
+        required=True,
+        widget=forms.ChoiceField(
+            choices=InvestigationTypes.choices,
+            default=InvestigationTypes.MIMARKSSURVEY,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = FastqFile
+        fields = ['run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+                  'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
