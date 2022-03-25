@@ -112,8 +112,48 @@ class RunPrepTable(tables.Table):
 
     class Meta:
         model = RunPrep
-        fields = ('_selected_action', 'id', 'run_prep_label', 'run_prep_slug',
+        fields = ('_selected_action', 'id', 'run_prep_label',
                   'run_prep_datetime', 'process_location', 'pooled_library',
                   'quantification_method', 'run_prep_concentration',
                   'run_prep_concentration_units', 'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
                   'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class RunResultTable(tables.Table):
+    edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_by = tables.Column(accessor='created_by.email')
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
+
+    class Meta:
+        model = RunResult
+        fields = ('_selected_action', 'id', 'run_experiment_name', 'run_id',
+                  'run_date', 'process_location', 'run_prep',
+                  'run_completion_datetime', 'run_instrument',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class FastqFileTable(tables.Table):
+    edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_by = tables.Column(accessor='created_by.email')
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
+
+    class Meta:
+        model = FastqFile
+        fields = ('_selected_action', 'uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+                  'submitted_to_insdc', 'created_by', 'created_datetime', 'modified_datetime', )
