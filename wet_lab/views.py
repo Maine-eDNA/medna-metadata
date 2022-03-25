@@ -321,6 +321,97 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return redirect('main/model-perms-required.html')
 
 
+class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = PooledLibrary
+    table_class = PooledLibraryTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_pooledlibrary', )
+    export_name = 'pooledlibrary_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.PooledLibrarySerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
+                        'pooled_lib_barcode', 'barcode_slug', 'process_location',
+                        'library_prep', 'quantification_method',
+                        'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                        'pooled_lib_volume', 'pooled_lib_volume_units',
+                        'pooled_lib_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_pooledlibrary"
+        context["page_title"] = "Pooled Library"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = PooledLibrary
+    form_class = PooledLibraryForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_pooledlibrary', 'wet_lab.view_pooledlibrary', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_pooledlibrary"
+        context["page_title"] = "Pooled Library"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_pooledlibrary')
+
+
+class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_pooledlibrary'
+    model = PooledLibrary
+    form_class = PooledLibraryForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_pooledlibrary"
+        context["page_title"] = "Pooled Library"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_pooledlibrary')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################

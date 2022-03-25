@@ -27,7 +27,7 @@ class ExtractionTable(tables.Table):
 
 
 class PcrTable(tables.Table):
-    edit = tables.LinkColumn("update_extraction", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn("update_pcr", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     modified_datetime = tables.DateTimeColumn(format="M d, Y")
@@ -50,7 +50,7 @@ class PcrTable(tables.Table):
 
 
 class LibraryPrepTable(tables.Table):
-    edit = tables.LinkColumn("update_extraction", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn("update_libraryprep", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     modified_datetime = tables.DateTimeColumn(format="M d, Y")
@@ -71,3 +71,49 @@ class LibraryPrepTable(tables.Table):
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units', 'lib_prep_kit',
                   'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class PooledLibraryTable(tables.Table):
+    edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_by = tables.Column(accessor='created_by.email')
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
+
+    class Meta:
+        model = LibraryPrep
+        fields = ('_selected_action', 'id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
+                  'pooled_lib_barcode', 'barcode_slug', 'process_location',
+                  'library_prep', 'quantification_method',
+                  'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                  'pooled_lib_volume', 'pooled_lib_volume_units',
+                  'pooled_lib_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class RunPrepTable(tables.Table):
+    edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_by = tables.Column(accessor='created_by.email')
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
+
+    class Meta:
+        model = LibraryPrep
+        fields = ('_selected_action', 'id', 'run_prep_label', 'run_prep_slug',
+                  'run_prep_datetime', 'process_location', 'pooled_library',
+                  'quantification_method', 'run_prep_concentration',
+                  'run_prep_concentration_units', 'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
+                  'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', )

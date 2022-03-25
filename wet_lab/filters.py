@@ -1,6 +1,9 @@
 from django import forms
 from django_filters import rest_framework as filters
-from utility.widgets import CustomSelect2Multiple
+from utility.widgets import CustomSelect2Multiple, CustomSelect2
+from utility.enumerations import PcrTypes, LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
+from utility.models import ProcessLocation
+from users.models import CustomUser
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     AmplificationMethod, ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile
@@ -12,13 +15,108 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
 ########################################
 class ExtractionFilter(filters.FilterSet):
     barcode_slug = filters.ModelMultipleChoiceFilter(queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
-    extraction_method = filters.CharFilter(field_name='extraction_method__extraction_method_slug', lookup_expr='iexact')
+    extraction_method = filters.ModelChoiceFilter(field_name='extraction_method__extraction_method_slug', queryset=ExtractionMethod.objects.all(), widget=CustomSelect2)
     extraction_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:
         model = Extraction
         fields = ['barcode_slug', 'extraction_method', 'extraction_datetime', 'created_by', ]
+
+
+class PcrFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    pcr_experiment_name = filters.ModelChoiceFilter(field_name='pcr_experiment_name', queryset=Pcr.objects.all(), widget=CustomSelect2)
+    pcr_type = filters.ChoiceFilter(field_name='pcr_type', choices=PcrTypes.choices)
+    pcr_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
+    primer_set = filters.ModelChoiceFilter(field_name='primer_set__primer_slug', queryset=PrimerPair.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = Pcr
+        fields = ['created_by', 'pcr_experiment_name', 'pcr_type', 'pcr_datetime', 'process_location',
+                  'extraction', 'primer_set', ]
+
+
+class LibraryPrepFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    lib_prep_experiment_name = filters.ModelChoiceFilter(field_name='lib_prep_experiment_name', queryset=LibraryPrep.objects.all(), widget=CustomSelect2)
+    lib_prep_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
+    primer_set = filters.ModelChoiceFilter(field_name='primer_set__primer_slug', queryset=PrimerPair.objects.all(), widget=CustomSelect2)
+    size_selection_method = filters.ModelChoiceFilter(field_name='size_selection_method__size_selection_method_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2)
+    index_removal_method = filters.ModelChoiceFilter(field_name='index_removal_method__index_removal_method_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2)
+    lib_prep_kit = filters.ChoiceFilter(field_name='lib_prep_kit', choices=LibPrepKits.choices)
+    lib_prep_type = filters.ChoiceFilter(field_name='lib_prep_type', choices=LibPrepTypes.choices)
+    lib_prep_layout = filters.ChoiceFilter(field_name='lib_prep_layout', choices=LibLayouts.choices)
+
+    class Meta:
+        model = LibraryPrep
+        fields = ['created_by', 'lib_prep_experiment_name', 'lib_prep_datetime',
+                  'process_location',
+                  'extraction',
+                  'primer_set',
+                  'size_selection_method',
+                  'index_removal_method',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', ]
+
+
+class PooledLibraryFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    pooled_lib_label = filters.ModelChoiceFilter(field_name='pooled_lib_label', queryset=PooledLibrary.objects.all(), widget=CustomSelect2)
+    pooled_lib_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+    barcode_slug = filters.ModelChoiceFilter(field_name='barcode_slug', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    library_prep = filters.ModelChoiceFilter(field_name='library_prep__lib_prep_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2Multiple)
+
+    class Meta:
+        model = PooledLibrary
+        fields = ['created_by', 'pooled_lib_label',
+                  'pooled_lib_datetime', 'barcode_slug', 'process_location', 'library_prep', ]
+
+
+class RunPrepFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    run_prep_label = filters.ModelChoiceFilter(field_name='run_prep_label', queryset=RunPrep.objects.all(), widget=CustomSelect2)
+    run_prep_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    pooled_library = filters.ModelChoiceFilter(field_name='pooled_library__pooled_lib_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2Multiple)
+    process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = RunPrep
+        fields = ['created_by', 'run_prep_label', 'run_prep_datetime',
+                  'pooled_library', 'process_location', ]
+
+
+class RunResultFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    run_experiment_name = filters.ModelChoiceFilter(field_name='run_experiment_name', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    run_id = filters.ModelChoiceFilter(field_name='run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    run_date = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    pooled_library = filters.ModelChoiceFilter(field_name='pooled_library__pooled_lib_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2Multiple)
+    run_prep = filters.ModelChoiceFilter(field_name='run_prep__run_prep_slug', queryset=RunPrep.objects.all(), widget=CustomSelect2)
+    run_completion_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    run_instrument = filters.ModelChoiceFilter(field_name='run_instrument', queryset=RunResult.objects.all(), widget=CustomSelect2)
+
+    class Meta:
+        model = RunResult
+        fields = ['created_by', 'run_experiment_name', 'run_id', 'run_date', 'process_location',
+                  'run_prep', 'run_completion_datetime', 'run_instrument', ]
+
+
+class FastqFileFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', lookup_expr='iexact')
+    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', lookup_expr='iexact')
+    submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices)
+    seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices)
+    investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices)
+
+    class Meta:
+        model = FastqFile
+        fields = ['created_by', 'run_result', 'extraction', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
 
 
 ########################################

@@ -503,3 +503,109 @@ class LibraryPrepForm(forms.ModelForm):
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond',
                   'lib_prep_sop_url', 'lib_prep_notes', ]
+
+
+class PooledLibraryForm(forms.ModelForm):
+    pooled_lib_label = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_datetime = forms.DateTimeField(
+        required=True,
+        widget=forms.DateTimeInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_barcode = forms.ModelChoiceField(
+        required=True,
+        queryset=SampleBarcode.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    process_location = forms.ModelChoiceField(
+        required=True,
+        queryset=ProcessLocation.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    library_prep = forms.ModelChoiceField(
+        required=True,
+        queryset=LibraryPrep.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    quantification_method = forms.ModelChoiceField(
+        required=True,
+        queryset=QuantificationMethod.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_concentration = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_concentration_units = forms.CharField(
+        required=False,
+        widget=forms.ChoiceField(
+            choices=ConcentrationUnits.choices,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_volume = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_volume_units = forms.CharField(
+        required=False,
+        widget=forms.ChoiceField(
+            choices=VolUnits.choices,
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_lib_notes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = PooledLibrary
+        fields = ['id', 'pooled_lib_label', 'pooled_lib_datetime',
+                  'pooled_lib_barcode', 'process_location',
+                  'library_prep', 'quantification_method',
+                  'pooled_lib_concentration', 'pooled_lib_concentration_units',
+                  'pooled_lib_volume', 'pooled_lib_volume_units',
+                  'pooled_lib_notes', ]
