@@ -92,9 +92,9 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_volume_units = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=VolUnits.choices,
-            default=VolUnits.MICROLITER,
+        choices=VolUnits.choices,
+        default=VolUnits.MICROLITER,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -120,9 +120,9 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_concentration_units = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
-            default=ConcentrationUnits.NGUL,
+        choices=ConcentrationUnits.choices,
+        default=ConcentrationUnits.NGUL,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -185,8 +185,8 @@ class PcrForm(forms.ModelForm):
     )
     pcr_type = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=PcrTypes.choices,
+        choices=PcrTypes.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -244,8 +244,8 @@ class PcrForm(forms.ModelForm):
     )
     pcr_results_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=PcrUnits.choices,
+        choices=PcrUnits.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -395,9 +395,9 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_qubit_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
-            default=ConcentrationUnits.NGML,
+        choices=ConcentrationUnits.choices,
+        default=ConcentrationUnits.NGML,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -413,9 +413,9 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_qpcr_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
-            default=ConcentrationUnits.NM,
+        choices=ConcentrationUnits.choices,
+        default=ConcentrationUnits.NM,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -431,9 +431,9 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_final_concentration_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
-            default=ConcentrationUnits.NM,
+        choices=ConcentrationUnits.choices,
+        default=ConcentrationUnits.NM,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -441,9 +441,9 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_kit = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=LibPrepKits.choices,
-            default=LibPrepKits.NEXTERAXTV2,
+        choices=LibPrepKits.choices,
+        default=LibPrepKits.NEXTERAXTV2,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -451,8 +451,8 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_type = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=LibPrepTypes.choices,
+        choices=LibPrepTypes.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -460,8 +460,8 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_layout = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=LibLayouts.choices,
+        choices=LibLayouts.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -569,8 +569,8 @@ class PooledLibraryForm(forms.ModelForm):
     )
     pooled_lib_concentration_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
+        choices=ConcentrationUnits.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -586,8 +586,8 @@ class PooledLibraryForm(forms.ModelForm):
     )
     pooled_lib_volume_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=VolUnits.choices,
+        choices=VolUnits.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -666,8 +666,8 @@ class RunPrepForm(forms.ModelForm):
     )
     run_prep_concentration_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
+        choices=ConcentrationUnits.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -683,8 +683,8 @@ class RunPrepForm(forms.ModelForm):
     )
     run_prep_phix_spike_in_units = forms.CharField(
         required=False,
-        widget=forms.ChoiceField(
-            choices=ConcentrationUnits.choices,
+        choices=ConcentrationUnits.choices,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -725,7 +725,7 @@ class RunResultForm(forms.ModelForm):
             }
         )
     )
-    run_date = forms.DateTime(
+    run_date = forms.DateField(
         required=True,
         widget=forms.DateInput(
             attrs={
@@ -811,9 +811,9 @@ class FastqFileForm(forms.ModelForm):
     )
     submitted_to_insdc = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=YesNo.choices,
-            default=YesNo.NO,
+        choices=YesNo.choices,
+        default=YesNo.NO,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -821,9 +821,9 @@ class FastqFileForm(forms.ModelForm):
     )
     seq_meth = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=SeqMethods.choices,
-            default=SeqMethods.ILLUMINAMISEQ,
+        choices=SeqMethods.choices,
+        default=SeqMethods.ILLUMINAMISEQ,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -831,9 +831,9 @@ class FastqFileForm(forms.ModelForm):
     )
     investigation_type = forms.CharField(
         required=True,
-        widget=forms.ChoiceField(
-            choices=InvestigationTypes.choices,
-            default=InvestigationTypes.MIMARKSSURVEY,
+        choices=InvestigationTypes.choices,
+        default=InvestigationTypes.MIMARKSSURVEY,
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
