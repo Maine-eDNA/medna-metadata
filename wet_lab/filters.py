@@ -109,7 +109,7 @@ class RunResultFilter(filters.FilterSet):
 class FastqFileFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', lookup_expr='iexact')
-    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', lookup_expr='iexact')
+    extraction = filters.ModelMultipleChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
     submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices, widget=CustomSelect2)
     seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices, widget=CustomSelect2)
     investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices, widget=CustomSelect2)
