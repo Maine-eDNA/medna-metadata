@@ -1,32 +1,160 @@
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import DetailView
-from django.views.generic.edit import UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
-from .serializers import ReturnActionSerializer, FreezerSerializer, FreezerRackSerializer, \
-    FreezerBoxSerializer, FreezerInventorySerializer, FreezerInventoryLogSerializer, \
-    FreezerInventoryReturnMetadataSerializer, FreezerInventoryLocNestedSerializer, \
-    FreezerInventoryLogsNestedSerializer, FreezerInventoryReturnsMetadataNestedSerializer
+from django_tables2.views import SingleTableMixin
+from django_filters.views import FilterView
+from utility.enumerations import YesNo
+from utility.serializers import SerializerExportMixin
+from utility.views import export_context
+import freezer_inventory.serializers as freezerinventory_serializers
+import freezer_inventory.filters as freezerinventory_filters
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
-from .tables import FreezerInventoryReturnMetadataTable
-from .forms import FreezerInventoryReturnMetadataUpdateForm
-import freezer_inventory.filters as freezerinventory_filters
-from utility.enumerations import YesNo
+from .tables import UserFreezerInventoryReturnMetadataTable, FreezerInventoryTable, FreezerInventoryLogTable, \
+    FreezerInventoryReturnMetadataTable
+from .forms import FreezerInventoryReturnMetadataUpdateForm, FreezerInventoryForm
 
 
 # Create your views here.
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
-class FreezerInventoryLogDetailView(LoginRequiredMixin, DetailView):
+class FreezerInventoryFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FreezerInventory
+    table_class = FreezerInventoryTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('freezer_inventory.view_freezerinventory', )
+    export_name = 'freezerinventory_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = freezerinventory_serializers.FreezerInventorySerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'sample_barcode',
+                        'freezer_inventory_slug',
+                        'freezer_inventory_type', 'freezer_inventory_status',
+                        'freezer_inventory_column', 'freezer_inventory_row',
+                        'freezer_box',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_freezerinventory"
+        context["page_title"] = "Freezer Inventory"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FreezerInventoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FreezerInventory
+    form_class = FreezerInventoryForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('freezer_inventory.update_freezerinventory', 'freezer_inventory.view_freezerinventory', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_freezerinventory"
+        context["page_title"] = "Freezer Inventory"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_freezerinventory')
+
+
+class FreezerInventoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = ('freezer_inventory.add_feezerinventory', )
+    model = FreezerInventory
+    form_class = FreezerInventoryForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_freezerinventory"
+        context["page_title"] = "Freezer Inventory"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_freezerinventory')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FreezerInventoryLogFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FreezerInventoryLog
+    table_class = FreezerInventoryLogTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('freezer_inventory.view_freezerinventorylog', )
+    export_name = 'freezerinventorylog_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = freezerinventory_serializers.FreezerInventoryLogSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'freezer_log_action',
+                        'freezer_log_notes', 'freezer_log_slug', 'freezer_return_metadata',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_freezerinventorylog"
+        context["page_title"] = "Freezer Inventory Log"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FreezerInventoryLogDetailView(LoginRequiredMixin, PermissionRequiredMixin,  DetailView):
     model = FreezerInventoryLog
     fields = ['freezer_inventory', 'freezer_log_slug', 'freezer_log_action', 'freezer_log_notes', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
+    permission_required = ('freezer_inventory.view_freezerinventorylog', )
     template_name = 'home/django-material-dashboard/model-detail.html'
 
     def get_context_data(self, **kwargs):
@@ -36,13 +164,51 @@ class FreezerInventoryLogDetailView(LoginRequiredMixin, DetailView):
         context["page_title"] = "Freezer Inventory Log"
         return context
 
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
 
-class FreezerInventoryReturnMetadataDetailView(LoginRequiredMixin, DetailView):
+
+class FreezerInventoryReturnMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FreezerInventoryReturnMetadata
+    table_class = FreezerInventoryReturnMetadataTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('freezer_inventory.view_freezerinventoryreturnmetadata', )
+    export_name = 'freezerinventoryreturnmetadata_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = freezerinventory_serializers.FreezerInventoryReturnMetadataSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
+                        'freezer_return_vol_taken', 'freezer_return_vol_units',
+                        'freezer_return_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_freezerinventoryreturnmetadata"
+        context["page_title"] = "Freezer Inventory Return Metadata"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FreezerInventoryReturnMetadataDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = FreezerInventoryReturnMetadata
     fields = ['freezer_log', 'freezer_return_slug', 'freezer_return_metadata_entered', 'freezer_return_actions',
               'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes', ]
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
+    permission_required = ('freezer_inventory.view_freezerinventoryreturnmetadata', )
     template_name = 'home/django-material-dashboard/model-detail.html'
 
     def get_context_data(self, **kwargs):
@@ -52,12 +218,18 @@ class FreezerInventoryReturnMetadataDetailView(LoginRequiredMixin, DetailView):
         context["page_title"] = "Freezer Inventory Return Metadata"
         return context
 
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
 
-class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, UpdateView):
+
+class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = FreezerInventoryReturnMetadata
     form_class = FreezerInventoryReturnMetadataUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
+    permission_required = ('freezer_inventory.change_feezerinventoryreturnmetadata', )
     template_name = 'home/django-material-dashboard/model-update.html'
 
     def get_context_data(self, **kwargs):
@@ -67,10 +239,15 @@ class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, UpdateView):
         context["page_title"] = "Freezer Inventory Return Metadata"
         return context
 
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
 
 @login_required(login_url='dashboard_login')
 def freezer_inventory_return_metadata_table(request):
-    return_metadata_table = FreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
+    return_metadata_table = UserFreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
     return_metadata_count = FreezerInventoryReturnMetadata.objects.filter(created_by=request.user, freezer_return_metadata_entered=YesNo.YES).count()
     return return_metadata_table, return_metadata_count
 
@@ -79,7 +256,7 @@ def freezer_inventory_return_metadata_table(request):
 # SERIALIZER VIEWS                     #
 ########################################
 class ReturnActionViewSet(viewsets.ModelViewSet):
-    serializer_class = ReturnActionSerializer
+    serializer_class = freezerinventory_serializers.ReturnActionSerializer
     queryset = ReturnAction.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'action_code', 'action_label', 'created_datetime', 'modified_datetime', ]
@@ -88,7 +265,7 @@ class ReturnActionViewSet(viewsets.ModelViewSet):
 
 
 class FreezerViewSet(viewsets.ModelViewSet):
-    serializer_class = FreezerSerializer
+    serializer_class = freezerinventory_serializers.FreezerSerializer
     queryset = Freezer.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer_label', 'freezer_label_slug', 'freezer_room_name',
@@ -98,7 +275,7 @@ class FreezerViewSet(viewsets.ModelViewSet):
 
 
 class FreezerRackViewSet(viewsets.ModelViewSet):
-    serializer_class = FreezerRackSerializer
+    serializer_class = freezerinventory_serializers.FreezerRackSerializer
     queryset = FreezerRack.objects.prefetch_related('created_by', 'freezer')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer__freezer_label_slug', 'freezer_rack_label',
@@ -108,7 +285,7 @@ class FreezerRackViewSet(viewsets.ModelViewSet):
 
 
 class FreezerBoxViewSet(viewsets.ModelViewSet):
-    serializer_class = FreezerBoxSerializer
+    serializer_class = freezerinventory_serializers.FreezerBoxSerializer
     queryset = FreezerBox.objects.prefetch_related('created_by', 'freezer_rack')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['freezer_rack__freezer_rack_label_slug', 'freezer_box_label', 'freezer_box_label_slug',
@@ -118,7 +295,7 @@ class FreezerBoxViewSet(viewsets.ModelViewSet):
 
 
 class FreezerInventoryViewSet(viewsets.ModelViewSet):
-    serializer_class = FreezerInventorySerializer
+    serializer_class = freezerinventory_serializers.FreezerInventorySerializer
     queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer_box__freezer_box_label_slug', 'freezer_inventory_type',
@@ -129,7 +306,7 @@ class FreezerInventoryViewSet(viewsets.ModelViewSet):
 
 
 class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
-    serializer_class = FreezerInventoryLogSerializer
+    serializer_class = freezerinventory_serializers.FreezerInventoryLogSerializer
     queryset = FreezerInventoryLog.objects.prefetch_related('created_by', 'freezer_inventory')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer_inventory__freezer_inventory_slug', 'freezer_log_action',
@@ -139,7 +316,7 @@ class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
 
 
 class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
-    serializer_class = FreezerInventoryReturnMetadataSerializer
+    serializer_class = freezerinventory_serializers.FreezerInventoryReturnMetadataSerializer
     queryset = FreezerInventoryReturnMetadata.objects.prefetch_related('created_by', 'freezer_log', 'freezer_return_actions')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'freezer_log__freezer_log_slug', 'freezer_return_metadata_entered',
@@ -153,7 +330,7 @@ class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
 # NESTED VIEWS                         #
 ########################################
 class FreezerInventoryLocNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FreezerInventoryLocNestedSerializer
+    serializer_class = freezerinventory_serializers.FreezerInventoryLocNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = freezerinventory_filters.FreezerInventoryLocNestedFilter
@@ -165,7 +342,7 @@ class FreezerInventoryLocNestedViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FreezerInventoryLogsNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FreezerInventoryLogsNestedSerializer
+    serializer_class = freezerinventory_serializers.FreezerInventoryLogsNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = freezerinventory_filters.FreezerInventoryLogsNestedFilter
@@ -177,7 +354,7 @@ class FreezerInventoryLogsNestedViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FreezerInventoryReturnsNestedViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = FreezerInventoryReturnsMetadataNestedSerializer
+    serializer_class = freezerinventory_serializers.FreezerInventoryReturnsMetadataNestedSerializer
     # queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = freezerinventory_filters.FreezerInventoryReturnsNestedFilter
