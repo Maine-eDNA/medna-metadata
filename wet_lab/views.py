@@ -24,8 +24,10 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     SizeSelectionMethod, QuantificationMethod, ExtractionMethod, \
     Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
-from .forms import ExtractionForm, PcrForm, LibraryPrepForm
-from .tables import ExtractionTable, PcrTable, LibraryPrepTable
+from .forms import ExtractionForm, PcrForm, LibraryPrepForm, PooledLibraryForm, \
+    RunPrepForm, RunResultForm, FastqFileForm
+from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
+    RunPrepTable, RunResultTable, FastqFileTable
 
 
 # Create your views here.
@@ -405,6 +407,269 @@ class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
 
     def get_success_url(self):
         return reverse('view_pooledlibrary')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = RunPrep
+    table_class = RunPrepTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_runprep', )
+    export_name = 'runprep_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.RunPrepSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'run_prep_label', 'run_prep_slug',
+                        'run_prep_datetime', 'process_location', 'pooled_library',
+                        'quantification_method', 'run_prep_concentration',
+                        'run_prep_concentration_units', 'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
+                        'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_runprep"
+        context["page_title"] = "Run Prep"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class RunPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = RunPrep
+    form_class = RunPrepForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_runprep', 'wet_lab.view_runprep', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_runprep"
+        context["page_title"] = "Run Prep"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_runprep')
+
+
+class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_runprep'
+    model = RunPrep
+    form_class = RunPrepForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_runprep"
+        context["page_title"] = "Run Prep"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_runprep')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = RunResult
+    table_class = RunResultTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_runresult', )
+    export_name = 'runresult_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.RunResultSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['id', 'run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location', 'run_prep',
+                        'run_completion_datetime', 'run_instrument',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_runresult"
+        context["page_title"] = "Run Result"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class RunResultUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = RunResult
+    form_class = RunResultForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_runresult', 'wet_lab.view_runresult', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_runresult"
+        context["page_title"] = "Run Result"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_runresult')
+
+
+class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_runresult'
+    model = RunResult
+    form_class = RunResultForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_runresult"
+        context["page_title"] = "Run Result"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_runresult')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    """View site filter view with REST serializer and django-tables2"""
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FastqFile
+    table_class = FastqFileTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_fastqfile', )
+    export_name = 'fastqfile_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.FastqFileSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+    filterset_fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+                        'submitted_to_insdc', 'seq_meth', 'investigation_type',
+                        'created_by', 'created_datetime', 'modified_datetime', ]
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "view_fastqfile"
+        context["page_title"] = "Fastq File"
+        context["export_formats"] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FastqFile
+    form_class = FastqFileForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_fastqfile', 'wet_lab.view_fastqfile', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_fastqfile"
+        context["page_title"] = "Fastq File"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_fastqfile')
+
+
+class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_fastqfile'
+    model = FastqFile
+    form_class = FastqFileForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_fastqfile"
+        context["page_title"] = "Fastq File"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_fastqfile')
 
     def handle_no_permission(self):
         if self.raise_exception:
