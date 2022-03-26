@@ -1,34 +1,61 @@
-from django.urls import reverse
+from django.core.serializers import serialize
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import Point
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
+from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
-# from django.shortcuts import render
-# from django.http import HttpResponse
-from django.utils import timezone
-# import datetime
 import csv
+import json
 from rest_framework import generics, viewsets
-# from django_tables2.paginators import LazyPaginator
-# from django_filters.rest_framework import DjangoFilterBackend
-from django_tables2.views import SingleTableMixin
-from django_filters.views import FilterView
-from utility.serializers import SerializerExportMixin
 from django_filters import rest_framework as filters
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
+from utility.serializers import SerializerExportMixin
+from utility.views import export_context
+import field_site.serializers as fieldsite_serializers
+import field_site.filters as fieldsite_filters
 from .tables import FieldSiteTable
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
 from .forms import FieldSiteCreateForm, FieldSiteUpdateForm
-import field_site.serializers as fieldsite_serializers
-import field_site.filters as fieldsite_filters
-from utility.views import export_context
 
 
 # Create your views here.
+########################################
+# FRONTEND REQUESTS                    #
+########################################
+@login_required(login_url='dashboard_login')
+def field_site_watershed_map(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
+    # project = get_object_or_404(Project, pk=pk)
+    qs = Watershed.objects.only('watershed_code', 'watershed_label', 'geom', )
+    qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label', 'geom'))
+    return JsonResponse(json.loads(qs_json))
+
+
+@login_required(login_url='dashboard_login')
+def point_intersect_watershed(request, lat, long, srid):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
+    # project = get_object_or_404(Project, pk=pk)
+    pnt = Point(x=long, y=lat, srid=srid)
+    qs = Watershed.objects.only('watershed_code', 'watershed_label', 'geom', ).filter(geom__intersects=pnt)
+    qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label'))
+    return JsonResponse(json.loads(qs_json))
+
+
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
