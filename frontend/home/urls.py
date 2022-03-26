@@ -7,6 +7,8 @@ from django.urls import path, re_path, reverse_lazy
 from django.views.i18n import JavaScriptCatalog
 # from django.contrib.auth.decorators import login_required
 from frontend.home import views
+from django.urls import path, register_converter
+from utility import converters
 import utility.views as utility_views
 import users.views as user_views
 import field_site.views as fieldsite_views
@@ -21,7 +23,7 @@ import field_survey.filters as fieldsurvey_filters
 import wet_lab.filters as wetlab_filters
 import freezer_inventory.filters as freezerinventory_filters
 import bioinfo.filters as bioinfo_filters
-
+register_converter(converters.FloatUrlParameterConverter, 'float')
 
 urlpatterns = [
     path('', views.IndexTemplateView.as_view(), name='home'),
@@ -40,6 +42,8 @@ urlpatterns = [
     path('dashboard/chart/runresult/count/', wetlab_views.run_result_count_chart, name='chart_runresultcount'),
     # AJAX MAPS
     path('main/map/project_survey/<int:pk>/', fieldsurvey_views.project_survey_map, name='map_projectsurvey'),
+    path('dashboard/geom/watershed/', fieldsite_views.field_site_watershed_map, name='geom_watershed'),
+    path('dashboard/intersect/point/watershed/<float:lat>/<float:long>/<int:srid>/', fieldsite_views.point_intersect_watershed, name='intersect_watershed'),
     # USERS: CUSTOM USER (VIEW, UPDATE)
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='detail_dashboardprofile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('detail_dashboardprofile')), name='update_dashboardprofile'),
