@@ -51,8 +51,8 @@ def point_intersect_watershed(request, lat, long, srid):
     # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
     # project = get_object_or_404(Project, pk=pk)
     pnt = Point(x=long, y=lat, srid=srid)
-    qs = Watershed.objects.only('watershed_code', 'watershed_label', 'geom', ).filter(geom__intersects=pnt)
-    qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label'))
+    qs = Watershed.objects.only('watershed_code', 'watershed_label', 'geom').filter(geom__intersects=pnt)
+    qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label', 'geom'))
     return JsonResponse(json.loads(qs_json))
 
 
