@@ -1,0 +1,131 @@
+{% extends "home/django-material-dashboard/model-add.html" %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block extrahead %}{% endblock extrahead %}
+
+{% block messages %}
+<div class="card card-body mx-3 mb-4">
+    <h3>Create Sample Barcode Request</h3>
+    <div class="row">
+         <p class="pe-md-5 mb-4">
+             Sample barcodes are used to label and track samples with unique Field Site IDs. If a regularly sampled
+             location does not yet have a Field Site ID, please see the
+             <a target="_blank" href="{% url 'add_fieldsite' %}">Create Field Site ID page</a> for further instructions.
+        </p>
+    </div>
+    <div class="row">
+        <p class="pe-md-5 mb-4">
+            Sample barcodes can be requested by filling out the Request Barcode Labels form below. To prevent duplicate
+            requests, please coordinate among regions and designate individuals responsible for requesting and receiving
+            barcode labels. Sample barcodes require an existing Field Site ID.
+        </p>
+    </div>
+    <div class="row">
+        <h3>Naming Convention for Sample Barcodes</h3>
+        <p class="pe-md-5 mb-4">The first seven characters of a sample barcode is the Field Site ID. If you do not
+            yet have a Field Site ID, please see the <a target="_blank" href="{% url 'add_fieldsite' %}">Create Field Site ID page</a>
+            for further instructions.
+        </p>
+        <div class="col-md-4 col-12 my-auto">
+            <h5>pRR_SCC_YYm_CCCC</h5>
+            <table class="table align-items-center mb-0">
+                <caption style="text-align:start; caption-side:top;">Where:</caption>
+                <tbody>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">p</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">Grant or project code</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">RR</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">Watershed region code</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">S</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">System type code</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">CC</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">Two digit sequence, or number</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">YY</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">Two digit collection year</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">m</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">Sample material code</span>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">CCCC</span>
+                        </div>
+                      </td>
+                        <td class="align-middle text-center">
+                        <div class="d-flex align-items-center">
+                          <span class="me-2 text-xs">Four digit sequence, or number</span>
+                        </div>
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8 col-12 my-auto">
+            <img class="w-100 border-radius-lg shadow-lg" src="{% static 'assets/img/naming-convention-sample-label.png' %}" alt="sample label naming convention">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

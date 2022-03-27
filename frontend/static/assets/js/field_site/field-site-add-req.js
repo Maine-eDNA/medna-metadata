@@ -3,6 +3,8 @@ $(window).on('map:init', function (e) {
     var detail = e.originalEvent ?
                  e.originalEvent.detail : e.detail;
     drawnItems = L.featureGroup().addTo(detail.map);
+    watershedItems = L.featureGroup().addTo(detail.map);
+    fieldSiteItems = L.featureGroup().addTo(detail.map);
 
     // subclass L.GeometryField.extend in leaflet.forms.js within django-leaflet app to allow
     // edit of drawnItems. This makes it so that markers can be programmatically
@@ -120,6 +122,29 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
+    $.ajax({
+        url: window.location.origin+"/dashboard/geom/fieldsite/",
+        success: function (data) {
+            var geojsonMarkerOptions = {
+                radius: 5,
+                fillColor: "#ff7800",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+            var fieldSiteGeoJsonLayer = L.geoJSON(data, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.site_id);
+                }
+            });
+            fieldSiteItems.addLayer(fieldSiteGeoJsonLayer);
+        }
+    });
+
         function httpGet(Url)
         {
             // https://stackoverflow.com/questions/247483/http-get-request-in-javascript
@@ -140,23 +165,25 @@ $(window).on('map:init', function (e) {
         var watershed_results = httpGet(geturl);
         //console.log(watershed_results);
 
-        var geoJsonLayer = L.geoJSON(watershed_results, {
+        var watershedGeoJsonLayer = L.geoJSON(watershed_results, {
             onEachFeature: function (feature, layer) {
                 layer.bindPopup(feature.properties.watershed_label);
             }
         });
-                // add watershed query to map
-                //drawnItems.addLayer(geoJsonLayer);
+                // clear existing watershed layers
+                watershedItems.clearLayers();
+                // add new watershed query to map
+                watershedItems.addLayer(watershedGeoJsonLayer);
 
                 //var watershed_results = leafletPip.pointInLayer(latlng, watershedLayer);
                 var reg_click = "---------";
-                var num_results = geoJsonLayer.getLayers().length;
+                var num_results = watershedGeoJsonLayer.getLayers().length;
                 //console.log(num_results);
                 if (num_results>0) {
                     //if(detail.map.hasLayer(watershedLayer)){
                     // find the feature (watershed) that the point intersects
-                    var click_reg_code = geoJsonLayer.getLayers()[0].feature.properties.watershed_code.toString();
-                    var click_reg_lab = geoJsonLayer.getLayers()[0].feature.properties.watershed_label.toString();
+                    var click_reg_code = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_code.toString();
+                    var click_reg_lab = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_label.toString();
                     reg_click = click_reg_code + ": " + click_reg_lab;
                     //}
 

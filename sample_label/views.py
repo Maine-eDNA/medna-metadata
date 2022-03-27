@@ -173,7 +173,7 @@ class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
     model = SampleLabelRequest
     form_class = SampleLabelRequestCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-samplelabelrequest.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
