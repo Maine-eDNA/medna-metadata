@@ -138,7 +138,7 @@ $(window).on('map:init', function (e) {
         // find all intersections with the point within the watershedLayer
 
         var watershed_results = httpGet(geturl);
-        console.log(watershed_results);
+        //console.log(watershed_results);
 
         var geoJsonLayer = L.geoJSON(watershed_results, {
             onEachFeature: function (feature, layer) {
