@@ -52,7 +52,7 @@ def point_intersect_watershed(request, lat, long, srid):
     # project = get_object_or_404(Project, pk=pk)
     pnt = Point(x=long, y=lat, srid=srid)
     qs = Watershed.objects.only('watershed_code', 'watershed_label', 'geom').filter(geom__intersects=pnt)
-    qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label', 'geom'))
+    qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label'))
     return JsonResponse(json.loads(qs_json))
 
 

@@ -120,6 +120,15 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
+        function httpGet(Url)
+        {
+            // https://stackoverflow.com/questions/247483/http-get-request-in-javascript
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", Url, false ); // false for synchronous request
+            xmlHttp.send( null );
+            var data = JSON.parse(xmlHttp.responseText)
+            return data;
+        }
 
     var getWatershedContent = function(layer) {
         // get latitude and longitude of point
@@ -127,14 +136,15 @@ $(window).on('map:init', function (e) {
         var srid = 4326;
         var geturl = window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/";
         // find all intersections with the point within the watershedLayer
-        $.ajax({
-            url: geturl,
-            success: function(watershed_results) {
-                var geoJsonLayer = L.geoJSON(watershed_results, {
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup(feature.properties.watershed_label);
-                    }
-                });
+
+        var watershed_results = httpGet(geturl);
+        console.log(watershed_results);
+
+        var geoJsonLayer = L.geoJSON(watershed_results, {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(feature.properties.watershed_label);
+            }
+        });
                 // add watershed query to map
                 //drawnItems.addLayer(geoJsonLayer);
 
@@ -164,9 +174,7 @@ $(window).on('map:init', function (e) {
                     clearSelectedWatershed();
                     reg_click = "NW: No Watershed";
                 }
-                return(reg_click);
-                }
-            });
+        return(reg_click);
     }
 
     var clearSelectedWatershed = function(){
