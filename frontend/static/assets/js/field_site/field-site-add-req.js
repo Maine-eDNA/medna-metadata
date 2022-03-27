@@ -120,6 +120,30 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
+    $.ajax({
+        url: window.location.origin+"/dashboard/geom/fieldsite/",
+        success: function (data) {
+            var geojsonMarkerOptions = {
+                radius: 8,
+                fillColor: "#ff7800",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+            var geoJsonLayer = L.geoJSON(data, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.site_id);
+                }
+            });
+            // add watershed query to map
+            drawnItems.addLayer(geoJsonLayer);
+        }
+    });
+
         function httpGet(Url)
         {
             // https://stackoverflow.com/questions/247483/http-get-request-in-javascript

@@ -32,7 +32,7 @@ from .forms import FieldSiteCreateForm, FieldSiteUpdateForm
 # FRONTEND REQUESTS                    #
 ########################################
 @login_required(login_url='dashboard_login')
-def field_site_watershed_map(request):
+def watershed_map(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -40,6 +40,26 @@ def field_site_watershed_map(request):
     # project = get_object_or_404(Project, pk=pk)
     qs = Watershed.objects.only('watershed_code', 'watershed_label', 'geom', )
     qs_json = serialize("geojson", qs, fields=('watershed_code', 'watershed_label', 'geom'))
+    return JsonResponse(json.loads(qs_json))
+
+
+@login_required(login_url='dashboard_login')
+def field_site_map(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
+    # project = get_object_or_404(Project, pk=pk)
+    qs = FieldSite.objects.only('site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+                                'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
+                                'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+                                'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
+                                'geom', )
+    qs_json = serialize("geojson", qs, fields=('site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+                                               'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
+                                               'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+                                               'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
+                                               'geom',))
     return JsonResponse(json.loads(qs_json))
 
 

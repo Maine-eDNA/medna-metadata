@@ -42,7 +42,8 @@ urlpatterns = [
     path('dashboard/chart/runresult/count/', wetlab_views.run_result_count_chart, name='chart_runresultcount'),
     # AJAX MAPS
     path('main/map/project_survey/<int:pk>/', fieldsurvey_views.project_survey_map, name='map_projectsurvey'),
-    path('dashboard/geom/watershed/', fieldsite_views.field_site_watershed_map, name='geom_watershed'),
+    path('dashboard/geom/watershed/', fieldsite_views.watershed_map, name='geom_watershed'),
+    path('dashboard/geom/fieldsite/', fieldsite_views.field_site_map, name='geom_fieldsite'),
     path('dashboard/intersect/point/watershed/<float:lat>/<float:long>/<int:srid>/', fieldsite_views.point_intersect_watershed, name='intersect_watershed'),
     # USERS: CUSTOM USER (VIEW, UPDATE)
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='detail_dashboardprofile'),
