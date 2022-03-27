@@ -120,15 +120,22 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
+    function httpGet(Url)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", Url, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
 
     var getWatershedContent = function(layer) {
         // get latitude and longitude of point
         var latlng = layer.getLatLng();
         var srid = 4326;
-        var watershed_results = null;
         var geturl = window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/";
         // find all intersections with the point within the watershedLayer
 
+        /*
         $.ajax({
             url: geturl,
             success: function (data) {
@@ -136,8 +143,10 @@ $(window).on('map:init', function (e) {
                 $( "#int-watershed" ).html( data );
             }
         });
+        */
 
-        watershed_results = $( "#int-watershed" ).html();
+        var watershed_results = httpGet(geturl);
+        console.log(watershed_results);
 
         var geoJsonLayer = L.geoJSON(watershed_results, {
             onEachFeature: function (feature, layer) {
