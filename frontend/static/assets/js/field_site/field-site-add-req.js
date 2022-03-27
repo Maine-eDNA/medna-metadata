@@ -124,7 +124,7 @@ $(window).on('map:init', function (e) {
         url: window.location.origin+"/dashboard/geom/fieldsite/",
         success: function (data) {
             var geojsonMarkerOptions = {
-                radius: 8,
+                radius: 5,
                 fillColor: "#ff7800",
                 color: "#000",
                 weight: 1,
