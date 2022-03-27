@@ -120,13 +120,14 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
-    function httpGet(Url)
-    {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", Url, false ); // false for synchronous request
-        xmlHttp.send( null );
-        return xmlHttp.responseText;
-    }
+        function httpGet(Url)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", Url, false ); // false for synchronous request
+            xmlHttp.send( null );
+            var data = JSON.parse(xmlHttp.responseText)
+            return data;
+        }
 
     var getWatershedContent = function(layer) {
         // get latitude and longitude of point
@@ -135,17 +136,7 @@ $(window).on('map:init', function (e) {
         var geturl = window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/";
         // find all intersections with the point within the watershedLayer
 
-        /*
-        $.ajax({
-            url: geturl,
-            success: function (data) {
-
-                $( "#int-watershed" ).html( data );
-            }
-        });
-        */
-
-        var watershed_results = httpGet(geturl);
+        var watershed_results = data;
         console.log(watershed_results);
 
         var geoJsonLayer = L.geoJSON(watershed_results, {
