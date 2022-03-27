@@ -22,24 +22,23 @@
         </p>
     </div>
     <div class="row">
+        <h3>Naming Convention for Sample Barcodes</h3>
         <div class="col-md-8 col-12 my-auto">
-            <h3>Naming Convention for Sample Barcodes</h3>
             <p class="pe-md-5 mb-4">The first seven characters of a sample barcode is the Field Site ID. If you do not
                 yet have a Field Site ID, please see the <a target="_blank" href="{% url 'add_fieldsite' %}">Create Field Site ID page</a>
                 for further instructions.
             </p>
-            <p class="pe-md-5 mb-4"><strong>pRR_SCC_YYm_CCCC</strong> <br>
-                Where: <br>
-                <ul>
-                    <li>p = Grant or project code</li>
-                    <li>RR = Watershed region code</li>
-                    <li>S = System type code</li>
-                    <li>CC = Two digit sequence, or number</li>
-                    <li>YY = Two digit collection year</li>
-                    <li>m = Sample material code</li>
-                    <li>CCCC = Four digit sequence, or number</li>
-                </ul>
-            </p>
+            <h5>pRR_SCC_YYm_CCCC</h5>
+            <p class="pe-md-5">Where:</p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">p = Grant or project code</li>
+                <li class="list-group-item">RR = Watershed region code</li>
+                <li class="list-group-item">S = System type code</li>
+                <li class="list-group-item">CC = Two digit sequence, or number</li>
+                <li class="list-group-item">YY = Two digit collection year</li>
+                <li class="list-group-item">m = Sample material code</li>
+                <li class="list-group-item">CCCC = Four digit sequence, or number</li>
+            </ul>
         </div>
         <div class="col-md-4 col-12 my-auto">
             <img class="w-100 border-radius-lg shadow-lg" src="{% static 'assets/img/naming-convention-sample-label.png' %}" alt="sample label naming convention">
