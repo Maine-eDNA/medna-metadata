@@ -120,52 +120,44 @@ $(window).on('map:init', function (e) {
         return null;
     };
 
-    var getWatershedIntersect = function(lat, lng) {
-        var data = '';
-        var status = '';
-        var srid = 4326;
-        $.get(window.location.origin+"/dashboard/intersect/point/watershed/"+lat+"/"+lng+"/"+srid+"/",
-            function(data, status) {
-                data = data;
-                status = status;
-            });
-        return [data, status];
-    };
 
     var getWatershedContent = function(layer) {
         // get latitude and longitude of point
         var latlng = layer.getLatLng();
-        console.log(latlng);
-        console.log(window.location.origin);
+        var srid = 4326;
         // find all intersections with the point within the watershedLayer
-        let { watershed_results, status } = getWatershedIntersect(latlng.lat, latlng.lng);
-        //var watershed_results = leafletPip.pointInLayer(latlng, watershedLayer);
-        var reg_click = "---------";
-        var num_results = watershed_results.length;
-        //console.log(num_results);
-        if (num_results>0) {
-            //if(detail.map.hasLayer(watershedLayer)){
-            // find the feature (watershed) that the point intersects
-            var click_reg_code = watershed_results[0].feature.properties.watershed_code.toString();
-            var click_reg_lab = watershed_results[0].feature.properties.watershed_label.toString();
-            reg_click = click_reg_code + ": " + click_reg_lab;
-            //}
+        $.get(window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/",
+            function(watershed_results, status) {
+                console.log(status);
+                console.log(watershed_results);
+                //var watershed_results = leafletPip.pointInLayer(latlng, watershedLayer);
+                var reg_click = "---------";
+                var num_results = watershed_results.length;
+                //console.log(num_results);
+                if (num_results>0) {
+                    //if(detail.map.hasLayer(watershedLayer)){
+                    // find the feature (watershed) that the point intersects
+                    var click_reg_code = watershed_results[0].feature.properties.watershed_code.toString();
+                    var click_reg_lab = watershed_results[0].feature.properties.watershed_label.toString();
+                    reg_click = click_reg_code + ": " + click_reg_lab;
+                    //}
 
-            // find the id of the drop-down menu that matches the label based
-            // on clicking on the map
-            var dd = document.getElementById('id_watershed');
-            for (var i = 0; i < dd.options.length; i++) {
-                if (dd.options[i].text === reg_click) {
-                    //dd.selectedIndex = i;
-                    $('#id_watershed').val(i).trigger('change');
-                    break;
+                    // find the id of the drop-down menu that matches the label based
+                    // on clicking on the map
+                    var dd = document.getElementById('id_watershed');
+                    for (var i = 0; i < dd.options.length; i++) {
+                        if (dd.options[i].text === reg_click) {
+                            //dd.selectedIndex = i;
+                            $('#id_watershed').val(i).trigger('change');
+                            break;
+                        }
+                    }
+                } else {
+                    clearSelectedWatershed();
+                    reg_click = "NW: No Watershed";
                 }
-            }
-        } else {
-            clearSelectedWatershed();
-            reg_click = "NW: No Watershed";
-        }
-       return(reg_click);
+               return(reg_click);
+           });
     }
 
     var clearSelectedWatershed = function(){
