@@ -125,20 +125,28 @@ $(window).on('map:init', function (e) {
         // get latitude and longitude of point
         var latlng = layer.getLatLng();
         var srid = 4326;
+        var geturl = window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/";
         // find all intersections with the point within the watershedLayer
-        $.get(window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/",
-            function(watershed_results, status) {
-                console.log(status);
-                console.log(watershed_results);
+        $.ajax({
+            url: geturl,
+            success: function(watershed_results) {
+                var geoJsonLayer = L.geoJSON(watershed_results, {
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup(feature.properties.watershed_label);
+                    }
+                });
+                // add watershed query to map
+                //drawnItems.addLayer(geoJsonLayer);
+
                 //var watershed_results = leafletPip.pointInLayer(latlng, watershedLayer);
                 var reg_click = "---------";
-                var num_results = watershed_results.length;
+                var num_results = geoJsonLayer.getLayers().length;
                 //console.log(num_results);
                 if (num_results>0) {
                     //if(detail.map.hasLayer(watershedLayer)){
                     // find the feature (watershed) that the point intersects
-                    var click_reg_code = watershed_results[0].feature.properties.watershed_code.toString();
-                    var click_reg_lab = watershed_results[0].feature.properties.watershed_label.toString();
+                    var click_reg_code = geoJsonLayer.getLayers()[0].feature.properties.watershed_code.toString();
+                    var click_reg_lab = geoJsonLayer.getLayers()[0].feature.properties.watershed_label.toString();
                     reg_click = click_reg_code + ": " + click_reg_lab;
                     //}
 
@@ -156,8 +164,9 @@ $(window).on('map:init', function (e) {
                     clearSelectedWatershed();
                     reg_click = "NW: No Watershed";
                 }
-               return(reg_click);
-           });
+                return(reg_click);
+                }
+            });
     }
 
     var clearSelectedWatershed = function(){
