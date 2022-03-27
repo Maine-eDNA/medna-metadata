@@ -1,11 +1,11 @@
 $(function () {
-    // https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-    //var json_data = document.getElementById('survey-count-data').textContent;
-    // the information in this tag is no longer being used, so remove the content from the page
-    //document.getElementById('survey_count').remove()
+  // https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+  //var json_data = document.getElementById('survey-count-data').textContent;
+  // the information in this tag is no longer being used, so remove the content from the page
+  //document.getElementById('survey_count').remove()
 
-    //console.log(json_data)
-    //console.log(survey_count)
+  //console.log(json_data)
+  //console.log(survey_count)
 
   // SURVEY CHARTS
   // line chart

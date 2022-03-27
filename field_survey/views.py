@@ -1,10 +1,6 @@
-# from django.shortcuts import render
-# from django.views.generic import ListView, TemplateView
-from django.db.models import Q, F, Count, Func, Value, CharField
+from django.db.models import F, Count, Func, Value, CharField
 from django.db.models.functions import TruncMonth
-# from django.shortcuts import render
 from django.core.serializers import serialize
-# from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -12,7 +8,6 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.utils import timezone
 import json
-# from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
@@ -33,7 +28,7 @@ from .tables import FieldSurveyTable
 
 # Create your views here.
 ########################################
-# FRONTEND VIEWS                       #
+# FRONTEND REQUESTS                    #
 ########################################
 def project_survey_map(request, pk):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
@@ -118,6 +113,9 @@ def filter_site_count_chart(request):
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
+########################################
+# FRONTEND VIEWS                       #
+########################################
 class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
