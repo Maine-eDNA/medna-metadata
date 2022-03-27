@@ -125,16 +125,25 @@ $(window).on('map:init', function (e) {
         // get latitude and longitude of point
         var latlng = layer.getLatLng();
         var srid = 4326;
+        var watershed_results = null;
         var geturl = window.location.origin+"/dashboard/intersect/point/watershed/"+latlng.lat+"/"+latlng.lng+"/"+srid+"/";
         // find all intersections with the point within the watershedLayer
+
         $.ajax({
             url: geturl,
-            success: function(watershed_results) {
-                var geoJsonLayer = L.geoJSON(watershed_results, {
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup(feature.properties.watershed_label);
-                    }
-                });
+            success: function (data) {
+
+                $( "#int-watershed" ).html( data );
+            }
+        });
+
+        watershed_results = $( "#int-watershed" ).html();
+
+        var geoJsonLayer = L.geoJSON(watershed_results, {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(feature.properties.watershed_label);
+            }
+        });
                 // add watershed query to map
                 //drawnItems.addLayer(geoJsonLayer);
 
@@ -164,9 +173,7 @@ $(window).on('map:init', function (e) {
                     clearSelectedWatershed();
                     reg_click = "NW: No Watershed";
                 }
-                return(reg_click);
-                }
-            });
+        return(reg_click);
     }
 
     var clearSelectedWatershed = function(){
