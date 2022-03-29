@@ -17,7 +17,7 @@ class FieldSiteFilter(filters.FilterSet):
     project = filters.ModelMultipleChoiceFilter(queryset=Project.objects.all(), widget=CustomSelect2Multiple)
     system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2Multiple)
     watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2Multiple)
-    general_location_name = filters.ModelChoiceFilter(field='general_location_name', queryset=FieldSite.objects.all(), widget=CustomSelect2)
+    general_location_name = filters.ModelChoiceFilter(field_name='general_location_name', queryset=FieldSite.objects.all(), widget=CustomSelect2)
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
 
     class Meta:
