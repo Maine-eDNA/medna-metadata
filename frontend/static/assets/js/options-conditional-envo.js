@@ -1,18 +1,22 @@
-var biome_first_pk = $('#id_envo_biome_first').val();
-console.log(biome_first_pk);
-$('#id_envo_biome_second').select2({
-  ajax: {
-    url: window.location.origin+"/dashboard/biome/second/",
-    data: {
-      'envo_biome_first': biome_first_pk       // add the country id to the GET parameters
-    },
-    processResults: function (data) {  // `data` is the return of the `load_cities` view function
-      return {
-       results: data  // replace the contents of the city input with the data that came from the server
+$("#id_envo_biome_first").on("select2:select", function (e) {
+    var select_val = $(e.currentTarget).val();
+    console.log(select_val);
+
+    $('#id_envo_biome_second').select2({
+      ajax: {
+        url: window.location.origin+"/dashboard/biome/second/",
+        data: {
+          'envo_biome_first': select_val       // add the country id to the GET parameters
+        },
+        processResults: function (data) {  // `data` is the return of the `load_cities` view function
+          return {
+           results: data  // replace the contents of the city input with the data that came from the server
+          }
+        }
       }
-    }
-  }
+    })
 });
+
 
 $("#id_envo_biome_second").change(function () {
   var url = window.location.origin+"/dashboard/biome/third/";
