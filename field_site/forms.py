@@ -485,9 +485,9 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['project'].queryset = Project.objects.filter(grant_names=grant_id).order_by('project_label')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
+        elif self.instance.grant.pk:
             # if pk already exists, i.e., on update, populate queryset with related set
-            self.fields['project'].queryset = self.instance.grant.grant_names_set.order_by('project_label')
+            self.fields['project'].queryset = Project.objects.filter(grant_names=self.instance.grant.pk).order_by('project_label')
         if 'envo_biome_first' in self.data:
             try:
                 envo_id = int(self.data.get('envo_biome_first'))
