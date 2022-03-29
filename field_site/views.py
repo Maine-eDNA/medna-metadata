@@ -1,10 +1,11 @@
+from django.db.models import F
 from django.core.serializers import serialize
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView
@@ -76,6 +77,76 @@ def point_intersect_watershed(request, lat, long, srid):
     return JsonResponse(json.loads(qs_json))
 
 
+@login_required(login_url='dashboard_login')
+def load_biome_second(request):
+    envo_biome_first = request.GET.get('envo_biome_first')
+    biomes = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_biome_first).order_by('biome_second_tier').annotate(name=F('biome_second_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+
+
+@login_required(login_url='dashboard_login')
+def load_biome_third(request):
+    envo_biome_second = request.GET.get('envo_biome_second')
+    biomes = EnvoBiomeThird.objects.filter(biome_second_tier=envo_biome_second).order_by('biome_third_tier').annotate(name=F('biome_third_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+
+
+@login_required(login_url='dashboard_login')
+def load_biome_fourth(request):
+    envo_biome_third = request.GET.get('envo_biome_third')
+    biomes = EnvoBiomeFourth.objects.filter(biome_third_tier=envo_biome_third).order_by('biome_fourth_tier').annotate(name=F('biome_fourth_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+
+
+@login_required(login_url='dashboard_login')
+def load_biome_fifth(request):
+    envo_biome_fourth = request.GET.get('envo_biome_fourth')
+    biomes = EnvoBiomeFifth.objects.filter(biome_fourth_tier=envo_biome_fourth).order_by('biome_fifth_tier').annotate(name=F('biome_fifth_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_second(request):
+    envo_feature_first = request.GET.get('envo_feature_first')
+    features = EnvoFeatureSecond.objects.filter(feature_first_tier=envo_feature_first).order_by('feature_second_tier').annotate(name=F('feature_second_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_third(request):
+    envo_feature_second = request.GET.get('envo_feature_second')
+    features = EnvoFeatureThird.objects.filter(feature_second_tier=envo_feature_second).order_by('feature_third_tier').annotate(name=F('feature_third_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_fourth(request):
+    envo_feature_third = request.GET.get('envo_feature_third')
+    features = EnvoFeatureFourth.objects.filter(feature_third_tier=envo_feature_third).order_by('feature_fourth_tier').annotate(name=F('feature_fourth_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_fifth(request):
+    envo_feature_fourth = request.GET.get('envo_feature_fourth')
+    features = EnvoFeatureFifth.objects.filter(feature_fourth_tier=envo_feature_fourth).order_by('feature_fifth_tier').annotate(name=F('feature_fifth_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_sixth(request):
+    envo_feature_fifth = request.GET.get('envo_feature_fifth')
+    features = EnvoFeatureSixth.objects.filter(feature_fifth_tier=envo_feature_fifth).order_by('feature_sixth_tier').annotate(name=F('feature_sixth_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_seventh(request):
+    envo_feature_sixth = request.GET.get('envo_feature_sixth')
+    features = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=envo_feature_sixth).order_by('feature_seventh_tier').annotate(name=F('feature_seventh_tier'))
+    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+
+
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
@@ -145,6 +216,36 @@ class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
         return redirect('main/model-perms-required.html')
 
 
+class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'field_site.add_fieldsite'
+    model = FieldSite
+    form_class = FieldSiteCreateForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-fieldsite.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_fieldsite"
+        context["page_title"] = "Field Site"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('detail_fieldsite', kwargs={"pk": self.object.pk})
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = FieldSite
     form_class = FieldSiteUpdateForm
@@ -190,36 +291,6 @@ class FieldSiteExportDetailView(DetailView):
                          site.general_location_name, site.purpose, site.geom.y,
                          site.geom.x, site.geom.srid, site.created_by__email.email, site.created_datetime])
         return response
-
-
-class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
-    # If you omit that, you’ll need to handle unauthorized users in form_valid().
-    permission_required = 'field_site.add_fieldsite'
-    model = FieldSite
-    form_class = FieldSiteCreateForm
-    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add-fieldsite.html'
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        context["segment"] = "add_fieldsite"
-        context["page_title"] = "Field Site"
-        return context
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('detail_fieldsite', kwargs={"pk": self.object.pk})
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
 
 
 ########################################
