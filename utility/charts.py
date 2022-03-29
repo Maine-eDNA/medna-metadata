@@ -25,8 +25,8 @@ def return_json_options(queryset):
     names = []
 
     for field in queryset:
-        pks.append(field['pk'])
-        names.append(field['name'])
+        pks.append(field.pk)
+        names.append(field.name)
 
     return JsonResponse(data={
         'id': pks,
