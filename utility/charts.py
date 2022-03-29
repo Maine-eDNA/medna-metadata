@@ -29,7 +29,7 @@ def return_json_options(queryset):
             'name': field.name
             }
         )
-    return JsonResponse(data={results})
+    return results
 
 
 def return_queryset_lists(queryset):
