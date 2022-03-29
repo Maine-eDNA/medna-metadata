@@ -1,5 +1,6 @@
 $(function () {
     // hide dependent options onload
+    $('#id_project').closest('.row').hide();
     $('#id_envo_biome_second').closest('.row').hide();
     $('#id_envo_biome_third').closest('.row').hide();
     $('#id_envo_biome_fourth').closest('.row').hide();
@@ -99,7 +100,7 @@ $("#id_grant").on("select2:select", function (e) {
     var data_url = $("#url_project").data("url");
     var dependent_options = $('#id_project');
     // console.log(select_val);
-    getDependentOptions(dependent_options, data_url, select_val);
+    getDependentOptionsHide(dependent_options, data_url, select_val);
 });
 
 $("#id_envo_biome_first").on("select2:select", function (e) {
