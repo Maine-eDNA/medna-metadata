@@ -14,7 +14,7 @@ $("#id_envo_biome_first").change(function () {
        results: data.options  // replace the contents of the city input with the data that came from the server
       }
     }
-  });
+  }
 });
 
 $("#id_envo_biome_second").change(function () {
