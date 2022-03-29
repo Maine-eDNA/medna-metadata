@@ -39,6 +39,7 @@ var getDependentOptionsHide = function(dependent_options, data_url, select_val) 
         } else {
             // remove selection since there is no selected value in parent
             dependent_options.val(null);
+            dependent_options.empty();
             // hide row - https://api.jquery.com/hide/
             row.hide();
         }
@@ -69,6 +70,7 @@ var getDependentOptions = function(dependent_options, data_url, select_val) {
         } else {
             // remove selection since there is no selected value in parent
             dependent_options.val(null);
+            dependent_options.empty();
         }
 };
 
