@@ -11,7 +11,6 @@
     <script src="{% static 'assets/js/field_site/field-site-add-req.js' %}"></script>
     <script src="{% static 'assets/js/field_site/field-site-add-readonly.js' %}"></script>
     <script src="{% static 'assets/js/field_site/leaflet-pip.js' %}"></script>
-    <script src="{% static 'assets/js/options-conditional-envo.js' %}"></script>
 {% endblock extrahead %}
 
 {% block messages %}
@@ -127,4 +126,6 @@
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    <script src="{% static 'assets/js/options-conditional-envo.js' %}"></script>
+{% endblock javascripts %}
