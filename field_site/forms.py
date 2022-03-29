@@ -216,7 +216,8 @@ class FieldSiteCreateForm(forms.ModelForm):
 
         if 'grant' in self.data:
             try:
-                ids = int(self.data.get('grant'))
+                selected_ids = self.data.get('grant')
+                ids = map(int, selected_ids.split(","))
                 self.fields['project'].queryset = Project.objects.filter(grant_names__in=ids).order_by('project_label')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
