@@ -1,3 +1,17 @@
+$(function () {
+    // hide dependent options onload
+    $('#id_envo_biome_second').hide();
+    $('#id_envo_biome_third').hide();
+    $('#id_envo_biome_fourth').hide();
+    $('#id_envo_biome_fifth').hide();
+    $('#id_envo_feature_second').hide();
+    $('#id_envo_feature_third').hide();
+    $('#id_envo_feature_fourth').hide();
+    $('#id_envo_feature_fifth').hide();
+    $('#id_envo_feature_sixth').hide();
+    $('#id_envo_feature_seventh').hide();
+});
+
 $("#id_envo_biome_first").on("select2:select", function (e) {
     // https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
     // https://stackoverflow.com/questions/19908273/jquery-select2-get-value-of-select-tag
