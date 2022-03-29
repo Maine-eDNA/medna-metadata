@@ -15,6 +15,7 @@ $("#id_envo_biome_first").change(function () {
       }
     }
   }
+  })
 });
 
 $("#id_envo_biome_second").change(function () {
@@ -29,7 +30,7 @@ $("#id_envo_biome_second").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_biome_third").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_biome_third").change(function () {
@@ -44,7 +45,7 @@ $("#id_envo_biome_third").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_biome_fourth").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_biome_fourth").change(function () {
@@ -59,7 +60,7 @@ $("#id_envo_biome_fourth").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_biome_fifth").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_feature_first").change(function () {
@@ -74,7 +75,7 @@ $("#id_envo_feature_first").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_feature_second").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_feature_second").change(function () {
@@ -89,7 +90,7 @@ $("#id_envo_feature_second").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_feature_third").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_feature_third").change(function () {
@@ -104,7 +105,7 @@ $("#id_envo_feature_third").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_feature_fourth").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_feature_fourth").change(function () {
@@ -119,7 +120,7 @@ $("#id_envo_feature_fourth").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_feature_fifth").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_feature_fifth").change(function () {
@@ -134,7 +135,7 @@ $("#id_envo_feature_fifth").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_feature_sixth").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
 
 $("#id_envo_feature_sixth").change(function () {
@@ -149,5 +150,5 @@ $("#id_envo_feature_sixth").change(function () {
     success: function (data) {   // `data` is the return of the `load_cities` view function
       $("#id_envo_feature_seventh").html(data);  // replace the contents of the city input with the data that came from the server
     }
-  });
+  })
 });
