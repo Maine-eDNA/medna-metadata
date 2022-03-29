@@ -58,114 +58,114 @@ class FieldSiteCreateForm(forms.ModelForm):
             }
         )
     )
-    # envo_biome_first = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeFirst.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_second = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeSecond.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_third = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeThird.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_fourth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeFourth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_fifth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeFifth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_first = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureFirst.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_second = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureSecond.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_third = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureThird.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_fourth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureFourth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_fifth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureFifth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_sixth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureSixth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_seventh = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureSeventh.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
+    envo_biome_first = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeFirst.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_second = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeSecond.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_third = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeThird.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_fourth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeFourth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_fifth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeFifth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_first = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureFirst.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_second = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureSecond.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_third = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureThird.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_fourth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureFourth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_fifth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureFifth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_sixth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureSixth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_seventh = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureSeventh.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
 
     class Meta:
         model = FieldSite
@@ -193,12 +193,10 @@ class FieldSiteCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
-        self.fields['envo_biome_first'].queryset = EnvoBiomeFirst.objects.none()
         self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
         self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
         self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.none()
         self.fields['envo_biome_fifth'].queryset = EnvoBiomeFifth.objects.none()
-        self.fields['envo_feature_first'].queryset = EnvoFeatureFirst.objects.none()
         self.fields['envo_feature_second'].queryset = EnvoFeatureSecond.objects.none()
         self.fields['envo_feature_third'].queryset = EnvoFeatureThird.objects.none()
         self.fields['envo_feature_fourth'].queryset = EnvoFeatureFourth.objects.none()
@@ -224,114 +222,114 @@ class FieldSiteUpdateForm(forms.ModelForm):
             }
         )
     )
-    # envo_biome_first = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeFirst.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_second = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeSecond.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_third = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeThird.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_fourth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeFourth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_biome_fifth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoBiomeFifth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_first = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureFirst.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_second = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureSecond.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_third = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureThird.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_fourth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureFourth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_fifth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureFifth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_sixth = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureSixth.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # envo_feature_seventh = forms.ModelChoiceField(
-    #     required=False,
-    #     queryset=EnvoFeatureSeventh.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
+    envo_biome_first = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeFirst.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_second = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeSecond.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_third = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeThird.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_fourth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeFourth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_biome_fifth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoBiomeFifth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_first = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureFirst.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_second = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureSecond.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_third = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureThird.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_fourth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureFourth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_fifth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureFifth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_sixth = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureSixth.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    envo_feature_seventh = forms.ModelChoiceField(
+        required=False,
+        queryset=EnvoFeatureSeventh.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
 
     class Meta:
         model = FieldSite
@@ -342,12 +340,10 @@ class FieldSiteUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
-        self.fields['envo_biome_first'].queryset = EnvoBiomeFirst.objects.none()
         self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
         self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
         self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.none()
         self.fields['envo_biome_fifth'].queryset = EnvoBiomeFifth.objects.none()
-        self.fields['envo_feature_first'].queryset = EnvoFeatureFirst.objects.none()
         self.fields['envo_feature_second'].queryset = EnvoFeatureSecond.objects.none()
         self.fields['envo_feature_third'].queryset = EnvoFeatureThird.objects.none()
         self.fields['envo_feature_fourth'].queryset = EnvoFeatureFourth.objects.none()
