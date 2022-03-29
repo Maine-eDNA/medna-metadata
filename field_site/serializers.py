@@ -13,8 +13,8 @@ from rest_framework.validators import UniqueValidator
 # Django REST Framework to allow the automatic downloading of data!
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_first_tier_slug = serializers.CharField(max_length=255, allow_blank=True)
-    biome_first_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFirst.objects.all())])
+    biome_first_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFirst.objects.all())])
+    biome_first_tier_slug = serializers.SlugField(max_length=255, allow_blank=True)
     envo_identifier = serializers.CharField(max_length=255)
     ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -37,8 +37,8 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_second_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeSecond.objects.all())])
+    biome_second_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeSecond.objects.all())])
+    biome_second_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
     envo_identifier = serializers.CharField(max_length=255)
     ontology_url = serializers.CharField(max_length=255)
@@ -63,8 +63,8 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_third_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeThird.objects.all())])
+    biome_third_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeThird.objects.all())])
+    biome_third_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
     envo_identifier = serializers.CharField(max_length=255)
@@ -91,8 +91,8 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_fourth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFourth.objects.all())])
+    biome_fourth_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFourth.objects.all())])
+    biome_fourth_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     biome_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
@@ -121,8 +121,8 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
 
 class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    biome_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    biome_fifth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFifth.objects.all())])
+    biome_fifth_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFifth.objects.all())])
+    biome_fifth_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     biome_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     biome_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
@@ -153,8 +153,8 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_first_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFirst.objects.all())])
+    feature_first_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFirst.objects.all())])
+    feature_first_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     envo_identifier = serializers.CharField(max_length=255)
     ontology_url = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -175,8 +175,8 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_second_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSecond.objects.all())])
+    feature_second_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSecond.objects.all())])
+    feature_second_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
     envo_identifier = serializers.CharField(max_length=255)
     ontology_url = serializers.CharField(max_length=255)
@@ -202,8 +202,8 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_third_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureThird.objects.all())])
+    feature_third_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureThird.objects.all())])
+    feature_third_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
     envo_identifier = serializers.CharField(max_length=255)
@@ -231,8 +231,8 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_fourth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFourth.objects.all())])
+    feature_fourth_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFourth.objects.all())])
+    feature_fourth_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_first_tier_slug = serializers.CharField(read_only=True, max_length=255)
@@ -262,8 +262,8 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_fifth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFifth.objects.all())])
+    feature_fifth_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureFifth.objects.all())])
+    feature_fifth_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_second_tier_slug = serializers.CharField(read_only=True, max_length=255)
@@ -295,8 +295,8 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_sixth_tier_slug = serializers.CharField(read_only=True, max_length=255)
-    feature_sixth_tier = serializers.SlugField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSixth.objects.all())])
+    feature_sixth_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSixth.objects.all())])
+    feature_sixth_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_third_tier_slug = serializers.CharField(read_only=True, max_length=255)
@@ -329,8 +329,8 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
 
 class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_seventh_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_seventh_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoFeatureSeventh.objects.all())])
+    feature_seventh_tier_slug = serializers.SlugField(read_only=True, max_length=255)
     feature_sixth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_fifth_tier_slug = serializers.CharField(read_only=True, max_length=255)
     feature_fourth_tier_slug = serializers.CharField(read_only=True, max_length=255)
