@@ -488,14 +488,15 @@ class FieldSiteUpdateForm(forms.ModelForm):
         elif self.instance.grant.pk:
             # if pk already exists, i.e., on update, populate queryset with related set
             self.fields['project'].queryset = Project.objects.filter(grant_names=self.instance.grant.pk).order_by('project_label')
+
         if 'envo_biome_first' in self.data:
             try:
                 envo_id = int(self.data.get('envo_biome_first'))
                 self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_id).order_by('biome_second_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_biome_second'].queryset = self.instance.envo_biome_first.biome_second_tier_set.order_by('biome_second_tier')
+        elif self.instance.envo_biome_first.pk:
+            self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.filter(biome_first_tier=self.instance.envo_biome_first.pk).order_by('biome_second_tier')
 
         if 'envo_biome_second' in self.data:
             try:
@@ -503,8 +504,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.filter(biome_second_tier=envo_id).order_by('biome_third_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_biome_third'].queryset = self.instance.envo_biome_second.biome_third_tier_set.order_by('biome_third_tier')
+        elif self.instance.envo_biome_second.pk:
+            self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.filter(biome_second_tier=self.instance.envo_biome_second.pk).order_by('biome_third_tier')
 
         if 'envo_biome_third' in self.data:
             try:
@@ -512,8 +513,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.filter(biome_third_tier=envo_id).order_by('biome_fourth_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_biome_fourth'].queryset = self.instance.envo_biome_third.biome_fourth_tier_set.order_by('biome_fourth_tier')
+        elif self.instance.envo_biome_third.pk:
+            self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.filter(biome_third_tier=self.instance.envo_biome_third.pk).order_by('biome_fourth_tier')
 
         if 'envo_biome_fourth' in self.data:
             try:
@@ -521,8 +522,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_biome_fifth'].queryset = EnvoBiomeFifth.objects.filter(biome_fourth_tier=envo_id).order_by('biome_fifth_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_biome_fifth'].queryset = self.instance.envo_biome_fourth.biome_fifth_tier_set.order_by('biome_fifth_tier')
+        elif self.instance.envo_biome_fourth.pk:
+            self.fields['envo_biome_fifth'].queryset = EnvoBiomeFifth.objects.filter(biome_fourth_tier=self.instance.envo_biome_fourth.pk).order_by('biome_fifth_tier')
 
         if 'envo_feature_first' in self.data:
             try:
@@ -530,8 +531,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_feature_second'].queryset = EnvoFeatureSecond.objects.filter(feature_first_tier=envo_id).order_by('feature_second_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_feature_second'].queryset = self.instance.envo_feature_first.feature_second_tier_set.order_by('feature_second_tier')
+        elif self.instance.envo_feature_first.pk:
+            self.fields['envo_feature_second'].queryset = EnvoFeatureSecond.objects.filter(feature_first_tier=self.instance.envo_feature_first.pk).order_by('feature_second_tier')
 
         if 'envo_feature_second' in self.data:
             try:
@@ -539,8 +540,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_feature_third'].queryset = EnvoFeatureThird.objects.filter(feature_second_tier=envo_id).order_by('feature_third_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_feature_third'].queryset = self.instance.envo_feature_second.feature_third_tier_set.order_by('feature_third_tier')
+        elif self.instance.envo_feature_second.pk:
+            self.fields['envo_feature_third'].queryset = EnvoFeatureThird.objects.filter(feature_second_tier=self.instance.envo_feature_second.pk).order_by('feature_third_tier')
 
         if 'envo_feature_third' in self.data:
             try:
@@ -548,8 +549,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_feature_fourth'].queryset = EnvoFeatureFourth.objects.filter(feature_third_tier=envo_id).order_by('feature_fourth_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_feature_fourth'].queryset = self.instance.envo_feature_third.feature_fourth_tier_set.order_by('feature_fourth_tier')
+        elif self.instance.envo_feature_third.pk:
+            self.fields['envo_feature_fourth'].queryset = EnvoFeatureFourth.objects.filter(feature_third_tier=self.instance.envo_feature_third.pk).order_by('feature_fourth_tier')
 
         if 'envo_feature_fourth' in self.data:
             try:
@@ -557,8 +558,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_feature_fifth'].queryset = EnvoFeatureFifth.objects.filter(feature_fourth_tier=envo_id).order_by('feature_fifth_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_feature_fifth'].queryset = self.instance.envo_feature_fourth.feature_fifth_tier_set.order_by('feature_fifth_tier')
+        elif self.instance.envo_feature_fourth.pk:
+            self.fields['envo_feature_fifth'].queryset = EnvoFeatureFifth.objects.filter(feature_fourth_tier=self.instance.envo_feature_fourth.pk).order_by('feature_fifth_tier')
 
         if 'envo_feature_fifth' in self.data:
             try:
@@ -566,8 +567,8 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_feature_sixth'].queryset = EnvoFeatureSixth.objects.filter(feature_fifth_tier=envo_id).order_by('feature_sixth_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_feature_sixth'].queryset = self.instance.envo_feature_fifth.feature_sixth_tier_set.order_by('feature_sixth_tier')
+        elif self.instance.envo_feature_fifth.pk:
+            self.fields['envo_feature_sixth'].queryset = EnvoFeatureSixth.objects.filter(feature_fifth_tier=self.instance.envo_feature_fifth.pk).order_by('feature_sixth_tier')
 
         if 'envo_feature_sixth' in self.data:
             try:
@@ -575,5 +576,5 @@ class FieldSiteUpdateForm(forms.ModelForm):
                 self.fields['envo_feature_seventh'].queryset = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=envo_id).order_by('feature_seventh_tier')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
-        elif self.instance.pk:
-            self.fields['envo_feature_seventh'].queryset = self.instance.envo_feature_sixth.feature_seventh_tier_set.order_by('feature_seventh_tier')
+        elif self.instance.envo_feature_sixth.pk:
+            self.fields['envo_feature_seventh'].queryset = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=self.instance.envo_feature_sixth.pk).order_by('feature_seventh_tier')
