@@ -228,5 +228,3 @@ class FieldSiteSerializerFilter(filters.FilterSet):
                   'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second',
                   'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth',
                   'envo_feature_sixth', 'envo_feature_seventh']
-
-
