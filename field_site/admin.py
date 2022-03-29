@@ -592,6 +592,13 @@ class GeoWorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
 # admin.site.register(WorldBorder, GeoWorldBorderAdmin)
 
 
+class ProjectInline(admin.TabularInline):
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = FieldSite.project.through
+    # extra = 1
+
+
 class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # import_export configs - export ONLY
     resource_class = GeoFieldSiteAdminResource
@@ -601,7 +608,8 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # list_filter = ('grant', 'system', 'watershed', )
     readonly_fields = ('site_id', 'modified_datetime', 'created_datetime', )
     search_fields = ['site_id']
-    autocomplete_fields = ['watershed', 'system', 'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+    autocomplete_fields = ['grant', 'project', 'watershed', 'system',
+                           'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                            'envo_biome_second', 'envo_biome_first',
                            'envo_feature_seventh', 'envo_feature_sixth',
                            'envo_feature_fifth', 'envo_feature_fourth',
@@ -610,7 +618,7 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant', 'system', 'watershed',
+        self.fields = ['grant', 'project', 'system', 'watershed',
                        'general_location_name', 'purpose',
                        'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                        'envo_biome_second', 'envo_biome_first',
@@ -632,14 +640,13 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['site_id', 'general_location_name', 'purpose',
+        self.fields = ['site_id', 'general_location_name', 'project', 'purpose',
                        'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                        'envo_biome_second', 'envo_biome_first',
                        'envo_feature_seventh', 'envo_feature_sixth',
                        'envo_feature_fifth', 'envo_feature_fourth',
                        'envo_feature_third', 'envo_feature_second',
                        'envo_feature_first',
-                       'geom',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GeoFieldSiteAdmin, self).change_view(request, object_id)

@@ -3,7 +3,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
-from utility.models import Grant
+from utility.models import Grant, Project
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework.validators import UniqueValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -414,7 +414,7 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = FieldSite
         geo_field = 'geom'
-        fields = ['id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+        fields = ['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
@@ -427,6 +427,7 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code',
                                          queryset=Grant.objects.all())
+    project = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
     system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code',
                                           queryset=System.objects.all())
     watershed = serializers.SlugRelatedField(many=False, read_only=False, slug_field='watershed_code',

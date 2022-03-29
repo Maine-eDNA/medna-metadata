@@ -2,8 +2,8 @@ from django.test import TestCase
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureFirst, EnvoFeatureSecond, System, Watershed, \
     FieldSite, EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureThird, EnvoFeatureFourth, EnvoBiomeThird, \
     EnvoBiomeFourth, EnvoBiomeFifth, EnvoFeatureSeventh
-from utility.models import Grant
-from utility.tests import GrantTestCase
+from utility.models import Grant, Project
+from utility.tests import GrantTestCase, ProjectTestCase
 # Create your tests here.
 
 
@@ -198,41 +198,48 @@ class WatershedTestCase(TestCase):
 
 class FieldSiteTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         watershed_test = WatershedTestCase()
         system_test = SystemTestCase()
         grant_test = GrantTestCase()
+        project_test = ProjectTestCase()
         biome_first_test = EnvoBiomeFirstTestCase()
         feature_first_test = EnvoFeatureFirstTestCase()
         watershed_test.setUp()
         system_test.setUp()
         grant_test.setUp()
+        project_test.setUp()
         biome_first_test.setUp()
         feature_first_test.setUp()
         grant = Grant.objects.filter()[:1].get()
+        project = Project.objects.filter()[:1].get()
+        manytomany_list.append(project)
         system = System.objects.filter()[:1].get()
         watershed = Watershed.objects.filter()[:1].get()
         lake = EnvoBiomeFirst.objects.filter(biome_first_tier="Large Lake")[:1].get()
         river = EnvoBiomeFirst.objects.filter(biome_first_tier="Small River")[:1].get()
         ls = EnvoFeatureFirst.objects.filter(feature_first_tier="Lake Surface")[:1].get()
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier="Turbulent Aquatic Surface Layer")[:1].get()
-        FieldSite.objects.get_or_create(general_location_name="FieldSiteTest1",
-                                        defaults={
-                                            'grant': grant,
-                                            'system': system,
-                                            'watershed': watershed,
-                                            'purpose': "FieldSiteTest1",
-                                            'envo_biome_first': lake,
-                                            'envo_feature_first': ls,
-                                            'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
-        FieldSite.objects.get_or_create(general_location_name="FieldSiteTest2",
-                                        defaults={
-                                            'grant': grant,
-                                            'system': system,
-                                            'watershed': watershed,
-                                            'purpose': "FieldSiteTest2",
-                                            'envo_biome_first': river,
-                                            'envo_feature_first': tasl,
-                                            'geom': "SRID=4326;POINT (-68.81489999999999 44.5925)"})
+        field_site, created = FieldSite.objects.get_or_create(general_location_name="FieldSiteTest1",
+                                                              defaults={
+                                                                  'grant': grant,
+                                                                  'system': system,
+                                                                  'watershed': watershed,
+                                                                  'purpose': "FieldSiteTest1",
+                                                                  'envo_biome_first': lake,
+                                                                  'envo_feature_first': ls,
+                                                                  'geom': "SRID=4326;POINT (-68.79667999999999 44.76535)"})
+        field_site.project.set(manytomany_list, clear=True)
+        field_site, created = FieldSite.objects.get_or_create(general_location_name="FieldSiteTest2",
+                                                              defaults={
+                                                                  'grant': grant,
+                                                                  'system': system,
+                                                                  'watershed': watershed,
+                                                                  'purpose': "FieldSiteTest2",
+                                                                  'envo_biome_first': river,
+                                                                  'envo_feature_first': tasl,
+                                                                  'geom': "SRID=4326;POINT (-68.81489999999999 44.5925)"})
+        field_site.project.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly

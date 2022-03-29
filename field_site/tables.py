@@ -7,6 +7,7 @@ class FieldSiteTable(tables.Table):
     # id = tables.CheckBoxColumn(accessor='pk')
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
+    project = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.project.all|join:", " }}">{{ record.project.all|join:", "|truncatewords:5 }}', verbose_name="Projects")
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn("add_samplelabelrequestsite", text='Add', args=[A("pk")], orderable=False)
     # formatting for date column
@@ -21,7 +22,7 @@ class FieldSiteTable(tables.Table):
     class Meta:
         model = FieldSite
         fields = ("_selected_action", "site_id", "general_location_name",
-                  "grant", "system", "watershed", "created_datetime")
+                  "grant", "project", "system", "watershed", "created_datetime")
         # set table css class to "result_lust"
         # attrs = {"class": "result_list"}
         # this is NOT the template it writes to, this is the template it uses to load with

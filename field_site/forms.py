@@ -2,8 +2,8 @@
 # from django import forms
 from django.contrib.gis import forms
 from leaflet.forms.widgets import LeafletWidget
-from utility.widgets import CustomRadioSelect, CustomSelect2
-from utility.models import Grant
+from utility.widgets import CustomSelect2, CustomSelect2Multiple
+from utility.models import Grant, Project
 from .models import FieldSite, System, Watershed, EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureSecond, EnvoBiomeFourth, \
     EnvoBiomeFifth, EnvoFeatureFourth, EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, EnvoFeatureFirst, \
     EnvoFeatureThird, EnvoBiomeThird
@@ -19,6 +19,15 @@ class FieldSiteCreateForm(forms.ModelForm):
         required=True,
         queryset=Grant.objects.all(),
         widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    project = forms.ModelMultipleChoiceField(
+        required=True,
+        queryset=Project.objects.all(),
+        widget=CustomSelect2Multiple(
             attrs={
                 'class': 'form-control',
             }
@@ -169,7 +178,7 @@ class FieldSiteCreateForm(forms.ModelForm):
 
     class Meta:
         model = FieldSite
-        fields = ['grant', 'system', 'general_location_name', 'purpose',
+        fields = ['grant', 'project', 'system', 'general_location_name', 'purpose',
                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                   'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                   'geom', 'watershed', ]
@@ -206,6 +215,15 @@ class FieldSiteCreateForm(forms.ModelForm):
 
 
 class FieldSiteUpdateForm(forms.ModelForm):
+    project = forms.ModelMultipleChoiceField(
+        required=True,
+        queryset=Project.objects.all(),
+        widget=CustomSelect2Multiple(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     general_location_name = forms.CharField(
         required=True,
         widget=forms.TextInput(
@@ -333,7 +351,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
 
     class Meta:
         model = FieldSite
-        fields = ['general_location_name', 'purpose',
+        fields = ['project', 'general_location_name', 'purpose',
                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                   'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh', ]
 

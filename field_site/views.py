@@ -160,11 +160,11 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     table_class = FieldSiteTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_site.view_fieldsite', )
-    export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
+    export_name = 'fieldsite_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
+    filterset_fields = ['created_by__email', 'grant__grant_code', 'project__project_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
                         'envo_biome_second__biome_second_tier',
                         'envo_biome_third__biome_third_tier', 'envo_biome_fourth__biome_fourth_tier',
@@ -193,7 +193,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
 class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['geom', 'site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+    fields = ['geom', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
               'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
               'envo_biome_second', 'envo_biome_first',
               'envo_feature_seventh', 'envo_feature_sixth',
@@ -281,12 +281,12 @@ class FieldSiteExportDetailView(DetailView):
 
     def render_to_response(self, context, **response_kwargs):
         site = context.get('site')  # getting User object from context using context_object_name
-        file_name = 'site'
+        file_name = 'fieldsite'
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
             timezone.now().replace(microsecond=0).isoformat()) + '.csv'
         writer = csv.writer(response)
-        writer.writerow(['id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name',
+        writer.writerow(['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name',
                          'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
         writer.writerow([site.id, site.site_id, site.grant.grant_label, site.system.system_label,
                          site.watershed.watershed_label,
@@ -412,7 +412,7 @@ class GeoWatershedViewSet(viewsets.ModelViewSet):
 
 class GeoFieldSiteViewSet(viewsets.ModelViewSet):
     serializer_class = fieldsite_serializers.GeoFieldSiteSerializer
-    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
+    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'project', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
                                                   'envo_biome_fourth', 'envo_biome_fifth', 'envo_feature_first',
                                                   'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth',
@@ -424,7 +424,7 @@ class GeoFieldSiteViewSet(viewsets.ModelViewSet):
 
 class FieldSiteViewSet(viewsets.ModelViewSet):
     serializer_class = fieldsite_serializers.FieldSiteSerializer
-    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
+    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'project', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
                                                   'envo_biome_fourth', 'envo_biome_fifth', 'envo_feature_first',
                                                   'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth',
@@ -438,7 +438,7 @@ class FieldSiteListView(generics.ListAPIView):
     queryset = FieldSite.objects.prefetch_related('created_by')
     serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
+    filterset_fields = ['created_by__email', 'grant__grant_code', 'project__project_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier_slug',
                         'envo_biome_second__biome_second_tier_slug',
                         'envo_biome_third__biome_third_tier_slug', 'envo_biome_fourth__biome_fourth_tier_slug',
