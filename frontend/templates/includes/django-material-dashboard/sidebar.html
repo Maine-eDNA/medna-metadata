@@ -537,7 +537,7 @@
       </li>
       {% if user.is_active and user.is_staff %}
       <li class="nav-item mt-2 col-4">
-        <a class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
+        <a target="_blank" class="nav-link text-white {% if 'admin' in segment %} active bg-gradient-primary {% endif %}" href="{% url 'admin:index' %}">
           <div class="text-white text-center d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">admin_panel_settings</i>
           </div>

@@ -68,7 +68,7 @@ def export_context(request, export_formats):
 @login_required(login_url='dashboard_login')
 def load_project(request):
     grant = request.GET.get('id')
-    qs = Project.objects.filter(grant=grant).order_by('project_label').annotate(text=F('project_label'))
+    qs = Project.objects.filter(grant_names=grant).order_by('project_label').annotate(text=F('project_label'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
