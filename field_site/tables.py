@@ -4,6 +4,12 @@ from django_tables2.utils import A
 
 
 class FieldSiteTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor="pk",
+                                             attrs={"td": {"class": "action-checkbox"},
+                                                    "input": {"class": "action-select"},
+                                                    "th__input": {"id": "action-toggle"},
+                                                    "th": {"class": "action-checkbox-column"}},
+                                             orderable=False)
     # id = tables.CheckBoxColumn(accessor='pk')
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
@@ -12,12 +18,6 @@ class FieldSiteTable(tables.Table):
     add_label = tables.LinkColumn("add_samplelabelrequestsite", text='Add', args=[A("pk")], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
-                                             orderable=False)
 
     class Meta:
         model = FieldSite
