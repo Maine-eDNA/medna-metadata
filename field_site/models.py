@@ -474,7 +474,7 @@ class FieldSite(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
-    project = models.ManyToManyField('utility.Project', verbose_name="Affiliated Project(s)", related_name="projects", blank=True)
+    project = models.ManyToManyField('utility.Project', blank=True, verbose_name="Affiliated Project(s)", related_name="projects")
     system = models.ForeignKey(System, on_delete=models.RESTRICT)
     watershed = models.ForeignKey(Watershed, on_delete=models.RESTRICT)
     general_location_name = models.CharField("General Location", max_length=255)

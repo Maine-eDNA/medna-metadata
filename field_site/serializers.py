@@ -486,7 +486,7 @@ class FieldSiteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldSite
-        fields = ['id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+        fields = ['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
@@ -500,6 +500,7 @@ class FieldSiteSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code',
                                          queryset=Grant.objects.all())
+    project = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
     system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code',
                                           queryset=System.objects.all())
     watershed = serializers.SlugRelatedField(many=False, read_only=False, slug_field='watershed_code',
