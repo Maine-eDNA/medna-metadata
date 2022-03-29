@@ -253,7 +253,7 @@ class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     form_class = FieldSiteUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update.html'
+    template_name = 'home/django-material-dashboard/model-update-fieldsite.html'
     permission_required = ('field_site.update_fieldsite', 'field_site.view_fieldsite', )
 
     def get_context_data(self, **kwargs):

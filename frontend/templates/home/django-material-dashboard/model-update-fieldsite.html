@@ -1,0 +1,16 @@
+{% extends "home/django-material-dashboard/model-update.html" %}
+{% load static %}
+
+{% block title %} Update {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block extrahead %}
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
+{% endblock extrahead %}
+{% block messages %} {% endblock %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script src="{% static 'assets/js/options-conditional.js' %}"></script>
+    <script src="{% static 'assets/js/field_site/fieldsite-update-options-conditional.js' %}"></script>
+{% endblock javascripts %}
