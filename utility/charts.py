@@ -10,8 +10,8 @@ def return_json(queryset):
     data = []
 
     for field in queryset:
-        labels.append(field['label'])
-        data.append(field['data'])
+        labels.append(field.label)
+        data.append(field.data)
 
     return JsonResponse(data={
         'labels': labels,
