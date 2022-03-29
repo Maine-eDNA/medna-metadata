@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
             name='EnvoBiomeFirst',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('biome_first_tier', models.SlugField(max_length=255, unique=True, verbose_name='ENVO Biome 1st Tier')),
-                ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier Slug')),
+                ('biome_first_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Biome 1st Tier')),
+                ('biome_first_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Biome 1st Tier Slug')),
                 ('envo_identifier', models.CharField(max_length=255, verbose_name='ENVO Identifier', default="[ENVO:00000428]")),
                 ('ontology_url', models.URLField(default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428', max_length=255, verbose_name="Ontology URL")),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
@@ -36,8 +36,8 @@ class Migration(migrations.Migration):
             name='EnvoBiomeSecond',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('biome_second_tier', models.SlugField(max_length=255, unique=True, verbose_name='ENVO Biome 2nd Tier')),
-                ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier Slug')),
+                ('biome_second_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Biome 2nd Tier')),
+                ('biome_second_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Biome 2nd Tier Slug')),
                 ('biome_first_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.envobiomefirst')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
                 ('envo_identifier', models.CharField(max_length=255, verbose_name='ENVO Identifier', default="[ENVO:00000428]")),
@@ -55,8 +55,8 @@ class Migration(migrations.Migration):
             name='EnvoBiomeThird',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('biome_third_tier', models.SlugField(max_length=255, unique=True, verbose_name='ENVO Biome 3rd Tier')),
-                ('biome_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 3rd Tier Slug')),
+                ('biome_third_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Biome 3rd Tier')),
+                ('biome_third_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Biome 3rd Tier Slug')),
                 ('biome_second_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.envobiomesecond')),
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
                 ('biome_first_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 1st Tier')),
@@ -75,8 +75,8 @@ class Migration(migrations.Migration):
             name='EnvoBiomeFourth',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('biome_fourth_tier', models.SlugField(max_length=255, unique=True, verbose_name='ENVO Biome 4th Tier')),
-                ('biome_fourth_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 4th Tier Slug')),
+                ('biome_fourth_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Biome 4th Tier')),
+                ('biome_fourth_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Biome 4th Tier Slug')),
                 ('biome_third_tier', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.envobiomethird')),
                 ('biome_third_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 3rd Tier')),
                 ('biome_second_tier_slug', models.CharField(max_length=255, verbose_name='ENVO Biome 2nd Tier')),
