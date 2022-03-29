@@ -72,6 +72,16 @@ var getDependentOptions = function(dependent_options, data_url, select_val) {
         }
 };
 
+$("#id_grant").on("select2:select", function (e) {
+    // https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+    // https://stackoverflow.com/questions/19908273/jquery-select2-get-value-of-select-tag
+    var select_val = $(e.currentTarget).val();
+    var data_url = $("#url_project").data("url");
+    var dependent_options = $('#id_project');
+    // console.log(select_val);
+    getDependentOptions(dependent_options, data_url, select_val);
+});
+
 $("#id_envo_biome_first").on("select2:select", function (e) {
     // https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
     // https://stackoverflow.com/questions/19908273/jquery-select2-get-value-of-select-tag

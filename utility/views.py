@@ -1,31 +1,26 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.db.models import F
+from django.urls import reverse
 from django.shortcuts import redirect
-# from django.views.generic import ListView
 from django.views.generic import DetailView
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, FormView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import BLANK_CHOICE_DASH
-# from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-import json
-# import ast
 from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
 from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
     CustomUserCssSerializer
 from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm
+from .charts import return_select2_options
 import utility.enumerations as utility_enums
 import utility.filters as utility_filters
 from utility.forms import export_action_form_factory
@@ -68,8 +63,16 @@ def export_context(request, export_formats):
 
 # Create your views here.
 ########################################
-# FRONTEND PRIVATE VIEWS               #
+# FRONTEND REQUESTS                    #
 ########################################
+@login_required(login_url='dashboard_login')
+def load_project(request):
+    grant = request.GET.get('id')
+    qs = Project.objects.filter(grant=grant).order_by('project_label').annotate(text=F('project_label'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
     contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
@@ -77,6 +80,9 @@ def contact_us_list(request):
     return contactus_list, replied_count
 
 
+########################################
+# FRONTEND PRIVATE VIEWS               #
+########################################
 class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Publication
     form_class = PublicationForm

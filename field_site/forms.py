@@ -202,6 +202,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
+        self.fields['project'].queryset = Project.objects.none()
         self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
         self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
         self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.none()
@@ -358,6 +359,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
+        self.fields['project'].queryset = Project.objects.none()
         self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
         self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
         self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.none()
