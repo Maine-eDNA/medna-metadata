@@ -82,8 +82,8 @@ def point_intersect_watershed(request, lat, long, srid):
 def load_biome_second(request):
     envo_biome_first = request.GET.get('envo_biome_first')
     qs = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_biome_first).order_by('biome_second_tier').annotate(name=F('biome_second_tier'))
-    qs_json = fieldsite_serializers.EnvoBiomeSecondSerializer("json", qs, fields=('id', 'name'))
-    return JsonResponse(json.loads(qs_json))
+    qs_json = serialize("json", qs, fields=('id', 'name'))
+    return JsonResponse(qs_json)
 
 
 @login_required(login_url='dashboard_login')
