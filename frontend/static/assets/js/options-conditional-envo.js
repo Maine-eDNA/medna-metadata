@@ -11,7 +11,8 @@ $("#id_envo_biome_first").on("select2:select", function (e) {
         },
         processResults: function (data) {  // `data` is the return of the `load_cities` view function
           return {
-           results: data  // replace the contents of the city input with the data that came from the server
+            console.log(data);
+            results: data.items  // replace the contents of the city input with the data that came from the server
           }
         }
       }
