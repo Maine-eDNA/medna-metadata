@@ -3,13 +3,16 @@ $("#id_envo_biome_first").on("select2:select", function (e) {
     var select_val = $(e.currentTarget).val();
     console.log(select_val);
 
-    $('#id_envo_biome_second').select2({
-      ajax: {
-        url: window.location.origin+"/dashboard/biome/second/",
-        data: {
-          'envo_biome_first': select_val       // add the country id to the GET parameters
-        }
-      }
+  $.ajax({
+    url: window.location.origin+"/dashboard/biome/second/",
+    data: {
+            'envo_biome_first': select_val
+          },
+    success: function (data) {
+        $('#id_envo_biome_second').select2({
+            data: data
+        })
+    }
     })
 });
 
