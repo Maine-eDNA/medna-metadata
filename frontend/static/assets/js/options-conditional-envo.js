@@ -1,4 +1,5 @@
 var biome_first_pk = $('#id_envo_biome_first').val();
+console.log(biome_first_pk);
 $('#id_envo_biome_second').select2({
   ajax: {
     url: window.location.origin+"/dashboard/biome/second/",
