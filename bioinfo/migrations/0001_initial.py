@@ -122,8 +122,8 @@ class Migration(migrations.Migration):
             name='TaxonDomain',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('taxon_domain', models.SlugField(max_length=255, unique=True, verbose_name='Domain')),
-                ('taxon_domain_slug', models.CharField(max_length=255, verbose_name='Domain Slug')),
+                ('taxon_domain', models.CharField(max_length=255, unique=True, verbose_name='Domain')),
+                ('taxon_domain_slug', models.SlugField(max_length=255, verbose_name='Domain Slug')),
                 ('taxon_url', models.URLField(blank=True, max_length=255, verbose_name='Taxon URL')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),

@@ -165,8 +165,8 @@ class TaxonDomain(DateTimeUserMixin):
     # Multi-table inheritance enforces one-to-one relationships, which is
     # not what we want here. Changing back to FK with populated fields.
     # https://docs.djangoproject.com/en/3.2/topics/db/models/#multi-table-inheritance
-    taxon_domain = models.SlugField("Domain", unique=True, max_length=255)
-    taxon_domain_slug = models.CharField("Domain Slug", max_length=255)
+    taxon_domain = models.CharField("Domain", unique=True, max_length=255)
+    taxon_domain_slug = models.SlugField("Domain Slug", max_length=255)
     taxon_url = models.URLField("Taxon URL", blank=True, max_length=255)
 
     def save(self, *args, **kwargs):
