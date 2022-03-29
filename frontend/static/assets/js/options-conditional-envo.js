@@ -1,21 +1,16 @@
-$("#id_envo_biome_first").change(function () {
-  var url = window.location.origin+"/dashboard/biome/second/";
-  var pk = $(this).val();  // get the selected country ID from the HTML input
-  console.log('changed_first');
-
-  $('#id_envo_biome_second').select2({
+var biome_first_pk = $('#id_envo_biome_first').val();
+$('#id_envo_biome_second').select2({
   ajax: {
-    url: url,
+    url: window.location.origin+"/dashboard/biome/second/",
     data: {
-      'envo_biome_first': pk       // add the country id to the GET parameters
+      'envo_biome_first': biome_first_pk       // add the country id to the GET parameters
     },
     processResults: function (data) {  // `data` is the return of the `load_cities` view function
       return {
-       results: data.options  // replace the contents of the city input with the data that came from the server
+       results: data  // replace the contents of the city input with the data that came from the server
       }
     }
   }
-  })
 });
 
 $("#id_envo_biome_second").change(function () {
