@@ -1,15 +1,15 @@
 $(function () {
     // hide dependent options onload
-    $('#id_envo_biome_second').hide();
-    $('#id_envo_biome_third').hide();
-    $('#id_envo_biome_fourth').hide();
-    $('#id_envo_biome_fifth').hide();
-    $('#id_envo_feature_second').hide();
-    $('#id_envo_feature_third').hide();
-    $('#id_envo_feature_fourth').hide();
-    $('#id_envo_feature_fifth').hide();
-    $('#id_envo_feature_sixth').hide();
-    $('#id_envo_feature_seventh').hide();
+    $('#id_envo_biome_second').closest('.row').hide();
+    $('#id_envo_biome_third').closest('.row').hide();
+    $('#id_envo_biome_fourth').closest('.row').hide();
+    $('#id_envo_biome_fifth').closest('.row').hide();
+    $('#id_envo_feature_second').closest('.row').hide();
+    $('#id_envo_feature_third').closest('.row').hide();
+    $('#id_envo_feature_fourth').closest('.row').hide();
+    $('#id_envo_feature_fifth').closest('.row').hide();
+    $('#id_envo_feature_sixth').closest('.row').hide();
+    $('#id_envo_feature_seventh').closest('.row').hide();
 });
 
 $("#id_envo_biome_first").on("select2:select", function (e) {
