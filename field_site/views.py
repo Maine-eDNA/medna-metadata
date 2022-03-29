@@ -18,7 +18,7 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from utility.serializers import SerializerExportMixin
 from utility.views import export_context
-from utility.charts import return_json_options
+from utility.charts import return_select2_options
 import field_site.serializers as fieldsite_serializers
 import field_site.filters as fieldsite_filters
 from .tables import FieldSiteTable
@@ -81,8 +81,8 @@ def point_intersect_watershed(request, lat, long, srid):
 @login_required(login_url='dashboard_login')
 def load_biome_second(request):
     envo_biome_first = request.GET.get('envo_biome_first')
-    qs = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_biome_first).order_by('biome_second_tier').annotate(name=F('biome_second_tier'))
-    qs_json = return_json_options(qs)
+    qs = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_biome_first).order_by('biome_second_tier').annotate(text=F('biome_second_tier'))
+    qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
 

@@ -1,4 +1,5 @@
 $("#id_envo_biome_first").on("select2:select", function (e) {
+    // https://stackoverflow.com/questions/19908273/jquery-select2-get-value-of-select-tag
     var select_val = $(e.currentTarget).val();
     console.log(select_val);
 

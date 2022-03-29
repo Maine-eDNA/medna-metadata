@@ -19,14 +19,14 @@ def return_json(queryset):
     })
 
 
-def return_json_options(queryset):
+def return_select2_options(queryset):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     results = []
 
     for field in queryset:
         results.append({
             'id': field.pk,
-            'name': field.name
+            'text': field.text
             }
         )
     return results
