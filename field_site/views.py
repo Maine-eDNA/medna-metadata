@@ -83,7 +83,7 @@ def load_biome_second(request):
     envo_biome_first = request.GET.get('envo_biome_first')
     qs = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_biome_first).order_by('biome_second_tier').annotate(name=F('biome_second_tier'))
     qs_json = serialize("json", qs, fields=('id', 'name'))
-    return JsonResponse(qs_json)
+    return JsonResponse(qs_json, safe=False)
 
 
 @login_required(login_url='dashboard_login')
