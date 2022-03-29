@@ -21,17 +21,15 @@ def return_json(queryset):
 
 def return_json_options(queryset):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-    pks = []
-    names = []
+    results = []
 
     for field in queryset:
-        pks.append(field.pk)
-        names.append(field.name)
-
-    return JsonResponse(data={
-        'id': pks,
-        'name': names,
-    })
+        results.append({
+            'id': field.pk,
+            'name': field.name
+            }
+        )
+    return JsonResponse(data={results})
 
 
 def return_queryset_lists(queryset):
