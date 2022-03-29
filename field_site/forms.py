@@ -466,7 +466,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
-        grant_id = int(self.data.get('grant'))
+        grant_id = self.instance.grant
         self.fields['project'].queryset = Project.objects.filter(grant_names=grant_id).order_by('project_label')
         # self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
         # self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
