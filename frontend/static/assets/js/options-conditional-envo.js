@@ -8,12 +8,6 @@ $("#id_envo_biome_first").on("select2:select", function (e) {
         url: window.location.origin+"/dashboard/biome/second/",
         data: {
           'envo_biome_first': select_val       // add the country id to the GET parameters
-        },
-        processResults: function (data) {
-          // Transforms the top-level key of the response object from 'items' to 'results'
-          return {
-            results: data.items
-          };
         }
       }
     })
