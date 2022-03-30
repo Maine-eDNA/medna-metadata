@@ -6,14 +6,12 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
-{% block content %}
-
-  <div class="col-md-4">
     <!-- Button trigger modal -->
     <button type="button" class="btn bg-gradient-success btn-block mb-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage">
       Message Modal
     </button>
 
+{% block content %}
     <!-- Modal -->
     <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -33,7 +31,8 @@
         </div>
       </div>
     </div>
-  </div>
+
+  <!-- end Modal -->
     
 {% endblock content %}
 
