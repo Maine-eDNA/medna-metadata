@@ -1,4 +1,6 @@
 from django import forms
+from django.urls import reverse_lazy
+from django.contrib.admin.widgets import AdminDateWidget
 from django.utils.safestring import mark_safe
 from django.template import loader
 # from django.template.loader import render_to_string
@@ -68,4 +70,13 @@ class CustomDateTimePicker(forms.DateTimeInput):
         context['widget']['datetimepicker_id'] = datetimepicker_id
         return context
 
+
+class CustomAdminDateWidget(AdminDateWidget):
+    # https://stackoverflow.com/questions/61077802/how-to-use-a-datepicker-in-a-modelform-in-django/69108038#69108038
+    class Media:
+        css = {'all': ('admin/css/widgets.css', )}
+        js = ('admin/js/core.js',
+              reverse_lazy('jsi18n'),)
+
+    template_name = 'custom_forms/widgets/date.html'
 

@@ -1,7 +1,8 @@
 # users/forms.py
 # from django import forms
 from django.contrib.gis import forms
-from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker
+from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker, \
+    CustomAdminDateWidget
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
@@ -710,7 +711,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_date = forms.DateField(
         required=True,
-        widget=forms.SelectDateWidget(
+        widget=CustomAdminDateWidget(
             attrs={
                 'class': 'form-control',
             }
