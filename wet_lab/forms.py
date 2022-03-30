@@ -34,7 +34,7 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=forms.SplitDateTimeWidget(
             attrs={
                 'class': 'form-control',
             }
