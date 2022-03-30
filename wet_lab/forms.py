@@ -1,7 +1,7 @@
 # users/forms.py
 # from django import forms
 from django.contrib.gis import forms
-from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple
+from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
@@ -34,7 +34,7 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.SplitDateTimeWidget(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }
