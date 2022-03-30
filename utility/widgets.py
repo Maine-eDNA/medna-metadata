@@ -49,12 +49,12 @@ class CustomSelect2Multiple(forms.SelectMultiple):
 
 class CustomDateTimePicker(forms.DateTimeInput):
     class Media:
-        css = {'all': ('https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css', )}
+        css = {'all': ('assets/css/plugins/tempusdominus-bootstrap-4.min.css', )}
         js = ('assets/js/plugins/jquery-3.4.1.min.js',
               'assets/js/core/popper.min.js',
               'assets/js/core/bootstrap.min.js',
               'assets/js/plugins/moment.min.js',
-              'https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js',)
+              'assets/js/plugins/tempusdominus-bootstrap-4.min.js',)
 
     # https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker-with-django.html
     template_name = 'custom_forms/widgets/datetime_picker.html'
