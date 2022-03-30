@@ -80,73 +80,82 @@ def point_intersect_watershed(request, lat, long, srid):
 
 @login_required(login_url='dashboard_login')
 def load_biome_second(request):
-    envo_biome_first = request.GET.get('id')
-    qs = EnvoBiomeSecond.objects.filter(biome_first_tier=envo_biome_first).order_by('biome_second_tier').annotate(text=F('biome_second_tier'))
+    biome = request.GET.get('id')
+    qs = EnvoBiomeSecond.objects.filter(biome_first_tier=biome).order_by('biome_second_tier').annotate(text=F('biome_second_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_biome_third(request):
-    envo_biome_second = request.GET.get('id')
-    biomes = EnvoBiomeThird.objects.filter(biome_second_tier=envo_biome_second).order_by('biome_third_tier').annotate(name=F('biome_third_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+    biome = request.GET.get('id')
+    qs = EnvoBiomeThird.objects.filter(biome_second_tier=biome).order_by('biome_third_tier').annotate(name=F('biome_third_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_biome_fourth(request):
-    envo_biome_third = request.GET.get('id')
-    biomes = EnvoBiomeFourth.objects.filter(biome_third_tier=envo_biome_third).order_by('biome_fourth_tier').annotate(name=F('biome_fourth_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+    biome = request.GET.get('id')
+    qs = EnvoBiomeFourth.objects.filter(biome_third_tier=biome).order_by('biome_fourth_tier').annotate(name=F('biome_fourth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_biome_fifth(request):
-    envo_biome_fourth = request.GET.get('id')
-    biomes = EnvoBiomeFifth.objects.filter(biome_fourth_tier=envo_biome_fourth).order_by('biome_fifth_tier').annotate(name=F('biome_fifth_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': biomes})
+    biome = request.GET.get('id')
+    qs = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome).order_by('biome_fifth_tier').annotate(name=F('biome_fifth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_feature_second(request):
-    envo_feature_first = request.GET.get('id')
-    features = EnvoFeatureSecond.objects.filter(feature_first_tier=envo_feature_first).order_by('feature_second_tier').annotate(name=F('feature_second_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+    feature = request.GET.get('id')
+    qs = EnvoFeatureSecond.objects.filter(feature_first_tier=feature).order_by('feature_second_tier').annotate(name=F('feature_second_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_feature_third(request):
-    envo_feature_second = request.GET.get('id')
-    features = EnvoFeatureThird.objects.filter(feature_second_tier=envo_feature_second).order_by('feature_third_tier').annotate(name=F('feature_third_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+    feature = request.GET.get('id')
+    qs = EnvoFeatureThird.objects.filter(feature_second_tier=feature).order_by('feature_third_tier').annotate(name=F('feature_third_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_feature_fourth(request):
-    envo_feature_third = request.GET.get('id')
-    features = EnvoFeatureFourth.objects.filter(feature_third_tier=envo_feature_third).order_by('feature_fourth_tier').annotate(name=F('feature_fourth_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+    feature = request.GET.get('id')
+    qs = EnvoFeatureFourth.objects.filter(feature_third_tier=feature).order_by('feature_fourth_tier').annotate(name=F('feature_fourth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_feature_fifth(request):
-    envo_feature_fourth = request.GET.get('id')
-    features = EnvoFeatureFifth.objects.filter(feature_fourth_tier=envo_feature_fourth).order_by('feature_fifth_tier').annotate(name=F('feature_fifth_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+    feature = request.GET.get('id')
+    qs = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature).order_by('feature_fifth_tier').annotate(name=F('feature_fifth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_feature_sixth(request):
-    envo_feature_fifth = request.GET.get('id')
-    features = EnvoFeatureSixth.objects.filter(feature_fifth_tier=envo_feature_fifth).order_by('feature_sixth_tier').annotate(name=F('feature_sixth_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+    feature = request.GET.get('id')
+    qs = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature).order_by('feature_sixth_tier').annotate(name=F('feature_sixth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def load_feature_seventh(request):
-    envo_feature_sixth = request.GET.get('id')
-    features = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=envo_feature_sixth).order_by('feature_seventh_tier').annotate(name=F('feature_seventh_tier'))
-    return render(request, 'includes/django-material-dashboard/options-conditional.html', {'options': features})
+    feature = request.GET.get('id')
+    qs = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature).order_by('feature_seventh_tier').annotate(name=F('feature_seventh_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
 
 
 ########################################
