@@ -5,10 +5,17 @@
   </div>
 </div>
 
+ <div class='input-group' id='{{ widget.datetimepicker_id }}' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+  {% include "django/forms/widgets/input.html" %}
+   <span class='input-group-text' data-td-target='#{{ widget.datetimepicker_id }}' data-td-toggle='datetimepicker'>
+     <span class='fa fa-calendar'></span>
+   </span>
+ </div>
+
 <script>
-  $(function () {
-    $("#{{ widget.datetimepicker_id }}").datetimepicker({
-      format: 'MM/DD/YYYY HH:mm',
-    });
-  });
+$(function () {
+  $('#{{ widget.datetimepicker_id }}').tempusDominus(
+    format: 'MM/DD/YYYY HH:mm',
+  );
+});
 </script>
