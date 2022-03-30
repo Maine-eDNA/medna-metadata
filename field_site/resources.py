@@ -1,11 +1,11 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget
+from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFourth, EnvoBiomeFifth, \
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, Watershed, FieldSite, WorldBorder
 from users.models import CustomUser
-from utility.models import Grant
+from utility.models import Grant, Project
 
 
 class EnvoBiomeFirstAdminResource(resources.ModelResource):
@@ -377,8 +377,7 @@ class GeoFieldSiteAdminResource(resources.ModelResource):
         model = FieldSite
         import_id_fields = ('id', 'site_id', )
         exclude = ('site_prefix', 'site_num', )
-        fields = ('id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name',
-                  'purpose',
+        fields = ('id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
@@ -386,8 +385,7 @@ class GeoFieldSiteAdminResource(resources.ModelResource):
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first',
                   'geom', 'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name',
-                        'purpose',
+        export_order = ('id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                         'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                         'envo_biome_second', 'envo_biome_first',
                         'envo_feature_seventh', 'envo_feature_sixth',
@@ -400,6 +398,11 @@ class GeoFieldSiteAdminResource(resources.ModelResource):
         column_name='grant',
         attribute='grant',
         widget=ForeignKeyWidget(Grant, 'grant_label'))
+
+    project = fields.Field(
+        column_name='project',
+        attribute='project',
+        widget=ManyToManyWidget(Project, 'project_label'))
 
     system = fields.Field(
         column_name='system',

@@ -123,7 +123,21 @@
         </div>
     </div>
 </div>
+<div id="url_envo_biome_second" data-url="{% url 'options_biome_second' %}" style="display: none;"></div>
+<div id="url_envo_biome_third" data-url="{% url 'options_biome_third' %}" style="display: none;"></div>
+<div id="url_envo_biome_fourth" data-url="{% url 'options_biome_fourth' %}" style="display: none;"></div>
+<div id="url_envo_biome_fifth" data-url="{% url 'options_biome_fifth' %}" style="display: none;"></div>
+<div id="url_envo_feature_second" data-url="{% url 'options_feature_second' %}" style="display: none;"></div>
+<div id="url_envo_feature_third" data-url="{% url 'options_feature_third' %}" style="display: none;"></div>
+<div id="url_envo_feature_fourth" data-url="{% url 'options_feature_fourth' %}" style="display: none;"></div>
+<div id="url_envo_feature_fifth" data-url="{% url 'options_feature_fifth' %}" style="display: none;"></div>
+<div id="url_envo_feature_sixth" data-url="{% url 'options_feature_sixth' %}" style="display: none;"></div>
+<div id="url_envo_feature_seventh" data-url="{% url 'options_feature_seventh' %}" style="display: none;"></div>
+<div id="url_project" data-url="{% url 'options_project' %}" style="display: none;"></div>
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    <script src="{% static 'assets/js/options-conditional.js' %}"></script>
+    <script src="{% static 'assets/js/field_site/fieldsite-add-options-conditional.js' %}"></script>
+{% endblock javascripts %}

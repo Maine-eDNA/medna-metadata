@@ -10,13 +10,26 @@ def return_json(queryset):
     data = []
 
     for field in queryset:
-        labels.append(field['label'])
-        data.append(field['data'])
+        labels.append(field.label)
+        data.append(field.data)
 
     return JsonResponse(data={
         'labels': labels,
         'data': data,
     })
+
+
+def return_select2_options(queryset):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    results = []
+
+    for field in queryset:
+        results.append({
+            'id': field.pk,
+            'text': field.text
+            }
+        )
+    return results
 
 
 def return_queryset_lists(queryset):

@@ -13,22 +13,6 @@ from .models import FreezerInventoryReturnMetadata, ReturnAction, FreezerInvento
 
 class FreezerInventoryForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
-    id = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'readonly': 'readonly',
-                'class': 'form-control',
-            }
-        )
-    )
-    freezer_box = forms.ModelChoiceField(
-        queryset=FreezerBox.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
     sample_barcode = forms.ModelChoiceField(
         queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO),
         widget=CustomSelect2(
@@ -54,11 +38,20 @@ class FreezerInventoryForm(forms.ModelForm):
         )
     )
 
+    freezer_box = forms.ModelChoiceField(
+        queryset=FreezerBox.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
     class Meta:
         model = FreezerInventory
-        fields = ('id', 'freezer_box', 'sample_barcode',
+        fields = ('sample_barcode',
                   'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_column', 'freezer_inventory_row', )
+                  'freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', )
 
 
 class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):

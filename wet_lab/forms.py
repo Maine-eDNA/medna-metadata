@@ -1,7 +1,7 @@
 # users/forms.py
 # from django import forms
 from django.contrib.gis import forms
-from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple
+from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
@@ -34,15 +34,7 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
-    purpose = forms.CharField(
-        required=True,
-        widget=forms.Textarea(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }
@@ -159,16 +151,7 @@ class PcrForm(forms.ModelForm):
     )
     pcr_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
-    extraction_barcode = forms.ModelChoiceField(
-        required=True,
-        queryset=SampleBarcode.objects.all(),
-        widget=CustomSelect2(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }
@@ -307,7 +290,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }
@@ -517,7 +500,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     pooled_lib_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }
@@ -623,7 +606,7 @@ class RunPrepForm(forms.ModelForm):
     )
     run_prep_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }
@@ -753,7 +736,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_completion_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
             }

@@ -1,10 +1,11 @@
+from django.db.models import F
 from django.core.serializers import serialize
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView
@@ -17,6 +18,7 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from utility.serializers import SerializerExportMixin
 from utility.views import export_context
+from utility.charts import return_select2_options
 import field_site.serializers as fieldsite_serializers
 import field_site.filters as fieldsite_filters
 from .tables import FieldSiteTable
@@ -76,6 +78,86 @@ def point_intersect_watershed(request, lat, long, srid):
     return JsonResponse(json.loads(qs_json))
 
 
+@login_required(login_url='dashboard_login')
+def load_biome_second(request):
+    biome = request.GET.get('id')
+    qs = EnvoBiomeSecond.objects.filter(biome_first_tier=biome).order_by('biome_second_tier').annotate(text=F('biome_second_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_biome_third(request):
+    biome = request.GET.get('id')
+    qs = EnvoBiomeThird.objects.filter(biome_second_tier=biome).order_by('biome_third_tier').annotate(text=F('biome_third_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_biome_fourth(request):
+    biome = request.GET.get('id')
+    qs = EnvoBiomeFourth.objects.filter(biome_third_tier=biome).order_by('biome_fourth_tier').annotate(text=F('biome_fourth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_biome_fifth(request):
+    biome = request.GET.get('id')
+    qs = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome).order_by('biome_fifth_tier').annotate(text=F('biome_fifth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_second(request):
+    feature = request.GET.get('id')
+    qs = EnvoFeatureSecond.objects.filter(feature_first_tier=feature).order_by('feature_second_tier').annotate(text=F('feature_second_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_third(request):
+    feature = request.GET.get('id')
+    qs = EnvoFeatureThird.objects.filter(feature_second_tier=feature).order_by('feature_third_tier').annotate(text=F('feature_third_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_fourth(request):
+    feature = request.GET.get('id')
+    qs = EnvoFeatureFourth.objects.filter(feature_third_tier=feature).order_by('feature_fourth_tier').annotate(text=F('feature_fourth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_fifth(request):
+    feature = request.GET.get('id')
+    qs = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature).order_by('feature_fifth_tier').annotate(text=F('feature_fifth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_sixth(request):
+    feature = request.GET.get('id')
+    qs = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature).order_by('feature_sixth_tier').annotate(text=F('feature_sixth_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_feature_seventh(request):
+    feature = request.GET.get('id')
+    qs = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature).order_by('feature_seventh_tier').annotate(text=F('feature_seventh_tier'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
@@ -87,11 +169,11 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     table_class = FieldSiteTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_site.view_fieldsite', )
-    export_name = 'site_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsite_serializers.FieldSiteSerializer
+    export_name = 'fieldsite_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsite_serializers.GeoFieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
+    filterset_fields = ['created_by__email', 'grant__grant_code', 'project__project_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
                         'envo_biome_second__biome_second_tier',
                         'envo_biome_third__biome_third_tier', 'envo_biome_fourth__biome_fourth_tier',
@@ -120,7 +202,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
 class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = FieldSite
     context_object_name = 'site'
-    fields = ['geom', 'site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+    fields = ['geom', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
               'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
               'envo_biome_second', 'envo_biome_first',
               'envo_feature_seventh', 'envo_feature_sixth',
@@ -143,53 +225,6 @@ class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
-
-
-class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = FieldSite
-    form_class = FieldSiteUpdateForm
-    login_url = '/dashboard/login/'
-    redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update.html'
-    permission_required = ('field_site.update_fieldsite', 'field_site.view_fieldsite', )
-
-    def get_context_data(self, **kwargs):
-        """Return the view context data."""
-        context = super().get_context_data(**kwargs)
-        context["segment"] = "update_fieldsite"
-        context["page_title"] = "Field Site"
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-    def get_success_url(self):
-        # after successfully filling out and submitting a form,
-        # show the user the detail view of the label
-        return reverse('detail_fieldsite', kwargs={"pk": self.object.pk})
-
-
-class FieldSiteExportDetailView(DetailView):
-    # this view is only for adding a button in SiteDetailView to download the single record...
-    model = FieldSite
-    context_object_name = 'site'
-
-    def render_to_response(self, context, **response_kwargs):
-        site = context.get('site')  # getting User object from context using context_object_name
-        file_name = 'site'
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
-            timezone.now().replace(microsecond=0).isoformat()) + '.csv'
-        writer = csv.writer(response)
-        writer.writerow(['id', 'site_id', 'grant', 'system', 'watershed', 'general_location_name',
-                         'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
-        writer.writerow([site.id, site.site_id, site.grant.grant_label, site.system.system_label,
-                         site.watershed.watershed_label,
-                         site.general_location_name, site.purpose, site.geom.y,
-                         site.geom.x, site.geom.srid, site.created_by__email.email, site.created_datetime])
-        return response
 
 
 class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -220,6 +255,53 @@ class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+
+class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FieldSite
+    form_class = FieldSiteUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-fieldsite.html'
+    permission_required = ('field_site.update_fieldsite', 'field_site.view_fieldsite', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_fieldsite"
+        context["page_title"] = "Field Site"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('detail_fieldsite', kwargs={"pk": self.object.pk})
+
+
+class FieldSiteExportDetailView(DetailView):
+    # this view is only for adding a button in SiteDetailView to download the single record...
+    model = FieldSite
+    context_object_name = 'site'
+
+    def render_to_response(self, context, **response_kwargs):
+        site = context.get('site')  # getting User object from context using context_object_name
+        file_name = 'fieldsite'
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=' + file_name + str(
+            timezone.now().replace(microsecond=0).isoformat()) + '.csv'
+        writer = csv.writer(response)
+        writer.writerow(['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name',
+                         'purpose', 'lat', 'lon', 'srid', 'created_by', 'created_datetime'])
+        writer.writerow([site.id, site.site_id, site.grant.grant_label, site.system.system_label,
+                         site.watershed.watershed_label,
+                         site.general_location_name, site.purpose, site.geom.y,
+                         site.geom.x, site.geom.srid, site.created_by__email.email, site.created_datetime])
+        return response
 
 
 ########################################
@@ -339,7 +421,7 @@ class GeoWatershedViewSet(viewsets.ModelViewSet):
 
 class GeoFieldSiteViewSet(viewsets.ModelViewSet):
     serializer_class = fieldsite_serializers.GeoFieldSiteSerializer
-    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
+    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'project', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
                                                   'envo_biome_fourth', 'envo_biome_fifth', 'envo_feature_first',
                                                   'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth',
@@ -351,7 +433,7 @@ class GeoFieldSiteViewSet(viewsets.ModelViewSet):
 
 class FieldSiteViewSet(viewsets.ModelViewSet):
     serializer_class = fieldsite_serializers.FieldSiteSerializer
-    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'system', 'watershed',
+    queryset = FieldSite.objects.prefetch_related('created_by', 'grant', 'project', 'system', 'watershed',
                                                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third',
                                                   'envo_biome_fourth', 'envo_biome_fifth', 'envo_feature_first',
                                                   'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth',
@@ -365,7 +447,7 @@ class FieldSiteListView(generics.ListAPIView):
     queryset = FieldSite.objects.prefetch_related('created_by')
     serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_fields = ['created_by__email', 'grant__grant_code', 'system__system_code',
+    filterset_fields = ['created_by__email', 'grant__grant_code', 'project__project_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier_slug',
                         'envo_biome_second__biome_second_tier_slug',
                         'envo_biome_third__biome_third_tier_slug', 'envo_biome_fourth__biome_fourth_tier_slug',

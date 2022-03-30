@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.admin.helpers import ActionForm
 from django.utils.translation import gettext_lazy as _
 from users.models import CustomUser
-from .widgets import CustomSelect2Multiple
+from .widgets import CustomSelect2Multiple, CustomDateTimePicker
 from .models import ContactUs, Project, Publication
 
 
@@ -154,7 +154,7 @@ class ContactUsUpdateForm(forms.ModelForm):
 
     replied_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
                 'readonly': 'readonly'

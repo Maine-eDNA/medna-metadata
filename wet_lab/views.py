@@ -297,8 +297,8 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_libraryprep'
-    model = Pcr
-    form_class = PcrForm
+    model = LibraryPrep
+    form_class = LibraryPrepForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add.html'
 

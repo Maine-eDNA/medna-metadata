@@ -137,7 +137,7 @@ class FreezerInventoryLogFilterView(LoginRequiredMixin, PermissionRequiredMixin,
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_freezerinventorylog"
+        context["segment"] = "view_freezerlog"
         context["page_title"] = "Freezer Inventory Log"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
@@ -160,7 +160,7 @@ class FreezerInventoryLogDetailView(LoginRequiredMixin, PermissionRequiredMixin,
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["segment"] = "detail_freezerinventorylog"
+        context["segment"] = "detail_freezerlog"
         context["page_title"] = "Freezer Inventory Log"
         return context
 
@@ -190,7 +190,7 @@ class FreezerInventoryReturnMetadataFilterView(LoginRequiredMixin, PermissionReq
     def get_context_data(self, **kwargs):
         """Return the view context data."""
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_freezerinventoryreturnmetadata"
+        context["segment"] = "view_freezerreturnmetadata"
         context["page_title"] = "Freezer Inventory Return Metadata"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}

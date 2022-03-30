@@ -1,0 +1,25 @@
+{% extends "home/django-material-dashboard/model-add.html" %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block extrahead %}
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
+{% endblock extrahead %}
+
+{% block messages %}
+    <div id="url_manual_kingdom" data-url="{% url 'options_taxon_kingdom' %}" style="display: none;"></div>
+    <div id="url_manual_supergroup" data-url="{% url 'options_taxon_supergroup' %}" style="display: none;"></div>
+    <div id="url_manual_phylum_division" data-url="{% url 'options_taxon_division' %}" style="display: none;"></div>
+    <div id="url_manual_class" data-url="{% url 'options_taxon_class' %}" style="display: none;"></div>
+    <div id="url_manual_order" data-url="{% url 'options_taxon_order' %}" style="display: none;"></div>
+    <div id="url_manual_family" data-url="{% url 'options_taxon_family' %}" style="display: none;"></div>
+    <div id="url_manual_genus" data-url="{% url 'options_taxon_genus' %}" style="display: none;"></div>
+    <div id="url_manual_species" data-url="{% url 'options_taxon_species' %}" style="display: none;"></div>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script src="{% static 'assets/js/options-conditional.js' %}"></script>
+    <script src="{% static 'assets/js/bioinfo/taxonomicannotation-add-options-conditional.js' %}"></script>
+{% endblock javascripts %}

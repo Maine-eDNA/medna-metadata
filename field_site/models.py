@@ -8,8 +8,8 @@ from django.utils.text import slugify
 
 class EnvoBiomeFirst(DateTimeUserMixin):
     # alpine, aquatic, arid, montane, polar, subalpine, subpolar, subtropical, temperate, terrestrial, tropical
-    biome_first_tier = models.SlugField("ENVO Biome 1st Tier", unique=True, max_length=255)
-    biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier Slug", max_length=255)
+    biome_first_tier = models.CharField("ENVO Biome 1st Tier", unique=True, max_length=255)
+    biome_first_tier_slug = models.SlugField("ENVO Biome 1st Tier Slug", max_length=255)
     envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
     ontology_url = models.URLField("Ontology URL", max_length=255, default="https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428")
 
@@ -33,8 +33,8 @@ class EnvoBiomeSecond(DateTimeUserMixin):
     # anthropogenic terrestrial, mangrove, shrubland, terrestrial environmental zone, tundra, woodland,
     # tropical marginal sea, tropical marine coral reef, tropical marine upwelling, tropical savanna,
     # tropical shrubland, tropical woodland
-    biome_second_tier = models.SlugField("ENVO Biome 2nd Tier", unique=True, max_length=255)
-    biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier Slug", max_length=255)
+    biome_second_tier = models.CharField("ENVO Biome 2nd Tier", unique=True, max_length=255)
+    biome_second_tier_slug = models.SlugField("ENVO Biome 2nd Tier Slug", max_length=255)
     biome_first_tier = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
     envo_identifier = models.CharField("ENVO Identifier", max_length=255, default="[ENVO:00000428]")
@@ -65,8 +65,8 @@ class EnvoBiomeThird(DateTimeUserMixin):
     # area of barren land, area of deciduous forest, vegetated area, alpine tundra,
     # area of lichen-dominanted vegetation, area of tundra, savanna, subtropical woodland,
     # temperate woodland, tropical woodland
-    biome_third_tier = models.SlugField("ENVO Biome 3rd Tier", unique=True, max_length=255)
-    biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier Slug", max_length=255)
+    biome_third_tier = models.CharField("ENVO Biome 3rd Tier", unique=True, max_length=255)
+    biome_third_tier_slug = models.SlugField("ENVO Biome 3rd Tier Slug", max_length=255)
     biome_second_tier = models.ForeignKey(EnvoBiomeSecond, on_delete=models.RESTRICT)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
     biome_first_tier_slug = models.CharField("ENVO Biome 1st Tier", max_length=255)
@@ -101,8 +101,8 @@ class EnvoBiomeFourth(DateTimeUserMixin):
     # concentration basin mediterranean sea, dilution basin mediterranean sea, temperate mediterranean sea,
     # ranch, village, mediterranean shrubland, area of developed open space, area of developed space,
     # area of pastureland or hayfields, rural area, rural settlement, desert area, mediterranean woodland
-    biome_fourth_tier = models.SlugField("ENVO Biome 4th Tier", unique=True, max_length=255)
-    biome_fourth_tier_slug = models.CharField("ENVO Biome 4th Tier Slug", max_length=255)
+    biome_fourth_tier = models.CharField("ENVO Biome 4th Tier", unique=True, max_length=255)
+    biome_fourth_tier_slug = models.SlugField("ENVO Biome 4th Tier Slug", max_length=255)
     biome_third_tier = models.ForeignKey(EnvoBiomeThird, on_delete=models.RESTRICT)
     biome_third_tier_slug = models.CharField("ENVO Biome 3rd Tier", max_length=255)
     biome_second_tier_slug = models.CharField("ENVO Biome 2nd Tier", max_length=255)
@@ -474,6 +474,7 @@ class FieldSite(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
+    project = models.ManyToManyField('utility.Project', blank=True, verbose_name="Affiliated Project(s)", related_name="projects")
     system = models.ForeignKey(System, on_delete=models.RESTRICT)
     watershed = models.ForeignKey(Watershed, on_delete=models.RESTRICT)
     general_location_name = models.CharField("General Location", max_length=255)
