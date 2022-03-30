@@ -711,11 +711,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_date = forms.DateField(
         required=True,
-        widget=CustomAdminDateWidget(
-            attrs={
-                'class': 'vDateField form-control',
-            }
-        )
+        widget=CustomAdminDateWidget()
     )
     process_location = forms.ModelChoiceField(
         required=True,
