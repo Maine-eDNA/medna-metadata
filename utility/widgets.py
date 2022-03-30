@@ -49,7 +49,7 @@ class CustomSelect2Multiple(forms.SelectMultiple):
 
 class CustomDateTimePicker(forms.DateTimeInput):
     class Media:
-        css = {'all': ('https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css')}
+        css = {'all': ('https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css', )}
         js = ('assets/js/plugins/jquery-3.4.1.min.js',
               'assets/js/plugins/moment.min.js',
               'https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js',)
