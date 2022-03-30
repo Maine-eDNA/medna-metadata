@@ -2,7 +2,7 @@
 # from django import forms
 from django.contrib.gis import forms
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker, \
-    CustomAdminDateWidget
+    CustomAdminDateWidget, CustomAdminSplitDateTime
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
@@ -713,6 +713,7 @@ class RunResultForm(forms.ModelForm):
         required=True,
         widget=CustomAdminDateWidget()
     )
+
     process_location = forms.ModelChoiceField(
         required=True,
         queryset=ProcessLocation.objects.all(),
@@ -733,12 +734,9 @@ class RunResultForm(forms.ModelForm):
     )
     run_completion_datetime = forms.DateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
+
     run_instrument = forms.CharField(
         required=True,
         widget=forms.TextInput(
