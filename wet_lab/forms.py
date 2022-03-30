@@ -1,7 +1,7 @@
 # users/forms.py
 # from django import forms
 from django.contrib.gis import forms
-from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker, \
+from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
@@ -35,11 +35,7 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_datetime = forms.DateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     field_sample = forms.ModelChoiceField(
         required=True,
@@ -152,11 +148,7 @@ class PcrForm(forms.ModelForm):
     )
     pcr_datetime = forms.DateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     process_location = forms.ModelChoiceField(
         required=True,
@@ -291,11 +283,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     lib_prep_datetime = forms.DateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     process_location = forms.ModelChoiceField(
         required=True,
@@ -501,11 +489,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     pooled_lib_datetime = forms.DateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     pooled_lib_barcode = forms.ModelChoiceField(
         required=True,
@@ -607,11 +591,7 @@ class RunPrepForm(forms.ModelForm):
     )
     run_prep_datetime = forms.DateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     process_location = forms.ModelChoiceField(
         required=True,
