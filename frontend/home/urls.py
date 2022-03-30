@@ -177,8 +177,6 @@ urlpatterns = [
     path('dashboard/options/taxon/family/', bioinfo_views.load_taxon_family, name='options_taxon_family'),
     path('dashboard/options/taxon/genus/', bioinfo_views.load_taxon_genus, name='options_taxon_genus'),
     path('dashboard/options/taxon/species/', bioinfo_views.load_taxon_species, name='options_taxon_species'),
-
-
     # Matches any html file - https://stackoverflow.com/questions/59907011/matching-either-pattern-with-re-path-in-django-3-0
     re_path(r'^[main]+/.*\.*', views.main_pages, name='main_pages'),
     re_path(r'^[dashboard]+/.*\.*', views.dashboard_pages, name='dashboard_pages'),
