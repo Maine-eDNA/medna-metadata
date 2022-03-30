@@ -14,7 +14,7 @@ var getDependentOptionsHide = function(dependent_options, data_url, select_val) 
                   },
             success: function (data) {
                 // remove any previous options - https://stackoverflow.com/questions/16310588/how-to-clean-completely-select2-control
-                if (data) {
+                if (data.results.length > 0) {
                     dependent_options.empty();
                     // append blank option to beginning of results array
                     data.results.unshift({id: "", text: "---------"});
@@ -24,7 +24,7 @@ var getDependentOptionsHide = function(dependent_options, data_url, select_val) 
                         data: data.results
                     })
                 } else {
-                    console.log(empty_results);
+                    // console.log(empty_results);
                     dependent_options.empty();
                     dependent_options.select2({
                         data: empty_results
@@ -53,18 +53,18 @@ var getDependentOptions = function(dependent_options, data_url, select_val) {
                     'id': select_val
                   },
             success: function (data) {
-            if (data) {
+            if (data.results.length > 0) {
                 // remove any previous options - https://stackoverflow.com/questions/16310588/how-to-clean-completely-select2-control
                 dependent_options.empty();
                 // append blank option to beginning of results array
                 data.results.unshift({id: "", text: "---------"});
-                // console.log(data);
+                // console.log(data.results);
                 // populate options with ajax data - https://select2.org/data-sources/arrays
                 dependent_options.select2({
                     data: data.results
                 })
             } else {
-                console.log(empty_results);
+                // console.log(empty_results);
                 dependent_options.empty();
                 dependent_options.select2({
                     data: empty_results
