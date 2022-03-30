@@ -89,7 +89,7 @@ def load_biome_second(request):
 @login_required(login_url='dashboard_login')
 def load_biome_third(request):
     biome = request.GET.get('id')
-    qs = EnvoBiomeThird.objects.filter(biome_second_tier=biome).order_by('biome_third_tier').annotate(name=F('biome_third_tier'))
+    qs = EnvoBiomeThird.objects.filter(biome_second_tier=biome).order_by('biome_third_tier').annotate(text=F('biome_third_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -97,7 +97,7 @@ def load_biome_third(request):
 @login_required(login_url='dashboard_login')
 def load_biome_fourth(request):
     biome = request.GET.get('id')
-    qs = EnvoBiomeFourth.objects.filter(biome_third_tier=biome).order_by('biome_fourth_tier').annotate(name=F('biome_fourth_tier'))
+    qs = EnvoBiomeFourth.objects.filter(biome_third_tier=biome).order_by('biome_fourth_tier').annotate(text=F('biome_fourth_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -105,7 +105,7 @@ def load_biome_fourth(request):
 @login_required(login_url='dashboard_login')
 def load_biome_fifth(request):
     biome = request.GET.get('id')
-    qs = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome).order_by('biome_fifth_tier').annotate(name=F('biome_fifth_tier'))
+    qs = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome).order_by('biome_fifth_tier').annotate(text=F('biome_fifth_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -113,7 +113,7 @@ def load_biome_fifth(request):
 @login_required(login_url='dashboard_login')
 def load_feature_second(request):
     feature = request.GET.get('id')
-    qs = EnvoFeatureSecond.objects.filter(feature_first_tier=feature).order_by('feature_second_tier').annotate(name=F('feature_second_tier'))
+    qs = EnvoFeatureSecond.objects.filter(feature_first_tier=feature).order_by('feature_second_tier').annotate(text=F('feature_second_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -121,7 +121,7 @@ def load_feature_second(request):
 @login_required(login_url='dashboard_login')
 def load_feature_third(request):
     feature = request.GET.get('id')
-    qs = EnvoFeatureThird.objects.filter(feature_second_tier=feature).order_by('feature_third_tier').annotate(name=F('feature_third_tier'))
+    qs = EnvoFeatureThird.objects.filter(feature_second_tier=feature).order_by('feature_third_tier').annotate(text=F('feature_third_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -129,7 +129,7 @@ def load_feature_third(request):
 @login_required(login_url='dashboard_login')
 def load_feature_fourth(request):
     feature = request.GET.get('id')
-    qs = EnvoFeatureFourth.objects.filter(feature_third_tier=feature).order_by('feature_fourth_tier').annotate(name=F('feature_fourth_tier'))
+    qs = EnvoFeatureFourth.objects.filter(feature_third_tier=feature).order_by('feature_fourth_tier').annotate(text=F('feature_fourth_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -137,7 +137,7 @@ def load_feature_fourth(request):
 @login_required(login_url='dashboard_login')
 def load_feature_fifth(request):
     feature = request.GET.get('id')
-    qs = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature).order_by('feature_fifth_tier').annotate(name=F('feature_fifth_tier'))
+    qs = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature).order_by('feature_fifth_tier').annotate(text=F('feature_fifth_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -145,7 +145,7 @@ def load_feature_fifth(request):
 @login_required(login_url='dashboard_login')
 def load_feature_sixth(request):
     feature = request.GET.get('id')
-    qs = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature).order_by('feature_sixth_tier').annotate(name=F('feature_sixth_tier'))
+    qs = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature).order_by('feature_sixth_tier').annotate(text=F('feature_sixth_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -153,7 +153,7 @@ def load_feature_sixth(request):
 @login_required(login_url='dashboard_login')
 def load_feature_seventh(request):
     feature = request.GET.get('id')
-    qs = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature).order_by('feature_seventh_tier').annotate(name=F('feature_seventh_tier'))
+    qs = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature).order_by('feature_seventh_tier').annotate(text=F('feature_seventh_tier'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
