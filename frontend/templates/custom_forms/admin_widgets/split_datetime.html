@@ -1,5 +1,5 @@
 {{ form.media }}
-<p class="datetime">
+<div class="datetime col-md-12">
   {{ date_label }} {% with widget=widget.subwidgets.0 %}{% include widget.template_name %}{% endwith %}<br>
   {{ time_label }} {% with widget=widget.subwidgets.1 %}{% include widget.template_name %}{% endwith %}
-</p>
+</div>
