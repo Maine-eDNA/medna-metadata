@@ -6,7 +6,7 @@ from django_tables2.utils import A
 class ExtractionTable(tables.Table):
     extraction_barcode = tables.Column(verbose_name='barcode')
     edit = tables.LinkColumn("update_extraction", text='Update', args=[A("pk")], orderable=False)
-    # formatting for date column
+    # formatting for date column - https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#std:templatefilter-date
     created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
@@ -29,8 +29,8 @@ class ExtractionTable(tables.Table):
 class PcrTable(tables.Table):
     edit = tables.LinkColumn("update_pcr", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
@@ -52,8 +52,8 @@ class PcrTable(tables.Table):
 class LibraryPrepTable(tables.Table):
     edit = tables.LinkColumn("update_libraryprep", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
@@ -76,8 +76,8 @@ class LibraryPrepTable(tables.Table):
 class PooledLibraryTable(tables.Table):
     edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
@@ -100,8 +100,8 @@ class PooledLibraryTable(tables.Table):
 class RunPrepTable(tables.Table):
     edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
@@ -122,8 +122,8 @@ class RunPrepTable(tables.Table):
 class RunResultTable(tables.Table):
     edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},
@@ -143,8 +143,8 @@ class RunResultTable(tables.Table):
 class FastqFileTable(tables.Table):
     edit = tables.LinkColumn("update_pooledlibrary", text='Update', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor="pk",
                                              attrs={"td": {"class": "action-checkbox"},

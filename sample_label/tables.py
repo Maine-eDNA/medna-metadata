@@ -19,7 +19,7 @@ class SampleLabelRequestTable(tables.Table):
     # sample_material = tables.Column(attrs={"th": {"class": "text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"}})
     # purpose = tables.Column(attrs={"th": {"class": "text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"}})
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id
     # samplelabel.sample_material.id samplelabel.purpose %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn(viewname="add_samplelabelrequestdetail",
