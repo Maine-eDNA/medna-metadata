@@ -157,7 +157,7 @@ urlpatterns = [
     path('dashboard/geom/watershed/', fieldsite_views.watershed_map, name='geom_watershed'),
     path('dashboard/geom/fieldsite/', fieldsite_views.field_site_map, name='geom_fieldsite'),
     path('dashboard/intersect/point/watershed/<float:lat>/<float:long>/<int:srid>/', fieldsite_views.point_intersect_watershed, name='intersect_watershed'),
-    # AJAX OPTIONS
+    # AJAX DEPENDENT OPTIONS
     path('dashboard/options/biome/second/', fieldsite_views.load_biome_second, name='options_biome_second'),
     path('dashboard/options/biome/third/', fieldsite_views.load_biome_third, name='options_biome_third'),
     path('dashboard/options/biome/fourth/', fieldsite_views.load_biome_fourth, name='options_biome_fourth'),
@@ -169,6 +169,16 @@ urlpatterns = [
     path('dashboard/options/feature/sixth/', fieldsite_views.load_feature_sixth, name='options_feature_sixth'),
     path('dashboard/options/feature/seventh/', fieldsite_views.load_feature_seventh, name='options_feature_seventh'),
     path('dashboard/options/project/', utility_views.load_project, name='options_project'),
+    path('dashboard/options/taxon/kingdom/', bioinfo_views.load_taxon_kingdom, name='options_taxon_kingdom'),
+    path('dashboard/options/taxon/supergroup/', bioinfo_views.load_taxon_supergroup, name='options_taxon_supergroup'),
+    path('dashboard/options/taxon/division/', bioinfo_views.load_taxon_phylum_division, name='options_taxon_division'),
+    path('dashboard/options/taxon/class/', bioinfo_views.load_taxon_class, name='options_taxon_class'),
+    path('dashboard/options/taxon/order/', bioinfo_views.load_taxon_order, name='options_taxon_order'),
+    path('dashboard/options/taxon/family/', bioinfo_views.load_taxon_family, name='options_taxon_family'),
+    path('dashboard/options/taxon/genus/', bioinfo_views.load_taxon_genus, name='options_taxon_genus'),
+    path('dashboard/options/taxon/species/', bioinfo_views.load_taxon_species, name='options_taxon_species'),
+
+
     # Matches any html file - https://stackoverflow.com/questions/59907011/matching-either-pattern-with-re-path-in-django-3-0
     re_path(r'^[main]+/.*\.*', views.main_pages, name='main_pages'),
     re_path(r'^[dashboard]+/.*\.*', views.dashboard_pages, name='dashboard_pages'),

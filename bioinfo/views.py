@@ -1,14 +1,18 @@
+from django.db.models import F
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
+from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from rest_framework import viewsets
 from django_filters import rest_framework as filters
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from utility.views import export_context
+from utility.charts import return_select2_options
 from utility.serializers import SerializerExportMixin
 import bioinfo.serializers as bioinfo_serializers
 import bioinfo.filters as bioinfo_filters
@@ -22,6 +26,73 @@ from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMe
 
 
 # Create your views here.
+########################################
+# FRONTEND REQUESTS                    #
+########################################
+@login_required(login_url='dashboard_login')
+def load_taxon_kingdom(request):
+    taxon = request.GET.get('id')
+    qs = TaxonKingdom.objects.filter(taxon_domain=taxon).order_by('taxon_kingdom').annotate(text=F('taxon_kingdom'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_supergroup(request):
+    taxon = request.GET.get('id')
+    qs = TaxonSupergroup.objects.filter(taxon_kingdom=taxon).order_by('taxon_supergroup').annotate(text=F('taxon_supergroup'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_phylum_division(request):
+    taxon = request.GET.get('id')
+    qs = TaxonPhylumDivision.objects.filter(taxon_supergroup=taxon).order_by('taxon_phylum_division').annotate(text=F('taxon_phylum_division'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_class(request):
+    taxon = request.GET.get('id')
+    qs = TaxonClass.objects.filter(taxon_phylum_division=taxon).order_by('taxon_class').annotate(text=F('taxon_class'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_order(request):
+    taxon = request.GET.get('id')
+    qs = TaxonOrder.objects.filter(taxon_class=taxon).order_by('taxon_order').annotate(text=F('taxon_order'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_family(request):
+    taxon = request.GET.get('id')
+    qs = TaxonFamily.objects.filter(taxon_order=taxon).order_by('taxon_family').annotate(text=F('taxon_family'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_genus(request):
+    taxon = request.GET.get('id')
+    qs = TaxonGenus.objects.filter(taxon_family=taxon).order_by('taxon_genus').annotate(text=F('taxon_genus'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def load_taxon_species(request):
+    taxon = request.GET.get('id')
+    qs = TaxonSpecies.objects.filter(taxon_genus=taxon).order_by('taxon_species').annotate(text=F('taxon_species'))
+    qs_json = return_select2_options(qs)
+    return JsonResponse(data={'results': qs_json})
+
+
 ########################################
 # FRONTEND VIEWS                       #
 ########################################
