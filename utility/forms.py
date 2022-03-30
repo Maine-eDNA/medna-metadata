@@ -154,7 +154,7 @@ class ContactUsUpdateForm(forms.ModelForm):
 
     replied_datetime = forms.DateTimeField(
         required=True,
-        widget=forms.DateTimeInput(
+        widget=CustomDateTimePicker(
             attrs={
                 'class': 'form-control',
                 'readonly': 'readonly'
