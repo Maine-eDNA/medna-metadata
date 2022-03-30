@@ -51,6 +51,8 @@ class CustomDateTimePicker(forms.DateTimeInput):
     class Media:
         css = {'all': ('assets/css/plugins/tempusdominus-bootstrap-4.min.css', )}
         js = ('assets/js/plugins/jquery-3.4.1.min.js',
+              'assets/js/plugins/popper.min.js'
+              'assets/js/core/bootstrap.min.js'
               'assets/js/plugins/moment.min.js',
               'assets/js/plugins/tempusdominus-bootstrap-4.min.js',)
 

@@ -40,14 +40,6 @@ class ExtractionForm(forms.ModelForm):
             }
         )
     )
-    purpose = forms.CharField(
-        required=True,
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
     field_sample = forms.ModelChoiceField(
         required=True,
         queryset=FieldSample.objects.all(),
