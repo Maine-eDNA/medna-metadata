@@ -4,12 +4,14 @@ from django_tables2.utils import A
 
 
 class FieldSiteTable(tables.Table):
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
-                                             orderable=False)
+    # TODO self.dataset.headers = serializer_data[0].keys() - need SerializerTableExport for GeoJSON FeatureCollection
+    # or use non geo serializer
+    # _selected_action = tables.CheckBoxColumn(accessor="pk",
+    #                                          attrs={"td": {"class": "action-checkbox"},
+    #                                                 "input": {"class": "action-select"},
+    #                                                 "th__input": {"id": "action-toggle"},
+    #                                                 "th": {"class": "action-checkbox-column"}},
+    #                                          orderable=False)
     # id = tables.CheckBoxColumn(accessor='pk')
     # same as <a href="{% url 'users:site_detail' site.id %}"> {{ site.site_id }}</a>
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
@@ -21,7 +23,7 @@ class FieldSiteTable(tables.Table):
 
     class Meta:
         model = FieldSite
-        fields = ("_selected_action", "site_id", "general_location_name",
+        fields = ("site_id", "general_location_name",
                   "grant", "project", "system", "watershed", "created_datetime")
         # set table css class to "result_lust"
         # attrs = {"class": "result_list"}

@@ -4,12 +4,14 @@ from django_tables2.utils import A
 
 
 class FieldSurveyTable(tables.Table):
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
-                                             orderable=False)
+    # TODO self.dataset.headers = serializer_data[0].keys() - need SerializerTableExport for GeoJSON FeatureCollection
+    # or use non geo serializer
+    # _selected_action = tables.CheckBoxColumn(accessor="pk",
+    #                                          attrs={"td": {"class": "action-checkbox"},
+    #                                                 "input": {"class": "action-select"},
+    #                                                 "th__input": {"id": "action-toggle"},
+    #                                                 "th": {"class": "action-checkbox-column"}},
+    #                                          orderable=False)
     project_ids = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.project_ids.all|join:", " }}">{{ record.project_ids.all|join:", "|truncatewords:5 }}', verbose_name="Projects")
     supervisor = tables.Column(accessor='supervisor.agol_username', verbose_name="Supervisor")
     username = tables.Column(accessor='username.agol_username', verbose_name="Username")
@@ -35,7 +37,7 @@ class FieldSurveyTable(tables.Table):
 
     class Meta:
         model = FieldSurvey
-        fields = ('_selected_action', 'survey_global_id', 'survey_datetime', 'project_ids',
+        fields = ('survey_global_id', 'survey_datetime', 'project_ids',
                   'supervisor', 'username',
                   'recorder_fname', 'recorder_lname',
                   'arrival_datetime', 'site_id', 'site_id_other', 'site_name',
@@ -51,12 +53,12 @@ class FieldSurveyTable(tables.Table):
 
 
 class FilterSampleTable(tables.Table):
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
-                                             orderable=False)
+    # _selected_action = tables.CheckBoxColumn(accessor="pk",
+    #                                          attrs={"td": {"class": "action-checkbox"},
+    #                                                 "input": {"class": "action-select"},
+    #                                                 "th__input": {"id": "action-toggle"},
+    #                                                 "th": {"class": "action-checkbox-column"}},
+    #                                          orderable=False)
     project_ids = tables.ManyToManyColumn(accessor='project_ids.project_label', verbose_name="Project")
     supervisor = tables.Column(accessor='supervisor.agol_username', verbose_name="Supervisor")
     username = tables.Column(accessor='username.agol_username', verbose_name="Username")
@@ -85,7 +87,7 @@ class FilterSampleTable(tables.Table):
 
     class Meta:
         model = FilterSample
-        fields = ('_selected_action', 'survey_global_id', 'survey_datetime', 'project_ids',
+        fields = ('survey_global_id', 'survey_datetime', 'project_ids',
                   'supervisor', 'username',
                   'recorder_fname', 'recorder_lname', 'field_crew',
                   'arrival_datetime', 'site_id', 'site_id_other', 'site_name',
