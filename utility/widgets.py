@@ -75,8 +75,9 @@ class CustomAdminDateWidget(AdminDateWidget):
     # https://stackoverflow.com/questions/61077802/how-to-use-a-datepicker-in-a-modelform-in-django/69108038#69108038
     class Media:
         css = {'all': ('admin/css/widgets.css', )}
-        js = ('admin/js/core.js',
-              reverse_lazy('jsi18n'),)
+        js = ['admin/js/core.js',
+              reverse_lazy('jsi18n'),
+              'admin/js/calendar.js',
+              'admin/js/admin/DateTimeShortcuts.js', ]
 
     template_name = 'custom_forms/widgets/date.html'
-
