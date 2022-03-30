@@ -23,7 +23,7 @@ class FreezerInventoryTable(tables.Table):
 
     class Meta:
         model = FreezerInventory
-        fields = ('id', 'freezer_box', 'sample_barcode',
+        fields = ('_selected_action', 'id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', )
@@ -45,18 +45,12 @@ class FreezerInventoryLogTable(tables.Table):
 
     class Meta:
         model = FreezerInventoryLog
-        fields = ('id', 'freezer_inventory', 'freezer_log_action',
+        fields = ('_selected_action', 'id', 'freezer_inventory', 'freezer_log_action',
                   'freezer_log_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
 
 
 class FreezerInventoryReturnMetadataTable(tables.Table):
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
-                                             orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y")
     modified_datetime = tables.DateTimeColumn(format="M d, Y")
