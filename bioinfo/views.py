@@ -581,7 +581,7 @@ class TaxonomicAnnotationUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
     form_class = TaxonomicAnnotationForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update.html'
+    template_name = 'home/django-material-dashboard/model-update-taxonomicannotation.html'
     permission_required = ('bioinfo.update_taxonomicannotation', 'bioinfo.view_taxonomicannotation', )
 
     def get_context_data(self, **kwargs):
@@ -606,10 +606,10 @@ class TaxonomicAnnotationCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = ('bioinfo.add_taxonomicannotation', )
-    model = AnnotationMetadata
-    form_class = AnnotationMetadataForm
+    model = TaxonomicAnnotation
+    form_class = TaxonomicAnnotationForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-taxonomicannotation.html'
 
     def get_context_data(self, **kwargs):
         """Return the view context data."""
