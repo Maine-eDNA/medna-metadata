@@ -33,7 +33,7 @@ class ExtractionForm(forms.ModelForm):
             }
         )
     )
-    extraction_datetime = forms.DateTimeField(
+    extraction_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -146,7 +146,7 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_datetime = forms.DateTimeField(
+    pcr_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -281,7 +281,7 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_datetime = forms.DateTimeField(
+    lib_prep_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -487,7 +487,7 @@ class PooledLibraryForm(forms.ModelForm):
             }
         )
     )
-    pooled_lib_datetime = forms.DateTimeField(
+    pooled_lib_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -589,7 +589,7 @@ class RunPrepForm(forms.ModelForm):
             }
         )
     )
-    run_prep_datetime = forms.DateTimeField(
+    run_prep_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -712,7 +712,7 @@ class RunResultForm(forms.ModelForm):
             }
         )
     )
-    run_completion_datetime = forms.DateTimeField(
+    run_completion_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )

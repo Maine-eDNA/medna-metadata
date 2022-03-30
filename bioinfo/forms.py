@@ -28,7 +28,7 @@ class QualityMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.DateTimeField(
+    analysis_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -153,7 +153,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.DateTimeField(
+    analysis_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
@@ -299,7 +299,7 @@ class AnnotationMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.DateTimeField(
+    analysis_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )

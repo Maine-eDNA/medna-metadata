@@ -152,7 +152,7 @@ class ContactUsUpdateForm(forms.ModelForm):
         )
     )
 
-    replied_datetime = forms.DateTimeField(
+    replied_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
     )
