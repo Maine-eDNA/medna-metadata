@@ -713,7 +713,7 @@ class RunResultForm(forms.ModelForm):
         required=True,
         widget=CustomAdminDateWidget(
             attrs={
-                'class': 'form-control',
+                'class': 'vDateField form-control',
             }
         )
     )
