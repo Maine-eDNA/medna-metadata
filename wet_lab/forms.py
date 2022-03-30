@@ -710,7 +710,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_date = forms.DateField(
         required=True,
-        widget=forms.DateInput(
+        widget=forms.SelectDateWidget(
             attrs={
                 'class': 'form-control',
             }
