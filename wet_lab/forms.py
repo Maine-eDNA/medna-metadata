@@ -165,15 +165,6 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    extraction_barcode = forms.ModelChoiceField(
-        required=True,
-        queryset=SampleBarcode.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
     process_location = forms.ModelChoiceField(
         required=True,
         queryset=ProcessLocation.objects.all(),
