@@ -560,7 +560,7 @@ class LibraryPrepForm(forms.ModelForm):
                   'lib_prep_sop_url', 'lib_prep_notes', ]
         widgets = {
             'index_pair': AddAnotherWidgetWrapper(
-                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                CustomSelect2(attrs={'class': 'form-control', }),
                 reverse_lazy('add_indexpair'),
             ),
         }
