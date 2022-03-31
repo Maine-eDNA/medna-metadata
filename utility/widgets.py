@@ -142,7 +142,7 @@ class BaseRelatedWidgetWrapper(WidgetWrapperMixin, forms.Widget):
         css = {'all': ('admin/css/widgets.css', )}
         js = (reverse_lazy('jsi18n'),
               'assets/js/plugins/jquery-3.4.1.min.js',
-              'assets/js/core/django/admin/RelatedObjectLookups.js',
+              'assets/js/django/admin/RelatedObjectLookups.js',
               )
 
     def __init__(self, widget, add_related_url,
