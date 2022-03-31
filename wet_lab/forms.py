@@ -305,7 +305,7 @@ class PcrForm(forms.ModelForm):
                   'pcr_notes', ]
         widgets = {
             'pcr_replicate': AddAnotherWidgetWrapper(
-                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                forms.SelectMultiple(attrs={'class': 'form-control', }),
                 reverse_lazy('add_pcrreplicate'),
             ),
         }
