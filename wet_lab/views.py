@@ -164,6 +164,9 @@ class PcrReplicatePopupCreateView(LoginRequiredMixin, PermissionRequiredMixin, C
         self.object.created_by = self.request.user
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return self.request.path
+
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
@@ -189,6 +192,9 @@ class PcrReplicatePopupUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        return self.request.path
 
 
 class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
