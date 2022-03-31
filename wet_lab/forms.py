@@ -15,6 +15,53 @@ from .models import Extraction, ExtractionMethod, \
     RunPrep, RunResult, FastqFile
 
 
+class IndexPairForm(forms.ModelForm):
+    index_i7 = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    i7_index_id = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    index_i5 = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    i5_index_id = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    index_adapter = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = IndexPair
+        fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter' ]
+
+
 class ExtractionForm(forms.ModelForm):
     extraction_barcode = forms.ModelChoiceField(
         required=True,
@@ -365,15 +412,15 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    index_pair = forms.ModelChoiceField(
-        required=True,
-        queryset=IndexPair.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
+    # index_pair = forms.ModelChoiceField(
+    #     required=True,
+    #     queryset=IndexPair.objects.all(),
+    #     widget=CustomSelect2(
+    #         attrs={
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
     index_removal_method = forms.ModelChoiceField(
         required=True,
         queryset=IndexRemovalMethod.objects.all(),
@@ -511,6 +558,18 @@ class LibraryPrepForm(forms.ModelForm):
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond',
                   'lib_prep_sop_url', 'lib_prep_notes', ]
+        widgets = {
+            'index_pair': AddAnotherWidgetWrapper(
+                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                reverse_lazy('add_indexpair'),
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        _user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
 class PooledLibraryForm(forms.ModelForm):

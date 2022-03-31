@@ -68,7 +68,6 @@ urlpatterns = [
     path('dashboard/wetlab/extraction/update/<int:pk>/', wetlab_views.ExtractionUpdateView.as_view(success_url=reverse_lazy('view_extraction')), name='update_extraction'),
     path('dashboard/wetlab/extraction/add/', wetlab_views.ExtractionCreateView.as_view(), name='add_extraction'),
     # WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
-    # TODO add PCR Replicate add popup
     path('dashboard/wetlab/pcr/view/', wetlab_views.PcrFilterView.as_view(filterset_class=wetlab_filters.PcrFilter), name='view_pcr'),
     # path('dashboard/wetlab/pcr/detail/<int:pk>/', wetlab_views.PcrDetailView.as_view(), name='detail_pcr'),
     path('dashboard/wetlab/pcr/update/<int:pk>/', wetlab_views.PcrUpdateView.as_view(success_url=reverse_lazy('view_pcr')), name='update_pcr'),
@@ -76,7 +75,9 @@ urlpatterns = [
     path('dashboard/wetlab/pcrreplicate/add/', wetlab_views.PcrReplicatePopupCreateView.as_view(), name="add_pcrreplicate"),
     path('dashboard/wetlab/pcrreplicate/update/', wetlab_views.PcrReplicatePopupUpdateView.as_view(), name="update_pcrreplicate"),
     # WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
-    # TODO add IndexPair add popup & convert add_libraryprep to table update
+    # TODO convert add_libraryprep to table update
+    path('dashboard/wetlab/indexpair/add/', wetlab_views.IndexPairPopupCreateView.as_view(), name="add_indexpair"),
+    path('dashboard/wetlab/indexpair/update/', wetlab_views.IndexPairPopupUpdateView.as_view(), name="update_indexpair"),
     path('dashboard/wetlab/libraryprep/view/', wetlab_views.LibraryPrepFilterView.as_view(filterset_class=wetlab_filters.LibraryPrepFilter), name='view_libraryprep'),
     # path('dashboard/wetlab/libraryprep/detail/<int:pk>/', wetlab_views.LibraryPrepDetailView.as_view(), name='detail_libraryprep'),
     path('dashboard/wetlab/libraryprep/update/<int:pk>/', wetlab_views.LibraryPrepUpdateView.as_view(success_url=reverse_lazy('view_libraryprep')), name='update_libraryprep'),
