@@ -260,15 +260,15 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_replicate = forms.ModelChoiceField(
-        required=True,
-        queryset=PcrReplicate.objects.all(),
-        widget=CustomSelect2Multiple(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
+    # pcr_replicate = forms.ModelChoiceField(
+    #     required=True,
+    #     queryset=PcrReplicate.objects.all(),
+    #     widget=CustomSelect2Multiple(
+    #         attrs={
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
     # TODO - separate into fields and use js to concatenate + update value
     pcr_thermal_cond = forms.CharField(
         required=True,
