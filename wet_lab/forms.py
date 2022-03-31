@@ -260,16 +260,6 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    # pcr_replicate = forms.ModelChoiceField(
-    #     required=True,
-    #     queryset=PcrReplicate.objects.all(),
-    #     widget=CustomSelect2Multiple(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-    # TODO - separate into fields and use js to concatenate + update value
     pcr_thermal_cond = forms.CharField(
         required=True,
         widget=forms.Textarea(
@@ -309,6 +299,12 @@ class PcrForm(forms.ModelForm):
                 reverse_lazy('add_pcrreplicate'),
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        super().__init__(*args, **kwargs)
+        user = kwargs.pop('user')
+        self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=user).order_by('-created_datetime')
 
 
 class LibraryPrepForm(forms.ModelForm):
