@@ -167,7 +167,7 @@ class PcrReplicateForm(forms.ModelForm):
 
     class Meta:
         model = PcrReplicate
-        fields = ['pcr_results', 'pcr_results_units', 'pcr_replicate_notes', ]
+        fields = ['pcr_replicate_results', 'pcr_replicate_results_units', 'pcr_replicate_notes', ]
 
 
 class PcrForm(forms.ModelForm):
