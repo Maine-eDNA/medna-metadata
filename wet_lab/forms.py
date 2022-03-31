@@ -342,6 +342,7 @@ class PcrForm(forms.ModelForm):
                   'pcr_notes', ]
         widgets = {
             'pcr_replicate': AddAnotherWidgetWrapper(
+                # TODO - Multiple select not working; need to test. Throwing "options not available" error in form on submit
                 CustomSelect2Multiple(attrs={'class': 'form-control', }),
                 reverse_lazy('add_pcrreplicate'),
             ),
@@ -412,15 +413,6 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    # index_pair = forms.ModelChoiceField(
-    #     required=True,
-    #     queryset=IndexPair.objects.all(),
-    #     widget=CustomSelect2(
-    #         attrs={
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
     index_removal_method = forms.ModelChoiceField(
         required=True,
         queryset=IndexRemovalMethod.objects.all(),
