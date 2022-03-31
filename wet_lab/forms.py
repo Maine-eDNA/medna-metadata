@@ -303,8 +303,8 @@ class PcrForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
-        self.user = kwargs.pop('user')
-        self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=self.user).order_by('-created_datetime')
+        user = self.instance.user
+        self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=user).order_by('-created_datetime')
 
 
 class LibraryPrepForm(forms.ModelForm):
