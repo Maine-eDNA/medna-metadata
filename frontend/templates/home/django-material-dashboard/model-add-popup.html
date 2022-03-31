@@ -1,4 +1,4 @@
-{% extends "layouts/django-material-dashboard/base-popup.html" %}
+{% extends "layouts/django-material-kit/base-fullscreen.html" %}
 {% load static %}
 
 {% block title %} Add Popup {% endblock %}
@@ -6,34 +6,14 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn bg-gradient-success btn-block mb-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage">
-      Message Modal
-    </button>
-
 {% block content %}
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title font-weight-normal" id="exampleModalLabel">{{ page_title|title }}</h6>
-            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            {% include 'includes/django-material-dashboard/form.html' %}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  <!-- end Modal -->
-    
+<div class="container-fluid py-4">
+<div class="row min-vh-80 h-100">
+  <div class="col-12">
+        {% include 'includes/django-material-dashboard/form.html' %}
+  </div>
+</div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

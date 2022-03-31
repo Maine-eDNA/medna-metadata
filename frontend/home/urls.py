@@ -73,8 +73,8 @@ urlpatterns = [
     # path('dashboard/wetlab/pcr/detail/<int:pk>/', wetlab_views.PcrDetailView.as_view(), name='detail_pcr'),
     path('dashboard/wetlab/pcr/update/<int:pk>/', wetlab_views.PcrUpdateView.as_view(success_url=reverse_lazy('view_pcr')), name='update_pcr'),
     path('dashboard/wetlab/pcr/add/', wetlab_views.PcrCreateView.as_view(), name='add_pcr'),
-    path('dashboard/wetlab/pcrreplicate/add/', wetlab_views.PcrReplicateCreateView, name="add_pcrreplicate"),
-    path('dashboard/wetlab/pcrreplicate/update/', wetlab_views.PcrReplicateUpdateView, name="update_pcrreplicate"),
+    path('dashboard/wetlab/pcrreplicate/add/', wetlab_views.PcrReplicatePopupCreateView, name="add_pcrreplicate"),
+    path('dashboard/wetlab/pcrreplicate/update/', wetlab_views.PcrReplicatePopupUpdateView, name="update_pcrreplicate"),
     # WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
     # TODO add IndexPair add popup & convert add_libraryprep to table update
     path('dashboard/wetlab/libraryprep/view/', wetlab_views.LibraryPrepFilterView.as_view(filterset_class=wetlab_filters.LibraryPrepFilter), name='view_libraryprep'),

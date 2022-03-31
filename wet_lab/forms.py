@@ -1,8 +1,9 @@
 # users/forms.py
 # from django import forms
+from django.urls import reverse_lazy
 from django.contrib.gis import forms
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
-    CustomAdminDateWidget, CustomAdminSplitDateTime
+    CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
@@ -135,6 +136,38 @@ class ExtractionForm(forms.ModelForm):
                   'quantification_method',
                   'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', ]
+
+
+class PcrReplicateForm(forms.ModelForm):
+    pcr_replicate_results = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pcr_replicate_results_units = forms.ChoiceField(
+        required=False,
+        choices=PcrUnits.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pcr_replicate_notes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = PcrReplicate
+        fields = ['pcr_results', 'pcr_results_units', 'pcr_replicate_notes', ]
 
 
 class PcrForm(forms.ModelForm):
@@ -270,6 +303,12 @@ class PcrForm(forms.ModelForm):
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
                   'pcr_thermal_cond', 'pcr_sop_url',
                   'pcr_notes', ]
+        widgets = {
+            'pcr_replicate': AddAnotherWidgetWrapper(
+                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                reverse_lazy('add_pcrreplicate'),
+            ),
+        }
 
 
 class LibraryPrepForm(forms.ModelForm):

@@ -1,16 +1,24 @@
-from django.db.models import F
+import django
+from django.db.models import F, BLANK_CHOICE_DASH
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.admin.options import IS_POPUP_VAR
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.decorators import login_required
+from django.template.response import SimpleTemplateResponse
 from django.http import JsonResponse
 from django.utils import timezone
-from django.db.models import BLANK_CHOICE_DASH
+try:
+    from django.utils.encoding import force_text
+except ImportError:
+    from django.utils.encoding import force_str as force_text
+import json
+import sys
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -26,6 +34,10 @@ import utility.filters as utility_filters
 from utility.forms import export_action_form_factory
 
 
+# Create your views here.
+########################################
+# UTILITY DEFS                         #
+########################################
 def get_action_choices(default_choices=BLANK_CHOICE_DASH):
     """
     Return a list of choices for use in a form object.  Each choice is a
@@ -61,7 +73,80 @@ def export_context(request, export_formats):
     }
 
 
-# Create your views here.
+class BasePopupMixin(object):
+    """
+    Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+    Base mixin for generic views classes that handles the case of the view
+    being opened in a popup window.
+    Don't call this directly, use some of the subclasses instead.
+    .. versionadded:: 2.0.0
+       Factored from the original ``PopupMixin`` class.
+    """
+
+    def is_popup(self):
+        return self.request.GET.get(IS_POPUP_VAR, False)
+
+    def form_valid(self, form):
+        if self.is_popup():
+            # If this view is only used with addanother, never as a standalone,
+            # then the user may not have set a success url, which causes an
+            # ImproperlyConfigured error. (We never use the success url for the
+            # addanother popup case anyways, since we always directly close the
+            # popup window.)
+            self.success_url = '/'
+        response = super(BasePopupMixin, self).form_valid(form)
+        if self.is_popup():
+            return self.respond_script(self.object)
+        else:
+            return response
+
+    def respond_script(self, created_obj):
+        ctx = {
+            'action': self.POPUP_ACTION,
+            'value': str(self._get_created_obj_pk(created_obj)),
+            'obj': str(self.label_from_instance(created_obj)),
+            'new_value': str(self._get_created_obj_pk(created_obj))
+        }
+        if django.VERSION >= (1, 10):
+            ctx = {'popup_response_data': json.dumps(ctx)}
+        return SimpleTemplateResponse('admin/popup_response.html', ctx)
+
+    def _get_created_obj_pk(self, created_obj):
+        pk_name = created_obj._meta.pk.attname
+        return created_obj.serializable_value(pk_name)
+
+    def label_from_instance(self, related_instance):
+        """
+        Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+        Return the label to show in the "main form" for the
+        newly created object.
+        Overwrite this to customize the label that is being shown.
+        """
+        return force_text(related_instance)
+
+
+class CreatePopupMixin(BasePopupMixin):
+    """
+    Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+    Mixin for :class:`~django.views.generic.edit.CreateView` classes that
+    handles the case of the view being opened in an add-another popup window.
+    .. versionchanged:: 2.0.0
+       This used to be called ``PopupMixin`` and has been renamed with the
+       introduction of edit-related buttons and :class:`UpdatePopupMixin`.
+    """
+    POPUP_ACTION = 'add'
+
+
+class UpdatePopupMixin(BasePopupMixin):
+    """
+    Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+    Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
+    handles the case of the view being opened in an edit-related popup window.
+    .. versionadded:: 2.0.0
+    """
+    POPUP_ACTION = 'change'
+
+
 ########################################
 # FRONTEND REQUESTS                    #
 ########################################

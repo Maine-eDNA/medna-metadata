@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, F, Count, Func, Value, CharField
 from django.db.models.functions import TruncMonth
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
@@ -16,7 +16,7 @@ from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from rest_framework import viewsets
 from utility.serializers import SerializerExportMixin, CharSerializerExportMixin
-from utility.views import export_context
+from utility.views import export_context, CreatePopupMixin, UpdatePopupMixin
 from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists, return_json
 import wet_lab.serializers as wetlab_serializers
 import wet_lab.filters as wetlab_filters
@@ -24,7 +24,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     SizeSelectionMethod, QuantificationMethod, ExtractionMethod, \
     Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
-from .forms import ExtractionForm, PcrForm, LibraryPrepForm, PooledLibraryForm, \
+from .forms import ExtractionForm, PcrForm, PcrReplicateForm, LibraryPrepForm, PooledLibraryForm, \
     RunPrepForm, RunResultForm, FastqFileForm
 from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
     RunPrepTable, RunResultTable, FastqFileTable
@@ -141,6 +141,62 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+
+class PcrReplicatePopupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView, CreatePopupMixin):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_pcrreplicate'
+    model = PcrReplicate
+    form_class = PcrReplicateForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "add_pcrreplicate"
+        context["page_title"] = "Pcr Replicate"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_pcrreplicate')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class PcrReplicatePopupUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdatePopupMixin):
+    model = PcrReplicate
+    form_class = PcrReplicateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('wet_lab.update_pcrreplicate', 'wet_lab.view_pcrreplicate', )
+
+    def get_context_data(self, **kwargs):
+        """Return the view context data."""
+        context = super().get_context_data(**kwargs)
+        context["segment"] = "update_pcrreplicate"
+        context["page_title"] = "Pcr Replicate"
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_pcrreplicate')
 
 
 class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
