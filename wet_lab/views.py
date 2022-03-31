@@ -143,7 +143,7 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         return redirect('main/model-perms-required.html')
 
 
-class PcrReplicatePopupCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView, CreatePopupMixin):
+class PcrReplicatePopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_pcrreplicate'
@@ -164,16 +164,13 @@ class PcrReplicatePopupCreateView(LoginRequiredMixin, PermissionRequiredMixin, C
         self.object.created_by = self.request.user
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return self.request.path
-
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
 
 
-class PcrReplicatePopupUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdatePopupMixin):
+class PcrReplicatePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = PcrReplicate
     form_class = PcrReplicateForm
     login_url = '/dashboard/login/'
@@ -192,9 +189,6 @@ class PcrReplicatePopupUpdateView(LoginRequiredMixin, PermissionRequiredMixin, U
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
-
-    def get_success_url(self):
-        return self.request.path
 
 
 class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):

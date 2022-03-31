@@ -4,7 +4,14 @@
 {% block title %} Add Popup {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+    <script src="{% static 'admin/css/widgets.css' %}"></script>
+{% endblock stylesheets %}
+{% block extrahead %}
+    <script src="{% url 'jsi18n' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
