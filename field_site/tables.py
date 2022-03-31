@@ -19,7 +19,7 @@ class FieldSiteTable(tables.Table):
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn("add_samplelabelrequestsite", text='Add', args=[A("pk")], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
 
     class Meta:
         model = FieldSite

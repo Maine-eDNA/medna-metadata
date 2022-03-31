@@ -1,0 +1,22 @@
+{% load i18n static %}
+<!-- Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>. -->
+<div class="related-widget-wrapper">
+    {{ widget }}
+
+    {% if edit_related_url %}
+    <a class="related-widget-wrapper-link change-related" id="change_id_{{ name }}"
+        href=""
+        data-href-template="{{ edit_related_url }}?{{ url_params }}"
+        title="{% blocktrans %}Change selected {{ model }}{% endblocktrans %}">
+        <img src="{% static edit_icon %}" alt="{% trans 'Edit' %}"/>
+    </a>
+    {% endif %}
+
+    {% if add_related_url %}
+    <a class="related-widget-wrapper-link add-related" id="add_id_{{ name }}"
+        href="{{ add_related_url }}?{{ url_params }}"
+        title="{% blocktrans %}Add another {{ model }}{% endblocktrans %}">
+        <img src="{% static add_icon %}" alt="{% trans 'Add' %}"/>
+    </a>
+    {% endif %}
+</div>

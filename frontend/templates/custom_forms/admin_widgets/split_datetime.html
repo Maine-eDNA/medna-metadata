@@ -1,0 +1,9 @@
+{{ form.media }}
+<div class="datetime col-md-12">
+  <div class="col-md-12 d-flex">
+    <div class="col-2"> {{ date_label }} </div> <div class="col-4 d-flex">{% with widget=widget.subwidgets.0 %} {% include widget.template_name %}{% endwith %} </div>
+  </div>
+  <div class="col-md-12 d-flex">
+    <div class="col-2"> {{ time_label }} </div> <div class="col-4 d-flex"> {% with widget=widget.subwidgets.1 %} {% include widget.template_name %}{% endwith %} </div>
+  </div>
+</div>

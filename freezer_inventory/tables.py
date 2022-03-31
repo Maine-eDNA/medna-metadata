@@ -17,8 +17,8 @@ class FreezerInventoryTable(tables.Table):
     freezer_inventory_type = tables.Column(verbose_name="Type")
     freezer_inventory_status = tables.Column(verbose_name="Status")
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
 
     class Meta:
@@ -37,8 +37,8 @@ class FreezerInventoryLogTable(tables.Table):
                                                     "th": {"class": "action-checkbox-column"}},
                                              orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     freezer_log_action = tables.Column(verbose_name="Log Action")
     freezer_log_notes = tables.Column(verbose_name="Notes")
@@ -52,8 +52,8 @@ class FreezerInventoryLogTable(tables.Table):
 
 class FreezerInventoryReturnMetadataTable(tables.Table):
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     # freezer_log = tables.LinkColumn(verbose_name="Freezer Log",
     #                                 viewname='detail_freezerinventorylog',
@@ -81,8 +81,8 @@ class FreezerInventoryReturnMetadataTable(tables.Table):
 
 class UserFreezerInventoryReturnMetadataTable(tables.Table):
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y")
+    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     created_by = tables.Column(accessor='created_by.email')
     # freezer_log = tables.LinkColumn(verbose_name="Freezer Log",
     #                                 viewname='detail_freezerinventorylog',

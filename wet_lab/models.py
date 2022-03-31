@@ -259,7 +259,24 @@ class PcrReplicate(DateTimeUserMixin):
     # results will be in copy number or copies per microliter (copy/ul) for ddPCR
     # results are Cq value for qPCR
     pcr_replicate_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
+    # TODO Add PCR Replicate Slug field
+    # pcr_replicate_slug = models.SlugField("PCR Replicate Slug", max_length=255)
     pcr_replicate_notes = models.TextField("Replicate Notes", blank=True)
+
+    # def save(self, *args, **kwargs):
+    #     if self.created_datetime is None:
+    #         created_date_fmt = slug_date_format(timezone.now())
+    #     else:
+    #         created_date_fmt = slug_date_format(self.created_datetime)
+    #     self.pcr_replicate_slug = '{units}_{results}_{date}'.format(units=slugify(self.pcr_replicate_results_units), results=slugify(self.pcr_replicate_results), date=created_date_fmt)
+    #     super(PcrReplicate, self).save(*args, **kwargs)
+
+    def __str__(self):
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        return '{units}_{results}_{date}'.format(units=slugify(self.pcr_replicate_results_units), results=slugify(self.pcr_replicate_results), date=created_date_fmt)
 
     class Meta:
         app_label = 'wet_lab'

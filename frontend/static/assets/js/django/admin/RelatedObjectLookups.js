@@ -3,7 +3,7 @@
 // and Add Another links.
 'use strict';
 {
-    const $ = django.jQuery;
+    //const $ = django.jQuery;
 
     function showAdminPopup(triggeringLink, name_regexp, add_popup) {
         const name = triggeringLink.id.replace(name_regexp, '');

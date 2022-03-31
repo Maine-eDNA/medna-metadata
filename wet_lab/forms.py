@@ -1,7 +1,9 @@
 # users/forms.py
 # from django import forms
+from django.urls import reverse_lazy
 from django.contrib.gis import forms
-from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, CustomDateTimePicker
+from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
+    CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
 from utility.models import ProcessLocation
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
@@ -11,6 +13,53 @@ from .models import Extraction, ExtractionMethod, \
     QuantificationMethod, PrimerPair, Pcr, PcrReplicate, LibraryPrep, \
     AmplificationMethod, SizeSelectionMethod, IndexRemovalMethod, IndexPair, PooledLibrary, \
     RunPrep, RunResult, FastqFile
+
+
+class IndexPairForm(forms.ModelForm):
+    index_i7 = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    i7_index_id = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    index_i5 = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    i5_index_id = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    index_adapter = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = IndexPair
+        fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter' ]
 
 
 class ExtractionForm(forms.ModelForm):
@@ -32,13 +81,9 @@ class ExtractionForm(forms.ModelForm):
             }
         )
     )
-    extraction_datetime = forms.DateTimeField(
+    extraction_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     field_sample = forms.ModelChoiceField(
         required=True,
@@ -140,6 +185,38 @@ class ExtractionForm(forms.ModelForm):
                   'extraction_notes', ]
 
 
+class PcrReplicateForm(forms.ModelForm):
+    pcr_replicate_results = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pcr_replicate_results_units = forms.ChoiceField(
+        required=False,
+        choices=PcrUnits.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pcr_replicate_notes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = PcrReplicate
+        fields = ['pcr_replicate_results', 'pcr_replicate_results_units', 'pcr_replicate_notes', ]
+
+
 class PcrForm(forms.ModelForm):
     pcr_experiment_name = forms.CharField(
         required=True,
@@ -149,13 +226,9 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_datetime = forms.DateTimeField(
+    pcr_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     process_location = forms.ModelChoiceField(
         required=True,
@@ -234,16 +307,6 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_replicate = forms.ModelChoiceField(
-        required=True,
-        queryset=PcrReplicate.objects.all(),
-        widget=CustomSelect2Multiple(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
-    # TODO - separate into fields and use js to concatenate + update value
     pcr_thermal_cond = forms.CharField(
         required=True,
         widget=forms.Textarea(
@@ -277,6 +340,19 @@ class PcrForm(forms.ModelForm):
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
                   'pcr_thermal_cond', 'pcr_sop_url',
                   'pcr_notes', ]
+        widgets = {
+            'pcr_replicate': AddAnotherWidgetWrapper(
+                # TODO - Multiple select not working; need to test. Throwing "options not available" error in form on submit
+                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                reverse_lazy('add_pcrreplicate'),
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        _user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
 class LibraryPrepForm(forms.ModelForm):
@@ -288,13 +364,9 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_datetime = forms.DateTimeField(
+    lib_prep_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     process_location = forms.ModelChoiceField(
         required=True,
@@ -335,15 +407,6 @@ class LibraryPrepForm(forms.ModelForm):
     size_selection_method = forms.ModelChoiceField(
         required=True,
         queryset=SizeSelectionMethod.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
-    index_pair = forms.ModelChoiceField(
-        required=True,
-        queryset=IndexPair.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -487,6 +550,18 @@ class LibraryPrepForm(forms.ModelForm):
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond',
                   'lib_prep_sop_url', 'lib_prep_notes', ]
+        widgets = {
+            'index_pair': AddAnotherWidgetWrapper(
+                CustomSelect2(attrs={'class': 'form-control', }),
+                reverse_lazy('add_indexpair'),
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        _user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
 class PooledLibraryForm(forms.ModelForm):
@@ -498,13 +573,9 @@ class PooledLibraryForm(forms.ModelForm):
             }
         )
     )
-    pooled_lib_datetime = forms.DateTimeField(
+    pooled_lib_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     pooled_lib_barcode = forms.ModelChoiceField(
         required=True,
@@ -604,13 +675,9 @@ class RunPrepForm(forms.ModelForm):
             }
         )
     )
-    run_prep_datetime = forms.DateTimeField(
+    run_prep_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     process_location = forms.ModelChoiceField(
         required=True,
@@ -710,12 +777,9 @@ class RunResultForm(forms.ModelForm):
     )
     run_date = forms.DateField(
         required=True,
-        widget=forms.DateInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminDateWidget()
     )
+
     process_location = forms.ModelChoiceField(
         required=True,
         queryset=ProcessLocation.objects.all(),
@@ -734,14 +798,11 @@ class RunResultForm(forms.ModelForm):
             }
         )
     )
-    run_completion_datetime = forms.DateTimeField(
+    run_completion_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
+
     run_instrument = forms.CharField(
         required=True,
         widget=forms.TextInput(

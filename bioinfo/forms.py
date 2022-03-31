@@ -1,7 +1,7 @@
 # users/forms.py
 # from django import forms
 from django.contrib.gis import forms
-from utility.widgets import CustomSelect2, CustomDateTimePicker
+from utility.widgets import CustomSelect2, CustomAdminSplitDateTime
 from utility.models import ProcessLocation
 from utility.enumerations import QualityChecks
 from wet_lab.models import RunResult, Extraction
@@ -28,13 +28,9 @@ class QualityMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.DateTimeField(
+    analysis_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     run_result = forms.ModelChoiceField(
         required=True,
@@ -157,13 +153,9 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.DateTimeField(
+    analysis_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     denoise_cluster_method = forms.ModelChoiceField(
         required=True,
@@ -307,13 +299,9 @@ class AnnotationMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.DateTimeField(
+    analysis_datetime = forms.SplitDateTimeField(
         required=True,
-        widget=CustomDateTimePicker(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        widget=CustomAdminSplitDateTime()
     )
     annotation_method = forms.ModelChoiceField(
         required=True,
