@@ -602,10 +602,10 @@ class PooledLibraryForm(forms.ModelForm):
             }
         )
     )
-    library_prep = forms.ModelChoiceField(
+    library_prep = forms.ModelMultipleChoiceField(
         required=True,
         queryset=LibraryPrep.objects.all(),
-        widget=CustomSelect2(
+        widget=CustomSelect2Multiple(
             attrs={
                 'class': 'form-control',
             }
