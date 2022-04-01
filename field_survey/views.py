@@ -160,7 +160,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
 
 
 class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
-    # TODO change to FilterSampleFilterView
+    # TODO add related cols for FieldSurveyFilter table
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     """View site filter view with REST serializer and django-tables2"""
     # export_formats = ['csv','xlsx'] # set in user_sites in default
