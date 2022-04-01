@@ -416,6 +416,10 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
+    index_pair = forms.ModelChoiceField(
+        required=True,
+        queryset=IndexPair.objects.all()
+    )
     index_removal_method = forms.ModelChoiceField(
         required=True,
         queryset=IndexRemovalMethod.objects.all(),
@@ -553,17 +557,17 @@ class LibraryPrepForm(forms.ModelForm):
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond',
                   'lib_prep_sop_url', 'lib_prep_notes', ]
-        widgets = {
-            'index_pair': AddAnotherWidgetWrapper(
-                CustomSelect2(attrs={'class': 'form-control', }),
-                reverse_lazy('add_indexpair'),
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+        self.fields['index_pair'].widget = (
+            AddAnotherWidgetWrapper(
+                CustomSelect2(attrs={'class': 'form-control', }),
+                reverse_lazy('add_indexpair')
+            )
+        )
         self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
