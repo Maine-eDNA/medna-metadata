@@ -252,10 +252,8 @@ class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         self.object.created_by = self.request.user
         # https://docs.djangoproject.com/en/4.0/topics/forms/modelforms/#the-save-method
         # https://stackoverflow.com/questions/44737060/how-to-save-m2m-field-on-django-with-commit-false
-        # for item_id in self.request.POST.getlist('pcr_replicate'):
-        #     self.object.pcr_replicate.add(PcrReplicate.objects.get(id=item_id))
-        self.object.save()
-        form.save_m2m()
+        for item_id in self.request.POST.getlist('pcr_replicate'):
+            self.object.pcr_replicate.add(PcrReplicate.objects.get(id=item_id))
         return super().form_valid(form)
 
     def get_success_url(self):
