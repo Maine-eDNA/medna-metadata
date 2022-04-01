@@ -343,13 +343,13 @@ class PcrForm(forms.ModelForm):
         widgets = {
             'pcr_replicate': AddAnotherWidgetWrapper(
                 # TODO - Multiple select not working; need to test. Throwing "options not available" error in form on submit
-                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                forms.ModelMultipleChoiceField(widget=CustomSelect2Multiple(attrs={'class': 'form-control', }), queryset=PcrReplicate.objects.all().order_by('-created_datetime')),
                 reverse_lazy('add_pcrreplicate'),
             ),
         }
 
     def __init__(self, *args, **kwargs):
-        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        # filter form options by currently logged in user
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
