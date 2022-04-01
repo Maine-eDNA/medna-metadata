@@ -695,10 +695,10 @@ class RunPrepForm(forms.ModelForm):
             }
         )
     )
-    pooled_library = forms.ModelChoiceField(
+    pooled_library = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=PooledLibrary.objects.all(),
-        widget=CustomSelect2(
+        queryset=PooledLibrary.objects.all().order_by('-created_datetime'),
+        widget=CustomSelect2Multiple(
             attrs={
                 'class': 'form-control',
             }
