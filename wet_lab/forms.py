@@ -307,7 +307,10 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_replicate = forms.ModelMultipleChoiceField(required=True)
+    pcr_replicate = forms.ModelMultipleChoiceField(
+        required=True,
+        queryset=PcrReplicate.objects.all().order_by('-created_datetime')
+    )
     pcr_thermal_cond = forms.CharField(
         required=True,
         widget=forms.Textarea(
