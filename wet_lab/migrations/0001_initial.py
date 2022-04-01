@@ -202,7 +202,7 @@ class Migration(migrations.Migration):
                 ('pcr_probe', models.TextField(blank=True, verbose_name='PCR Probe')),
                 ('pcr_results', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='PCR Results')),
                 ('pcr_results_units', models.CharField(choices=[(None, '(Unknown)'), ('ddpcr_cp', 'ddPCR Copy Number'), ('ddpcr_cp_per_microliter', 'ddPCR Copies per microliter (copy/µL)'), ('qpcr_cq', 'qPCR Quantification Cycle (Cq)')], max_length=50, verbose_name='PCR Units')),
-                ('pcr_replicate', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.pcrreplicate')),
+                ('pcr_replicate', models.ManyToManyField(blank=True, related_name='pcr_replicates', to='wet_lab.PcrReplicate', verbose_name='Pcr Replicates')),
                 ('pcr_thermal_cond', models.TextField(verbose_name='PCR Thermal Conditions')),
                 ('pcr_sop_url', models.URLField(max_length=255, verbose_name='PCR SOP URL')),
                 ('pcr_notes', models.TextField(blank=True, verbose_name='PCR Notes')),

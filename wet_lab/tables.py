@@ -28,6 +28,7 @@ class ExtractionTable(tables.Table):
 
 class PcrTable(tables.Table):
     edit = tables.LinkColumn("update_pcr", text='Update', args=[A("pk")], orderable=False)
+    pcr_replicate = tables.TemplateColumn('{{ record.pcr_replicate.pcr_replicate_results.all|join:", " }}', verbose_name="Replicate Results")
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
     modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")

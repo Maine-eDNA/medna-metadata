@@ -379,6 +379,13 @@ class PcrReplicateAdmin(ImportExportActionModelAdmin):
 admin.site.register(PcrReplicate, PcrReplicateAdmin)
 
 
+class PcrInline(admin.TabularInline):
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    model = Pcr.pcr_replicate.through
+    # extra = 1
+
+
 class PcrAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = PcrAdminResource

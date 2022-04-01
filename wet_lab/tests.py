@@ -173,6 +173,7 @@ class PcrReplicateTestCase(TestCase):
 
 class PcrTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         current_datetime = timezone.now()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
@@ -184,22 +185,23 @@ class PcrTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
         pcr_replicate = PcrReplicate.objects.filter()[:1].get()
-        Pcr.objects.get_or_create(pcr_experiment_name="test_name",
-                                  defaults={
-                                      'pcr_type': PcrTypes.DDPCR,
-                                      'process_location': process_location,
-                                      'pcr_datetime': current_datetime,
-                                      'extraction': extraction,
-                                      'primer_set': primer_set,
-                                      'pcr_first_name': "test_first_name",
-                                      'pcr_last_name': "test_last_name",
-                                      'pcr_results': 9999,
-                                      'pcr_results_units': PcrUnits.DDPCR_CP,
-                                      'pcr_replicate': pcr_replicate,
-                                      'pcr_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
-                                      'pcr_sop_url': "https://sop_url.com",
-                                      'pcr_notes': "pcr notes"
-                                  })
+        manytomany_list.append(pcr_replicate)
+        pcr, created = Pcr.objects.get_or_create(pcr_experiment_name="test_name",
+                                                 defaults={
+                                                     'pcr_type': PcrTypes.DDPCR,
+                                                     'process_location': process_location,
+                                                     'pcr_datetime': current_datetime,
+                                                     'extraction': extraction,
+                                                     'primer_set': primer_set,
+                                                     'pcr_first_name': "test_first_name",
+                                                     'pcr_last_name': "test_last_name",
+                                                     'pcr_results': 9999,
+                                                     'pcr_results_units': PcrUnits.DDPCR_CP,
+                                                     'pcr_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
+                                                     'pcr_sop_url': "https://sop_url.com",
+                                                     'pcr_notes': "pcr notes"
+                                                 })
+        pcr.pcr_replicate.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly

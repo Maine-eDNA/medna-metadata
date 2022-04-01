@@ -299,7 +299,7 @@ class Pcr(DateTimeUserMixin):
     # results will be in copy number (cp) or copies per microliter (copy/ul) for ddPCR
     # results are Quantification Cycle (Cq) for qPCR
     pcr_results_units = models.CharField("PCR Units", max_length=50, choices=PcrUnits.choices)
-    pcr_replicate = models.ForeignKey(PcrReplicate, blank=True, null=True, on_delete=models.RESTRICT)
+    pcr_replicate = models.ManyToManyField(PcrReplicate, verbose_name="Pcr Replicates", related_name="pcr_replicates", blank=True)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
     pcr_thermal_cond = models.TextField("PCR Thermal Conditions")
     pcr_sop_url = models.URLField("PCR SOP URL", max_length=255)

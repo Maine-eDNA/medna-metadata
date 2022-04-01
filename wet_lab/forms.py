@@ -309,7 +309,7 @@ class PcrForm(forms.ModelForm):
     )
     pcr_replicate = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=PcrReplicate.objects.all().order_by('-created_datetime')
+        queryset=PcrReplicate.objects.all()
     )
     pcr_thermal_cond = forms.CharField(
         required=True,
@@ -351,9 +351,8 @@ class PcrForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['pcr_replicate'].widget = (
             AddAnotherWidgetWrapper(
-            # TODO - Multiple select not working; need to test. Throwing "options not available" error in form on submit
-            CustomSelect2Multiple(attrs={'class': 'form-control', }),
-            reverse_lazy('add_pcrreplicate'),
+                CustomSelect2Multiple(attrs={'class': 'form-control', }),
+                reverse_lazy('add_pcrreplicate')
             )
         )
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')

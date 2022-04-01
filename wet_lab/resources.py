@@ -288,7 +288,7 @@ class PcrAdminResource(resources.ModelResource):
     pcr_replicate = fields.Field(
         column_name='pcr_replicate',
         attribute='pcr_replicate',
-        widget=ForeignKeyWidget(PcrReplicate, 'id')
+        widget=ManyToManyWidget(PcrReplicate, 'id')
     )
 
     created_by = fields.Field(

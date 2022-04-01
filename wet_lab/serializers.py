@@ -264,7 +264,7 @@ class PcrSerializer(serializers.ModelSerializer):
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
     extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=Extraction.objects.all())
     primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())
-    pcr_replicate = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='id', queryset=PcrReplicate.objects.all())
+    pcr_replicate = serializers.SlugRelatedField(many=True, read_only=False, allow_null=True, slug_field='id', queryset=PcrReplicate.objects.all())
 
 
 class LibraryPrepSerializer(serializers.ModelSerializer):
