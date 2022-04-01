@@ -215,6 +215,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
 
 class PcrReplicateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    pcr_replicate_slug = serializers.SlugField(max_length=255, read_only=True)
     pcr_replicate_results = serializers.DecimalField(max_digits=15, decimal_places=10)
     pcr_replicate_results_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pcr_replicate_notes = serializers.CharField(allow_blank=True)
@@ -223,7 +224,7 @@ class PcrReplicateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PcrReplicate
-        fields = ['id', 'pcr_replicate_results', 'pcr_replicate_results_units',
+        fields = ['id', 'pcr_replicate_slug', 'pcr_replicate_results', 'pcr_replicate_results_units',
                   'pcr_replicate_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we

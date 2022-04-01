@@ -229,12 +229,12 @@ class ExtractionAdminResource(resources.ModelResource):
 class PcrReplicateAdminResource(resources.ModelResource):
     class Meta:
         model = PcrReplicate
-        import_id_fields = ('id', )
+        import_id_fields = ('id', 'pcr_replicate_slug', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('id', 'pcr_replicate_results', 'pcr_replicate_results_units',
+        fields = ('id', 'pcr_replicate_slug', 'pcr_replicate_results', 'pcr_replicate_results_units',
                   'pcr_replicate_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'pcr_replicate_results', 'pcr_replicate_results_units',
+        export_order = ('id', 'pcr_replicate_slug', 'pcr_replicate_results', 'pcr_replicate_results_units',
                         'pcr_replicate_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
 

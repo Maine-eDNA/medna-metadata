@@ -349,7 +349,7 @@ class PcrReplicateAdmin(ImportExportActionModelAdmin):
     resource_class = PcrReplicateAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('pcr_replicate_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['id', ]
 
     def add_view(self, request, extra_content=None):
@@ -363,7 +363,7 @@ class PcrReplicateAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['pcr_replicate_results', 'pcr_replicate_results_units', 'pcr_replicate_notes',
+        self.fields = ['pcr_replicate_slug', 'pcr_replicate_results', 'pcr_replicate_results_units', 'pcr_replicate_notes',
                        'created_by', 'modified_datetime', 'created_datetime']
 
         return super(PcrReplicateAdmin, self).change_view(request, object_id)

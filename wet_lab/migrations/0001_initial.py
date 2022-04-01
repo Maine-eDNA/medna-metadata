@@ -174,6 +174,7 @@ class Migration(migrations.Migration):
             name='PcrReplicate',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('pcr_replicate_slug', models.SlugField(max_length=255, verbose_name='PCR Replicate Slug')),
                 ('pcr_replicate_results', models.DecimalField(decimal_places=10, max_digits=15, verbose_name='PCR Results')),
                 ('pcr_replicate_results_units', models.CharField(choices=[(None, '(Unknown)'), ('ddpcr_cp', 'ddPCR Copy Number'), ('ddpcr_cp_per_microliter', 'ddPCR Copies per microliter (copy/µL)'), ('qpcr_cq', 'qPCR Quantification Cycle (Cq)')], max_length=50, verbose_name='PCR Units')),
                 ('pcr_replicate_notes', models.TextField(blank=True, verbose_name='Replicate Notes')),
