@@ -307,10 +307,10 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_replicate =  forms.ModelMultipleChoiceField(
-        widget=AddAnotherWidgetWrapper(reverse_lazy('add_pcrreplicate'),
-                                       CustomSelect2Multiple(attrs={'class': 'form-control', })),
-        queryset=PcrReplicate.objects.all().order_by('-created_datetime')
+    pcr_replicate = forms.ModelMultipleChoiceField(
+        required=True,
+        queryset=PcrReplicate.objects.all().order_by('-created_datetime'),
+        widget=AddAnotherWidgetWrapper(reverse_lazy('add_pcrreplicate'), CustomSelect2Multiple(attrs={'class': 'form-control', })),
     )
     pcr_thermal_cond = forms.CharField(
         required=True,
