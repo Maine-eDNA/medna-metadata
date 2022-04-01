@@ -307,11 +307,7 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    # pcr_replicate = forms.ModelMultipleChoiceField(
-    #     required=True,
-    #     queryset=PcrReplicate.objects.all().order_by('-created_datetime'),
-    #     widget=CustomSelect2Multiple(attrs={'class': 'form-control', }),
-    # )
+    pcr_replicate = forms.ModelMultipleChoiceField(required=True)
     pcr_thermal_cond = forms.CharField(
         required=True,
         widget=forms.Textarea(
@@ -345,18 +341,18 @@ class PcrForm(forms.ModelForm):
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
                   'pcr_thermal_cond', 'pcr_sop_url',
                   'pcr_notes', ]
-        widgets = {
-            'pcr_replicate': AddAnotherWidgetWrapper(
-                # TODO - Multiple select not working; need to test. Throwing "options not available" error in form on submit
-                CustomSelect2Multiple(attrs={'class': 'form-control', }),
-                reverse_lazy('add_pcrreplicate'),
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         # filter form options by currently logged in user
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+        self.fields['pcr_replicate'].widget = (
+            AddAnotherWidgetWrapper(
+            # TODO - Multiple select not working; need to test. Throwing "options not available" error in form on submit
+            CustomSelect2Multiple(attrs={'class': 'form-control', }),
+            reverse_lazy('add_pcrreplicate'),
+            )
+        )
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
