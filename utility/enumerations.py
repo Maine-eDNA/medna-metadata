@@ -72,69 +72,69 @@ class PcrUnits(models.TextChoices):
 # FIELD_SURVEY CHOICES
 # FIELD_SURVEY.FieldSurvey
 class WindSpeeds(models.TextChoices):
-    none = 'none', _('None')
-    light_wind = 'light_wind', _('Light breeze')
-    mod_wind = 'mod_wind', _('Moderate breeze')
-    strong_wind = 'strong_wind', _('Strong wind')
+    NONE = 'none', _('None')
+    LIGHT_WIND = 'light_wind', _('Light breeze')
+    MOD_WIND = 'mod_wind', _('Moderate breeze')
+    STRONG_WIND = 'strong_wind', _('Strong wind')
     __empty__ = _('(Unknown)')
 
 
 class CloudCovers(models.TextChoices):
-    none = 'none', _('None')
-    partly_cloudy = 'partly_cloudy', _('Partly cloudy')
-    full_cloudy = 'full_cloudy', _('Full cloudy')
+    NONE = 'none', _('None')
+    PARTLY_CLOUDY = 'partly_cloudy', _('Partly cloudy')
+    FULL_CLOUDY = 'full_cloudy', _('Full cloudy')
     __empty__ = _('(Unknown)')
 
 
 class PrecipTypes(models.TextChoices):
-    none = 'none', _('None')
-    drizzle = 'drizzle', _('Drizzle')
-    light_rain = 'light_rain', _('Light rain')
-    mod_rain = 'mod_rain', _('Moderate rain')
-    heavy_rain = 'heavy_rain', _('Heavy rain')
-    hail = 'hail', _('Hail')
-    sleet = 'sleet', _('Sleet')
-    light_snow = 'light_snow', _('Light snow')
-    mod_snow = 'mod_snow', _('Moderate snow')
-    heavy_snow = 'heavy_snow', _('Heavy snow')
+    NONE = 'none', _('None')
+    DRIZZLE = 'drizzle', _('Drizzle')
+    LIGHT_RAIN = 'light_rain', _('Light rain')
+    MOD_RAIN = 'mod_rain', _('Moderate rain')
+    HEAVY_RAIN = 'heavy_rain', _('Heavy rain')
+    HAIL = 'hail', _('Hail')
+    SLEET = 'sleet', _('Sleet')
+    LIGHT_SNOW = 'light_snow', _('Light snow')
+    MOD_SNOW = 'mod_snow', _('Moderate snow')
+    HEAVY_SNOW = 'heavy_snow', _('Heavy snow')
     __empty__ = _('(Unknown)')
 
 
 class TurbidTypes(models.TextChoices):
-    none = 'none', _('None')
-    low = 'low', _('Low')
-    medium = 'medium', _('Medium')
-    high = 'high', _('High')
+    NONE = 'none', _('None')
+    LOW = 'low', _('Low')
+    MEDIUM = 'medium', _('Medium')
+    HIGH = 'high', _('High')
     __empty__ = _('(Unknown)')
 
 
 class EnvoMaterials(models.TextChoices):
-    water = 'water', _('Water')
-    soil = 'soil', _('Soil')
-    other = 'other', _('Other')
+    WATER = 'water', _('Water')
+    SOIL = 'soil', _('Soil')
+    OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
 class MeasureModes(models.TextChoices):
-    on_foot = 'on_foot', _('On Foot')
-    on_boat = 'on_boat', _('Boat')
+    ON_FOOT = 'on_foot', _('On Foot')
+    ON_BOAT = 'on_boat', _('Boat')
     __empty__ = _('(Unknown)')
 
 
 # FIELD_SURVEY.EnvMeasurement
 class EnvInstruments(models.TextChoices):
-    env_ctd = 'env_ctd', _('CTD')
-    env_ysi = 'env_ysi', _('YSI')
-    env_secchi = 'env_secchi', _('Secchi Disk')
-    env_niskin = 'env_niskin', _('Niskin')
-    env_inst_other = 'env_inst_other', _('Other')
+    ENV_CTD = 'env_ctd', _('CTD')
+    ENV_YSI = 'env_ysi', _('YSI')
+    ENV_SECCHI = 'env_secchi', _('Secchi Disk')
+    ENV_NISKIN = 'env_niskin', _('Niskin')
+    ENV_INST_OTHER = 'env_inst_other', _('Other')
     __empty__ = _('(Unknown)')
 
 
 class YsiModels(models.TextChoices):
-    exo2 = 'exo2', _('EXO2')
-    exo_handheld = 'exo_handheld', _('EXO HANDHELD')
-    prodss = 'prodss', _('ProDSS')
+    EXO2 = 'exo2', _('EXO2')
+    EXO_HANDHELD = 'exo_handheld', _('EXO HANDHELD')
+    PRODSS = 'prodss', _('ProDSS')
     __empty__ = _('(Unknown)')
 
 
@@ -161,70 +161,72 @@ class YsiModels(models.TextChoices):
 
 
 class BottomSubstrates(models.TextChoices):
-    pebble = 'pebble', _('Pebble')
-    cobble = 'cobble', _('Cobble')
-    boulder = 'boulder', _('Boulder')
-    silt = 'silt', _('Silt')
-    clay = 'clay', _('Clay')
-    organic = 'organic', _('Organic')
+    PEBBLE = 'pebble', _('Pebble')
+    COBBLE = 'cobble', _('Cobble')
+    BOULDER = 'boulder', _('Boulder')
+    SILT = 'silt', _('Silt')
+    CLAY = 'clay', _('Clay')
+    ORGANIC = 'organic', _('Organic')
     __empty__ = _('(Unknown)')
 
 
 # FIELD_SURVEY.FieldCollection
 class WaterCollectionModes(models.TextChoices):
-    hand = 'hand', _('By Hand')
-    niskin_handtoss = 'niskin_handtoss', _('By Hand-Tossed Niskin')
-    niskin_array = 'niskin_array', _('By Array Niskin')
+    HAND = 'hand', _('By Hand')
+    NISKIN_HANDTOSS = 'niskin_handtoss', _('By Hand-Tossed Niskin')
+    NISKIN_ARRAY = 'niskin_array', _('By Array Niskin')
     __empty__ = _('(Unknown)')
 
 
 class CollectionTypes(models.TextChoices):
-    water_sample = 'water_sample', _('Water Sample')
-    sed_sample = 'sed_sample', _('Sediment Sample')
+    WATER_SAMPLE = 'water_sample', _('Water Sample')
+    SED_SAMPLE = 'sed_sample', _('Sediment Sample')
     __empty__ = _('(Unknown)')
 
 
 class FilterLocations(models.TextChoices):
-    in_field = 'in_field', _('Field')
-    in_lab = 'in_lab', _('Lab')
+    IN_FIELD = 'in_field', _('Field')
+    IN_LAB = 'in_lab', _('Lab')
     __empty__ = _('(Unknown)')
 
 
 class ControlTypes(models.TextChoices):
-    field = 'field', _('Field')
-    lab = 'lab', _('Lab')
+    FIELD = 'field', _('Field')
+    LAB = 'lab', _('Lab')
+    EXTRACTION = 'extraction', _('Extraction')
+    NO_TEMPLATE_CONTROL = 'no_template_control', _('No Template Control')
     __empty__ = _('(Unknown)')
 
 
 class FilterMethods(models.TextChoices):
-    vacuum = 'vacuum', _('Vacuum')
-    gravity = 'gravity', _('Gravity')
-    peristaltic = 'peristaltic', _('Peristaltic')
-    other = 'other', _('Other')
+    VACUUM = 'vacuum', _('Vacuum')
+    GRAVITY = 'gravity', _('Gravity')
+    PERISTALTIC = 'peristaltic', _('Peristaltic')
+    OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
 class FilterTypes(models.TextChoices):
-    nitex = 'nitex', _('Nitex')
-    gff = 'gff', _('Glass Fiber Filter (GF/F)')
-    supor = 'supor', _('Supor')
-    cn = 'cn', _('Cellulose Nitrate (CN)')
-    other = 'other', _('Other')
+    NITEX = 'nitex', _('Nitex')
+    GFF = 'gff', _('Glass Fiber Filter (GF/F)')
+    SUPOR = 'supor', _('Supor')
+    CN = 'cn', _('Cellulose Nitrate (CN)')
+    OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
 class CoreMethods(models.TextChoices):
-    gravity = 'gravity', _('Gravity')
-    piston = 'piston', _('Piston')
-    wedge = 'wedge', _('Wedge')
-    other = 'other', _('Other')
+    GRAVITY = 'gravity', _('Gravity')
+    PISTON = 'piston', _('Piston')
+    WEDGE = 'wedge', _('Wedge')
+    OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
 class SubCoreMethods(models.TextChoices):
-    slices = 'slices', _('Slices')
-    syringe = 'syringe', _('Syringe')
-    other = 'other', _('Other')
+    SLICES = 'slices', _('Slices')
+    SYRINGE = 'syringe', _('Syringe')
+    OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
