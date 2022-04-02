@@ -371,7 +371,7 @@ class FeatureReadFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('bioinfo.view_featureread', )
     export_name = 'featureread_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = bioinfo_serializers.FeatureOutputSerializer
+    serializer_class = bioinfo_serializers.FeatureReadSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['id', 'read_slug', 'feature', 'extraction', 'number_reads',

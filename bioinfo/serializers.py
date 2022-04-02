@@ -114,8 +114,8 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
 
 class FeatureOutputSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    feature_id = serializers.CharField()
-    feature_sequence = serializers.CharField()
+    feature_id = serializers.CharField(read_only=False)
+    feature_sequence = serializers.CharField(read_only=False)
     feature_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -124,7 +124,7 @@ class FeatureOutputSerializer(serializers.ModelSerializer):
         model = FeatureOutput
         fields = ['id', 'feature_id', 'feature_slug', 'feature_sequence', 'denoise_cluster_metadata',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since project, system, watershed, and created_by reference different tables and we
+    # Since denoise_cluster_metadata and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
