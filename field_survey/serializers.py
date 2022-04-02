@@ -18,7 +18,7 @@ from utility.serializers import EagerLoadingMixin
 
 # Django REST Framework to allow the automatic downloading of data!
 #################################
-# POST TRANSFORM - FRONTEND     #
+# FRONTEND SERIALIZERS          #
 #################################
 class FieldSurveySerializer(serializers.ModelSerializer):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)

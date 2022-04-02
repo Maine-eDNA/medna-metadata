@@ -23,7 +23,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
-from .tables import FieldSurveyTable
+from .tables import FieldSurveyTable, FilterSampleTable
 
 
 # Create your views here.
@@ -164,15 +164,15 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
-    model = FieldSurvey
-    table_class = FieldSurveyTable
+    model = FilterSample
+    table_class = FilterSampleTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_survey.view_fieldsurvey', 'field_survey.view_fieldcrew',
                            'field_survey.view_envmeasurement', 'field_survey.view_fieldcollection',
                            'field_survey.view_watercollection', 'field_survey.view_fieldsample',
                            'field_survey.view_filtersample', )
     export_name = 'filtersample_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsurvey_serializers.FieldSurveyFiltersNestedSerializer
+    serializer_class = fieldsurvey_serializers.FilterSampleSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
