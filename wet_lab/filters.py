@@ -1,5 +1,6 @@
 from django import forms
 from django_filters import rest_framework as filters
+from utility.filters import get_choices
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from utility.enumerations import PcrTypes, LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
 from utility.models import ProcessLocation
@@ -26,7 +27,7 @@ class ExtractionFilter(filters.FilterSet):
 
 class PcrFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    pcr_experiment_name = filters.ModelChoiceFilter(field_name='pcr_experiment_name', queryset=Pcr.objects.all(), widget=CustomSelect2)
+    pcr_experiment_name = filters.ChoiceFilter(choices=get_choices(Pcr, 'pcr_experiment_name'), widget=CustomSelect2)
     pcr_type = filters.ChoiceFilter(field_name='pcr_type', choices=PcrTypes.choices, widget=CustomSelect2)
     pcr_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
@@ -41,7 +42,7 @@ class PcrFilter(filters.FilterSet):
 
 class LibraryPrepFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    lib_prep_experiment_name = filters.ModelChoiceFilter(field_name='lib_prep_experiment_name', queryset=LibraryPrep.objects.all(), widget=CustomSelect2)
+    lib_prep_experiment_name = filters.ChoiceFilter(choices=get_choices(LibraryPrep, 'lib_prep_experiment_name'), widget=CustomSelect2)
     lib_prep_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
@@ -65,7 +66,7 @@ class LibraryPrepFilter(filters.FilterSet):
 
 class PooledLibraryFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    pooled_lib_label = filters.ModelChoiceFilter(field_name='pooled_lib_label', queryset=PooledLibrary.objects.all(), widget=CustomSelect2)
+    pooled_lib_label = filters.ChoiceFilter(choices=get_choices(PooledLibrary, 'pooled_lib_label'), widget=CustomSelect2)
     pooled_lib_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     barcode_slug = filters.ModelChoiceFilter(field_name='barcode_slug', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
@@ -79,7 +80,7 @@ class PooledLibraryFilter(filters.FilterSet):
 
 class RunPrepFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    run_prep_label = filters.ModelChoiceFilter(field_name='run_prep_label', queryset=RunPrep.objects.all(), widget=CustomSelect2)
+    run_prep_label = filters.ChoiceFilter(choices=get_choices(RunPrep, 'run_prep_label'), widget=CustomSelect2)
     run_prep_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     pooled_library = filters.ModelChoiceFilter(field_name='pooled_library__pooled_lib_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
@@ -92,13 +93,13 @@ class RunPrepFilter(filters.FilterSet):
 
 class RunResultFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    run_experiment_name = filters.ModelChoiceFilter(field_name='run_experiment_name', queryset=RunResult.objects.all(), widget=CustomSelect2)
-    run_id = filters.ModelChoiceFilter(field_name='run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    run_experiment_name = filters.ChoiceFilter(choices=get_choices(RunResult, 'run_experiment_name'), widget=CustomSelect2)
+    run_id = filters.ChoiceFilter(choices=get_choices(RunResult, 'run_id'), widget=CustomSelect2)
     run_date = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     pooled_library = filters.ModelChoiceFilter(field_name='pooled_library__pooled_lib_slug', queryset=LibraryPrep.objects.all(), widget=CustomSelect2Multiple)
     run_prep = filters.ModelChoiceFilter(field_name='run_prep__run_prep_slug', queryset=RunPrep.objects.all(), widget=CustomSelect2)
     run_completion_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
-    run_instrument = filters.ModelChoiceFilter(field_name='run_instrument', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    run_instrument = filters.ChoiceFilter(choices=get_choices(RunResult, 'run_instrument'), widget=CustomSelect2)
 
     class Meta:
         model = RunResult
