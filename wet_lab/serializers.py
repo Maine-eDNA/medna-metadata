@@ -1,3 +1,4 @@
+from django.db.models import Exists, OuterRef
 from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
@@ -194,23 +195,15 @@ class ExtractionSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True,
-                                              slug_field='email')
-    extraction_barcode = serializers.SlugRelatedField(many=False, read_only=False,
-                                                      slug_field='barcode_slug',
-                                                      queryset=SampleBarcode.objects.all())
-    process_location = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    field_sample = serializers.SlugRelatedField(many=False, read_only=False,
-                                                slug_field='barcode_slug',
-                                                queryset=FieldSample.objects.filter(is_extracted=YesNo.NO))
-    extraction_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
-                                                     slug_field='extraction_method_slug',
-                                                     queryset=ExtractionMethod.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
-                                                         slug_field='quant_method_slug',
-                                                         queryset=QuantificationMethod.objects.all())
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    # https://stackoverflow.com/questions/14831327/in-a-django-queryset-how-to-filter-for-not-exists-in-a-many-to-one-relationsh
+    # Only show options where fk does not exist
+    extraction_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.filter(~Exists(Extraction.objects.filter(extraction_barcode=OuterRef('pk')))))
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    # Only show options where fk does not exist
+    field_sample = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk')))))
+    extraction_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='extraction_method_slug', queryset=ExtractionMethod.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='quant_method_slug', queryset=QuantificationMethod.objects.all())
 
 
 class PcrReplicateSerializer(serializers.ModelSerializer):
@@ -345,7 +338,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.all())
+    pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.filter(~Exists(PooledLibrary.objects.filter(pooled_lib_barcode=OuterRef('pk')))))
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
     library_prep = serializers.SlugRelatedField(many=True, read_only=False, slug_field='lib_prep_slug', queryset=LibraryPrep.objects.all())
     quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_slug', queryset=QuantificationMethod.objects.all())

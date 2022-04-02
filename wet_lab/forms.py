@@ -2,6 +2,7 @@
 # from django import forms
 from django.urls import reverse_lazy
 from django.contrib.gis import forms
+from django.db.models import Exists, OuterRef
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
 from utility.models import ProcessLocation
@@ -63,9 +64,11 @@ class IndexPairForm(forms.ModelForm):
 
 
 class ExtractionForm(forms.ModelForm):
+    # https://stackoverflow.com/questions/14831327/in-a-django-queryset-how-to-filter-for-not-exists-in-a-many-to-one-relationsh
+    # Only show options where fk does not exist
     extraction_barcode = forms.ModelChoiceField(
         required=True,
-        queryset=SampleBarcode.objects.all(),
+        queryset=SampleBarcode.objects.filter(~Exists(Extraction.objects.filter(extraction_barcode=OuterRef('pk')))),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -85,9 +88,10 @@ class ExtractionForm(forms.ModelForm):
         required=True,
         widget=CustomAdminSplitDateTime()
     )
+    # only show options where fk does not exist
     field_sample = forms.ModelChoiceField(
         required=True,
-        queryset=FieldSample.objects.all(),
+        queryset=FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk')))),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -570,7 +574,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     pooled_lib_barcode = forms.ModelChoiceField(
         required=True,
-        queryset=SampleBarcode.objects.all(),
+        queryset=SampleBarcode.objects.filter(~Exists(PooledLibrary.objects.filter(pooled_lib_barcode=OuterRef('pk')))),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
