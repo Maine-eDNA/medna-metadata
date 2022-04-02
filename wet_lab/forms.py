@@ -374,7 +374,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     extraction = forms.ModelChoiceField(
         required=True,
-        queryset=Extraction.objects.all().order_by('-created_datetime')
+        queryset=Extraction.objects.all()
     )
     amplification_method = forms.ModelChoiceField(
         required=True,
@@ -552,6 +552,7 @@ class LibraryPrepForm(forms.ModelForm):
         self.fields['index_pair'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_indexpair')))
         self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
+        self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
 
 
 class PooledLibraryForm(forms.ModelForm):
@@ -587,7 +588,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     library_prep = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=LibraryPrep.objects.all().order_by('-created_datetime'),
+        queryset=LibraryPrep.objects.all(),
     )
     quantification_method = forms.ModelChoiceField(
         required=True,
@@ -653,6 +654,7 @@ class PooledLibraryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['library_prep'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_libraryprep')))
+        self.fields['library_prep'].queryset = LibraryPrep.objects.all().order_by('-created_datetime')
 
 
 class RunPrepForm(forms.ModelForm):
@@ -679,7 +681,7 @@ class RunPrepForm(forms.ModelForm):
     )
     pooled_library = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=PooledLibrary.objects.all().order_by('-created_datetime'),
+        queryset=PooledLibrary.objects.all()
     )
     quantification_method = forms.ModelChoiceField(
         required=True,
@@ -744,6 +746,7 @@ class RunPrepForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['pooled_library'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pooledlibrary')))
+        self.fields['pooled_library'].queryset = PooledLibrary.objects.all().order_by('-created_datetime')
 
 
 class RunResultForm(forms.ModelForm):
@@ -779,7 +782,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_prep = forms.ModelChoiceField(
         required=True,
-        queryset=RunPrep.objects.all().order_by('-created_datetime'),
+        queryset=RunPrep.objects.all(),
     )
     run_completion_datetime = forms.SplitDateTimeField(
         required=True,
@@ -803,6 +806,7 @@ class RunResultForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['run_prep'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_runprep')))
+        self.fields['run_prep'].queryset = RunPrep.objects.all().order_by('-created_datetime')
 
 
 class FastqFileForm(forms.ModelForm):

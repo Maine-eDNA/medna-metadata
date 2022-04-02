@@ -35,7 +35,7 @@ class QualityMetadataForm(forms.ModelForm):
     )
     run_result = forms.ModelChoiceField(
         required=True,
-        queryset=RunResult.objects.all().order_by('-created_datetime'),
+        queryset=RunResult.objects.all()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -133,6 +133,7 @@ class QualityMetadataForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['run_result'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_runresult')))
+        self.fields['run_result'].queryset = RunResult.objects.all().order_by('-created_datetime')
 
 
 class DenoiseClusterMetadataForm(forms.ModelForm):
@@ -168,7 +169,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
     )
     quality_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=QualityMetadata.objects.all().order_by('-created_datetime'),
+        queryset=QualityMetadata.objects.all()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -213,6 +214,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['quality_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_qualitymetadata')))
+        self.fields['quality_metadata'].queryset = QualityMetadata.objects.all().order_by('-created_datetime')
 
 
 class FeatureOutputForm(forms.ModelForm):
@@ -234,7 +236,7 @@ class FeatureOutputForm(forms.ModelForm):
     )
     denoise_cluster_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=DenoiseClusterMetadata.objects.all().order_by('-created_datetime'),
+        queryset=DenoiseClusterMetadata.objects.all()
     )
 
     class Meta:
@@ -244,12 +246,13 @@ class FeatureOutputForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['denoise_cluster_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_denoiseclustermetadata')))
+        self.fields['denoise_cluster_metadata'].queryset = DenoiseClusterMetadata.objects.all().order_by('-created_datetime')
 
 
 class FeatureReadForm(forms.ModelForm):
     feature = forms.ModelChoiceField(
         required=True,
-        queryset=FeatureOutput.objects.all().order_by('-created_datetime'),
+        queryset=FeatureOutput.objects.all()
     )
     extraction = forms.ModelChoiceField(
         required=True,
@@ -276,6 +279,7 @@ class FeatureReadForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['feature'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_featureoutput')))
+        self.fields['feature'].queryset = FeatureOutput.objects.all().order_by('-created_datetime')
 
 
 class AnnotationMetadataForm(forms.ModelForm):
@@ -311,7 +315,7 @@ class AnnotationMetadataForm(forms.ModelForm):
     )
     denoise_cluster_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=DenoiseClusterMetadata.objects.all().order_by('-created_datetime'),
+        queryset=DenoiseClusterMetadata.objects.all()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -356,16 +360,17 @@ class AnnotationMetadataForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['denoise_cluster_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_denoiseclustermetadata')))
+        self.fields['denoise_cluster_metadata'].queryset = DenoiseClusterMetadata.objects.all().order_by('-created_datetime')
 
 
 class TaxonomicAnnotationForm(forms.ModelForm):
     feature = forms.ModelChoiceField(
         required=True,
-        queryset=FeatureOutput.objects.all().order_by('-created_datetime')
+        queryset=FeatureOutput.objects.all()
     )
     annotation_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=AnnotationMetadata.objects.all().order_by('-created_datetime')
+        queryset=AnnotationMetadata.objects.all()
     )
     reference_database = forms.ModelChoiceField(
         required=True,
@@ -567,6 +572,8 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['feature'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_featureoutput')))
         self.fields['annotation_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_annotationmetadata')))
+        self.fields['feature'].queryset = FeatureOutput.objects.all().order_by('-created_datetime')
+        self.fields['annotation_metadata'].queryset = AnnotationMetadata.objects.all().order_by('-created_datetime')
         self.fields['manual_kingdom'].queryset = TaxonKingdom.objects.none()
         self.fields['manual_supergroup'].queryset = TaxonSupergroup.objects.none()
         self.fields['manual_phylum_division'].queryset = TaxonPhylumDivision.objects.none()
