@@ -11,6 +11,56 @@ from rest_framework.validators import UniqueValidator
 
 
 # Django REST Framework to allow the automatic downloading of data!
+#################################
+# FRONTEND SERIALIZERS          #
+#################################
+class FieldSiteSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    site_id = serializers.SlugField(max_length=7, read_only=True)
+    general_location_name = serializers.CharField(max_length=255)
+    purpose = serializers.CharField(max_length=255)
+    geom = serializers.CharField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FieldSite
+        fields = ['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
+                  'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
+                  'envo_biome_second', 'envo_biome_first',
+                  'envo_feature_seventh', 'envo_feature_sixth',
+                  'envo_feature_fifth', 'envo_feature_fourth',
+                  'envo_feature_third', 'envo_feature_second',
+                  'envo_feature_first',
+                  'lat', 'lon', 'srid', 'geom',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
+    project = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
+    system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code', queryset=System.objects.all())
+    watershed = serializers.SlugRelatedField(many=False, read_only=False, slug_field='watershed_code', queryset=Watershed.objects.all())
+    # ENVO biomes are hierarchical trees
+    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_first_tier_slug', queryset=EnvoBiomeFirst.objects.all())
+    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_second_tier_slug', queryset=EnvoBiomeSecond.objects.all())
+    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_third_tier_slug', queryset=EnvoBiomeThird.objects.all())
+    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_fourth_tier_slug', queryset=EnvoBiomeFourth.objects.all())
+    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_fifth_tier_slug', queryset=EnvoBiomeFifth.objects.all())
+    # ENVO Features are hierarchical trees
+    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_first_tier_slug', queryset=EnvoFeatureFirst.objects.all())
+    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_second_tier_slug', queryset=EnvoFeatureSecond.objects.all())
+    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_third_tier_slug', queryset=EnvoFeatureThird.objects.all())
+    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_fourth_tier_slug', queryset=EnvoFeatureFourth.objects.all())
+    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_fifth_tier_slug', queryset=EnvoFeatureFifth.objects.all())
+    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_sixth_tier_slug', queryset=EnvoFeatureSixth.objects.all())
+    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_seventh_tier_slug', queryset=EnvoFeatureSeventh.objects.all())
+
+
+#################################
+# API SERIALIZERS               #
+#################################
 class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     biome_first_tier = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=EnvoBiomeFirst.objects.all())])
@@ -354,49 +404,6 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
                   'envo_feature_fifth', 'envo_feature_fourth',
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
-    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
-    # slug to tell it to print the desired field from the other table
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
-    project = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
-    system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code', queryset=System.objects.all())
-    watershed = serializers.SlugRelatedField(many=False, read_only=False, slug_field='watershed_code', queryset=Watershed.objects.all())
-    # ENVO biomes are hierarchical trees
-    envo_biome_first = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_first_tier_slug', queryset=EnvoBiomeFirst.objects.all())
-    envo_biome_second = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_second_tier_slug', queryset=EnvoBiomeSecond.objects.all())
-    envo_biome_third = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_third_tier_slug', queryset=EnvoBiomeThird.objects.all())
-    envo_biome_fourth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_fourth_tier_slug', queryset=EnvoBiomeFourth.objects.all())
-    envo_biome_fifth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='biome_fifth_tier_slug', queryset=EnvoBiomeFifth.objects.all())
-    # ENVO Features are hierarchical trees
-    envo_feature_first = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_first_tier_slug', queryset=EnvoFeatureFirst.objects.all())
-    envo_feature_second = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_second_tier_slug', queryset=EnvoFeatureSecond.objects.all())
-    envo_feature_third = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_third_tier_slug', queryset=EnvoFeatureThird.objects.all())
-    envo_feature_fourth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_fourth_tier_slug', queryset=EnvoFeatureFourth.objects.all())
-    envo_feature_fifth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_fifth_tier_slug', queryset=EnvoFeatureFifth.objects.all())
-    envo_feature_sixth = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_sixth_tier_slug', queryset=EnvoFeatureSixth.objects.all())
-    envo_feature_seventh = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='feature_seventh_tier_slug', queryset=EnvoFeatureSeventh.objects.all())
-
-
-# DEPRECATED
-class FieldSiteSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    lat = serializers.DecimalField(max_digits=22, decimal_places=16)
-    lon = serializers.DecimalField(max_digits=22, decimal_places=16)
-    site_id = serializers.SlugField(max_length=7, read_only=True)
-    general_location_name = serializers.CharField(max_length=255)
-    purpose = serializers.CharField(max_length=255)
-    srid = serializers.CharField()
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = FieldSite
-        fields = ['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
-                  'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third', 'envo_biome_second', 'envo_biome_first',
-                  'envo_feature_seventh', 'envo_feature_sixth', 'envo_feature_fifth', 'envo_feature_fourth',
-                  'envo_feature_third', 'envo_feature_second', 'envo_feature_first',
-                  'lat', 'lon', 'srid', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table

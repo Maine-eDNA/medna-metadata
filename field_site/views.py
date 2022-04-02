@@ -170,7 +170,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_site.view_fieldsite', )
     export_name = 'fieldsite_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsite_serializers.GeoFieldSiteSerializer
+    serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['created_by__email', 'general_location_name', 'grant__grant_code', 'project__project_code', 'system__system_code',
