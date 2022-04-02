@@ -22,7 +22,7 @@ class GeoFieldSurveyMapFilter(filters.FilterSet):
         fields = ['project_ids', ]
 
 
-class GeoFieldSurveyFilter(filters.FilterSet):
+class FieldSurveyFilter(filters.FilterSet):
     project_ids = filters.ModelMultipleChoiceFilter(field_name='project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
     site_id = filters.ModelMultipleChoiceFilter(field_name='site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
     username = filters.ModelMultipleChoiceFilter(field_name='username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')

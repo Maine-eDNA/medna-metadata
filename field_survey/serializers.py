@@ -20,7 +20,7 @@ from utility.serializers import EagerLoadingMixin
 #################################
 # POST TRANSFORM - FRONTEND     #
 #################################
-class FieldSurveySerializer(GeoFeatureModelSerializer):
+class FieldSurveySerializer(serializers.ModelSerializer):
     survey_global_id = serializers.CharField(read_only=True, max_length=255)
     survey_datetime = serializers.DateTimeField(read_only=True)
     recorder_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
