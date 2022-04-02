@@ -254,7 +254,7 @@ class PcrForm(forms.ModelForm):
     )
     extraction = forms.ModelChoiceField(
         required=True,
-        queryset=Extraction.objects.all(),
+        queryset=Extraction.objects.none(),
     )
     primer_set = forms.ModelChoiceField(
         required=True,
@@ -308,7 +308,7 @@ class PcrForm(forms.ModelForm):
     )
     pcr_replicate = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=PcrReplicate.objects.all()
+        queryset=PcrReplicate.objects.none()
     )
     pcr_thermal_cond = forms.CharField(
         required=True,
@@ -378,7 +378,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     extraction = forms.ModelChoiceField(
         required=True,
-        queryset=Extraction.objects.all()
+        queryset=Extraction.objects.none()
     )
     amplification_method = forms.ModelChoiceField(
         required=True,
@@ -409,7 +409,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     index_pair = forms.ModelChoiceField(
         required=True,
-        queryset=IndexPair.objects.all()
+        queryset=IndexPair.objects.none()
     )
     index_removal_method = forms.ModelChoiceField(
         required=True,
@@ -593,7 +593,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     library_prep = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=LibraryPrep.objects.all(),
+        queryset=LibraryPrep.objects.none(),
     )
     quantification_method = forms.ModelChoiceField(
         required=True,
@@ -686,7 +686,7 @@ class RunPrepForm(forms.ModelForm):
     )
     pooled_library = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=PooledLibrary.objects.all()
+        queryset=PooledLibrary.objects.none()
     )
     quantification_method = forms.ModelChoiceField(
         required=True,
@@ -787,7 +787,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_prep = forms.ModelChoiceField(
         required=True,
-        queryset=RunPrep.objects.all(),
+        queryset=RunPrep.objects.none(),
     )
     run_completion_datetime = forms.SplitDateTimeField(
         required=True,

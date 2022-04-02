@@ -35,7 +35,7 @@ class QualityMetadataForm(forms.ModelForm):
     )
     run_result = forms.ModelChoiceField(
         required=True,
-        queryset=RunResult.objects.all()
+        queryset=RunResult.objects.none()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -169,7 +169,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
     )
     quality_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=QualityMetadata.objects.all()
+        queryset=QualityMetadata.objects.none()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -236,7 +236,7 @@ class FeatureOutputForm(forms.ModelForm):
     )
     denoise_cluster_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=DenoiseClusterMetadata.objects.all()
+        queryset=DenoiseClusterMetadata.objects.none()
     )
 
     class Meta:
@@ -252,7 +252,7 @@ class FeatureOutputForm(forms.ModelForm):
 class FeatureReadForm(forms.ModelForm):
     feature = forms.ModelChoiceField(
         required=True,
-        queryset=FeatureOutput.objects.all()
+        queryset=FeatureOutput.objects.none()
     )
     extraction = forms.ModelChoiceField(
         required=True,
@@ -315,7 +315,7 @@ class AnnotationMetadataForm(forms.ModelForm):
     )
     denoise_cluster_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=DenoiseClusterMetadata.objects.all()
+        queryset=DenoiseClusterMetadata.objects.none()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -366,11 +366,11 @@ class AnnotationMetadataForm(forms.ModelForm):
 class TaxonomicAnnotationForm(forms.ModelForm):
     feature = forms.ModelChoiceField(
         required=True,
-        queryset=FeatureOutput.objects.all()
+        queryset=FeatureOutput.objects.none()
     )
     annotation_metadata = forms.ModelChoiceField(
         required=True,
-        queryset=AnnotationMetadata.objects.all()
+        queryset=AnnotationMetadata.objects.none()
     )
     reference_database = forms.ModelChoiceField(
         required=True,
@@ -479,7 +479,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_domain = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonDomain.objects.all(),
+        queryset=TaxonDomain.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -488,7 +488,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_kingdom = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonKingdom.objects.all(),
+        queryset=TaxonKingdom.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -497,7 +497,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_supergroup = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonSupergroup.objects.all(),
+        queryset=TaxonSupergroup.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -506,7 +506,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_phylum_division = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonPhylumDivision.objects.all(),
+        queryset=TaxonPhylumDivision.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -515,7 +515,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_class = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonClass.objects.all(),
+        queryset=TaxonClass.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -524,7 +524,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_order = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonOrder.objects.all(),
+        queryset=TaxonOrder.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -533,7 +533,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_family = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonFamily.objects.all(),
+        queryset=TaxonFamily.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -542,7 +542,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_genus = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonGenus.objects.all(),
+        queryset=TaxonGenus.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -551,7 +551,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_species = forms.ModelChoiceField(
         required=True,
-        queryset=TaxonSpecies.objects.all(),
+        queryset=TaxonSpecies.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -574,14 +574,6 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         self.fields['annotation_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_annotationmetadata')))
         self.fields['feature'].queryset = FeatureOutput.objects.all().order_by('-created_datetime')
         self.fields['annotation_metadata'].queryset = AnnotationMetadata.objects.all().order_by('-created_datetime')
-        self.fields['manual_kingdom'].queryset = TaxonKingdom.objects.none()
-        self.fields['manual_supergroup'].queryset = TaxonSupergroup.objects.none()
-        self.fields['manual_phylum_division'].queryset = TaxonPhylumDivision.objects.none()
-        self.fields['manual_class'].queryset = TaxonClass.objects.none()
-        self.fields['manual_order'].queryset = TaxonOrder.objects.none()
-        self.fields['manual_family'].queryset = TaxonFamily.objects.none()
-        self.fields['manual_genus'].queryset = TaxonGenus.objects.none()
-        self.fields['manual_species'].queryset = TaxonSpecies.objects.none()
 
         if 'manual_domain' in self.data:
             try:

@@ -26,7 +26,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     project = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=Project.objects.all(),
+        queryset=Project.objects.none(),
         widget=CustomSelect2Multiple(
             attrs={
                 'class': 'form-control',
@@ -69,7 +69,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFirst.objects.all(),
+        queryset=EnvoBiomeFirst.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -78,7 +78,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_second = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeSecond.objects.all(),
+        queryset=EnvoBiomeSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -87,7 +87,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_third = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeThird.objects.all(),
+        queryset=EnvoBiomeThird.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -96,7 +96,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_fourth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFourth.objects.all(),
+        queryset=EnvoBiomeFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -105,7 +105,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_fifth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFifth.objects.all(),
+        queryset=EnvoBiomeFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -114,7 +114,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFirst.objects.all(),
+        queryset=EnvoFeatureFirst.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -123,7 +123,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_second = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureSecond.objects.all(),
+        queryset=EnvoFeatureSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -132,7 +132,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_third = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureThird.objects.all(),
+        queryset=EnvoFeatureThird.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -141,7 +141,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_fourth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFourth.objects.all(),
+        queryset=EnvoFeatureFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -150,7 +150,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_fifth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFifth.objects.all(),
+        queryset=EnvoFeatureFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -159,7 +159,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_sixth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureSixth.objects.all(),
+        queryset=EnvoFeatureSixth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -168,7 +168,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_seventh = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureSeventh.objects.all(),
+        queryset=EnvoFeatureSeventh.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -202,17 +202,6 @@ class FieldSiteCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
-        self.fields['project'].queryset = Project.objects.none()
-        self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
-        self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
-        self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.none()
-        self.fields['envo_biome_fifth'].queryset = EnvoBiomeFifth.objects.none()
-        self.fields['envo_feature_second'].queryset = EnvoFeatureSecond.objects.none()
-        self.fields['envo_feature_third'].queryset = EnvoFeatureThird.objects.none()
-        self.fields['envo_feature_fourth'].queryset = EnvoFeatureFourth.objects.none()
-        self.fields['envo_feature_fifth'].queryset = EnvoFeatureFifth.objects.none()
-        self.fields['envo_feature_sixth'].queryset = EnvoFeatureSixth.objects.none()
-        self.fields['envo_feature_seventh'].queryset = EnvoFeatureSeventh.objects.none()
 
         if 'grant' in self.data:
             try:
@@ -329,7 +318,7 @@ class FieldSiteCreateForm(forms.ModelForm):
 class FieldSiteUpdateForm(forms.ModelForm):
     project = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=Project.objects.all(),
+        queryset=Project.objects.none(),
         widget=CustomSelect2Multiple(
             attrs={
                 'class': 'form-control',
@@ -354,7 +343,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFirst.objects.all(),
+        queryset=EnvoBiomeFirst.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -363,7 +352,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_second = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeSecond.objects.all(),
+        queryset=EnvoBiomeSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -372,7 +361,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_third = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeThird.objects.all(),
+        queryset=EnvoBiomeThird.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -381,7 +370,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_fourth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFourth.objects.all(),
+        queryset=EnvoBiomeFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -390,7 +379,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_fifth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFifth.objects.all(),
+        queryset=EnvoBiomeFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -399,7 +388,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFirst.objects.all(),
+        queryset=EnvoFeatureFirst.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -408,7 +397,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_second = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureSecond.objects.all(),
+        queryset=EnvoFeatureSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -417,7 +406,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_third = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureThird.objects.all(),
+        queryset=EnvoFeatureThird.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -426,7 +415,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_fourth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFourth.objects.all(),
+        queryset=EnvoFeatureFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -435,7 +424,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_fifth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFifth.objects.all(),
+        queryset=EnvoFeatureFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -444,7 +433,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_sixth = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureSixth.objects.all(),
+        queryset=EnvoFeatureSixth.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -453,7 +442,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_seventh = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureSeventh.objects.all(),
+        queryset=EnvoFeatureSeventh.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -470,18 +459,6 @@ class FieldSiteUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
-
-        self.fields['project'].queryset = Project.objects.none()
-        self.fields['envo_biome_second'].queryset = EnvoBiomeSecond.objects.none()
-        self.fields['envo_biome_third'].queryset = EnvoBiomeThird.objects.none()
-        self.fields['envo_biome_fourth'].queryset = EnvoBiomeFourth.objects.none()
-        self.fields['envo_biome_fifth'].queryset = EnvoBiomeFifth.objects.none()
-        self.fields['envo_feature_second'].queryset = EnvoFeatureSecond.objects.none()
-        self.fields['envo_feature_third'].queryset = EnvoFeatureThird.objects.none()
-        self.fields['envo_feature_fourth'].queryset = EnvoFeatureFourth.objects.none()
-        self.fields['envo_feature_fifth'].queryset = EnvoFeatureFifth.objects.none()
-        self.fields['envo_feature_sixth'].queryset = EnvoFeatureSixth.objects.none()
-        self.fields['envo_feature_seventh'].queryset = EnvoFeatureSeventh.objects.none()
 
         if 'grant' in self.data:
             try:
