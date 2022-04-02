@@ -37,7 +37,7 @@ def get_project_survey_geom(request, pk):
     # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
     # project = get_object_or_404(Project, pk=pk)
     qs = FieldSurvey.objects.only('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids').prefetch_related('project_ids').filter(project_ids=pk)
-    qs_json = serialize("geojson", qs, fields=('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids'))
+    qs_json = serialize('geojson', qs, fields=('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids'))
     return JsonResponse(json.loads(qs_json))
 
 
@@ -56,7 +56,7 @@ def get_survey_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FieldSurvey.objects.annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
-    labels = ["Other" if x == '' else x for x in labels]
+    labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
@@ -64,7 +64,7 @@ def get_survey_system_count_chart(request):
 def get_survey_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     labels, data = return_queryset_lists(FieldSurvey.objects.annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
-    labels = ["Other" if x == '' else x for x in labels]
+    labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
@@ -91,7 +91,7 @@ def get_filter_type_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FilterSample.objects.annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
-    labels = ["Other" if x == '' else x for x in labels]
+    labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
@@ -100,7 +100,7 @@ def get_filter_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
-    labels = ["Other" if x == '' else x for x in labels]
+    labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
@@ -109,7 +109,7 @@ def get_filter_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
-    labels = ["Other" if x == '' else x for x in labels]
+    labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
@@ -147,9 +147,9 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_fieldsurvey"
-        context['page_title'] = "Field Survey"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_fieldsurvey'
+        context['page_title'] = 'Field Survey'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -194,9 +194,9 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_filtersample"
-        context['page_title'] = "Filter Sample"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_filtersample'
+        context['page_title'] = 'Filter Sample'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -218,7 +218,7 @@ class GeoFieldSurveyViewSet(viewsets.ReadOnlyModelViewSet):
                                                     'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.GeoFieldSurveySerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
@@ -229,7 +229,7 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCrewSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -237,7 +237,7 @@ class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = EnvMeasureType.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasureTypeSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
@@ -245,7 +245,7 @@ class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = EnvMeasurement.objects.prefetch_related('created_by', 'survey_global_id', 'env_measurement', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasurementSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FieldCollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -253,7 +253,7 @@ class FieldCollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FieldCollection.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCollectionSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -261,7 +261,7 @@ class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = WaterCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.WaterCollectionSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -269,7 +269,7 @@ class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SedimentCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SedimentCollectionSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -277,7 +277,7 @@ class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FieldSample.objects.prefetch_related('created_by', 'collection_global_id', 'sample_material', 'field_sample_barcode', 'record_creator', 'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldSampleSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -285,7 +285,7 @@ class FilterSampleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FilterSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FilterSampleSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -293,7 +293,7 @@ class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SubCoreSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SubCoreSampleSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
@@ -305,7 +305,7 @@ class FieldSurveyEnvsNestedViewSet(viewsets.ReadOnlyModelViewSet):
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldSurveyEnvsNestedSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
     def get_queryset(self):
         queryset = FieldSurvey.objects.all()
@@ -321,7 +321,7 @@ class FieldSurveyFiltersNestedViewSet(viewsets.ReadOnlyModelViewSet):
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldSurveyFiltersNestedSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
     def get_queryset(self):
         queryset = FieldSurvey.objects.all()
@@ -337,7 +337,7 @@ class FieldSurveySubCoresNestedViewSet(viewsets.ReadOnlyModelViewSet):
     #                                                'record_editor')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldSurveySubCoresNestedSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
     def get_queryset(self):
         queryset = FieldSurvey.objects.all()
@@ -349,7 +349,7 @@ class FieldSurveySubCoresNestedViewSet(viewsets.ReadOnlyModelViewSet):
 #     serializer_class = FilterJoinSerializer
 #
 #     def get_queryset(self):
-#         sample_barcode = self.request.query_params.get("sample_barcode")
+#         sample_barcode = self.request.query_params.get('sample_barcode')
 #         # https://stackoverflow.com/questions/54569384/django-chaining-prefetch-related-and-select-related
 #         bars = Bar.objects.select_related('prop')
 #         foos = Foo.objects.prefetch_related(Prefetch('bars', queryset=bars)).all()
@@ -366,7 +366,7 @@ class GeoFieldSurveyETLViewSet(viewsets.ModelViewSet):
     queryset = FieldSurveyETL.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.GeoFieldSurveyETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FieldCrewETLViewSet(viewsets.ModelViewSet):
@@ -374,7 +374,7 @@ class FieldCrewETLViewSet(viewsets.ModelViewSet):
     queryset = FieldCrewETL.objects.prefetch_related('created_by', 'survey_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCrewETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
@@ -382,7 +382,7 @@ class EnvMeasurementETLViewSet(viewsets.ModelViewSet):
     queryset = EnvMeasurementETL.objects.prefetch_related('created_by', 'survey_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasurementETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class FieldCollectionETLViewSet(viewsets.ModelViewSet):
@@ -390,7 +390,7 @@ class FieldCollectionETLViewSet(viewsets.ModelViewSet):
     queryset = FieldCollectionETL.objects.prefetch_related('created_by', 'survey_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCollectionETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class SampleFilterETLViewSet(viewsets.ModelViewSet):
@@ -398,20 +398,17 @@ class SampleFilterETLViewSet(viewsets.ModelViewSet):
     queryset = SampleFilterETL.objects.prefetch_related('created_by', 'collection_global_id')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SampleFilterETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
 
 class DuplicateFilterSampleETLAPIView(generics.ListAPIView):
     serializer_class = fieldsurvey_serializers.SampleFilterETLSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.DuplicateFilterSampleETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases
-        for the currently authenticated user.
-        """
+        # returns a list of all the duplicate filter barcodes
         # https://stackoverflow.com/questions/31306875/pass-a-custom-queryset-to-serializer-in-django-rest-framework
         # grab barcodes with duplicates
         filter_duplicates = SampleFilterETL.objects.values(
@@ -430,12 +427,10 @@ class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
     serializer_class = fieldsurvey_serializers.FieldCollectionETLSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.DuplicateSubCoreSampleETLSerializerFilter
-    swagger_tags = ["field survey"]
+    swagger_tags = ['field survey']
 
     def get_queryset(self):
-        """
-        This view should return a list of all the duplicate subcore barcodes.
-        """
+        # returns a list of all the duplicate subcore barcodes
         fields = ('subcore_fname', 'subcore_lname', 'subcore_method',
                   'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
                   'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number', 'subcore_length',

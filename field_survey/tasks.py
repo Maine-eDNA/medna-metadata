@@ -23,7 +23,7 @@ def get_filter_etl_delete_labels():
         filter_deletes = SampleFilterETL.objects.filter(filter_sample_label__icontains='delete')
         return filter_deletes
     except Exception as err:
-        raise RuntimeError("** Error: get_filter_etl_delete_labels Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_filter_etl_delete_labels Failed (' + str(err) + ')')
 
 
 def get_filter_etl_duplicates():
@@ -35,7 +35,7 @@ def get_filter_etl_duplicates():
         )).filter(filter_barcode_count__gt=1)
         return filter_duplicates
     except Exception as err:
-        raise RuntimeError("** Error: get_filter_etl_duplicates Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_filter_etl_duplicates Failed (' + str(err) + ')')
 
 
 def get_core_etl_delete_labels():
@@ -43,7 +43,7 @@ def get_core_etl_delete_labels():
         core_deletes = FieldCollectionETL.objects.filter(core_label__icontains='delete')
         return core_deletes
     except Exception as err:
-        raise RuntimeError("** Error: get_core_etl_delete_labels Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_core_etl_delete_labels Failed (' + str(err) + ')')
 
 
 def get_min_subcore_etl_duplicates():
@@ -55,7 +55,7 @@ def get_min_subcore_etl_duplicates():
         )).filter(subcore_min_barcode__gt=1)
         return subcore_min_duplicates
     except Exception as err:
-        raise RuntimeError("** Error: get_min_subcore_etl_duplicates Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_min_subcore_etl_duplicates Failed (' + str(err) + ')')
 
 
 def get_max_subcore_etl_duplicates():
@@ -67,7 +67,7 @@ def get_max_subcore_etl_duplicates():
         )).filter(subcore_max_barcode__gt=1)
         return subcore_max_duplicates
     except Exception as err:
-        raise RuntimeError("** Error: get_max_subcore_etl_duplicates Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_max_subcore_etl_duplicates Failed (' + str(err) + ')')
 
 
 def update_record_field_survey(record, pk):
@@ -82,15 +82,15 @@ def update_record_field_survey(record, pk):
             project = Project.objects.get(project_code=prj)
             prj_list.append(project)
 
-        if record.site_id == "other":
-            record_site_id = "eOT_O01"
+        if record.site_id == 'other':
+            record_site_id = 'eOT_O01'
         else:
             record_site_id = record.site_id
 
         # survey123 srid defaults to 4326 (WGS84)
 
-        # print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
-        #      " "+record.qa_editor+" "+record.record_creator+" "+record.record_editor)
+        # print(record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+
+        #      ' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
@@ -145,7 +145,7 @@ def update_record_field_survey(record, pk):
 
         return field_survey, created
     except Exception as err:
-        raise RuntimeError("** Error: update_record_field_survey Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_record_field_survey Failed (' + str(err) + ')')
 
 
 def update_record_field_crew(record, pk):
@@ -165,7 +165,7 @@ def update_record_field_crew(record, pk):
         )
         return field_crew, created
     except Exception as err:
-        raise RuntimeError("** Error: update_record_field_crew Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_record_field_crew Failed (' + str(err) + ')')
 
 
 def update_record_env_measurement(record, pk):
@@ -173,8 +173,8 @@ def update_record_env_measurement(record, pk):
         env_type_list = []
         env_types = record.env_measurement.split(',')
 
-        # print(record.username+" "+record.supervisor+" "+record.core_subcorer+" "+record.water_filterer+
-        #      " "+record.qa_editor+" "+record.record_creator+" "+record.record_editor)
+        # print(record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+
+        #      ' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
 
         for env_type in env_types:
             if not env_type.strip():
@@ -231,7 +231,7 @@ def update_record_env_measurement(record, pk):
 
         return env_measurement, created
     except Exception as err:
-        raise RuntimeError("** Error: update_record_env_measurement Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_record_env_measurement Failed (' + str(err) + ')')
 
 
 def update_record_field_collection(record, pk):
@@ -292,7 +292,7 @@ def update_record_field_collection(record, pk):
 
         return field_collection, created
     except Exception as err:
-        raise RuntimeError("** Error: update_record_field_collection Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_record_field_collection Failed (' + str(err) + ')')
 
 
 def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_barcode_record):
@@ -360,7 +360,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                 update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: update_record_field_sample Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_record_field_sample Failed (' + str(err) + ')')
 
 
 def update_queryset_field_survey(queryset):
@@ -373,7 +373,7 @@ def update_queryset_field_survey(queryset):
                 update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_field_survey Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_field_survey Failed (' + str(err) + ')')
 
 
 def update_queryset_field_crew(queryset):
@@ -386,7 +386,7 @@ def update_queryset_field_crew(queryset):
                 update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_field_crew Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_field_crew Failed (' + str(err) + ')')
 
 
 def update_queryset_env_measurement(queryset):
@@ -399,7 +399,7 @@ def update_queryset_env_measurement(queryset):
                 update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_env_measurement Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_env_measurement Failed (' + str(err) + ')')
 
 
 def update_queryset_field_collection(queryset):
@@ -412,7 +412,7 @@ def update_queryset_field_collection(queryset):
                 update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_field_collection Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_field_collection Failed (' + str(err) + ')')
 
 
 def update_queryset_subcore_sample(queryset):
@@ -430,7 +430,7 @@ def update_queryset_subcore_sample(queryset):
                         sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode)[0]
                         # only proceed if sample_barcode exists
 
-                        # since we put a "min" and "max" field, rather than a separate record
+                        # since we put a 'min' and 'max' field, rather than a separate record
                         # for each subcore barcode, here we're appending the barcode to the
                         # gid to create a unique gid
                         new_gid = record.collection_global_id + '-' + subcore_min_barcode
@@ -465,7 +465,7 @@ def update_queryset_subcore_sample(queryset):
                             # add leading zeros to site_num, e.g., 1 to 01
                             num_leading_zeros = str(num).zfill(4)
 
-                            # format site_id, e.g., "eAL_L01"
+                            # format site_id, e.g., 'eAL_L01'
                             subcore_barcode = '{labelprefix}{sitenum}'.format(labelprefix=subcore_prefix,
                                                                               sitenum=num_leading_zeros)
 
@@ -473,7 +473,7 @@ def update_queryset_subcore_sample(queryset):
                                 # only proceed if barcode exists
                                 sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode)[0]
 
-                                # since we put a "min" and "max" field, rather than a separate record
+                                # since we put a 'min' and 'max' field, rather than a separate record
                                 # for each subcore barcode, here we're appending the barcode to the
                                 # gid to create a unique gid
                                 new_gid = collection_global_id + '-' + subcore_barcode
@@ -488,7 +488,7 @@ def update_queryset_subcore_sample(queryset):
 
         return created_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_subcore_sample Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_subcore_sample Failed (' + str(err) + ')')
 
 
 def update_queryset_filter_sample(queryset):
@@ -509,7 +509,7 @@ def update_queryset_filter_sample(queryset):
                     created_count = created_count + count
         return created_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_filter_sample Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_filter_sample Failed (' + str(err) + ')')
 
 
 def transform_field_survey_etls(queryset):
@@ -620,7 +620,7 @@ def transform_field_survey_etls(queryset):
                 update_count = update_count + count
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: transform_field_survey_etls Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: transform_field_survey_etls Failed (' + str(err) + ')')
 
 
 @app.task(bind=True, base=BaseTaskWithRetry)
@@ -648,7 +648,7 @@ def transform_new_records_field_survey_task(self):
             logger.info('Update count: ' + str(updated_count))
             PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
     except Exception as err:
-        raise RuntimeError("** Error: transform_new_records_field_survey_task Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: transform_new_records_field_survey_task Failed (' + str(err) + ')')
 
 
 # @app.task(bind=True)
@@ -661,4 +661,4 @@ def transform_new_records_field_survey_task(self):
 #           logger.info('Update count: ' + str(updated_count))
 #           PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
 #     except Exception as err:
-#         raise RuntimeError("** Error: transform_all_records_field_survey Failed (" + str(err) + ")")
+#         raise RuntimeError('** Error: transform_all_records_field_survey Failed (' + str(err) + ')')

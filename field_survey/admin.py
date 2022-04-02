@@ -54,7 +54,7 @@ class FieldSurveyAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         #  self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -88,7 +88,7 @@ class FieldCrewAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCrewAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -123,7 +123,7 @@ class EnvMeasureTypeAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasureTypeAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -164,7 +164,7 @@ class EnvMeasurementAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvMeasurementAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -200,7 +200,7 @@ class FieldCollectionAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldCollectionAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -236,7 +236,7 @@ class WaterCollectionAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(WaterCollectionAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -271,7 +271,7 @@ class SedimentCollectionAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SedimentCollectionAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -309,7 +309,7 @@ class FieldSampleAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSampleAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -345,7 +345,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FilterSampleAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -379,7 +379,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SubCoreSampleAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -434,13 +434,6 @@ class FieldSurveyETLAdmin(ExportActionMixin, admin.OSMGeoAdmin):
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FieldSurveyETLAdmin, self).change_view(request, object_id)
-
-    # removes "delete selected" from drop down menu
-#    def get_actions(self, request):
-#        actions = super().get_actions(request)
-#        if 'delete_selected' in actions:
-#            del actions['delete_selected']
-#        return actions
 
 
 admin.site.register(FieldSurveyETL, FieldSurveyETLAdmin)
