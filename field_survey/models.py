@@ -216,7 +216,7 @@ class FieldCollection(DateTimeUserMixin):
 class WaterCollection(DateTimeUserMixin):
     field_collection = models.OneToOneField(FieldCollection, primary_key=True, related_name='water_collection', on_delete=models.CASCADE)
     water_control = models.CharField('Is Control', blank=True, max_length=50, choices=YesNo.choices)
-    water_control_type = models.CharField('Water Control Type', blank=True, max_length=50, choices=ControlTypes.choices)
+    water_control_type = models.CharField('Control Type', blank=True, max_length=50, choices=ControlTypes.choices)
     water_vessel_label = models.CharField('Water Vessel Label', blank=True, max_length=255)
     water_collect_datetime = models.DateTimeField('Water Collection DateTime', blank=True, null=True)
     water_collect_depth = models.DecimalField('Water Collection Depth', blank=True, null=True, max_digits=15, decimal_places=10)
@@ -507,7 +507,7 @@ class FieldCollectionETL(DateTimeUserMixin):
     collection_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
     collection_type = models.CharField('Collection Type (water or sediment)', blank=True, max_length=255)
     water_control = models.CharField('Is Control', blank=True, max_length=3)
-    water_control_type = models.CharField('Water Control Type', blank=True, max_length=255)
+    water_control_type = models.CharField('Control Type', blank=True, max_length=255)
     water_vessel_label = models.CharField('Water Vessel Label', blank=True, max_length=255)
     water_collect_datetime = models.DateTimeField('Water Collection DateTime', blank=True, null=True)
     water_collect_depth = models.DecimalField('Water Collection Depth', blank=True, null=True, max_digits=15, decimal_places=10)
