@@ -90,6 +90,36 @@ class ExtractionFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serializ
         return redirect('main/model-perms-required.html')
 
 
+class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_extraction'
+    model = Extraction
+    form_class = ExtractionForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_extraction'
+        context['page_title'] = 'Extraction'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_extraction')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class ExtractionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Extraction
     form_class = ExtractionForm
@@ -116,14 +146,14 @@ class ExtractionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
         return reverse('view_extraction')
 
 
-class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ExtractionPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_extraction'
     model = Extraction
     form_class = ExtractionForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -137,8 +167,26 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         self.object.created_by = self.request.user
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('view_extraction')
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class ExtractionPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Extraction
+    form_class = ExtractionForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('wet_lab.update_extraction', 'wet_lab.view_extraction', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_extraction'
+        context['page_title'] = 'Extraction'
+        return context
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -446,6 +494,54 @@ class LibraryPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         return reverse('view_libraryprep')
 
 
+class LibraryPrepPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_libraryprep'
+    model = LibraryPrep
+    form_class = LibraryPrepForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_libraryprep'
+        context['page_title'] = 'Library Prep'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class LibraryPrepPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = LibraryPrep
+    form_class = LibraryPrepForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('wet_lab.update_libraryprep', 'wet_lab.view_libraryprep', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_libraryprep'
+        context['page_title'] = 'Library Prep'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
@@ -481,6 +577,36 @@ class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
         return redirect('main/model-perms-required.html')
 
 
+class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_pooledlibrary'
+    model = PooledLibrary
+    form_class = PooledLibraryForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_pooledlibrary'
+        context['page_title'] = 'Pooled Library'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_pooledlibrary')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = PooledLibrary
     form_class = PooledLibraryForm
@@ -507,14 +633,14 @@ class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         return reverse('view_pooledlibrary')
 
 
-class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class PooledLibraryPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_pooledlibrary'
     model = PooledLibrary
     form_class = PooledLibraryForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -528,8 +654,26 @@ class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
         self.object.created_by = self.request.user
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('view_pooledlibrary')
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class PooledLibraryPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = PooledLibrary
+    form_class = PooledLibraryForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('wet_lab.update_pooledlibrary', 'wet_lab.view_pooledlibrary', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_pooledlibrary'
+        context['page_title'] = 'Pooled Library'
+        return context
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -570,6 +714,36 @@ class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerE
         return redirect('main/model-perms-required.html')
 
 
+class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_runprep'
+    model = RunPrep
+    form_class = RunPrepForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_runprep'
+        context['page_title'] = 'Run Prep'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_runprep')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class RunPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = RunPrep
     form_class = RunPrepForm
@@ -596,14 +770,14 @@ class RunPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         return reverse('view_runprep')
 
 
-class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class RunPrepPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_runprep'
     model = RunPrep
     form_class = RunPrepForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -617,8 +791,26 @@ class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         self.object.created_by = self.request.user
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('view_runprep')
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class RunPrepPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = RunPrep
+    form_class = RunPrepForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('wet_lab.update_runprep', 'wet_lab.view_runprep', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_runprep'
+        context['page_title'] = 'Run Prep'
+        return context
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -657,6 +849,36 @@ class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
         return redirect('main/model-perms-required.html')
 
 
+class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_runresult'
+    model = RunResult
+    form_class = RunResultForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_runresult'
+        context['page_title'] = 'Run Result'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_runresult')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class RunResultUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = RunResult
     form_class = RunResultForm
@@ -683,14 +905,14 @@ class RunResultUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
         return reverse('view_runresult')
 
 
-class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class RunResultPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_runresult'
     model = RunResult
     form_class = RunResultForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -704,8 +926,26 @@ class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
         self.object.created_by = self.request.user
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('view_runresult')
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class RunResultPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = RunResult
+    form_class = RunResultForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('wet_lab.update_runresult', 'wet_lab.view_runresult', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_runresult'
+        context['page_title'] = 'Run Result'
+        return context
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -744,32 +984,6 @@ class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
         return redirect('main/model-perms-required.html')
 
 
-class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = FastqFile
-    form_class = FastqFileForm
-    login_url = '/dashboard/login/'
-    redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update.html'
-    permission_required = ('wet_lab.update_fastqfile', 'wet_lab.view_fastqfile', )
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'update_fastqfile'
-        context['page_title'] = 'Fastq File'
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-    def get_success_url(self):
-        # after successfully filling out and submitting a form,
-        # show the user the detail view of the label
-        return reverse('view_fastqfile')
-
-
 class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
@@ -798,6 +1012,32 @@ class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+
+class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FastqFile
+    form_class = FastqFileForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_fastqfile', 'wet_lab.view_fastqfile', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_fastqfile'
+        context['page_title'] = 'Fastq File'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_fastqfile')
 
 
 ########################################
