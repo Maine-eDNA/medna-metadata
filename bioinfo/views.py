@@ -208,7 +208,7 @@ class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMix
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = 'view_denoisecustermetadata'
+        context['segment'] = 'view_denoiseclustermetadata'
         context['page_title'] = 'Denoise Cluster Metadata'
         context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
