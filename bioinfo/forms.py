@@ -269,7 +269,7 @@ class FeatureReadCreateForm(forms.ModelForm):
 
     class Meta:
         model = FeatureRead
-        fields = ['feature', 'extraction', 'number_reads', ]
+        fields = ['feature', 'number_reads', ]
 
 
 class FeatureReadUpdateForm(forms.ModelForm):
