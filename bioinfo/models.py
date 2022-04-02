@@ -493,8 +493,7 @@ class AnnotationMetadata(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.analysis_datetime)
-        self.annotation_slug = '{method}_{date}'.format(method=slugify(self.annotation_method.annotation_method_name),
-                                                        date=slugify(analysis_date_fmt))
+        self.annotation_slug = '{method}_{date}'.format(method=slugify(self.annotation_method.annotation_method_name), date=slugify(analysis_date_fmt))
         super(AnnotationMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -535,8 +534,7 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     annotation_slug = models.SlugField('Annotation Slug', max_length=255)
 
     def save(self, *args, **kwargs):
-        self.annotation_slug = '{taxon}_{feature}'.format(taxon=slugify(self.ta_taxon),
-                                                          feature=slugify(self.feature.feature_id))
+        self.annotation_slug = '{taxon}_{feature}'.format(taxon=slugify(self.ta_taxon), feature=slugify(self.feature.feature_id))
         super(TaxonomicAnnotation, self).save(*args, **kwargs)
 
     def __str__(self):
