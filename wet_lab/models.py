@@ -6,7 +6,7 @@ import uuid
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
-    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes, LibLayouts
+    PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes, LibLayouts, ControlTypes
 from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
@@ -220,6 +220,8 @@ class Extraction(DateTimeUserMixin):
     extraction_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT)
     barcode_slug = models.SlugField('Extraction Barcode Slug', max_length=16)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
+    extraction_control = models.CharField('Is Control', blank=True, max_length=50, choices=YesNo.choices)
+    extraction_control_type = models.CharField('Extraction Control Type', blank=True, max_length=50, choices=ControlTypes.choices)
     process_location = models.ForeignKey(ProcessLocation, blank=True, null=True, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction_datetime = models.DateTimeField('Extraction DateTime', blank=True, null=True)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT, blank=True, null=True)

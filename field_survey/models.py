@@ -286,9 +286,9 @@ class FieldSample(DateTimeUserMixin):
         # update barcode to type == Field Sample
         update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type())
         self.barcode_slug = self.field_sample_barcode.barcode_slug
-        if self.collection_global_id.collection_type == CollectionTypes.water_sample:
+        if self.collection_global_id.collection_type == CollectionTypes.WATER_SAMPLE:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains='water').first()
-        elif self.collection_global_id.collection_type == CollectionTypes.sed_sample:
+        elif self.collection_global_id.collection_type == CollectionTypes.SED_SAMPLE:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains='sediment').first()
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)

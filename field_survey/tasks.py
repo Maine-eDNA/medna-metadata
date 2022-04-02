@@ -249,7 +249,7 @@ def update_record_field_collection(record, pk):
             }
         )
 
-        if field_collection.collection_type == CollectionTypes.water_sample:
+        if field_collection.collection_type == CollectionTypes.WATER_SAMPLE:
             water_collection, created = WaterCollection.objects.update_or_create(
                 field_collection=field_collection,
                 defaults={
@@ -270,7 +270,7 @@ def update_record_field_collection(record, pk):
                 }
             )
 
-        elif field_collection.collection_type == CollectionTypes.sed_sample:
+        elif field_collection.collection_type == CollectionTypes.SED_SAMPLE:
             sediment_collection, created = SedimentCollection.objects.update_or_create(
                 field_collection=field_collection,
                 defaults={
@@ -315,7 +315,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
         if created:
             update_count += 1
 
-        if collection_type == CollectionTypes.water_sample:
+        if collection_type == CollectionTypes.WATER_SAMPLE:
             filter_sample, created = FilterSample.objects.update_or_create(
                 field_sample=field_sample,
                 defaults={
@@ -339,7 +339,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
             if created:
                 update_count += 1
 
-        elif collection_type == CollectionTypes.sed_sample:
+        elif collection_type == CollectionTypes.SED_SAMPLE:
             subcore_sample, created = SubCoreSample.objects.update_or_create(
                 field_sample=field_sample,
                 defaults={
