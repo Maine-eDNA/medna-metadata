@@ -250,7 +250,7 @@ class PcrForm(forms.ModelForm):
     )
     extraction = forms.ModelChoiceField(
         required=True,
-        queryset=Extraction.objects.all().order_by('-created_datetime'),
+        queryset=Extraction.objects.all(),
     )
     primer_set = forms.ModelChoiceField(
         required=True,
@@ -347,6 +347,7 @@ class PcrForm(forms.ModelForm):
         self.fields['pcr_replicate'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pcrreplicate')))
         self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
+        self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
 
 
 class LibraryPrepForm(forms.ModelForm):
