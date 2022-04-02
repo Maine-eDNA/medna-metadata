@@ -34,16 +34,16 @@ urlpatterns = [
     path('dashboard/profile/', user_views.UserProfileDetailView.as_view(), name='detail_dashboardprofile'),
     path('dashboard/profile/update/', user_views.UserProfileUpdateView.as_view(success_url=reverse_lazy('detail_dashboardprofile')), name='update_dashboardprofile'),
     # UTILITY: PROJECT (VIEW)
+    path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='view_projects'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
-    path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='projects'),
     # UTILITY: PUBLICATION (VIEW)
-    path('main/publications/', utility_views.PublicationTemplateView.as_view(), name='publications'),
-    path('main/publication/update/<int:pk>/', utility_views.PublicationUpdateView.as_view(), name='update_publication'),
+    path('main/publications/', utility_views.PublicationTemplateView.as_view(), name='view_publications'),
     path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('detail_publication')), name='add_publication'),
+    path('main/publication/update/<int:pk>/', utility_views.PublicationUpdateView.as_view(), name='update_publication'),
     # UTILITY: CONTACT US (VIEW, ADD, UPDATE)
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),
-    path('main/contact-us/update/<int:pk>/', utility_views.ContactUsUpdateView.as_view(), name='update_contactus'),
     path('main/contact-us/', utility_views.ContactUsCreateView.as_view(success_url=reverse_lazy('contact_us_received')), name='contact_us'),
+    path('main/contact-us/update/<int:pk>/', utility_views.ContactUsUpdateView.as_view(), name='update_contactus'),
     path('main/contact-us/received/', utility_views.ContactUsReceivedTemplateView.as_view(), name='contact_us_received'),
     # FIELD SITE: FIELD SITE (VIEW, ADD, UPDATE)
     path('dashboard/fieldsite/view/', fieldsite_views.FieldSiteFilterView.as_view(filterset_class=fieldsite_filters.FieldSiteFilter), name='view_fieldsite'),
@@ -72,12 +72,12 @@ urlpatterns = [
     # path('dashboard/wetlab/pcr/detail/<int:pk>/', wetlab_views.PcrDetailView.as_view(), name='detail_pcr'),
     path('dashboard/wetlab/pcr/update/<int:pk>/', wetlab_views.PcrUpdateView.as_view(success_url=reverse_lazy('view_pcr')), name='update_pcr'),
     path('dashboard/wetlab/pcr/add/', wetlab_views.PcrCreateView.as_view(), name='add_pcr'),
-    path('dashboard/wetlab/pcrreplicate/add/', wetlab_views.PcrReplicatePopupCreateView.as_view(), name="add_pcrreplicate"),
-    path('dashboard/wetlab/pcrreplicate/update/', wetlab_views.PcrReplicatePopupUpdateView.as_view(), name="update_pcrreplicate"),
+    path('dashboard/wetlab/pcrreplicate/add/', wetlab_views.PcrReplicatePopupCreateView.as_view(), name='add_pcrreplicate'),
+    path('dashboard/wetlab/pcrreplicate/update/', wetlab_views.PcrReplicatePopupUpdateView.as_view(), name='update_pcrreplicate'),
     # WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
     # TODO convert add_libraryprep to table update
-    path('dashboard/wetlab/indexpair/add/', wetlab_views.IndexPairPopupCreateView.as_view(), name="add_indexpair"),
-    path('dashboard/wetlab/indexpair/update/', wetlab_views.IndexPairPopupUpdateView.as_view(), name="update_indexpair"),
+    path('dashboard/wetlab/indexpair/add/', wetlab_views.IndexPairPopupCreateView.as_view(), name='add_indexpair'),
+    path('dashboard/wetlab/indexpair/update/', wetlab_views.IndexPairPopupUpdateView.as_view(), name='update_indexpair'),
     path('dashboard/wetlab/libraryprep/view/', wetlab_views.LibraryPrepFilterView.as_view(filterset_class=wetlab_filters.LibraryPrepFilter), name='view_libraryprep'),
     # path('dashboard/wetlab/libraryprep/detail/<int:pk>/', wetlab_views.LibraryPrepDetailView.as_view(), name='detail_libraryprep'),
     path('dashboard/wetlab/libraryprep/update/<int:pk>/', wetlab_views.LibraryPrepUpdateView.as_view(success_url=reverse_lazy('view_libraryprep')), name='update_libraryprep'),
@@ -126,6 +126,7 @@ urlpatterns = [
     path('dashboard/bioinfo/featureoutput/view/', bioinfo_views.FeatureOutputFilterView.as_view(filterset_class=bioinfo_filters.FeatureOutputFilter), name='view_featureoutput'),
     # path('dashboard/bioinfo/featureoutput/detail/<int:pk>/', bioinfo_views.FeatureOutputDetailView.as_view(), name='detail_featureoutput'),
     path('dashboard/bioinfo/featureoutput/add/', bioinfo_views.FeatureOutputCreateView.as_view(), name='add_featureoutput'),
+    path('dashboard/bioinfo/featureoutput/update/<int:pk>/', bioinfo_views.FeatureOutputUpdateView.as_view(success_url=reverse_lazy('view_featureoutput')), name='update_featureoutput'),
     # BIOINFO: FEATURE READS (VIEW, ADD) w/ TABLE
     # TODO convert add_featureread to table update
     path('dashboard/bioinfo/featureread/view/', bioinfo_views.FeatureReadFilterView.as_view(filterset_class=bioinfo_filters.FeatureReadFilter), name='view_featureread'),

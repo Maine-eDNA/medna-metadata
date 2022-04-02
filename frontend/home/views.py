@@ -21,7 +21,7 @@ class IndexTemplateView(TemplateView):
     template_name = 'home/django-material-kit/index.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
         context['segment'] = 'index'
         return context
