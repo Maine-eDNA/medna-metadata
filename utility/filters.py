@@ -8,6 +8,7 @@ from .models import ContactUs, ProcessLocation, Publication, Project, Grant, Def
 ########################################
 def get_choices(model, field):
     # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
     choices = []
     for k in model.objects.values_list(field).distinct():
         choices.append((k[0], k[0]))

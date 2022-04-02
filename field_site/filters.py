@@ -6,15 +6,15 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     System, FieldSite, Watershed
 from utility.models import Grant, Project
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
-from utility.filters import get_choices
 
 
 # Create your filters here.
 ########################################
 # FRONTEND FILTERS                   #
 ########################################
-def get_field_site_choices(model=FieldSite, field='general_location_name'):
+def get_general_location_name_choices(model=FieldSite, field='general_location_name'):
     # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
     choices = []
     for k in model.objects.values_list(field).distinct():
         choices.append((k[0], k[0]))
@@ -26,7 +26,7 @@ class FieldSiteFilter(filters.FilterSet):
     project = filters.ModelMultipleChoiceFilter(queryset=Project.objects.all(), widget=CustomSelect2Multiple)
     system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2Multiple)
     watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2Multiple)
-    general_location_name = filters.ChoiceFilter(choices=get_field_site_choices, widget=CustomSelect2)
+    general_location_name = filters.ChoiceFilter(choices=get_general_location_name_choices, widget=CustomSelect2)
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
 
     class Meta:

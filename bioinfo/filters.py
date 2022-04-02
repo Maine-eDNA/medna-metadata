@@ -1,6 +1,5 @@
 from django_filters import rest_framework as filters
 from users.models import CustomUser
-from utility.filters import get_choices
 from utility.models import ProcessLocation
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from wet_lab.models import RunResult, Extraction
@@ -13,8 +12,9 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 ########################################
 # FRONTEND FILTERS                     #
 ########################################
-def get_quality_metadata_choices(model=QualityMetadata, field='analysis_label'):
+def get_quality_metadata_analysis_label_choices(model=QualityMetadata, field='analysis_label'):
     # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
     choices = []
     for k in model.objects.values_list(field).distinct():
         choices.append((k[0], k[0]))
@@ -25,18 +25,27 @@ class QualityMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
-    analysis_label = filters.ChoiceFilter(choices=get_quality_metadata_choices, widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_quality_metadata_analysis_label_choices, widget=CustomSelect2)
 
     class Meta:
         model = QualityMetadata
         fields = ['created_by', 'process_location', 'run_result', 'analysis_label', ]
 
 
+def get_denoise_cluster_metadata_analysis_label_choices(model=DenoiseClusterMetadata, field='analysis_label'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
 class DenoiseClusterMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     quality_metadata = filters.ModelChoiceFilter(field_name='quality_metadata__quality_slug', queryset=QualityMetadata.objects.all(), widget=CustomSelect2)
-    analysis_label = filters.ChoiceFilter(choices=get_choices(DenoiseClusterMetadata, 'analysis_label'), widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_denoise_cluster_metadata_analysis_label_choices, widget=CustomSelect2)
     denoise_cluster_method = filters.ModelChoiceFilter(field_name='denoise_cluster_method__denoise_cluster_method_slug', queryset=DenoiseClusterMethod.objects.all(), widget=CustomSelect2)
 
     class Meta:
@@ -63,9 +72,18 @@ class FeatureReadFilter(filters.FilterSet):
         fields = ['created_by', 'extraction', 'feature', ]
 
 
+def get_annotation_metadata_analysis_label_choices(model=AnnotationMetadata, field='analysis_label'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
 class AnnotationMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    analysis_label = filters.ChoiceFilter(choices=get_choices(AnnotationMetadata, 'analysis_label'), widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_annotation_metadata_analysis_label_choices, widget=CustomSelect2)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     denoise_cluster_metadata = filters.ModelChoiceFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
     annotation_method = filters.ModelChoiceFilter(field_name='annotation_method__annotation_method_name_slug', queryset=AnnotationMethod.objects.all(), widget=CustomSelect2)
@@ -75,22 +93,121 @@ class AnnotationMetadataFilter(filters.FilterSet):
         fields = ['created_by', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'annotation_method', ]
 
 
+def get_ta_taxon_choices(model=TaxonomicAnnotation, field='ta_taxon'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_domain_choices(model=TaxonomicAnnotation, field='ta_domain'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_kingdom_choices(model=TaxonomicAnnotation, field='ta_kingdom'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_supergroup_choices(model=TaxonomicAnnotation, field='ta_supergroup'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_phylum_division_choices(model=TaxonomicAnnotation, field='ta_phylum_division'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_class_choices(model=TaxonomicAnnotation, field='ta_class'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_order_choices(model=TaxonomicAnnotation, field='ta_order'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_family_choices(model=TaxonomicAnnotation, field='ta_family'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_genus_choices(model=TaxonomicAnnotation, field='ta_genus'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_species_choices(model=TaxonomicAnnotation, field='ta_species'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
+def get_ta_common_name_choices(model=TaxonomicAnnotation, field='ta_common_name'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    # https://github.com/carltongibson/django-filter/issues/877
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
 class TaxonomicAnnotationFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
     annotation_metadata = filters.ModelChoiceFilter(field_name='annotation_metadata__annotation_slug', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
     reference_database = filters.ModelChoiceFilter(field_name='reference_database__refdb_slug', queryset=ReferenceDatabase.objects.all(), widget=CustomSelect2)
-    ta_taxon = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_taxon'), widget=CustomSelect2)
-    ta_domain = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_domain'), widget=CustomSelect2)
-    ta_kingdom = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_kingdom'), widget=CustomSelect2)
-    ta_supergroup = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_supergroup'), widget=CustomSelect2)
-    ta_phylum_division = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_phylum_division'), widget=CustomSelect2)
-    ta_class = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_class'), widget=CustomSelect2)
-    ta_order = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_order'), widget=CustomSelect2)
-    ta_family = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_family'), widget=CustomSelect2)
-    ta_genus = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_genus'), widget=CustomSelect2)
-    ta_species = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_species'), widget=CustomSelect2)
-    ta_common_name = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_common_name'), widget=CustomSelect2)
+    ta_taxon = filters.ChoiceFilter(choices=get_ta_taxon_choices, widget=CustomSelect2)
+    ta_domain = filters.ChoiceFilter(choices=get_ta_domain_choices, widget=CustomSelect2)
+    ta_kingdom = filters.ChoiceFilter(choices=get_ta_kingdom_choices, widget=CustomSelect2)
+    ta_supergroup = filters.ChoiceFilter(choices=get_ta_supergroup_choices, widget=CustomSelect2)
+    ta_phylum_division = filters.ChoiceFilter(choices=get_ta_phylum_division_choices, widget=CustomSelect2)
+    ta_class = filters.ChoiceFilter(choices=get_ta_class_choices, widget=CustomSelect2)
+    ta_order = filters.ChoiceFilter(choices=get_ta_order_choices, widget=CustomSelect2)
+    ta_family = filters.ChoiceFilter(choices=get_ta_family_choices, widget=CustomSelect2)
+    ta_genus = filters.ChoiceFilter(choices=get_ta_genus_choices, widget=CustomSelect2)
+    ta_species = filters.ChoiceFilter(choices=get_ta_species_choices, widget=CustomSelect2)
+    ta_common_name = filters.ChoiceFilter(choices=get_ta_common_name_choices, widget=CustomSelect2)
     manual_domain = filters.ModelChoiceFilter(field_name='manual_domain__taxon_domain_slug', queryset=TaxonDomain.objects.all(), widget=CustomSelect2)
     manual_kingdom = filters.ModelChoiceFilter(field_name='manual_kingdom__taxon_kingdom_slug', queryset=TaxonKingdom.objects.all(), widget=CustomSelect2)
     manual_supergroup = filters.ModelChoiceFilter(field_name='manual_supergroup__taxon_supergroup_slug', queryset=TaxonSupergroup.objects.all(), widget=CustomSelect2)
