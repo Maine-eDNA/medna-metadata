@@ -151,7 +151,7 @@ class UpdatePopupMixin(BasePopupMixin):
 # FRONTEND REQUESTS                    #
 ########################################
 @login_required(login_url='dashboard_login')
-def load_project(request):
+def get_project_options(request):
     grant = request.GET.get('id')
     qs = Project.objects.filter(grant_names=grant).order_by('project_label').annotate(text=F('project_label'))
     qs_json = return_select2_options(qs)
@@ -177,13 +177,13 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
     permission_required = ('utility.update_publication', 'utility.view_publication', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_publication"
-        context["page_title"] = "Publication"
-        context["page_subtitle"] = "Peer-reviewed content"
-        context["form_header"] = "Update Publication"
-        context["form_subheader"] = "Fill and submit."
+        context['segment'] = 'update_publication'
+        context['page_title'] = 'Publication'
+        context['page_subtitle'] = 'Peer-reviewed content'
+        context['form_header'] = 'Update Publication'
+        context['form_subheader'] = 'Fill and submit.'
         return context
 
     def handle_no_permission(self):
@@ -194,7 +194,7 @@ class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
     def get_success_url(self):
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
-        return reverse('publications')
+        return reverse('view_publications')
 
 
 class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -207,13 +207,13 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     template_name = 'home/django-material-kit/publication-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_publication"
-        context["page_title"] = "Publication"
-        context["page_subtitle"] = "Peer-reviewed content"
-        context["form_header"] = "Add Publication"
-        context["form_subheader"] = "Fill and submit."
+        context['segment'] = 'add_publication'
+        context['page_title'] = 'Publication'
+        context['page_subtitle'] = 'Peer-reviewed content'
+        context['form_header'] = 'Add Publication'
+        context['form_subheader'] = 'Fill and submit.'
         return context
 
     def form_valid(self, form):
@@ -222,7 +222,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('publications')
+        return reverse('view_publications')
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -238,10 +238,10 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'home/django-material-dashboard/model-update.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_contactus"
-        context["page_title"] = "Contact Us"
+        context['segment'] = 'update_contactus'
+        context['page_title'] = 'Contact Us'
         return context
 
     def get_initial(self):
@@ -252,7 +252,7 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
-        return reverse('detail_contactus', kwargs={"pk": self.object.pk})
+        return reverse('detail_contactus', kwargs={'pk': self.object.pk})
 
 
 class ContactUsDetailView(LoginRequiredMixin, DetailView):
@@ -261,10 +261,10 @@ class ContactUsDetailView(LoginRequiredMixin, DetailView):
     fields = ['full_name', 'contact_email', 'contact_context', 'replied_context', 'replied_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["page_title"] = "Contact Us"
-        context["segment"] = "detail_contactus"
+        context['segment'] = 'detail_contactus'
+        context['page_title'] = 'Contact Us'
         return context
 
 
@@ -278,10 +278,10 @@ class AccountExpiredTemplateView(TemplateView):
     template_name = 'home/django-material-kit/account-expired.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "accountexpired"
-        context["page_title"] = "Account Expired"
+        context['segment'] = 'accountexpired'
+        context['page_title'] = 'Account Expired'
         return context
 
 
@@ -292,10 +292,10 @@ class AboutUsTemplateView(TemplateView):
     template_name = 'home/django-material-kit/about-us.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "aboutus"
-        context["page_title"] = "About Us"
+        context['segment'] = 'aboutus'
+        context['page_title'] = 'About Us'
         return context
 
 
@@ -306,11 +306,11 @@ class ProjectsTemplateView(TemplateView):
     template_name = 'home/django-material-kit/projects.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "projects"
-        context["page_title"] = "Projects"
-        context["project_list"] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
+        context['segment'] = 'view_projects'
+        context['page_title'] = 'Projects'
+        context['project_list'] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
         return context
 
 
@@ -321,12 +321,12 @@ class PublicationTemplateView(TemplateView):
     template_name = 'home/django-material-kit/publications.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "publications"
-        context["page_title"] = "Publications"
-        context["page_subtitle"] = "Peer-reviewed content"
-        context["pub_list"] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
+        context['segment'] = 'view_publications'
+        context['page_title'] = 'Publications'
+        context['page_subtitle'] = 'Peer-reviewed content'
+        context['pub_list'] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
         return context
 
 
@@ -337,13 +337,13 @@ class ProjectSurveyTemplateView(TemplateView):
     template_name = 'home/django-material-kit/project-detail.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["page_title"] = "Project Surveys"
-        context["segment"] = "projectsurvey"
+        context['page_title'] = 'Project Surveys'
+        context['segment'] = 'projectsurvey'
         self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        # context["markers"] = json.loads(serialize("geojson", FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
-        context["project"] = self.project
+        # context['markers'] = json.loads(serialize('geojson', FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
+        context['project'] = self.project
         return context
 
 
@@ -352,10 +352,10 @@ class MetadataStandardsTemplateView(TemplateView):
     template_name = 'home/django-material-kit/metadata-standards.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["page_title"] = "Metadata Standards"
-        context["segment"] = "metadatastandards"
+        context['page_title'] = 'Metadata Standards'
+        context['segment'] = 'metadatastandards'
 
 
 class ContactUsCreateView(CreateView):
@@ -366,12 +366,12 @@ class ContactUsCreateView(CreateView):
     # success_url = reverse_lazy('contact_us_received') # placed in urls.py
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["page_title"] = "Contact Us"
-        context["segment"] = "contactus"
-        context["form_header"] = "Contact Us"
-        context["form_subheader"] = "For further questions, please fill out and submit this form."
+        context['page_title'] = 'Contact Us'
+        context['segment'] = 'contactus'
+        context['form_header'] = 'Contact Us'
+        context['form_subheader'] = 'For further questions, please fill out and submit this form.'
         return context
 
     def form_valid(self, form):
@@ -390,10 +390,10 @@ class ContactUsReceivedTemplateView(TemplateView):
     template_name = 'home/django-material-kit/contact-us-received.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["page_title"] = "Contact Us"
-        context["segment"] = "contactus"
+        context['page_title'] = 'Contact Us'
+        context['segment'] = 'contactus'
         return context
 
 
@@ -408,7 +408,7 @@ class GrantViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email']
     filterset_class = utility_filters.GrantSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -417,7 +417,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.ProjectSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
@@ -426,7 +426,7 @@ class PublicationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.PublicationSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 class ProcessLocationViewSet(viewsets.ModelViewSet):
@@ -435,7 +435,7 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
     filterset_class = utility_filters.ProcessLocationSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 class ContactUsViewSet(viewsets.ModelViewSet):
@@ -444,7 +444,7 @@ class ContactUsViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
     filterset_class = utility_filters.ContactUsSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 class DefaultSiteCssViewSet(viewsets.ModelViewSet):
@@ -453,7 +453,7 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
     filterset_class = utility_filters.DefaultSiteCssSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
@@ -462,7 +462,7 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
     filterset_class = utility_filters.CustomUserCssSerializerFilter
-    swagger_tags = ["utility"]
+    swagger_tags = ['utility']
 
 
 ########################################
@@ -471,7 +471,7 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
 # https://stackoverflow.com/questions/62935570/what-is-the-best-way-for-connecting-django-models-choice-fields-with-react-js-se
 # enum serializers to return choices
 class YesNoChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -486,7 +486,7 @@ class YesNoChoicesViewSet(viewsets.ViewSet):
 # CHOICE SERIALIZERS - UNITS           #
 ########################################
 class TempUnitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -498,7 +498,7 @@ class TempUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -510,7 +510,7 @@ class MeasureUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class VolUnitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -522,7 +522,7 @@ class VolUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -534,7 +534,7 @@ class ConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -546,7 +546,7 @@ class PhiXConcentrationUnitsChoicesViewSet(viewsets.ViewSet):
 
 
 class PcrUnitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -561,7 +561,7 @@ class PcrUnitsChoicesViewSet(viewsets.ViewSet):
 # CHOICE SERIALIZERS - FIELD_SURVEY    #
 ########################################
 class WindSpeedsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -573,7 +573,7 @@ class WindSpeedsChoicesViewSet(viewsets.ViewSet):
 
 
 class CloudCoversChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -585,7 +585,7 @@ class CloudCoversChoicesViewSet(viewsets.ViewSet):
 
 
 class PrecipTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -597,7 +597,7 @@ class PrecipTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class TurbidTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -609,7 +609,7 @@ class TurbidTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -621,7 +621,7 @@ class EnvoMaterialsChoicesViewSet(viewsets.ViewSet):
 
 
 class MeasureModesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -633,7 +633,7 @@ class MeasureModesChoicesViewSet(viewsets.ViewSet):
 
 
 class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -645,7 +645,7 @@ class EnvInstrumentsChoicesViewSet(viewsets.ViewSet):
 
 
 class YsiModelsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -657,7 +657,7 @@ class YsiModelsChoicesViewSet(viewsets.ViewSet):
 
 
 class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -669,7 +669,7 @@ class BottomSubstratesChoicesViewSet(viewsets.ViewSet):
 
 
 class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -681,7 +681,7 @@ class WaterCollectionModesChoicesViewSet(viewsets.ViewSet):
 
 
 class CollectionTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -693,7 +693,7 @@ class CollectionTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class FilterLocationsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -705,7 +705,7 @@ class FilterLocationsChoicesViewSet(viewsets.ViewSet):
 
 
 class ControlTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -717,7 +717,7 @@ class ControlTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class FilterMethodsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -729,7 +729,7 @@ class FilterMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 class FilterTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -741,7 +741,7 @@ class FilterTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class CoreMethodsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -753,7 +753,7 @@ class CoreMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -768,7 +768,7 @@ class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
 # CHOICE SERIALIZERS - WET_LAB         #
 ########################################
 class TargetGenesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -780,7 +780,7 @@ class TargetGenesChoicesViewSet(viewsets.ViewSet):
 
 
 class SubFragmentsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -792,7 +792,7 @@ class SubFragmentsChoicesViewSet(viewsets.ViewSet):
 
 
 class PcrTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -804,7 +804,7 @@ class PcrTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class LibLayoutsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -816,7 +816,7 @@ class LibLayoutsChoicesViewSet(viewsets.ViewSet):
 
 
 class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -828,7 +828,7 @@ class LibPrepTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -840,7 +840,7 @@ class LibPrepKitsChoicesViewSet(viewsets.ViewSet):
 
 
 class SeqMethodsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -852,7 +852,7 @@ class SeqMethodsChoicesViewSet(viewsets.ViewSet):
 
 
 class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -867,7 +867,7 @@ class InvestigationTypesChoicesViewSet(viewsets.ViewSet):
 # CHOICE SERIALIZERS - FREEZER_INVENTORY #
 ##########################################
 class InvStatusChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -879,7 +879,7 @@ class InvStatusChoicesViewSet(viewsets.ViewSet):
 
 
 class InvLocStatusChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -891,7 +891,7 @@ class InvLocStatusChoicesViewSet(viewsets.ViewSet):
 
 
 class InvTypesChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -903,7 +903,7 @@ class InvTypesChoicesViewSet(viewsets.ViewSet):
 
 
 class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
-    swagger_tags = ["choices"]
+    swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
@@ -916,7 +916,7 @@ class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
 
 # migrated to db model
 # class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):
-#     swagger_tags = ["choices"]
+#     swagger_tags = ['choices']
 #
 #     def list(self, request, format=None):
 #         choices = []

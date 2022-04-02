@@ -30,7 +30,7 @@ from .tables import FieldSurveyTable
 ########################################
 # FRONTEND REQUESTS                    #
 ########################################
-def project_survey_map(request, pk):
+def get_project_survey_geom(request, pk):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -118,7 +118,7 @@ def filter_site_count_chart(request):
 ########################################
 class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSurvey
     table_class = FieldSurveyTable
@@ -145,10 +145,10 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
                         'record_editor__agol_username', 'record_edit_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_fieldsurvey"
-        context["page_title"] = "Field Survey"
+        context['segment'] = "view_fieldsurvey"
+        context['page_title'] = "Field Survey"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -162,7 +162,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
 class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # TODO add related cols for FieldSurveyFilter table
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSurvey
     table_class = FieldSurveyTable
@@ -192,10 +192,10 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
                         'record_editor__agol_username', 'record_edit_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_filtersample"
-        context["page_title"] = "Filter Sample"
+        context['segment'] = "view_filtersample"
+        context['page_title'] = "Filter Sample"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context

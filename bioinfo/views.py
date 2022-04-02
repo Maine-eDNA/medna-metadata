@@ -30,7 +30,7 @@ from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMe
 # FRONTEND REQUESTS                    #
 ########################################
 @login_required(login_url='dashboard_login')
-def load_taxon_kingdom(request):
+def get_taxon_kingdom_options(request):
     taxon = request.GET.get('id')
     qs = TaxonKingdom.objects.filter(taxon_domain=taxon).order_by('taxon_kingdom').annotate(text=F('taxon_kingdom'))
     qs_json = return_select2_options(qs)
@@ -38,7 +38,7 @@ def load_taxon_kingdom(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_supergroup(request):
+def get_taxon_supergroup_options(request):
     taxon = request.GET.get('id')
     qs = TaxonSupergroup.objects.filter(taxon_kingdom=taxon).order_by('taxon_supergroup').annotate(text=F('taxon_supergroup'))
     qs_json = return_select2_options(qs)
@@ -46,7 +46,7 @@ def load_taxon_supergroup(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_phylum_division(request):
+def get_taxon_phylum_division_options(request):
     taxon = request.GET.get('id')
     qs = TaxonPhylumDivision.objects.filter(taxon_supergroup=taxon).order_by('taxon_phylum_division').annotate(text=F('taxon_phylum_division'))
     qs_json = return_select2_options(qs)
@@ -54,7 +54,7 @@ def load_taxon_phylum_division(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_class(request):
+def get_taxon_class_options(request):
     taxon = request.GET.get('id')
     qs = TaxonClass.objects.filter(taxon_phylum_division=taxon).order_by('taxon_class').annotate(text=F('taxon_class'))
     qs_json = return_select2_options(qs)
@@ -62,7 +62,7 @@ def load_taxon_class(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_order(request):
+def get_taxon_order_options(request):
     taxon = request.GET.get('id')
     qs = TaxonOrder.objects.filter(taxon_class=taxon).order_by('taxon_order').annotate(text=F('taxon_order'))
     qs_json = return_select2_options(qs)
@@ -70,7 +70,7 @@ def load_taxon_order(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_family(request):
+def get_taxon_family_options(request):
     taxon = request.GET.get('id')
     qs = TaxonFamily.objects.filter(taxon_order=taxon).order_by('taxon_family').annotate(text=F('taxon_family'))
     qs_json = return_select2_options(qs)
@@ -78,7 +78,7 @@ def load_taxon_family(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_genus(request):
+def get_taxon_genus_options(request):
     taxon = request.GET.get('id')
     qs = TaxonGenus.objects.filter(taxon_family=taxon).order_by('taxon_genus').annotate(text=F('taxon_genus'))
     qs_json = return_select2_options(qs)
@@ -86,7 +86,7 @@ def load_taxon_genus(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_taxon_species(request):
+def get_taxon_species_options(request):
     taxon = request.GET.get('id')
     qs = TaxonSpecies.objects.filter(taxon_genus=taxon).order_by('taxon_species').annotate(text=F('taxon_species'))
     qs_json = return_select2_options(qs)

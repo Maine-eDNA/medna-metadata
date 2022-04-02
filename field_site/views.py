@@ -34,7 +34,7 @@ from .forms import FieldSiteCreateForm, FieldSiteUpdateForm
 # FRONTEND REQUESTS                    #
 ########################################
 @login_required(login_url='dashboard_login')
-def watershed_map(request):
+def get_watershed_geom(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -46,7 +46,7 @@ def watershed_map(request):
 
 
 @login_required(login_url='dashboard_login')
-def field_site_map(request):
+def get_field_site_geom(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -66,7 +66,7 @@ def field_site_map(request):
 
 
 @login_required(login_url='dashboard_login')
-def point_intersect_watershed(request, lat, long, srid):
+def get_point_intersect_watershed_geom(request, lat, long, srid):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -79,7 +79,7 @@ def point_intersect_watershed(request, lat, long, srid):
 
 
 @login_required(login_url='dashboard_login')
-def load_biome_second(request):
+def get_biome_second_options(request):
     biome = request.GET.get('id')
     qs = EnvoBiomeSecond.objects.filter(biome_first_tier=biome).order_by('biome_second_tier').annotate(text=F('biome_second_tier'))
     qs_json = return_select2_options(qs)
@@ -87,7 +87,7 @@ def load_biome_second(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_biome_third(request):
+def get_biome_third_options(request):
     biome = request.GET.get('id')
     qs = EnvoBiomeThird.objects.filter(biome_second_tier=biome).order_by('biome_third_tier').annotate(text=F('biome_third_tier'))
     qs_json = return_select2_options(qs)
@@ -95,7 +95,7 @@ def load_biome_third(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_biome_fourth(request):
+def get_biome_fourth_options(request):
     biome = request.GET.get('id')
     qs = EnvoBiomeFourth.objects.filter(biome_third_tier=biome).order_by('biome_fourth_tier').annotate(text=F('biome_fourth_tier'))
     qs_json = return_select2_options(qs)
@@ -103,7 +103,7 @@ def load_biome_fourth(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_biome_fifth(request):
+def get_biome_fifth_options(request):
     biome = request.GET.get('id')
     qs = EnvoBiomeFifth.objects.filter(biome_fourth_tier=biome).order_by('biome_fifth_tier').annotate(text=F('biome_fifth_tier'))
     qs_json = return_select2_options(qs)
@@ -111,7 +111,7 @@ def load_biome_fifth(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_feature_second(request):
+def get_feature_second_options(request):
     feature = request.GET.get('id')
     qs = EnvoFeatureSecond.objects.filter(feature_first_tier=feature).order_by('feature_second_tier').annotate(text=F('feature_second_tier'))
     qs_json = return_select2_options(qs)
@@ -119,7 +119,7 @@ def load_feature_second(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_feature_third(request):
+def get_feature_third_options(request):
     feature = request.GET.get('id')
     qs = EnvoFeatureThird.objects.filter(feature_second_tier=feature).order_by('feature_third_tier').annotate(text=F('feature_third_tier'))
     qs_json = return_select2_options(qs)
@@ -127,7 +127,7 @@ def load_feature_third(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_feature_fourth(request):
+def get_feature_fourth_options(request):
     feature = request.GET.get('id')
     qs = EnvoFeatureFourth.objects.filter(feature_third_tier=feature).order_by('feature_fourth_tier').annotate(text=F('feature_fourth_tier'))
     qs_json = return_select2_options(qs)
@@ -135,7 +135,7 @@ def load_feature_fourth(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_feature_fifth(request):
+def get_feature_fifth_options(request):
     feature = request.GET.get('id')
     qs = EnvoFeatureFifth.objects.filter(feature_fourth_tier=feature).order_by('feature_fifth_tier').annotate(text=F('feature_fifth_tier'))
     qs_json = return_select2_options(qs)
@@ -143,7 +143,7 @@ def load_feature_fifth(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_feature_sixth(request):
+def get_feature_sixth_options(request):
     feature = request.GET.get('id')
     qs = EnvoFeatureSixth.objects.filter(feature_fifth_tier=feature).order_by('feature_sixth_tier').annotate(text=F('feature_sixth_tier'))
     qs_json = return_select2_options(qs)
@@ -151,7 +151,7 @@ def load_feature_sixth(request):
 
 
 @login_required(login_url='dashboard_login')
-def load_feature_seventh(request):
+def get_feature_seventh_options(request):
     feature = request.GET.get('id')
     qs = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=feature).order_by('feature_seventh_tier').annotate(text=F('feature_seventh_tier'))
     qs_json = return_select2_options(qs)
@@ -163,7 +163,7 @@ def load_feature_seventh(request):
 ########################################
 class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
     table_class = FieldSiteTable
@@ -185,10 +185,10 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
                         'envo_feature_seventh__feature_seventh_tier']
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_fieldsite"
-        context["page_title"] = "Field Site"
+        context['segment'] = "view_fieldsite"
+        context['page_title'] = "Field Site"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -215,10 +215,10 @@ class FieldSiteDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailVie
     permission_required = ('field_site.view_fieldsite', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "detail_fieldsite"
-        context["page_title"] = "Field Site"
+        context['segment'] = "detail_fieldsite"
+        context['page_title'] = "Field Site"
         return context
 
     def handle_no_permission(self):
@@ -237,10 +237,10 @@ class FieldSiteCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     template_name = 'home/django-material-dashboard/model-add-fieldsite.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_fieldsite"
-        context["page_title"] = "Field Site"
+        context['segment'] = "add_fieldsite"
+        context['page_title'] = "Field Site"
         return context
 
     def form_valid(self, form):
@@ -266,10 +266,10 @@ class FieldSiteUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     permission_required = ('field_site.update_fieldsite', 'field_site.view_fieldsite', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_fieldsite"
-        context["page_title"] = "Field Site"
+        context['segment'] = "update_fieldsite"
+        context['page_title'] = "Field Site"
         return context
 
     def handle_no_permission(self):
