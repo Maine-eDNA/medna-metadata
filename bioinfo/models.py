@@ -125,6 +125,8 @@ class FeatureRead(DateTimeUserMixin):
     read_slug = models.SlugField('Read Slug', max_length=255)
 
     def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.extraction = self.feature.denoise_cluster_metadata.quality_metadata.run_result.run_prep.pooled_library.library_prep.extraction
         self.read_slug = '{id}_{num_reads}'.format(id=slugify(self.feature), num_reads=slugify(self.number_reads))
         super(FeatureRead, self).save(*args, **kwargs)
 

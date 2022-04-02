@@ -248,7 +248,31 @@ class FeatureOutputForm(forms.ModelForm):
         fields = ['feature_id', 'feature_sequence', 'denoise_cluster_metadata', ]
 
 
-class FeatureReadForm(forms.ModelForm):
+class FeatureReadCreateForm(forms.ModelForm):
+    feature = forms.ModelChoiceField(
+        required=True,
+        queryset=FeatureOutput.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    number_reads = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = FeatureRead
+        fields = ['feature', 'extraction', 'number_reads', ]
+
+
+class FeatureReadUpdateForm(forms.ModelForm):
     feature = forms.ModelChoiceField(
         required=True,
         queryset=FeatureOutput.objects.all(),

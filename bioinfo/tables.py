@@ -86,7 +86,7 @@ class FeatureReadTable(tables.Table):
 
     class Meta:
         model = FeatureRead
-        fields = ('_selected_action', 'id', 'read_slug', 'feature', 'extraction', 'number_reads',
+        fields = ('_selected_action', 'id', 'feature', 'extraction', 'number_reads',
                   'created_by', 'created_datetime', 'modified_datetime', )
 
 
