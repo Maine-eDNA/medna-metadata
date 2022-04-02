@@ -510,6 +510,12 @@ class LibraryPrepPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permissio
         context['page_title'] = 'Library Prep'
         return context
 
+    # Sending user object to the form, to verify which fields to display
+    def get_form_kwargs(self):
+        kwargs = super(LibraryPrepPopupCreateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
@@ -535,6 +541,12 @@ class LibraryPrepPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, Permissio
         context['segment'] = 'update_libraryprep'
         context['page_title'] = 'Library Prep'
         return context
+
+    # Sending user object to the form, to verify which fields to display
+    def get_form_kwargs(self):
+        kwargs = super(LibraryPrepPopupUpdateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
     def handle_no_permission(self):
         if self.raise_exception:
