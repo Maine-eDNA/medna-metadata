@@ -21,7 +21,7 @@ try:
     from allauth.socialaccount.models import SocialAccount
     from allauth.socialaccount.providers.base import AuthProcess
 except ImportError:
-    raise ImportError("allauth needs to be added to INSTALLED_APPS.")
+    raise ImportError('allauth needs to be added to INSTALLED_APPS.')
 
 
 # django rest_framework
@@ -88,7 +88,7 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
         if allauth_settings.UNIQUE_EMAIL:
             if email and email_address_exists(email):
                 raise serializers.ValidationError(
-                    _("A user is already registered with this e-mail address."))
+                    _('A user is already registered with this e-mail address.'))
         return email
 
     def validate_password1(self, password):
@@ -96,7 +96,7 @@ class CustomAutoPasswordRegisterSerializer(RegisterSerializer):
 
     def validate(self, data):
         if self.password1 != self.password2:
-            raise serializers.ValidationError(_("The two password fields didn't match."))
+            raise serializers.ValidationError(_('The two password fields did not match.'))
         return data
 
     def custom_signup(self, request, user):
@@ -131,7 +131,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         if allauth_settings.UNIQUE_EMAIL:
             if email and email_address_exists(email):
                 raise serializers.ValidationError(
-                    _("A user is already registered with this e-mail address."))
+                    _('A user is already registered with this e-mail address.'))
         return email
 
     def validate_password1(self, password):
@@ -139,7 +139,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     def validate(self, data):
         if data['password1'] != data['password2']:
-            raise serializers.ValidationError(_("The two password fields didn't match."))
+            raise serializers.ValidationError(_('The two password fields did not match.'))
         return data
 
     def custom_signup(self, request, user):

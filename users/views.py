@@ -26,10 +26,10 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
     template_name = 'home/django-material-dashboard/profile-detail.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "detail_dashboardprofile"
-        context["page_title"] = "User Profile"
+        context['segment'] = 'detail_dashboardprofile'
+        context['page_title'] = 'User Profile'
         return context
 
     def get_object(self):
@@ -44,10 +44,10 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'home/django-material-dashboard/profile-update.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_dashboardprofile"
-        context["page_title"] = "User Profile"
+        context['segment'] = 'update_dashboardprofile'
+        context['page_title'] = 'User Profile'
         return context
 
     def get_object(self):
@@ -67,7 +67,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['email', 'agol_username', 'is_staff', 'is_active', 'expiration_date']
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = user_filters.CustomUserSerializerFilter
-    swagger_tags = ["user"]
+    swagger_tags = ['user']
 
 
 # class GoogleLogin(SocialLoginView):
