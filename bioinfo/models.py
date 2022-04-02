@@ -125,8 +125,6 @@ class FeatureRead(DateTimeUserMixin):
     read_slug = models.SlugField('Read Slug', max_length=255)
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.extraction = self.feature.denoise_cluster_metadata.quality_metadata.run_result.run_prep.pooled_library.library_prep.extraction
         self.read_slug = '{id}_{num_reads}'.format(id=slugify(self.feature), num_reads=slugify(self.number_reads))
         super(FeatureRead, self).save(*args, **kwargs)
 
@@ -534,7 +532,7 @@ class TaxonomicAnnotation(DateTimeUserMixin):
     manual_genus = models.ForeignKey(TaxonGenus, blank=True, null=True, on_delete=models.RESTRICT, related_name='manual_genus')
     manual_species = models.ForeignKey(TaxonSpecies, blank=True, null=True, on_delete=models.RESTRICT, related_name='manual_species')
     manual_notes = models.TextField('Manual Annotation Notes', blank=True)
-    annotation_slug = models.SlugField('Annotation Slug', max_length=255)
+    annotation_slug = models.SlugField("Annotation Slug", max_length=255)
 
     def save(self, *args, **kwargs):
         self.annotation_slug = '{taxon}_{feature}'.format(taxon=slugify(self.ta_taxon),

@@ -19,7 +19,7 @@ import bioinfo.filters as bioinfo_filters
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  \
     TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
-from .forms import FeatureOutputForm, FeatureReadCreateForm, FeatureReadUpdateForm, QualityMetadataForm, \
+from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
     DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable
@@ -397,7 +397,7 @@ class FeatureReadCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = ('bioinfo.add_featureread', )
     model = FeatureRead
-    form_class = FeatureReadCreateForm
+    form_class = FeatureReadForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add.html'
 
@@ -424,7 +424,7 @@ class FeatureReadCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
 
 class FeatureReadUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = FeatureRead
-    form_class = FeatureReadUpdateForm
+    form_class = FeatureReadForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update.html'
