@@ -1,11 +1,7 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
+# Copyright (c) 2019 - present AppSeed.us
 from django.urls import path, re_path, reverse_lazy
 from django.views.i18n import JavaScriptCatalog
-# from django.contrib.auth.decorators import login_required
 from frontend.home import views
 from django.urls import path, register_converter
 from utility import converters

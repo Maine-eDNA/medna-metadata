@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
+# Copyright (c) 2019 - present AppSeed.us
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -27,7 +25,7 @@ class IndexTemplateView(TemplateView):
         return context
 
 
-@login_required(redirect_field_name='next', login_url="/login/")
+@login_required(redirect_field_name='next', login_url='/login/')
 def main_pages(request):
     context = {}
     # All resource paths end in .html.
@@ -53,7 +51,7 @@ def main_pages(request):
         return HttpResponse(html_template.render(context, request))
 
 
-@login_required(redirect_field_name='next', login_url="/dashboard/login/")
+@login_required(redirect_field_name='next', login_url='/dashboard/login/')
 def dashboard_index(request):
     return_metadata_table, return_metadata_count = freezer_inventory_return_metadata_table(request)
     contactus_list, replied_count = contact_us_list(request)
@@ -67,7 +65,7 @@ def dashboard_index(request):
     return HttpResponse(html_template.render(context, request))
 
 
-@login_required(redirect_field_name='next', login_url="/dashboard/login/")
+@login_required(redirect_field_name='next', login_url='/dashboard/login/')
 def dashboard_pages(request):
     context = {}
     # All resource paths end in .html.
