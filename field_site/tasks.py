@@ -21,7 +21,7 @@ def update_biome_first(instance_pk, new_biome):
         instance = EnvoBiomeFirst.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         biome_obj = EnvoBiomeSecond.objects.filter(biome_first_tier=instance.pk).first()
@@ -52,7 +52,7 @@ def update_biome_second(instance_pk, new_biome):
         instance = EnvoBiomeSecond.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         biome_obj = EnvoBiomeThird.objects.filter(biome_second_tier=instance.pk).first()
@@ -79,7 +79,7 @@ def update_biome_third(instance_pk, new_biome):
         instance = EnvoBiomeThird.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         biome_obj = EnvoBiomeFourth.objects.filter(biome_third_tier=instance.pk).first()
@@ -102,7 +102,7 @@ def update_biome_fourth(instance_pk, new_biome):
         instance = EnvoBiomeFourth.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         biome_obj = EnvoBiomeFifth.objects.filter(biome_fourth_tier=instance.pk).first()
         if biome_obj:
@@ -120,7 +120,7 @@ def update_feature_first(instance_pk, new_feature):
         instance = EnvoFeatureFirst.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         feature_obj = EnvoFeatureSecond.objects.filter(feature_first_tier=instance.pk).first()
@@ -159,7 +159,7 @@ def update_feature_second(instance_pk, new_feature):
         instance = EnvoFeatureSecond.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         feature_obj = EnvoFeatureThird.objects.filter(feature_second_tier=instance.pk).first()
@@ -194,7 +194,7 @@ def update_feature_third(instance_pk, new_feature):
         instance = EnvoFeatureThird.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         feature_obj = EnvoFeatureFourth.objects.filter(feature_third_tier=instance.pk).first()
@@ -225,7 +225,7 @@ def update_feature_fourth(instance_pk, new_feature):
         instance = EnvoFeatureFourth.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         feature_obj = EnvoFeatureFifth.objects.filter(feature_fourth_tier=instance.pk).first()
@@ -252,7 +252,7 @@ def update_feature_fifth(instance_pk, new_feature):
         instance = EnvoFeatureFifth.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding models
         feature_obj = EnvoFeatureSixth.objects.filter(feature_fifth_tier=instance.pk).first()
@@ -275,7 +275,7 @@ def update_feature_sixth(instance_pk, new_feature):
         instance = EnvoFeatureSixth.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         feature_obj = EnvoFeatureSeventh.objects.filter(feature_sixth_tier=instance.pk).first()
         if feature_obj:

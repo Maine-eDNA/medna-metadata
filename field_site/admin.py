@@ -40,7 +40,7 @@ class EnvoBiomeFirstAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeFirstAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -81,7 +81,7 @@ class EnvoBiomeSecondAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeSecondAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -120,7 +120,7 @@ class EnvoBiomeThirdAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeThirdAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -161,7 +161,7 @@ class EnvoBiomeFourthAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeFourthAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -204,7 +204,7 @@ class EnvoBiomeFifthAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoBiomeFifthAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -239,7 +239,7 @@ class EnvoFeatureFirstAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureFirstAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -276,7 +276,7 @@ class EnvoFeatureSecondAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureSecondAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -315,7 +315,7 @@ class EnvoFeatureThirdAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureThirdAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -356,7 +356,7 @@ class EnvoFeatureFourthAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureFourthAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -399,7 +399,7 @@ class EnvoFeatureFifthAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureFifthAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -442,7 +442,7 @@ class EnvoFeatureSixthAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureSixthAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -488,7 +488,7 @@ class EnvoFeatureSeventhAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(EnvoFeatureSeventhAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -522,7 +522,7 @@ class SystemAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SystemAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -557,7 +557,7 @@ class GeoWatershedAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GeoWatershedAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -581,7 +581,7 @@ class GeoWorldBorderAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GeoWorldBorderAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -651,7 +651,7 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GeoFieldSiteAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
