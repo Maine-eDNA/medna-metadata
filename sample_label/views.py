@@ -27,7 +27,7 @@ from utility.views import export_context
 # FRONTEND VIEWS                       #
 ########################################
 class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
-    """View SampleBarcode filter view with REST serializers and django-tables2"""
+    # View SampleBarcode filter view with REST serializers and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
@@ -45,11 +45,11 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     export_formats = ['csv', 'xlsx']
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_samplelabelrequest"
-        context["page_title"] = "Sample Label Request"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_samplelabelrequest'
+        context['page_title'] = 'Sample Label Request'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -60,7 +60,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
 
 
 class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    """View sample label detail"""
+    # View sample label detail
     model = SampleLabelRequest
     fields = ['sample_label_prefix', 'req_sample_label_num',
               'min_sample_label_id', 'max_sample_label_id', 'site_id',
@@ -72,10 +72,10 @@ class SampleLabelRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, 
     permission_required = ('sample_label.view_samplelabelrequest', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "detail_samplelabelrequest"
-        context["page_title"] = "Sample Label Request"
+        context['segment'] = 'detail_samplelabelrequest'
+        context['page_title'] = 'Sample Label Request'
         return context
 
     def handle_no_permission(self):
@@ -93,10 +93,10 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
     permission_required = ('sample_label.update_samplelabelrequest', 'sample_label.view_samplelabelrequest', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_samplelabelrequest"
-        context["page_title"] = "Sample Label Request"
+        context['segment'] = 'update_samplelabelrequest'
+        context['page_title'] = 'Sample Label Request'
         return context
 
     def handle_no_permission(self):
@@ -107,20 +107,20 @@ class SampleLabelRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_success_url(self):
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
-        return reverse('detail_samplelabelrequest', kwargs={"pk": self.object.pk})
+        return reverse('detail_samplelabelrequest', kwargs={'pk': self.object.pk})
 
 
 class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     # this view is only for adding a button in SampleLabelDetailView to download the single record...
-    """View sample label detail"""
+    # View sample label detail
     model = SampleLabelRequest
     context_object_name = 'samplelabelrequest'
     permission_required = ('sample_label.add_samplelabelrequest', 'sample_label.view_samplelabelrequest')
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["page_title"] = "Sample Label Request"
+        context['page_title'] = 'Sample Label Request'
         return context
 
     def handle_no_permission(self):
@@ -145,21 +145,21 @@ class SampleLabelRequestExportDetailView(LoginRequiredMixin, PermissionRequiredM
         if samplelabelrequest_reqnum < 2:
             year_added = samplelabelrequest.sample_label_prefix[-3:]
             sequence = samplelabelrequest.min_sample_label_id[-4:]
-            label_cap = samplelabelrequest.site_id.site_id + "\n" + year_added + "\n" + sequence
+            label_cap = samplelabelrequest.site_id.site_id + '\n' + year_added + '\n' + sequence
             writer.writerow([samplelabelrequest_id, samplelabelrequest.min_sample_label_id, samplelabelrequest.min_sample_label_id, label_cap, createdby_email, samplelabelrequest_created_datetime])
         else:
             sequence = samplelabelrequest.min_sample_label_id[-4:]
             for label_seq in range(samplelabelrequest_reqnum):
                 year_added = samplelabelrequest.sample_label_prefix[-3:]
-                sample_label = samplelabelrequest.sample_label_prefix + "_" + sequence
-                label_cap = samplelabelrequest.site_id.site_id + "\n" + year_added + "\n" + sequence
+                sample_label = samplelabelrequest.sample_label_prefix + '_' + sequence
+                label_cap = samplelabelrequest.site_id.site_id + '\n' + year_added + '\n' + sequence
                 writer.writerow([samplelabelrequest_id, sample_label, sample_label, label_cap, createdby_email, samplelabelrequest_created_datetime])
                 sequence = str(int(sequence) + 1).zfill(4)
         return response
 
 
 class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    """View sample label create view"""
+    # View sample label create view
     # https://stackoverflow.com/questions/26797979/django-createview-using-primary-key
     # https://stackoverflow.com/questions/59698948/how-to-load-an-instance-in-class-based-views-using-form-valid/60273100#60273100
     # https://stackoverflow.com/questions/49463178/django-pre-filling-data-in-form-from-url
@@ -176,10 +176,10 @@ class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
     template_name = 'home/django-material-dashboard/model-add-samplelabelrequest.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_samplelabelrequest"
-        context["page_title"] = "Sample Label Request"
+        context['segment'] = 'add_samplelabelrequest'
+        context['page_title'] = 'Sample Label Request'
         return context
 
     def form_valid(self, form):
@@ -188,15 +188,15 @@ class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
         return super().form_valid(form)
 
     def get_initial(self):
-        return{"site_id": self.kwargs.get("site_id"),
-               "sample_material": self.kwargs.get("sample_material"),
-               "sample_type": self.kwargs.get("sample_type"),
-               "purpose": self.kwargs.get("purpose"), }
+        return{'site_id': self.kwargs.get('site_id'),
+               'sample_material': self.kwargs.get('sample_material'),
+               'sample_type': self.kwargs.get('sample_type'),
+               'purpose': self.kwargs.get('purpose'), }
 
     def get_success_url(self):
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
-        return reverse('detail_samplelabelrequest', kwargs={"pk": self.object.pk})
+        return reverse('detail_samplelabelrequest', kwargs={'pk': self.object.pk})
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -212,7 +212,7 @@ class SampleTypeViewSet(viewsets.ModelViewSet):
     queryset = SampleType.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = samplelabel_filters.SampleTypeSerializerFilter
-    swagger_tags = ["sample labels"]
+    swagger_tags = ['sample labels']
 
 
 class SampleMaterialViewSet(viewsets.ModelViewSet):
@@ -220,7 +220,7 @@ class SampleMaterialViewSet(viewsets.ModelViewSet):
     queryset = SampleMaterial.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = samplelabel_filters.SampleMaterialSerializerFilter
-    swagger_tags = ["sample labels"]
+    swagger_tags = ['sample labels']
 
 
 class SampleLabelRequestViewSet(viewsets.ModelViewSet):
@@ -228,7 +228,7 @@ class SampleLabelRequestViewSet(viewsets.ModelViewSet):
     queryset = SampleLabelRequest.objects.prefetch_related('created_by', 'site_id', 'sample_type', 'sample_material')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = samplelabel_filters.SampleLabelRequestSerializerFilter
-    swagger_tags = ["sample labels"]
+    swagger_tags = ['sample labels']
 
 
 class SampleBarcodeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -236,4 +236,4 @@ class SampleBarcodeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SampleBarcode.objects.prefetch_related('created_by', 'site_id', 'sample_material', 'sample_label_request', 'sample_type')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = samplelabel_filters.SampleBarcodeSerializerFilter
-    swagger_tags = ["sample labels"]
+    swagger_tags = ['sample labels']

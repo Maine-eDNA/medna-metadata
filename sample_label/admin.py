@@ -31,7 +31,7 @@ class SampleTypeAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleTypeAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -66,7 +66,7 @@ class SampleMaterialAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleMaterialAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -106,7 +106,7 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleLabelRequestAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -149,7 +149,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SampleBarcodeAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:

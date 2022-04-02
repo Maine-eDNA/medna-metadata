@@ -21,22 +21,22 @@ def year_choices():
 
 def get_unassigned_sample_type():
     return SampleType.objects.get_or_create(sample_type_code='un',
-                                            defaults={'sample_type_label': "Unassigned"})[0]
+                                            defaults={'sample_type_label': 'Unassigned'})[0]
 
 
 def get_field_sample_sample_type():
     return SampleType.objects.get_or_create(sample_type_code='fs',
-                                            defaults={'sample_type_label': "Field Sample"})[0]
+                                            defaults={'sample_type_label': 'Field Sample'})[0]
 
 
 def get_extraction_sample_type():
     return SampleType.objects.get_or_create(sample_type_code='ex',
-                                            defaults={'sample_type_label': "Extraction"})[0]
+                                            defaults={'sample_type_label': 'Extraction'})[0]
 
 
 def get_pooled_library_sample_type():
     return SampleType.objects.get_or_create(sample_type_code='pl',
-                                            defaults={'sample_type_label': "Pooled Library"})[0]
+                                            defaults={'sample_type_label': 'Pooled Library'})[0]
 
 
 def update_barcode_sample_type(old_barcode, sample_barcode, sample_type):
@@ -60,8 +60,8 @@ class SampleType(DateTimeUserMixin):
     # fs: Field Sample
     # ex: Extraction
     # pl: Pooled Library
-    sample_type_code = models.CharField("Sample Type Code", max_length=2, unique=True)
-    sample_type_label = models.CharField("Sample Type Label", max_length=255)
+    sample_type_code = models.CharField('Sample Type Code', max_length=2, unique=True)
+    sample_type_label = models.CharField('Sample Type Label', max_length=255)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_type_code, label=self.sample_type_label)
@@ -75,8 +75,8 @@ class SampleType(DateTimeUserMixin):
 class SampleMaterial(DateTimeUserMixin):
     # w: Water
     # s: Sediment
-    sample_material_code = models.CharField("Sample Material Code", max_length=1, unique=True)
-    sample_material_label = models.CharField("Sample Material Label", max_length=255)
+    sample_material_code = models.CharField('Sample Material Code', max_length=1, unique=True)
+    sample_material_label = models.CharField('Sample Material Label', max_length=255)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.sample_material_code, label=self.sample_material_label)
@@ -93,15 +93,15 @@ class SampleLabelRequest(DateTimeUserMixin):
     site_id = models.ForeignKey('field_site.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
-    sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])
-    purpose = models.CharField("Sample Label Purpose", max_length=255)
-    sample_label_prefix = models.CharField("Sample Label Prefix", max_length=11)
-    req_sample_label_num = models.IntegerField("Number Requested", default=1)
+    sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(2018)])
+    purpose = models.CharField('Sample Label Purpose', max_length=255)
+    sample_label_prefix = models.CharField('Sample Label Prefix', max_length=11)
+    req_sample_label_num = models.IntegerField('Number Requested', default=1)
     min_sample_label_num = models.IntegerField(default=1)
     max_sample_label_num = models.IntegerField(default=1)
-    min_sample_label_id = models.CharField("Min Sample Label ID", max_length=16)
-    max_sample_label_id = models.CharField("Max Sample Label ID", max_length=16)
-    sample_label_request_slug = models.SlugField("Sample Label Request Slug", max_length=255)
+    min_sample_label_id = models.CharField('Min Sample Label ID', max_length=16)
+    max_sample_label_id = models.CharField('Max Sample Label ID', max_length=16)
+    sample_label_request_slug = models.SlugField('Sample Label Request Slug', max_length=255)
 
     def __str__(self):
         return self.sample_label_request_slug
@@ -110,7 +110,7 @@ class SampleLabelRequest(DateTimeUserMixin):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
             last_twosigits_year = str(self.sample_year)[-2:]
-            # concatenate project, watershed, and system to create sample_label_prefix, e.g., "eAL_L"
+            # concatenate project, watershed, and system to create sample_label_prefix, e.g., 'eAL_L'
             self.sample_label_prefix = '{site}_{twosigits_year}{sample_material}'.format(site=self.site_id.site_id,
                                                                                          twosigits_year=last_twosigits_year,
                                                                                          sample_material=self.sample_material.sample_material_code)
@@ -131,7 +131,7 @@ class SampleLabelRequest(DateTimeUserMixin):
             # add leading zeros to site_num, e.g., 1 to 01
             min_num_leading_zeros = str(self.min_sample_label_num).zfill(4)
             max_num_leading_zeros = str(self.max_sample_label_num).zfill(4)
-            # format site_id, e.g., "eAL_L01"
+            # format site_id, e.g., 'eAL_L01'
             self.min_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
                                                                         sitenum=min_num_leading_zeros)
             self.max_sample_label_id = '{labelprefix}_{sitenum}'.format(labelprefix=self.sample_label_prefix,
@@ -154,17 +154,17 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleBarcode(DateTimeUserMixin):
-    sample_barcode_id = models.CharField("Sample Barcode ID", primary_key=True, max_length=16)
+    sample_barcode_id = models.CharField('Sample Barcode ID', primary_key=True, max_length=16)
     sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
-    barcode_slug = models.CharField("Sample Barcode Slug", max_length=16)
-    in_freezer = models.CharField("In Freezer", max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    barcode_slug = models.CharField('Sample Barcode Slug', max_length=16)
+    in_freezer = models.CharField('In Freezer', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     site_id = models.ForeignKey('field_site.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
-    sample_year = models.PositiveIntegerField("Sample Year", default=current_year, validators=[MinValueValidator(2018)])
-    purpose = models.CharField("Sample Barcode Purpose", max_length=255)
+    sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(2018)])
+    purpose = models.CharField('Sample Barcode Purpose', max_length=255)
 
     def __str__(self):
         return self.sample_barcode_id
@@ -204,7 +204,7 @@ class SampleBarcode(DateTimeUserMixin):
 #             # add leading zeros to site_num, e.g., 1 to 01
 #             num_leading_zeros = str(num).zfill(4)
 #
-#             # format site_id, e.g., "eAL_L01"
+#             # format site_id, e.g., 'eAL_L01'
 #             sample_barcode_id = '{labelprefix}_{sitenum}'.format(labelprefix=sample_label_prefix,
 #                                                                sitenum=num_leading_zeros)
 #             # enter each new label into SampleBarcode - request only has a single row with the requested

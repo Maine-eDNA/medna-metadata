@@ -34,7 +34,7 @@ class UserSampleLabelRequestFilter(filters.FilterSet):
 
     @property
     def qs(self):
-        """Return the user's submitted sites."""
+        # Return the user's submitted sites
         parent = super().qs
         user = getattr(self.request, 'user', None)
         return parent.filter(added_by=user)

@@ -12,7 +12,7 @@ try:
     from tablib import Dataset
 except ImportError:  # pragma: no cover
     raise ImproperlyConfigured(
-        "You must have tablib installed in order to use the django-tables2 export functionality"
+        'You must have tablib installed in order to use the django-tables2 export functionality'
     )
 
 
@@ -119,7 +119,7 @@ class SampleLabelRequestSerializerTableExport(TableExport):
             )
         self.format = export_format
         if serializer is None:
-            raise TypeError("Serializer should be provided for table {}".format(table))
+            raise TypeError('Serializer should be provided for table {}'.format(table))
         self.dataset = Dataset()
         serializer_data = serializer([x for x in table.data], many=True).data
         if len(serializer_data) > 0:
@@ -136,15 +136,15 @@ class SampleLabelRequestSerializerTableExport(TableExport):
                 if samplelabel_reqnum < 2:
                     year_added = samplelabel_prefix[-3:]
                     sequence = row['min_sample_label_id'][-4:]
-                    label_cap = samplelabel_siteid + "\n" + year_added + "\n" + sequence
+                    label_cap = samplelabel_siteid + '\n' + year_added + '\n' + sequence
                     self.dataset.append((samplelabel_id, row['min_sample_label_id'], row['min_sample_label_id'],
                                          label_cap, created_email, samplelabel_created_datetime))
                 else:
                     sequence = row['min_sample_label_id'][-4:]
                     for label_seq in range(samplelabel_reqnum):
                         year_added = samplelabel_prefix[-3:]
-                        sample_label = samplelabel_prefix + "_" + sequence
-                        label_cap = samplelabel_siteid + "\n" + year_added + "\n" + sequence
+                        sample_label = samplelabel_prefix + '_' + sequence
+                        label_cap = samplelabel_siteid + '\n' + year_added + '\n' + sequence
                         self.dataset.append((samplelabel_id, sample_label, sample_label, label_cap, created_email,
                                              samplelabel_created_datetime))
                         # row.values()

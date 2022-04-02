@@ -10,19 +10,17 @@ class BaseModelResource(resources.ModelResource):
     save_points = []
 
     def before_save_instance(self, instance, using_transactions, dry_run):
-        """
-        Override to add additional logic. Does nothing by default.
-        Saving intermediate savepoints of txn
-        """
+        # Override to add additional logic. Does nothing by default.
+        # Saving intermediate savepoints of txn
+
         if using_transactions and dry_run:
             con = transaction.get_connection()
             self.save_points.extend(con.savepoint_ids)
 
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
-        """
-        Override to add additional logic. Does nothing by default.
-        Manually removing commit hooks for intermediate savepoints of atomic transaction
-        """
+        # Override to add additional logic. Does nothing by default.
+        # Manually removing commit hooks for intermediate savepoints of atomic transaction
+
         if using_transactions and dry_run:
             con = transaction.get_connection()
             for sid in self.save_points:

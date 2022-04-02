@@ -18,7 +18,7 @@ def sample_label_request_post_save_task(instance_pk):
         instance = SampleLabelRequest.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         if instance.min_sample_label_id == instance.max_sample_label_id:
             # only one label request, so min and max label id will be the same; only need to enter
@@ -43,7 +43,7 @@ def sample_label_request_post_save_task(instance_pk):
                 # add leading zeros to site_num, e.g., 1 to 01
                 num_leading_zeros = str(num).zfill(4)
 
-                # format site_id, e.g., "eAL_L01"
+                # format site_id, e.g., 'eAL_L01'
                 sample_barcode_id = '{labelprefix}_{sitenum}'.format(labelprefix=instance.sample_label_prefix,
                                                                      sitenum=num_leading_zeros)
                 # enter each new label into SampleBarcode - request only has a single row with the requested
