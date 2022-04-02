@@ -55,6 +55,7 @@ class FieldSurveySerializer(GeoFeatureModelSerializer):
     gps_cap_vertacc = serializers.DecimalField(read_only=True, max_digits=22, decimal_places=16, allow_null=True)
     record_create_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
     record_edit_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    geom = serializers.CharField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -70,7 +71,7 @@ class FieldSurveySerializer(GeoFeatureModelSerializer):
                   'core_subcorer', 'water_filterer',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt',
-                  'gps_cap_horacc', 'gps_cap_vertacc', 'lat', 'lon', 'srid',
+                  'gps_cap_horacc', 'gps_cap_vertacc', 'lat', 'lon', 'srid', 'geom',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since grant, system, watershed, and created_by reference different tables and we
