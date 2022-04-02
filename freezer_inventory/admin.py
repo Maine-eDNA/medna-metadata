@@ -1,7 +1,6 @@
 from django.contrib.gis import admin
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, \
     FreezerInventoryLog, FreezerInventoryReturnMetadata
-# from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ReturnActionAdminResource, FreezerAdminResource, FreezerRackAdminResource, \
     FreezerBoxAdminResource, FreezerInventoryAdminResource, FreezerInventoryLogAdminResource, \
@@ -29,7 +28,7 @@ class ReturnActionAdmin(ImportExportActionModelAdmin):
         self.fields = ['action_label', 'created_by', 'modified_datetime', 'created_datetime']
         return super(ReturnActionAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -68,7 +67,7 @@ class FreezerAdmin(ImportExportActionModelAdmin):
                        'created_by', 'modified_datetime', 'created_datetime', ]
         return super(FreezerAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -109,7 +108,7 @@ class FreezerRackAdmin(ImportExportActionModelAdmin):
                        'created_by', 'modified_datetime', 'created_datetime', ]
         return super(FreezerRackAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -146,7 +145,7 @@ class FreezerBoxAdmin(ImportExportActionModelAdmin):
                        'created_by', 'modified_datetime', 'created_datetime', ]
         return super(FreezerBoxAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -184,7 +183,7 @@ class FreezerInventoryAdmin(ImportExportActionModelAdmin):
                        'created_by', 'modified_datetime', 'created_datetime', ]
         return super(FreezerInventoryAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -219,7 +218,7 @@ class FreezerInventoryLogAdmin(ImportExportActionModelAdmin):
                        'created_by', 'modified_datetime', 'created_datetime']
         return super(FreezerInventoryLogAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -264,7 +263,7 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
         # self.inlines = (ReturnActionInline, )
         return super(FreezerInventoryReturnMetadataAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:

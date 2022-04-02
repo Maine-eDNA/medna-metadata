@@ -1,15 +1,12 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
-# from django.db.models import Q
 from sample_label.models import SampleBarcode
-# from field_survey.models import FieldSample
-# from wet_lab.models import Extraction
 from utility.models import DateTimeUserMixin, slug_date_format
 from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, InvLocStatus, InvTypes, CheckoutActions, YesNo
 from django.utils import timezone
 import re
 
-BARCODE_PATTERN = "[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]"
+BARCODE_PATTERN = '[a-z][a-z][a-z]_[a-z][0-9][0-9]_[0-9][0-9][a-z]_[0-9][0-9][0-9][0-9]'
 
 
 def update_freezer_inv_status(inv_pk, freezer_log_action):
@@ -24,7 +21,7 @@ def update_freezer_inv_status(inv_pk, freezer_log_action):
             # Removed, so change inventory status to Permanently Removed
             FreezerInventory.objects.filter(pk=inv_pk).update(freezer_inventory_status=InvStatus.REMOVED)
     except Exception as err:
-        raise RuntimeError("** Error: update_freezer_inv_status Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_freezer_inv_status Failed (' + str(err) + ')')
 
 
 def update_barcode_in_freezer_status(old_barcode, new_barcode_pk):
@@ -45,13 +42,13 @@ def update_barcode_in_freezer_status(old_barcode, new_barcode_pk):
             # if it is a new barcode, update the is_extracted status to YES
             SampleBarcode.objects.filter(pk=new_barcode_pk).update(in_freezer=YesNo.YES)
     except Exception as err:
-        raise RuntimeError("** Error: update_barcode_in_freezer_status Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_barcode_in_freezer_status Failed (' + str(err) + ')')
 
 
 # Create your models here.
 class ReturnAction(DateTimeUserMixin):
-    action_code = models.CharField("Action Code", unique=True, max_length=255)
-    action_label = models.CharField("Action Label", max_length=255)
+    action_code = models.CharField('Action Code', unique=True, max_length=255)
+    action_label = models.CharField('Action Label', max_length=255)
 
     def save(self, *args, **kwargs):
         self.action_code = '{code}'.format(code=slugify(self.action_code))
@@ -68,20 +65,20 @@ class ReturnAction(DateTimeUserMixin):
 
 class Freezer(DateTimeUserMixin):
     # freezer_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_label = models.CharField("Freezer Label", unique=True, max_length=255)
-    freezer_label_slug = models.SlugField("Freezer Label Slug", max_length=255)
-    freezer_room_name = models.CharField("Freezer Room Name", max_length=255)
-    freezer_depth = models.DecimalField("Freezer Depth", max_digits=15, decimal_places=10)
-    freezer_length = models.DecimalField("Freezer Length", max_digits=15, decimal_places=10)
-    freezer_width = models.DecimalField("Freezer Width", max_digits=15, decimal_places=10)
-    freezer_dimension_units = models.CharField("Freezer Dimensions Units", max_length=50, choices=MeasureUnits.choices)
+    freezer_label = models.CharField('Freezer Label', unique=True, max_length=255)
+    freezer_label_slug = models.SlugField('Freezer Label Slug', max_length=255)
+    freezer_room_name = models.CharField('Freezer Room Name', max_length=255)
+    freezer_depth = models.DecimalField('Freezer Depth', max_digits=15, decimal_places=10)
+    freezer_length = models.DecimalField('Freezer Length', max_digits=15, decimal_places=10)
+    freezer_width = models.DecimalField('Freezer Width', max_digits=15, decimal_places=10)
+    freezer_dimension_units = models.CharField('Freezer Dimensions Units', max_length=50, choices=MeasureUnits.choices)
     # maximum number of columns, rows, and depth based on the number of boxes that can fit in each freezer
     # (e.g., if 10x10x10, then the freezer can fit 1000 boxes)
-    freezer_capacity_columns = models.PositiveIntegerField("Freezer Column Capacity (Boxes)")
-    freezer_capacity_rows = models.PositiveIntegerField("Freezer Row Capacity (Boxes)")
-    freezer_capacity_depth = models.PositiveIntegerField("Freezer Depth Capacity (Boxes)")
-    freezer_rated_temp = models.IntegerField("Rated Freezer Temperature")
-    freezer_rated_temp_units = models.CharField("Rated Freezer Temperature Units", max_length=50, choices=TempUnits.choices)
+    freezer_capacity_columns = models.PositiveIntegerField('Freezer Column Capacity (Boxes)')
+    freezer_capacity_rows = models.PositiveIntegerField('Freezer Row Capacity (Boxes)')
+    freezer_capacity_depth = models.PositiveIntegerField('Freezer Depth Capacity (Boxes)')
+    freezer_rated_temp = models.IntegerField('Rated Freezer Temperature')
+    freezer_rated_temp_units = models.CharField('Rated Freezer Temperature Units', max_length=50, choices=TempUnits.choices)
 
     def save(self, *args, **kwargs):
         self.freezer_label_slug = '{name}'.format(name=slugify(self.freezer_label))
@@ -100,17 +97,17 @@ class Freezer(DateTimeUserMixin):
 
 
 class FreezerRack(DateTimeUserMixin):
-    freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT, related_name="freezer")
+    freezer = models.ForeignKey(Freezer, on_delete=models.RESTRICT, related_name='freezer')
     # freezer_rack_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_rack_label = models.CharField("Freezer Rack Label", unique=True, max_length=255)
-    freezer_rack_label_slug = models.SlugField("Freezer Rack Label Slug", max_length=255)
+    freezer_rack_label = models.CharField('Freezer Rack Label', unique=True, max_length=255)
+    freezer_rack_label_slug = models.SlugField('Freezer Rack Label Slug', max_length=255)
     # location of rack in freezer
-    freezer_rack_column_start = models.PositiveIntegerField("Freezer Rack Column Start")
-    freezer_rack_column_end = models.PositiveIntegerField("Freezer Rack Column End")
-    freezer_rack_row_start = models.PositiveIntegerField("Freezer Rack Row Start")
-    freezer_rack_row_end = models.PositiveIntegerField("Freezer Rack Row End")
-    freezer_rack_depth_start = models.PositiveIntegerField("Freezer Rack Depth Start")
-    freezer_rack_depth_end = models.PositiveIntegerField("Freezer Rack Depth End")
+    freezer_rack_column_start = models.PositiveIntegerField('Freezer Rack Column Start')
+    freezer_rack_column_end = models.PositiveIntegerField('Freezer Rack Column End')
+    freezer_rack_row_start = models.PositiveIntegerField('Freezer Rack Row Start')
+    freezer_rack_row_end = models.PositiveIntegerField('Freezer Rack Row End')
+    freezer_rack_depth_start = models.PositiveIntegerField('Freezer Rack Depth Start')
+    freezer_rack_depth_end = models.PositiveIntegerField('Freezer Rack Depth End')
 
     def save(self, *args, **kwargs):
         self.freezer_rack_label_slug = '{label}_{name}'.format(label=self.freezer.freezer_label_slug, name=slugify(self.freezer_rack_label))
@@ -139,18 +136,18 @@ class FreezerRack(DateTimeUserMixin):
 
 
 class FreezerBox(DateTimeUserMixin):
-    freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT, related_name="freezer_rack")
+    freezer_rack = models.ForeignKey(FreezerRack, on_delete=models.RESTRICT, related_name='freezer_rack')
     # freezer_box_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_box_label = models.CharField("Freezer Box Label", unique=True, max_length=255)
-    freezer_box_label_slug = models.SlugField("Freezer Box Label Slug", max_length=255)
+    freezer_box_label = models.CharField('Freezer Box Label', unique=True, max_length=255)
+    freezer_box_label_slug = models.SlugField('Freezer Box Label Slug', max_length=255)
     # location of box in freezer rack
-    freezer_box_column = models.PositiveIntegerField("Freezer Box Column")
-    freezer_box_row = models.PositiveIntegerField("Freezer Box Row")
-    freezer_box_depth = models.PositiveIntegerField("Freezer Box Depth")
+    freezer_box_column = models.PositiveIntegerField('Freezer Box Column')
+    freezer_box_row = models.PositiveIntegerField('Freezer Box Row')
+    freezer_box_depth = models.PositiveIntegerField('Freezer Box Depth')
     # maximum number of columns and rows based on the number of inventory that can fit in each box
     # (e.g., if we have 10x10, then the box can fit 100 inventory samples)
-    freezer_box_capacity_column = models.PositiveIntegerField("Box Column Capacity (Inventory)")
-    freezer_box_capacity_row = models.PositiveIntegerField("Box Row Capacity (Inventory)")
+    freezer_box_capacity_column = models.PositiveIntegerField('Box Column Capacity (Inventory)')
+    freezer_box_capacity_row = models.PositiveIntegerField('Box Row Capacity (Inventory)')
 
     def save(self, *args, **kwargs):
         self.freezer_box_label_slug = '{label}_{name}'.format(label=self.freezer_rack.freezer_rack_label_slug, name=slugify(self.freezer_box_label))
@@ -173,15 +170,15 @@ class FreezerBox(DateTimeUserMixin):
 
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
-    freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT, related_name="freezer_box")
+    freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT, related_name='freezer_box')
     sample_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT, limit_choices_to={'in_freezer': YesNo.NO})
-    freezer_inventory_slug = models.SlugField("Freezer Inventory Slug", unique=True, max_length=27)
-    freezer_inventory_type = models.CharField("Freezer Inventory Type", max_length=50, choices=InvTypes.choices)
-    freezer_inventory_status = models.CharField("Freezer Inventory Status", max_length=50, choices=InvStatus.choices, default=InvStatus.IN)
-    freezer_inventory_loc_status = models.CharField("Freezer Inventory Location Status", max_length=50, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
+    freezer_inventory_slug = models.SlugField('Freezer Inventory Slug', unique=True, max_length=27)
+    freezer_inventory_type = models.CharField('Freezer Inventory Type', max_length=50, choices=InvTypes.choices)
+    freezer_inventory_status = models.CharField('Freezer Inventory Status', max_length=50, choices=InvStatus.choices, default=InvStatus.IN)
+    freezer_inventory_loc_status = models.CharField('Freezer Inventory Location Status', max_length=50, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
     # location of inventory in freezer box
-    freezer_inventory_column = models.PositiveIntegerField("Freezer Box Column")
-    freezer_inventory_row = models.PositiveIntegerField("Freezer Box Row")
+    freezer_inventory_column = models.PositiveIntegerField('Freezer Box Column')
+    freezer_inventory_row = models.PositiveIntegerField('Freezer Box Row')
 
     def save(self, *args, **kwargs):
         old_barcode = None
@@ -197,7 +194,7 @@ class FreezerInventory(DateTimeUserMixin):
         # only create slug on INSERT, not UPDATE
         if self.pk is None:
             # concatenate inventory_type and barcode on insert,
-            # e.g., "extraction-epr_l01_21w_0001"
+            # e.g., 'extraction-epr_l01_21w_0001'
             self.freezer_inventory_slug = '{type}-{barcode}'.format(type=slugify(self.get_freezer_inventory_type_display()),
                                                                     barcode=slugify(self.sample_barcode.sample_barcode_id))
             # if field_sample is being added to freezer_inventory,
@@ -208,7 +205,7 @@ class FreezerInventory(DateTimeUserMixin):
             old_barcode = re.search(BARCODE_PATTERN, self.freezer_inventory_slug).group(0)
             if old_barcode != self.sample_barcode.barcode_slug:
                 # if old_barcode is not the same as the new_barcode, then must concatenate inventory_type with the
-                # new barcode, e.g., "extraction-epr_l01_21w_0001"
+                # new barcode, e.g., 'extraction-epr_l01_21w_0001'
                 self.freezer_inventory_slug = '{type}-{barcode}'.format(
                     type=slugify(self.get_freezer_inventory_type_display()),
                     barcode=slugify(self.sample_barcode.sample_barcode_id))
@@ -237,11 +234,11 @@ class FreezerInventoryLog(DateTimeUserMixin):
     # https://stackoverflow.com/questions/30181079/django-limit-choices-to-for-multiple-fields-with-or-condition
     # limit logs to freezer inventory that is either checked in or checked out - freezer_inventory_loc_status = filled means that the location
     # is occupied with a sample that may be checked in or out, but is 'present' in the inventory system
-    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, related_name="freezer_inventory_logs", limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
-    freezer_log_slug = models.SlugField("Inventory Log Slug", max_length=255)
-    # freezer_user satisfied by "created_by" from DateTimeUserMixin
-    freezer_log_action = models.CharField("Inventory Log Action", max_length=50, choices=CheckoutActions.choices)
-    freezer_log_notes = models.TextField("Inventory Log Notes", blank=True)
+    freezer_inventory = models.ForeignKey(FreezerInventory, on_delete=models.RESTRICT, related_name='freezer_inventory_logs', limit_choices_to={'freezer_inventory_loc_status': InvLocStatus.FILLED})
+    freezer_log_slug = models.SlugField('Inventory Log Slug', max_length=255)
+    # freezer_user satisfied by 'created_by' from DateTimeUserMixin
+    freezer_log_action = models.CharField('Inventory Log Action', max_length=50, choices=CheckoutActions.choices)
+    freezer_log_notes = models.TextField('Inventory Log Notes', blank=True)
 
     def save(self, *args, **kwargs):
         update_freezer_inv_status(self.freezer_inventory.pk, self.freezer_log_action)
@@ -268,12 +265,12 @@ class FreezerInventoryLog(DateTimeUserMixin):
 
 class FreezerInventoryReturnMetadata(DateTimeUserMixin):
     freezer_log = models.OneToOneField(FreezerInventoryLog, on_delete=models.RESTRICT, related_name='freezer_return_metadata', primary_key=True, limit_choices_to={'freezer_log_action': CheckoutActions.RETURN})
-    freezer_return_slug = models.SlugField("Return Slug", max_length=255)
-    freezer_return_metadata_entered = models.CharField("Metadata Entered", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name="Return Action(s)", related_name="freezer_return_actions", blank=True)
-    freezer_return_vol_taken = models.DecimalField("Volume Taken", max_digits=15, decimal_places=10, blank=True, null=True)
-    freezer_return_vol_units = models.CharField("Volume Units", max_length=50, choices=VolUnits.choices, blank=True)
-    freezer_return_notes = models.TextField("Return Notes", blank=True)
+    freezer_return_slug = models.SlugField('Return Slug', max_length=255)
+    freezer_return_metadata_entered = models.CharField('Metadata Entered', max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    freezer_return_actions = models.ManyToManyField(ReturnAction, verbose_name='Return Action(s)', related_name='freezer_return_actions', blank=True)
+    freezer_return_vol_taken = models.DecimalField('Volume Taken', max_digits=15, decimal_places=10, blank=True, null=True)
+    freezer_return_vol_units = models.CharField('Volume Units', max_length=50, choices=VolUnits.choices, blank=True)
+    freezer_return_notes = models.TextField('Return Notes', blank=True)
 
     def save(self, *args, **kwargs):
         self.freezer_return_slug = '{slug}'.format(slug=self.freezer_log.freezer_log_slug)

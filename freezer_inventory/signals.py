@@ -7,16 +7,16 @@ from django.dispatch import receiver
 from django.db import transaction
 
 
-@receiver(post_save, sender=Freezer, dispatch_uid="update_freezer")
+@receiver(post_save, sender=Freezer, dispatch_uid='update_freezer')
 def update_freezer_post_save(sender, instance, **kwargs):
     transaction.on_commit(update_freezer.s(instance.pk).delay)
 
 
-@receiver(post_save, sender=FreezerRack, dispatch_uid="update_freezer_rack")
+@receiver(post_save, sender=FreezerRack, dispatch_uid='update_freezer_rack')
 def update_freezer_rack_post_save(sender, instance, **kwargs):
     transaction.on_commit(update_freezer_rack.s(instance.pk).delay)
 
 
-@receiver(post_save, sender=FreezerInventoryLog, dispatch_uid="update_record_return_metadata")
+@receiver(post_save, sender=FreezerInventoryLog, dispatch_uid='update_record_return_metadata')
 def update_record_return_metadata_post_save(sender, instance, **kwargs):
     transaction.on_commit(update_record_return_metadata.s(instance.pk).delay)

@@ -6,9 +6,6 @@ from utility.enumerations import TempUnits, MeasureUnits, VolUnits, InvStatus, I
 from utility.serializers import EagerLoadingMixin
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from sample_label.models import SampleBarcode
-# from field_survey.models import FieldSample
-# from wet_lab.models import Extraction
-
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
 
@@ -160,8 +157,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     freezer_box = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_box_label_slug', queryset=FreezerBox.objects.all())
-    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug',
-                                                  queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
+    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO))
 
 
 class FreezerInventoryLogSerializer(serializers.ModelSerializer):
@@ -181,8 +177,7 @@ class FreezerInventoryLogSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_inventory_slug',
-                                                     queryset=FreezerInventory.objects.filter(freezer_inventory_loc_status=InvLocStatus.FILLED))
+    freezer_inventory = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_inventory_slug', queryset=FreezerInventory.objects.filter(freezer_inventory_loc_status=InvLocStatus.FILLED))
 
 
 class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
@@ -201,10 +196,8 @@ class FreezerInventoryReturnMetadataSerializer(serializers.ModelSerializer):
                   'freezer_return_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # foreign key fields
-    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug',
-                                               queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
-    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code',
-                                                          queryset=ReturnAction.objects.all())
+    freezer_log = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_log_slug', queryset=FreezerInventoryLog.objects.filter(freezer_log_action=CheckoutActions.RETURN))
+    freezer_return_actions = serializers.SlugRelatedField(many=True, read_only=False, slug_field='action_code', queryset=ReturnAction.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 

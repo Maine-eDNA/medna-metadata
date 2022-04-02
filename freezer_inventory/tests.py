@@ -8,17 +8,17 @@ from sample_label.models import SampleBarcode
 
 class ReturnActionTestCase(TestCase):
     def setUp(self):
-        ReturnAction.objects.get_or_create(action_code="test_code", defaults={'action_label': "test_label"})
+        ReturnAction.objects.get_or_create(action_code='test_code', defaults={'action_label': 'test_label'})
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = ReturnAction.objects.filter(action_code="test_code")[:1].get()
+        test_exists = ReturnAction.objects.filter(action_code='test_code')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class FreezerTestCase(TestCase):
     def setUp(self):
-        Freezer.objects.get_or_create(freezer_label="test_label",
+        Freezer.objects.get_or_create(freezer_label='test_label',
                                       defaults={
                                           'freezer_room_name': 'test_room',
                                           'freezer_depth': 1,
@@ -33,7 +33,7 @@ class FreezerTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = Freezer.objects.filter(freezer_label="test_label")[:1].get()
+        test_exists = Freezer.objects.filter(freezer_label='test_label')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -42,7 +42,7 @@ class FreezerRackTestCase(TestCase):
         freezer_test = FreezerTestCase()
         freezer_test.setUp()
         freezer = Freezer.objects.filter()[:1].get()
-        FreezerRack.objects.get_or_create(freezer_rack_label="test_label",
+        FreezerRack.objects.get_or_create(freezer_rack_label='test_label',
                                           defaults={
                                               'freezer': freezer,
                                               'freezer_rack_column_start': 1,
@@ -54,7 +54,7 @@ class FreezerRackTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FreezerRack.objects.filter(freezer_rack_label="test_label")[:1].get()
+        test_exists = FreezerRack.objects.filter(freezer_rack_label='test_label')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -63,7 +63,7 @@ class FreezerBoxTestCase(TestCase):
         freezer_rack_test = FreezerRackTestCase()
         freezer_rack_test.setUp()
         freezer_rack = FreezerRack.objects.filter()[:1].get()
-        FreezerBox.objects.get_or_create(freezer_box_label="test_label",
+        FreezerBox.objects.get_or_create(freezer_box_label='test_label',
                                          defaults={
                                              'freezer_rack': freezer_rack,
                                              'freezer_box_column': 1,
@@ -74,7 +74,7 @@ class FreezerBoxTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FreezerBox.objects.filter(freezer_box_label="test_label")[:1].get()
+        test_exists = FreezerBox.objects.filter(freezer_box_label='test_label')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -109,7 +109,7 @@ class FreezerInventoryLogTestCase(TestCase):
         FreezerInventoryLog.objects.get_or_create(defaults={
                                                   'freezer_inventory': freezer_inventory,
                                                   'freezer_log_action': CheckoutActions.RETURN,
-                                                  'freezer_log_notes': "checking out return test"})
+                                                  'freezer_log_notes': 'checking out return test'})
 
     def test_was_added_recently(self):
         # test if date is added correctly

@@ -1,10 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.http import HttpRequest
-from django.middleware.csrf import get_token
 from django import forms
-from allauth.account.views import PasswordResetView
-# from crispy_forms.helper import FormHelper
-# from crispy_forms.layout import Layout, Submit, Row, Column, Field, Div
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from utility.enumerations import YesNo, VolUnits, InvTypes, InvStatus
 from sample_label.models import SampleBarcode

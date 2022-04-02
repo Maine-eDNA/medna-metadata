@@ -1,6 +1,4 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
-# from medna_metadata.celery import app
-# from celery import Task
 from celery import shared_task
 from .models import Freezer, FreezerBox, FreezerRack, FreezerInventoryLog, FreezerInventoryReturnMetadata
 from utility.enumerations import YesNo, CheckoutActions
@@ -20,7 +18,7 @@ def update_freezer(instance_pk):
         instance = Freezer.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding model slug labels
         rack_queryset = FreezerRack.objects.filter(freezer=instance.pk)
@@ -42,7 +40,7 @@ def update_freezer_rack(instance_pk):
         instance = FreezerRack.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         # cascade update all proceeding model slug labels
         box_queryset = FreezerBox.objects.filter(freezer_rack=instance.pk)
@@ -58,7 +56,7 @@ def update_record_return_metadata(instance_pk):
         instance = FreezerInventoryLog.objects.get(pk=instance_pk)
     except ObjectDoesNotExist:
         # Abort
-        logger.warning("Saved object was deleted before this task get a chance to be executed [id = %d]" % instance_pk)
+        logger.warning('Saved object was deleted before this task get a chance to be executed [id = %d]' % instance_pk)
     else:
         if instance.freezer_log_action == CheckoutActions.RETURN:
             return_metadata, created = FreezerInventoryReturnMetadata.objects.update_or_create(
@@ -68,4 +66,4 @@ def update_record_return_metadata(instance_pk):
                     'created_by': instance.created_by,
                 }
             )
-            logger.info("Object created [response = %d]" % created)
+            logger.info('Object created [response = %d]' % created)
