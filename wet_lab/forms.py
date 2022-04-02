@@ -250,12 +250,7 @@ class PcrForm(forms.ModelForm):
     )
     extraction = forms.ModelChoiceField(
         required=True,
-        queryset=Extraction.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=Extraction.objects.all().order_by('-created_datetime'),
     )
     primer_set = forms.ModelChoiceField(
         required=True,
@@ -349,12 +344,8 @@ class PcrForm(forms.ModelForm):
         # filter form options by currently logged in user
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['pcr_replicate'].widget = (
-            AddAnotherWidgetWrapper(
-                CustomSelect2Multiple(attrs={'class': 'form-control', }),
-                reverse_lazy('add_pcrreplicate')
-            )
-        )
+        self.fields['pcr_replicate'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pcrreplicate')))
+        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
@@ -382,12 +373,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     extraction = forms.ModelChoiceField(
         required=True,
-        queryset=Extraction.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=Extraction.objects.all().order_by('-created_datetime')
     )
     amplification_method = forms.ModelChoiceField(
         required=True,
@@ -562,12 +548,8 @@ class LibraryPrepForm(forms.ModelForm):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['index_pair'].widget = (
-            AddAnotherWidgetWrapper(
-                CustomSelect2(attrs={'class': 'form-control', }),
-                reverse_lazy('add_indexpair')
-            )
-        )
+        self.fields['index_pair'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_indexpair')))
+        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
 
 
@@ -604,12 +586,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     library_prep = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=LibraryPrep.objects.all(),
-        widget=CustomSelect2Multiple(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=LibraryPrep.objects.all().order_by('-created_datetime'),
     )
     quantification_method = forms.ModelChoiceField(
         required=True,
@@ -672,6 +649,10 @@ class PooledLibraryForm(forms.ModelForm):
                   'pooled_lib_volume', 'pooled_lib_volume_units',
                   'pooled_lib_notes', ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['library_prep'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_libraryprep')))
+
 
 class RunPrepForm(forms.ModelForm):
     run_prep_label = forms.CharField(
@@ -698,11 +679,6 @@ class RunPrepForm(forms.ModelForm):
     pooled_library = forms.ModelMultipleChoiceField(
         required=True,
         queryset=PooledLibrary.objects.all().order_by('-created_datetime'),
-        widget=CustomSelect2Multiple(
-            attrs={
-                'class': 'form-control',
-            }
-        )
     )
     quantification_method = forms.ModelChoiceField(
         required=True,
@@ -764,6 +740,10 @@ class RunPrepForm(forms.ModelForm):
                   'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
                   'run_prep_notes', ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['pooled_library'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pooledlibrary')))
+
 
 class RunResultForm(forms.ModelForm):
     run_experiment_name = forms.CharField(
@@ -798,12 +778,7 @@ class RunResultForm(forms.ModelForm):
     )
     run_prep = forms.ModelChoiceField(
         required=True,
-        queryset=RunPrep.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=RunPrep.objects.all().order_by('-created_datetime'),
     )
     run_completion_datetime = forms.SplitDateTimeField(
         required=True,
@@ -823,6 +798,10 @@ class RunResultForm(forms.ModelForm):
         model = RunResult
         fields = ['run_experiment_name', 'run_id', 'run_date', 'process_location', 'run_prep',
                   'run_completion_datetime', 'run_instrument', ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['run_prep'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_runprep')))
 
 
 class FastqFileForm(forms.ModelForm):
