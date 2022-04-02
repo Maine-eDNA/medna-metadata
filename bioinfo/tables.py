@@ -6,16 +6,16 @@ from django_tables2.utils import A
 
 
 class QualityMetadataTable(tables.Table):
-    edit = tables.LinkColumn("update_qualitymetadata", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn('update_qualitymetadata', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
 
     class Meta:
@@ -30,16 +30,16 @@ class QualityMetadataTable(tables.Table):
 
 
 class DenoiseClusterMetadataTable(tables.Table):
-    edit = tables.LinkColumn("update_denoiseclustermetadata", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn('update_denoiseclustermetadata', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
 
     class Meta:
@@ -52,16 +52,16 @@ class DenoiseClusterMetadataTable(tables.Table):
 
 
 class FeatureOutputTable(tables.Table):
-    edit = tables.LinkColumn("update_featureoutput", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn('update_featureoutput', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
 
     class Meta:
@@ -72,16 +72,16 @@ class FeatureOutputTable(tables.Table):
 
 
 class FeatureReadTable(tables.Table):
-    edit = tables.LinkColumn("update_featureread", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn('update_featureread', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
 
     class Meta:
@@ -91,16 +91,16 @@ class FeatureReadTable(tables.Table):
 
 
 class AnnotationMetadataTable(tables.Table):
-    edit = tables.LinkColumn("update_annotationmetadata", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
 
     class Meta:
@@ -112,16 +112,16 @@ class AnnotationMetadataTable(tables.Table):
 
 
 class TaxonomicAnnotationTable(tables.Table):
-    edit = tables.LinkColumn("update_annotationmetadata", text='Update', args=[A("pk")], orderable=False)
+    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
-    created_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
-    modified_datetime = tables.DateTimeColumn(format="M d, Y h:i a")
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    _selected_action = tables.CheckBoxColumn(accessor="pk",
-                                             attrs={"td": {"class": "action-checkbox"},
-                                                    "input": {"class": "action-select"},
-                                                    "th__input": {"id": "action-toggle"},
-                                                    "th": {"class": "action-checkbox-column"}},
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
 
     class Meta:

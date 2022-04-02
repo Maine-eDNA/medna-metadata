@@ -51,7 +51,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(QualityMetadataAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -91,7 +91,7 @@ class DenoiseClusterMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoiseClusterMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -137,7 +137,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoiseClusterMetadataAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -176,7 +176,7 @@ class FeatureOutputAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FeatureOutputAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -213,7 +213,7 @@ class FeatureReadAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FeatureReadAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -252,7 +252,7 @@ class ReferenceDatabaseAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ReferenceDatabaseAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -289,7 +289,7 @@ class TaxonDomainAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonDomainAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -327,7 +327,7 @@ class TaxonKingdomAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonKingdomAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -367,7 +367,7 @@ class TaxonSupergroupAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonSupergroupAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -407,7 +407,7 @@ class TaxonPhylumDivisionAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonPhylumDivisionAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -450,7 +450,7 @@ class TaxonClassAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonClassAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -495,7 +495,7 @@ class TaxonOrderAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonOrderAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -541,7 +541,7 @@ class TaxonFamilyAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonFamilyAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -588,7 +588,7 @@ class TaxonGenusAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonGenusAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -639,7 +639,7 @@ class TaxonSpeciesAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonSpeciesAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -677,7 +677,7 @@ class AnnotationMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AnnotationMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -718,7 +718,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AnnotationMetadataAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -776,7 +776,7 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(TaxonomicAnnotationAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:

@@ -98,7 +98,7 @@ def load_taxon_species(request):
 ########################################
 class QualityMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = QualityMetadata
     table_class = QualityMetadataTable
@@ -117,11 +117,11 @@ class QualityMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, Ser
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_qualitymetadata"
-        context["page_title"] = "Quality Metadata"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_qualitymetadata'
+        context['page_title'] = 'Quality Metadata'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -140,10 +140,10 @@ class QualityMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upd
     permission_required = ('bioinfo.update_qualitymetadata', 'bioinfo.view_qualitymetadata', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_qualitymetadata"
-        context["page_title"] = "Quality Metadata"
+        context['segment'] = 'update_qualitymetadata'
+        context['page_title'] = 'Quality Metadata'
         return context
 
     def handle_no_permission(self):
@@ -167,10 +167,10 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_qualitymetadata"
-        context["page_title"] = "Quality Metadata"
+        context['segment'] = 'add_qualitymetadata'
+        context['page_title'] = 'Quality Metadata'
         return context
 
     def form_valid(self, form):
@@ -189,7 +189,7 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     
 class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = DenoiseClusterMetadata
     table_class = DenoiseClusterMetadataTable
@@ -206,11 +206,11 @@ class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMix
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_denoisecustermetadata"
-        context["page_title"] = "Denoise Cluster Metadata"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_denoisecustermetadata'
+        context['page_title'] = 'Denoise Cluster Metadata'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -229,10 +229,10 @@ class DenoiseClusterMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMix
     permission_required = ('bioinfo.update_denoiseclustermetadata', 'bioinfo.view_denoiseclustermetadata', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_denoiseclustermetadata"
-        context["page_title"] = "Denoise Cluster Metadata"
+        context['segment'] = 'update_denoiseclustermetadata'
+        context['page_title'] = 'Denoise Cluster Metadata'
         return context
 
     def handle_no_permission(self):
@@ -256,10 +256,10 @@ class DenoiseClusterMetadataCreateView(LoginRequiredMixin, PermissionRequiredMix
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_denoiseclustermetadata"
-        context["page_title"] = "Denoise Cluster Metadata"
+        context['segment'] = 'add_denoiseclustermetadata'
+        context['page_title'] = 'Denoise Cluster Metadata'
         return context
 
     def form_valid(self, form):
@@ -278,7 +278,7 @@ class DenoiseClusterMetadataCreateView(LoginRequiredMixin, PermissionRequiredMix
     
 class FeatureOutputFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FeatureOutput
     table_class = FeatureOutputTable
@@ -292,11 +292,11 @@ class FeatureOutputFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_featureoutput"
-        context["page_title"] = "Feature Output"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_featureoutput'
+        context['page_title'] = 'Feature Output'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -315,10 +315,10 @@ class FeatureOutputUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
     permission_required = ('bioinfo.update_featureoutput', 'bioinfo.view_featureoutput', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_featureoutput"
-        context["page_title"] = "Feature Output"
+        context['segment'] = 'update_featureoutput'
+        context['page_title'] = 'Feature Output'
         return context
 
     def handle_no_permission(self):
@@ -342,10 +342,10 @@ class FeatureOutputCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_featureoutput"
-        context["page_title"] = "Feature Output"
+        context['segment'] = 'add_featureoutput'
+        context['page_title'] = 'Feature Output'
         return context
 
     def form_valid(self, form):
@@ -364,7 +364,7 @@ class FeatureOutputCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
    
 class FeatureReadFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FeatureRead
     table_class = FeatureReadTable
@@ -378,11 +378,11 @@ class FeatureReadFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_featureread"
-        context["page_title"] = "Feature Read"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_featureread'
+        context['page_title'] = 'Feature Read'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -401,10 +401,10 @@ class FeatureReadUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
     permission_required = ('bioinfo.update_featureread', 'bioinfo.view_featureread', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_featureread"
-        context["page_title"] = "Feature Read"
+        context['segment'] = 'update_featureread'
+        context['page_title'] = 'Feature Read'
         return context
 
     def handle_no_permission(self):
@@ -428,10 +428,10 @@ class FeatureReadCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_featureread"
-        context["page_title"] = "Feature Read"
+        context['segment'] = 'add_featureread'
+        context['page_title'] = 'Feature Read'
         return context
 
     def form_valid(self, form):
@@ -450,7 +450,7 @@ class FeatureReadCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
 
 class AnnotationMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = AnnotationMetadata
     table_class = AnnotationMetadataTable
@@ -466,11 +466,11 @@ class AnnotationMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_annotationmetadata"
-        context["page_title"] = "Annotation Metadata"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_annotationmetadata'
+        context['page_title'] = 'Annotation Metadata'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -489,10 +489,10 @@ class AnnotationMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
     permission_required = ('bioinfo.update_annotationmetadata', 'bioinfo.view_annotationmetadata', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_annotationmetadata"
-        context["page_title"] = "Annotation Metadata"
+        context['segment'] = 'update_annotationmetadata'
+        context['page_title'] = 'Annotation Metadata'
         return context
 
     def handle_no_permission(self):
@@ -516,10 +516,10 @@ class AnnotationMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_annotationmetadata"
-        context["page_title"] = "Annotation Metadata"
+        context['segment'] = 'add_annotationmetadata'
+        context['page_title'] = 'Annotation Metadata'
         return context
 
     def form_valid(self, form):
@@ -538,7 +538,7 @@ class AnnotationMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
 
 class TaxonomicAnnotationFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = TaxonomicAnnotation
     table_class = TaxonomicAnnotationTable
@@ -562,11 +562,11 @@ class TaxonomicAnnotationFilterView(LoginRequiredMixin, PermissionRequiredMixin,
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_taxonomicannotation"
-        context["page_title"] = "Taxonomic Annotation"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_taxonomicannotation'
+        context['page_title'] = 'Taxonomic Annotation'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -585,10 +585,10 @@ class TaxonomicAnnotationUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
     permission_required = ('bioinfo.update_taxonomicannotation', 'bioinfo.view_taxonomicannotation', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_taxonomicannotation"
-        context["page_title"] = "Taxonomic Annotation"
+        context['segment'] = 'update_taxonomicannotation'
+        context['page_title'] = 'Taxonomic Annotation'
         return context
 
     def handle_no_permission(self):
@@ -612,10 +612,10 @@ class TaxonomicAnnotationCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     template_name = 'home/django-material-dashboard/model-add-taxonomicannotation.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_taxonomicannotation"
-        context["page_title"] = "Taxonomic Annotation"
+        context['segment'] = 'add_taxonomicannotation'
+        context['page_title'] = 'Taxonomic Annotation'
         return context
 
     def form_valid(self, form):
@@ -640,7 +640,7 @@ class QualityMetadataViewSet(viewsets.ModelViewSet):
     queryset = QualityMetadata.objects.prefetch_related('created_by', 'process_location', 'run_result', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.QualityMetadataSerializerFilter
-    swagger_tags = ["bioinformatics denoclust"]
+    swagger_tags = ['bioinformatics denoclust']
 
 
 class DenoiseClusterMethodViewSet(viewsets.ModelViewSet):
@@ -648,7 +648,7 @@ class DenoiseClusterMethodViewSet(viewsets.ModelViewSet):
     queryset = DenoiseClusterMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.DenoiseClusterMethodSerializerFilter
-    swagger_tags = ["bioinformatics denoclust"]
+    swagger_tags = ['bioinformatics denoclust']
 
 
 class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
@@ -656,7 +656,7 @@ class DenoiseClusterMetadataViewSet(viewsets.ModelViewSet):
     queryset = DenoiseClusterMetadata.objects.prefetch_related('created_by', 'process_location', 'quality_metadata', 'denoise_cluster_method')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.DenoiseClusterMetadataSerializerFilter
-    swagger_tags = ["bioinformatics denoclust"]
+    swagger_tags = ['bioinformatics denoclust']
 
 
 class FeatureOutputViewSet(viewsets.ModelViewSet):
@@ -664,7 +664,7 @@ class FeatureOutputViewSet(viewsets.ModelViewSet):
     queryset = FeatureOutput.objects.prefetch_related('created_by', 'denoise_cluster_metadata')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.FeatureOutputSerializerFilter
-    swagger_tags = ["bioinformatics denoclust"]
+    swagger_tags = ['bioinformatics denoclust']
 
 
 class FeatureReadViewSet(viewsets.ModelViewSet):
@@ -672,7 +672,7 @@ class FeatureReadViewSet(viewsets.ModelViewSet):
     queryset = FeatureRead.objects.prefetch_related('created_by', 'extraction', 'feature')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.FeatureReadSerializerFilter
-    swagger_tags = ["bioinformatics denoclust"]
+    swagger_tags = ['bioinformatics denoclust']
 
 
 class ReferenceDatabaseViewSet(viewsets.ModelViewSet):
@@ -681,7 +681,7 @@ class ReferenceDatabaseViewSet(viewsets.ModelViewSet):
     queryset = ReferenceDatabase.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.ReferenceDatabaseSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonDomainViewSet(viewsets.ModelViewSet):
@@ -689,7 +689,7 @@ class TaxonDomainViewSet(viewsets.ModelViewSet):
     queryset = TaxonDomain.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonDomainSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonKingdomViewSet(viewsets.ModelViewSet):
@@ -697,7 +697,7 @@ class TaxonKingdomViewSet(viewsets.ModelViewSet):
     queryset = TaxonKingdom.objects.prefetch_related('created_by', 'taxon_domain')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonKingdomSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonSupergroupViewSet(viewsets.ModelViewSet):
@@ -705,7 +705,7 @@ class TaxonSupergroupViewSet(viewsets.ModelViewSet):
     queryset = TaxonSupergroup.objects.prefetch_related('created_by', 'taxon_kingdom')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonSupergroupSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonPhylumDivisionViewSet(viewsets.ModelViewSet):
@@ -713,7 +713,7 @@ class TaxonPhylumDivisionViewSet(viewsets.ModelViewSet):
     queryset = TaxonPhylumDivision.objects.prefetch_related('created_by', 'taxon_supergroup')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonPhylumDivisionSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonClassViewSet(viewsets.ModelViewSet):
@@ -721,7 +721,7 @@ class TaxonClassViewSet(viewsets.ModelViewSet):
     queryset = TaxonClass.objects.prefetch_related('created_by', 'taxon_phylum_division')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonClassSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonOrderViewSet(viewsets.ModelViewSet):
@@ -729,7 +729,7 @@ class TaxonOrderViewSet(viewsets.ModelViewSet):
     queryset = TaxonOrder.objects.prefetch_related('created_by', 'taxon_class')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonOrderSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonFamilyViewSet(viewsets.ModelViewSet):
@@ -737,7 +737,7 @@ class TaxonFamilyViewSet(viewsets.ModelViewSet):
     queryset = TaxonFamily.objects.prefetch_related('created_by', 'taxon_order')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonFamilySerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonGenusViewSet(viewsets.ModelViewSet):
@@ -745,7 +745,7 @@ class TaxonGenusViewSet(viewsets.ModelViewSet):
     queryset = TaxonGenus.objects.prefetch_related('created_by', 'taxon_family')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonGenusSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonSpeciesViewSet(viewsets.ModelViewSet):
@@ -753,7 +753,7 @@ class TaxonSpeciesViewSet(viewsets.ModelViewSet):
     queryset = TaxonSpecies.objects.prefetch_related('created_by', 'taxon_genus')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonSpeciesSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class AnnotationMethodViewSet(viewsets.ModelViewSet):
@@ -761,7 +761,7 @@ class AnnotationMethodViewSet(viewsets.ModelViewSet):
     queryset = AnnotationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.AnnotationMethodSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class AnnotationMetadataViewSet(viewsets.ModelViewSet):
@@ -769,7 +769,7 @@ class AnnotationMetadataViewSet(viewsets.ModelViewSet):
     queryset = AnnotationMetadata.objects.prefetch_related('created_by', 'process_location', 'denoise_cluster_metadata', 'annotation_method')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.AnnotationMetadataSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 
 class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
@@ -781,6 +781,6 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
                                                             'manual_family', 'manual_genus', 'manual_species')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonomicAnnotationSerializerFilter
-    swagger_tags = ["bioinformatics taxonomy"]
+    swagger_tags = ['bioinformatics taxonomy']
 
 # TODO - create MixS queryset
