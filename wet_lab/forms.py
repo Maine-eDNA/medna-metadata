@@ -572,6 +572,7 @@ class PooledLibraryForm(forms.ModelForm):
         required=True,
         widget=CustomAdminSplitDateTime()
     )
+    # Only show options where fk does not exist
     pooled_lib_barcode = forms.ModelChoiceField(
         required=True,
         queryset=SampleBarcode.objects.filter(~Exists(PooledLibrary.objects.filter(pooled_lib_barcode=OuterRef('pk')))),

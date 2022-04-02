@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import Exists, OuterRef
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from utility.enumerations import YesNo, VolUnits, InvTypes, InvStatus
 from sample_label.models import SampleBarcode
@@ -7,8 +8,10 @@ from .models import FreezerInventoryReturnMetadata, ReturnAction, FreezerInvento
 
 class FreezerInventoryForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+    # https://stackoverflow.com/questions/14831327/in-a-django-queryset-how-to-filter-for-not-exists-in-a-many-to-one-relationsh
+    # Only show options where fk does not exist
     sample_barcode = forms.ModelChoiceField(
-        queryset=SampleBarcode.objects.filter(in_freezer=YesNo.NO),
+        queryset=SampleBarcode.objects.filter(~Exists(FreezerInventory.objects.filter(sample_barcode=OuterRef('pk')))),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
