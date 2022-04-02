@@ -67,7 +67,7 @@ class GrantSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     grant_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Grant.objects.all())])
     grant_label = serializers.CharField(max_length=255)
-    grant_description = serializers.CharField()
+    grant_description = serializers.CharField(read_only=False)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -143,12 +143,12 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
 class ContactUsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     contact_slug = serializers.SlugField(read_only=True, max_length=255)
-    full_name = serializers.CharField(max_length=255)
-    contact_email = serializers.EmailField()
-    contact_context = serializers.CharField(max_length=255)
-    replied = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
-    replied_context = serializers.CharField(max_length=255)
-    replied_datetime = serializers.DateTimeField(allow_null=True)
+    full_name = serializers.CharField(read_only=False, max_length=255)
+    contact_email = serializers.EmailField(read_only=False)
+    contact_context = serializers.CharField(read_only=False)
+    replied = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
+    replied_context = serializers.CharField(read_only=False)
+    replied_datetime = serializers.DateTimeField(read_only=False, allow_null=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
