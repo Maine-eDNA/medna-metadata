@@ -13,11 +13,19 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 ########################################
 # FRONTEND FILTERS                     #
 ########################################
+def get_quality_metadata_choices(model=QualityMetadata, field='analysis_label'):
+    # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
+    choices = []
+    for k in model.objects.values_list(field).distinct():
+        choices.append((k[0], k[0]))
+    return choices
+
+
 class QualityMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
-    analysis_label = filters.ChoiceFilter(choices=get_choices(QualityMetadata, 'analysis_label'), widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_quality_metadata_choices, widget=CustomSelect2)
 
     class Meta:
         model = QualityMetadata

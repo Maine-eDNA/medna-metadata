@@ -6,7 +6,6 @@ from .models import ContactUs, ProcessLocation, Publication, Project, Grant, Def
 ########################################
 # UTILITY DEFS                         #
 ########################################
-@staticmethod
 def get_choices(model, field):
     # https://stackoverflow.com/questions/55123710/django-filters-modelchoicefilter-distinct-values-from-field
     choices = []
