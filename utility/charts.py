@@ -69,10 +69,10 @@ def fill_month_zeros(labels, data, colname):
     return df2
 
 
-def return_zeros_lists(labels, data, colname="data"):
+def return_zeros_lists(labels, data, colname='data'):
     df = fill_month_zeros(labels, data, colname)
     df['label'] = df.index
-    labels = df["label"].astype(str).tolist()
+    labels = df['label'].astype(str).tolist()
     data = df[colname].tolist()
     return labels, data
 
@@ -81,9 +81,9 @@ def return_merged_zeros_lists(labels_array, data_array):
     import pandas as pd
     dfs = []
     if len(labels_array) != len(data_array):
-        raise Exception("Length of labels array does not match data array")
+        raise Exception('Length of labels array does not match data array')
     for i in range(len(data_array)):
-        colname = "data_"+str(i)
+        colname = 'data_'+str(i)
         df = fill_month_zeros(labels_array[i], data_array[i], colname)
         dfs.append(df)
     # merge dfs into one df
@@ -99,7 +99,7 @@ def return_merged_zeros_lists(labels_array, data_array):
     # convert index to list
     # https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
     df_merge['label'] = df_merge.index
-    labels = df_merge["label"].astype(str).tolist()
+    labels = df_merge['label'].astype(str).tolist()
     # convert all data columns to list and append them to array
     data_array = []
     data_cols = [col for col in df_merge if col.startswith('data')]

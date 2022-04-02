@@ -42,8 +42,8 @@ def get_default_process_location():
 class DateTimeUserMixin(models.Model):
     # these are django fields for when the record was created and by whom
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET(get_sentinel_user), default=get_default_user)
-    modified_datetime = models.DateTimeField("Modified DateTime", auto_now_add=True)
-    created_datetime = models.DateTimeField("Created DateTime", auto_now=True)
+    modified_datetime = models.DateTimeField('Modified DateTime', auto_now_add=True)
+    created_datetime = models.DateTimeField('Created DateTime', auto_now=True)
 
     def was_added_recently(self):
         now = timezone.now()
@@ -58,16 +58,16 @@ class PeriodicTaskRun(models.Model):
     # instead of create each time a task is run, task is set to update:
     # last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
     # PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
-    task = models.CharField("Task Name", max_length=255)
+    task = models.CharField('Task Name', max_length=255)
     task_datetime = models.DateTimeField(auto_now_add=True)
 
 
 class Grant(DateTimeUserMixin):
     # e: Maine-eDNA
     # formerly Project in field_site.models
-    grant_code = models.CharField("Grant Code", unique=True, max_length=1)
-    grant_label = models.CharField("Grant Label", max_length=255)
-    grant_description = models.TextField("Grant Description", blank=True)
+    grant_code = models.CharField('Grant Code', unique=True, max_length=1)
+    grant_label = models.CharField('Grant Label', max_length=255)
+    grant_description = models.TextField('Grant Description', blank=True)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.grant_code, label=self.grant_label)
@@ -92,11 +92,11 @@ class Project(DateTimeUserMixin):
     #    prj_macroint = 'prj_macroint', _('Macrosystem Integration (T3)')
     #    prj_microbio = 'prj_microbio', _('Microbial biosensors (T3)')
     #    prj_commsci = 'prj_commsci', _('Community Science')
-    project_code = models.CharField("Project Code", unique=True, max_length=255)
-    project_label = models.CharField("Project Label", max_length=255)
-    project_description = models.TextField("Project Description", blank=True)
-    project_goals = models.TextField("Project Goals", blank=True)
-    grant_names = models.ManyToManyField(Grant, verbose_name="Affiliated Grant(s)", related_name="grant_names")
+    project_code = models.CharField('Project Code', unique=True, max_length=255)
+    project_label = models.CharField('Project Label', max_length=255)
+    project_description = models.TextField('Project Description', blank=True)
+    project_goals = models.TextField('Project Goals', blank=True)
+    grant_names = models.ManyToManyField(Grant, verbose_name='Affiliated Grant(s)', related_name='grant_names')
 
     def __str__(self):
         return self.project_label
@@ -108,11 +108,11 @@ class Project(DateTimeUserMixin):
 
 
 class Publication(DateTimeUserMixin):
-    publication_title = models.CharField("Publication Title", unique=True, max_length=255)
-    publication_url = models.URLField("Publication URL", max_length=255)
-    project_names = models.ManyToManyField(Project, verbose_name="Affiliated Project(s)", related_name="project_names")
-    publication_authors = models.ManyToManyField(get_user_model(), verbose_name="Affiliated Authors(s)", related_name="publication_authors")
-    publication_slug = models.SlugField("Publication Slug", max_length=255)
+    publication_title = models.CharField('Publication Title', unique=True, max_length=255)
+    publication_url = models.URLField('Publication URL', max_length=255)
+    project_names = models.ManyToManyField(Project, verbose_name='Affiliated Project(s)', related_name='project_names')
+    publication_authors = models.ManyToManyField(get_user_model(), verbose_name='Affiliated Authors(s)', related_name='publication_authors')
+    publication_slug = models.SlugField('Publication Slug', max_length=255)
 
     def save(self, *args, **kwargs):
         self.publication_slug = slugify(self.publication_title)
@@ -136,16 +136,16 @@ class ProcessLocation(DateTimeUserMixin):
     # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
     # TACC = 'TACC', _('Texas Advanced Computing Center (TACC)')
     # OSC = 'OSC', _('Ohio Supercomputer Center (OSC)')
-    process_location_name = models.CharField("Location Name", unique=True, max_length=255)
-    process_location_name_slug = models.SlugField("Location Name Slug", max_length=255)
-    affiliation = models.CharField("Affiliation", max_length=255)
-    process_location_url = models.URLField("Location URL", max_length=255)
-    phone_number = PhoneNumberField("Phone Number", blank=True, null=True)
+    process_location_name = models.CharField('Location Name', unique=True, max_length=255)
+    process_location_name_slug = models.SlugField('Location Name Slug', max_length=255)
+    affiliation = models.CharField('Affiliation', max_length=255)
+    process_location_url = models.URLField('Location URL', max_length=255)
+    phone_number = PhoneNumberField('Phone Number', blank=True, null=True)
     location_email_address = models.EmailField(_('Location Email Address'), blank=True)
     point_of_contact_email_address = models.EmailField(_('Point of Contact Email Address'), blank=True)
-    point_of_contact_first_name = models.CharField("Point of Contact First Name", blank=True, max_length=255)
-    point_of_contact_last_name = models.CharField("Point of Contact Last Name", blank=True, max_length=255)
-    location_notes = models.TextField("Notes", blank=True)
+    point_of_contact_first_name = models.CharField('Point of Contact First Name', blank=True, max_length=255)
+    point_of_contact_last_name = models.CharField('Point of Contact Last Name', blank=True, max_length=255)
+    location_notes = models.TextField('Notes', blank=True)
 
     def save(self, *args, **kwargs):
         self.process_location_name_slug = slugify(self.process_location_name)
@@ -161,13 +161,13 @@ class ProcessLocation(DateTimeUserMixin):
 
 
 class ContactUs(DateTimeUserMixin):
-    full_name = models.CharField("Full Name", max_length=255)
+    full_name = models.CharField('Full Name', max_length=255)
     contact_email = models.EmailField(_('Email Address'))
-    contact_context = models.TextField("Context")
-    contact_slug = models.SlugField("Contact Slug", max_length=255)
-    replied = models.CharField("Replied", max_length=3, choices=YesNo.choices, default=YesNo.NO)
-    replied_context = models.TextField("Replied Context", blank=True)
-    replied_datetime = models.DateTimeField("Replied DateTime", blank=True, null=True)
+    contact_context = models.TextField('Context')
+    contact_slug = models.SlugField('Contact Slug', max_length=255)
+    replied = models.CharField('Replied', max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    replied_context = models.TextField('Replied Context', blank=True)
+    replied_datetime = models.DateTimeField('Replied DateTime', blank=True, null=True)
 
     @property
     def created_season(self):
@@ -205,31 +205,31 @@ class ContactUs(DateTimeUserMixin):
 
 # FREEZER_INVENTORY mobile app CSS
 class DefaultSiteCss(DateTimeUserMixin):
-    default_css_label = models.CharField("Default CSS Label", unique=True, max_length=255)
+    default_css_label = models.CharField('Default CSS Label', unique=True, max_length=255)
     # selected CSS
-    css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
-    css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
+    css_selected_background_color = models.CharField('Selected BG CSS', max_length=255, default='green')
+    css_selected_text_color = models.CharField('Selected Text CSS', max_length=255, default='black')
     # freezer frontend CSS color
-    freezer_empty_css_background_color = models.CharField("Empty Freezer BG CSS", max_length=255, default="orange")
-    freezer_empty_css_text_color = models.CharField("Empty Freezer Text CSS", max_length=255, default="white")
-    freezer_inuse_css_background_color = models.CharField("InUse Freezer BG CSS", max_length=255, default="orange")
-    freezer_inuse_css_text_color = models.CharField("InUse Freezer Text CSS", max_length=255, default="white")
+    freezer_empty_css_background_color = models.CharField('Empty Freezer BG CSS', max_length=255, default='orange')
+    freezer_empty_css_text_color = models.CharField('Empty Freezer Text CSS', max_length=255, default='white')
+    freezer_inuse_css_background_color = models.CharField('InUse Freezer BG CSS', max_length=255, default='orange')
+    freezer_inuse_css_text_color = models.CharField('InUse Freezer Text CSS', max_length=255, default='white')
     # freezer rack frontend CSS color
-    freezer_empty_rack_css_background_color = models.CharField("Empty Freezer Rack BG CSS", max_length=255, default="orange")
-    freezer_empty_rack_css_text_color = models.CharField("Empty Freezer Rack Text CSS", max_length=255, default="white")
-    freezer_inuse_rack_css_background_color = models.CharField("InUse Freezer Rack BG CSS", max_length=255, default="orange")
-    freezer_inuse_rack_css_text_color = models.CharField("InUse Freezer Rack Text CSS", max_length=255, default="white")
+    freezer_empty_rack_css_background_color = models.CharField('Empty Freezer Rack BG CSS', max_length=255, default='orange')
+    freezer_empty_rack_css_text_color = models.CharField('Empty Freezer Rack Text CSS', max_length=255, default='white')
+    freezer_inuse_rack_css_background_color = models.CharField('InUse Freezer Rack BG CSS', max_length=255, default='orange')
+    freezer_inuse_rack_css_text_color = models.CharField('InUse Freezer Rack Text CSS', max_length=255, default='white')
     # freezer box frontend CSS color
-    freezer_empty_box_css_background_color = models.CharField("Empty Freezer Box BG CSS", max_length=255, default="orange")
-    freezer_empty_box_css_text_color = models.CharField("Empty Freezer Box Text CSS", max_length=255, default="white")
-    freezer_inuse_box_css_background_color = models.CharField("InUse Freezer Box BG CSS", max_length=255, default="orange")
-    freezer_inuse_box_css_text_color = models.CharField("InUse Freezer Box Text CSS", max_length=255, default="white")
+    freezer_empty_box_css_background_color = models.CharField('Empty Freezer Box BG CSS', max_length=255, default='orange')
+    freezer_empty_box_css_text_color = models.CharField('Empty Freezer Box Text CSS', max_length=255, default='white')
+    freezer_inuse_box_css_background_color = models.CharField('InUse Freezer Box BG CSS', max_length=255, default='orange')
+    freezer_inuse_box_css_text_color = models.CharField('InUse Freezer Box Text CSS', max_length=255, default='white')
     # freezer inventory frontend CSS color
-    freezer_empty_inventory_css_background_color = models.CharField("Empty Freezer Inv BG CSS", max_length=255, default="orange")
-    freezer_empty_inventory_css_text_color = models.CharField("Empty Freezer Inv Text CSS", max_length=255, default="white")
-    freezer_inuse_inventory_css_background_color = models.CharField("InUse Freezer Inv BG CSS", max_length=255, default="orange")
-    freezer_inuse_inventory_css_text_color = models.CharField("InUse Freezer Inv Text CSS", max_length=255, default="white")
-    default_css_slug = models.SlugField("Slug", max_length=255)
+    freezer_empty_inventory_css_background_color = models.CharField('Empty Freezer Inv BG CSS', max_length=255, default='orange')
+    freezer_empty_inventory_css_text_color = models.CharField('Empty Freezer Inv Text CSS', max_length=255, default='white')
+    freezer_inuse_inventory_css_background_color = models.CharField('InUse Freezer Inv BG CSS', max_length=255, default='orange')
+    freezer_inuse_inventory_css_text_color = models.CharField('InUse Freezer Inv Text CSS', max_length=255, default='white')
+    default_css_slug = models.SlugField('Slug', max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -249,31 +249,31 @@ class DefaultSiteCss(DateTimeUserMixin):
 
 
 class CustomUserCss(DateTimeUserMixin):
-    custom_css_label = models.CharField("Custom CSS Label", max_length=255)
+    custom_css_label = models.CharField('Custom CSS Label', max_length=255)
     # selected CSS
-    css_selected_background_color = models.CharField("Selected BG CSS", max_length=255, default="green")
-    css_selected_text_color = models.CharField("Selected Text CSS", max_length=255, default="black")
+    css_selected_background_color = models.CharField('Selected BG CSS', max_length=255, default='green')
+    css_selected_text_color = models.CharField('Selected Text CSS', max_length=255, default='black')
     # freezer frontend CSS color
-    freezer_empty_css_background_color = models.CharField("Empty Freezer BG CSS", max_length=255, default="orange")
-    freezer_empty_css_text_color = models.CharField("Empty Freezer Text CSS", max_length=255, default="white")
-    freezer_inuse_css_background_color = models.CharField("InUse Freezer BG CSS", max_length=255, default="orange")
-    freezer_inuse_css_text_color = models.CharField("InUse Freezer Text CSS", max_length=255, default="white")
+    freezer_empty_css_background_color = models.CharField('Empty Freezer BG CSS', max_length=255, default='orange')
+    freezer_empty_css_text_color = models.CharField('Empty Freezer Text CSS', max_length=255, default='white')
+    freezer_inuse_css_background_color = models.CharField('InUse Freezer BG CSS', max_length=255, default='orange')
+    freezer_inuse_css_text_color = models.CharField('InUse Freezer Text CSS', max_length=255, default='white')
     # freezer rack frontend CSS color
-    freezer_empty_rack_css_background_color = models.CharField("Empty Freezer Rack BG CSS", max_length=255, default="orange")
-    freezer_empty_rack_css_text_color = models.CharField("Empty Freezer Rack Text CSS", max_length=255, default="white")
-    freezer_inuse_rack_css_background_color = models.CharField("InUse Freezer Rack BG CSS", max_length=255, default="orange")
-    freezer_inuse_rack_css_text_color = models.CharField("InUse Freezer Rack Text CSS", max_length=255, default="white")
+    freezer_empty_rack_css_background_color = models.CharField('Empty Freezer Rack BG CSS', max_length=255, default='orange')
+    freezer_empty_rack_css_text_color = models.CharField('Empty Freezer Rack Text CSS', max_length=255, default='white')
+    freezer_inuse_rack_css_background_color = models.CharField('InUse Freezer Rack BG CSS', max_length=255, default='orange')
+    freezer_inuse_rack_css_text_color = models.CharField('InUse Freezer Rack Text CSS', max_length=255, default='white')
     # freezer box frontend CSS color
-    freezer_empty_box_css_background_color = models.CharField("Empty Freezer Box BG CSS", max_length=255, default="orange")
-    freezer_empty_box_css_text_color = models.CharField("Empty Freezer Box Text CSS", max_length=255, default="white")
-    freezer_inuse_box_css_background_color = models.CharField("InUse Freezer Box BG CSS", max_length=255, default="orange")
-    freezer_inuse_box_css_text_color = models.CharField("InUse Freezer Box Text CSS", max_length=255, default="white")
+    freezer_empty_box_css_background_color = models.CharField('Empty Freezer Box BG CSS', max_length=255, default='orange')
+    freezer_empty_box_css_text_color = models.CharField('Empty Freezer Box Text CSS', max_length=255, default='white')
+    freezer_inuse_box_css_background_color = models.CharField('InUse Freezer Box BG CSS', max_length=255, default='orange')
+    freezer_inuse_box_css_text_color = models.CharField('InUse Freezer Box Text CSS', max_length=255, default='white')
     # freezer inventory frontend CSS color
-    freezer_empty_inventory_css_background_color = models.CharField("Empty Freezer Inv BG CSS", max_length=255, default="orange")
-    freezer_empty_inventory_css_text_color = models.CharField("Empty Freezer Inv Text CSS", max_length=255, default="white")
-    freezer_inuse_inventory_css_background_color = models.CharField("InUse Freezer Inv BG CSS", max_length=255, default="orange")
-    freezer_inuse_inventory_css_text_color = models.CharField("InUse Freezer Inv Text CSS", max_length=255, default="white")
-    custom_css_slug = models.SlugField("Slug", max_length=255)
+    freezer_empty_inventory_css_background_color = models.CharField('Empty Freezer Inv BG CSS', max_length=255, default='orange')
+    freezer_empty_inventory_css_text_color = models.CharField('Empty Freezer Inv Text CSS', max_length=255, default='white')
+    freezer_inuse_inventory_css_background_color = models.CharField('InUse Freezer Inv BG CSS', max_length=255, default='orange')
+    freezer_inuse_inventory_css_text_color = models.CharField('InUse Freezer Inv Text CSS', max_length=255, default='white')
+    custom_css_slug = models.SlugField('Slug', max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:

@@ -14,15 +14,12 @@ class EagerLoadingMixin:
     # https://wearedignified.com/blog/how-to-use-select_related-and-prefetch_related-to-optimize-performance-in-django-rest-framework
     @classmethod
     def setup_eager_loading(cls, queryset):
-        """
-        This function allow dynamic addition of the related objects to
-        the provided query.
-        @parameter param1: queryset
-        """
-
-        if hasattr(cls, "select_related_fields"):
+        # This function allow dynamic addition of the related objects to
+        # the provided query.
+        # @parameter param1: queryset
+        if hasattr(cls, 'select_related_fields'):
             queryset = queryset.select_related(*cls.select_related_fields)
-        if hasattr(cls, "prefetch_related_fields"):
+        if hasattr(cls, 'prefetch_related_fields'):
             queryset = queryset.prefetch_related(*cls.prefetch_related_fields)
         return queryset
 
@@ -38,10 +35,8 @@ class SustainedRateThrottle(UserRateThrottle):
 
 # https://www.django-rest-framework.org/api-guide/generic-views/#creating-custom-mixins
 class MultipleFieldLookupMixin:
-    """
-    Apply this mixin to any view or viewset to get multiple field filtering
-    based on a `lookup_fields` attribute, instead of the default single field filtering.
-    """
+    # Apply this mixin to any view or viewset to get multiple field filtering
+    # based on a `lookup_fields` attribute, instead of the default single field filtering.
     def get_object(self):
         queryset = self.get_queryset()             # Get the base queryset
         queryset = self.filter_queryset(queryset)  # Apply any filter backends
@@ -169,28 +164,28 @@ class ContactUsSerializer(serializers.ModelSerializer):
 class DefaultSiteCssSerializer(serializers.ModelSerializer):
     default_css_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DefaultSiteCss.objects.all())])
     # selected CSS
-    css_selected_background_color = serializers.CharField(max_length=255, default="green")
-    css_selected_text_color = serializers.CharField(max_length=255, default="black")
+    css_selected_background_color = serializers.CharField(max_length=255, default='green')
+    css_selected_text_color = serializers.CharField(max_length=255, default='black')
     # freezer frontend CSS color
-    freezer_empty_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_css_text_color = serializers.CharField(max_length=255, default='white')
     # freezer rack frontend CSS color
-    freezer_empty_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_rack_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_rack_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_rack_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_rack_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_rack_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_rack_css_text_color = serializers.CharField(max_length=255, default='white')
     # freezer box frontend CSS color
-    freezer_empty_box_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_box_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_box_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_box_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_box_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_box_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_box_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_box_css_text_color = serializers.CharField(max_length=255, default='white')
     # freezer inventory frontend CSS color
-    freezer_empty_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_inventory_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default='white')
     default_css_slug = serializers.SlugField(max_length=255, read_only=True)
 
     class Meta:
@@ -213,28 +208,28 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
 class CustomUserCssSerializer(serializers.ModelSerializer):
     custom_css_label = serializers.CharField(max_length=255)
     # selected CSS
-    css_selected_background_color = serializers.CharField(max_length=255, default="green")
-    css_selected_text_color = serializers.CharField(max_length=255, default="black")
+    css_selected_background_color = serializers.CharField(max_length=255, default='green')
+    css_selected_text_color = serializers.CharField(max_length=255, default='black')
     # freezer frontend CSS color
-    freezer_empty_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_css_text_color = serializers.CharField(max_length=255, default='white')
     # freezer rack frontend CSS color
-    freezer_empty_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_rack_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_rack_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_rack_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_rack_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_rack_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_rack_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_rack_css_text_color = serializers.CharField(max_length=255, default='white')
     # freezer box frontend CSS color
-    freezer_empty_box_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_box_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_box_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_box_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_box_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_box_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_box_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_box_css_text_color = serializers.CharField(max_length=255, default='white')
     # freezer inventory frontend CSS color
-    freezer_empty_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
-    freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default="orange")
-    freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default="white")
+    freezer_empty_inventory_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_empty_inventory_css_text_color = serializers.CharField(max_length=255, default='white')
+    freezer_inuse_inventory_css_background_color = serializers.CharField(max_length=255, default='orange')
+    freezer_inuse_inventory_css_text_color = serializers.CharField(max_length=255, default='white')
     custom_css_slug = serializers.SlugField(max_length=255, read_only=True)
 
     class Meta:
@@ -267,7 +262,7 @@ class SerializerTableExport(TableExport):
             )
         self.format = export_format
         if serializer is None:
-            raise TypeError("Serializer should be provided for table {}".format(table))
+            raise TypeError('Serializer should be provided for table {}'.format(table))
         self.dataset = Dataset()
         serializer_data = serializer([x for x in table.data], many=True).data
         if len(serializer_data) > 0:
@@ -277,7 +272,7 @@ class SerializerTableExport(TableExport):
 
 
 class SerializerExportMixin(ExportMixin):
-    # export_action_param = "action"
+    # export_action_param = 'action'
 
     def create_export(self, export_format):
         exporter = SerializerTableExport(
@@ -293,19 +288,19 @@ class SerializerExportMixin(ExportMixin):
             return self.serializer_class
         else:
             return getattr(
-                self, "{}Serializer".format(self.get_table().__class__.__name__), None
+                self, '{}Serializer'.format(self.get_table().__class__.__name__), None
             )
 
     def get_table_data(self):
-        selected_column_ids = self.request.GET.get("_selected_column_ids", None)
+        selected_column_ids = self.request.GET.get('_selected_column_ids', None)
         if selected_column_ids:
-            selected_column_ids = map(int, selected_column_ids.split(","))
+            selected_column_ids = map(int, selected_column_ids.split(','))
             return super().get_table_data().filter(id__in=selected_column_ids)
         return super().get_table_data()
 
 
 class CharSerializerExportMixin(ExportMixin):
-    # export_action_param = "action"
+    # export_action_param = 'action'
 
     def create_export(self, export_format):
         exporter = SerializerTableExport(
@@ -321,13 +316,13 @@ class CharSerializerExportMixin(ExportMixin):
             return self.serializer_class
         else:
             return getattr(
-                self, "{}Serializer".format(self.get_table().__class__.__name__), None
+                self, '{}Serializer'.format(self.get_table().__class__.__name__), None
             )
 
     def get_table_data(self):
-        selected_column_ids = self.request.GET.get("_selected_column_ids", None)
+        selected_column_ids = self.request.GET.get('_selected_column_ids', None)
         if selected_column_ids:
-            # selected_column_ids = map(int, selected_column_ids.split(","))
-            selected_column_ids = selected_column_ids.split(",")
+            # selected_column_ids = map(int, selected_column_ids.split(','))
+            selected_column_ids = selected_column_ids.split(',')
             return super().get_table_data().filter(pk__contains=selected_column_ids)
         return super().get_table_data()

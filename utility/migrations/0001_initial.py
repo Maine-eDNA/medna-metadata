@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
                 ('publication_title', models.CharField(max_length=255, unique=True, verbose_name='Publication Title')),
                 ('publication_url', models.URLField(max_length=255, verbose_name='Publication URL')),
                 ('project_names', models.ManyToManyField(related_name='project_names', to='utility.Project', verbose_name='Affiliated Project(s)')),
-                ('publication_authors', models.ManyToManyField(related_name="publication_authors", to=settings.AUTH_USER_MODEL, verbose_name="Affiliated Authors(s)")),
+                ('publication_authors', models.ManyToManyField(related_name='publication_authors', to=settings.AUTH_USER_MODEL, verbose_name='Affiliated Authors(s)')),
                 ('publication_slug', models.SlugField(max_length=255, verbose_name='Publication Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),

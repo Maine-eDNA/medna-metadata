@@ -8,14 +8,10 @@ from .models import ContactUs, Project, Publication
 
 # custom import from import_export/forms.py
 def export_action_form_factory(formats):
-    """
-    Returns an ActionForm subclass containing a ChoiceField populated with
-    the given formats.
-    """
+    # Returns an ActionForm subclass containing a ChoiceField populated with
+    # the given formats.
     class _ExportActionForm(ActionForm):
-        """
-        Action form with export format ChoiceField.
-        """
+        # Action form with export format ChoiceField.
         file_format = forms.ChoiceField(
             label=_('Format'), choices=formats, required=False)
     _ExportActionForm.__name__ = str('ExportActionForm')

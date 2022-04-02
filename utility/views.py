@@ -39,20 +39,16 @@ from utility.forms import export_action_form_factory
 # UTILITY DEFS                         #
 ########################################
 def get_action_choices(default_choices=BLANK_CHOICE_DASH):
-    """
-    Return a list of choices for use in a form object.  Each choice is a
-    tuple (name, description).
-    """
+    # Return a list of choices for use in a form object.  Each choice is a
+    # tuple (name, description).
     choices = [('export_action_select', 'Export selected'),
                ('export_action_table', 'Export table'), ] + default_choices
     return choices
 
 
 def export_context(request, export_formats):
-    """
-    Return a dictionary of variables to put in the template context for
-    pages with exportable tables
-    """
+    # Return a dictionary of variables to put in the template context for
+    # pages with exportable tables
     # export_formats = ['csv', 'xlsx']
     actions_selection_counter = True
     formats = []
@@ -74,15 +70,12 @@ def export_context(request, export_formats):
 
 
 class BasePopupMixin(object):
-    """
-    Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
-    Base mixin for generic views classes that handles the case of the view
-    being opened in a popup window.
-    Don't call this directly, use some of the subclasses instead.
-    .. versionadded:: 2.0.0
-       Factored from the original ``PopupMixin`` class.
-    """
-
+    # Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+    # Base mixin for generic views classes that handles the case of the view
+    # being opened in a popup window.
+    # Don't call this directly, use some of the subclasses instead.
+    # .. versionadded:: 2.0.0
+    #   Factored from the original ``PopupMixin`` class.
     def is_popup(self):
         return self.request.GET.get(IS_POPUP_VAR, False)
 
@@ -116,34 +109,28 @@ class BasePopupMixin(object):
         return created_obj.serializable_value(pk_name)
 
     def label_from_instance(self, related_instance):
-        """
-        Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
-        Return the label to show in the "main form" for the
-        newly created object.
-        Overwrite this to customize the label that is being shown.
-        """
+        # Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+        # Return the label to show in the 'main form' for the
+        # newly created object.
+        # Overwrite this to customize the label that is being shown.
         return force_text(related_instance)
 
 
 class CreatePopupMixin(BasePopupMixin):
-    """
-    Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
-    Mixin for :class:`~django.views.generic.edit.CreateView` classes that
-    handles the case of the view being opened in an add-another popup window.
-    .. versionchanged:: 2.0.0
-       This used to be called ``PopupMixin`` and has been renamed with the
-       introduction of edit-related buttons and :class:`UpdatePopupMixin`.
-    """
+    # Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+    # Mixin for :class:`~django.views.generic.edit.CreateView` classes that
+    # handles the case of the view being opened in an add-another popup window.
+    # .. versionchanged:: 2.0.0
+    #    This used to be called ``PopupMixin`` and has been renamed with the
+    #    introduction of edit-related buttons and :class:`UpdatePopupMixin`.
     POPUP_ACTION = 'add'
 
 
 class UpdatePopupMixin(BasePopupMixin):
-    """
-    Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
-    Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
-    handles the case of the view being opened in an edit-related popup window.
-    .. versionadded:: 2.0.0
-    """
+    # Copyright (c) 2015 Jonas Haag <jonas@lophus.org>, James Pic <jamespic@gmail.com>.
+    # Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
+    # handles the case of the view being opened in an edit-related popup window.
+    # .. versionadded:: 2.0.0
     POPUP_ACTION = 'change'
 
 

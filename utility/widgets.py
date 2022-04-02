@@ -89,9 +89,7 @@ class CustomAdminTimeWidget(AdminTimeWidget):
 
 
 class CustomAdminSplitDateTime(AdminSplitDateTime):
-    """
-    A SplitDateTime Widget that has some admin-specific styling.
-    """
+    # A SplitDateTime Widget that has some admin-specific styling.
     template_name = 'custom_forms/admin_widgets/split_datetime.html'
 
     def __init__(self, attrs=None):
@@ -118,7 +116,7 @@ class WidgetWrapperMixin(object):
         return self.widget.media
 
     def build_attrs(self, extra_attrs=None, **kwargs):
-        "Helper function for building an attribute dictionary."
+        # Helper function for building an attribute dictionary.
         self.attrs = self.widget.build_attrs(extra_attrs=None, **kwargs)
         return self.attrs
 
@@ -130,12 +128,9 @@ class WidgetWrapperMixin(object):
 
 
 class BaseRelatedWidgetWrapper(WidgetWrapperMixin, forms.Widget):
-    """
-    https://github.com/jonashaag/django-addanother
-    Basis for the specialised wrappers below.
-    Don't call this directly, use some of the subclasses instead.
-    """
-
+    # https://github.com/jonashaag/django-addanother
+    # Basis for the specialised wrappers below.
+    # Don't call this directly, use some of the subclasses instead.
     #: The template that is used to render the add-another button.
     #: Overwrite this to customize the rendering.
     template = 'custom_forms/admin_widgets/related_widget_wrapper.html'
@@ -170,7 +165,7 @@ class BaseRelatedWidgetWrapper(WidgetWrapperMixin, forms.Widget):
     def render(self, name, value, *args, **kwargs):
         self.widget.choices = self.choices
 
-        url_params = "%s=%s" % (IS_POPUP_VAR, 1)
+        url_params = '%s=%s' % (IS_POPUP_VAR, 1)
         context = {
             'widget': self.widget.render(name, value, *args, **kwargs),
             'name': name,
@@ -184,11 +179,8 @@ class BaseRelatedWidgetWrapper(WidgetWrapperMixin, forms.Widget):
 
 
 class AddAnotherWidgetWrapper(BaseRelatedWidgetWrapper):
-    """
-    https://github.com/jonashaag/django-addanother
-    Widget wrapper that adds an add-another button next to the original widget.
-    """
-
+    # https://github.com/jonashaag/django-addanother
+    # Widget wrapper that adds an add-another button next to the original widget.
     def __init__(self, widget, add_related_url, add_icon=None):
         super(AddAnotherWidgetWrapper, self).__init__(
             widget, add_related_url, None, add_icon, None
@@ -196,10 +188,8 @@ class AddAnotherWidgetWrapper(BaseRelatedWidgetWrapper):
 
 
 class EditSelectedWidgetWrapper(BaseRelatedWidgetWrapper):
-    """
-    https://github.com/jonashaag/django-addanother
-    Widget wrapper that adds an edit-related button next to the original widget.
-    """
+    # https://github.com/jonashaag/django-addanother
+    # Widget wrapper that adds an edit-related button next to the original widget.
 
     def __init__(self, widget, edit_related_url, edit_icon=None):
         super(EditSelectedWidgetWrapper, self).__init__(
@@ -208,8 +198,7 @@ class EditSelectedWidgetWrapper(BaseRelatedWidgetWrapper):
 
 
 class AddAnotherEditSelectedWidgetWrapper(BaseRelatedWidgetWrapper):
-    """
-    https://github.com/jonashaag/django-addanother
-    Widget wrapper that adds both add-another and edit-related button
-    next to the original widget.
-    """
+    # https://github.com/jonashaag/django-addanother
+    # Widget wrapper that adds both add-another and edit-related button
+    # next to the original widget.
+    pass
