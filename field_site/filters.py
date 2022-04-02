@@ -6,6 +6,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     System, FieldSite, Watershed
 from utility.models import Grant, Project
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
+from utility.filters import get_choices
 
 
 # Create your filters here.
@@ -17,7 +18,7 @@ class FieldSiteFilter(filters.FilterSet):
     project = filters.ModelMultipleChoiceFilter(queryset=Project.objects.all(), widget=CustomSelect2Multiple)
     system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2Multiple)
     watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2Multiple)
-    general_location_name = filters.ModelChoiceFilter(field_name='general_location_name', queryset=FieldSite.objects.all(), widget=CustomSelect2)
+    general_location_name = filters.ChoiceFilter(choices=get_choices(FieldSite, 'general_location_name'), widget=CustomSelect2)
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
 
     class Meta:
