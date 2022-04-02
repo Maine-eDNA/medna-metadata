@@ -78,9 +78,9 @@ class ExtractionFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serializ
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_extraction"
-        context['page_title'] = "Extraction"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_extraction'
+        context['page_title'] = 'Extraction'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -101,8 +101,8 @@ class ExtractionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_extraction"
-        context['page_title'] = "Extraction"
+        context['segment'] = 'update_extraction'
+        context['page_title'] = 'Extraction'
         return context
 
     def handle_no_permission(self):
@@ -128,8 +128,8 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_extraction"
-        context['page_title'] = "Extraction"
+        context['segment'] = 'add_extraction'
+        context['page_title'] = 'Extraction'
         return context
 
     def form_valid(self, form):
@@ -158,8 +158,8 @@ class PcrReplicatePopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permissi
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_pcrreplicate"
-        context['page_title'] = "Pcr Replicate"
+        context['segment'] = 'add_pcrreplicate'
+        context['page_title'] = 'Pcr Replicate'
         return context
 
     def form_valid(self, form):
@@ -184,8 +184,8 @@ class PcrReplicatePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, Permissi
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_pcrreplicate"
-        context['page_title'] = "Pcr Replicate"
+        context['segment'] = 'update_pcrreplicate'
+        context['page_title'] = 'Pcr Replicate'
         return context
 
     def handle_no_permission(self):
@@ -216,9 +216,9 @@ class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExpor
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_pcr"
-        context['page_title'] = "Pcr"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_pcr'
+        context['page_title'] = 'Pcr'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -240,8 +240,8 @@ class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_pcr"
-        context['page_title'] = "Pcr"
+        context['segment'] = 'add_pcr'
+        context['page_title'] = 'Pcr'
         return context
 
     # Sending user object to the form, to verify which fields to display
@@ -275,8 +275,8 @@ class PcrUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_pcr"
-        context['page_title'] = "Pcr"
+        context['segment'] = 'update_pcr'
+        context['page_title'] = 'Pcr'
         return context
 
     # Sending user object to the form, to verify which fields to display
@@ -308,8 +308,8 @@ class IndexPairPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionR
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_indexpair"
-        context['page_title'] = "Index Pair"
+        context['segment'] = 'add_indexpair'
+        context['page_title'] = 'Index Pair'
         return context
 
     def form_valid(self, form):
@@ -334,8 +334,8 @@ class IndexPairPopupUpdateView(CreatePopupMixin, LoginRequiredMixin, PermissionR
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_indexpair"
-        context['page_title'] = "Index Pair"
+        context['segment'] = 'update_indexpair'
+        context['page_title'] = 'Index Pair'
         return context
 
     def handle_no_permission(self):
@@ -366,9 +366,9 @@ class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_libraryprep"
-        context['page_title'] = "Library Prep"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_libraryprep'
+        context['page_title'] = 'Library Prep'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -390,8 +390,8 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_libraryprep"
-        context['page_title'] = "Library Prep"
+        context['segment'] = 'add_libraryprep'
+        context['page_title'] = 'Library Prep'
         return context
 
     def form_valid(self, form):
@@ -425,8 +425,8 @@ class LibraryPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_libraryprep"
-        context['page_title'] = "Library Prep"
+        context['segment'] = 'update_libraryprep'
+        context['page_title'] = 'Library Prep'
         return context
 
     # Sending user object to the form, to verify which fields to display
@@ -469,9 +469,9 @@ class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_pooledlibrary"
-        context['page_title'] = "Pooled Library"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_pooledlibrary'
+        context['page_title'] = 'Pooled Library'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -492,8 +492,8 @@ class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_pooledlibrary"
-        context['page_title'] = "Pooled Library"
+        context['segment'] = 'update_pooledlibrary'
+        context['page_title'] = 'Pooled Library'
         return context
 
     def handle_no_permission(self):
@@ -519,8 +519,8 @@ class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_pooledlibrary"
-        context['page_title'] = "Pooled Library"
+        context['segment'] = 'add_pooledlibrary'
+        context['page_title'] = 'Pooled Library'
         return context
 
     def form_valid(self, form):
@@ -558,9 +558,9 @@ class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerE
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_runprep"
-        context['page_title'] = "Run Prep"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_runprep'
+        context['page_title'] = 'Run Prep'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -581,8 +581,8 @@ class RunPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_runprep"
-        context['page_title'] = "Run Prep"
+        context['segment'] = 'update_runprep'
+        context['page_title'] = 'Run Prep'
         return context
 
     def handle_no_permission(self):
@@ -608,8 +608,8 @@ class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_runprep"
-        context['page_title'] = "Run Prep"
+        context['segment'] = 'add_runprep'
+        context['page_title'] = 'Run Prep'
         return context
 
     def form_valid(self, form):
@@ -645,9 +645,9 @@ class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_runresult"
-        context['page_title'] = "Run Result"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_runresult'
+        context['page_title'] = 'Run Result'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -668,8 +668,8 @@ class RunResultUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_runresult"
-        context['page_title'] = "Run Result"
+        context['segment'] = 'update_runresult'
+        context['page_title'] = 'Run Result'
         return context
 
     def handle_no_permission(self):
@@ -695,8 +695,8 @@ class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_runresult"
-        context['page_title'] = "Run Result"
+        context['segment'] = 'add_runresult'
+        context['page_title'] = 'Run Result'
         return context
 
     def form_valid(self, form):
@@ -732,9 +732,9 @@ class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "view_fastqfile"
-        context['page_title'] = "Fastq File"
-        context["export_formats"] = self.export_formats
+        context['segment'] = 'view_fastqfile'
+        context['page_title'] = 'Fastq File'
+        context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
@@ -755,8 +755,8 @@ class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "update_fastqfile"
-        context['page_title'] = "Fastq File"
+        context['segment'] = 'update_fastqfile'
+        context['page_title'] = 'Fastq File'
         return context
 
     def handle_no_permission(self):
@@ -782,8 +782,8 @@ class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = "add_fastqfile"
-        context['page_title'] = "Fastq File"
+        context['segment'] = 'add_fastqfile'
+        context['page_title'] = 'Fastq File'
         return context
 
     def form_valid(self, form):
@@ -808,7 +808,7 @@ class PrimerPairViewSet(viewsets.ModelViewSet):
     queryset = PrimerPair.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.PrimerPairSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class IndexPairViewSet(viewsets.ModelViewSet):
@@ -817,7 +817,7 @@ class IndexPairViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ['index_slug', 'created_by__email']
     filterset_class = wetlab_filters.IndexPairSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
@@ -825,7 +825,7 @@ class IndexRemovalMethodViewSet(viewsets.ModelViewSet):
     queryset = IndexRemovalMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.IndexRemovalMethodSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
@@ -833,7 +833,7 @@ class SizeSelectionMethodViewSet(viewsets.ModelViewSet):
     queryset = SizeSelectionMethod.objects.prefetch_related('created_by', 'primer_set')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.SizeSelectionMethodSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class QuantificationMethodViewSet(viewsets.ModelViewSet):
@@ -841,7 +841,7 @@ class QuantificationMethodViewSet(viewsets.ModelViewSet):
     queryset = QuantificationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.QuantificationMethodSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class AmplificationMethodViewSet(viewsets.ModelViewSet):
@@ -849,7 +849,7 @@ class AmplificationMethodViewSet(viewsets.ModelViewSet):
     queryset = AmplificationMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.AmplificationMethodSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class ExtractionMethodViewSet(viewsets.ModelViewSet):
@@ -857,7 +857,7 @@ class ExtractionMethodViewSet(viewsets.ModelViewSet):
     queryset = ExtractionMethod.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.ExtractionMethodSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class ExtractionViewSet(viewsets.ModelViewSet):
@@ -865,7 +865,7 @@ class ExtractionViewSet(viewsets.ModelViewSet):
     queryset = Extraction.objects.prefetch_related('created_by', 'extraction_barcode', 'process_location', 'field_sample', 'extraction_method', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.ExtractionSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class PcrReplicateViewSet(viewsets.ModelViewSet):
@@ -874,7 +874,7 @@ class PcrReplicateViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['id', 'created_by__email']
     filterset_class = wetlab_filters.PcrReplicateSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class PcrViewSet(viewsets.ModelViewSet):
@@ -882,7 +882,7 @@ class PcrViewSet(viewsets.ModelViewSet):
     queryset = Pcr.objects.prefetch_related('created_by', 'process_location', 'extraction', 'primer_set', 'pcr_replicate')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.PcrSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class LibraryPrepViewSet(viewsets.ModelViewSet):
@@ -892,7 +892,7 @@ class LibraryPrepViewSet(viewsets.ModelViewSet):
                                                     'quantification_method', 'amplification_method')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.LibraryPrepSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class PooledLibraryViewSet(viewsets.ModelViewSet):
@@ -900,7 +900,7 @@ class PooledLibraryViewSet(viewsets.ModelViewSet):
     queryset = PooledLibrary.objects.prefetch_related('created_by', 'pooled_lib_barcode', 'process_location', 'library_prep', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.PooledLibrarySerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class RunPrepViewSet(viewsets.ModelViewSet):
@@ -908,7 +908,7 @@ class RunPrepViewSet(viewsets.ModelViewSet):
     queryset = RunPrep.objects.prefetch_related('created_by', 'process_location', 'pooled_library', 'quantification_method')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.RunPrepSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class RunResultViewSet(viewsets.ModelViewSet):
@@ -916,7 +916,7 @@ class RunResultViewSet(viewsets.ModelViewSet):
     queryset = RunResult.objects.prefetch_related('created_by', 'process_location', 'run_prep')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.RunResultSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']
 
 
 class FastqFileViewSet(viewsets.ModelViewSet):
@@ -924,4 +924,4 @@ class FastqFileViewSet(viewsets.ModelViewSet):
     queryset = FastqFile.objects.prefetch_related('created_by', 'run_result', 'extraction')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.FastqFileSerializerFilter
-    swagger_tags = ["wet lab"]
+    swagger_tags = ['wet lab']

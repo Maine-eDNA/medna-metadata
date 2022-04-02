@@ -52,7 +52,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PrimerPairAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -88,7 +88,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexPairAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -124,7 +124,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexRemovalMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -161,7 +161,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SizeSelectionMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -196,7 +196,7 @@ class QuantificationMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(QuantificationMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -232,7 +232,7 @@ class AmplificationMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AmplificationMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -273,7 +273,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ExtractionMethodAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -325,7 +325,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ExtractionAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -333,9 +333,9 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
         return actions
 
 #    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-#        if db_field.name == "field_sample":
+#        if db_field.name == 'field_sample':
 #            #
-#            kwargs["queryset"] = FieldSample.objects.filter(
+#            kwargs['queryset'] = FieldSample.objects.filter(
 #                ~Exists(Extraction.objects.filter(field_sample=OuterRef('pk')))
 #            )
 #        return super().formfield_for_foreignkey(db_field, request, **kwargs)
@@ -368,7 +368,7 @@ class PcrReplicateAdmin(ImportExportActionModelAdmin):
 
         return super(PcrReplicateAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -422,7 +422,7 @@ class PcrAdmin(ImportExportActionModelAdmin):
 
         return super(PcrAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -482,7 +482,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(LibraryPrepAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -539,7 +539,7 @@ class PooledLibraryAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(PooledLibraryAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -592,7 +592,7 @@ class RunPrepAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunPrepAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -632,7 +632,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunResultAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
@@ -669,7 +669,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FastqFileAdmin, self).change_view(request, object_id)
 
-    # removes "delete selected" from drop down menu
+    # removes 'delete selected' from drop down menu
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:

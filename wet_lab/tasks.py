@@ -14,16 +14,16 @@ from wet_lab.models import FastqFile, RunResult
 def get_runid_from_key(run_key):
     try:
         # https://stackoverflow.com/questions/18731028/remove-last-instance-of-a-character-and-rest-of-a-string
-        filename = run_key.split("/")[1]
+        filename = run_key.split('/')[1]
         # find the index of the last -, then split and keep
         # beginning up to last -
         # MyTardis appends -## to RunIDs, they need to be converted back.
-        idx = filename.rfind("-")
+        idx = filename.rfind('-')
         if idx >= 0:
             run_id = filename[:idx]
         return run_id
     except Exception as err:
-        raise RuntimeError("** Error: get_runid_from_key Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_runid_from_key Failed (' + str(err) + ')')
 
 
 def get_s3_run_dirs():
@@ -34,7 +34,7 @@ def get_s3_run_dirs():
                               aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
 
         response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
-                                          Prefix=settings.AWS_PRIVATE_SEQUENCING_LOCATION + "/",
+                                          Prefix=settings.AWS_PRIVATE_SEQUENCING_LOCATION + '/',
                                           Delimiter='/')
         run_dirs = []
         for prefix in response['CommonPrefixes']:
@@ -42,7 +42,7 @@ def get_s3_run_dirs():
 
         return run_dirs
     except Exception as err:
-        raise RuntimeError("** Error: get_s3_run_dirs Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_s3_run_dirs Failed (' + str(err) + ')')
 
 
 def get_s3_fastq_keys(run_keys):
@@ -59,11 +59,11 @@ def get_s3_fastq_keys(run_keys):
                 object_keys.append(obj['Key'])
 
         # filter key list for files that end with .fastq.gz
-        fastq_keys = [s for s in object_keys if s.endswith(".fastq.gz")]
+        fastq_keys = [s for s in object_keys if s.endswith('.fastq.gz')]
 
         return fastq_keys
     except Exception as err:
-        raise RuntimeError("** Error: get_s3_fastq_keys Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: get_s3_fastq_keys Failed (' + str(err) + ')')
 
 
 def update_record_fastq(record, pk):
@@ -78,7 +78,7 @@ def update_record_fastq(record, pk):
         )
         return fastq_file, created
     except Exception as err:
-        raise RuntimeError("** Error: update_record_fastq Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_record_fastq Failed (' + str(err) + ')')
 
 
 def create_fastq_files(runs_in_s3):
@@ -97,7 +97,7 @@ def create_fastq_files(runs_in_s3):
                         update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: create_fastq_files Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: create_fastq_files Failed (' + str(err) + ')')
 
 
 def update_queryset_fastq_file(queryset):
@@ -110,7 +110,7 @@ def update_queryset_fastq_file(queryset):
                 update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError("** Error: update_queryset_fastq_file Failed (" + str(err) + ")")
+        raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
 
 
 # @app.task(bind=True, base=BaseTaskWithRetry)
@@ -149,4 +149,4 @@ def update_queryset_fastq_file(queryset):
 #                 logger.info('Update count: ' + str(created_count))
 #                 PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
 #     except Exception as err:
-#         raise RuntimeError("** Error: create_fastq_from_s3 Failed (" + str(err) + ")")
+#         raise RuntimeError('** Error: create_fastq_from_s3 Failed (' + str(err) + ')')

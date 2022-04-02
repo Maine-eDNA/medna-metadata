@@ -14,52 +14,52 @@ from django.utils import timezone
 
 class PrimerPairTestCase(TestCase):
     def setUp(self):
-        PrimerPair.objects.get_or_create(primer_set_name="mifishU",
+        PrimerPair.objects.get_or_create(primer_set_name='mifishU',
                                          defaults={
                                              'primer_target_gene': TargetGenes.TG_12S,
                                              'primer_subfragment': SubFragments.SF_ITS,
-                                             'primer_name_forward': "mifish_u_f",
-                                             'primer_name_reverse': "mifish_u_r",
-                                             'primer_forward': "GTCGGTAAAACTCGTGCCAGC",
-                                             'primer_reverse': "CATAGTGGGGTATCTAATCCCAGTTTG",
+                                             'primer_name_forward': 'mifish_u_f',
+                                             'primer_name_reverse': 'mifish_u_r',
+                                             'primer_forward': 'GTCGGTAAAACTCGTGCCAGC',
+                                             'primer_reverse': 'CATAGTGGGGTATCTAATCCCAGTTTG',
                                              'primer_amplicon_length_min': 160,
                                              'primer_amplicon_length_max': 180,
-                                             'primer_ref_biomaterial_url': "https://ref_biomaterial_url.com",
-                                             'primer_pair_notes': "test notes"
+                                             'primer_ref_biomaterial_url': 'https://ref_biomaterial_url.com',
+                                             'primer_pair_notes': 'test notes'
                                          })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = PrimerPair.objects.filter(primer_set_name="mifishU")[:1].get()
+        test_exists = PrimerPair.objects.filter(primer_set_name='mifishU')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class IndexPairTestCase(TestCase):
     def setUp(self):
-        IndexPair.objects.get_or_create(i7_index_id="A-N702",
+        IndexPair.objects.get_or_create(i7_index_id='A-N702',
                                         defaults={
-                                            'index_i7': "CGTACTAG",
-                                            'index_i5': "GCGTAAGA",
-                                            'i5_index_id': "C-S517",
-                                            'index_adapter': "CTGTCTCTTATACACATCT"
+                                            'index_i7': 'CGTACTAG',
+                                            'index_i5': 'GCGTAAGA',
+                                            'i5_index_id': 'C-S517',
+                                            'index_adapter': 'CTGTCTCTTATACACATCT'
                                         })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = IndexPair.objects.filter(i7_index_id="A-N702")[:1].get()
+        test_exists = IndexPair.objects.filter(i7_index_id='A-N702')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class IndexRemovalMethodTestCase(TestCase):
     def setUp(self):
-        IndexRemovalMethod.objects.get_or_create(index_removal_method_name="exo-sap",
+        IndexRemovalMethod.objects.get_or_create(index_removal_method_name='exo-sap',
                                                  defaults={
-                                                     'index_removal_sop_url': "https://index_removal_sop_url.com",
+                                                     'index_removal_sop_url': 'https://index_removal_sop_url.com',
                                                  })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = IndexRemovalMethod.objects.filter(index_removal_method_name="exo-sap")[:1].get()
+        test_exists = IndexRemovalMethod.objects.filter(index_removal_method_name='exo-sap')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -69,52 +69,52 @@ class SizeSelectionMethodTestCase(TestCase):
         primer_set_test.setUp()
         primer_set = PrimerPair.objects.filter()[:1].get()
 
-        SizeSelectionMethod.objects.get_or_create(size_selection_method_name="Beads",
+        SizeSelectionMethod.objects.get_or_create(size_selection_method_name='Beads',
                                                   defaults={
                                                       'primer_set': primer_set,
-                                                      'size_selection_sop_url': "https://size_selection_sop_url.com",
+                                                      'size_selection_sop_url': 'https://size_selection_sop_url.com',
                                                   })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = SizeSelectionMethod.objects.filter(size_selection_method_name="Beads")[:1].get()
+        test_exists = SizeSelectionMethod.objects.filter(size_selection_method_name='Beads')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class QuantificationMethodTestCase(TestCase):
     def setUp(self):
-        QuantificationMethod.objects.get_or_create(quant_method_name="qubit")
+        QuantificationMethod.objects.get_or_create(quant_method_name='qubit')
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = QuantificationMethod.objects.filter(quant_method_name="qubit")[:1].get()
+        test_exists = QuantificationMethod.objects.filter(quant_method_name='qubit')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class AmplificationMethodTestCase(TestCase):
     def setUp(self):
-        AmplificationMethod.objects.get_or_create(amplification_method_name="pcr",
+        AmplificationMethod.objects.get_or_create(amplification_method_name='pcr',
                                                   defaults={
-                                                      'amplification_sop_url': "https://amplification_sop_url.com"
+                                                      'amplification_sop_url': 'https://amplification_sop_url.com'
                                                   })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = AmplificationMethod.objects.filter(amplification_method_name="pcr")[:1].get()
+        test_exists = AmplificationMethod.objects.filter(amplification_method_name='pcr')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
 class ExtractionMethodTestCase(TestCase):
     def setUp(self):
-        ExtractionMethod.objects.get_or_create(extraction_method_name="Blood and Tissue",
+        ExtractionMethod.objects.get_or_create(extraction_method_name='Blood and Tissue',
                                                defaults={
-                                                   'extraction_method_manufacturer': "Qiagen",
-                                                   'extraction_sop_url': "https://extraction_sop_url.com"
+                                                   'extraction_method_manufacturer': 'Qiagen',
+                                                   'extraction_sop_url': 'https://extraction_sop_url.com'
                                                })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = ExtractionMethod.objects.filter(extraction_method_name="Blood and Tissue")[:1].get()
+        test_exists = ExtractionMethod.objects.filter(extraction_method_name='Blood and Tissue')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -134,15 +134,15 @@ class ExtractionTestCase(TestCase):
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
         extraction_method = ExtractionMethod.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        Extraction.objects.get_or_create(extraction_notes="test notes",
+        Extraction.objects.get_or_create(extraction_notes='test notes',
                                          defaults={
                                              'process_location': process_location,
                                              'extraction_datetime': current_datetime,
                                              'field_sample': field_sample,
                                              'extraction_barcode': sample_barcode,
                                              'extraction_method': extraction_method,
-                                             'extraction_first_name': "test_first_name",
-                                             'extraction_last_name': "test_last_name",
+                                             'extraction_first_name': 'test_first_name',
+                                             'extraction_last_name': 'test_last_name',
                                              'extraction_volume': 0.100,
                                              'extraction_volume_units': VolUnits.MICROLITER,
                                              'quantification_method': quantification_method,
@@ -152,7 +152,7 @@ class ExtractionTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = Extraction.objects.filter(extraction_notes="test notes")[:1].get()
+        test_exists = Extraction.objects.filter(extraction_notes='test notes')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -162,7 +162,7 @@ class PcrReplicateTestCase(TestCase):
                                            defaults={
                                                'pcr_replicate_results': 9999,
                                                'pcr_replicate_results_units': PcrUnits.DDPCR_CP,
-                                               'pcr_replicate_notes': "pcr notes"
+                                               'pcr_replicate_notes': 'pcr notes'
                                            })
 
     def test_was_added_recently(self):
@@ -186,26 +186,26 @@ class PcrTestCase(TestCase):
         primer_set = PrimerPair.objects.filter()[:1].get()
         pcr_replicate = PcrReplicate.objects.filter()[:1].get()
         manytomany_list.append(pcr_replicate)
-        pcr, created = Pcr.objects.get_or_create(pcr_experiment_name="test_name",
+        pcr, created = Pcr.objects.get_or_create(pcr_experiment_name='test_name',
                                                  defaults={
                                                      'pcr_type': PcrTypes.DDPCR,
                                                      'process_location': process_location,
                                                      'pcr_datetime': current_datetime,
                                                      'extraction': extraction,
                                                      'primer_set': primer_set,
-                                                     'pcr_first_name': "test_first_name",
-                                                     'pcr_last_name': "test_last_name",
+                                                     'pcr_first_name': 'test_first_name',
+                                                     'pcr_last_name': 'test_last_name',
                                                      'pcr_results': 9999,
                                                      'pcr_results_units': PcrUnits.DDPCR_CP,
-                                                     'pcr_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
-                                                     'pcr_sop_url': "https://sop_url.com",
-                                                     'pcr_notes': "pcr notes"
+                                                     'pcr_thermal_cond': 'initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles',
+                                                     'pcr_sop_url': 'https://sop_url.com',
+                                                     'pcr_notes': 'pcr notes'
                                                  })
         pcr.pcr_replicate.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = Pcr.objects.filter(pcr_experiment_name="test_name")[:1].get()
+        test_exists = Pcr.objects.filter(pcr_experiment_name='test_name')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -234,7 +234,7 @@ class LibraryPrepTestCase(TestCase):
         size_selection_method = SizeSelectionMethod.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         amplification_method = AmplificationMethod.objects.filter()[:1].get()
-        LibraryPrep.objects.get_or_create(lib_prep_experiment_name="test_name",
+        LibraryPrep.objects.get_or_create(lib_prep_experiment_name='test_name',
                                           defaults={
                                               'lib_prep_datetime': current_datetime,
                                               'process_location': process_location,
@@ -254,14 +254,14 @@ class LibraryPrepTestCase(TestCase):
                                                                       'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
                                                                       'lib_prep_layout': LibLayouts.PAIRED,
                                                                       'lib_prep_type': LibPrepTypes.AMPLICON,
-                                                                      'lib_prep_thermal_cond': "initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles",
-                                                                      'lib_prep_sop_url': "https://sop_url.com",
-                                                                      'lib_prep_notes': "lib prep notes"
+                                                                      'lib_prep_thermal_cond': 'initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles',
+                                                                      'lib_prep_sop_url': 'https://sop_url.com',
+                                                                      'lib_prep_notes': 'lib prep notes'
                                                                   })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = LibraryPrep.objects.filter(lib_prep_experiment_name="test_name")[:1].get()
+        test_exists = LibraryPrep.objects.filter(lib_prep_experiment_name='test_name')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -276,7 +276,7 @@ class PooledLibraryTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        pooled_library, created = PooledLibrary.objects.get_or_create(pooled_lib_label="test_label",
+        pooled_library, created = PooledLibrary.objects.get_or_create(pooled_lib_label='test_label',
                                                                       defaults={
                                                                           'pooled_lib_datetime': current_datetime,
                                                                           'pooled_lib_barcode': sample_barcode,
@@ -286,13 +286,13 @@ class PooledLibraryTestCase(TestCase):
                                                                           'pooled_lib_concentration_units': ConcentrationUnits.NM,
                                                                           'pooled_lib_volume': 1.00,
                                                                           'pooled_lib_volume_units': VolUnits.MICROLITER,
-                                                                          'pooled_lib_notes': "pooled lib notes"
+                                                                          'pooled_lib_notes': 'pooled lib notes'
                                                                       })
         pooled_library.library_prep.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = PooledLibrary.objects.filter(pooled_lib_label="test_label")[:1].get()
+        test_exists = PooledLibrary.objects.filter(pooled_lib_label='test_label')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -306,7 +306,7 @@ class RunPrepTestCase(TestCase):
         manytomany_list.append(pooled_library)
         process_location = ProcessLocation.objects.filter()[:1].get()
         quantification_method = QuantificationMethod.objects.filter()[:1].get()
-        run_prep, created = RunPrep.objects.get_or_create(run_prep_label="run prep label",
+        run_prep, created = RunPrep.objects.get_or_create(run_prep_label='run prep label',
                                                           defaults={
                                                               'process_location': process_location,
                                                               'run_prep_datetime': current_datetime,
@@ -321,7 +321,7 @@ class RunPrepTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = RunPrep.objects.filter(run_prep_label="run prep label")[:1].get()
+        test_exists = RunPrep.objects.filter(run_prep_label='run prep label')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -332,19 +332,19 @@ class RunResultTestCase(TestCase):
         run_prep_test.setUp()
         run_prep = RunPrep.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        RunResult.objects.get_or_create(run_id="000000_M03037_0001_000000000-TESTZ",
+        RunResult.objects.get_or_create(run_id='000000_M03037_0001_000000000-TESTZ',
                                         defaults={
                                             'process_location': process_location,
                                             'run_date': current_datetime,
-                                            'run_experiment_name': "00XXX0000_Test_Test_test_test",
+                                            'run_experiment_name': '00XXX0000_Test_Test_test_test',
                                             'run_prep': run_prep,
                                             'run_completion_datetime': current_datetime,
-                                            'run_instrument': "M03037"
+                                            'run_instrument': 'M03037'
                                         })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = RunResult.objects.filter(run_id="000000_M03037_0001_000000000-TESTZ")[:1].get()
+        test_exists = RunResult.objects.filter(run_id='000000_M03037_0001_000000000-TESTZ')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
