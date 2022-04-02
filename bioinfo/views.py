@@ -11,7 +11,7 @@ from rest_framework import viewsets
 from django_filters import rest_framework as filters
 from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
-from utility.views import export_context
+from utility.views import export_context, CreatePopupMixin, UpdatePopupMixin
 from utility.charts import return_select2_options
 from utility.serializers import SerializerExportMixin
 import bioinfo.serializers as bioinfo_serializers
@@ -186,7 +186,55 @@ class QualityMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upd
         # show the user the detail view of the label
         return reverse('view_qualitymetadata')
     
-    
+
+class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'bioinfo.add_qualitymetadata'
+    model = QualityMetadata
+    form_class = QualityMetadataForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_qualitymetadata'
+        context['page_title'] = 'Quality Metadata'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class QualityMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = QualityMetadata
+    form_class = QualityMetadataForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('bioinfo.update_qualitymetadata', 'bioinfo.view_qualitymetadata', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_qualitymetadata'
+        context['page_title'] = 'Quality Metadata'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
@@ -275,7 +323,55 @@ class DenoiseClusterMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMix
         # show the user the detail view of the label
         return reverse('view_denoiseclustermetadata')
     
-    
+
+class DenoiseClusterMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'bioinfo.add_denoiseclustermetadata'
+    model = DenoiseClusterMetadata
+    form_class = DenoiseClusterMetadataForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_denoiseclustermetadata'
+        context['page_title'] = 'Denoise Cluster Metadata'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class DenoiseClusterMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = DenoiseClusterMetadata
+    form_class = DenoiseClusterMetadataForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('bioinfo.update_denoiseclustermetadata', 'bioinfo.view_denoiseclustermetadata', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_denoiseclustermetadata'
+        context['page_title'] = 'Denoise Cluster Metadata'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class FeatureOutputFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
@@ -360,8 +456,56 @@ class FeatureOutputUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         return reverse('view_featureoutput')
-    
-   
+
+
+class FeatureOutputPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'bioinfo.add_featureoutput'
+    model = FeatureOutput
+    form_class = FeatureOutputForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_featureoutput'
+        context['page_title'] = 'Feature Output'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FeatureOutputPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FeatureOutput
+    form_class = FeatureOutputForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('bioinfo.update_featureoutput', 'bioinfo.view_featureoutput', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_featureoutput'
+        context['page_title'] = 'Feature Output'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class FeatureReadFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
@@ -534,6 +678,54 @@ class AnnotationMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, 
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         return reverse('view_annotationmetadata')
+
+
+class AnnotationMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'bioinfo.add_annotationmetadata'
+    model = AnnotationMetadata
+    form_class = AnnotationMetadataForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_annotationmetadata'
+        context['page_title'] = 'Annotation Metadata'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class AnnotationMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = AnnotationMetadata
+    form_class = AnnotationMetadataForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('bioinfo.update_annotationmetadata', 'bioinfo.view_annotationmetadata', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_annotationmetadata'
+        context['page_title'] = 'Annotation Metadata'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
 
 
 class TaxonomicAnnotationFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
