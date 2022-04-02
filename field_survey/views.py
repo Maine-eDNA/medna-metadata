@@ -125,7 +125,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_survey.view_fieldsurvey', )
     export_name = 'fieldsurvey_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsurvey_serializers.GeoFieldSurveySerializer
+    serializer_class = fieldsurvey_serializers.FieldSurveySerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
