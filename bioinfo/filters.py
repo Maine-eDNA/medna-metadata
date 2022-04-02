@@ -1,5 +1,6 @@
 from django_filters import rest_framework as filters
 from users.models import CustomUser
+from utility.filters import get_choices
 from utility.models import ProcessLocation
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from wet_lab.models import RunResult, Extraction
@@ -16,7 +17,7 @@ class QualityMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
-    analysis_label = filters.ModelChoiceFilter(field_name='analysis_label', queryset=QualityMetadata.objects.all(), widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_choices(QualityMetadata, 'analysis_label'), widget=CustomSelect2)
 
     class Meta:
         model = QualityMetadata
@@ -27,7 +28,7 @@ class DenoiseClusterMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     quality_metadata = filters.ModelChoiceFilter(field_name='quality_metadata__quality_slug', queryset=QualityMetadata.objects.all(), widget=CustomSelect2)
-    analysis_label = filters.ModelChoiceFilter(field_name='analysis_label', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_choices(DenoiseClusterMetadata, 'analysis_label'), widget=CustomSelect2)
     denoise_cluster_method = filters.ModelChoiceFilter(field_name='denoise_cluster_method__denoise_cluster_method_slug', queryset=DenoiseClusterMethod.objects.all(), widget=CustomSelect2)
 
     class Meta:
@@ -56,7 +57,7 @@ class FeatureReadFilter(filters.FilterSet):
 
 class AnnotationMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    analysis_label = filters.ModelChoiceFilter(field_name='analysis_label', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
+    analysis_label = filters.ChoiceFilter(choices=get_choices(AnnotationMetadata, 'analysis_label'), widget=CustomSelect2)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     denoise_cluster_metadata = filters.ModelChoiceFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
     annotation_method = filters.ModelChoiceFilter(field_name='annotation_method__annotation_method_name_slug', queryset=AnnotationMethod.objects.all(), widget=CustomSelect2)
@@ -71,7 +72,7 @@ class TaxonomicAnnotationFilter(filters.FilterSet):
     feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
     annotation_metadata = filters.ModelChoiceFilter(field_name='annotation_metadata__annotation_slug', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
     reference_database = filters.ModelChoiceFilter(field_name='reference_database__refdb_slug', queryset=ReferenceDatabase.objects.all(), widget=CustomSelect2)
-    ta_taxon = filters.ModelChoiceFilter(field_name='ta_taxon', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
+    ta_taxon = filters.ChoiceFilter(choices=get_choices(TaxonomicAnnotation, 'ta_taxon'), widget=CustomSelect2)
     ta_domain = filters.ModelChoiceFilter(field_name='ta_domain', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
     ta_kingdom = filters.ModelChoiceFilter(field_name='ta_kingdom', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
     ta_supergroup = filters.ModelChoiceFilter(field_name='ta_supergroup', queryset=TaxonomicAnnotation.objects.all(), widget=CustomSelect2)
