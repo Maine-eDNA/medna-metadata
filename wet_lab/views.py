@@ -32,10 +32,10 @@ from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTa
 
 # Create your views here.
 ########################################
-# FRONTEND VIEWS                       #
+# FRONTEND REQUESTS                    #
 ########################################
 @login_required(login_url='dashboard_login')
-def run_result_count_chart(request):
+def get_run_result_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
     # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
@@ -45,7 +45,7 @@ def run_result_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def extraction_count_chart(request):
+def get_extraction_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
     # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
@@ -54,9 +54,12 @@ def extraction_count_chart(request):
     return JsonResponse(data={'labels': labels, 'data': data, })
 
 
+########################################
+# FRONTEND VIEWS                       #
+########################################
 class ExtractionFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = Extraction
     table_class = ExtractionTable
@@ -73,10 +76,10 @@ class ExtractionFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serializ
                         'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_extraction"
-        context["page_title"] = "Extraction"
+        context['segment'] = "view_extraction"
+        context['page_title'] = "Extraction"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -96,10 +99,10 @@ class ExtractionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
     permission_required = ('wet_lab.update_extraction', 'wet_lab.view_extraction', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_extraction"
-        context["page_title"] = "Extraction"
+        context['segment'] = "update_extraction"
+        context['page_title'] = "Extraction"
         return context
 
     def handle_no_permission(self):
@@ -123,10 +126,10 @@ class ExtractionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_extraction"
-        context["page_title"] = "Extraction"
+        context['segment'] = "add_extraction"
+        context['page_title'] = "Extraction"
         return context
 
     def form_valid(self, form):
@@ -153,10 +156,10 @@ class PcrReplicatePopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permissi
     template_name = 'home/django-material-dashboard/model-add-popup.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_pcrreplicate"
-        context["page_title"] = "Pcr Replicate"
+        context['segment'] = "add_pcrreplicate"
+        context['page_title'] = "Pcr Replicate"
         return context
 
     def form_valid(self, form):
@@ -179,10 +182,10 @@ class PcrReplicatePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, Permissi
     permission_required = ('wet_lab.update_pcrreplicate', 'wet_lab.view_pcrreplicate', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_pcrreplicate"
-        context["page_title"] = "Pcr Replicate"
+        context['segment'] = "update_pcrreplicate"
+        context['page_title'] = "Pcr Replicate"
         return context
 
     def handle_no_permission(self):
@@ -193,7 +196,7 @@ class PcrReplicatePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, Permissi
 
 class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = Pcr
     table_class = PcrTable
@@ -211,10 +214,10 @@ class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExpor
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_pcr"
-        context["page_title"] = "Pcr"
+        context['segment'] = "view_pcr"
+        context['page_title'] = "Pcr"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -235,10 +238,10 @@ class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_pcr"
-        context["page_title"] = "Pcr"
+        context['segment'] = "add_pcr"
+        context['page_title'] = "Pcr"
         return context
 
     # Sending user object to the form, to verify which fields to display
@@ -270,10 +273,10 @@ class PcrUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = ('wet_lab.update_pcr', 'wet_lab.view_pcr', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_pcr"
-        context["page_title"] = "Pcr"
+        context['segment'] = "update_pcr"
+        context['page_title'] = "Pcr"
         return context
 
     # Sending user object to the form, to verify which fields to display
@@ -303,10 +306,10 @@ class IndexPairPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionR
     template_name = 'home/django-material-dashboard/model-add-popup.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_indexpair"
-        context["page_title"] = "Index Pair"
+        context['segment'] = "add_indexpair"
+        context['page_title'] = "Index Pair"
         return context
 
     def form_valid(self, form):
@@ -329,10 +332,10 @@ class IndexPairPopupUpdateView(CreatePopupMixin, LoginRequiredMixin, PermissionR
     permission_required = ('wet_lab.update_indexpair', 'wet_lab.view_indexpair', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_indexpair"
-        context["page_title"] = "Index Pair"
+        context['segment'] = "update_indexpair"
+        context['page_title'] = "Index Pair"
         return context
 
     def handle_no_permission(self):
@@ -343,7 +346,7 @@ class IndexPairPopupUpdateView(CreatePopupMixin, LoginRequiredMixin, PermissionR
 
 class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = LibraryPrep
     table_class = LibraryPrepTable
@@ -361,10 +364,10 @@ class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_libraryprep"
-        context["page_title"] = "Library Prep"
+        context['segment'] = "view_libraryprep"
+        context['page_title'] = "Library Prep"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -385,10 +388,10 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_libraryprep"
-        context["page_title"] = "Library Prep"
+        context['segment'] = "add_libraryprep"
+        context['page_title'] = "Library Prep"
         return context
 
     def form_valid(self, form):
@@ -420,10 +423,10 @@ class LibraryPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
     permission_required = ('wet_lab.update_libraryprep', 'wet_lab.view_libraryprep', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_libraryprep"
-        context["page_title"] = "Library Prep"
+        context['segment'] = "update_libraryprep"
+        context['page_title'] = "Library Prep"
         return context
 
     # Sending user object to the form, to verify which fields to display
@@ -445,7 +448,7 @@ class LibraryPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
 
 class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = PooledLibrary
     table_class = PooledLibraryTable
@@ -464,10 +467,10 @@ class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_pooledlibrary"
-        context["page_title"] = "Pooled Library"
+        context['segment'] = "view_pooledlibrary"
+        context['page_title'] = "Pooled Library"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -487,10 +490,10 @@ class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
     permission_required = ('wet_lab.update_pooledlibrary', 'wet_lab.view_pooledlibrary', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_pooledlibrary"
-        context["page_title"] = "Pooled Library"
+        context['segment'] = "update_pooledlibrary"
+        context['page_title'] = "Pooled Library"
         return context
 
     def handle_no_permission(self):
@@ -514,10 +517,10 @@ class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_pooledlibrary"
-        context["page_title"] = "Pooled Library"
+        context['segment'] = "add_pooledlibrary"
+        context['page_title'] = "Pooled Library"
         return context
 
     def form_valid(self, form):
@@ -536,7 +539,7 @@ class PooledLibraryCreateView(LoginRequiredMixin, PermissionRequiredMixin, Creat
 
 class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = RunPrep
     table_class = RunPrepTable
@@ -553,10 +556,10 @@ class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerE
                         'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_runprep"
-        context["page_title"] = "Run Prep"
+        context['segment'] = "view_runprep"
+        context['page_title'] = "Run Prep"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -576,10 +579,10 @@ class RunPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     permission_required = ('wet_lab.update_runprep', 'wet_lab.view_runprep', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_runprep"
-        context["page_title"] = "Run Prep"
+        context['segment'] = "update_runprep"
+        context['page_title'] = "Run Prep"
         return context
 
     def handle_no_permission(self):
@@ -603,10 +606,10 @@ class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_runprep"
-        context["page_title"] = "Run Prep"
+        context['segment'] = "add_runprep"
+        context['page_title'] = "Run Prep"
         return context
 
     def form_valid(self, form):
@@ -625,7 +628,7 @@ class RunPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
 
 class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = RunResult
     table_class = RunResultTable
@@ -640,10 +643,10 @@ class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_runresult"
-        context["page_title"] = "Run Result"
+        context['segment'] = "view_runresult"
+        context['page_title'] = "Run Result"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -663,10 +666,10 @@ class RunResultUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     permission_required = ('wet_lab.update_runresult', 'wet_lab.view_runresult', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_runresult"
-        context["page_title"] = "Run Result"
+        context['segment'] = "update_runresult"
+        context['page_title'] = "Run Result"
         return context
 
     def handle_no_permission(self):
@@ -690,10 +693,10 @@ class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_runresult"
-        context["page_title"] = "Run Result"
+        context['segment'] = "add_runresult"
+        context['page_title'] = "Run Result"
         return context
 
     def form_valid(self, form):
@@ -712,7 +715,7 @@ class RunResultCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 
 class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    """View site filter view with REST serializer and django-tables2"""
+    # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FastqFile
     table_class = FastqFileTable
@@ -727,10 +730,10 @@ class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "view_fastqfile"
-        context["page_title"] = "Fastq File"
+        context['segment'] = "view_fastqfile"
+        context['page_title'] = "Fastq File"
         context["export_formats"] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
@@ -750,10 +753,10 @@ class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     permission_required = ('wet_lab.update_fastqfile', 'wet_lab.view_fastqfile', )
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "update_fastqfile"
-        context["page_title"] = "Fastq File"
+        context['segment'] = "update_fastqfile"
+        context['page_title'] = "Fastq File"
         return context
 
     def handle_no_permission(self):
@@ -777,10 +780,10 @@ class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     template_name = 'home/django-material-dashboard/model-add.html'
 
     def get_context_data(self, **kwargs):
-        """Return the view context data."""
+        # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context["segment"] = "add_fastqfile"
-        context["page_title"] = "Fastq File"
+        context['segment'] = "add_fastqfile"
+        context['page_title'] = "Fastq File"
         return context
 
     def form_valid(self, form):

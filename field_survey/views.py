@@ -42,7 +42,7 @@ def get_project_survey_geom(request, pk):
 
 
 @login_required(login_url='dashboard_login')
-def survey_count_chart(request):
+def get_survey_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
     # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
@@ -52,7 +52,7 @@ def survey_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def survey_system_count_chart(request):
+def get_survey_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FieldSurvey.objects.annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
@@ -61,7 +61,7 @@ def survey_system_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def survey_site_count_chart(request):
+def get_survey_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     labels, data = return_queryset_lists(FieldSurvey.objects.annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
     labels = ["Other" if x == '' else x for x in labels]
@@ -69,7 +69,7 @@ def survey_site_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def field_sample_count_chart(request):
+def get_field_sample_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
     # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
@@ -87,7 +87,7 @@ def field_sample_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def filter_type_count_chart(request):
+def get_filter_type_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FilterSample.objects.annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
@@ -96,7 +96,7 @@ def filter_type_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def filter_system_count_chart(request):
+def get_filter_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
@@ -105,7 +105,7 @@ def filter_system_count_chart(request):
 
 
 @login_required(login_url='dashboard_login')
-def filter_site_count_chart(request):
+def get_filter_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
     labels, data = return_queryset_lists(FilterSample.objects.annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
