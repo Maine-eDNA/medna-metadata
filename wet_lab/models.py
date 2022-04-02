@@ -221,7 +221,7 @@ class Extraction(DateTimeUserMixin):
     barcode_slug = models.SlugField('Extraction Barcode Slug', max_length=16)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
     extraction_control = models.CharField('Is Control', max_length=50, choices=YesNo.choices)
-    extraction_control_type = models.CharField('Extraction Control Type', blank=True, max_length=50, choices=ControlTypes.choices)
+    extraction_control_type = models.CharField('Control Type', blank=True, max_length=50, choices=ControlTypes.choices)
     process_location = models.ForeignKey(ProcessLocation, blank=True, null=True, on_delete=models.RESTRICT, default=get_default_process_location)
     extraction_datetime = models.DateTimeField('Extraction DateTime', blank=True, null=True)
     extraction_method = models.ForeignKey(ExtractionMethod, on_delete=models.RESTRICT, blank=True, null=True)
