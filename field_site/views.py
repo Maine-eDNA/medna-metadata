@@ -173,7 +173,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     serializer_class = fieldsite_serializers.GeoFieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['created_by__email', 'grant__grant_code', 'project__project_code', 'system__system_code',
+    filterset_fields = ['created_by__email', 'general_location_name', 'grant__grant_code', 'project__project_code', 'system__system_code',
                         'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
                         'envo_biome_second__biome_second_tier',
                         'envo_biome_third__biome_third_tier', 'envo_biome_fourth__biome_fourth_tier',
