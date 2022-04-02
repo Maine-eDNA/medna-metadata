@@ -209,7 +209,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
                                                      slug_field='extraction_method_slug',
                                                      queryset=ExtractionMethod.objects.all())
     quantification_method = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True,
-                                                         slug_field='quant_method_name_slug',
+                                                         slug_field='quant_method_slug',
                                                          queryset=QuantificationMethod.objects.all())
 
 
@@ -314,7 +314,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     index_pair = serializers.SlugRelatedField(many=False, read_only=False, slug_field='id', queryset=IndexPair.objects.all())
     index_removal_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='index_removal_method_slug', queryset=IndexRemovalMethod.objects.all())
     size_selection_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='size_selection_method_slug', queryset=SizeSelectionMethod.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_name_slug', queryset=QuantificationMethod.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_slug', queryset=QuantificationMethod.objects.all())
     amplification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='amplification_method_slug', queryset=AmplificationMethod.objects.all())
 
 
@@ -348,7 +348,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
     library_prep = serializers.SlugRelatedField(many=True, read_only=False, slug_field='lib_prep_slug', queryset=LibraryPrep.objects.all())
-    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_name_slug', queryset=QuantificationMethod.objects.all())
+    quantification_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quant_method_slug', queryset=QuantificationMethod.objects.all())
 
 
 class RunPrepSerializer(serializers.ModelSerializer):
