@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSurvey',
             fields=[
-                ('survey_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('survey_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Survey Global ID')),
                 ('survey_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey DateTime')),
                 ('recorder_fname', models.CharField(blank=True, max_length=255, verbose_name='Recorder First Name')),
                 ('recorder_lname', models.CharField(blank=True, max_length=255, verbose_name='Recorder Last Name')),
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCrew',
             fields=[
-                ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Crew Global ID')),
                 ('crew_fname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Crew Creation DateTime')),
@@ -112,7 +112,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EnvMeasurement',
             fields=[
-                ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='EnvMeas Global ID')),
                 ('env_measure_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Measurement DateTime')),
                 ('env_measure_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Measurement Depth (m)')),
                 ('env_instrument', models.TextField(blank=True, choices=[(None, '(Unknown)'), ('env_ctd', 'CTD'), ('env_ysi', 'YSI'), ('env_secchi', 'Secchi Disk'), ('env_niskin', 'Niskin'), ('env_inst_other', 'Other')], verbose_name='Instruments Used')),
@@ -163,7 +163,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCollection',
             fields=[
-                ('collection_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('collection_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Collection Global ID')),
                 ('collection_type', models.CharField(choices=[(None, '(Unknown)'), ('water_sample', 'Water Sample'), ('sed_sample', 'Sediment Sample')], max_length=50, verbose_name='Collection Type (water or sediment)')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Collection Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Collection Edit DateTime')),
@@ -233,16 +233,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSample',
             fields=[
-                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, primary_key=True, related_name='field_sample_barcode', serialize=False, to='sample_label.samplebarcode')),
+                ('sample_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Sample Global ID')),
+                ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, related_name='field_sample_barcode', to='sample_label.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=16, verbose_name='Field Sample Barcode Slug')),
-                ('sample_global_id', models.CharField(max_length=255, unique=True, verbose_name='Global ID')),
+                ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplematerial')),
                 ('is_extracted', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Extracted')),
+                ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='field_samples', to='field_survey.fieldcollection')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Field Sample Edit DateTime')),
-                ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='field_samples', to='field_survey.fieldcollection')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Creator')),
                 ('record_editor', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='field_sample_record_editor', to=settings.AUTH_USER_MODEL, verbose_name='Field Sample Editor')),
-                ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplematerial')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
@@ -305,7 +305,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldSurveyETL',
             fields=[
-                ('survey_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('survey_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Survey Global ID')),
                 ('username', models.CharField(blank=True, max_length=255, verbose_name='Username')),
                 ('survey_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Survey DateTime')),
                 ('project_ids', models.CharField(blank=True, max_length=255, verbose_name='Affiliated Project(s)')),
@@ -361,7 +361,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCrewETL',
             fields=[
-                ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Crew Global ID')),
                 ('crew_fname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Record Creation DateTime')),
@@ -381,7 +381,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EnvMeasurementETL',
             fields=[
-                ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('env_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='EnvMeas Global ID')),
                 ('env_measure_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Measurement DateTime')),
                 ('env_measure_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Measurement Depth (m)')),
                 ('env_instrument', models.TextField(blank=True, verbose_name='Instruments Used')),
@@ -432,7 +432,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldCollectionETL',
             fields=[
-                ('collection_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('collection_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Collection Global ID')),
                 ('collection_type', models.CharField(blank=True, max_length=255, verbose_name='Collection Type (water or sediment)')),
                 ('water_control', models.CharField(blank=True, max_length=3, verbose_name='Is Control')),
                 ('water_control_type', models.CharField(blank=True, max_length=255, verbose_name='Control Type')),
@@ -488,7 +488,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SampleFilterETL',
             fields=[
-                ('filter_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Global ID')),
+                ('filter_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Filter Global ID')),
                 ('filter_location', models.CharField(blank=True, max_length=255, verbose_name='Filter Location')),
                 ('is_prefilter', models.CharField(blank=True, max_length=3, verbose_name='Prefilter')),
                 ('filter_fname', models.CharField(blank=True, max_length=255, verbose_name='Filterer First Name')),

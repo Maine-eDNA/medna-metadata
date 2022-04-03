@@ -19,7 +19,7 @@ from utility.models import DateTimeUserMixin, get_sentinel_user, slug_date_forma
 class FieldSurvey(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    survey_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    survey_global_id = models.CharField('Survey Global ID', primary_key=True, max_length=255)
     username = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='Username', on_delete=models.SET(get_sentinel_user), related_name='username')
     # date
     survey_datetime = models.DateTimeField('Survey DateTime', blank=True, null=True)
@@ -95,7 +95,7 @@ class FieldSurvey(DateTimeUserMixin):
 
 
 class FieldCrew(DateTimeUserMixin):
-    crew_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    crew_global_id = models.CharField('Crew Global ID', primary_key=True, max_length=255)
     crew_fname = models.CharField('Crew First Name', blank=True, max_length=255)
     crew_lname = models.CharField('Crew First Name', blank=True, max_length=255)
     record_create_datetime = models.DateTimeField('Crew Creation DateTime', blank=True, null=True)
@@ -143,7 +143,7 @@ class EnvMeasureType(DateTimeUserMixin):
 
 
 class EnvMeasurement(DateTimeUserMixin):
-    env_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    env_global_id = models.CharField('EnvMeas Global ID', primary_key=True, max_length=255)
     env_measure_datetime = models.DateTimeField('Measurement DateTime', blank=True, null=True)
     env_measure_depth = models.DecimalField('Measurement Depth (m)', blank=True, null=True, max_digits=15, decimal_places=10)
     env_instrument = models.TextField('Instruments Used', blank=True, choices=EnvInstruments.choices)
@@ -196,7 +196,7 @@ class EnvMeasurement(DateTimeUserMixin):
 
 
 class FieldCollection(DateTimeUserMixin):
-    collection_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    collection_global_id = models.CharField('Collection Global ID', primary_key=True, max_length=255)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column='survey_global_id', related_name='field_collections', on_delete=models.CASCADE)
     collection_type = models.CharField('Collection Type (water or sediment)', choices=CollectionTypes.choices, max_length=50)
     record_create_datetime = models.DateTimeField('Collection Creation DateTime', blank=True, null=True)
@@ -265,8 +265,8 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
-    field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', primary_key=True, related_name='field_sample_barcode', on_delete=models.RESTRICT)
-    sample_global_id = models.CharField('Global ID', unique=True, max_length=255)
+    sample_global_id = models.CharField('Sample Global ID', primary_key=True, max_length=255)
+    field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', related_name='field_sample_barcode', on_delete=models.RESTRICT)
     collection_global_id = models.ForeignKey(FieldCollection, db_column='collection_global_id', related_name='field_samples', on_delete=models.CASCADE)
     barcode_slug = models.SlugField('Field Sample Barcode Slug', max_length=16)
     is_extracted = models.CharField('Extracted', max_length=3, choices=YesNo.choices, default=YesNo.NO)
@@ -356,7 +356,7 @@ class SubCoreSample(DateTimeUserMixin):
 class FieldSurveyETL(DateTimeUserMixin):
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    survey_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    survey_global_id = models.CharField('Survey Global ID', primary_key=True, max_length=255)
     username = models.CharField('Username', blank=True, max_length=255)
     # date
     survey_datetime = models.DateTimeField('Survey DateTime', blank=True, null=True)
@@ -432,7 +432,7 @@ class FieldSurveyETL(DateTimeUserMixin):
 
 
 class FieldCrewETL(DateTimeUserMixin):
-    crew_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    crew_global_id = models.CharField('Crew Global ID', primary_key=True, max_length=255)
     crew_fname = models.CharField('Crew First Name', blank=True, max_length=255)
     crew_lname = models.CharField('Crew First Name', blank=True, max_length=255)
     record_create_datetime = models.DateTimeField('Record Creation DateTime', blank=True, null=True)
@@ -451,7 +451,7 @@ class FieldCrewETL(DateTimeUserMixin):
 
 
 class EnvMeasurementETL(DateTimeUserMixin):
-    env_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    env_global_id = models.CharField('EnvMeas Global ID', primary_key=True, max_length=255)
     env_measure_datetime = models.DateTimeField('Measurement DateTime', blank=True, null=True)
     env_measure_depth = models.DecimalField('Measurement Depth (m)', blank=True, null=True, max_digits=15, decimal_places=10)
     env_instrument = models.TextField('Instruments Used', blank=True)
@@ -504,7 +504,7 @@ class EnvMeasurementETL(DateTimeUserMixin):
 
 
 class FieldCollectionETL(DateTimeUserMixin):
-    collection_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    collection_global_id = models.CharField('Collection Global ID', primary_key=True, max_length=255)
     collection_type = models.CharField('Collection Type (water or sediment)', blank=True, max_length=255)
     water_control = models.CharField('Is Control', blank=True, max_length=3)
     water_control_type = models.CharField('Control Type', blank=True, max_length=255)
@@ -560,7 +560,7 @@ class FieldCollectionETL(DateTimeUserMixin):
 
 
 class SampleFilterETL(DateTimeUserMixin):
-    filter_global_id = models.CharField('Global ID', primary_key=True, max_length=255)
+    filter_global_id = models.CharField('Filter Global ID', primary_key=True, max_length=255)
     filter_location = models.CharField('Filter Location', blank=True, max_length=255)
     is_prefilter = models.CharField('Prefilter', blank=True, max_length=3)
     filter_fname = models.CharField('Filterer First Name', blank=True, max_length=255)

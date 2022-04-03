@@ -300,9 +300,9 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
         update_count = 0
         # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
         field_sample, created = FieldSample.objects.update_or_create(
-            field_sample_barcode=sample_barcode_record,
+            sample_global_id=field_sample_pk,
             defaults={
-                'sample_global_id': field_sample_pk,
+                'field_sample_barcode': sample_barcode_record,
                 'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
                 'record_create_datetime': record.record_create_datetime,
                 'record_creator': CustomUser.objects.get(agol_username=record.record_creator),
