@@ -36,17 +36,29 @@ class FieldSurveyFilter(filters.FilterSet):
 
 
 class FilterSampleFilter(filters.FilterSet):
-    project_ids = filters.ModelMultipleChoiceFilter(field_name='project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
-    site_id = filters.ModelMultipleChoiceFilter(field_name='site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
-    username = filters.ModelMultipleChoiceFilter(field_name='username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')
-    supervisor = filters.ModelMultipleChoiceFilter(field_name='supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Supervisor')
-    water_filterer = filters.ModelMultipleChoiceFilter(field_name='water_filterer__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Water Filterer')
-    survey_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Survey DateTime')
-    field_sample_barcode = filters.ModelMultipleChoiceFilter(field_name='field_collections__field_samples__barcode_slug', queryset=FieldSample.objects.all(), widget=CustomSelect2Multiple, label='Barcode')
+    project_ids = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
+    site_id = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
+    username = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')
+    supervisor = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Supervisor')
+    filter_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Filter DateTime')
+    field_sample_barcode = filters.ModelMultipleChoiceFilter(field_name='field_sample__field_sample_barcode__sample_barcode_id', queryset=FieldSample.objects.all(), widget=CustomSelect2Multiple, label='Barcode')
 
     class Meta:
         model = FieldSurvey
-        fields = ['username', 'supervisor', 'water_filterer', 'survey_datetime', 'site_id', 'project_ids', ]
+        fields = ['username', 'supervisor', 'filter_datetime', 'site_id', 'project_ids', 'field_sample_barcode', ]
+
+
+class SubCoreSampleFilter(filters.FilterSet):
+    project_ids = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
+    site_id = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')
+    username = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Username')
+    supervisor = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Supervisor')
+    subcore_datetime_start = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='SubCore DateTime')
+    field_sample_barcode = filters.ModelMultipleChoiceFilter(field_name='field_sample__field_sample_barcode__sample_barcode_id', queryset=FieldSample.objects.all(), widget=CustomSelect2Multiple, label='Barcode')
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['username', 'supervisor', 'subcore_datetime_start', 'site_id', 'project_ids', 'field_sample_barcode', ]
 
 
 ########################################
