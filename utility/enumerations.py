@@ -109,8 +109,12 @@ class TurbidTypes(models.TextChoices):
 
 
 class EnvoMaterials(models.TextChoices):
-    WATER = 'water', _('Water')
-    SOIL = 'soil', _('Soil')
+    # http://purl.obolibrary.org/obo/ENVO_00002006
+    WATER = 'water', _('Water [ENVO:00002006]')
+    # http://purl.obolibrary.org/obo/ENVO_00001998
+    SOIL = 'soil', _('Soil [ENVO:00001998]')
+    # http://purl.obolibrary.org/obo/ENVO_00002007
+    SEDIMENT = 'sediment', _('Sediment [ENVO:00002007]')
     OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 

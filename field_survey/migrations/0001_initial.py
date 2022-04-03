@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('env_biome_other', models.CharField(blank=True, max_length=255, verbose_name='Other Biome')),
                 ('env_feature', models.CharField(blank=True, max_length=255, verbose_name='Feature')),
                 ('env_feature_other', models.CharField(blank=True, max_length=255, verbose_name='Other Feature')),
-                ('env_material', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('water', 'Water'), ('soil', 'Soil'), ('other', 'Other')], max_length=50, verbose_name='Material')),
+                ('env_material', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('water', 'Water'), ('soil', 'Soil'), ('sediment', 'Sediment'), ('other', 'Other')], max_length=50, verbose_name='Material')),
                 ('env_material_other', models.CharField(blank=True, max_length=255, verbose_name='Other Material')),
                 ('env_notes', models.TextField(blank=True, verbose_name='Environmental Notes')),
                 ('env_measure_mode', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('on_foot', 'On Foot'), ('on_boat', 'Boat')], max_length=50, verbose_name='Collection Mode')),
