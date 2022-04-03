@@ -56,6 +56,7 @@ urlpatterns = [
     # FIELD SURVEY: FIELD SURVEY (VIEW)
     path('dashboard/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFilter), name='view_fieldsurvey'),
     path('dashboard/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
+    path('dashboard/subcoresample/view/', fieldsurvey_views.SubCoreSampleFilterView.as_view(filterset_class=fieldsurvey_filters.SubCoreSampleFilter), name='view_subcoresample'),
     # WET LAB: EXTRACTION (VIEW, ADD, UPDATE)
     # TODO convert add_extraction to table update
     path('dashboard/wetlab/extraction/view/', wetlab_views.ExtractionFilterView.as_view(filterset_class=wetlab_filters.ExtractionFilter), name='view_extraction'),
