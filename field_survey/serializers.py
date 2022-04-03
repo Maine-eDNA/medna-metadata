@@ -115,7 +115,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'water_collect_datetime', 'project_ids', 'supervisor', 'username',
                   'site_id', 'site_name', 'lat_manual', 'long_manual',
-                  'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
+                  'survey_complete', 'qa_editor', 'qa_datetime',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',
                   'record_editor', 'record_edit_datetime',
@@ -127,34 +127,34 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.sample_barcode_id')
-    survey_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.survey_datetime')
-    is_extracted = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.is_extracted')
-    water_control = serializers.ReadOnlyField(source='field_sample.collection_global_id.water_collection.water_control')
-    water_control_type = serializers.ReadOnlyField(source='field_sample.collection_global_id.water_collection.water_control_type')
-    water_collect_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.water_collection.water_collect_datetime')
-    project_ids = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.project_ids.project_label')
-    supervisor = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.supervisor.agol_username')
-    username = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.username.agol_username')
-    site_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.site_id.site_id')
-    site_name = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.site_name')
-    lat_manual = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.lat_manual')
-    long_manual = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.long_manual')
-    survey_complete = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.survey_complete')
-    qa_editor = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.qa_editor.agol_username')
-    qa_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.qa_datetime')
-    gps_cap_lat = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_lat')
-    gps_cap_long = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_long')
-    gps_cap_alt = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_alt')
-    gps_cap_horacc = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_horacc')
-    gps_cap_vertacc = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_vertacc')
-    record_creator = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_creator.agol_username')
-    record_create_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_create_datetime')
-    record_editor = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
-    record_edit_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_edit_datetime')
-    sample_global_id = serializers.ReadOnlyField(source='field_sample.sample_global_id')
-    collection_global_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.pk')
-    survey_global_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.pk')
+    field_sample_barcode = serializers.RelatedField(source='field_sample.field_sample_barcode.sample_barcode_id', read_only=True)
+    survey_datetime = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.survey_datetime', read_only=True)
+    is_extracted = serializers.RelatedField(source='field_sample.field_sample_barcode.is_extracted', read_only=True)
+    water_control = serializers.RelatedField(source='field_sample.collection_global_id.water_collection.water_control', read_only=True)
+    water_control_type = serializers.RelatedField(source='field_sample.collection_global_id.water_collection.water_control_type', read_only=True)
+    water_collect_datetime = serializers.RelatedField(source='field_sample.collection_global_id.water_collection.water_collect_datetime', read_only=True)
+    project_ids = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.project_ids.project_label', read_only=True)
+    supervisor = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.supervisor.agol_username', read_only=True)
+    username = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.username.agol_username', read_only=True)
+    site_id = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.site_id.site_id', read_only=True)
+    site_name = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.site_name', read_only=True)
+    lat_manual = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.lat_manual', read_only=True)
+    long_manual = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.long_manual', read_only=True)
+    survey_complete = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.survey_complete', read_only=True)
+    qa_editor = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.qa_editor.agol_username', read_only=True)
+    qa_datetime = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.qa_datetime', read_only=True)
+    gps_cap_lat = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.gps_cap_lat', read_only=True)
+    gps_cap_long = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.gps_cap_long', read_only=True)
+    gps_cap_alt = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.gps_cap_alt', read_only=True)
+    gps_cap_horacc = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.gps_cap_horacc', read_only=True)
+    gps_cap_vertacc = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.gps_cap_vertacc', read_only=True)
+    record_creator = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.record_creator.agol_username', read_only=True)
+    record_create_datetime = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.record_create_datetime', read_only=True)
+    record_editor = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.record_editor.agol_username', read_only=True)
+    record_edit_datetime = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.record_edit_datetime', read_only=True)
+    sample_global_id = serializers.RelatedField(source='field_sample.sample_global_id', read_only=True)
+    collection_global_id = serializers.RelatedField(source='field_sample.collection_global_id.pk', read_only=True)
+    survey_global_id = serializers.RelatedField(source='field_sample.collection_global_id.survey_global_id.pk', read_only=True)
 
 
 #################################

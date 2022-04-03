@@ -107,7 +107,7 @@ class FilterSampleTable(tables.Table):
                   'filter_method', 'filter_vol', 'is_prefilter',  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
                   'water_collect_datetime', 'project_ids', 'supervisor', 'username',
                   'site_id', 'site_name', 'lat_manual', 'long_manual',
-                  'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
+                  'survey_complete', 'qa_editor', 'qa_datetime',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',
                   'record_editor', 'record_edit_datetime',
