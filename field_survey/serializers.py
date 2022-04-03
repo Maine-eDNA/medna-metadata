@@ -109,7 +109,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FilterSample
-        fields = ['field_sample_barcode', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
+        fields = ['field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
                   'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
                   'filter_method', 'filter_method_other', 'filter_vol', 'is_prefilter',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
