@@ -60,22 +60,22 @@ class FilterSampleTable(tables.Table):
     field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Sample Global ID')
     filter_sample_label = tables.Column(verbose_name='Filter Label')
     survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
-    filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
     is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
     filter_location = tables.Column(verbose_name='Filter Location')
-    is_prefilter = tables.Column(verbose_name='Prefilter')
-    # water_filterer = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.water_filterer.agol_username')
+    filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
     filter_fname = tables.Column(verbose_name='Filterer First Name')
     filter_lname = tables.Column(verbose_name='Filterer Last Name')
+    water_control = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control', verbose_name="Control")
+    water_control_type = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control_type', verbose_name="Control Type")
+    # water_filterer = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.water_filterer.agol_username')
     filter_method = tables.Column(verbose_name='Method')
     filter_vol = tables.Column(verbose_name='Volume')
+    is_prefilter = tables.Column(verbose_name='Prefilter')
     filter_type = tables.Column(verbose_name='Type')
     filter_pore = tables.Column(verbose_name='Pore')
     filter_size = tables.Column(verbose_name='Size')
     filter_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.filter_notes }}">{{ record.filter_notes|truncatewords:5 }}', verbose_name='Notes')
     water_collect_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.water_collection.water_collect_datetime', format='M d, Y h:i a', verbose_name='Collection DateTime')
-    water_control = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control', verbose_name="Control")
-    water_control_type = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control_type', verbose_name="Control Type")
     project_ids = tables.ManyToManyColumn(accessor='field_sample.collection_global_id.survey_global_id.project_ids.project_label', verbose_name='Project')
     supervisor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.supervisor.agol_username', verbose_name='Supervisor')
     username = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.username.agol_username', verbose_name='Username')
@@ -102,11 +102,11 @@ class FilterSampleTable(tables.Table):
 
     class Meta:
         model = FilterSample
-        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'filter_datetime',
-                  'is_extracted', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                  'filter_method', 'filter_vol', 'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
-                  'water_collect_datetime', 'water_control', 'water_control_type',
-                  'project_ids', 'supervisor', 'username', 'site_id', 'site_name', 'lat_manual', 'long_manual',
+        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
+                  'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
+                  'filter_method', 'filter_vol', 'is_prefilter',  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
+                  'water_collect_datetime', 'project_ids', 'supervisor', 'username',
+                  'site_id', 'site_name', 'lat_manual', 'long_manual',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',
