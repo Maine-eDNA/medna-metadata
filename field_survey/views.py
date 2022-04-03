@@ -125,7 +125,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     template_name = 'home/django-material-dashboard/model-filter-list.html'
     permission_required = ('field_survey.view_fieldsurvey', )
     export_name = 'fieldsurvey_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsurvey_serializers.FieldSurveySerializer
+    serializer_class = fieldsurvey_serializers.FieldSurveyTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
@@ -171,7 +171,7 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
                            'field_survey.view_watercollection', 'field_survey.view_fieldsample',
                            'field_survey.view_filtersample', )
     export_name = 'filtersample_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsurvey_serializers.FilterSampleSerializer
+    serializer_class = fieldsurvey_serializers.FilterSampleTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',

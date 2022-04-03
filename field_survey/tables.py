@@ -97,7 +97,7 @@ class FilterSampleTable(tables.Table):
     record_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
     record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_edit_datetime', format='M d, Y h:i a')
     sample_global_id = tables.Column(accessor='field_sample.sample_global_id', verbose_name='Sample Global ID')
-    collection_global_id = tables.Column(accessor='field_sample.collection_global_id', verbose_name='Collection Global ID')
+    collection_global_id = tables.Column(accessor='field_sample.collection_global_id.pk', verbose_name='Collection Global ID')
     survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')
 
     class Meta:
