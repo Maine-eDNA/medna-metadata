@@ -122,7 +122,7 @@ class SubCoreSampleTable(tables.Table):
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
     field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Sample Global ID')
-    core_label = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_label', verbose_name='Filter Label')
+    core_label = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_label', verbose_name='Core Label')
     survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
     is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
     subcore_fname = tables.Column(verbose_name='SubCorer First Name')
