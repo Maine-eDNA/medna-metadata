@@ -51,13 +51,26 @@ class FieldSurveyTable(tables.Table):
 
 
 class FilterSampleTable(tables.Table):
-    # _selected_action = tables.CheckBoxColumn(accessor='pk',
-    #                                          attrs={'td': {'class': 'action-checkbox'},
-    #                                                 'input': {'class': 'action-select'},
-    #                                                 'th__input': {'id': 'action-toggle'},
-    #                                                 'th': {'class': 'action-checkbox-column'}},
-    #                                          orderable=False)
-    survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Sample Global ID')
+    filter_sample_label = tables.Column(verbose_name='Filter Label')
+    is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
+    filter_location = tables.Column(verbose_name='Filter Location')
+    is_prefilter = tables.Column(verbose_name='Prefilter')
+    filter_fname = tables.Column(verbose_name='Filterer First Name')
+    filter_lname = tables.Column(verbose_name='Filterer Last Name')
+    filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
+    filter_method = tables.Column(verbose_name='Method')
+    filter_vol = tables.Column(verbose_name='Volume')
+    filter_type = tables.Column(verbose_name='Type')
+    filter_pore = tables.Column(verbose_name='Pore')
+    filter_size = tables.Column(verbose_name='Size')
+    filter_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.filter_notes }}">{{ record.filter_notes|truncatewords:5 }}', verbose_name='Notes')
     survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
     project_ids = tables.ManyToManyColumn(accessor='field_sample.collection_global_id.survey_global_id.project_ids.project_label', verbose_name='Project')
     supervisor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.supervisor.agol_username', verbose_name='Supervisor')
@@ -67,7 +80,6 @@ class FilterSampleTable(tables.Table):
     long_manual = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.long_manual|floatformat:4 }}')
     water_filterer = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.water_filterer.agol_username')
     survey_complete = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.survey_complete')
-    collection_global_id = tables.Column(accessor='field_sample.collection_global_id', verbose_name='collection_global_id')
     qa_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.qa_editor.agol_username')
     qa_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.qa_datetime', format='M d, Y h:i a')
     gps_cap_lat = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_lat|floatformat:4 }}')
@@ -79,14 +91,20 @@ class FilterSampleTable(tables.Table):
     record_create_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_create_datetime', format='M d, Y h:i a')
     record_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
     record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_edit_datetime', format='M d, Y h:i a')
+    sample_global_id = tables.Column(accessor='field_sample.sample_global_id', verbose_name='Sample Global ID')
+    collection_global_id = tables.Column(accessor='field_sample.collection_global_id', verbose_name='Collection Global ID')
+    survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')
 
     class Meta:
         model = FilterSample
-        fields = ('survey_global_id', 'survey_datetime', 'project_ids',
+        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'is_extracted', 'filter_location',
+                  'is_prefilter', 'filter_fname', 'filter_lname', 'filter_datetime', 'filter_method', 'filter_vol',
+                  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
+                  'survey_datetime', 'project_ids',
                   'supervisor', 'username', 'site_id', 'site_id_other', 'site_name',
                   'lat_manual', 'long_manual',
                   'water_filterer',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',
-                  'record_editor', 'record_edit_datetime', )
+                  'record_editor', 'record_edit_datetime', 'sample_global_id', 'collection_global_id', 'survey_global_id',)
