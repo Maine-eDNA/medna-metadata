@@ -217,15 +217,15 @@ class SubCoreSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharS
                            'field_survey.view_watercollection', 'field_survey.view_fieldsample',
                            'field_survey.view_subcoresample', )
     export_name = 'subcoresample_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = fieldsurvey_serializers.FilterSampleTableSerializer
+    serializer_class = fieldsurvey_serializers.SubCoreSampleTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
         context = super().get_context_data(**kwargs)
-        context['segment'] = 'view_filtersample'
-        context['page_title'] = 'Filter Sample'
+        context['segment'] = 'view_subcoresample'
+        context['page_title'] = 'SubCore Sample'
         context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
