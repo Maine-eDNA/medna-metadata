@@ -102,14 +102,13 @@ class FilterSampleTable(tables.Table):
 
     class Meta:
         model = FilterSample
-        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'is_extracted', 'filter_location',
-                  'is_prefilter', 'filter_fname', 'filter_lname', 'filter_datetime', 'filter_method', 'filter_vol',
-                  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
-                  'survey_datetime', 'project_ids',
-                  'supervisor', 'username', 'site_id', 'site_id_other', 'site_name',
-                  'lat_manual', 'long_manual',
-                  'water_filterer',
+        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'filter_datetime',
+                  'is_extracted', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
+                  'filter_method', 'filter_vol', 'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
+                  'water_collect_datetime', 'water_control', 'water_control_type',
+                  'project_ids', 'supervisor', 'username', 'site_id', 'site_name', 'lat_manual', 'long_manual',
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',
-                  'record_editor', 'record_edit_datetime', 'sample_global_id', 'collection_global_id', 'survey_global_id',)
+                  'record_editor', 'record_edit_datetime',
+                  'sample_global_id', 'collection_global_id', 'survey_global_id',)
