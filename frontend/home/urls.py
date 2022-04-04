@@ -37,8 +37,8 @@ urlpatterns = [
     path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('detail_publication')), name='add_publication'),
     path('main/publication/update/<int:pk>/', utility_views.PublicationUpdateView.as_view(), name='update_publication'),
     # UTILITY: STANDARD OPERATING PROCEDURE (VIEW, ADD, UPDATE)
-    path('main/sop/<str:sop_type>', utility_views.StandardOperatingProcedureTemplateView.as_view(), name='view_standardoperatingprocedure'),
-    path('main/sop/add/', utility_views.StandardOperatingProcedureCreateView.as_view(success_url=reverse_lazy('detail_standardoperatingprocedure')), name='add_standardoperatingprocedure'),
+    path('main/sop/<str:sop_type>/', utility_views.StandardOperatingProcedureTemplateView.as_view(), name='view_standardoperatingprocedure'),
+    path('main/sop/add/<str:sop_type>/', utility_views.StandardOperatingProcedureCreateView.as_view(success_url=reverse_lazy('detail_standardoperatingprocedure')), name='add_standardoperatingprocedure'),
     path('main/sop/update/<int:pk>/', utility_views.StandardOperatingProcedureUpdateView.as_view(), name='update_standardoperatingprocedure'),
     # UTILITY: CONTACT US (VIEW, ADD, UPDATE)
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),

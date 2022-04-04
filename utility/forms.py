@@ -99,6 +99,12 @@ class StandardOperatingProcedureForm(forms.ModelForm):
         model = StandardOperatingProcedure
         fields = ['sop_title', 'sop_url', 'sop_type', ]
 
+    def __init__(self, *args, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        _sop_type = kwargs.pop('sop_type')
+        super().__init__(*args, **kwargs)
+        self.fields['sop_type'] = _sop_type
+
 
 class ContactUsForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html

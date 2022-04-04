@@ -39,34 +39,34 @@
               {% endif %}
               <!-- -------- START loop -------- -->
               {% if pub_list %}
-              {% for pub in pub_list %}
-              <div class="row">
-                  <div class="col-md-12">
-                      <h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
+                  {% for pub in pub_list %}
+                  <div class="row">
+                      <div class="col-md-12">
+                          <h5 class="font-weight-bolder mt-3">{{ pub.publication_title }}</h5>
+                      </div>
+                      <div class="col-md-8">
+                          <a href="{{ pub.publication_url }}">
+                              <h5 class="font-weight-bolder mt-3">URL</h5>
+                              <p class="pe-5">{{ pub.publication_url }}</p>
+                          </a>
+                      </div>
+                      {% if pub.project_names.all %}
+                      <div class="col-md-3">
+                          <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
+                          <p class="pe-5">{{ pub.project_names.all|join:", " }}</p>
+                      </div>
+                      {% endif %}
+                      {% if perms.utility.change_publication %}
+                      <div class="col-md-1">
+                          <a href="{% url 'update_publication' pub.pk %}">
+                              <i class="fas fa-user-edit text-secondary text-sm mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Publication"></i>
+                          </a>
+                      </div>
+                      {% endif %}
                   </div>
-                  <div class="col-md-8">
-                      <a href="{{ pub.publication_url }}">
-                          <h5 class="font-weight-bolder mt-3">URL</h5>
-                          <p class="pe-5">{{ pub.publication_url }}</p>
-                      </a>
-                  </div>
-                  {% if pub.project_names.all %}
-                  <div class="col-md-3">
-                      <h5 class="font-weight-bolder mt-3">Affiliated Projects</h5>
-                      <p class="pe-5">{{ pub.project_names.all|join:", " }}</p>
-                  </div>
-                  {% if perms.utility.change_publication %}
-                  <div class="col-md-1">
-                      <a href="{% url 'update_publication' pub.pk %}">
-                          <i class="fas fa-user-edit text-secondary text-sm mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Publication"></i>
-                      </a>
-                  </div>
-                  {% endif %}
-              </div>
-              {% endif %}
-              <div class="w-100"></div>
-              <hr/>
-              {% endfor %}
+                  <div class="w-100"></div>
+                  <hr/>
+                  {% endfor %}
               {% else %}
               <p class="pe-5">No publications are available.</p>
               {% endif %}
