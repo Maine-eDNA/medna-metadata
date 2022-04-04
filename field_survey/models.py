@@ -237,8 +237,8 @@ class WaterCollection(DateTimeUserMixin):
     water_collect_depth = models.DecimalField('Water Collection Depth', blank=True, null=True, max_digits=15, decimal_places=10)
     water_collect_mode = models.CharField('Collection Mode', blank=True, max_length=50, choices=WaterCollectionModes.choices)
     water_niskin_number = models.IntegerField('Niskin Number', blank=True, null=True)
-    water_niskin_vol = models.DecimalField('Niskin Sample Volume', blank=True, null=True, max_digits=15, decimal_places=10)
-    water_vessel_vol = models.DecimalField('Water Vessel Volume', blank=True, null=True, max_digits=15, decimal_places=10)
+    water_niskin_vol = models.DecimalField('Niskin Sample Volume (ml)', blank=True, null=True, max_digits=15, decimal_places=10)
+    water_vessel_vol = models.DecimalField('Water Vessel Volume (ml)', blank=True, null=True, max_digits=15, decimal_places=10)
     water_vessel_material = models.CharField('Water Vessel Material', blank=True, max_length=255)
     water_vessel_color = models.CharField('Water Vessel Color', blank=True, max_length=255)
     water_collect_notes = models.TextField('Water Sample Notes', blank=True)
@@ -367,6 +367,14 @@ class FilterSample(DateTimeUserMixin):
         # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
         return '{method} filtration with {type}'.format(method=self.filter_method, type=self.filter_type)
 
+    @property
+    def mixs_samp_size(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        size = self.field_sample.collection_global_id.water_collection.water_vessel_vol
+        return '{size}ml'.format(size=size)
+
     def __str__(self):
         return self.field_sample
 
@@ -423,6 +431,14 @@ class SubCoreSample(DateTimeUserMixin):
         # Any processing applied to the sample during or after retrieving the sample from environment. This field
         # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
         return '{method} subcoring'.format(method=self.subcore_method)
+
+    @property
+    def mixs_samp_size(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        size = self.field_sample.collection_global_id.sediment_collection.core_length * self.field_sample.collection_global_id.sediment_collection.core_diameter
+        return '{size}cm\u00b2'.format(size=size)
 
     def __str__(self):
         return self.field_sample
