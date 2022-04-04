@@ -220,7 +220,7 @@ class StandardOperatingProcedureTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/standardoperatingprocedures.html'
+    template_name = 'home/django-material-kit/sop.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -238,7 +238,7 @@ class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequire
     form_class = StandardOperatingProcedureForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-kit/standardoperatingprocedure-update.html'
+    template_name = 'home/django-material-kit/sop-update.html'
     permission_required = ('utility.update_standardoperatingprocedure', 'utility.view_standardoperatingprocedure', )
 
     def get_context_data(self, **kwargs):
@@ -269,7 +269,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
     model = StandardOperatingProcedure
     form_class = StandardOperatingProcedureForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-kit/standardoperatingprocedure-add.html'
+    template_name = 'home/django-material-kit/sop-add.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
