@@ -249,7 +249,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         context['segment'] = 'add_standardoperatingprocedure'
         context['page_title'] = 'Standard Operating Procedures'
         context['page_subtitle'] = 'SOPs'
-        context['form_header'] = 'Update SOP'
+        context['form_header'] = 'Add SOP'
         context['form_subheader'] = 'Fill and submit.'
         return context
 
