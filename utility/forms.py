@@ -103,7 +103,7 @@ class StandardOperatingProcedureForm(forms.ModelForm):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         _sop_type = kwargs.pop('sop_type')
         super().__init__(*args, **kwargs)
-        self.fields['sop_type'] = _sop_type
+        self.fields['sop_type'].initial = _sop_type
 
 
 class ContactUsForm(forms.ModelForm):
