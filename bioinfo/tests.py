@@ -3,8 +3,8 @@ from django.utils import timezone
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonSpecies, TaxonFamily, TaxonDomain, TaxonGenus, TaxonOrder, TaxonClass, \
     TaxonPhylumDivision, TaxonKingdom, TaxonSupergroup, TaxonomicAnnotation, AnnotationMethod, AnnotationMetadata
-from utility.tests import ProcessLocationTestCase
-from utility.models import ProcessLocation
+from utility.tests import ProcessLocationTestCase, StandardOperatingProcedureTestCase
+from utility.models import ProcessLocation, StandardOperatingProcedure
 from wet_lab.tests import RunResultTestCase, ExtractionTestCase
 from wet_lab.models import RunResult, Extraction
 
@@ -12,10 +12,13 @@ from wet_lab.models import RunResult, Extraction
 class QualityMetadataTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
+        sop_test = StandardOperatingProcedureTestCase()
         process_location_test = ProcessLocationTestCase()
+        sop_test.setUp()
         run_result_test = RunResultTestCase()
         process_location_test.setUp()
         run_result_test.setUp()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         run_result = RunResult.objects.filter()[:1].get()
         QualityMetadata.objects.get_or_create(defaults={
@@ -31,7 +34,7 @@ class QualityMetadataTestCase(TestCase):
                                                          'trim_length_reverse': 100,
                                                          'min_read_length': 100,
                                                          'max_read_length': 100,
-                                                         'analysis_sop_url': 'https://www.test_analysis_sop.com',
+                                                         'analysis_sop': sop,
                                                          'analysis_script_repo_url': 'https://www.test_repo.com'})
 
     def test_was_added_recently(self):
@@ -56,12 +59,15 @@ class DenoiseClusterMethodTestCase(TestCase):
 class DenoiseClusterMetadataTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
+        sop_test = StandardOperatingProcedureTestCase()
         process_location_test = ProcessLocationTestCase()
         quality_metadata_test = QualityMetadataTestCase()
         denoise_cluster_method_test = DenoiseClusterMethodTestCase()
+        sop_test.setUp()
         process_location_test.setUp()
         quality_metadata_test.setUp()
         denoise_cluster_method_test.setUp()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         denoise_cluster_method = DenoiseClusterMethod.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         quality_metadata = QualityMetadata.objects.filter()[:1].get()
@@ -73,7 +79,7 @@ class DenoiseClusterMetadataTestCase(TestCase):
                                                          'denoise_cluster_method': denoise_cluster_method,
                                                          'analyst_first_name': 'test_first_name',
                                                          'analyst_last_name': 'test_last_name',
-                                                         'analysis_sop_url': 'https://www.test_analysis_sop.com',
+                                                         'analysis_sop': sop,
                                                          'analysis_script_repo_url': 'https://www.test_repo.com'})
 
     def test_was_added_recently(self):
@@ -264,12 +270,15 @@ class AnnotationMethodTestCase(TestCase):
 class AnnotationMetadataTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
+        sop_test = StandardOperatingProcedureTestCase()
         process_location_test = ProcessLocationTestCase()
         denoise_cluster_metadata_test = DenoiseClusterMetadataTestCase()
         annotation_method_test = AnnotationMethodTestCase()
+        sop_test.setUp()
         process_location_test.setUp()
         denoise_cluster_metadata_test.setUp()
         annotation_method_test.setUp()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method = AnnotationMethod.objects.filter()[:1].get()
@@ -281,7 +290,7 @@ class AnnotationMetadataTestCase(TestCase):
                                                         'annotation_method': annotation_method,
                                                         'analyst_first_name': 'test_first_name',
                                                         'analyst_last_name': 'test_last_name',
-                                                        'analysis_sop_url': 'https://test_sop_url.com',
+                                                        'analysis_sop': sop,
                                                         'analysis_script_repo_url': 'https://testrepo.com'})
 
     def test_was_added_recently(self):

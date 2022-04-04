@@ -18,8 +18,8 @@
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="text-center">
-            <h1 class="text-white">Standard Operating Procedures</h1>
-            <p class="lead mb-4 text-white opacity-8">Instructions for routine operations.</p>
+            <h1 class="text-white">{{ page_title|title }}</h1>
+            <p class="lead mb-4 text-white opacity-8">{{ page_subtitle }}</p>
           </div>
         </div>
       </div>
@@ -27,8 +27,51 @@
   </div>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
     <div class="container">
-      <div class="section text-center">
-        <h2 class="title">Content coming soon...</h2>
+      <div class="section text-start py-5">
+        <!-- -------- START Grids -------- -->
+          <div class="container">
+              {% if perms.utility.add_standardoperatingprocedure %}
+              <div class="row">
+                  <a href="{% url 'add_standardoperatingprocedure' sop_type %}" class="d-flex align-items-center justify-content-end">
+                      <i class="fa fa-plus text-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Add New SOP"></i>
+                  </a>
+              </div>
+              {% endif %}
+              <!-- -------- START loop -------- -->
+              {% if sop_list %}
+              {% for sop in sop_list %}
+              <div class="row">
+                  <div class="col-md-12">
+                      <h5 class="font-weight-bolder mt-3">{{ sop.sop_title }}</h5>
+                  </div>
+                  <div class="col-md-8">
+                      <a href="{{ sop.sop_url }}">
+                          <h5 class="font-weight-bolder mt-3">URL</h5>
+                          <p class="pe-5">{{ sop.sop_url }}</p>
+                      </a>
+                  </div>
+                  <div class="col-md-3">
+                      <h5 class="font-weight-bolder mt-3">Type</h5>
+                      <p class="pe-5">{{ sop.sop_type }}</p>
+                  </div>
+                  {% if perms.utility.change_standardoperatingprocedure %}
+                  <div class="col-md-1">
+                      <a href="{% url 'update_standardoperatingprocedure' sop.pk %}">
+                          <i class="fas fa-user-edit text-secondary text-sm mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit SOP"></i>
+                      </a>
+                  </div>
+                  {% endif %}
+              </div>
+
+              <div class="w-100"></div>
+              <hr/>
+              {% endfor %}
+              {% else %}
+              <p class="pe-5">No SOPs are available.</p>
+              {% endif %}
+              <!-- -------- END loop -------- -->
+          </div>
+          <!-- -------- END Grids -------- -->
       </div>
     </div>
   </div>

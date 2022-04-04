@@ -113,7 +113,7 @@ class QualityMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, Ser
                         'analyst_first_name', 'analyst_last_name',
                         'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                         'min_read_length', 'max_read_length',
-                        'analysis_sop_url', 'analysis_script_repo_url', 'quality_slug',
+                        'analysis_sop', 'analysis_script_repo_url', 'quality_slug',
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
@@ -250,7 +250,7 @@ class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMix
     filterset_fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
                         'quality_metadata', 'denoise_cluster_method',
                         'analyst_first_name', 'analyst_last_name',
-                        'analysis_sop_url', 'analysis_script_repo_url', 'denoise_cluster_slug',
+                        'analysis_sop', 'analysis_script_repo_url', 'denoise_cluster_slug',
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
@@ -606,7 +606,7 @@ class AnnotationMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     export_formats = ['csv', 'xlsx']
     filterset_fields = ['id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                         'analyst_first_name', 'analyst_last_name',
-                        'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
+                        'analysis_sop', 'analysis_script_repo_url', 'annotation_slug',
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):

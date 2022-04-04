@@ -97,7 +97,7 @@ class IndexRemovalMethod(DateTimeUserMixin):
     # exo-sap, beads, gel extraction, spin column, pippin prep...
     index_removal_method_name = models.CharField('Index Removal Method', unique=True, max_length=255)
     index_removal_method_slug = models.SlugField('Index Removal Method Slug', max_length=255)
-    index_removal_sop_url = models.URLField('Index Removal SOP URL', max_length=255)
+    index_removal_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Index Removal SOP', on_delete=models.RESTRICT)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -122,7 +122,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
     size_selection_method_name = models.CharField('Size Selection Method', unique=True, max_length=255)
     size_selection_method_slug = models.SlugField('Size Selection Method Slug', max_length=255)
     primer_set = models.ForeignKey(PrimerPair, null=True, on_delete=models.RESTRICT)
-    size_selection_sop_url = models.URLField('Size Selection SOP URL', max_length=255)
+    size_selection_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Size Selection SOP', on_delete=models.RESTRICT)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -169,7 +169,7 @@ class AmplificationMethod(DateTimeUserMixin):
     # nucl_acid_amp - MIxS - reference to amplification method; clean up method. e.g., pcr, ...
     amplification_method_name = models.CharField('Amplification Method', unique=True, max_length=255)
     amplification_method_slug = models.SlugField('Amplification Method Slug', max_length=255)
-    amplification_sop_url = models.URLField('Amplification SOP URL', max_length=255)
+    amplification_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Amplification SOP', on_delete=models.RESTRICT)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -194,7 +194,7 @@ class ExtractionMethod(DateTimeUserMixin):
     extraction_method_name = models.CharField('Extraction Method Name', max_length=255)
     extraction_method_manufacturer = models.CharField('Extraction Kit Manufacturer', max_length=255)
     extraction_method_slug = models.SlugField('Extraction Method Slug', max_length=255)
-    extraction_sop_url = models.URLField('Extraction SOP URL', max_length=255)
+    extraction_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Extraction SOP', on_delete=models.RESTRICT)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -298,7 +298,7 @@ class Pcr(DateTimeUserMixin):
     pcr_replicate = models.ManyToManyField(PcrReplicate, verbose_name='Pcr Replicates', related_name='pcr_replicates', blank=True)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
     pcr_thermal_cond = models.TextField('PCR Thermal Conditions')
-    pcr_sop_url = models.URLField('PCR SOP URL', max_length=255)
+    pcr_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='PCR SOP', on_delete=models.RESTRICT)
     pcr_notes = models.TextField('PCR Notes', blank=True)
 
     def save(self, *args, **kwargs):
@@ -348,7 +348,7 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_layout = models.CharField('Library Layout', max_length=50, choices=LibLayouts.choices)
     # MIxS pcr_cond - description of reaction conditions and components of PCR
     lib_prep_thermal_cond = models.TextField('Library Prep Thermal Conditions')
-    lib_prep_sop_url = models.URLField('Library Prep SOP URL', max_length=255)
+    lib_prep_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Library Prep SOP', on_delete=models.RESTRICT)
     lib_prep_notes = models.TextField('Library Prep Notes', blank=True)
 
     def save(self, *args, **kwargs):

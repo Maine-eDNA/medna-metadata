@@ -6,11 +6,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
     TaxonomicAnnotation
 from wet_lab.models import RunResult, Extraction
 from utility.enumerations import QualityChecks
-from utility.models import ProcessLocation
-
-
-# would have to add another serializer that uses GeoFeatureModelSerializer class
-# and a separate button for downloading GeoJSON format along with CSV
+from utility.models import ProcessLocation, StandardOperatingProcedure
 
 
 # Django REST Framework to allow the automatic downloading of data!
@@ -26,7 +22,6 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
     trim_length_reverse = serializers.IntegerField()
     min_read_length = serializers.IntegerField()
     max_read_length = serializers.IntegerField()
-    analysis_sop_url = serializers.URLField(max_length=255)
     analysis_script_repo_url = serializers.URLField(max_length=255)
     quality_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -39,17 +34,15 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
                   'analyst_first_name', 'analyst_last_name',
                   'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
-                  'analysis_sop_url', 'analysis_script_repo_url', 'quality_slug',
+                  'analysis_sop', 'analysis_script_repo_url', 'quality_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id',
-                                              queryset=RunResult.objects.all())
+    analysis_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id', queryset=RunResult.objects.all())
 
 
 class DenoiseClusterMethodSerializer(serializers.ModelSerializer):
@@ -86,7 +79,6 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
     denoise_cluster_slug = serializers.SlugField(max_length=255, read_only=True)
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
-    analysis_sop_url = serializers.URLField(max_length=255)
     analysis_script_repo_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -96,20 +88,16 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
         fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
                   'quality_metadata', 'denoise_cluster_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url', 'denoise_cluster_slug',
+                  'analysis_sop', 'analysis_script_repo_url', 'denoise_cluster_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    process_location = serializers.SlugRelatedField(many=False, read_only=False,
-                                                    slug_field='process_location_name_slug',
-                                                    queryset=ProcessLocation.objects.all())
-    quality_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quality_slug',
-                                                    queryset=QualityMetadata.objects.all())
-    denoise_cluster_method = serializers.SlugRelatedField(many=False, read_only=False,
-                                                          slug_field='denoise_cluster_method_slug',
-                                                          queryset=DenoiseClusterMethod.objects.all())
+    analysis_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
+    process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
+    quality_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='quality_slug', queryset=QualityMetadata.objects.all())
+    denoise_cluster_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='denoise_cluster_method_slug', queryset=DenoiseClusterMethod.objects.all())
 
 
 class FeatureOutputSerializer(serializers.ModelSerializer):
@@ -436,7 +424,6 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
     analysis_datetime = serializers.DateTimeField()
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
-    analysis_sop_url = serializers.URLField(max_length=255)
     analysis_script_repo_url = serializers.URLField(max_length=255)
     annotation_slug = serializers.SlugField(max_length=255, read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -446,12 +433,13 @@ class AnnotationMetadataSerializer(serializers.ModelSerializer):
         model = AnnotationMetadata
         fields = ['id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url', 'annotation_slug',
+                  'analysis_sop', 'analysis_script_repo_url', 'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    analysis_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
     denoise_cluster_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all())
     annotation_method = serializers.SlugRelatedField(many=False, read_only=False, slug_field='annotation_method_name_slug', queryset=AnnotationMethod.objects.all())

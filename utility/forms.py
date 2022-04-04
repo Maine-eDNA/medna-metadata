@@ -2,8 +2,9 @@ from django import forms
 from django.contrib.admin.helpers import ActionForm
 from django.utils.translation import gettext_lazy as _
 from users.models import CustomUser
-from .widgets import CustomSelect2Multiple, CustomAdminSplitDateTime
-from .models import ContactUs, Project, Publication
+from .widgets import CustomSelect2, CustomSelect2Multiple, CustomAdminSplitDateTime
+from .models import ContactUs, Project, Publication, StandardOperatingProcedure
+from .enumerations import SopTypes
 
 
 # custom import from import_export/forms.py
@@ -63,6 +64,80 @@ class PublicationForm(forms.ModelForm):
     class Meta:
         model = Publication
         fields = ['publication_title', 'publication_url', 'project_names', 'publication_authors', ]
+
+
+class StandardOperatingProcedureCreateForm(forms.ModelForm):
+    # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
+    # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+    sop_title = forms.CharField(
+        required=True,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    sop_url = forms.URLField(
+        required=True,
+        widget=forms.URLInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+    sop_type = forms.ChoiceField(
+        required=True,
+        choices=SopTypes.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = StandardOperatingProcedure
+        fields = ['sop_title', 'sop_url', 'sop_type', ]
+
+    def __init__(self, *args, **kwargs):
+        # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+        _sop_type = kwargs.pop('sop_type')
+        super().__init__(*args, **kwargs)
+        self.fields['sop_type'].initial = _sop_type
+
+
+class StandardOperatingProcedureUpdateForm(forms.ModelForm):
+    # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
+    # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+    sop_title = forms.CharField(
+        required=True,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    sop_url = forms.URLField(
+        required=True,
+        widget=forms.URLInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+    sop_type = forms.ChoiceField(
+        required=True,
+        choices=SopTypes.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = StandardOperatingProcedure
+        fields = ['sop_title', 'sop_url', 'sop_type', ]
 
 
 class ContactUsForm(forms.ModelForm):

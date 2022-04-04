@@ -74,7 +74,7 @@ class SampleType(DateTimeUserMixin):
 
 class SampleMaterial(DateTimeUserMixin):
     # w: Water
-    # s: Sediment
+    # s: Sediment/Soil
     sample_material_code = models.CharField('Sample Material Code', max_length=1, unique=True)
     sample_material_label = models.CharField('Sample Material Label', max_length=255)
 

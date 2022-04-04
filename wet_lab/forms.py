@@ -5,9 +5,9 @@ from django.contrib.gis import forms
 from django.db.models import Exists, OuterRef
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
-from utility.models import ProcessLocation
+from utility.models import ProcessLocation, StandardOperatingProcedure
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
-    LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods
+    LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods, SopTypes
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from .models import Extraction, ExtractionMethod, \
@@ -319,9 +319,10 @@ class PcrForm(forms.ModelForm):
             }
         )
     )
-    pcr_sop_url = forms.URLField(
+    pcr_sop = forms.ModelChoiceField(
         required=True,
-        widget=forms.URLInput(
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -341,7 +342,7 @@ class PcrForm(forms.ModelForm):
         fields = ['pcr_experiment_name', 'pcr_datetime', 'process_location', 'pcr_type',
                   'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
-                  'pcr_thermal_cond', 'pcr_sop_url',
+                  'pcr_thermal_cond', 'pcr_sop',
                   'pcr_notes', ]
 
     def __init__(self, *args, **kwargs):
@@ -521,9 +522,10 @@ class LibraryPrepForm(forms.ModelForm):
             }
         )
     )
-    lib_prep_sop_url = forms.URLField(
+    lib_prep_sop = forms.ModelChoiceField(
         required=True,
-        widget=forms.URLInput(
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -547,7 +549,7 @@ class LibraryPrepForm(forms.ModelForm):
                   'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond',
-                  'lib_prep_sop_url', 'lib_prep_notes', ]
+                  'lib_prep_sop', 'lib_prep_notes', ]
 
     def __init__(self, *args, **kwargs):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html

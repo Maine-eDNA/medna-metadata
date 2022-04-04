@@ -5,7 +5,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
     RunResult, FastqFile, AmplificationMethod
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
-from utility.models import ProcessLocation
+from utility.models import ProcessLocation, StandardOperatingProcedure
 from users.models import CustomUser
 
 
@@ -62,16 +62,21 @@ class IndexRemovalMethodAdminResource(resources.ModelResource):
         model = IndexRemovalMethod
         import_id_fields = ('index_removal_method_name',)
         fields = ('id', 'index_removal_method_name', 'index_removal_method_slug',
-                  'index_removal_sop_url',
+                  'index_removal_sop',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'index_removal_method_name', 'index_removal_method_slug',
-                        'index_removal_sop_url',
+                        'index_removal_sop',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    index_removal_sop = fields.Field(
+        column_name='index_removal_sop',
+        attribute='index_removal_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
@@ -83,11 +88,16 @@ class SizeSelectionMethodAdminResource(resources.ModelResource):
         model = SizeSelectionMethod
         import_id_fields = ('size_selection_method_name',)
         fields = ('id', 'size_selection_method_name', 'size_selection_method_slug',
-                  'primer_set', 'size_selection_sop_url',
+                  'primer_set', 'size_selection_sop',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'size_selection_method_name', 'size_selection_method_slug',
-                        'primer_set', 'size_selection_sop_url',
+                        'primer_set', 'size_selection_sop',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    size_selection_sop = fields.Field(
+        column_name='size_selection_sop',
+        attribute='size_selection_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     primer_set = fields.Field(
         column_name='primer_set',
@@ -128,11 +138,16 @@ class AmplificationMethodAdminResource(resources.ModelResource):
         model = AmplificationMethod
         import_id_fields = ('amplification_method_name',)
         fields = ('id', 'amplification_method_name', 'amplification_method_slug',
-                  'amplification_sop_url',
+                  'amplification_sop',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'amplification_method_name', 'amplification_method_slug',
-                        'amplification_sop_url',
+                        'amplification_sop',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    amplification_sop = fields.Field(
+        column_name='amplification_sop',
+        attribute='amplification_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -151,13 +166,18 @@ class ExtractionMethodAdminResource(resources.ModelResource):
         fields = ('id', 'extraction_method_name',
                   'extraction_method_manufacturer',
                   'extraction_method_slug',
-                  'extraction_sop_url',
+                  'extraction_sop',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'extraction_method_name',
                         'extraction_method_manufacturer',
                         'extraction_method_slug',
-                        'extraction_sop_url',
+                        'extraction_sop',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    extraction_sop = fields.Field(
+        column_name='extraction_sop',
+        attribute='extraction_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -258,7 +278,7 @@ class PcrAdminResource(resources.ModelResource):
                   'pcr_first_name', 'pcr_last_name', 'pcr_probe',
                   'pcr_results', 'pcr_results_units',
                   'pcr_replicate',
-                  'pcr_thermal_cond', 'pcr_sop_url',
+                  'pcr_thermal_cond', 'pcr_sop',
                   'pcr_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'pcr_experiment_name', 'pcr_slug', 'pcr_type', 'pcr_datetime',
@@ -266,9 +286,14 @@ class PcrAdminResource(resources.ModelResource):
                         'pcr_first_name', 'pcr_last_name', 'pcr_probe',
                         'pcr_results', 'pcr_results_units',
                         'pcr_replicate',
-                        'pcr_thermal_cond', 'pcr_sop_url',
+                        'pcr_thermal_cond', 'pcr_sop',
                         'pcr_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    pcr_sop = fields.Field(
+        column_name='pcr_sop',
+        attribute='pcr_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     process_location = fields.Field(
         column_name='process_location',
@@ -313,7 +338,7 @@ class LibraryPrepAdminResource(resources.ModelResource):
                   'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units',
                   'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop',
                   'lib_prep_notes',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'lib_prep_experiment_name', 'lib_prep_slug',
@@ -323,9 +348,14 @@ class LibraryPrepAdminResource(resources.ModelResource):
                         'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units',
                         'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                         'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url',
+                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop',
                         'lib_prep_notes',
                         'created_by', 'created_datetime', )
+
+    lib_prep_sop = fields.Field(
+        column_name='lib_prep_sop',
+        attribute='lib_prep_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     process_location = fields.Field(
         column_name='process_location',

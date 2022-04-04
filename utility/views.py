@@ -24,12 +24,12 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
-from .serializers import ContactUsSerializer, ProcessLocationSerializer, PublicationSerializer, ProjectSerializer, GrantSerializer, DefaultSiteCssSerializer, \
-    CustomUserCssSerializer
-from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, CustomUserCss
+from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureCreateForm, \
+    StandardOperatingProcedureUpdateForm
 from .charts import return_select2_options
 import utility.enumerations as utility_enums
+import utility.serializers as utility_serializers
 import utility.filters as utility_filters
 from utility.forms import export_action_form_factory
 
@@ -217,6 +217,90 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return redirect('main/model-perms-required.html')
 
 
+class StandardOperatingProcedureTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/sop.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        sop_type = self.kwargs['sop_type']
+        context['segment'] = 'view_standardoperatingprocedure'
+        context['page_title'] = 'Standard Operating Procedures'
+        context['page_subtitle'] = 'Instructions for routine operations.'
+        context['sop_list'] = StandardOperatingProcedure.objects.prefetch_related('created_by').filter(sop_type=sop_type).order_by('pk')
+        return context
+
+
+class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'utility.add_standardoperatingprocedure'
+    model = StandardOperatingProcedure
+    form_class = StandardOperatingProcedureCreateForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-kit/sop-add.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_standardoperatingprocedure'
+        context['page_title'] = 'Standard Operating Procedures'
+        context['page_subtitle'] = 'SOPs'
+        context['form_header'] = 'Update SOP'
+        context['form_subheader'] = 'Fill and submit.'
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(StandardOperatingProcedureCreateView, self).get_form_kwargs()
+        kwargs['sop_type'] = self.kwargs.get('sop_type')
+        return kwargs
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_standardoperatingprocedure')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = StandardOperatingProcedure
+    form_class = StandardOperatingProcedureUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-kit/sop-update.html'
+    permission_required = ('utility.update_standardoperatingprocedure', 'utility.view_standardoperatingprocedure', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_standardoperatingprocedure'
+        context['page_title'] = 'Standard Operating Procedures'
+        context['page_subtitle'] = 'Instructions for routine operations.'
+        context['form_header'] = 'Update SOP'
+        context['form_subheader'] = 'Fill and submit.'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_standardoperatingprocedure')
+
+
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     model = ContactUs
     form_class = ContactUsUpdateForm
@@ -389,7 +473,7 @@ class ContactUsReceivedTemplateView(TemplateView):
 ########################################
 class GrantViewSet(viewsets.ModelViewSet):
     # formerly Project in field_site.models
-    serializer_class = GrantSerializer
+    serializer_class = utility_serializers.GrantSerializer
     queryset = Grant.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
@@ -399,7 +483,7 @@ class GrantViewSet(viewsets.ModelViewSet):
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    serializer_class = ProjectSerializer
+    serializer_class = utility_serializers.ProjectSerializer
     queryset = Project.objects.prefetch_related('created_by', 'grant_names')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
@@ -408,7 +492,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
-    serializer_class = PublicationSerializer
+    serializer_class = utility_serializers.PublicationSerializer
     queryset = Project.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
@@ -416,8 +500,17 @@ class PublicationViewSet(viewsets.ModelViewSet):
     swagger_tags = ['utility']
 
 
+class StandardOperatingProcedureViewSet(viewsets.ModelViewSet):
+    serializer_class = utility_serializers.StandardOperatingProcedureSerializer
+    queryset = StandardOperatingProcedure.objects.prefetch_related('created_by', )
+    filter_backends = [filters.DjangoFilterBackend]
+    # filterset_fields = ['created_by__email', 'grant_name__grant_code']
+    filterset_class = utility_filters.StandardOperatingProcedureSerializerFilter
+    swagger_tags = ['utility']
+
+
 class ProcessLocationViewSet(viewsets.ModelViewSet):
-    serializer_class = ProcessLocationSerializer
+    serializer_class = utility_serializers.ProcessLocationSerializer
     queryset = ProcessLocation.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
@@ -426,7 +519,7 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
 
 
 class ContactUsViewSet(viewsets.ModelViewSet):
-    serializer_class = ContactUsSerializer
+    serializer_class = utility_serializers.ContactUsSerializer
     queryset = ContactUs.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'process_location_name_slug']
@@ -435,7 +528,7 @@ class ContactUsViewSet(viewsets.ModelViewSet):
 
 
 class DefaultSiteCssViewSet(viewsets.ModelViewSet):
-    serializer_class = DefaultSiteCssSerializer
+    serializer_class = utility_serializers.DefaultSiteCssSerializer
     queryset = DefaultSiteCss.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
@@ -444,7 +537,7 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
 
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
-    serializer_class = CustomUserCssSerializer
+    serializer_class = utility_serializers.CustomUserCssSerializer
     queryset = CustomUserCss.objects.prefetch_related('created_by',)
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
@@ -464,6 +557,18 @@ class YesNoChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
         choices = []
         for choice in utility_enums.YesNo:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class SopTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.SopTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -900,6 +1005,18 @@ class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
 
+
+# BIOINFORMATICS CHOICES
+class QualityChecksChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.QualityChecks:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
 
 # migrated to db model
 # class EnvMeasurementsChoicesViewSet(viewsets.ViewSet):

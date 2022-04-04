@@ -25,7 +25,7 @@ class QualityMetadata(DateTimeUserMixin):
     min_read_length = models.PositiveIntegerField('Min Read Length (bp)')
     # the maximum read length filtered
     max_read_length = models.PositiveIntegerField('Max Read Length (bp)')
-    analysis_sop_url = models.URLField('Analysis SOP URL', max_length=255)
+    analysis_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Analysis SOP', on_delete=models.RESTRICT)
     analysis_script_repo_url = models.URLField('Repository URL', max_length=255, default='https://github.com/Maine-eDNA')
     quality_slug = models.TextField('Quality Slug', max_length=255)
 
@@ -78,7 +78,7 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
     analyst_first_name = models.CharField('Analyst First Name', max_length=255)
     analyst_last_name = models.CharField('Analyst Last Name', max_length=255)
     denoise_cluster_method = models.ForeignKey(DenoiseClusterMethod, on_delete=models.RESTRICT)
-    analysis_sop_url = models.URLField('Analysis SOP URL', max_length=255)
+    analysis_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Analysis SOP', on_delete=models.RESTRICT)
     analysis_script_repo_url = models.URLField('Repository URL', max_length=255, default='https://github.com/Maine-eDNA')
     denoise_cluster_slug = models.SlugField('Metadata Slug', max_length=255)
 
@@ -488,7 +488,7 @@ class AnnotationMetadata(DateTimeUserMixin):
     annotation_slug = models.SlugField('Annotation Metadata Slug', max_length=255)
     analyst_first_name = models.CharField('Analyst First Name', max_length=255)
     analyst_last_name = models.CharField('Analyst Last Name', max_length=255)
-    analysis_sop_url = models.URLField('Analysis SOP URL', max_length=255)
+    analysis_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Analysis SOP', on_delete=models.RESTRICT)
     analysis_script_repo_url = models.URLField('Repository URL', max_length=255, default='https://github.com/Maine-eDNA')
 
     def save(self, *args, **kwargs):

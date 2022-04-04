@@ -11,7 +11,21 @@ class EnvoBiomeFirst(DateTimeUserMixin):
     biome_first_tier = models.CharField('ENVO Biome 1st Tier', unique=True, max_length=255)
     biome_first_tier_slug = models.SlugField('ENVO Biome 1st Tier Slug', max_length=255)
     envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000428]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_00000428')
+
+    @property
+    def mixs_env_broad_scale(self):
+        # mixs_v5
+        # In this field, report which major environmental system your sample or specimen came from. The systems
+        # identified should have a coarse spatial grain, to provide the general environmental context of where the
+        # sampling was done (e.g. were you in the desert or a rainforest?). We recommend using subclasses of ENVO’s
+        # biome class: http://purl.obolibrary.org/obo/ENVO_00000428. Format (one term): termLabel [termID], Format
+        # (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID]. Example: Annotating a water sample
+        # from the photic zone in middle of the Atlantic Ocean, consider: oceanic epipelagic zone biome [ENVO:01000033].
+        # Example: Annotating a sample from the Amazon rainforest consider: tropical moist broadleaf forest biome
+        # [ENVO:01000228]. If needed, request new terms on the ENVO tracker, identified here:
+        # http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.biome_first_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.biome_first_tier_slug = '{biome1}'.format(biome1=slugify(self.biome_first_tier))
@@ -38,7 +52,21 @@ class EnvoBiomeSecond(DateTimeUserMixin):
     biome_first_tier = models.ForeignKey(EnvoBiomeFirst, on_delete=models.RESTRICT)
     biome_first_tier_slug = models.CharField('ENVO Biome 1st Tier', max_length=255)
     envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000428]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_00000428')
+
+    @property
+    def mixs_env_broad_scale(self):
+        # mixs_v5
+        # In this field, report which major environmental system your sample or specimen came from. The systems
+        # identified should have a coarse spatial grain, to provide the general environmental context of where the
+        # sampling was done (e.g. were you in the desert or a rainforest?). We recommend using subclasses of ENVO’s
+        # biome class: http://purl.obolibrary.org/obo/ENVO_00000428. Format (one term): termLabel [termID], Format
+        # (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID]. Example: Annotating a water sample
+        # from the photic zone in middle of the Atlantic Ocean, consider: oceanic epipelagic zone biome [ENVO:01000033].
+        # Example: Annotating a sample from the Amazon rainforest consider: tropical moist broadleaf forest biome
+        # [ENVO:01000228]. If needed, request new terms on the ENVO tracker, identified here:
+        # http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.biome_second_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.biome_second_tier_slug = '{biome2}'.format(biome2=slugify(self.biome_second_tier))
@@ -71,7 +99,21 @@ class EnvoBiomeThird(DateTimeUserMixin):
     biome_second_tier_slug = models.CharField('ENVO Biome 2nd Tier', max_length=255)
     biome_first_tier_slug = models.CharField('ENVO Biome 1st Tier', max_length=255)
     envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000428]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_00000428')
+
+    @property
+    def mixs_env_broad_scale(self):
+        # mixs_v5
+        # In this field, report which major environmental system your sample or specimen came from. The systems
+        # identified should have a coarse spatial grain, to provide the general environmental context of where the
+        # sampling was done (e.g. were you in the desert or a rainforest?). We recommend using subclasses of ENVO’s
+        # biome class: http://purl.obolibrary.org/obo/ENVO_00000428. Format (one term): termLabel [termID], Format
+        # (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID]. Example: Annotating a water sample
+        # from the photic zone in middle of the Atlantic Ocean, consider: oceanic epipelagic zone biome [ENVO:01000033].
+        # Example: Annotating a sample from the Amazon rainforest consider: tropical moist broadleaf forest biome
+        # [ENVO:01000228]. If needed, request new terms on the ENVO tracker, identified here:
+        # http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.biome_third_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.biome_third_tier_slug = '{biome3}'.format(biome3=slugify(self.biome_third_tier))
@@ -108,7 +150,21 @@ class EnvoBiomeFourth(DateTimeUserMixin):
     biome_second_tier_slug = models.CharField('ENVO Biome 2nd Tier', max_length=255)
     biome_first_tier_slug = models.CharField('ENVO Biome 1st Tier', max_length=255)
     envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000428]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_00000428')
+
+    @property
+    def mixs_env_broad_scale(self):
+        # mixs_v5
+        # In this field, report which major environmental system your sample or specimen came from. The systems
+        # identified should have a coarse spatial grain, to provide the general environmental context of where the
+        # sampling was done (e.g. were you in the desert or a rainforest?). We recommend using subclasses of ENVO’s
+        # biome class: http://purl.obolibrary.org/obo/ENVO_00000428. Format (one term): termLabel [termID], Format
+        # (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID]. Example: Annotating a water sample
+        # from the photic zone in middle of the Atlantic Ocean, consider: oceanic epipelagic zone biome [ENVO:01000033].
+        # Example: Annotating a sample from the Amazon rainforest consider: tropical moist broadleaf forest biome
+        # [ENVO:01000228]. If needed, request new terms on the ENVO tracker, identified here:
+        # http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.biome_fourth_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.biome_fourth_tier_slug = '{biome4}'.format(biome4=slugify(self.biome_fourth_tier))
@@ -142,7 +198,21 @@ class EnvoBiomeFifth(DateTimeUserMixin):
     biome_second_tier_slug = models.CharField('ENVO Biome 2nd Tier', max_length=255)
     biome_first_tier_slug = models.CharField('ENVO Biome 1st Tier', max_length=255)
     envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000428]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000428')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_00000428')
+
+    @property
+    def mixs_env_broad_scale(self):
+        # mixs_v5
+        # In this field, report which major environmental system your sample or specimen came from. The systems
+        # identified should have a coarse spatial grain, to provide the general environmental context of where the
+        # sampling was done (e.g. were you in the desert or a rainforest?). We recommend using subclasses of ENVO’s
+        # biome class: http://purl.obolibrary.org/obo/ENVO_00000428. Format (one term): termLabel [termID], Format
+        # (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID]. Example: Annotating a water sample
+        # from the photic zone in middle of the Atlantic Ocean, consider: oceanic epipelagic zone biome [ENVO:01000033].
+        # Example: Annotating a sample from the Amazon rainforest consider: tropical moist broadleaf forest biome
+        # [ENVO:01000228]. If needed, request new terms on the ENVO tracker, identified here:
+        # http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.biome_fifth_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.biome_fifth_tier_slug = '{biome5}'.format(biome5=slugify(self.biome_fifth_tier))
@@ -178,8 +248,21 @@ class EnvoFeatureFirst(DateTimeUserMixin):
     # submerged bed, surface layer of a water body, turbulent aquatic surface layer
     feature_first_tier = models.CharField('ENVO Feature 1st Tier', unique=True, max_length=255)
     feature_first_tier_slug = models.SlugField('ENVO Feature 1st Tier Slug', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_first_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_first_tier_slug = '{feature1}'.format(feature1=slugify(self.feature_first_tier))
@@ -208,8 +291,21 @@ class EnvoFeatureSecond(DateTimeUserMixin):
     feature_second_tier_slug = models.SlugField('ENVO Feature 2nd Tier Slug', max_length=255)
     feature_first_tier = models.ForeignKey(EnvoFeatureFirst, on_delete=models.RESTRICT)
     feature_first_tier_slug = models.CharField('ENVO Feature 1st Tier', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_second_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_second_tier_slug = '{feature2}'.format(feature2=slugify(self.feature_second_tier))
@@ -243,8 +339,21 @@ class EnvoFeatureThird(DateTimeUserMixin):
     feature_second_tier = models.ForeignKey(EnvoFeatureSecond, on_delete=models.RESTRICT)
     feature_second_tier_slug = models.CharField('ENVO Feature 2nd Tier', max_length=255)
     feature_first_tier_slug = models.CharField('ENVO Feature 1st Tier', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_third_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_third_tier_slug = '{feature3}'.format(feature3=slugify(self.feature_third_tier))
@@ -279,8 +388,21 @@ class EnvoFeatureFourth(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField('ENVO Feature 3rd Tier', max_length=255)
     feature_second_tier_slug = models.CharField('ENVO Feature 2nd Tier', max_length=255)
     feature_first_tier_slug = models.CharField('ENVO Feature 1st Tier', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_fourth_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_fourth_tier_slug = '{feature4}'.format(feature4=slugify(self.feature_fourth_tier))
@@ -320,8 +442,21 @@ class EnvoFeatureFifth(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField('ENVO Feature 3rd Tier', max_length=255)
     feature_second_tier_slug = models.CharField('ENVO Feature 2nd Tier', max_length=255)
     feature_first_tier_slug = models.CharField('ENVO Feature 1st Tier', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_fifth_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_fifth_tier_slug = '{feature5}'.format(feature5=slugify(self.feature_fifth_tier))
@@ -358,8 +493,21 @@ class EnvoFeatureSixth(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField('ENVO Feature 3rd Tier', max_length=255)
     feature_second_tier_slug = models.CharField('ENVO Feature 2nd Tier', max_length=255)
     feature_first_tier_slug = models.CharField('ENVO Feature 1st Tier', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_sixth_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_sixth_tier_slug = '{feature6}'.format(feature6=slugify(self.feature_sixth_tier))
@@ -400,8 +548,21 @@ class EnvoFeatureSeventh(DateTimeUserMixin):
     feature_third_tier_slug = models.CharField('ENVO Feature 3rd Tier', max_length=255)
     feature_second_tier_slug = models.CharField('ENVO Feature 2nd Tier', max_length=255)
     feature_first_tier_slug = models.CharField('ENVO Feature 1st Tier', max_length=255)
-    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:00000000]')
-    ontology_url = models.URLField('Ontology URL', max_length=255, default='https://www.ebi.ac.uk/ols/ontologies/envo/terms?iri=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FENVO_00000000&viewMode=All&siblings=false')
+    envo_identifier = models.CharField('ENVO Identifier', max_length=255, default='[ENVO:01000813]')
+    ontology_url = models.URLField('Ontology URL', max_length=255, default='http://purl.obolibrary.org/obo/ENVO_01000813')
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.feature_seventh_tier, id=self.envo_identifier)
 
     def save(self, *args, **kwargs):
         self.feature_seventh_tier_slug = '{feature7}'.format(feature7=slugify(self.feature_seventh_tier))
@@ -501,6 +662,14 @@ class FieldSite(DateTimeUserMixin):
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84
     # django srid defaults to 4326 (WGS84)
     geom = models.PointField('Latitude, Longitude (DD WGS84)', srid=4326)
+
+    @property
+    def mixs_geo_loc_name(self):
+        # mixs_v5
+        # The geographical origin of the sample as defined by the country or sea name followed by specific region name.
+        # Country or sea names should be chosen from the INSDC country list (http://insdc.org/country.html),
+        # or the GAZ ontology (v 1.512) (http://purl.bioontology.org/ontology/GAZ)
+        return '{country};{name};{watershed}'.format(country='USA', name=self.general_location_name, watershed=self.watershed.watershed_label)
 
     @property
     def lat(self):

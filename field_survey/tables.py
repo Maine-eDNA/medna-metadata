@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import FieldSurvey, FilterSample
+from .models import FieldSurvey, FilterSample, SubCoreSample
 from django_tables2.utils import A
 
 
@@ -59,26 +59,31 @@ class FilterSampleTable(tables.Table):
                                              orderable=False)
     field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Sample Global ID')
     filter_sample_label = tables.Column(verbose_name='Filter Label')
+    survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
     is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
     filter_location = tables.Column(verbose_name='Filter Location')
-    is_prefilter = tables.Column(verbose_name='Prefilter')
+    filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
     filter_fname = tables.Column(verbose_name='Filterer First Name')
     filter_lname = tables.Column(verbose_name='Filterer Last Name')
-    filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
+    water_control = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control', verbose_name="Control")
+    water_control_type = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control_type', verbose_name="Control Type")
+    # water_filterer = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.water_filterer.agol_username')
     filter_method = tables.Column(verbose_name='Method')
-    filter_vol = tables.Column(verbose_name='Volume')
+    filter_vol = tables.TemplateColumn('{{ record.filter_vol|floatformat:2 }}', verbose_name='Volume')
+    is_prefilter = tables.Column(verbose_name='Prefilter')
     filter_type = tables.Column(verbose_name='Type')
-    filter_pore = tables.Column(verbose_name='Pore')
-    filter_size = tables.Column(verbose_name='Size')
+    filter_pore = tables.TemplateColumn('{{ record.filter_pore|floatformat:2 }}', verbose_name='Pore')
+    filter_size = tables.TemplateColumn('{{ record.filter_size|floatformat:2 }}', verbose_name='Size')
     filter_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.filter_notes }}">{{ record.filter_notes|truncatewords:5 }}', verbose_name='Notes')
-    survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
+    water_collect_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.water_collection.water_collect_datetime', format='M d, Y h:i a', verbose_name='Collection DateTime')
     project_ids = tables.ManyToManyColumn(accessor='field_sample.collection_global_id.survey_global_id.project_ids.project_label', verbose_name='Project')
     supervisor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.supervisor.agol_username', verbose_name='Supervisor')
     username = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.username.agol_username', verbose_name='Username')
+    # system_type = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.site_id.site_id.system.system_label')
     site_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.site_id.site_id')
+    site_name = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.site_name')
     lat_manual = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.lat_manual|floatformat:4 }}')
     long_manual = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.long_manual|floatformat:4 }}')
-    water_filterer = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.water_filterer.agol_username')
     survey_complete = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.survey_complete')
     qa_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.qa_editor.agol_username')
     qa_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.qa_datetime', format='M d, Y h:i a')
@@ -92,19 +97,79 @@ class FilterSampleTable(tables.Table):
     record_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
     record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_edit_datetime', format='M d, Y h:i a')
     sample_global_id = tables.Column(accessor='field_sample.sample_global_id', verbose_name='Sample Global ID')
-    collection_global_id = tables.Column(accessor='field_sample.collection_global_id', verbose_name='Collection Global ID')
+    collection_global_id = tables.Column(accessor='field_sample.collection_global_id.pk', verbose_name='Collection Global ID')
     survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')
 
     class Meta:
         model = FilterSample
-        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'is_extracted', 'filter_location',
-                  'is_prefilter', 'filter_fname', 'filter_lname', 'filter_datetime', 'filter_method', 'filter_vol',
-                  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
-                  'survey_datetime', 'project_ids',
-                  'supervisor', 'username', 'site_id', 'site_id_other', 'site_name',
-                  'lat_manual', 'long_manual',
-                  'water_filterer',
-                  'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
+        fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
+                  'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
+                  'filter_method', 'filter_vol', 'is_prefilter',  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
+                  'water_collect_datetime', 'project_ids', 'supervisor', 'username',
+                  'site_id', 'site_name', 'lat_manual', 'long_manual',
+                  'survey_complete', 'qa_editor', 'qa_datetime',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',
-                  'record_editor', 'record_edit_datetime', 'sample_global_id', 'collection_global_id', 'survey_global_id',)
+                  'record_editor', 'record_edit_datetime',
+                  'sample_global_id', 'collection_global_id', 'survey_global_id',)
+
+
+class SubCoreSampleTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Sample Global ID')
+    core_label = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_label', verbose_name='Core Label')
+    survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
+    is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
+    subcore_fname = tables.Column(verbose_name='SubCorer First Name')
+    subcore_lname = tables.Column(verbose_name='SubCorer Last Name')
+    core_control = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_control', verbose_name="Control")
+    subcore_datetime_start = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='SubCore Start')
+    subcore_datetime_end = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='SubCore End')
+    subcore_method = tables.Column(verbose_name='SubCore Method')
+    subcore_number = tables.Column(verbose_name='Num SubCores')
+    subcore_length = tables.TemplateColumn('{{ record.subcore_length|floatformat:2 }}', verbose_name='SubCore Length')
+    subcore_diameter = tables.TemplateColumn('{{ record.subcore_diameter|floatformat:2 }}', verbose_name='SubCore Diameter')
+    subcore_clayer = tables.Column(verbose_name='SubCore Consistency Layer')
+    core_purpose = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.field_sample.collection_global_id.sediment_collection.core_purpose }}">{{ record.field_sample.collection_global_id.sediment_collection.core_purpose|truncatewords:5 }}', verbose_name='Core Purpose')
+    core_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.field_sample.collection_global_id.sediment_collection.core_notes }}">{{ record.field_sample.collection_global_id.sediment_collection.core_notes|truncatewords:5 }}', verbose_name='Core Notes')
+    core_datetime_start = tables.DateTimeColumn(accessor='field_sample.collection_global_id.sediment_collection.core_datetime_start', format='M d, Y h:i a', verbose_name='Collection DateTime')
+    project_ids = tables.ManyToManyColumn(accessor='field_sample.collection_global_id.survey_global_id.project_ids.project_label', verbose_name='Project')
+    supervisor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.supervisor.agol_username', verbose_name='Supervisor')
+    username = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.username.agol_username', verbose_name='Username')
+    site_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.site_id.site_id')
+    site_name = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.site_name')
+    lat_manual = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.lat_manual|floatformat:4 }}')
+    long_manual = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.long_manual|floatformat:4 }}')
+    survey_complete = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.survey_complete')
+    qa_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.qa_editor.agol_username')
+    qa_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.qa_datetime', format='M d, Y h:i a')
+    gps_cap_lat = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_lat|floatformat:4 }}')
+    gps_cap_long = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_long|floatformat:4 }}')
+    gps_cap_alt = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_alt|floatformat:4 }}')
+    gps_cap_horacc = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_horacc|floatformat:4 }}')
+    gps_cap_vertacc = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_vertacc|floatformat:4 }}')
+    record_creator = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_create_datetime', format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_edit_datetime', format='M d, Y h:i a')
+    sample_global_id = tables.Column(accessor='field_sample.sample_global_id', verbose_name='Sample Global ID')
+    collection_global_id = tables.Column(accessor='field_sample.collection_global_id.pk', verbose_name='Collection Global ID')
+    survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')
+
+    class Meta:
+        model = SubCoreSample
+        fields = ('_selected_action', 'field_sample_barcode', 'core_label', 'survey_datetime', 'is_extracted',
+                  'subcore_fname', 'subcore_lname', 'core_control', 'subcore_datetime_start', 'subcore_datetime_end',
+                  'subcore_method', 'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
+                  'core_purpose', 'core_notes', 'core_datetime_start', 'project_ids', 'supervisor', 'username',
+                  'site_id', 'site_name', 'lat_manual', 'long_manual',
+                  'survey_complete', 'qa_editor', 'qa_datetime',
+                  'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
+                  'record_creator', 'record_create_datetime',
+                  'record_editor', 'record_edit_datetime',
+                  'sample_global_id', 'collection_global_id', 'survey_global_id',)

@@ -75,6 +75,23 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='StandardOperatingProcedure',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('sop_title', models.CharField(max_length=255, unique=True, verbose_name='SOP Title')),
+                ('sop_url', models.URLField(max_length=255, verbose_name='SOP URL')),
+                ('sop_type', models.CharField(choices=[('bioinfo', 'Bioinformatics'), ('wet_lab', 'Wet Lab'), ('field_collection', 'Field Collection'), ('freezer_inventory', 'Freezer Inventory')], max_length=50, verbose_name='SOP Type')),
+                ('sop_slug', models.SlugField(max_length=255, verbose_name='SOP Slug')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+            ],
+            options={
+                'verbose_name': 'Standard Operating Procedure',
+                'verbose_name_plural': 'Standard Operating Procedures',
+            },
+        ),
+        migrations.CreateModel(
             name='ProcessLocation',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

@@ -74,6 +74,21 @@ class FieldSurvey(DateTimeUserMixin):
     geom = models.PointField('Latitude, Longitude (DD WGS84)', srid=4326)
 
     @property
+    def mixs_env_medium(self):
+        # mixs_v5
+        # In this field, report which environmental material or materials (pipe separated) immediately surrounded your
+        # sample or specimen prior to sampling, using one or more subclasses of ENVO’s environmental material class:
+        # http://purl.obolibrary.org/obo/ENVO_00010483.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a fish swimming in the upper 100 m of the Atlantic Ocean, consider:
+        # ocean water [ENVO:00002151].
+        # Example: Annotating a duck on a pond consider:
+        # pond water [ENVO:00002228]|air ENVO_00002005. If needed, request new terms on the ENVO tracker,
+        # identified here: http://www.obofoundry.org/ontology/envo.html
+        return '{envo}'.format(envo=self.get_env_material_display())
+
+    @property
     def lat(self):
         return self.geom.y
 
@@ -222,8 +237,8 @@ class WaterCollection(DateTimeUserMixin):
     water_collect_depth = models.DecimalField('Water Collection Depth', blank=True, null=True, max_digits=15, decimal_places=10)
     water_collect_mode = models.CharField('Collection Mode', blank=True, max_length=50, choices=WaterCollectionModes.choices)
     water_niskin_number = models.IntegerField('Niskin Number', blank=True, null=True)
-    water_niskin_vol = models.DecimalField('Niskin Sample Volume', blank=True, null=True, max_digits=15, decimal_places=10)
-    water_vessel_vol = models.DecimalField('Water Vessel Volume', blank=True, null=True, max_digits=15, decimal_places=10)
+    water_niskin_vol = models.DecimalField('Niskin Sample Volume (ml)', blank=True, null=True, max_digits=15, decimal_places=10)
+    water_vessel_vol = models.DecimalField('Water Vessel Volume (ml)', blank=True, null=True, max_digits=15, decimal_places=10)
     water_vessel_material = models.CharField('Water Vessel Material', blank=True, max_length=255)
     water_vessel_color = models.CharField('Water Vessel Color', blank=True, max_length=255)
     water_collect_notes = models.TextField('Water Sample Notes', blank=True)
@@ -316,6 +331,50 @@ class FilterSample(DateTimeUserMixin):
     filter_size = models.DecimalField('Filter Size', blank=True, null=True, max_digits=15, decimal_places=10)
     filter_notes = models.TextField('Filter Notes', blank=True)
 
+    @property
+    def mixs_depth(self):
+        # mixs_v5
+        # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
+        # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
+        return self.field_sample.collection_global_id.water_collection.water_collect_depth
+
+    @property
+    def mixs_source_mat_id(self):
+        # mixs_v5
+        # A unique identifier assigned to a material sample (as defined by http://rs.tdwg.org/dwc/terms/materialSampleID,
+        # and as opposed to a particular digital record of a material sample) used for extracting nucleic acids, and
+        # subsequent sequencing. The identifier can refer either to the original material collected or to any derived
+        # sub-samples. The INSDC qualifiers /specimen_voucher, /bio_material, or /culture_collection may or may not
+        # share the same value as the source_mat_id field. For instance, the /specimen_voucher qualifier and
+        # source_mat_id may both contain 'UAM:Herps:14' , referring to both the specimen voucher and sampled tissue with
+        # the same identifier. However, the /culture_collection qualifier may refer to a value from an initial culture
+        # (e.g. ATCC:11775) while source_mat_id would refer to an identifier from some derived culture from which the
+        # nucleic acids were extracted (e.g. xatc123 or ark:/2154/R2).
+        return self.field_sample.sample_global_id
+
+    @property
+    def mixs_samp_collect_device(self):
+        # mixs_v5
+        # The method or device employed for collecting the sample
+        return '{method}'.format(method=self.field_sample.collection_global_id.water_collection.water_collect_mode,
+                                 color=self.field_sample.collection_global_id.water_collection.water_vessel_color,
+                                 material=self.field_sample.collection_global_id.water_collection.water_vessel_material)
+
+    @property
+    def mixs_samp_mat_process(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        return '{method} filtration with {type}'.format(method=self.filter_method, type=self.filter_type)
+
+    @property
+    def mixs_samp_size(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        size = self.field_sample.collection_global_id.water_collection.water_vessel_vol
+        return '{size}ml'.format(size=size)
+
     def __str__(self):
         return self.field_sample
 
@@ -338,6 +397,48 @@ class SubCoreSample(DateTimeUserMixin):
     subcore_diameter = models.DecimalField('Sub-Core Diameter (cm)', blank=True, null=True, max_digits=15, decimal_places=10)
     subcore_clayer = models.IntegerField('Sub-Core Consistency Layer', blank=True, null=True)
     # TODO - add subcore_notes field to app?
+
+    @property
+    def mixs_depth(self):
+        # mixs_v5
+        # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
+        # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
+        return self.field_sample.collection_global_id.sediment_collection.core_collect_depth
+
+    @property
+    def mixs_source_mat_id(self):
+        # mixs_v5
+        # A unique identifier assigned to a material sample (as defined by http://rs.tdwg.org/dwc/terms/materialSampleID,
+        # and as opposed to a particular digital record of a material sample) used for extracting nucleic acids, and
+        # subsequent sequencing. The identifier can refer either to the original material collected or to any derived
+        # sub-samples. The INSDC qualifiers /specimen_voucher, /bio_material, or /culture_collection may or may not
+        # share the same value as the source_mat_id field. For instance, the /specimen_voucher qualifier and
+        # source_mat_id may both contain 'UAM:Herps:14' , referring to both the specimen voucher and sampled tissue with
+        # the same identifier. However, the /culture_collection qualifier may refer to a value from an initial culture
+        # (e.g. ATCC:11775) while source_mat_id would refer to an identifier from some derived culture from which the
+        # nucleic acids were extracted (e.g. xatc123 or ark:/2154/R2).
+        return self.field_sample.sample_global_id
+
+    @property
+    def mixs_samp_collect_device(self):
+        # mixs_v5
+        # The method or device employed for collecting the sample
+        return '{core} coring'.format(core=self.field_sample.collection_global_id.sediment_collection.core_method)
+
+    @property
+    def mixs_samp_mat_process(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        return '{method} subcoring'.format(method=self.subcore_method)
+
+    @property
+    def mixs_samp_size(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        size = self.field_sample.collection_global_id.sediment_collection.core_length * self.field_sample.collection_global_id.sediment_collection.core_diameter
+        return '{size}cm\u00b2'.format(size=size)
 
     def __str__(self):
         return self.field_sample

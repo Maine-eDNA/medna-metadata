@@ -5,7 +5,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
     RunResult, FastqFile, AmplificationMethod
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
-from utility.models import ProcessLocation
+from utility.models import ProcessLocation, StandardOperatingProcedure
 from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, \
     LibPrepTypes, LibLayouts, InvestigationTypes, SeqMethods
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
@@ -74,18 +74,18 @@ class IndexRemovalMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     index_removal_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=IndexRemovalMethod.objects.all())])
     index_removal_method_slug = serializers.SlugField(max_length=255, read_only=True)
-    index_removal_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = IndexRemovalMethod
         fields = ['id', 'index_removal_method_name', 'index_removal_method_slug',
-                  'index_removal_sop_url',
+                  'index_removal_sop',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
+    index_removal_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -93,18 +93,18 @@ class SizeSelectionMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     size_selection_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=SizeSelectionMethod.objects.all())])
     size_selection_method_slug = serializers.SlugField(max_length=255, read_only=True)
-    size_selection_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = SizeSelectionMethod
         fields = ['id', 'size_selection_method_name', 'size_selection_method_slug',
-                  'primer_set', 'size_selection_sop_url',
+                  'primer_set', 'size_selection_sop',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
+    size_selection_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     primer_set = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='primer_slug', queryset=PrimerPair.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
@@ -130,18 +130,18 @@ class AmplificationMethodSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     amplification_method_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=AmplificationMethod.objects.all())])
     amplification_method_slug = serializers.SlugField(max_length=255, read_only=True)
-    amplification_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = AmplificationMethod
         fields = ['id', 'amplification_method_name', 'amplification_method_slug',
-                  'amplification_sop_url',
+                  'amplification_sop',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
+    amplification_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -150,14 +150,13 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
     extraction_method_name = serializers.CharField(max_length=255)
     extraction_method_manufacturer = serializers.CharField(max_length=255)
     extraction_method_slug = serializers.SlugField(max_length=255, read_only=True)
-    extraction_sop_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = ExtractionMethod
         fields = ['id', 'extraction_method_name', 'extraction_method_manufacturer', 'extraction_method_slug',
-                  'extraction_sop_url', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'extraction_sop', 'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(
                 queryset=ExtractionMethod.objects.all(),
@@ -167,6 +166,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
+    extraction_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
@@ -238,7 +238,6 @@ class PcrSerializer(serializers.ModelSerializer):
     pcr_results = serializers.DecimalField(max_digits=15, decimal_places=10)
     pcr_results_units = serializers.ChoiceField(choices=PcrUnits.choices)
     pcr_thermal_cond = serializers.CharField(read_only=False)
-    pcr_sop_url = serializers.URLField(max_length=255)
     pcr_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -248,13 +247,14 @@ class PcrSerializer(serializers.ModelSerializer):
         fields = ['id', 'pcr_datetime', 'process_location', 'pcr_experiment_name', 'pcr_slug', 'pcr_type',
                   'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
-                  'pcr_thermal_cond', 'pcr_sop_url',
+                  'pcr_thermal_cond', 'pcr_sop',
                   'pcr_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    pcr_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
     extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=Extraction.objects.all())
     primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())
@@ -278,7 +278,6 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     lib_prep_layout = serializers.ChoiceField(choices=LibLayouts.choices)
     lib_prep_type = serializers.ChoiceField(choices=LibPrepTypes.choices)
     lib_prep_thermal_cond = serializers.URLField(read_only=False)
-    lib_prep_sop_url = serializers.URLField(max_length=255)
     lib_prep_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -289,7 +288,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
                   'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
                   'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
+                  'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop', 'lib_prep_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [
             UniqueTogetherValidator(
@@ -301,6 +300,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    lib_prep_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
     extraction = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=Extraction.objects.all())
     primer_set = serializers.SlugRelatedField(many=False, read_only=False, slug_field='primer_slug', queryset=PrimerPair.objects.all())

@@ -257,7 +257,7 @@ class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExpor
     filterset_fields = ['id', 'pcr_datetime', 'process_location', 'pcr_experiment_name', 'pcr_slug', 'pcr_type',
                         'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
                         'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
-                        'pcr_thermal_cond', 'pcr_sop_url',
+                        'pcr_thermal_cond', 'pcr_sop',
                         'pcr_notes',
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
@@ -408,7 +408,7 @@ class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
                         'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
                         'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                         'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop_url', 'lib_prep_notes',
+                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop', 'lib_prep_notes',
                         'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
