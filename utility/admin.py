@@ -1,9 +1,10 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ContactUsAdminResource, ProcessLocationAdminResource, PublicationAdminResource, \
-    ProjectAdminResource, GrantAdminResource, \
+    StandardOperatingProcedureAdminResource, ProjectAdminResource, GrantAdminResource, \
     DefaultSiteCssAdminResource, CustomUserCssAdminResource
-from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
+    CustomUserCss
 
 
 class GrantAdmin(ImportExportActionModelAdmin):
@@ -107,7 +108,7 @@ class PublicationAdmin(ImportExportActionModelAdmin):
     resource_class = PublicationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    readonly_fields = ('modified_datetime', 'created_datetime', )
+    readonly_fields = ('publication_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['publication_title']
 
     def add_view(self, request, extra_content=None):
@@ -136,6 +137,43 @@ class PublicationAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(Publication, PublicationAdmin)
+
+
+class StandardOperatingProcedureAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = StandardOperatingProcedureAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'sop_type', 'created_datetime', )
+    readonly_fields = ('sop_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['sop_title']
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['sop_title', 'sop_url', 'sop_type', 'created_by', ]
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(StandardOperatingProcedureAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['sop_slug', 'sop_title', 'sop_url', 'sop_type',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(StandardOperatingProcedureAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(StandardOperatingProcedure, StandardOperatingProcedureAdmin)
 
 
 # Register your models here.

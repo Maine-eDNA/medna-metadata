@@ -2,12 +2,12 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss, ContactUs
+from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, CustomUserCss, ContactUs
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
-from utility.enumerations import YesNo
+from utility.enumerations import YesNo, SopTypes
 
 
 class EagerLoadingMixin:
@@ -100,7 +100,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class PublicationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     publication_title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=Publication.objects.all())])
-    publication_url = serializers.CharField(max_length=255)
+    publication_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -112,6 +112,22 @@ class PublicationSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     project_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='project_label', queryset=Project.objects.all())
     publication_authors = serializers.SlugRelatedField(many=True, read_only=False, slug_field='email', queryset=CustomUser.objects.all())
+
+
+class StandardOperatingProcedureSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    sop_title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=StandardOperatingProcedure.objects.all())])
+    sop_url = serializers.URLField(max_length=255)
+    sop_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = StandardOperatingProcedure
+        fields = ['id', 'sop_title', 'sop_url', 'sop_type',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 class ProcessLocationSerializer(serializers.ModelSerializer):

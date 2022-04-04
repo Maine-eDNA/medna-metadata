@@ -1,6 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
-from .models import ContactUs, ProcessLocation, Publication, Project, Grant, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
+    CustomUserCss
 from users.models import CustomUser
 
 
@@ -66,6 +67,25 @@ class PublicationAdminResource(resources.ModelResource):
         column_name='publication_authors',
         attribute='publication_authors',
         widget=ManyToManyWidget(Grant, 'email'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class StandardOperatingProcedureAdminResource(resources.ModelResource):
+    class Meta:
+        # Project
+        model = StandardOperatingProcedure
+        import_id_fields = ('id', 'sop_title', )
+        fields = ('id', 'sop_title', 'sop_url', 'sop_type',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('id', 'sop_title', 'sop_url', 'sop_type',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',
