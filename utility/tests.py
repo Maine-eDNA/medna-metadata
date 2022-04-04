@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .models import ContactUs, Grant, Project, Publication, ProcessLocation, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, Grant, Project, Publication, ProcessLocation, StandardOperatingProcedure, DefaultSiteCss, CustomUserCss
+from utility.enumerations import SopTypes
 from users.tests import UsersManagersTests
 from users.models import CustomUser
 # from django.contrib.auth import get_user_model
@@ -60,6 +61,20 @@ class PublicationTestCase(TestCase):
         # test if date is added correctly
         medna = Publication.objects.get(publication_title='the title of the publication')
         self.assertIs(medna.was_added_recently(), True)
+
+
+class StandardOperatingProcedureTestCase(TestCase):
+    # formerly Project in field_site.models
+    def setUp(self):
+        StandardOperatingProcedure.objects.get_or_create(sop_title='test sop',
+                                                         defaults={
+                                                             'sop_url': 'https://www.test.com',
+                                                             'sop_type': SopTypes.WETLAB})
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        sop = StandardOperatingProcedure.objects.get(sop_title='test sop')
+        self.assertIs(sop.was_added_recently(), True)
 
 
 class ProcessLocationTestCase(TestCase):

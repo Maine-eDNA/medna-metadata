@@ -4,8 +4,8 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, QuantificationMet
     RunPrep, RunResult, FastqFile, AmplificationMethod
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, VolUnits, ConcentrationUnits, PcrUnits, LibPrepKits, \
     LibPrepTypes, PhiXConcentrationUnits, LibLayouts
-from utility.tests import ProcessLocationTestCase
-from utility.models import ProcessLocation
+from utility.tests import ProcessLocationTestCase, StandardOperatingProcedureTestCase
+from utility.models import ProcessLocation, StandardOperatingProcedure
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from field_survey.tests import FieldSampleTestCase
@@ -52,9 +52,12 @@ class IndexPairTestCase(TestCase):
 
 class IndexRemovalMethodTestCase(TestCase):
     def setUp(self):
+        sop_test = StandardOperatingProcedureTestCase()
+        sop_test.setUp()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         IndexRemovalMethod.objects.get_or_create(index_removal_method_name='exo-sap',
                                                  defaults={
-                                                     'index_removal_sop_url': 'https://index_removal_sop_url.com',
+                                                     'index_removal_sop': sop,
                                                  })
 
     def test_was_added_recently(self):
@@ -68,11 +71,14 @@ class SizeSelectionMethodTestCase(TestCase):
         primer_set_test = PrimerPairTestCase()
         primer_set_test.setUp()
         primer_set = PrimerPair.objects.filter()[:1].get()
+        sop_test = StandardOperatingProcedureTestCase()
+        sop_test.setUp()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
 
         SizeSelectionMethod.objects.get_or_create(size_selection_method_name='Beads',
                                                   defaults={
                                                       'primer_set': primer_set,
-                                                      'size_selection_sop_url': 'https://size_selection_sop_url.com',
+                                                      'size_selection_sop': sop,
                                                   })
 
     def test_was_added_recently(self):
@@ -93,9 +99,12 @@ class QuantificationMethodTestCase(TestCase):
 
 class AmplificationMethodTestCase(TestCase):
     def setUp(self):
+        sop_test = StandardOperatingProcedureTestCase()
+        sop_test.setUp()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         AmplificationMethod.objects.get_or_create(amplification_method_name='pcr',
                                                   defaults={
-                                                      'amplification_sop_url': 'https://amplification_sop_url.com'
+                                                      'amplification_sop': sop
                                                   })
 
     def test_was_added_recently(self):
@@ -106,10 +115,13 @@ class AmplificationMethodTestCase(TestCase):
 
 class ExtractionMethodTestCase(TestCase):
     def setUp(self):
+        sop_test = StandardOperatingProcedureTestCase()
+        sop_test.setUp()
+        sop = StandardOperatingProcedureTestCase.objects.filter()[:1].get()
         ExtractionMethod.objects.get_or_create(extraction_method_name='Blood and Tissue',
                                                defaults={
                                                    'extraction_method_manufacturer': 'Qiagen',
-                                                   'extraction_sop_url': 'https://extraction_sop_url.com'
+                                                   'extraction_sop': sop
                                                })
 
     def test_was_added_recently(self):
@@ -175,12 +187,15 @@ class PcrTestCase(TestCase):
     def setUp(self):
         manytomany_list = []
         current_datetime = timezone.now()
+        sop_test = StandardOperatingProcedureTestCase()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
         pcr_replicate_test = PcrReplicateTestCase()
+        sop_test.setUp()
         extraction_test.setUp()
         primer_set_test.setUp()
         pcr_replicate_test.setUp()
+        sop = StandardOperatingProcedureTestCase.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
@@ -198,7 +213,7 @@ class PcrTestCase(TestCase):
                                                      'pcr_results': 9999,
                                                      'pcr_results_units': PcrUnits.DDPCR_CP,
                                                      'pcr_thermal_cond': 'initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles',
-                                                     'pcr_sop_url': 'https://sop_url.com',
+                                                     'pcr_sop': sop,
                                                      'pcr_notes': 'pcr notes'
                                                  })
         pcr.pcr_replicate.set(manytomany_list, clear=True)
@@ -212,6 +227,7 @@ class PcrTestCase(TestCase):
 class LibraryPrepTestCase(TestCase):
     def setUp(self):
         current_datetime = timezone.now()
+        sop_test = StandardOperatingProcedureTestCase()
         extraction_test = ExtractionTestCase()
         primer_set_test = PrimerPairTestCase()
         index_pair_test = IndexPairTestCase()
@@ -219,6 +235,7 @@ class LibraryPrepTestCase(TestCase):
         size_selection_method_test = SizeSelectionMethodTestCase()
         quantification_method_test = QuantificationMethodTestCase()
         amplification_method_test = AmplificationMethodTestCase()
+        sop_test.setUp()
         extraction_test.setUp()
         primer_set_test.setUp()
         index_pair_test.setUp()
@@ -226,6 +243,7 @@ class LibraryPrepTestCase(TestCase):
         size_selection_method_test.setUp()
         quantification_method_test.setUp()
         amplification_method_test.setUp()
+        sop = StandardOperatingProcedureTestCase.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
@@ -255,7 +273,7 @@ class LibraryPrepTestCase(TestCase):
                                                                       'lib_prep_layout': LibLayouts.PAIRED,
                                                                       'lib_prep_type': LibPrepTypes.AMPLICON,
                                                                       'lib_prep_thermal_cond': 'initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles',
-                                                                      'lib_prep_sop_url': 'https://sop_url.com',
+                                                                      'lib_prep_sop': sop,
                                                                       'lib_prep_notes': 'lib prep notes'
                                                                   })
 

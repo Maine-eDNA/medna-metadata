@@ -109,7 +109,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['index_removal_method_name', 'index_removal_sop_url', 'created_by', ]
+        self.fields = ['index_removal_method_name', 'index_removal_sop', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -119,7 +119,7 @@ class IndexRemovalMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['index_removal_method_slug', 'index_removal_method_name', 'index_removal_sop_url',
+        self.fields = ['index_removal_method_slug', 'index_removal_method_name', 'index_removal_sop',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexRemovalMethodAdmin, self).change_view(request, object_id)
@@ -146,7 +146,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['size_selection_method_name', 'primer_set', 'size_selection_sop_url', 'created_by', ]
+        self.fields = ['size_selection_method_name', 'primer_set', 'size_selection_sop', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -156,7 +156,7 @@ class SizeSelectionMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['size_selection_method_slug', 'size_selection_method_name', 'primer_set', 'size_selection_sop_url',
+        self.fields = ['size_selection_method_slug', 'size_selection_method_name', 'primer_set', 'size_selection_sop',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SizeSelectionMethodAdmin, self).change_view(request, object_id)
@@ -217,7 +217,7 @@ class AmplificationMethodAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['amplification_method_name', 'amplification_sop_url', 'created_by', ]
+        self.fields = ['amplification_method_name', 'amplification_sop', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -227,7 +227,7 @@ class AmplificationMethodAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['amplification_method_slug', 'amplification_method_name', 'amplification_sop_url',
+        self.fields = ['amplification_method_slug', 'amplification_method_name', 'amplification_sop',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AmplificationMethodAdmin, self).change_view(request, object_id)
@@ -255,7 +255,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['extraction_method_name',
                        'extraction_method_manufacturer',
-                       'extraction_sop_url', 'created_by', ]
+                       'extraction_sop', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -268,7 +268,7 @@ class ExtractionMethodAdmin(ImportExportActionModelAdmin):
         self.fields = ['extraction_method_slug',
                        'extraction_method_name',
                        'extraction_method_manufacturer',
-                       'extraction_sop_url',
+                       'extraction_sop',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ExtractionMethodAdmin, self).change_view(request, object_id)
@@ -402,7 +402,7 @@ class PcrAdmin(ImportExportActionModelAdmin):
                        'pcr_first_name', 'pcr_last_name',
                        'pcr_probe', 'pcr_results', 'pcr_results_units',
                        'pcr_replicate',
-                       'pcr_thermal_cond', 'pcr_sop_url',
+                       'pcr_thermal_cond', 'pcr_sop',
                        'pcr_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -417,7 +417,7 @@ class PcrAdmin(ImportExportActionModelAdmin):
                        'pcr_first_name', 'pcr_last_name',
                        'pcr_probe', 'pcr_results', 'pcr_results_units',
                        'pcr_replicate',
-                       'pcr_thermal_cond', 'pcr_sop_url', 'pcr_notes',
+                       'pcr_thermal_cond', 'pcr_sop', 'pcr_notes',
                        'created_by', 'modified_datetime', 'created_datetime']
 
         return super(PcrAdmin, self).change_view(request, object_id)
@@ -456,7 +456,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout',
-                       'lib_prep_thermal_cond', 'lib_prep_sop_url',
+                       'lib_prep_thermal_cond', 'lib_prep_sop',
                        'lib_prep_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -476,7 +476,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
                        'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout',
-                       'lib_prep_thermal_cond', 'lib_prep_sop_url',
+                       'lib_prep_thermal_cond', 'lib_prep_sop',
                        'lib_prep_notes',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

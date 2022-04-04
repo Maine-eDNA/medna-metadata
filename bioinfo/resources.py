@@ -3,7 +3,7 @@ from import_export.widgets import ForeignKeyWidget
 from .models import QualityMetadata, DenoiseClusterMethod, FeatureRead, FeatureOutput, DenoiseClusterMetadata, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
     TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
-from utility.models import ProcessLocation
+from utility.models import ProcessLocation, StandardOperatingProcedure
 from wet_lab.models import RunResult, Extraction
 from users.models import CustomUser
 
@@ -18,15 +18,20 @@ class QualityMetadataAdminResource(resources.ModelResource):
                   'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                   'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
-                  'analysis_sop_url', 'analysis_script_repo_url',
+                  'analysis_sop', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'quality_slug', 'analysis_label', 'process_location',
                         'run_result', 'analysis_datetime',
                         'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                         'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                         'min_read_length', 'max_read_length',
-                        'analysis_sop_url', 'analysis_script_repo_url',
+                        'analysis_sop', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    analysis_sop = fields.Field(
+        column_name='analysis_sop',
+        attribute='analysis_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     process_location = fields.Field(
         column_name='process_location',
@@ -79,13 +84,18 @@ class DenoiseClusterMetadataAdminResource(resources.ModelResource):
         fields = ('id', 'denoise_cluster_slug', 'analysis_label', 'process_location', 'analysis_datetime',
                   'quality_metadata',
                   'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
-                  'analysis_sop_url', 'analysis_script_repo_url',
+                  'analysis_sop', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'denoise_cluster_slug', 'analysis_label', 'process_location', 'analysis_datetime',
                         'quality_metadata',
                         'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
-                        'analysis_sop_url', 'analysis_script_repo_url',
+                        'analysis_sop', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', 'modified_datetime', )
+
+    analysis_sop = fields.Field(
+        column_name='analysis_sop',
+        attribute='analysis_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     process_location = fields.Field(
         column_name='process_location',
@@ -454,12 +464,17 @@ class AnnotationMetadataAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url',
+                  'analysis_sop', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
                         'analyst_first_name', 'analyst_last_name',
-                        'analysis_sop_url', 'analysis_script_repo_url',
+                        'analysis_sop', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', )
+
+    analysis_sop = fields.Field(
+        column_name='analysis_sop',
+        attribute='analysis_sop',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'sop_title'))
 
     denoise_cluster_metadata = fields.Field(
         column_name='denoise_cluster_metadata',

@@ -210,11 +210,11 @@ class IndexRemovalMethodSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     index_removal_method_name = filters.CharFilter(field_name='index_removal_method_name', lookup_expr='iexact')
     index_removal_method_slug = filters.CharFilter(field_name='index_removal_method_slug', lookup_expr='iexact')
-    index_removal_sop_url = filters.CharFilter(field_name='index_removal_sop_url', lookup_expr='iexact')
+    index_removal_sop = filters.CharFilter(field_name='index_removal_sop__sop_title', lookup_expr='iexact')
 
     class Meta:
         model = IndexRemovalMethod
-        fields = ['created_by', 'index_removal_method_name', 'index_removal_method_slug', 'index_removal_sop_url', ]
+        fields = ['created_by', 'index_removal_method_name', 'index_removal_method_slug', 'index_removal_sop', ]
 
 
 class SizeSelectionMethodSerializerFilter(filters.FilterSet):
@@ -222,11 +222,11 @@ class SizeSelectionMethodSerializerFilter(filters.FilterSet):
     primer_set = filters.CharFilter(field_name='primer_set__primer_slug', lookup_expr='iexact')
     size_selection_method_name = filters.CharFilter(field_name='size_selection_method_name', lookup_expr='iexact')
     size_selection_method_slug = filters.CharFilter(field_name='size_selection_method_slug', lookup_expr='iexact')
-    size_selection_sop_url = filters.CharFilter(field_name='size_selection_sop_url', lookup_expr='iexact')
+    size_selection_sop = filters.CharFilter(field_name='size_selection_sop__sop_title', lookup_expr='iexact')
 
     class Meta:
         model = SizeSelectionMethod
-        fields = ['created_by', 'primer_set', 'size_selection_method_name', 'size_selection_method_slug', 'size_selection_sop_url', ]
+        fields = ['created_by', 'primer_set', 'size_selection_method_name', 'size_selection_method_slug', 'size_selection_sop', ]
 
 
 class QuantificationMethodSerializerFilter(filters.FilterSet):

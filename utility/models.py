@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 # from medna_metadata import settings
-from utility.enumerations import YesNo
+from utility.enumerations import YesNo, SopTypes
 
 
 def slug_date_format(date):
@@ -125,6 +125,32 @@ class Publication(DateTimeUserMixin):
         app_label = 'utility'
         verbose_name = 'Publication'
         verbose_name_plural = 'Publications'
+
+
+class StandardOperatingProcedure(DateTimeUserMixin):
+    sop_title = models.CharField('SOP Title', unique=True, max_length=255)
+    sop_url = models.URLField('SOP URL', max_length=255)
+    sop_type = models.CharField('SOP Type', max_length=50, choices=SopTypes.choices)
+    sop_slug = models.SlugField('SOP Slug', max_length=255)
+
+    @property
+    def mixs_sop(self):
+        # mixs_v5
+        # Standard operating procedures used in assembly and/or annotation of genomes, metagenomes or
+        # environmental sequences
+        return '{title}: {url}'.format(title=self.sop_title, url=self.sop_url)
+
+    def save(self, *args, **kwargs):
+        self.sop_slug = slugify(self.sop_title)
+        super(StandardOperatingProcedure, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{title}: {url}'.format(title=self.sop_title, url=self.sop_url)
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Standard Operating Procedure'
+        verbose_name_plural = 'Standard Operating Procedures'
 
 
 class ProcessLocation(DateTimeUserMixin):

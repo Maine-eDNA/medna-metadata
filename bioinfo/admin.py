@@ -20,7 +20,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    # list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
+    # list_filter = ('analysis_sop', 'analysis_script_repo_url', 'analysis_datetime')
     readonly_fields = ('quality_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['analysis_label']
     autocomplete_fields = ['process_location', 'run_result', ]
@@ -32,7 +32,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
                        'seq_quality_check', 'chimera_check',
                        'trim_length_forward', 'trim_length_reverse',
                        'min_read_length', 'max_read_length',
-                       'analysis_sop_url', 'analysis_script_repo_url', 'created_by', ]
+                       'analysis_sop', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -46,7 +46,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
                        'seq_quality_check', 'chimera_check',
                        'trim_length_forward', 'trim_length_reverse',
                        'min_read_length', 'max_read_length',
-                       'analysis_sop_url', 'analysis_script_repo_url',
+                       'analysis_sop', 'analysis_script_repo_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(QualityMetadataAdmin, self).change_view(request, object_id)
@@ -109,7 +109,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     # search_fields = ['project', 'system', 'watershed']
     list_display = ('__str__', 'created_by', 'created_datetime', )
-    # list_filter = ('analysis_sop_url', 'analysis_script_repo_url', 'analysis_datetime')
+    # list_filter = ('analysis_sop', 'analysis_script_repo_url', 'analysis_datetime')
     readonly_fields = ('denoise_cluster_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['analysis_label', ]
     autocomplete_fields = ['process_location', 'quality_metadata', 'denoise_cluster_method', ]
@@ -119,7 +119,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
         self.fields = ['analysis_label', 'process_location', 'quality_metadata',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
                        'denoise_cluster_method',
-                       'analysis_sop_url', 'analysis_script_repo_url', 'created_by', ]
+                       'analysis_sop', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -132,7 +132,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
                        'analysis_label', 'process_location', 'quality_metadata',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
                        'denoise_cluster_method',
-                       'analysis_sop_url', 'analysis_script_repo_url',
+                       'analysis_sop', 'analysis_script_repo_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DenoiseClusterMetadataAdmin, self).change_view(request, object_id)
@@ -702,7 +702,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime', 'annotation_method',
-                       'analyst_first_name', 'analyst_last_name', 'analysis_sop_url', 'analysis_script_repo_url', 'created_by', ]
+                       'analyst_first_name', 'analyst_last_name', 'analysis_sop', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -713,7 +713,7 @@ class AnnotationMetadataAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['annotation_slug', 'analysis_label', 'process_location', 'denoise_cluster_metadata', 'analysis_datetime',
                        'annotation_method', 'analyst_first_name', 'analyst_last_name',
-                       'analysis_sop_url', 'analysis_script_repo_url',
+                       'analysis_sop', 'analysis_script_repo_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(AnnotationMetadataAdmin, self).change_view(request, object_id)

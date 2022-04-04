@@ -3,8 +3,8 @@
 from django.urls import reverse_lazy
 from django.contrib.gis import forms
 from utility.widgets import CustomSelect2, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
-from utility.models import ProcessLocation
-from utility.enumerations import QualityChecks
+from utility.models import ProcessLocation, StandardOperatingProcedure
+from utility.enumerations import QualityChecks, SopTypes
 from wet_lab.models import RunResult, Extraction
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  TaxonOrder, \
@@ -103,9 +103,10 @@ class QualityMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_sop_url = forms.URLField(
+    analysis_sop = forms.ModelChoiceField(
         required=True,
-        widget=forms.URLInput(
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -128,7 +129,7 @@ class QualityMetadataForm(forms.ModelForm):
                   'seq_quality_check', 'chimera_check',
                   'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
-                  'analysis_sop_url', 'analysis_script_repo_url', ]
+                  'analysis_sop', 'analysis_script_repo_url', ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -187,9 +188,10 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_sop_url = forms.URLField(
+    analysis_sop = forms.ModelChoiceField(
         required=True,
-        widget=forms.URLInput(
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -209,7 +211,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
         fields = ['analysis_label', 'process_location', 'analysis_datetime',
                   'quality_metadata', 'denoise_cluster_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url', ]
+                  'analysis_sop', 'analysis_script_repo_url', ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -333,9 +335,10 @@ class AnnotationMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_sop_url = forms.URLField(
+    analysis_sop = forms.ModelChoiceField(
         required=True,
-        widget=forms.URLInput(
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -355,7 +358,7 @@ class AnnotationMetadataForm(forms.ModelForm):
         fields = ['analysis_label', 'process_location', 'denoise_cluster_metadata',
                   'analysis_datetime', 'annotation_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'analysis_sop_url', 'analysis_script_repo_url', ]
+                  'analysis_sop', 'analysis_script_repo_url', ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -11,6 +11,13 @@ class YesNo(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
+class SopTypes(models.TextChoices):
+    BIOINFO = 'bioinfo', _('Bioinformatics')
+    WETLAB = 'wet_lab', _('Wet Lab')
+    FIELDCOLLECTION = 'field_collection', _('Field Collection')
+    FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
+
+
 # UNITS CHOICES
 class TempUnits(models.TextChoices):
     F = 'fahrenheit', _('Fahrenheit')
