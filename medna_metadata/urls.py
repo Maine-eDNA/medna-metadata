@@ -49,12 +49,15 @@ router.register(r'users/user', users_views.CustomUserViewSet, 'users')
 # utility
 router.register(r'utility/grant', utility_views.GrantViewSet, 'grant')
 router.register(r'utility/project', utility_views.ProjectViewSet, 'project')
+router.register(r'utility/publication', utility_views.PublicationViewSet, 'publication')
+router.register(r'utility/sop', utility_views.StandardOperatingProcedureViewSet, 'sop')
 router.register(r'utility/process_location', utility_views.ProcessLocationViewSet, 'process_location')
 router.register(r'utility/contact_us', utility_views.ContactUsViewSet, 'contact_us')
 router.register(r'utility/default_site_css', utility_views.DefaultSiteCssViewSet, 'default_site_css')
 router.register(r'utility/custom_user_css', utility_views.CustomUserCssViewSet, 'custom_user_css')
 # utility:enums
 router.register(r'utility/choices_yes_no', utility_views.YesNoChoicesViewSet, 'choices_yes_no')
+router.register(r'utility/choices_sop_types', utility_views.SopTypesChoicesViewSet, 'choices_sop_types')
 router.register(r'utility/choices_temp_units', utility_views.TempUnitsChoicesViewSet, 'choices_temp_units')
 router.register(r'utility/choices_measure_units', utility_views.MeasureUnitsChoicesViewSet, 'choices_measure_units')
 router.register(r'utility/choices_vol_units', utility_views.VolUnitsChoicesViewSet, 'choices_vol_units')
@@ -90,6 +93,7 @@ router.register(r'utility/choices_inv_status', utility_views.InvStatusChoicesVie
 router.register(r'utility/choices_inv_loc_status', utility_views.InvLocStatusChoicesViewSet, 'choices_inv_loc_status')
 router.register(r'utility/choices_inv_types', utility_views.InvTypesChoicesViewSet, 'choices_inv_types')
 router.register(r'utility/choices_checkout_actions', utility_views.CheckoutActionsChoicesViewSet, 'choices_checkout_actions')
+router.register(r'utility/choices_quality_checks', utility_views.QualityChecksChoicesViewSet, 'choices_quality_checks')
 # field_site
 router.register(r'field_site/envo_biome_first', field_site_views.EnvoBiomeFirstViewSet, 'envo_biome_first')
 router.register(r'field_site/envo_biome_second', field_site_views.EnvoBiomeSecondViewSet, 'envo_biome_second')
