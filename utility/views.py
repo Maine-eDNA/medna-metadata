@@ -25,7 +25,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, CustomUserCss
-from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureForm
+from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureCreateForm, \
+    StandardOperatingProcedureUpdateForm
 from .charts import return_select2_options
 import utility.enumerations as utility_enums
 import utility.serializers as utility_serializers
@@ -233,41 +234,12 @@ class StandardOperatingProcedureTemplateView(TemplateView):
         return context
 
 
-class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = StandardOperatingProcedure
-    form_class = StandardOperatingProcedureForm
-    login_url = '/dashboard/login/'
-    redirect_field_name = 'next'
-    template_name = 'home/django-material-kit/sop-update.html'
-    permission_required = ('utility.update_standardoperatingprocedure', 'utility.view_standardoperatingprocedure', )
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'update_standardoperatingprocedure'
-        context['page_title'] = 'Standard Operating Procedures'
-        context['page_subtitle'] = 'Instructions for routine operations.'
-        context['form_header'] = 'Update SOP'
-        context['form_subheader'] = 'Fill and submit.'
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-    def get_success_url(self):
-        # after successfully filling out and submitting a form,
-        # show the user the detail view of the label
-        return reverse('view_standardoperatingprocedure')
-
-
 class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_standardoperatingprocedure'
     model = StandardOperatingProcedure
-    form_class = StandardOperatingProcedureForm
+    form_class = StandardOperatingProcedureCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/sop-add.html'
 
@@ -298,6 +270,35 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+
+class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = StandardOperatingProcedure
+    form_class = StandardOperatingProcedureUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-kit/sop-update.html'
+    permission_required = ('utility.update_standardoperatingprocedure', 'utility.view_standardoperatingprocedure', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_standardoperatingprocedure'
+        context['page_title'] = 'Standard Operating Procedures'
+        context['page_subtitle'] = 'Instructions for routine operations.'
+        context['form_header'] = 'Update SOP'
+        context['form_subheader'] = 'Fill and submit.'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_standardoperatingprocedure')
 
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
