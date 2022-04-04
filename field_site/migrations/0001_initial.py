@@ -120,7 +120,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('feature_first_tier', models.CharField(max_length=255, unique=True, verbose_name='ENVO Feature 1st Tier')),
                 ('feature_first_tier_slug', models.SlugField(max_length=255, verbose_name='ENVO Feature 1st Tier Slug')),
-                ('envo_identifier', models.CharField(max_length=255, verbose_name='ENVO Identifier', default='[ENVO:00000000]')),
+                ('envo_identifier', models.CharField(max_length=255, verbose_name='ENVO Identifier', default='[ENVO:01000813]')),
                 ('ontology_url', models.URLField(default='http://purl.obolibrary.org/obo/ENVO_01000813', max_length=255, verbose_name='Ontology URL')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
