@@ -32,10 +32,14 @@ urlpatterns = [
     # UTILITY: PROJECT (VIEW)
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='view_projects'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
-    # UTILITY: PUBLICATION (VIEW)
+    # UTILITY: PUBLICATION (VIEW, ADD, UPDATE)
     path('main/publications/', utility_views.PublicationTemplateView.as_view(), name='view_publications'),
     path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('detail_publication')), name='add_publication'),
     path('main/publication/update/<int:pk>/', utility_views.PublicationUpdateView.as_view(), name='update_publication'),
+    # UTILITY: STANDARD OPERATING PROCEDURE (VIEW, ADD, UPDATE)
+    path('main/sop/<str:sop_type>', utility_views.StandardOperatingProcedureTemplateView.as_view(), name='view_standardoperatingprocedure'),
+    path('main/sop/add/', utility_views.StandardOperatingProcedureCreateView.as_view(success_url=reverse_lazy('detail_standardoperatingprocedure')), name='add_standardoperatingprocedure'),
+    path('main/sop/update/<int:pk>/', utility_views.StandardOperatingProcedureUpdateView.as_view(), name='update_standardoperatingprocedure'),
     # UTILITY: CONTACT US (VIEW, ADD, UPDATE)
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),
     path('main/contact-us/', utility_views.ContactUsCreateView.as_view(success_url=reverse_lazy('contact_us_received')), name='add_contactus'),
