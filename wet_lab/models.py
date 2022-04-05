@@ -48,6 +48,14 @@ class PrimerPair(DateTimeUserMixin):
     primer_ref_biomaterial_url = models.URLField('Primary Publication (PMID, DOI, URL)', blank=True, max_length=255)
     primer_pair_notes = models.TextField('Primer Pair Notes', blank=True)
 
+    @property
+    def mixs_pcr_primers(self):
+        # mixs_v5
+        # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
+        # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
+        # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
+        return 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
+
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
             created_date_fmt = slug_date_format(timezone.now())
@@ -73,6 +81,14 @@ class IndexPair(DateTimeUserMixin):
     index_i5 = models.CharField('i5 Index', max_length=16)
     i5_index_id = models.CharField('i5 Index ID', max_length=12)
     index_adapter = models.CharField('Adapter', max_length=30)
+
+    @property
+    def mixs_mid(self):
+        # mixs_v5
+        # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
+        # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
+        # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
+        return 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -236,6 +252,13 @@ class Extraction(DateTimeUserMixin):
     extraction_concentration_units = models.CharField('Concentration Units', blank=True, max_length=50, choices=ConcentrationUnits.choices, default=ConcentrationUnits.NGUL)
     extraction_notes = models.TextField('Extraction Notes', blank=True)
 
+    @property
+    def mixs_nucl_acid_ext(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        return self.extraction_method.extraction_sop.sop_url
+
     def save(self, *args, **kwargs):
         from sample_label.models import update_barcode_sample_type, get_extraction_sample_type
         # update_extraction_method must come before creating barcode_slug
@@ -351,6 +374,13 @@ class LibraryPrep(DateTimeUserMixin):
     lib_prep_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Library Prep SOP', on_delete=models.RESTRICT)
     lib_prep_notes = models.TextField('Library Prep Notes', blank=True)
 
+    @property
+    def mixs_nucl_acid_amp(self):
+        # mixs_v5
+        # Any processing applied to the sample during or after retrieving the sample from environment. This field
+        # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
+        return self.amplification_method.amplification_sop.sop_url
+
     def save(self, *args, **kwargs):
         lp_date_fmt = slug_date_format(self.lib_prep_datetime)
         self.lib_prep_slug = '{name}_{barcode}_{date}'.format(name=slugify(self.lib_prep_experiment_name),
@@ -448,6 +478,8 @@ class RunResult(DateTimeUserMixin):
     run_completion_datetime = models.DateTimeField('Run Completion Time')
     # RunInfo.xml
     run_instrument = models.CharField('Instrument', max_length=255)
+    # SampleSheet.csv
+    run_adapter = models.CharField('Adapter', max_length=255)
 
     def save(self, *args, **kwargs):
         date_fmt = self.run_date.strftime('%Y%m%d')

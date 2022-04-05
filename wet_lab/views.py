@@ -69,11 +69,6 @@ class ExtractionFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serializ
     serializer_class = wetlab_serializers.ExtractionSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'extraction_barcode', 'barcode_slug', 'process_location',
-                        'extraction_datetime', 'field_sample', 'extraction_method',
-                        'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
-                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                        'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -254,12 +249,6 @@ class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExpor
     serializer_class = wetlab_serializers.PcrSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'pcr_datetime', 'process_location', 'pcr_experiment_name', 'pcr_slug', 'pcr_type',
-                        'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
-                        'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
-                        'pcr_thermal_cond', 'pcr_sop',
-                        'pcr_notes',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -404,12 +393,6 @@ class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
     serializer_class = wetlab_serializers.LibraryPrepSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'lib_prep_experiment_name', 'lib_prep_slug', 'lib_prep_datetime', 'process_location',
-                        'extraction', 'amplification_method', 'primer_set', 'size_selection_method', 'index_pair', 'index_removal_method',
-                        'quantification_method', 'lib_prep_qubit_results', 'lib_prep_qubit_units', 'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
-                        'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
-                        'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout', 'lib_prep_thermal_cond', 'lib_prep_sop', 'lib_prep_notes',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -566,13 +549,6 @@ class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
     serializer_class = wetlab_serializers.PooledLibrarySerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'pooled_lib_label', 'pooled_lib_slug', 'pooled_lib_datetime',
-                        'pooled_lib_barcode', 'barcode_slug', 'process_location',
-                        'library_prep', 'quantification_method',
-                        'pooled_lib_concentration', 'pooled_lib_concentration_units',
-                        'pooled_lib_volume', 'pooled_lib_volume_units',
-                        'pooled_lib_notes',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -705,11 +681,6 @@ class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerE
     serializer_class = wetlab_serializers.RunPrepSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'run_prep_label', 'run_prep_slug',
-                        'run_prep_datetime', 'process_location', 'pooled_library',
-                        'quantification_method', 'run_prep_concentration',
-                        'run_prep_concentration_units', 'run_prep_phix_spike_in', 'run_prep_phix_spike_in_units',
-                        'run_prep_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -842,9 +813,6 @@ class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     serializer_class = wetlab_serializers.RunResultSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location', 'run_prep',
-                        'run_completion_datetime', 'run_instrument',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -977,9 +945,6 @@ class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
     serializer_class = wetlab_serializers.FastqFileSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
-                        'submitted_to_insdc', 'seq_meth', 'investigation_type',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -1067,7 +1032,7 @@ class IndexPairViewSet(viewsets.ModelViewSet):
     serializer_class = wetlab_serializers.IndexPairSerializer
     queryset = IndexPair.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_fields = ['index_slug', 'created_by__email']
+    # filterset_fields = ['index_slug', 'created_by__email']
     filterset_class = wetlab_filters.IndexPairSerializerFilter
     swagger_tags = ['wet lab']
 

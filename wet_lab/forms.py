@@ -795,8 +795,15 @@ class RunResultForm(forms.ModelForm):
         required=True,
         widget=CustomAdminSplitDateTime()
     )
-
     run_instrument = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_adapter = forms.CharField(
         required=True,
         widget=forms.TextInput(
             attrs={

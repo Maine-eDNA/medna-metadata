@@ -504,11 +504,11 @@ class RunResultAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'run_experiment_name', 'run_slug',
                   'run_id', 'run_date', 'process_location', 'run_prep',
-                  'run_completion_datetime', 'run_instrument',
+                  'run_completion_datetime', 'run_instrument', 'run_adapter',
                   'created_by', 'created_datetime', )
         export_order = ('id', 'run_experiment_name', 'run_slug',
                         'run_id', 'run_date', 'process_location', 'run_prep',
-                        'run_completion_datetime', 'run_instrument',
+                        'run_completion_datetime', 'run_instrument', 'run_adapter',
                         'created_by', 'created_datetime', )
 
     process_location = fields.Field(

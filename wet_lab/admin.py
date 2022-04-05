@@ -616,7 +616,8 @@ class RunResultAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['run_experiment_name', 'run_id', 'run_date',
                        'process_location', 'run_prep',
-                       'run_completion_datetime', 'run_instrument', 'created_by', ]
+                       'run_completion_datetime', 'run_instrument', 'run_adapter',
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -627,7 +628,7 @@ class RunResultAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['process_location', 'run_date', 'run_id',
                        'run_experiment_name', 'run_prep',
-                       'run_completion_datetime', 'run_instrument',
+                       'run_completion_datetime', 'run_instrument', 'run_adapter',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(RunResultAdmin, self).change_view(request, object_id)
