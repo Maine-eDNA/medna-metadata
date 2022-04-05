@@ -117,7 +117,7 @@ class ExtractionMethodTestCase(TestCase):
     def setUp(self):
         sop_test = StandardOperatingProcedureTestCase()
         sop_test.setUp()
-        sop = StandardOperatingProcedureTestCase.objects.filter()[:1].get()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         ExtractionMethod.objects.get_or_create(extraction_method_name='Blood and Tissue',
                                                defaults={
                                                    'extraction_method_manufacturer': 'Qiagen',
@@ -195,7 +195,7 @@ class PcrTestCase(TestCase):
         extraction_test.setUp()
         primer_set_test.setUp()
         pcr_replicate_test.setUp()
-        sop = StandardOperatingProcedureTestCase.objects.filter()[:1].get()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
@@ -243,7 +243,7 @@ class LibraryPrepTestCase(TestCase):
         size_selection_method_test.setUp()
         quantification_method_test.setUp()
         amplification_method_test.setUp()
-        sop = StandardOperatingProcedureTestCase.objects.filter()[:1].get()
+        sop = StandardOperatingProcedure.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         primer_set = PrimerPair.objects.filter()[:1].get()
