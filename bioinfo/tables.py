@@ -201,16 +201,16 @@ class MixsWaterTable(tables.Table):
 
     class Meta:
         model = TaxonomicAnnotation
-        fields = ('_selected_action', 'id', 'feature', 'annotation_metadata',
+        fields = ('_selected_action', 'id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
+                  'seq_meth', 'seq_quality_check', 'chimera_check', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                   'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
-                  'ta_common_name', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
-                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
-                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
-                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_meth', 'seq_quality_check', 'chimera_check', )
+                  'ta_common_name', )
 
 
 class MixsSedimentTable(tables.Table):
@@ -274,13 +274,13 @@ class MixsSedimentTable(tables.Table):
 
     class Meta:
         model = TaxonomicAnnotation
-        fields = ('_selected_action', 'id', 'feature', 'annotation_metadata',
+        fields = ('_selected_action', 'id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
+                  'seq_meth', 'seq_quality_check', 'chimera_check', 'feature', 'annotation_metadata',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
                   'ta_phylum_division', 'ta_class', 'ta_order',
                   'ta_family', 'ta_genus', 'ta_species',
-                  'ta_common_name', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
-                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
-                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
-                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_meth', 'seq_quality_check', 'chimera_check', )
+                  'ta_common_name', )
