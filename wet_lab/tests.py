@@ -357,8 +357,7 @@ class RunResultTestCase(TestCase):
                                             'run_experiment_name': '00XXX0000_Test_Test_test_test',
                                             'run_prep': run_prep,
                                             'run_completion_datetime': current_datetime,
-                                            'run_instrument': 'M03037',
-                                            'run_adapter': 'CTGTCTCTTATACACATCT'
+                                            'run_instrument': 'M03037'
                                         })
 
     def test_was_added_recently(self):

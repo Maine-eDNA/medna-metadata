@@ -803,14 +803,6 @@ class RunResultForm(forms.ModelForm):
             }
         )
     )
-    run_adapter = forms.CharField(
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
 
     class Meta:
         model = RunResult

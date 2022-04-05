@@ -317,7 +317,6 @@ class Migration(migrations.Migration):
                 ('run_prep', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runprep')),
                 ('run_completion_datetime', models.DateTimeField(verbose_name='Run Completion Time')),
                 ('run_instrument', models.CharField(max_length=255, verbose_name='Instrument')),
-                ('run_adapter', models.CharField(max_length=255, verbose_name='Adapter')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),

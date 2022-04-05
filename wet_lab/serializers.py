@@ -381,14 +381,13 @@ class RunResultSerializer(serializers.ModelSerializer):
     run_date = serializers.DateField()
     run_completion_datetime = serializers.DateTimeField()
     run_instrument = serializers.CharField(max_length=255)
-    run_adapter = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = RunResult
         fields = ['id', 'run_experiment_name', 'run_slug', 'run_id', 'run_date', 'process_location', 'run_prep',
-                  'run_completion_datetime', 'run_instrument', 'run_adapter',
+                  'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add

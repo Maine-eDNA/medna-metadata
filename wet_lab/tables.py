@@ -137,7 +137,7 @@ class RunResultTable(tables.Table):
         model = RunResult
         fields = ('_selected_action', 'id', 'run_experiment_name', 'run_id',
                   'run_date', 'process_location', 'run_prep',
-                  'run_completion_datetime', 'run_instrument', 'run_adapter',
+                  'run_completion_datetime', 'run_instrument',
                   'created_by', 'created_datetime', 'modified_datetime', )
 
 

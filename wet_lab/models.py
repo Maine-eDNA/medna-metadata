@@ -88,7 +88,7 @@ class IndexPair(DateTimeUserMixin):
         # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
         # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
         # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
-        return 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
+        return 'FWD:{forward};REV:{reverse}'.format(forward=self.index_i7, reverse=self.index_i5)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -478,8 +478,6 @@ class RunResult(DateTimeUserMixin):
     run_completion_datetime = models.DateTimeField('Run Completion Time')
     # RunInfo.xml
     run_instrument = models.CharField('Instrument', max_length=255)
-    # SampleSheet.csv
-    run_adapter = models.CharField('Adapter', max_length=255)
 
     def save(self, *args, **kwargs):
         date_fmt = self.run_date.strftime('%Y%m%d')
