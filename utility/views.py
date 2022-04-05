@@ -499,7 +499,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class PublicationViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.PublicationSerializer
-    queryset = Project.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
+    queryset = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.PublicationSerializerFilter
