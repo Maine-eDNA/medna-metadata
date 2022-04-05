@@ -217,11 +217,12 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return redirect('main/model-perms-required.html')
 
 
-class StandardOperatingProcedureTemplateView(TemplateView):
+class StandardOperatingProcedureTemplateView(TemplateView, PermissionRequiredMixin):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/sop.html'
+    template_name = 'home/django-material-kit/sops.html'
+    permission_required = 'utility.view_standardoperatingprocedure'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -232,6 +233,11 @@ class StandardOperatingProcedureTemplateView(TemplateView):
         context['page_subtitle'] = 'Instructions for routine operations.'
         context['sop_list'] = StandardOperatingProcedure.objects.prefetch_related('created_by').filter(sop_type=sop_type).order_by('pk')
         return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
 
 
 class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -248,8 +254,8 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         context = super().get_context_data(**kwargs)
         context['segment'] = 'add_standardoperatingprocedure'
         context['page_title'] = 'Standard Operating Procedures'
-        context['page_subtitle'] = 'SOPs'
-        context['form_header'] = 'Update SOP'
+        context['page_subtitle'] = 'Instructions for routine operations.'
+        context['form_header'] = 'Add SOP'
         context['form_subheader'] = 'Fill and submit.'
         return context
 
@@ -493,7 +499,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class PublicationViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.PublicationSerializer
-    queryset = Project.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
+    queryset = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
     # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.PublicationSerializerFilter
