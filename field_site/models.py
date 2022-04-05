@@ -4,6 +4,7 @@
 from django.contrib.gis.db import models
 from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
+from medna_metadata.settings import MIXS_COUNTRY
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
@@ -669,7 +670,51 @@ class FieldSite(DateTimeUserMixin):
         # The geographical origin of the sample as defined by the country or sea name followed by specific region name.
         # Country or sea names should be chosen from the INSDC country list (http://insdc.org/country.html),
         # or the GAZ ontology (v 1.512) (http://purl.bioontology.org/ontology/GAZ)
-        return '{country};{name};{watershed}'.format(country='USA', name=self.general_location_name, watershed=self.watershed.watershed_label)
+        return '{country};{name};{watershed}'.format(country=MIXS_COUNTRY, name=self.general_location_name, watershed=self.watershed.watershed_label)
+
+    @property
+    def mixs_env_broad_scale(self):
+        # mixs_v5
+        # In this field, report which major environmental system your sample or specimen came from. The systems
+        # identified should have a coarse spatial grain, to provide the general environmental context of where the
+        # sampling was done (e.g. were you in the desert or a rainforest?). We recommend using subclasses of ENVO’s
+        # biome class: http://purl.obolibrary.org/obo/ENVO_00000428. Format (one term): termLabel [termID], Format
+        # (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID]. Example: Annotating a water sample
+        # from the photic zone in middle of the Atlantic Ocean, consider: oceanic epipelagic zone biome [ENVO:01000033].
+        # Example: Annotating a sample from the Amazon rainforest consider: tropical moist broadleaf forest biome
+        # [ENVO:01000228]. If needed, request new terms on the ENVO tracker, identified here:
+        # http://www.obofoundry.org/ontology/envo.html
+        return '{name} {id}'.format(name=self.envo_biome_first.biome_first_tier, id=self.envo_biome_first.envo_identifier)
+
+    @property
+    def mixs_env_local_scale(self):
+        # mixs_v5
+        # In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which
+        # you believe have significant causal influences on your sample or specimen. Please use terms that are present
+        # in ENVO and which are of smaller spatial grain than your entry for env_broad_scale.
+        # Format (one term): termLabel [termID];
+        # Format (multiple terms): termLabel [termID]|termLabel [termID]|termLabel [termID].
+        # Example: Annotating a pooled sample taken from various vegetation layers in a forest consider:
+        # canopy [ENVO:00000047]|herb and fern layer [ENVO:01000337]|litter layer [ENVO:01000338]|understory [01000335]|shrub layer [ENVO:01000336].
+        # If needed, request new terms on the ENVO tracker, identified here: http://www.obofoundry.org/ontology/envo.html
+        if self.envo_biome_second:
+            env_local_scale = '{name2} {id2}'.format(name2=self.envo_biome_second.biome_second_tier, id2=self.envo_biome_second.envo_identifier)
+            if self.envo_biome_third:
+                env_local_scale = '{name2} {id2};{name3} {id3}'.format(name2=self.envo_biome_second.biome_second_tier, id2=self.envo_biome_second.envo_identifier,
+                                                                       name3=self.envo_biome_third.biome_third_tier, id3=self.envo_biome_third.envo_identifier)
+                if self.envo_biome_fourth:
+                    env_local_scale = '{name2} {id2};{name3} {id3};{name4} {id4}'.format(name2=self.envo_biome_second.biome_second_tier, id2=self.envo_biome_second.envo_identifier,
+                                                                                         name3=self.envo_biome_third.biome_third_tier, id3=self.envo_biome_third.envo_identifier,
+                                                                                         name4=self.envo_biome_fourth.biome_fourth_tier, id4=self.envo_biome_fourth.envo_identifier)
+                    if self.envo_biome_fifth:
+                        env_local_scale = '{name2} {id2};{name3} {id3};{name4} {id4};{name5} {id5}'.format(name2=self.envo_biome_second.biome_second_tier, id2=self.envo_biome_second.envo_identifier,
+                                                                                                           name3=self.envo_biome_third.biome_third_tier, id3=self.envo_biome_third.envo_identifier,
+                                                                                                           name4=self.envo_biome_fourth.biome_fourth_tier, id4=self.envo_biome_fourth.envo_identifier,
+                                                                                                           name5=self.envo_biome_fifth.biome_fifth_tier, id5=self.envo_biome_fifth.envo_identifier)
+        else:
+            env_local_scale = ''
+
+        return env_local_scale
 
     @property
     def lat(self):

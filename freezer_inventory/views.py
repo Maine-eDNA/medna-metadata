@@ -38,12 +38,6 @@ class FreezerInventoryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Se
     serializer_class = freezerinventory_serializers.FreezerInventorySerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'sample_barcode',
-                        'freezer_inventory_slug',
-                        'freezer_inventory_type', 'freezer_inventory_status',
-                        'freezer_inventory_column', 'freezer_inventory_row',
-                        'freezer_box',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -128,9 +122,6 @@ class FreezerInventoryLogFilterView(LoginRequiredMixin, PermissionRequiredMixin,
     serializer_class = freezerinventory_serializers.FreezerInventoryLogSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['id', 'freezer_log_action',
-                        'freezer_log_notes', 'freezer_log_slug', 'freezer_return_metadata',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -180,10 +171,6 @@ class FreezerInventoryReturnMetadataFilterView(LoginRequiredMixin, PermissionReq
     serializer_class = freezerinventory_serializers.FreezerInventoryReturnMetadataSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['freezer_return_slug', 'freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
-                        'freezer_return_vol_taken', 'freezer_return_vol_units',
-                        'freezer_return_notes',
-                        'created_by', 'created_datetime', 'modified_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -257,7 +244,6 @@ class ReturnActionViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.ReturnActionSerializer
     queryset = ReturnAction.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'action_code', 'action_label', 'created_datetime', 'modified_datetime', ]
     filterset_class = freezerinventory_filters.ReturnActionSerializerFilter
     swagger_tags = ['freezer inventory']
 
@@ -266,8 +252,6 @@ class FreezerViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.FreezerSerializer
     queryset = Freezer.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'freezer_label', 'freezer_label_slug', 'freezer_room_name',
-    #                    'freezer_rated_temp', 'created_datetime', 'modified_datetime', ]
     filterset_class = freezerinventory_filters.FreezerSerializerFilter
     swagger_tags = ['freezer inventory']
 
@@ -276,8 +260,6 @@ class FreezerRackViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.FreezerRackSerializer
     queryset = FreezerRack.objects.prefetch_related('created_by', 'freezer')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'freezer__freezer_label_slug', 'freezer_rack_label',
-    #                    'freezer_rack_label_slug', 'created_datetime', 'modified_datetime', ]
     filterset_class = freezerinventory_filters.FreezerRackSerializerFilter
     swagger_tags = ['freezer inventory']
 
@@ -286,8 +268,6 @@ class FreezerBoxViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.FreezerBoxSerializer
     queryset = FreezerBox.objects.prefetch_related('created_by', 'freezer_rack')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['freezer_rack__freezer_rack_label_slug', 'freezer_box_label', 'freezer_box_label_slug',
-    #                    'created_datetime', 'modified_datetime', 'created_by__email']
     filterset_class = freezerinventory_filters.FreezerBoxSerializerFilter
     swagger_tags = ['freezer inventory']
 
@@ -296,9 +276,6 @@ class FreezerInventoryViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.FreezerInventorySerializer
     queryset = FreezerInventory.objects.prefetch_related('created_by', 'freezer_box', 'sample_barcode')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'freezer_box__freezer_box_label_slug', 'freezer_inventory_type',
-    #                    'freezer_inventory_status', 'sample_barcode__barcode_slug',
-    #                    'created_datetime', 'modified_datetime']
     filterset_class = freezerinventory_filters.FreezerInventorySerializerFilter
     swagger_tags = ['freezer inventory']
 
@@ -307,8 +284,6 @@ class FreezerInventoryLogViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.FreezerInventoryLogSerializer
     queryset = FreezerInventoryLog.objects.prefetch_related('created_by', 'freezer_inventory')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'freezer_inventory__freezer_inventory_slug', 'freezer_log_action',
-    #                    'created_datetime', 'modified_datetime', ]
     filterset_class = freezerinventory_filters.FreezerInventoryLogSerializerFilter
     swagger_tags = ['freezer inventory']
 
@@ -317,9 +292,6 @@ class FreezerInventoryReturnMetadataViewSet(viewsets.ModelViewSet):
     serializer_class = freezerinventory_serializers.FreezerInventoryReturnMetadataSerializer
     queryset = FreezerInventoryReturnMetadata.objects.prefetch_related('created_by', 'freezer_log', 'freezer_return_actions')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'freezer_log__freezer_log_slug', 'freezer_return_metadata_entered',
-    #                     'freezer_return_actions__action_code',
-    #                     'created_datetime', 'modified_datetime']
     filterset_class = freezerinventory_filters.FreezerInventoryReturnMetadataSerializerFilter
     swagger_tags = ['freezer inventory']
 

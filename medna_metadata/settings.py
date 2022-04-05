@@ -589,6 +589,14 @@ LEAFLET_CONFIG = dict({
 })
 
 ########################################
+# MIXS v5 DEFAULTS                     #
+########################################
+# The geographical origin of the sample as defined by the country or sea name followed by specific region name. Country
+# or sea names should be chosen from the INSDC country list (http://insdc.org/country.html), or the GAZ ontology
+# (v 1.512) (http://purl.bioontology.org/ontology/GAZ)
+MIXS_COUNTRY = 'USA'
+
+########################################
 # CUSTOM ADMIN APP ORDERING CONFIG     #
 ########################################
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/

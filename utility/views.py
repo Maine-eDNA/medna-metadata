@@ -483,7 +483,6 @@ class GrantViewSet(viewsets.ModelViewSet):
     queryset = Grant.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email']
     filterset_class = utility_filters.GrantSerializerFilter
     swagger_tags = ['utility']
 
@@ -492,7 +491,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ProjectSerializer
     queryset = Project.objects.prefetch_related('created_by', 'grant_names')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.ProjectSerializerFilter
     swagger_tags = ['utility']
 
@@ -501,7 +499,6 @@ class PublicationViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.PublicationSerializer
     queryset = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.PublicationSerializerFilter
     swagger_tags = ['utility']
 
@@ -510,7 +507,6 @@ class StandardOperatingProcedureViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.StandardOperatingProcedureSerializer
     queryset = StandardOperatingProcedure.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'grant_name__grant_code']
     filterset_class = utility_filters.StandardOperatingProcedureSerializerFilter
     swagger_tags = ['utility']
 
@@ -519,7 +515,6 @@ class ProcessLocationViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ProcessLocationSerializer
     queryset = ProcessLocation.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'process_location_name_slug']
     filterset_class = utility_filters.ProcessLocationSerializerFilter
     swagger_tags = ['utility']
 
@@ -528,7 +523,6 @@ class ContactUsViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ContactUsSerializer
     queryset = ContactUs.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['created_by__email', 'process_location_name_slug']
     filterset_class = utility_filters.ContactUsSerializerFilter
     swagger_tags = ['utility']
 
@@ -537,7 +531,6 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.DefaultSiteCssSerializer
     queryset = DefaultSiteCss.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['default_css_label', 'created_by__email', 'created_datetime']
     filterset_class = utility_filters.DefaultSiteCssSerializerFilter
     swagger_tags = ['utility']
 
@@ -546,7 +539,6 @@ class CustomUserCssViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.CustomUserCssSerializer
     queryset = CustomUserCss.objects.prefetch_related('created_by',)
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_fields = ['custom_css_label', 'created_by__email', 'created_datetime']
     filterset_class = utility_filters.CustomUserCssSerializerFilter
     swagger_tags = ['utility']
 

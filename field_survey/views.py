@@ -128,21 +128,6 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     serializer_class = fieldsurvey_serializers.FieldSurveyTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    # filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
-    #                     'supervisor__agol_username', 'username__agol_username',
-    #                     'recorder_fname', 'recorder_lname', 'field_crew',
-    #                     'arrival_datetime', 'site_id__site_id', 'site_id_other', 'site_name',
-    #                     'lat_manual', 'long_manual', 'env_obs_turbidity',
-    #                     'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
-    #                     'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
-    #                     'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
-    #                     'env_measurements__env_measure_type_label',
-    #                     'water_filterer__agol_username',
-    #                     'field_collections',
-    #                     'survey_complete', 'qa_editor__agol_username', 'qa_datetime', 'qa_initial',
-    #                     'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
-    #                     'record_creator__agol_username', 'record_create_datetime',
-    #                     'record_editor__agol_username', 'record_edit_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -174,21 +159,6 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     serializer_class = fieldsurvey_serializers.FilterSampleTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    # filterset_fields = ['survey_global_id', 'survey_datetime', 'project_ids__project_label',
-    #                     'supervisor__agol_username', 'username__agol_username',
-    #                     'recorder_fname', 'recorder_lname', 'field_crew',
-    #                     'arrival_datetime', 'site_id__site_id', 'site_id_other', 'site_name',
-    #                     'lat_manual', 'long_manual', 'env_obs_turbidity',
-    #                     'env_obs_precip', 'env_obs_precip', 'env_obs_wind_speed', 'env_obs_cloud_cover', 'env_biome',
-    #                     'env_biome_other', 'env_feature', 'env_feature_other', 'env_material', 'env_material_other',
-    #                     'env_notes', 'env_measure_mode', 'env_boat_type', 'env_bottom_depth', 'measurements_taken',
-    #                     'env_measurements__env_measure_type_label',
-    #                     'water_filterer__agol_username',
-    #                     'field_collections',
-    #                     'survey_complete', 'qa_editor__agol_username', 'qa_datetime', 'qa_initial',
-    #                     'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
-    #                     'record_creator__agol_username', 'record_create_datetime',
-    #                     'record_editor__agol_username', 'record_edit_datetime', ]
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

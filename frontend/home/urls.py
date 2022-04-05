@@ -161,6 +161,9 @@ urlpatterns = [
     # path('dashboard/bioinfo/taxonomicannotation/detail/<int:pk>/', bioinfo_views.TaxonomicAnnotationDetailView.as_view(), name='detail_taxonomicannotation'),
     path('dashboard/bioinfo/taxonomicannotation/add/', bioinfo_views.TaxonomicAnnotationCreateView.as_view(), name='add_taxonomicannotation'),
     path('dashboard/bioinfo/taxonomicannotation/update/<int:pk>/', bioinfo_views.TaxonomicAnnotationUpdateView.as_view(success_url=reverse_lazy('view_taxonomicannotation')), name='update_taxonomicannotation'),
+    # MIXS
+    path('dashboard/mixs/water/view/', bioinfo_views.MixsWaterFilterView.as_view(filterset_class=bioinfo_filters.MixsWaterFilter), name='view_mixswater'),
+    path('dashboard/mixs/sediment/view/', bioinfo_views.MixsSedimentFilterView.as_view(filterset_class=bioinfo_filters.MixsSedimentFilter), name='view_mixssediment'),
     # TEMPLATE VIEWS (NO MODEL)
     path('main/about-us/', utility_views.AboutUsTemplateView.as_view(), name='about_us'),
     path('main/metadata-standards/', utility_views.MetadataStandardsTemplateView.as_view(), name='metadata_standards'),

@@ -330,8 +330,8 @@ class Migration(migrations.Migration):
             name='FastqFile',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('run_result', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runresult')),
-                ('extraction', models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction')),
+                ('run_result', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runresult', related_name='run_results')),
+                ('extraction', models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.extraction', related_name='extractions')),
                 ('fastq_slug', models.SlugField(max_length=255, verbose_name='Fastq Slug')),
                 ('fastq_datafile', models.FileField(default='static/utility/images/icon-no.svg', max_length=255, storage=medna_metadata.storage_backends.select_private_sequencing_storage, upload_to='', verbose_name='FastQ Datafile')),
                 ('submitted_to_insdc', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Submitted to INSDC')),

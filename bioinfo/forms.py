@@ -66,7 +66,7 @@ class QualityMetadataForm(forms.ModelForm):
         required=True,
         widget=forms.Textarea(
             attrs={
-                'placeholder': 'name and version of software, parameters used',
+                'placeholder': 'name and version of software, parameters used, e.g., uchime;v4.1;default parameters',
                 'class': 'form-control',
             }
         )

@@ -89,6 +89,21 @@ class FieldSurvey(DateTimeUserMixin):
         return '{envo}'.format(envo=self.get_env_material_display())
 
     @property
+    def mixs_project_name(self):
+        # mixs_v5
+        # Name of the project within which the sequencing was organized
+        return 'Maine-eDNA {project}'.format(project=self.project_ids)
+
+    @property
+    def mixs_lat_lon(self):
+        # mixs_v5
+        # The geographical origin of the sample as defined by latitude and longitude. The values should be reported in
+        # decimal degrees and in WGS84 system
+        lat_fmt = '{:.4f}'.format(self.geom.y)
+        lon_fmt = '{:.4f}'.format(self.geom.x)
+        return '{lat} {lon}'.format(lat=lat_fmt, lon=lon_fmt)
+
+    @property
     def lat(self):
         return self.geom.y
 
@@ -280,6 +295,7 @@ class SedimentCollection(DateTimeUserMixin):
 
 
 class FieldSample(DateTimeUserMixin):
+    # mixs source_mat_id
     sample_global_id = models.CharField('Sample Global ID', primary_key=True, max_length=255)
     field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', related_name='field_sample_barcode', on_delete=models.RESTRICT)
     collection_global_id = models.ForeignKey(FieldCollection, db_column='collection_global_id', related_name='field_samples', on_delete=models.CASCADE)
@@ -336,21 +352,7 @@ class FilterSample(DateTimeUserMixin):
         # mixs_v5
         # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
         # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
-        return self.field_sample.collection_global_id.water_collection.water_collect_depth
-
-    @property
-    def mixs_source_mat_id(self):
-        # mixs_v5
-        # A unique identifier assigned to a material sample (as defined by http://rs.tdwg.org/dwc/terms/materialSampleID,
-        # and as opposed to a particular digital record of a material sample) used for extracting nucleic acids, and
-        # subsequent sequencing. The identifier can refer either to the original material collected or to any derived
-        # sub-samples. The INSDC qualifiers /specimen_voucher, /bio_material, or /culture_collection may or may not
-        # share the same value as the source_mat_id field. For instance, the /specimen_voucher qualifier and
-        # source_mat_id may both contain 'UAM:Herps:14' , referring to both the specimen voucher and sampled tissue with
-        # the same identifier. However, the /culture_collection qualifier may refer to a value from an initial culture
-        # (e.g. ATCC:11775) while source_mat_id would refer to an identifier from some derived culture from which the
-        # nucleic acids were extracted (e.g. xatc123 or ark:/2154/R2).
-        return self.field_sample.sample_global_id
+        return '{depth} meter'.format(depth=self.field_sample.collection_global_id.water_collection.water_collect_depth)
 
     @property
     def mixs_samp_collect_device(self):
@@ -373,7 +375,7 @@ class FilterSample(DateTimeUserMixin):
         # Any processing applied to the sample during or after retrieving the sample from environment. This field
         # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
         size = self.field_sample.collection_global_id.water_collection.water_vessel_vol
-        return '{size}ml'.format(size=size)
+        return '{size} milliliter'.format(size=size)
 
     def __str__(self):
         return self.field_sample
@@ -403,21 +405,7 @@ class SubCoreSample(DateTimeUserMixin):
         # mixs_v5
         # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
         # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
-        return self.field_sample.collection_global_id.sediment_collection.core_collect_depth
-
-    @property
-    def mixs_source_mat_id(self):
-        # mixs_v5
-        # A unique identifier assigned to a material sample (as defined by http://rs.tdwg.org/dwc/terms/materialSampleID,
-        # and as opposed to a particular digital record of a material sample) used for extracting nucleic acids, and
-        # subsequent sequencing. The identifier can refer either to the original material collected or to any derived
-        # sub-samples. The INSDC qualifiers /specimen_voucher, /bio_material, or /culture_collection may or may not
-        # share the same value as the source_mat_id field. For instance, the /specimen_voucher qualifier and
-        # source_mat_id may both contain 'UAM:Herps:14' , referring to both the specimen voucher and sampled tissue with
-        # the same identifier. However, the /culture_collection qualifier may refer to a value from an initial culture
-        # (e.g. ATCC:11775) while source_mat_id would refer to an identifier from some derived culture from which the
-        # nucleic acids were extracted (e.g. xatc123 or ark:/2154/R2).
-        return self.field_sample.sample_global_id
+        return '{depth} meter'.format(depth=self.field_sample.collection_global_id.sediment_collection.core_collect_depth)
 
     @property
     def mixs_samp_collect_device(self):

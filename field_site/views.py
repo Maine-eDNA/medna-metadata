@@ -173,16 +173,6 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
     export_formats = ['csv', 'xlsx']
-    filterset_fields = ['created_by__email', 'general_location_name', 'grant__grant_code', 'project__project_code', 'system__system_code',
-                        'watershed__watershed_code', 'envo_biome_first__biome_first_tier',
-                        'envo_biome_second__biome_second_tier',
-                        'envo_biome_third__biome_third_tier', 'envo_biome_fourth__biome_fourth_tier',
-                        'envo_biome_fifth__biome_fifth_tier',
-                        'envo_feature_first__feature_first_tier', 'envo_feature_second__feature_second_tier',
-                        'envo_feature_third__feature_third_tier',
-                        'envo_feature_fourth__feature_fourth_tier', 'envo_feature_fifth__feature_fifth_tier',
-                        'envo_feature_sixth__feature_sixth_tier',
-                        'envo_feature_seventh__feature_seventh_tier']
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

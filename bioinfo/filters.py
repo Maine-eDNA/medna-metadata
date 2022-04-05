@@ -231,6 +231,56 @@ class TaxonomicAnnotationFilter(filters.FilterSet):
                   'manual_species']
 
 
+class MixsWaterFilter(filters.FilterSet):
+    feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
+    annotation_metadata = filters.ModelChoiceFilter(field_name='annotation_metadata__annotation_slug', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
+    reference_database = filters.ModelChoiceFilter(field_name='reference_database__refdb_slug', queryset=ReferenceDatabase.objects.all(), widget=CustomSelect2)
+    ta_taxon = filters.ChoiceFilter(choices=get_ta_taxon_choices, widget=CustomSelect2)
+    ta_domain = filters.ChoiceFilter(choices=get_ta_domain_choices, widget=CustomSelect2)
+    ta_kingdom = filters.ChoiceFilter(choices=get_ta_kingdom_choices, widget=CustomSelect2)
+    ta_supergroup = filters.ChoiceFilter(choices=get_ta_supergroup_choices, widget=CustomSelect2)
+    ta_phylum_division = filters.ChoiceFilter(choices=get_ta_phylum_division_choices, widget=CustomSelect2)
+    ta_class = filters.ChoiceFilter(choices=get_ta_class_choices, widget=CustomSelect2)
+    ta_order = filters.ChoiceFilter(choices=get_ta_order_choices, widget=CustomSelect2)
+    ta_family = filters.ChoiceFilter(choices=get_ta_family_choices, widget=CustomSelect2)
+    ta_genus = filters.ChoiceFilter(choices=get_ta_genus_choices, widget=CustomSelect2)
+    ta_species = filters.ChoiceFilter(choices=get_ta_species_choices, widget=CustomSelect2)
+    ta_common_name = filters.ChoiceFilter(choices=get_ta_common_name_choices, widget=CustomSelect2)
+
+    class Meta:
+        model = TaxonomicAnnotation
+        fields = ['feature', 'annotation_metadata', 'reference_database',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', ]
+
+
+class MixsSedimentFilter(filters.FilterSet):
+    feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
+    annotation_metadata = filters.ModelChoiceFilter(field_name='annotation_metadata__annotation_slug', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
+    reference_database = filters.ModelChoiceFilter(field_name='reference_database__refdb_slug', queryset=ReferenceDatabase.objects.all(), widget=CustomSelect2)
+    ta_taxon = filters.ChoiceFilter(choices=get_ta_taxon_choices, widget=CustomSelect2)
+    ta_domain = filters.ChoiceFilter(choices=get_ta_domain_choices, widget=CustomSelect2)
+    ta_kingdom = filters.ChoiceFilter(choices=get_ta_kingdom_choices, widget=CustomSelect2)
+    ta_supergroup = filters.ChoiceFilter(choices=get_ta_supergroup_choices, widget=CustomSelect2)
+    ta_phylum_division = filters.ChoiceFilter(choices=get_ta_phylum_division_choices, widget=CustomSelect2)
+    ta_class = filters.ChoiceFilter(choices=get_ta_class_choices, widget=CustomSelect2)
+    ta_order = filters.ChoiceFilter(choices=get_ta_order_choices, widget=CustomSelect2)
+    ta_family = filters.ChoiceFilter(choices=get_ta_family_choices, widget=CustomSelect2)
+    ta_genus = filters.ChoiceFilter(choices=get_ta_genus_choices, widget=CustomSelect2)
+    ta_species = filters.ChoiceFilter(choices=get_ta_species_choices, widget=CustomSelect2)
+    ta_common_name = filters.ChoiceFilter(choices=get_ta_common_name_choices, widget=CustomSelect2)
+
+    class Meta:
+        model = TaxonomicAnnotation
+        fields = ['feature', 'annotation_metadata', 'reference_database',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', ]
+
+
 ########################################
 # SERIALIZER FILTERS                   #
 ########################################
@@ -473,3 +523,53 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species']
+
+
+class MixsWaterSerializerFilter(filters.FilterSet):
+    feature = filters.CharFilter(field_name='feature__feature_slug', lookup_expr='iexact')
+    annotation_metadata = filters.CharFilter(field_name='annotation_metadata__annotation_slug', lookup_expr='iexact')
+    reference_database = filters.CharFilter(field_name='reference_database__refdb_slug', lookup_expr='iexact')
+    ta_taxon = filters.CharFilter(field_name='ta_taxon', lookup_expr='iexact')
+    ta_domain = filters.CharFilter(field_name='ta_domain', lookup_expr='iexact')
+    ta_kingdom = filters.CharFilter(field_name='ta_kingdom', lookup_expr='iexact')
+    ta_supergroup = filters.CharFilter(field_name='ta_supergroup', lookup_expr='iexact')
+    ta_phylum_division = filters.CharFilter(field_name='ta_phylum_division', lookup_expr='iexact')
+    ta_class = filters.CharFilter(field_name='ta_class', lookup_expr='iexact')
+    ta_order = filters.CharFilter(field_name='ta_order', lookup_expr='iexact')
+    ta_family = filters.CharFilter(field_name='ta_family', lookup_expr='iexact')
+    ta_genus = filters.CharFilter(field_name='ta_genus', lookup_expr='iexact')
+    ta_species = filters.CharFilter(field_name='ta_species', lookup_expr='iexact')
+    ta_common_name = filters.CharFilter(field_name='ta_common_name', lookup_expr='iexact')
+
+    class Meta:
+        model = TaxonomicAnnotation
+        fields = ['feature', 'annotation_metadata', 'reference_database',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', ]
+
+
+class MixsSedimentSerializerFilter(filters.FilterSet):
+    feature = filters.CharFilter(field_name='feature__feature_slug', lookup_expr='iexact')
+    annotation_metadata = filters.CharFilter(field_name='annotation_metadata__annotation_slug', lookup_expr='iexact')
+    reference_database = filters.CharFilter(field_name='reference_database__refdb_slug', lookup_expr='iexact')
+    ta_taxon = filters.CharFilter(field_name='ta_taxon', lookup_expr='iexact')
+    ta_domain = filters.CharFilter(field_name='ta_domain', lookup_expr='iexact')
+    ta_kingdom = filters.CharFilter(field_name='ta_kingdom', lookup_expr='iexact')
+    ta_supergroup = filters.CharFilter(field_name='ta_supergroup', lookup_expr='iexact')
+    ta_phylum_division = filters.CharFilter(field_name='ta_phylum_division', lookup_expr='iexact')
+    ta_class = filters.CharFilter(field_name='ta_class', lookup_expr='iexact')
+    ta_order = filters.CharFilter(field_name='ta_order', lookup_expr='iexact')
+    ta_family = filters.CharFilter(field_name='ta_family', lookup_expr='iexact')
+    ta_genus = filters.CharFilter(field_name='ta_genus', lookup_expr='iexact')
+    ta_species = filters.CharFilter(field_name='ta_species', lookup_expr='iexact')
+    ta_common_name = filters.CharFilter(field_name='ta_common_name', lookup_expr='iexact')
+
+    class Meta:
+        model = TaxonomicAnnotation
+        fields = ['feature', 'annotation_metadata', 'reference_database',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', ]

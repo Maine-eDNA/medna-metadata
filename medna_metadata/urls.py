@@ -182,7 +182,9 @@ router.register(r'bioinfo/species', bioinfo_views.TaxonSpeciesViewSet, 'species'
 router.register(r'bioinfo/annotation_method', bioinfo_views.AnnotationMethodViewSet, 'annotation_method')
 router.register(r'bioinfo/annotation_metadata', bioinfo_views.AnnotationMetadataViewSet, 'annotation_metadata')
 router.register(r'bioinfo/taxon_annotation', bioinfo_views.TaxonomicAnnotationViewSet, 'taxon_annotation')
-
+# mixs
+router.register(r'mixs/water', bioinfo_views.MixsWaterReadOnlyViewSet, 'mixs_water')
+router.register(r'mixs/sediment', bioinfo_views.MixsSedimentReadOnlyViewSet, 'mixs_sediment')
 
 urlpatterns = [
     # admin urls

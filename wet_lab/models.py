@@ -88,7 +88,7 @@ class IndexPair(DateTimeUserMixin):
         # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
         # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
         # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
-        return 'FWD:{forward};REV:{reverse}'.format(forward=self.index_i7, reverse=self.index_i5)
+        return 'I7_Index:{i7};I5_Index:{i5}'.format(i7=self.index_i7, i5=self.index_i5)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -499,8 +499,8 @@ class FastqFile(DateTimeUserMixin):
     # https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html
     # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
     uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT)
-    extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT)
+    run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT, related_name='run_results')
+    extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT, related_name='extractions')
     fastq_slug = models.SlugField('Fastq Slug', max_length=255)
     fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage, default='static/utility/images/icon-no.svg')
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
