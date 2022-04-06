@@ -89,21 +89,32 @@ def return_merged_zeros_lists(labels_array, data_array):
     # merge dfs into one df
     df_merge = pd.concat(dfs, axis=0)
     # fill any NaN with zero
-    df_merge = df_merge.fillna(0.0)
-    # sort merged dfs
-    df_merge = df_merge.sort_index()
-    # reindex and fill in any missing months
-    df_merge = df_merge.reindex(pd.period_range(df_merge.index[0], df_merge.index[-1], freq='M'))
-    # fill any NaN with zero
-    df_merge = df_merge.fillna(0.0)
-    # convert index to list
-    # https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
-    df_merge['label'] = df_merge.index
-    labels = df_merge['label'].astype(str).tolist()
-    # convert all data columns to list and append them to array
-    data_array = []
-    data_cols = [col for col in df_merge if col.startswith('data')]
-    for col in data_cols:
-        data = df_merge[col].tolist()
-        data_array.append(data)
-    return labels, data_array
+    if df_merge.empty:
+        df_merge['label'] = df_merge.index
+        labels = df_merge['label'].astype(str).tolist()
+        # convert all data columns to list and append them to array
+        data_array = []
+        data_cols = [col for col in df_merge if col.startswith('data')]
+        for col in data_cols:
+            data = df_merge[col].tolist()
+            data_array.append(data)
+        return labels, data_array
+    else:
+        df_merge = df_merge.fillna(0.0)
+        # sort merged dfs
+        df_merge = df_merge.sort_index()
+        # reindex and fill in any missing months
+        df_merge = df_merge.reindex(pd.period_range(df_merge.index[0], df_merge.index[-1], freq='M'))
+        # fill any NaN with zero
+        df_merge = df_merge.fillna(0.0)
+        # convert index to list
+        # https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
+        df_merge['label'] = df_merge.index
+        labels = df_merge['label'].astype(str).tolist()
+        # convert all data columns to list and append them to array
+        data_array = []
+        data_cols = [col for col in df_merge if col.startswith('data')]
+        for col in data_cols:
+            data = df_merge[col].tolist()
+            data_array.append(data)
+        return labels, data_array
