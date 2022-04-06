@@ -61,6 +61,8 @@ urlpatterns = [
     path('dashboard/fieldsurvey/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFilter), name='view_fieldsurvey'),
     # FIELD SURVEY: FIELD CREW (VIEW, ADD, UPDATE)
     path('dashboard/fieldsurvey/fieldcrew/view/', fieldsurvey_views.FieldCrewFilterView.as_view(filterset_class=fieldsurvey_filters.FieldCrewFilter), name='view_fieldcrew'),
+    # FIELD SURVEY: ENV MEASUREMENT (VIEW, ADD, UPDATE)
+    path('dashboard/fieldsurvey/envmeasurement/view/', fieldsurvey_views.EnvMeasurementFilterView.as_view(filterset_class=fieldsurvey_filters.EnvMeasurementFilter), name='view_envmeasurement'),
     # FIELD SURVEY: WATER COLLECTION (VIEW, ADD, UPDATE)
     path('dashboard/fieldsurvey/watercollection/view/', fieldsurvey_views.WaterCollectionFilterView.as_view(filterset_class=fieldsurvey_filters.WaterCollectionFilter), name='view_watercollection'),
     # FIELD SURVEY: SEDIMENT COLLECTION (VIEW, ADD, UPDATE)

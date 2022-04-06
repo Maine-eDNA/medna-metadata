@@ -178,6 +178,34 @@ class FieldCrewFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
         return redirect('main/model-perms-required.html')
 
 
+class EnvMeasurementFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = EnvMeasurement
+    table_class = EnvMeasurementTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('field_survey.view_envmeasurement', )
+    export_name = 'envmeas_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsurvey_serializers.EnvMeasurementSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_envmeasurement'
+        context['page_title'] = 'Environmental Measurement'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class WaterCollectionFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
