@@ -1,12 +1,17 @@
+from django.db import transaction
 from django.db.models import F, Count, Func, Value, CharField
 from django.db.models.functions import TruncMonth
 from django.core.serializers import serialize
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.views.generic.edit import CreateView, UpdateView
 import json
 from django_filters import rest_framework as filters
 from django_tables2.views import SingleTableMixin
@@ -14,7 +19,7 @@ from django_filters.views import FilterView
 from rest_framework import generics
 from rest_framework import viewsets
 from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists
-from utility.views import export_context
+from utility.views import export_context, CreatePopupMixin, UpdatePopupMixin
 from utility.serializers import SerializerExportMixin, CharSerializerExportMixin
 import field_survey.filters as fieldsurvey_filters
 import field_survey.serializers as fieldsurvey_serializers
@@ -23,7 +28,8 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
-from .tables import FieldSurveyTable, FilterSampleTable, SubCoreSampleTable
+from .tables import FieldSurveyTable, FieldCrewTable, EnvMeasurementTable, WaterCollectionTable, \
+    SedimentCollectionTable, FilterSampleTable, SubCoreSampleTable
 
 
 # Create your views here.
@@ -134,6 +140,90 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
         context = super().get_context_data(**kwargs)
         context['segment'] = 'view_fieldsurvey'
         context['page_title'] = 'Field Survey'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class FieldCrewFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FieldCrew
+    table_class = FieldCrewTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('field_survey.view_fieldcrew', )
+    export_name = 'fieldcrew_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsurvey_serializers.FieldCrewSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_fieldcrew'
+        context['page_title'] = 'Field Crew'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class WaterCollectionFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = WaterCollection
+    table_class = WaterCollectionTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('field_survey.view_watercollection', )
+    export_name = 'watercollection_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsurvey_serializers.WaterCollectionTableSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_watercollection'
+        context['page_title'] = 'Water Collection'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class SedimentCollectionFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = SedimentCollection
+    table_class = SedimentCollectionTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('field_survey.view_sedimentcollection', )
+    export_name = 'sedimentcollection_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = fieldsurvey_serializers.SedimentCollectionTableSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_sedimentcollection'
+        context['page_title'] = 'Sediment Collection'
         context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context

@@ -35,6 +35,46 @@ class FieldSurveyFilter(filters.FilterSet):
         fields = ['username', 'supervisor', 'water_filterer', 'survey_datetime', 'site_id', 'project_ids', ]
 
 
+class FieldCrewFilter(filters.FilterSet):
+    survey_global_id = filters.ModelMultipleChoiceFilter(field_name='survey_global_id__survey_global_id', queryset=FieldSurvey.objects.all(), widget=CustomSelect2Multiple, label='Survey Global ID')
+    created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Created DateTime')
+    created_by = filters.ModelMultipleChoiceFilter(field_name='username__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Created By')
+
+    class Meta:
+        model = FieldSurvey
+        fields = ['survey_global_id', 'created_datetime', 'created_by', ]
+
+
+class EnvMeasurementFilter(filters.FilterSet):
+    survey_global_id = filters.ModelMultipleChoiceFilter(field_name='survey_global_id__survey_global_id', queryset=FieldSurvey.objects.all(), widget=CustomSelect2Multiple, label='Survey Global ID')
+    env_measure_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Created DateTime')
+    created_by = filters.ModelMultipleChoiceFilter(field_name='username__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Created By')
+
+    class Meta:
+        model = EnvMeasurement
+        fields = ['survey_global_id', 'env_measure_datetime', 'created_by', ]
+
+
+class WaterCollectionFilter(filters.FilterSet):
+    survey_global_id = filters.ModelMultipleChoiceFilter(field_name='field_collection__survey_global_id', queryset=FieldSurvey.objects.all(), widget=CustomSelect2Multiple, label='Survey Global ID')
+    water_collect_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Collected DateTime')
+    created_by = filters.ModelMultipleChoiceFilter(field_name='username__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Created By')
+
+    class Meta:
+        model = WaterCollection
+        fields = ['survey_global_id', 'water_collect_datetime', 'created_by', ]
+
+
+class SedimentCollectionFilter(filters.FilterSet):
+    survey_global_id = filters.ModelMultipleChoiceFilter(field_name='field_collection__survey_global_id', queryset=FieldSurvey.objects.all(), widget=CustomSelect2Multiple, label='Survey Global ID')
+    core_datetime_start = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Collected DateTime')
+    created_by = filters.ModelMultipleChoiceFilter(field_name='username__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple, label='Created By')
+
+    class Meta:
+        model = WaterCollection
+        fields = ['survey_global_id', 'core_datetime_start', 'created_by', ]
+
+
 class FilterSampleFilter(filters.FilterSet):
     project_ids = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__project_ids__project_label', queryset=Project.objects.all(), widget=CustomSelect2Multiple, label='Project')
     site_id = filters.ModelMultipleChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__site_id__site_id', queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple, label='Site ID')

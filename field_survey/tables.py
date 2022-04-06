@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import FieldSurvey, FilterSample, SubCoreSample
+from .models import FieldSurvey, FieldCrew, EnvMeasurement, WaterCollection, SedimentCollection, FilterSample, SubCoreSample
 from django_tables2.utils import A
 
 
@@ -50,6 +50,128 @@ class FieldSurveyTable(tables.Table):
                   'record_editor', 'record_edit_datetime', )
 
 
+class FieldCrewTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    record_creator = tables.Column(accessor='record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+
+    class Meta:
+        model = FieldCrew
+        fields = ('_selected_action', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+
+
+class EnvMeasurementTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    env_measure_depth = tables.TemplateColumn('{{ record.env_measure_depth|floatformat:2 }}')
+    env_ctd_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_ctd_notes}}">{{ record.env_ctd_notes|truncatewords:5 }}', orderable=False)
+    env_ysi_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_ysi_notes}}">{{ record.env_ysi_notes|truncatewords:5 }}', orderable=False)
+    env_secchi_depth = tables.TemplateColumn('{{ record.env_measure_depth|floatformat:2 }}')
+    env_secchi_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_secchi_notes}}">{{ record.env_secchi_notes|truncatewords:5 }}', orderable=False)
+    env_niskin_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_niskin_notes}}">{{ record.env_niskin_notes|truncatewords:5 }}', orderable=False)
+    env_flow_rate = tables.TemplateColumn('{{ record.env_flow_rate|floatformat:2 }}')
+    env_water_temp = tables.TemplateColumn('{{ record.env_water_temp|floatformat:2 }}')
+    env_salinity = tables.TemplateColumn('{{ record.env_salinity|floatformat:2 }}')
+    env_ph_scale = tables.TemplateColumn('{{ record.env_ph_scale|floatformat:2 }}')
+    env_par1 = tables.TemplateColumn('{{ record.env_par1|floatformat:2 }}')
+    env_par2 = tables.TemplateColumn('{{ record.env_par2|floatformat:2 }}')
+    env_turbidity = tables.TemplateColumn('{{ record.env_turbidity|floatformat:2 }}')
+    env_conductivity = tables.TemplateColumn('{{ record.env_conductivity|floatformat:2 }}')
+    env_do = tables.TemplateColumn('{{ record.env_do|floatformat:2 }}')
+    env_pheophytin = tables.TemplateColumn('{{ record.env_pheophytin|floatformat:2 }}')
+    env_chla = tables.TemplateColumn('{{ record.env_chla|floatformat:2 }}')
+    env_no3no2 = tables.TemplateColumn('{{ record.env_no3no2|floatformat:2 }}')
+    env_no2 = tables.TemplateColumn('{{ record.env_no2|floatformat:2 }}')
+    env_nh4 = tables.TemplateColumn('{{ record.env_nh4|floatformat:2 }}')
+    env_phosphate = tables.TemplateColumn('{{ record.env_phosphate|floatformat:2 }}')
+    env_lab_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    env_measure_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.env_measure_notes}}">{{ record.env_measure_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    record_creator = tables.Column(accessor='record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+
+    class Meta:
+        model = EnvMeasurement
+        fields = ('_selected_action', 'env_global_id', 'env_measure_datetime', 'env_measure_depth', 'env_instrument',
+                  'env_ctd_filename', 'env_ctd_notes', 'env_ysi_filename', 'env_ysi_model', 'env_ysi_sn', 'env_ysi_notes',
+                  'env_secchi_depth', 'env_secchi_notes', 'env_niskin_number', 'env_niskin_notes', 'env_inst_other',
+                  'env_measurement', 'env_flow_rate', 'env_water_temp', 'env_salinity', 'env_ph_scale', 'env_par1',
+                  'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
+                  'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+
+
+class WaterCollectionTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    collection_global_id = tables.Column(accessor='field_collection.collection_global_id')
+    survey_global_id = tables.Column(accessor='field_collection.collection_global_id.survey_global_id')
+    water_collect_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    water_collect_depth = tables.TemplateColumn('{{ record.water_collect_depth|floatformat:2 }}')
+    water_niskin_vol = tables.TemplateColumn('{{ record.water_niskin_vol|floatformat:2 }}')
+    water_vessel_vol = tables.TemplateColumn('{{ record.water_vessel_vol|floatformat:2 }}')
+    water_collect_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.water_collect_notes}}">{{ record.water_collect_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    record_creator = tables.Column(accessor='field_collection.record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(accessor='field_collection.record_create_datetime', format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='field_collection.record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(accessor='field_collection.record_create_datetime', format='M d, Y h:i a')
+
+    class Meta:
+        model = WaterCollection
+        fields = ('_selected_action', 'collection_global_id', 'survey_global_id',
+                  'water_control', 'water_control_type', 'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode', 'water_niskin_number',
+                  'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material', 'water_vessel_color', 'water_collect_notes', 'was_filtered',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+
+
+class SedimentCollectionTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    collection_global_id = tables.Column(accessor='field_collection.collection_global_id')
+    survey_global_id = tables.Column(accessor='field_collection.collection_global_id.survey_global_id')
+    core_datetime_start = tables.DateTimeColumn(format='M d, Y h:i a')
+    core_datetime_end = tables.DateTimeColumn(format='M d, Y h:i a')
+    core_collect_depth = tables.TemplateColumn('{{ record.core_collect_depth|floatformat:2 }}')
+    core_length = tables.TemplateColumn('{{ record.core_length|floatformat:2 }}')
+    core_diameter = tables.TemplateColumn('{{ record.core_diameter|floatformat:2 }}')
+    core_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.core_notes}}">{{ record.core_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    record_creator = tables.Column(accessor='field_collection.record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(accessor='field_collection.record_create_datetime', format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='field_collection.record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(accessor='field_collection.record_create_datetime', format='M d, Y h:i a')
+
+    class Meta:
+        model = SedimentCollection
+        fields = ('_selected_action', 'collection_global_id', 'survey_global_id',
+                  'core_control', 'core_label', 'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
+                  'core_length', 'core_diameter', 'core_notes', 'subcores_taken',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+
+
 class FilterSampleTable(tables.Table):
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
@@ -92,10 +214,10 @@ class FilterSampleTable(tables.Table):
     gps_cap_alt = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_alt|floatformat:4 }}')
     gps_cap_horacc = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_horacc|floatformat:4 }}')
     gps_cap_vertacc = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_vertacc|floatformat:4 }}')
-    record_creator = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_creator.agol_username')
-    record_create_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_create_datetime', format='M d, Y h:i a')
-    record_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
-    record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_edit_datetime', format='M d, Y h:i a')
+    record_creator = tables.Column(accessor='field_sample.record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(accessor='field_sample.record_create_datetime', format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='field_sample.record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.record_edit_datetime', format='M d, Y h:i a')
     sample_global_id = tables.Column(accessor='field_sample.sample_global_id', verbose_name='Sample Global ID')
     collection_global_id = tables.Column(accessor='field_sample.collection_global_id.pk', verbose_name='Collection Global ID')
     survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')
@@ -153,10 +275,10 @@ class SubCoreSampleTable(tables.Table):
     gps_cap_alt = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_alt|floatformat:4 }}')
     gps_cap_horacc = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_horacc|floatformat:4 }}')
     gps_cap_vertacc = tables.TemplateColumn('{{ record.field_sample.collection_global_id.survey_global_id.gps_cap_vertacc|floatformat:4 }}')
-    record_creator = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_creator.agol_username')
-    record_create_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_create_datetime', format='M d, Y h:i a')
-    record_editor = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
-    record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.record_edit_datetime', format='M d, Y h:i a')
+    record_creator = tables.Column(accessor='field_sample.record_creator.agol_username')
+    record_create_datetime = tables.DateTimeColumn(accessor='field_sample.record_create_datetime', format='M d, Y h:i a')
+    record_editor = tables.Column(accessor='field_sample.record_editor.agol_username')
+    record_edit_datetime = tables.DateTimeColumn(accessor='field_sample.record_edit_datetime', format='M d, Y h:i a')
     sample_global_id = tables.Column(accessor='field_sample.sample_global_id', verbose_name='Sample Global ID')
     collection_global_id = tables.Column(accessor='field_sample.collection_global_id.pk', verbose_name='Collection Global ID')
     survey_global_id = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.pk', verbose_name='Survey Global ID')

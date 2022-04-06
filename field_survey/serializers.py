@@ -89,6 +89,82 @@ class FieldSurveyTableSerializer(serializers.ModelSerializer):
     record_editor = serializers.SlugRelatedField(many=False, read_only=True, allow_null=True, slug_field='agol_username')
 
 
+class WaterCollectionTableSerializer(serializers.ModelSerializer):
+    water_control = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    water_control_type = serializers.ChoiceField(read_only=True, choices=ControlTypes.choices, allow_blank=True)
+    water_vessel_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    water_collect_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    water_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    water_collect_mode = serializers.ChoiceField(read_only=True, choices=WaterCollectionModes.choices, allow_blank=True)
+    water_niskin_number = serializers.IntegerField(read_only=True, allow_null=True)
+    water_niskin_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    water_vessel_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    water_vessel_material = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    water_vessel_color = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    water_collect_notes = serializers.CharField(read_only=True, allow_blank=True)
+    was_filtered = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = WaterCollection
+        fields = ['survey_global_id', 'collection_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'water_control', 'water_control_type',
+                  'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode',
+                  'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
+                  'water_vessel_color', 'water_collect_notes', 'was_filtered',
+                  'created_by', 'created_datetime', 'modified_datetime']
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    # slug_field='collection_global_id'
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    survey_global_id = serializers.ReadOnlyField(source='field_collection.survey_global_id')
+    collection_global_id = serializers.ReadOnlyField(source='field_collection.collection_global_id')
+    record_creator = serializers.ReadOnlyField(source='field_collection.record_creator.agol_username')
+    record_create_datetime = serializers.ReadOnlyField(source='field_collection.record_create_datetime')
+    record_editor = serializers.ReadOnlyField(source='field_collection.record_editor.agol_username')
+    record_edit_datetime = serializers.ReadOnlyField(source='field_collection.record_edit_datetime')
+
+
+class SedimentCollectionTableSerializer(serializers.ModelSerializer):
+    core_control = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    core_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    core_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
+    core_datetime_end = serializers.DateTimeField(allow_null=True)
+    core_method = serializers.ChoiceField(read_only=True, choices=CoreMethods.choices, allow_blank=True)
+    core_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    core_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    core_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    core_diameter = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
+    core_purpose = serializers.CharField(read_only=True, allow_blank=True)
+    core_notes = serializers.CharField(read_only=True, allow_blank=True)
+    subcores_taken = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = SedimentCollection
+        fields = ['survey_global_id', 'collection_global_id',
+                  'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
+                  'core_control', 'core_label',
+                  'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
+                  'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken',
+                  'created_by', 'created_datetime', 'modified_datetime']
+    # Since grant, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    # slug_field='collection_global_id'
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+    survey_global_id = serializers.ReadOnlyField(source='field_collection.survey_global_id')
+    collection_global_id = serializers.ReadOnlyField(source='field_collection.collection_global_id')
+    record_creator = serializers.ReadOnlyField(source='field_collection.record_creator.agol_username')
+    record_create_datetime = serializers.ReadOnlyField(source='field_collection.record_create_datetime')
+    record_editor = serializers.ReadOnlyField(source='field_collection.record_editor.agol_username')
+    record_edit_datetime = serializers.ReadOnlyField(source='field_collection.record_edit_datetime')
+
+
 class FilterSampleTableSerializer(serializers.ModelSerializer):
     filter_location = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     is_prefilter = serializers.ChoiceField(read_only=True, choices=YesNo.choices, allow_blank=True)
@@ -148,10 +224,10 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
     gps_cap_alt = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_alt')
     gps_cap_horacc = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_horacc')
     gps_cap_vertacc = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_vertacc')
-    record_creator = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_creator.agol_username')
-    record_create_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_create_datetime')
-    record_editor = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
-    record_edit_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_edit_datetime')
+    record_creator = serializers.ReadOnlyField(source='field_sample.record_creator.agol_username')
+    record_create_datetime = serializers.ReadOnlyField(source='field_sample.record_create_datetime')
+    record_editor = serializers.ReadOnlyField(source='field_sample.record_editor.agol_username')
+    record_edit_datetime = serializers.ReadOnlyField(source='field_sample.record_edit_datetime')
     sample_global_id = serializers.ReadOnlyField(source='field_sample.sample_global_id')
     collection_global_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.pk')
     survey_global_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.pk')
@@ -223,10 +299,10 @@ class SubCoreSampleTableSerializer(serializers.ModelSerializer):
     gps_cap_alt = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_alt')
     gps_cap_horacc = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_horacc')
     gps_cap_vertacc = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.gps_cap_vertacc')
-    record_creator = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_creator.agol_username')
-    record_create_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_create_datetime')
-    record_editor = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_editor.agol_username')
-    record_edit_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.record_edit_datetime')
+    record_creator = serializers.ReadOnlyField(source='field_sample.record_creator.agol_username')
+    record_create_datetime = serializers.ReadOnlyField(source='field_sample.record_create_datetime')
+    record_editor = serializers.ReadOnlyField(source='field_sample.record_editor.agol_username')
+    record_edit_datetime = serializers.ReadOnlyField(source='field_sample.record_edit_datetime')
     sample_global_id = serializers.ReadOnlyField(source='field_sample.sample_global_id')
     collection_global_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.pk')
     survey_global_id = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.pk')

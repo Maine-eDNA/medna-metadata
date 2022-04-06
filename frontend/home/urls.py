@@ -58,9 +58,17 @@ urlpatterns = [
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
     path('dashboard/labelrequest/update/<int:pk>/', samplelabel_views.SampleLabelRequestUpdateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='update_samplelabelrequest'),
     # FIELD SURVEY: FIELD SURVEY (VIEW)
-    path('dashboard/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFilter), name='view_fieldsurvey'),
-    path('dashboard/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
-    path('dashboard/subcoresample/view/', fieldsurvey_views.SubCoreSampleFilterView.as_view(filterset_class=fieldsurvey_filters.SubCoreSampleFilter), name='view_subcoresample'),
+    path('dashboard/fieldsurvey/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFilter), name='view_fieldsurvey'),
+    # FIELD SURVEY: FIELD CREW (VIEW, ADD, UPDATE)
+    path('dashboard/fieldsurvey/fieldcrew/view/', fieldsurvey_views.FieldCrewFilterView.as_view(filterset_class=fieldsurvey_filters.FieldCrewFilter), name='view_fieldcrew'),
+    # FIELD SURVEY: WATER COLLECTION (VIEW, ADD, UPDATE)
+    path('dashboard/fieldsurvey/watercollection/view/', fieldsurvey_views.WaterCollectionFilterView.as_view(filterset_class=fieldsurvey_filters.WaterCollectionFilter), name='view_watercollection'),
+    # FIELD SURVEY: SEDIMENT COLLECTION (VIEW, ADD, UPDATE)
+    path('dashboard/fieldsurvey/sedimentcollection/view/', fieldsurvey_views.SedimentCollectionFilterView.as_view(filterset_class=fieldsurvey_filters.SedimentCollectionFilter), name='view_sedimentcollection'),
+    # FIELD SURVEY: FILTER SAMPLE (VIEW, ADD, UPDATE)
+    path('dashboard/fieldsurvey/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
+    # FIELD SURVEY: SUBCORE SAMPLE (VIEW, ADD, UPDATE)
+    path('dashboard/fieldsurvey/subcoresample/view/', fieldsurvey_views.SubCoreSampleFilterView.as_view(filterset_class=fieldsurvey_filters.SubCoreSampleFilter), name='view_subcoresample'),
     # WET LAB: EXTRACTION (VIEW, ADD, UPDATE)
     # TODO convert add_extraction to table update
     path('dashboard/wetlab/extraction/view/', wetlab_views.ExtractionFilterView.as_view(filterset_class=wetlab_filters.ExtractionFilter), name='view_extraction'),
