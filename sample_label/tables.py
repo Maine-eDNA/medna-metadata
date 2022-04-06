@@ -30,7 +30,7 @@ class SampleLabelRequestTable(tables.Table):
     class Meta:
         model = SampleLabelRequest
         fields = ('_selected_action', 'max_sample_label_id', 'min_sample_label_num',  'req_sample_label_num',
-                  'sample_year', 'sample_material', 'purpose', 'created_datetime')
+                  'sample_year', 'sample_material', 'sample_type', 'purpose', 'created_datetime')
         # attrs = {'class': 'table align-items-center mb-0'}
         # set table css class to 'result_list'
         # attrs = {'class': 'result_list'}
