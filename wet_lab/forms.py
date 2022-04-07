@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.gis import forms
 from django.db.models import Exists, OuterRef
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
-    CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
+    CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper, CustomClearableFileInput
 from utility.models import ProcessLocation, StandardOperatingProcedure
 from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods, SopTypes
@@ -322,6 +322,7 @@ class PcrForm(forms.ModelForm):
     )
     pcr_thermal_cond = forms.CharField(
         required=True,
+        help_text='Description of reaction conditions and components of PCR in the form of: initial denaturation:degrees_minutes; annealing:degrees_minutes; elongation: degrees_minutes; final elongation:degrees_minutes; total cycles',
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'initial denaturation:degrees_minutes; annealing:degrees_minutes; elongation: degrees_minutes; final elongation:degrees_minutes; total cycles',
@@ -525,6 +526,7 @@ class LibraryPrepForm(forms.ModelForm):
     # TODO - separate into fields and use js to concatenate + update value
     lib_prep_thermal_cond = forms.CharField(
         required=True,
+        help_text='Description of reaction conditions and components of PCR in the form of: initial denaturation:degrees_minutes; annealing:degrees_minutes; elongation: degrees_minutes; final elongation:degrees_minutes; total cycles',
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'initial denaturation:degrees_minutes; annealing:degrees_minutes; elongation: degrees_minutes; final elongation:degrees_minutes; total cycles',
@@ -584,7 +586,6 @@ class PooledLibraryForm(forms.ModelForm):
         required=True,
         widget=CustomAdminSplitDateTime()
     )
-    # Only show options where fk does not exist
     pooled_lib_barcode = forms.ModelChoiceField(
         required=True,
         queryset=SampleBarcode.objects.none(),
@@ -676,6 +677,7 @@ class PooledLibraryForm(forms.ModelForm):
         if _pk:
             self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
         else:
+            # Only show options where fk does not exist
             self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.filter(~Exists(PooledLibrary.objects.filter(pooled_lib_barcode=OuterRef('pk'))))
 
 
@@ -831,9 +833,9 @@ class RunResultForm(forms.ModelForm):
 
 
 class FastqFileForm(forms.ModelForm):
-    fastq_filename = forms.CharField(
+    fastq_datafile = forms.FileField(
         required=True,
-        widget=forms.TextInput(
+        widget=CustomClearableFileInput(
             attrs={
                 'class': 'form-control',
             }
@@ -841,6 +843,7 @@ class FastqFileForm(forms.ModelForm):
     )
     run_result = forms.ModelChoiceField(
         required=True,
+        label='Run Result',
         queryset=RunResult.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -859,6 +862,8 @@ class FastqFileForm(forms.ModelForm):
     )
     run_instrument = forms.CharField(
         required=True,
+        label='Run Instrument',
+        help_text='The name of the instrument, can be found in RunInfo.xml; e.g., <Instrument>M03037</Instrument>',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -867,6 +872,12 @@ class FastqFileForm(forms.ModelForm):
     )
     submitted_to_insdc = forms.ChoiceField(
         required=True,
+        label='Submitted To INSDC',
+        help_text='Depending on the study (large-scale e.g. done with next generation sequencing technology, or '
+                  'small-scale) sequences have to be submitted to SRA (Sequence Read Archive), DRA (DDBJ Read Archive) '
+                  'or via the classical Webin/Sequin systems to Genbank, ENA and DDBJ. Although this field is mandatory, '
+                  'it is meant as a self-test field, therefore it is not necessary to include this field in contextual '
+                  'data submitted to databases',
         choices=YesNo.choices,
         initial=YesNo.NO,
         widget=CustomSelect2(
@@ -877,6 +888,8 @@ class FastqFileForm(forms.ModelForm):
     )
     seq_meth = forms.ChoiceField(
         required=True,
+        label='Sequencing Method',
+        help_text='Sequencing method used.',
         choices=SeqMethods.choices,
         initial=SeqMethods.ILLUMINAMISEQ,
         widget=CustomSelect2(
@@ -887,6 +900,11 @@ class FastqFileForm(forms.ModelForm):
     )
     investigation_type = forms.ChoiceField(
         required=True,
+        label='Investigation Type',
+        help_text='Nucleic Acid Sequence Report is the root element of all MIGS/MIMS compliant reports as standardized '
+                  'by Genomic Standards Consortium. This field is either eukaryote,bacteria,virus,plasmid,organelle, '
+                  'metagenome,mimarks-survey, mimarks-specimen, metatranscriptome, single amplified genome, '
+                  'metagenome-assembled genome, or uncultivated viral genome',
         choices=InvestigationTypes.choices,
         initial=InvestigationTypes.MIMARKSSURVEY,
         widget=CustomSelect2(
@@ -898,5 +916,5 @@ class FastqFileForm(forms.ModelForm):
 
     class Meta:
         model = FastqFile
-        fields = ['run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+        fields = ['run_result', 'extraction', 'fastq_datafile',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
