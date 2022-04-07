@@ -18,6 +18,10 @@ from .models import Extraction, ExtractionMethod, \
 
 class IndexPairForm(forms.ModelForm):
     index_i7 = forms.CharField(
+        label='Index i7',
+        help_text='Molecular barcodes, called Multiplex Identifiers (MIDs), that are used to specifically tag unique '
+                  'samples in a sequencing run. Sequence should be reported in uppercase letters. '
+                  'Can be found in SampleSheet.csv.',
         required=False,
         widget=forms.TextInput(
             attrs={
@@ -26,6 +30,8 @@ class IndexPairForm(forms.ModelForm):
         )
     )
     i7_index_id = forms.CharField(
+        label='Index i7 ID',
+        help_text='Can be found in SampleSheet.csv.',
         required=False,
         widget=forms.TextInput(
             attrs={
@@ -35,6 +41,8 @@ class IndexPairForm(forms.ModelForm):
     )
     index_i5 = forms.CharField(
         required=False,
+        label='Index i5',
+        help_text='Can be found in SampleSheet.csv.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -42,6 +50,8 @@ class IndexPairForm(forms.ModelForm):
         )
     )
     i5_index_id = forms.CharField(
+        label='Index i5 ID',
+        help_text='Can be found in SampleSheet.csv.',
         required=False,
         widget=forms.TextInput(
             attrs={
@@ -51,6 +61,10 @@ class IndexPairForm(forms.ModelForm):
     )
     index_adapter = forms.CharField(
         required=False,
+        label='Index Adapter',
+        help_text='Adapters provide priming sequences for both amplification and sequencing of the sample-library '
+                  'fragments. All adapters should be reported and separated by ; in uppercase letters in the form: DNA;DNA. '
+                  'Can be found in SampleSheet.csv.',
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control',
@@ -68,6 +82,7 @@ class ExtractionForm(forms.ModelForm):
     # Only show options where fk does not exist
     extraction_barcode = forms.ModelChoiceField(
         required=True,
+        label='Extraction Barcode',
         queryset=SampleBarcode.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -77,6 +92,7 @@ class ExtractionForm(forms.ModelForm):
     )
     process_location = forms.ModelChoiceField(
         required=True,
+        label='Process Location',
         queryset=ProcessLocation.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -100,6 +116,8 @@ class ExtractionForm(forms.ModelForm):
     )
     extraction_method = forms.ModelChoiceField(
         required=True,
+        help_text='A standard operating procedure (SOP) that describes the material separation to recover the nucleic '
+                  'acid fraction from a sample',
         queryset=ExtractionMethod.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -246,6 +264,7 @@ class PcrForm(forms.ModelForm):
     )
     process_location = forms.ModelChoiceField(
         required=True,
+        label='Process Location',
         queryset=ProcessLocation.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -268,6 +287,7 @@ class PcrForm(forms.ModelForm):
     )
     primer_set = forms.ModelChoiceField(
         required=True,
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. ',
         queryset=PrimerPair.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -332,6 +352,8 @@ class PcrForm(forms.ModelForm):
     )
     pcr_sop = forms.ModelChoiceField(
         required=True,
+        help_text='A literature reference, electronic resource or a standard operating procedure (SOP), that '
+                  'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids',
         queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
         widget=CustomSelect2(
             attrs={
@@ -368,6 +390,8 @@ class PcrForm(forms.ModelForm):
 
 class LibraryPrepForm(forms.ModelForm):
     lib_prep_experiment_name = forms.CharField(
+        help_text='Name of the library preparation. More than one sample can have the same experiment name if they were'
+                  'part of the same library prep.',
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -381,6 +405,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     process_location = forms.ModelChoiceField(
         required=True,
+        label='Process Location',
         queryset=ProcessLocation.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -394,6 +419,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     amplification_method = forms.ModelChoiceField(
         required=True,
+        help_text='The enzymatic amplification method (PCR, TMA, NASBA) of specific nucleic acids.',
         queryset=AmplificationMethod.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -403,6 +429,7 @@ class LibraryPrepForm(forms.ModelForm):
     )
     primer_set = forms.ModelChoiceField(
         required=True,
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. ',
         queryset=PrimerPair.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -597,6 +624,7 @@ class PooledLibraryForm(forms.ModelForm):
     )
     process_location = forms.ModelChoiceField(
         required=True,
+        label='Process Location',
         queryset=ProcessLocation.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -696,6 +724,7 @@ class RunPrepForm(forms.ModelForm):
     )
     process_location = forms.ModelChoiceField(
         required=True,
+        label='Process Location',
         queryset=ProcessLocation.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -797,6 +826,7 @@ class RunResultForm(forms.ModelForm):
 
     process_location = forms.ModelChoiceField(
         required=True,
+        label='Process Location',
         queryset=ProcessLocation.objects.all(),
         widget=CustomSelect2(
             attrs={
