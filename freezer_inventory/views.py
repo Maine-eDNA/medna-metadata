@@ -54,32 +54,6 @@ class FreezerInventoryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Se
         return redirect('main/model-perms-required.html')
 
 
-class FreezerInventoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = FreezerInventory
-    form_class = FreezerInventoryForm
-    login_url = '/dashboard/login/'
-    redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update.html'
-    permission_required = ('freezer_inventory.update_freezerinventory', 'freezer_inventory.view_freezerinventory', )
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'update_freezerinventory'
-        context['page_title'] = 'Freezer Inventory'
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-    def get_success_url(self):
-        # after successfully filling out and submitting a form,
-        # show the user the detail view of the label
-        return reverse('view_freezerinventory')
-
-
 class FreezerInventoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
@@ -108,6 +82,38 @@ class FreezerInventoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cr
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+
+class FreezerInventoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = FreezerInventory
+    form_class = FreezerInventoryForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('freezer_inventory.update_freezerinventory', 'freezer_inventory.view_freezerinventory', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_freezerinventory'
+        context['page_title'] = 'Freezer Inventory'
+        return context
+
+    # Sending user object to the form, to verify which fields to display
+    def get_form_kwargs(self):
+        kwargs = super(FreezerInventoryUpdateView, self).get_form_kwargs()
+        kwargs.update({'pk': self.request.pk})
+        return kwargs
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_freezerinventory')
 
 
 class FreezerInventoryLogFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):

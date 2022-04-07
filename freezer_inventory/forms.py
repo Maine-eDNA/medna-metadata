@@ -11,7 +11,7 @@ class FreezerInventoryForm(forms.ModelForm):
     # https://stackoverflow.com/questions/14831327/in-a-django-queryset-how-to-filter-for-not-exists-in-a-many-to-one-relationsh
     # Only show options where fk does not exist
     sample_barcode = forms.ModelChoiceField(
-        queryset=SampleBarcode.objects.filter(~Exists(FreezerInventory.objects.filter(sample_barcode=OuterRef('pk')))),
+        queryset=SampleBarcode.objects.none(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -49,6 +49,14 @@ class FreezerInventoryForm(forms.ModelForm):
         fields = ('sample_barcode',
                   'freezer_inventory_type', 'freezer_inventory_status',
                   'freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', )
+
+    def __init__(self, *args, **kwargs):
+        _pk = kwargs.pop('pk', None)
+        super().__init__(*args, **kwargs)
+        if _pk:
+            self.fields['sample_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
+        else:
+            self.fields['sample_barcode'].queryset = SampleBarcode.objects.filter(~Exists(FreezerInventory.objects.filter(sample_barcode=OuterRef('pk'))))
 
 
 class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):
