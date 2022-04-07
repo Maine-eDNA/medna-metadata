@@ -130,6 +130,12 @@ class ExtractionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
         context['page_title'] = 'Extraction'
         return context
 
+    # Sending user object to the form, to verify which fields to display
+    def get_form_kwargs(self):
+        kwargs = super(ExtractionUpdateView, self).get_form_kwargs()
+        kwargs.update({'pk': self.request.pk})
+        return kwargs
+
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
@@ -609,6 +615,12 @@ class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         context['segment'] = 'update_pooledlibrary'
         context['page_title'] = 'Pooled Library'
         return context
+
+    # Sending user object to the form, to verify which fields to display
+    def get_form_kwargs(self):
+        kwargs = super(PooledLibraryUpdateView, self).get_form_kwargs()
+        kwargs.update({'pk': self.request.pk})
+        return kwargs
 
     def handle_no_permission(self):
         if self.raise_exception:
