@@ -197,7 +197,7 @@ class MixsWaterTable(tables.Table):
     # seq_quality_check - bioinfo.QualityMetadata
     seq_quality_check = tables.Column(accessor='feature.denoise_cluster_metadata.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='feature.denoise_cluster_metadata.quality_metadata.chimera_check', verbose_name='Sequence Quality Check')
+    chimera_check = tables.Column(accessor='feature.denoise_cluster_metadata.quality_metadata.chimera_check', verbose_name='Chimera Check')
 
     class Meta:
         model = TaxonomicAnnotation
@@ -270,7 +270,7 @@ class MixsSedimentTable(tables.Table):
     # seq_quality_check - bioinfo.QualityMetadata
     seq_quality_check = tables.Column(accessor='feature.denoise_cluster_metadata.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='feature.denoise_cluster_metadata.quality_metadata.chimera_check', verbose_name='Sequence Quality Check')
+    chimera_check = tables.Column(accessor='feature.denoise_cluster_metadata.quality_metadata.chimera_check', verbose_name='Chimera Check')
 
     class Meta:
         model = TaxonomicAnnotation
