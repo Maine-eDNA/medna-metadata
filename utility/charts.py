@@ -82,13 +82,19 @@ def return_merged_zeros_lists(labels_array, data_array):
     dfs = []
     if len(labels_array) != len(data_array):
         raise Exception('Length of labels array does not match data array')
+    # add dfs to an array
     for i in range(len(data_array)):
         colname = 'data_'+str(i)
         df = fill_month_zeros(labels_array[i], data_array[i], colname)
         dfs.append(df)
-    # merge dfs into one df
+    # merge dfs in array into one df
     df_merge = pd.concat(dfs, axis=0)
-    # fill any NaN with zero
+    # if there are duplicate dates in the array, collapse them by group, e.g.,
+    #          data_0  data_1      data_0  data_1
+    # 2022-04     1.0     NaN  =>  2022-04     1.0     1.0
+    # 2022-04     NaN     1.0
+    df_merge = df_merge.groupby(level=0).sum()
+    # if the merged df is empty, fillna will throw an error, so return empty arrays.
     if df_merge.empty:
         df_merge['label'] = df_merge.index
         labels = df_merge['label'].astype(str).tolist()
@@ -100,6 +106,7 @@ def return_merged_zeros_lists(labels_array, data_array):
             data_array.append(data)
         return labels, data_array
     else:
+        # fill any NaN with zero
         df_merge = df_merge.fillna(0.0)
         # sort merged dfs
         df_merge = df_merge.sort_index()
@@ -110,6 +117,7 @@ def return_merged_zeros_lists(labels_array, data_array):
         # convert index to list
         # https://stackoverflow.com/questions/20461165/how-to-convert-index-of-a-pandas-dataframe-into-a-column
         df_merge['label'] = df_merge.index
+        # pull out labels column as list
         labels = df_merge['label'].astype(str).tolist()
         # convert all data columns to list and append them to array
         data_array = []
