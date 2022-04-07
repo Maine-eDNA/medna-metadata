@@ -24,8 +24,8 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     SizeSelectionMethod, QuantificationMethod, ExtractionMethod, \
     Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
-from .forms import IndexPairForm, ExtractionForm, PcrForm, PcrReplicateForm, LibraryPrepForm, PooledLibraryForm, \
-    RunPrepForm, RunResultForm, FastqFileForm
+from .forms import IndexPairForm, ExtractionForm, PcrCreateForm, PcrUpdateForm, PcrReplicateForm, LibraryPrepCreateForm, \
+    LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileForm
 from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
     RunPrepTable, RunResultTable, FastqFileTable
 
@@ -276,7 +276,7 @@ class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_pcr'
     model = Pcr
-    form_class = PcrForm
+    form_class = PcrCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add.html'
 
@@ -296,6 +296,12 @@ class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.pcr_thermal_cond = 'initial denaturation:{initial_denaturation};annealing:{annealing};' \
+                                       'elongation:{elongation};final elongation:{final_elongation};{total_cycles}'.format(initial_denaturation=form.cleaned_data['initial_denaturation'],
+                                                                                                                           annealing=form.cleaned_data['annealing'],
+                                                                                                                           elongation=form.cleaned_data['elongation'],
+                                                                                                                           final_elongation=form.cleaned_data['final_elongation'],
+                                                                                                                           total_cycles=form.cleaned_data['total_cycles'])
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -309,7 +315,7 @@ class PcrCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 class PcrUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Pcr
-    form_class = PcrForm
+    form_class = PcrUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update.html'
@@ -420,7 +426,7 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_libraryprep'
     model = LibraryPrep
-    form_class = LibraryPrepForm
+    form_class = LibraryPrepCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add.html'
 
@@ -434,6 +440,12 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.lib_prep_thermal_cond = 'initial denaturation:{initial_denaturation};annealing:{annealing};' \
+                                            'elongation:{elongation};final elongation:{final_elongation};{total_cycles}'.format(initial_denaturation=form.cleaned_data['initial_denaturation'],
+                                                                                                                                annealing=form.cleaned_data['annealing'],
+                                                                                                                                elongation=form.cleaned_data['elongation'],
+                                                                                                                                final_elongation=form.cleaned_data['final_elongation'],
+                                                                                                                                total_cycles=form.cleaned_data['total_cycles'])
         return super().form_valid(form)
 
     # Sending user object to the form, to verify which fields to display
@@ -453,7 +465,7 @@ class LibraryPrepCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
 
 class LibraryPrepUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = LibraryPrep
-    form_class = LibraryPrepForm
+    form_class = LibraryPrepUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update.html'
@@ -488,7 +500,7 @@ class LibraryPrepPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permissio
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_libraryprep'
     model = LibraryPrep
-    form_class = LibraryPrepForm
+    form_class = LibraryPrepCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add-popup.html'
 
@@ -518,7 +530,7 @@ class LibraryPrepPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permissio
 
 class LibraryPrepPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = LibraryPrep
-    form_class = LibraryPrepForm
+    form_class = LibraryPrepUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update-popup.html'
