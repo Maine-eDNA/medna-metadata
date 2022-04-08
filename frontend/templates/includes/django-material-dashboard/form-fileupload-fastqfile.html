@@ -1,0 +1,60 @@
+{% load html_tags static %}
+
+{% block extrahead %}
+    {{ form.media }}
+<script src="{% static 'assets/js/wet_lab/file-uploadprogress-fastqfile.js' %}"></script>
+<style>
+    .not-visible{
+        display: none;
+    }
+</style>
+{% endblock %}
+
+
+{% if form.non_field_errors %}
+<!-- START FORM ERRORS -->
+<div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+<!-- END FORM ERRORS -->
+{% endif %}
+
+<!-- START FORM -->
+<form method="post" enctype="multipart/form-data" class="p-3" id="upload_form">
+    {% csrf_token %}
+    <div class="card-body pt-1">
+        {% for field in form %}
+        <div class="row">
+            {% if field.errors %}
+            <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                <span class="text-sm">{{ field.label }}: {{ field.errors }}</span>
+                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% if field.help_text %}
+            <div class="row">
+                <div class="alert alert-info alert-dismissible text-white" role="alert">
+                    <span class="text-sm help">{{ field.help_text|safe }}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+            {{ field.label_tag }}
+            <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% elif field.field.widget|field_type == 'FieldSiteAllowEditLeaflet' %}col-md-12{% else %}input-group input-group-outline my-3{% endif %}">
+                {{ field }}
+            </div>
+
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-6 text-end ms-auto">
+                <button type="submit" value="Submit" class="btn bg-gradient-dark w-100">Submit</button>
+            </div>
+        </div>
+        <div class="row not-visible" id="progress"></div>
+        <div id="url_add_fastqfile" data-url="{% url 'add_fastqfile' %}" style="display: none;"></div>
+    </div>
+</form>
+<!-- END FORM -->

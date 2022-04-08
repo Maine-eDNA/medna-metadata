@@ -115,7 +115,7 @@ router.register(r'sample_label/sample_type', sample_label_views.SampleTypeViewSe
 router.register(r'sample_label/sample_material', sample_label_views.SampleMaterialViewSet, 'sample_material')
 router.register(r'sample_label/sample_label_req', sample_label_views.SampleLabelRequestViewSet, 'sample_label_req')
 router.register(r'sample_label/sample_barcode', sample_label_views.SampleBarcodeViewSet, 'sample_barcode')
-# field_survey:post-transform
+# field_survey
 router.register(r'field_survey/field_survey', field_survey_views.GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'field_survey/field_crew', field_survey_views.FieldCrewViewSet, 'field_crew')
 router.register(r'field_survey/env_measure_type', field_survey_views.EnvMeasureTypeViewSet, 'env_measure_type')
@@ -127,16 +127,9 @@ router.register(r'field_survey/field_sample', field_survey_views.FieldSampleView
 router.register(r'field_survey/filter_sample', field_survey_views.FilterSampleViewSet, 'filter_sample')
 router.register(r'field_survey/subcore_sample', field_survey_views.SubCoreSampleViewSet, 'subcore_sample')
 # field_survey:nested
-
 router.register(r'field_survey/survey_envs', field_survey_views.FieldSurveyEnvsNestedViewSet, 'survey_envs')
 router.register(r'field_survey/survey_filters', field_survey_views.FieldSurveyFiltersNestedViewSet, 'survey_filters')
 router.register(r'field_survey/survey_subcores', field_survey_views.FieldSurveySubCoresNestedViewSet, 'survey_subcores')
-# field_survey:pre-transform
-router.register(r'field_survey/field_survey_etl', field_survey_views.GeoFieldSurveyETLViewSet, 'field_survey_etl')
-router.register(r'field_survey/field_crew_etl', field_survey_views.FieldCrewETLViewSet, 'field_crew_etl')
-router.register(r'field_survey/env_measurement_etl', field_survey_views.EnvMeasurementETLViewSet, 'env_measurement_etl')
-router.register(r'field_survey/field_collection_etl', field_survey_views.FieldCollectionETLViewSet, 'field_collection_etl')
-router.register(r'field_survey/sample_filter_etl', field_survey_views.SampleFilterETLViewSet, 'sample_filter_etl')
 # wet_lab
 router.register(r'wet_lab/primer_pair', wet_lab_views.PrimerPairViewSet, 'primer_pair')
 router.register(r'wet_lab/index_pair', wet_lab_views.IndexPairViewSet, 'index_pair')

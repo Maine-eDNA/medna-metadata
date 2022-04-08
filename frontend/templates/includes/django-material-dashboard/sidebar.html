@@ -92,6 +92,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_fieldsurvey %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldsurvey' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_fieldsurvey' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
      <!-- end field survey -->
     {% endif %}
@@ -110,6 +120,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_fieldcrew %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldcrew' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_fieldcrew' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
      <!-- end field crew -->
     {% endif %}
@@ -128,6 +148,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_envmeasurement %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_envmeasurement' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_envmeasurement' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
      <!-- end env measurement -->
     {% endif %}
@@ -146,6 +176,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_watercollection %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_watercollection' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_watercollection' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
      <!-- end water collection -->
     {% endif %}
@@ -164,6 +204,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_sedimentcollection %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_sedimentcollection' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_sedimentcollection' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
      <!-- end sediment collection -->
     {% endif %}
@@ -182,6 +232,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_filtersample %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_filtersample' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_filtersample' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
     <!-- end filter sample -->
     {% endif %}
@@ -200,6 +260,16 @@
           </div>
         </a>
       </li>
+      {% if perms.field_survey.add_subcoresample %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_subcoresample' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_subcoresample' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
     <!-- end subcore sample -->
     {% endif %}
@@ -391,11 +461,22 @@
           </div>
         </a>
       </li>
+      {% if perms.wet_lab.add_fastqfile %}
+      <li class="nav-item col-1">
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fastqfile' in segment %} active bg-gradient-primary {% endif %}"
+           href="{% url 'add_fastqfile' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">add_box</i>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     </ul>
     <!-- end fastqfile -->
     {% endif %}
     <!-- end wet lab -->
     {% endif %}
+
     {% if perms.freezer_inventory %}
     <!-- begin freezer inventory -->
     <hr class="horizontal light mt-0 mb-2">
@@ -710,4 +791,3 @@
     <!-- end sidebar footer -->
   </div>
 </aside>
-  

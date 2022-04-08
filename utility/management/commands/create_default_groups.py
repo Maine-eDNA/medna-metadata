@@ -54,16 +54,16 @@ GROUPS = {
         'Custom User CSS': ['add', 'delete', 'change', 'view'],
 
         # field_survey
-        'Field Survey': ['view'],
-        'Field Crew': ['view'],
-        'Env Measure Type': ['view'],
-        'Env Measurement': ['view'],
-        'Field Collection': ['view'],
-        'Field Sample': ['view'],
-        'FieldSurveyETL': ['view'],
-        'EnvMeasurementETL': ['view'],
-        'FieldCollectionETL': ['view'],
-        'SampleFilterETL': ['view'],
+        'Field Survey': ['add', 'change', 'view'],
+        'Field Crew': ['add', 'change', 'view'],
+        'Env Measure Type': ['add', 'change', 'view'],
+        'Env Measurement': ['add', 'change', 'view'],
+        'Field Collection': ['add', 'change', 'view'],
+        'Water Collection': ['add', 'change', 'view'],
+        'Sediment Collection': ['add', 'change', 'view'],
+        'Field Sample': ['add', 'change', 'view'],
+        'Filter Sample': ['add', 'change', 'view'],
+        'SubCore Sample': ['add', 'change', 'view'],
 
         # wet_lab
         'Primer Pair': ['add', 'delete', 'change', 'view'],
@@ -162,12 +162,16 @@ GROUPS = {
         'Custom User CSS': ['add', 'change', 'view'],
 
         # field_survey
-        'Field Survey': ['view'],
-        'Field Crew': ['view'],
-        'Env Measure Type': ['view'],
-        'Env Measurement': ['view'],
-        'Field Collection': ['view'],
-        'Field Sample': ['view'],
+        'Field Survey': ['add', 'change', 'view'],
+        'Field Crew': ['add', 'change', 'view'],
+        'Env Measure Type': ['add', 'change', 'view'],
+        'Env Measurement': ['add', 'change', 'view'],
+        'Field Collection': ['add', 'change', 'view'],
+        'Water Collection': ['add', 'change', 'view'],
+        'Sediment Collection': ['add', 'change', 'view'],
+        'Field Sample': ['add', 'change', 'view'],
+        'Filter Sample': ['add', 'change', 'view'],
+        'SubCore Sample': ['add', 'change', 'view'],
 
         # wet_lab
         'Primer Pair': ['add', 'change', 'view'],
@@ -256,7 +260,11 @@ GROUPS = {
         'Env Measure Type': ['view'],
         'Env Measurement': ['view'],
         'Field Collection': ['view'],
+        'Water Collection': ['view'],
+        'Sediment Collection': ['view'],
         'Field Sample': ['view'],
+        'Filter Sample': ['view'],
+        'SubCore Sample': ['view'],
 
         # wet_lab
         'Primer Pair': ['view'],

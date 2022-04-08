@@ -501,7 +501,7 @@ else:
     PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
     PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
-    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
+    AWS_PRIVATE_SEQUENCING_LOCATION = '%s/media/private/wet_lab' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [

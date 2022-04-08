@@ -992,7 +992,7 @@ class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     model = FastqFile
     form_class = FastqFileForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
-    template_name = 'home/django-material-dashboard/model-add.html'
+    template_name = 'home/django-material-dashboard/model-add-fileupload-fastqfile.html'
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -1020,7 +1020,7 @@ class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     form_class = FastqFileForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update.html'
+    template_name = 'home/django-material-dashboard/model-update-fileupload-fastqfile.html'
     permission_required = ('wet_lab.update_fastqfile', 'wet_lab.view_fastqfile', )
 
     def get_context_data(self, **kwargs):

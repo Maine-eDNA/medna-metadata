@@ -30,18 +30,11 @@ class FieldSurveyTestCase(TestCase):
                                                                       'supervisor': get_default_user(),
                                                                       'recorder_fname': 'test_first_name',
                                                                       'recorder_lname': 'test_last_name',
-                                                                      'arrival_datetime': current_datetime,
                                                                       'site_id': field_site,
-                                                                      'lat_manual': 0,
-                                                                      'long_manual': 0,
                                                                       'env_obs_turbidity': TurbidTypes.NONE,
                                                                       'env_obs_precip': PrecipTypes.NONE,
                                                                       'env_obs_wind_speed': WindSpeeds.NONE,
                                                                       'env_obs_cloud_cover': CloudCovers.NONE,
-                                                                      'record_create_datetime': current_datetime,
-                                                                      'record_creator': get_default_user(),
-                                                                      'record_edit_datetime': current_datetime,
-                                                                      'record_editor': get_default_user(),
                                                                       'geom': 'SRID=4326;POINT (-68.81489999999999 44.5925)'
                                                                   })
         field_survey.project_ids.set(manytomany_list, clear=True)
@@ -61,11 +54,8 @@ class FieldCollectionTestCase(TestCase):
         FieldCollection.objects.get_or_create(collection_global_id='test_collection_global_id',
                                               defaults={
                                                   'survey_global_id': survey,
-                                                  'collection_type': CollectionTypes.WATER_SAMPLE,
-                                                  'record_create_datetime': current_datetime,
-                                                  'record_creator': get_default_user(),
-                                                  'record_edit_datetime': current_datetime,
-                                                  'record_editor': get_default_user()})
+                                                  'collection_type': CollectionTypes.WATER_SAMPLE
+                                              })
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -88,11 +78,8 @@ class FieldSampleTestCase(TestCase):
                                               'sample_global_id': 'test_sample_global_id',
                                               'collection_global_id': collection,
                                               'sample_material': sample_material,
-                                              'is_extracted': YesNo.NO,
-                                              'record_create_datetime': current_datetime,
-                                              'record_creator': get_default_user(),
-                                              'record_edit_datetime': current_datetime,
-                                              'record_editor': get_default_user()})
+                                              'is_extracted': YesNo.NO
+                                          })
 
     def test_was_added_recently(self):
         # test if date is added correctly
