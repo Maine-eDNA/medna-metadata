@@ -1,0 +1,22 @@
+[{"model": "utility.standardoperatingprocedure", "pk": 1, "fields": {
+  "created_by": 1,
+  "modified_datetime": "2021-01-15T19:56:58.457Z",
+  "created_datetime": "2021-01-15T19:56:58.457Z",
+  "sop_title": "Index Removal - Beads",
+  "sop_url": "https://www.index_removal_beads.com\"",
+  "sop_type": "wet_lab"}},
+  {"model": "utility.standardoperatingprocedure", "pk": 2, "fields": {
+  "created_by": 1,
+  "modified_datetime": "2021-01-15T19:56:58.457Z",
+  "created_datetime": "2021-01-15T19:56:58.457Z",
+  "sop_title": "Size Selection - Beads",
+  "sop_url": "https://www.size_selection_beads.com",
+  "sop_type": "wet_lab"}},
+  {"model": "utility.standardoperatingprocedure", "pk": 3, "fields": {
+  "created_by": 1,
+  "modified_datetime": "2021-01-15T19:56:58.457Z",
+  "created_datetime": "2021-01-15T19:56:58.457Z",
+  "sop_title": "Extraction - Qiagen Power Soil Pro",
+  "sop_url": "https://docs.google.com/spreadsheets/d/1E2YT7tzeOurmp8J_PnTxD7O_ZqCXebZyse8co9KArWU/edit#gid=839980164",
+  "sop_type": "wet_lab"}}
+]

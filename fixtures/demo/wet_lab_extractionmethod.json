@@ -1,0 +1,1 @@
+[{"model": "wet_lab.extractionmethod", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-13T06:27:55.732Z", "created_datetime": "2021-08-13T06:27:55.732Z", "extraction_method_name": "Power Soil Pro", "extraction_method_manufacturer": "Qiagen", "extraction_method_slug": "qiagen_power-soil-pro", "extraction_sop": 3}}]

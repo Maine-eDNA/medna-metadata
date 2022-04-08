@@ -1,0 +1,33 @@
+[
+    {
+        "model": "field_site.fieldsite",
+        "pk": 1,
+        "fields": {
+            "created_by": 1,
+            "modified_datetime": "2021-11-10T22:04:22.066Z",
+            "created_datetime": "2021-11-10T22:04:22.066Z",
+            "site_id": "eOT_O01",
+            "grant": 1,
+            "system": 7,
+            "project": "",
+            "watershed": 44,
+            "general_location_name": "other",
+            "purpose": "other",
+            "envo_biome_first": null,
+            "envo_biome_second": null,
+            "envo_biome_third": null,
+            "envo_biome_fourth": null,
+            "envo_biome_fifth": null,
+            "envo_feature_first": null,
+            "envo_feature_second": null,
+            "envo_feature_third": null,
+            "envo_feature_fourth": null,
+            "envo_feature_fifth": null,
+            "envo_feature_sixth": null,
+            "envo_feature_seventh": null,
+            "site_prefix": "eOT_O",
+            "site_num": 1,
+            "geom": "SRID=4326;POINT (-68.31298827173849 43.28120445945734)"
+        }
+    }
+]

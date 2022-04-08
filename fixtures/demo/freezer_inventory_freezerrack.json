@@ -1,0 +1,56 @@
+[
+  {
+    "model": "freezer_inventory.freezerrack",
+    "pk": 1,
+    "fields": {
+      "created_by": 1,
+      "modified_datetime": "2021-12-30T00:48:33.817Z",
+      "created_datetime": "2021-12-30T00:48:33.817Z",
+      "freezer": 1,
+      "freezer_rack_label": "Test Rack 1",
+      "freezer_rack_label_slug": "test-freezer-1_test-rack-1",
+      "freezer_rack_column_start": 1,
+      "freezer_rack_column_end": 1,
+      "freezer_rack_row_start": 1,
+      "freezer_rack_row_end": 1,
+      "freezer_rack_depth_start": 1,
+      "freezer_rack_depth_end": 1
+    }
+  },
+  {
+    "model": "freezer_inventory.freezerrack",
+    "pk": 2,
+    "fields": {
+      "created_by": 1,
+      "modified_datetime": "2021-12-30T00:49:26.562Z",
+      "created_datetime": "2021-12-30T00:58:14.353Z",
+      "freezer": 6,
+      "freezer_rack_label": "Test Rack 2",
+      "freezer_rack_label_slug": "test-freezer-6_test-rack-2",
+      "freezer_rack_column_start": 1,
+      "freezer_rack_column_end": 1,
+      "freezer_rack_row_start": 1,
+      "freezer_rack_row_end": 1,
+      "freezer_rack_depth_start": 1,
+      "freezer_rack_depth_end": 3
+    }
+  },
+  {
+    "model": "freezer_inventory.freezerrack",
+    "pk": 3,
+    "fields": {
+      "created_by": 1,
+      "modified_datetime": "2021-12-30T01:37:12.845Z",
+      "created_datetime": "2021-12-30T04:05:47.026Z",
+      "freezer": 6,
+      "freezer_rack_label": "Test Rack 3",
+      "freezer_rack_label_slug": "test-freezer-6_test-rack-3",
+      "freezer_rack_column_start": 1,
+      "freezer_rack_column_end": 3,
+      "freezer_rack_row_start": 1,
+      "freezer_rack_row_end": 5,
+      "freezer_rack_depth_start": 1,
+      "freezer_rack_depth_end": 5
+    }
+  }
+]
