@@ -1063,6 +1063,9 @@ class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
 
+    def get_table_data(self):
+        return FastqFile.objects.filter(extraction__field_sample__sample_material__sample_material_code='w')
+
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
@@ -1090,6 +1093,9 @@ class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
         context['export_formats'] = self.export_formats
         context = {**context, **export_context(self.request, self.export_formats)}
         return context
+
+    def get_table_data(self):
+        return FastqFile.objects.filter(extraction__field_sample__sample_material__sample_material_code='s')
 
     def handle_no_permission(self):
         if self.raise_exception:
