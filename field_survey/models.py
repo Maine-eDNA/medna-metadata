@@ -354,7 +354,7 @@ class FilterSample(DateTimeUserMixin):
         # mixs_v5
         # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
         # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
-        return '{depth} meter'.format(depth=self.field_sample.collection_global_id.water_collection.water_collect_depth)
+        return '{:.2f} meter'.format(self.field_sample.collection_global_id.water_collection.water_collect_depth)
 
     @property
     def mixs_samp_collect_device(self):
@@ -377,7 +377,7 @@ class FilterSample(DateTimeUserMixin):
         # Any processing applied to the sample during or after retrieving the sample from environment. This field
         # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
         size = self.field_sample.collection_global_id.water_collection.water_vessel_vol
-        return '{size} milliliter'.format(size=size)
+        return '{:.2f} milliliter'.format(size)
 
     def __str__(self):
         return self.field_sample
@@ -407,7 +407,7 @@ class SubCoreSample(DateTimeUserMixin):
         # mixs_v5
         # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
         # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
-        return '{depth} meter'.format(depth=self.field_sample.collection_global_id.sediment_collection.core_collect_depth)
+        return '{:.2f} meter'.format(self.field_sample.collection_global_id.water_collection.water_collect_depth)
 
     @property
     def mixs_samp_collect_device(self):
@@ -428,7 +428,7 @@ class SubCoreSample(DateTimeUserMixin):
         # Any processing applied to the sample during or after retrieving the sample from environment. This field
         # accepts OBI, for a browser of OBI (v 2018-02-12) terms please see http://purl.bioontology.org/ontology/OBI
         size = self.field_sample.collection_global_id.sediment_collection.core_length * self.field_sample.collection_global_id.sediment_collection.core_diameter
-        return '{size}cm\u00b2'.format(size=size)
+        return '{:.2f}cm\u00b2'.format(size)
 
     def __str__(self):
         return self.field_sample
