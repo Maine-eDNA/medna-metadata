@@ -1041,7 +1041,7 @@ class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
         return reverse('view_fastqfile')
 
 
-class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
@@ -1069,7 +1069,7 @@ class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
         return redirect('main/model-perms-required.html')
 
 
-class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
     # export_formats = ['csv','xlsx'] # set in user_sites in default
