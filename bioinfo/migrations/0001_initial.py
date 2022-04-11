@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('analysis_datetime', models.DateTimeField(verbose_name='Analysis DateTime')),
                 ('analyst_first_name', models.CharField(max_length=255, verbose_name='Analyst First Name')),
                 ('analyst_last_name', models.CharField(max_length=255, verbose_name='Analyst Last Name')),
-                ('run_result', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runresult')),
+                ('run_result', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.runresult', related_name='quality_metadata')),
                 ('seq_quality_check', models.CharField(choices=[('none', 'None'), ('manual_edit', 'Manually Edited')], max_length=50, verbose_name='Quality Check')),
                 ('chimera_check', models.TextField(blank=True, verbose_name='Chimera Check')),
                 ('trim_length_forward', models.PositiveIntegerField(verbose_name='Trim Length Forward (bp)')),
