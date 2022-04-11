@@ -198,7 +198,7 @@ class MixsWaterTable(tables.Table):
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
     nucl_acid_amp = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp', verbose_name='Amplification SOP')
     # lib_prep_layout - wet_lab.LibraryPrep
-    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Amplification SOP')
+    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Library Layout')
     # primer_target_gene - wet_lab.PrimerPair
     target_gene = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene', verbose_name='Target Gene')
     # primer_subfragment - wet_lab.PrimerPair
@@ -215,38 +215,38 @@ class MixsWaterTable(tables.Table):
     seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
     chimera_check = tables.Column(accessor='run_result.quality_metadata.chimera_check', verbose_name='Chimera Check')
-    # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
-    denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
-    # feature - bioinfo.FeatureOutput
-    feature = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence', verbose_name='Feature')
-    # annotation_method - bioinfo.AnnotationMetadata
-    annotation_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method', verbose_name='Annotation Method')
-    # reference_database - bioinfo.ReferenceDatabase
-    reference_database = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database', verbose_name='Reference Database')
-    # confidence - bioinfo.TaxonomicAnnotation
-    confidence = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence', verbose_name='Confidence')
-    # ta_taxon - bioinfo.TaxonomicAnnotation
-    ta_taxon = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon', verbose_name='Taxon')
-    # ta_domain - bioinfo.TaxonomicAnnotation
-    ta_domain = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain', verbose_name='Domain')
-    # ta_kingdom - bioinfo.TaxonomicAnnotation
-    ta_kingdom = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom', verbose_name='Kingdom')
-    # ta_supergroup - bioinfo.TaxonomicAnnotation
-    ta_supergroup = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup', verbose_name='Supergroup')
-    # ta_phylum_division - bioinfo.TaxonomicAnnotation
-    ta_phylum_division = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division', verbose_name='Phylum/Division')
-    # ta_class - bioinfo.TaxonomicAnnotation
-    ta_class = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class', verbose_name='Class')
-    # ta_order - bioinfo.TaxonomicAnnotation
-    ta_order = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order', verbose_name='Order')
-    # ta_family - bioinfo.TaxonomicAnnotation
-    ta_family = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family', verbose_name='Family')
-    # ta_genus - bioinfo.TaxonomicAnnotation
-    ta_genus = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus', verbose_name='Genus')
-    # ta_species - bioinfo.TaxonomicAnnotation
-    ta_species = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species', verbose_name='Species')
-    # ta_common_name - bioinfo.TaxonomicAnnotation
-    ta_common_name = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name', verbose_name='Common Name')
+    # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
+    # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
+    # # feature - bioinfo.FeatureOutput
+    # feature = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence', verbose_name='Feature')
+    # # annotation_method - bioinfo.AnnotationMetadata
+    # annotation_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method', verbose_name='Annotation Method')
+    # # reference_database - bioinfo.ReferenceDatabase
+    # reference_database = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database', verbose_name='Reference Database')
+    # # confidence - bioinfo.TaxonomicAnnotation
+    # confidence = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence', verbose_name='Confidence')
+    # # ta_taxon - bioinfo.TaxonomicAnnotation
+    # ta_taxon = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon', verbose_name='Taxon')
+    # # ta_domain - bioinfo.TaxonomicAnnotation
+    # ta_domain = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain', verbose_name='Domain')
+    # # ta_kingdom - bioinfo.TaxonomicAnnotation
+    # ta_kingdom = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom', verbose_name='Kingdom')
+    # # ta_supergroup - bioinfo.TaxonomicAnnotation
+    # ta_supergroup = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup', verbose_name='Supergroup')
+    # # ta_phylum_division - bioinfo.TaxonomicAnnotation
+    # ta_phylum_division = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division', verbose_name='Phylum/Division')
+    # # ta_class - bioinfo.TaxonomicAnnotation
+    # ta_class = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class', verbose_name='Class')
+    # # ta_order - bioinfo.TaxonomicAnnotation
+    # ta_order = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order', verbose_name='Order')
+    # # ta_family - bioinfo.TaxonomicAnnotation
+    # ta_family = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family', verbose_name='Family')
+    # # ta_genus - bioinfo.TaxonomicAnnotation
+    # ta_genus = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus', verbose_name='Genus')
+    # # ta_species - bioinfo.TaxonomicAnnotation
+    # ta_species = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species', verbose_name='Species')
+    # # ta_common_name - bioinfo.TaxonomicAnnotation
+    # ta_common_name = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name', verbose_name='Common Name')
 
     class Meta:
         model = FastqFile
@@ -254,13 +254,7 @@ class MixsWaterTable(tables.Table):
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_quality_check', 'chimera_check',
-                  'denoise_cluster_method', 'feature', 'annotation_method',
-                  'reference_database', 'confidence',
-                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
-                  'ta_phylum_division', 'ta_class', 'ta_order',
-                  'ta_family', 'ta_genus', 'ta_species',
-                  'ta_common_name', )
+                  'seq_quality_check', 'chimera_check', )
 
 
 class MixsSedimentTable(tables.Table):
@@ -280,8 +274,8 @@ class MixsSedimentTable(tables.Table):
     depth = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_depth', verbose_name='Depth')
     # mixs_geo_loc_name - field_site.FieldSite
     geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location')
-    # water_collect_datetime - field_survey.WaterCollection
-    collection_date = tables.Column(accessor='extraction.field_sample.collection_global_id.sediment_collection.water_collect_datetime', verbose_name='Collection Date')
+    # core_datetime_start - field_survey.WaterCollection
+    collection_date = tables.Column(accessor='extraction.field_sample.collection_global_id.sediment_collection.core_datetime_start', verbose_name='Collection Date')
     # env_biome - field_survey.FieldSurvey
     env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale')
     # env_feature - field_survey.FieldSurvey
@@ -301,7 +295,7 @@ class MixsSedimentTable(tables.Table):
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
     nucl_acid_amp = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp', verbose_name='Amplification SOP')
     # lib_prep_layout - wet_lab.LibraryPrep
-    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Amplification SOP')
+    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Library Layout')
     # primer_target_gene - wet_lab.PrimerPair
     target_gene = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene', verbose_name='Target Gene')
     # primer_subfragment - wet_lab.PrimerPair
@@ -318,38 +312,38 @@ class MixsSedimentTable(tables.Table):
     seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
     chimera_check = tables.Column(accessor='run_result.quality_metadata.chimera_check', verbose_name='Chimera Check')
-    # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
-    denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
-    # feature - bioinfo.FeatureOutput
-    feature = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence', verbose_name='Feature')
-    # annotation_method - bioinfo.AnnotationMetadata
-    annotation_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method', verbose_name='Annotation Method')
-    # reference_database - bioinfo.ReferenceDatabase
-    reference_database = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database', verbose_name='Reference Database')
-    # confidence - bioinfo.TaxonomicAnnotation
-    confidence = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence', verbose_name='Confidence')
-    # ta_taxon - bioinfo.TaxonomicAnnotation
-    ta_taxon = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon', verbose_name='Taxon')
-    # ta_domain - bioinfo.TaxonomicAnnotation
-    ta_domain = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain', verbose_name='Domain')
-    # ta_kingdom - bioinfo.TaxonomicAnnotation
-    ta_kingdom = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom', verbose_name='Kingdom')
-    # ta_supergroup - bioinfo.TaxonomicAnnotation
-    ta_supergroup = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup', verbose_name='Supergroup')
-    # ta_phylum_division - bioinfo.TaxonomicAnnotation
-    ta_phylum_division = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division', verbose_name='Phylum/Division')
-    # ta_class - bioinfo.TaxonomicAnnotation
-    ta_class = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class', verbose_name='Class')
-    # ta_order - bioinfo.TaxonomicAnnotation
-    ta_order = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order', verbose_name='Order')
-    # ta_family - bioinfo.TaxonomicAnnotation
-    ta_family = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family', verbose_name='Family')
-    # ta_genus - bioinfo.TaxonomicAnnotation
-    ta_genus = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus', verbose_name='Genus')
-    # ta_species - bioinfo.TaxonomicAnnotation
-    ta_species = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species', verbose_name='Species')
-    # ta_common_name - bioinfo.TaxonomicAnnotation
-    ta_common_name = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name', verbose_name='Common Name')
+    # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
+    # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
+    # # feature - bioinfo.FeatureOutput
+    # feature = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence', verbose_name='Feature')
+    # # annotation_method - bioinfo.AnnotationMetadata
+    # annotation_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method', verbose_name='Annotation Method')
+    # # reference_database - bioinfo.ReferenceDatabase
+    # reference_database = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database', verbose_name='Reference Database')
+    # # confidence - bioinfo.TaxonomicAnnotation
+    # confidence = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence', verbose_name='Confidence')
+    # # ta_taxon - bioinfo.TaxonomicAnnotation
+    # ta_taxon = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon', verbose_name='Taxon')
+    # # ta_domain - bioinfo.TaxonomicAnnotation
+    # ta_domain = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain', verbose_name='Domain')
+    # # ta_kingdom - bioinfo.TaxonomicAnnotation
+    # ta_kingdom = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom', verbose_name='Kingdom')
+    # # ta_supergroup - bioinfo.TaxonomicAnnotation
+    # ta_supergroup = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup', verbose_name='Supergroup')
+    # # ta_phylum_division - bioinfo.TaxonomicAnnotation
+    # ta_phylum_division = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division', verbose_name='Phylum/Division')
+    # # ta_class - bioinfo.TaxonomicAnnotation
+    # ta_class = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class', verbose_name='Class')
+    # # ta_order - bioinfo.TaxonomicAnnotation
+    # ta_order = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order', verbose_name='Order')
+    # # ta_family - bioinfo.TaxonomicAnnotation
+    # ta_family = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family', verbose_name='Family')
+    # # ta_genus - bioinfo.TaxonomicAnnotation
+    # ta_genus = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus', verbose_name='Genus')
+    # # ta_species - bioinfo.TaxonomicAnnotation
+    # ta_species = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species', verbose_name='Species')
+    # # ta_common_name - bioinfo.TaxonomicAnnotation
+    # ta_common_name = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name', verbose_name='Common Name')
 
     class Meta:
         model = FastqFile
@@ -357,10 +351,4 @@ class MixsSedimentTable(tables.Table):
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_quality_check', 'chimera_check',
-                  'denoise_cluster_method', 'feature', 'annotation_method',
-                  'reference_database', 'confidence',
-                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
-                  'ta_phylum_division', 'ta_class', 'ta_order',
-                  'ta_family', 'ta_genus', 'ta_species',
-                  'ta_common_name', )
+                  'seq_quality_check', 'chimera_check', )
