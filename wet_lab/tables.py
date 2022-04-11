@@ -99,7 +99,7 @@ class PooledLibraryTable(tables.Table):
 
 
 class RunPrepTable(tables.Table):
-    edit = tables.LinkColumn('update_pooledlibrary', text='Update', args=[A('pk')], orderable=False)
+    edit = tables.LinkColumn('update_runprep', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -121,7 +121,7 @@ class RunPrepTable(tables.Table):
 
 
 class RunResultTable(tables.Table):
-    edit = tables.LinkColumn('update_pooledlibrary', text='Update', args=[A('pk')], orderable=False)
+    edit = tables.LinkColumn('update_runresult', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -142,7 +142,7 @@ class RunResultTable(tables.Table):
 
 
 class FastqFileTable(tables.Table):
-    edit = tables.LinkColumn('update_pooledlibrary', text='Update', args=[A('pk')], orderable=False)
+    edit = tables.LinkColumn('update_fastqfile', text='Update', args=[A('pk')], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
