@@ -213,9 +213,9 @@ class MixsWaterTable(tables.Table):
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
     pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions')
     # seq_quality_check - bioinfo.QualityMetadata
-    seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
+    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='run_result.quality_metadata.chimera_check', verbose_name='Chimera Check')
+    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check')
     # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
     # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
     # # feature - bioinfo.FeatureOutput
@@ -311,9 +311,9 @@ class MixsSedimentTable(tables.Table):
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
     pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions')
     # seq_quality_check - bioinfo.QualityMetadata
-    seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
+    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='run_result.quality_metadata.chimera_check', verbose_name='Chimera Check')
+    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check')
     # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
     # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
     # # feature - bioinfo.FeatureOutput

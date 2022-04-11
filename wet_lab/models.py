@@ -3,6 +3,7 @@ from django.utils.text import slugify
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 import uuid
+from bioinfo.models import QualityMetadata
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
@@ -574,6 +575,18 @@ class FastqFile(DateTimeUserMixin):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
         qs_extr = qs.filter(extraction=self.extraction)
         qs_list = qs_extr.values_list('lib_prep_thermal_cond', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_seq_quality_check(self):
+        qs = self.run_result.quality_metadata.all()
+        qs_list = qs.values_list('seq_quality_check', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_chimera_check(self):
+        qs = self.run_result.quality_metadata.all()
+        qs_list = qs.values_list('chimera_check', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
     def save(self, *args, **kwargs):
