@@ -19,7 +19,7 @@ import bioinfo.filters as bioinfo_filters
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  \
     TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
-from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataForm, \
+from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataCreateForm, QualityMetadataUpdateForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
     DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, MixsWaterTable, MixsSedimentTable
@@ -129,7 +129,7 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = ('bioinfo.add_qualitymetadata', )
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add.html'
 
@@ -143,6 +143,9 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.chimera_check = '{software_name};{software_version};{parameters}'.format(software_name=form.cleaned_data['chimera_software'],
+                                                                                             software_version=form.cleaned_data['chimera_software_version'],
+                                                                                             parameters=form.cleaned_data['chimera_check_parameters'])
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -156,7 +159,7 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
 
 class QualityMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update.html'
@@ -185,7 +188,7 @@ class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permi
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'bioinfo.add_qualitymetadata'
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add-popup.html'
 
@@ -199,6 +202,9 @@ class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permi
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.chimera_check = '{software_name};{software_version};{parameters}'.format(software_name=form.cleaned_data['chimera_software'],
+                                                                                             software_version=form.cleaned_data['chimera_software_version'],
+                                                                                             parameters=form.cleaned_data['chimera_check_parameters'])
         return super().form_valid(form)
 
     def handle_no_permission(self):
@@ -209,7 +215,7 @@ class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permi
 
 class QualityMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update-popup.html'

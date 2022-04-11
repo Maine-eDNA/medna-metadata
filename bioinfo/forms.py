@@ -11,7 +11,171 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
     TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 
 
-class QualityMetadataForm(forms.ModelForm):
+class QualityMetadataCreateForm(forms.ModelForm):
+    analysis_label = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    process_location = forms.ModelChoiceField(
+        required=True,
+        queryset=ProcessLocation.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    analysis_datetime = forms.SplitDateTimeField(
+        required=True,
+        widget=CustomAdminSplitDateTime()
+    )
+    run_result = forms.ModelChoiceField(
+        required=True,
+        queryset=RunResult.objects.none()
+    )
+    analyst_first_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    analyst_last_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    seq_quality_check = forms.ChoiceField(
+        required=True,
+        help_text='Indicate if the sequence has been called by automatic systems (none) or undergone a manual editing '
+                  'procedure (e.g. by inspecting the raw data or chromatograms). Applied only for sequences that are not '
+                  'submitted to SRA,ENA or DRA (MIxS v5)',
+        choices=QualityChecks.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    chimera_software = forms.CharField(
+        required=False,
+        help_text='Name of software used for the chimera check, e.g., uchime. A chimeric sequence, or chimera for short, '
+                  'is a sequence comprised of two or more phylogenetically distinct parent sequences. Chimeras are '
+                  'usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals to a foreign '
+                  'DNA strand and is copied to completion in the following PCR cycles. The point at which the chimeric '
+                  'sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'software name',
+                'class': 'form-control',
+            }
+        )
+    )
+    chimera_software_version = forms.CharField(
+        required=False,
+        help_text='Version of software used for the chimera check, e.g., v4.1',
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'software version of software, parameters used, e.g., uchime;v4.1;default parameters',
+                'class': 'form-control',
+            }
+        )
+    )
+    chimera_check_parameters = forms.CharField(
+        required=False,
+        help_text='Parameters used for the chimera check; if default parameters were used, enter "default parameters".',
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': 'default parameters',
+                'class': 'form-control',
+            }
+        )
+    )
+    # chimera_check = forms.CharField(
+    #     required=True,
+    #     widget=forms.Textarea(
+    #         attrs={
+    #             'placeholder': 'name and version of software, parameters used, e.g., uchime;v4.1;default parameters',
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
+
+    trim_length_forward = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    trim_length_reverse = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    min_read_length = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    max_read_length = forms.IntegerField(
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    analysis_sop = forms.ModelChoiceField(
+        required=True,
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    analysis_script_repo_url = forms.URLField(
+        required=True,
+        widget=forms.URLInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = QualityMetadata
+        fields = ['analysis_label', 'process_location', 'analysis_datetime',
+                  'run_result',
+                  'analyst_first_name', 'analyst_last_name',
+                  'seq_quality_check',
+                  'trim_length_forward', 'trim_length_reverse',
+                  'min_read_length', 'max_read_length',
+                  'analysis_sop', 'analysis_script_repo_url', ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['run_result'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_runresult')))
+        self.fields['run_result'].queryset = RunResult.objects.all().order_by('-created_datetime')
+
+
+class QualityMetadataUpdateForm(forms.ModelForm):
     analysis_label = forms.CharField(
         required=True,
         widget=forms.TextInput(
@@ -63,10 +227,14 @@ class QualityMetadataForm(forms.ModelForm):
         )
     )
     chimera_check = forms.CharField(
-        required=True,
+        required=False,
+        help_text='Name and version of software, parameters used, e.g., uchime;v4.1;default parameters. A chimeric sequence, '
+                  'or chimera for short, is a sequence comprised of two or more phylogenetically distinct parent sequences. '
+                  'Chimeras are usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals '
+                  'to a foreign DNA strand and is copied to completion in the following PCR cycles. The point at which '
+                  'the chimeric sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
         widget=forms.Textarea(
             attrs={
-                'placeholder': 'name and version of software, parameters used, e.g., uchime;v4.1;default parameters',
                 'class': 'form-control',
             }
         )
