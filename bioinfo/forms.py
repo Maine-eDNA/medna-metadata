@@ -562,6 +562,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_taxon = forms.CharField(
         required=True,
+        help_text='The highest resolved taxon returned from the annotation analysis method (e.g., BLAST)',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -570,6 +571,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_domain = forms.CharField(
         required=False,
+        help_text='If available, the domain returned from the annotation analysis method (e.g., BLAST)',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -578,6 +580,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_kingdom = forms.CharField(
         required=False,
+        help_text='If available, the kingdom returned from the annotation analysis method (e.g., BLAST)',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -586,6 +589,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_supergroup = forms.CharField(
         required=False,
+        help_text='If available, the supergroup returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -594,6 +598,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_phylum_division = forms.CharField(
         required=False,
+        help_text='If available, the phylum/division returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -602,6 +607,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_class = forms.CharField(
         required=False,
+        help_text='If available, the class returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -610,6 +616,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_order = forms.CharField(
         required=False,
+        help_text='If available, the order returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -618,6 +625,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_family = forms.CharField(
         required=False,
+        help_text='If available, the family returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -626,6 +634,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_genus = forms.CharField(
         required=False,
+        help_text='If available, the genus returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -634,6 +643,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_species = forms.CharField(
         required=False,
+        help_text='If available, the species returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -642,6 +652,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     ta_common_name = forms.CharField(
         required=False,
+        help_text='If available, the common name returned from the annotation analysis method (e.g., BLAST).',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -650,6 +661,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_domain = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined domain (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonDomain.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -659,6 +671,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_kingdom = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined kingdom (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonKingdom.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -668,6 +681,8 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_supergroup = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined supergroup (e.g., not returned by an annotation method, but validated through some other means).'
+                  'If supergroup is not used, please select "no-supergroup".',
         queryset=TaxonSupergroup.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -677,6 +692,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_phylum_division = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined phylum/division (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonPhylumDivision.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -686,6 +702,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_class = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined class (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonClass.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -695,6 +712,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_order = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined order (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonOrder.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -704,6 +722,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_family = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined family (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonFamily.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -713,6 +732,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_genus = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined genus (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonGenus.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -722,6 +742,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_species = forms.ModelChoiceField(
         required=False,
+        help_text='If known, the manually defined species (e.g., not returned by an annotation method, but validated through some other means)',
         queryset=TaxonSpecies.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -731,6 +752,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     )
     manual_notes = forms.CharField(
         required=False,
+        help_text='Notes on the manual annotation of taxa.',
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control',
