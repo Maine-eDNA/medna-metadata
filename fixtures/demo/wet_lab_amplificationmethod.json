@@ -1,0 +1,1 @@
+[{"model": "wet_lab.amplificationmethod", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2022-04-06T20:21:28.925Z", "created_datetime": "2022-04-06T20:21:28.925Z", "amplification_method_name": "PCR", "amplification_method_slug": "pcr_20220406_202128", "amplification_sop": 4}}]
