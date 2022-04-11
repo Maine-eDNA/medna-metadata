@@ -1,0 +1,19 @@
+{% extends "home/django-material-dashboard/model-add.html" %}
+{% load static leaflet_tags %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% block extrahead %}
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/leaflet-providers.js' %}"></script>
+    <script src="{% static 'assets/js/field_survey/field-survey-add.js' %}"></script>
+    <script src="{% static 'assets/js/field_survey/field-survey-add-readonly.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/leaflet-pip.js' %}"></script>
+{% endblock extrahead %}
+
+{% block messages %}{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
