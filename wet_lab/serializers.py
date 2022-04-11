@@ -19,6 +19,7 @@ class PrimerPairSerializer(serializers.ModelSerializer):
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
     primer_set_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=PrimerPair.objects.all())])
     primer_slug = serializers.SlugField(max_length=255, read_only=True)
+    mixs_pcr_primers = serializers.CharField(read_only=True)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
     # Name of SubFragments of a gene or locus. Important to e.g. identify special regions on marker genes like V6 on 16S rRNA
@@ -36,7 +37,7 @@ class PrimerPairSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PrimerPair
-        fields = ['id', 'primer_set_name', 'primer_slug',
+        fields = ['id', 'primer_set_name', 'primer_slug', 'mixs_pcr_primers',
                   'primer_target_gene', 'primer_subfragment',
                   'primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
                   'primer_amplicon_length_min', 'primer_amplicon_length_max',
@@ -56,12 +57,13 @@ class IndexPairSerializer(serializers.ModelSerializer):
     index_i5 = serializers.CharField(max_length=255)
     i5_index_id = serializers.CharField(max_length=255)
     index_adapter = serializers.CharField(max_length=255)
+    mixs_mid = serializers.CharField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = IndexPair
-        fields = ['id', 'index_slug', 'index_i7', 'i7_index_id',
+        fields = ['id', 'index_slug', 'mixs_mid', 'index_i7', 'i7_index_id',
                   'index_i5', 'i5_index_id', 'index_adapter',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we

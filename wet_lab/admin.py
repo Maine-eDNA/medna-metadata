@@ -22,7 +22,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
     resource_class = PrimerPairAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('primer_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('primer_slug', 'mixs_pcr_primers', 'modified_datetime', 'created_datetime', )
     search_fields = ['primer_set_name', ]
 
     def add_view(self, request, extra_content=None):
@@ -42,7 +42,7 @@ class PrimerPairAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['primer_slug', 'primer_set_name', 'primer_target_gene',
+        self.fields = ['primer_slug', 'mixs_pcr_primers', 'primer_set_name', 'primer_target_gene',
                        'primer_subfragment',
                        'primer_name_forward', 'primer_name_reverse',
                        'primer_forward', 'primer_reverse',
@@ -68,7 +68,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
     resource_class = IndexPairAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
-    readonly_fields = ('index_slug', 'modified_datetime', 'created_datetime', )
+    readonly_fields = ('index_slug', 'mixs_mid', 'modified_datetime', 'created_datetime', )
     search_fields = ['i7_index_id', 'i5_index_id', ]
 
     def add_view(self, request, extra_content=None):
@@ -83,7 +83,7 @@ class IndexPairAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['index_slug', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+        self.fields = ['index_slug', 'mixs_mid', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(IndexPairAdmin, self).change_view(request, object_id)
