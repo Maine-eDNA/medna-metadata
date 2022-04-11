@@ -17,6 +17,11 @@ def now_plus_max():
     return max_date
 
 
+def set_profile_image_subdir(instance, filename):
+    # returns subdir users for given filename
+    return f"users/{filename}"
+
+
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
@@ -27,7 +32,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     # custom fields
-    profile_image = models.FileField('Profile Image', max_length=255, storage=select_private_media_storage, blank=True)
+    profile_image = models.FileField('Profile Image', max_length=255, storage=select_private_media_storage, upload_to=set_profile_image_subdir, blank=True)
     phone_number = PhoneNumberField(blank=True, null=True)
     # blank and null = True here so that unique can also = True even if
     # there are blank entries elsewhere
