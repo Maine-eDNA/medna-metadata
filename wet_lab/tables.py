@@ -158,3 +158,183 @@ class FastqFileTable(tables.Table):
         model = FastqFile
         fields = ('_selected_action', 'uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type', 'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class MixsWaterTable(tables.Table):
+    # MIMARKS-SURVEY
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    # submitted_to_insdc - wet_lab.FastqFile
+    submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
+    # investigation_type - wet_lab.FastqFile
+    investigation_type = tables.Column(accessor='investigation_type', verbose_name='Investigation Type')
+    # mixs_project_name - field_survey.FieldSurvey
+    project_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name', verbose_name='Project Name')
+    # mixs_lat_lon - field_survey.FieldSurvey
+    lat_lon = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon', verbose_name='Geographic Location')
+    # mixs_depth - field_survey.FilterSample
+    depth = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_depth', verbose_name='Depth')
+    # mixs_geo_loc_name - field_site.FieldSite
+    geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location')
+    # water_collect_datetime - field_survey.WaterCollection
+    collection_date = tables.Column(accessor='extraction.field_sample.collection_global_id.water_collection.water_collect_datetime', verbose_name='Collection Date')
+    # env_biome - field_survey.FieldSurvey
+    env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale')
+    # env_feature - field_survey.FieldSurvey
+    env_local_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale', verbose_name='Envo Local')
+    # mixs_env_medium - field_survey.FieldSurvey
+    env_medium = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium', verbose_name='Envo Medium')
+    # mixs_source_mat_id - field_survey.FilterSample
+    source_mat_id = tables.Column(accessor='extraction.field_sample.sample_global_id', verbose_name='Source Material ID')
+    # mixs_samp_collect_device - field_survey.FilterSample
+    samp_collect_device = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method')
+    # mixs_samp_mat_process - field_survey.FilterSample
+    samp_mat_process = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_mat_process', verbose_name='Material Processing')
+    # mixs_nucl_acid_ext - wet_lab.Extraction
+    nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
+    # mixs_nucl_acid_amp - wet_lab.LibraryPrep
+    nucl_acid_amp = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp', verbose_name='Amplification SOP')
+    # lib_prep_layout - wet_lab.LibraryPrep
+    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Amplification SOP')
+    # primer_target_gene - wet_lab.PrimerPair
+    target_gene = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene', verbose_name='Target Gene')
+    # primer_subfragment - wet_lab.PrimerPair
+    target_subfragment = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_subfragment', verbose_name='Target Subfragment')
+    # mixs_pcr_primers - wet_lab.PrimerPair
+    pcr_primers = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.mixs_pcr_primers', verbose_name='PCR Primers')
+    # mixs_mid - wet_lab.IndexPair
+    mid = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.mixs_mid', verbose_name='Multiplex Identifiers')
+    # index_adapter - wet_lab.IndexPair
+    adapters = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.index_adapter', verbose_name='Adapter')
+    # lib_prep_thermal_cond - wet_lab.LibraryPrep
+    pcr_cond = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_thermal_cond', verbose_name='PCR Conditions')
+    # seq_meth - wet_lab.FastqFile
+    seq_meth = tables.Column(accessor='seq_meth', verbose_name='Sequencing Method')
+    # seq_quality_check - bioinfo.QualityMetadata
+    seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
+    # chimera_check - bioinfo.QualityMetadata
+    chimera_check = tables.Column(accessor='run_result.quality_metadata.chimera_check', verbose_name='Chimera Check')
+    denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
+    feature = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence', verbose_name='Feature')
+    annotation_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method', verbose_name='Annotation Method')
+    reference_database = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database', verbose_name='Reference Database')
+    confidence = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence', verbose_name='Confidence')
+    ta_taxon = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon', verbose_name='Taxon')
+    ta_domain = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain', verbose_name='Domain')
+    ta_kingdom = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom', verbose_name='Kingdom')
+    ta_supergroup = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup', verbose_name='Supergroup')
+    ta_phylum_division = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division', verbose_name='Phylum/Division')
+    ta_class = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class', verbose_name='Class')
+    ta_order = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order', verbose_name='Order')
+    ta_family = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family', verbose_name='Family')
+    ta_genus = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus', verbose_name='Genus')
+    ta_species = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species', verbose_name='Species')
+    ta_common_name = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name', verbose_name='Common Name')
+
+    class Meta:
+        model = FastqFile
+        fields = ('_selected_action', 'id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
+                  'seq_meth', 'seq_quality_check', 'chimera_check',
+                  'denoise_cluster_method', 'feature', 'annotation_method',
+                  'reference_database', 'confidence',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', )
+
+
+class MixsSedimentTable(tables.Table):
+    # MIMARKS-SURVEY
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    # submitted_to_insdc - wet_lab.FastqFile
+    submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
+    # investigation_type - wet_lab.FastqFile
+    investigation_type = tables.Column(accessor='investigation_type', verbose_name='Investigation Type')
+    # mixs_project_name - field_survey.FieldSurvey
+    project_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name', verbose_name='Project Name')
+    # mixs_lat_lon - field_survey.FieldSurvey
+    lat_lon = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon', verbose_name='Geographic Location')
+    # mixs_depth - field_survey.FilterSample
+    depth = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_depth', verbose_name='Depth')
+    # mixs_geo_loc_name - field_site.FieldSite
+    geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location')
+    # water_collect_datetime - field_survey.WaterCollection
+    collection_date = tables.Column(accessor='extraction.field_sample.collection_global_id.sediment_collection.water_collect_datetime', verbose_name='Collection Date')
+    # env_biome - field_survey.FieldSurvey
+    env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale')
+    # env_feature - field_survey.FieldSurvey
+    env_local_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale', verbose_name='Envo Local')
+    # mixs_env_medium - field_survey.FieldSurvey
+    env_medium = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium', verbose_name='Envo Medium')
+    # mixs_source_mat_id - field_survey.FilterSample
+    source_mat_id = tables.Column(accessor='extraction.field_sample.sample_global_id', verbose_name='Source Material ID')
+    # mixs_samp_collect_device - field_survey.FilterSample
+    samp_collect_device = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method')
+    # mixs_samp_mat_process - field_survey.FilterSample
+    samp_mat_process = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_mat_process', verbose_name='Material Processing')
+    # mixs_nucl_acid_ext - wet_lab.Extraction
+    nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
+    # mixs_nucl_acid_amp - wet_lab.LibraryPrep
+    nucl_acid_amp = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp', verbose_name='Amplification SOP')
+    # lib_prep_layout - wet_lab.LibraryPrep
+    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Amplification SOP')
+    # primer_target_gene - wet_lab.PrimerPair
+    target_gene = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene', verbose_name='Target Gene')
+    # primer_subfragment - wet_lab.PrimerPair
+    target_subfragment = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_subfragment', verbose_name='Target Subfragment')
+    # mixs_pcr_primers - wet_lab.PrimerPair
+    pcr_primers = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.mixs_pcr_primers', verbose_name='PCR Primers')
+    # mixs_mid - wet_lab.IndexPair
+    mid = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.mixs_mid', verbose_name='Multiplex Identifiers')
+    # index_adapter - wet_lab.IndexPair
+    adapters = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.index_adapter', verbose_name='Adapter')
+    # lib_prep_thermal_cond - wet_lab.LibraryPrep
+    pcr_cond = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_thermal_cond', verbose_name='PCR Conditions')
+    # seq_meth - wet_lab.FastqFile
+    seq_meth = tables.Column(accessor='seq_meth', verbose_name='Sequencing Method')
+    # seq_quality_check - bioinfo.QualityMetadata
+    seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
+    # chimera_check - bioinfo.QualityMetadata
+    chimera_check = tables.Column(accessor='run_result.quality_metadata.chimera_check', verbose_name='Chimera Check')
+    denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
+    feature = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence', verbose_name='Feature')
+    annotation_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method', verbose_name='Annotation Method')
+    reference_database = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database', verbose_name='Reference Database')
+    confidence = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence', verbose_name='Confidence')
+    ta_taxon = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon', verbose_name='Taxon')
+    ta_domain = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain', verbose_name='Domain')
+    ta_kingdom = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom', verbose_name='Kingdom')
+    ta_supergroup = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup', verbose_name='Supergroup')
+    ta_phylum_division = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division', verbose_name='Phylum/Division')
+    ta_class = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class', verbose_name='Class')
+    ta_order = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order', verbose_name='Order')
+    ta_family = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family', verbose_name='Family')
+    ta_genus = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus', verbose_name='Genus')
+    ta_species = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species', verbose_name='Species')
+    ta_common_name = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name', verbose_name='Common Name')
+
+    class Meta:
+        model = FastqFile
+        fields = ('_selected_action', 'id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
+                  'seq_meth', 'seq_quality_check', 'chimera_check',
+                  'denoise_cluster_method', 'feature', 'annotation_method',
+                  'reference_database', 'confidence',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', )

@@ -22,7 +22,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataCreateForm, QualityMetadataUpdateForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
-    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, MixsWaterTable, MixsSedimentTable
+    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable
 
 
 # Create your views here.
@@ -798,62 +798,6 @@ class TaxonomicAnnotationUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
         return reverse('view_taxonomicannotation')
 
 
-class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
-    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
-    model = TaxonomicAnnotation
-    table_class = MixsWaterTable
-    template_name = 'home/django-material-dashboard/model-filter-list.html'
-    permission_required = ('bioinfo.view_taxonomicannotation', )
-    export_name = 'MIxSwater_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = bioinfo_serializers.MixsWaterSerializer
-    filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'view_mixswater'
-        context['page_title'] = 'MIxS Water'
-        context['export_formats'] = self.export_formats
-        context = {**context, **export_context(self.request, self.export_formats)}
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-
-class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
-    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
-    model = TaxonomicAnnotation
-    table_class = MixsSedimentTable
-    template_name = 'home/django-material-dashboard/model-filter-list.html'
-    permission_required = ('bioinfo.view_taxonomicannotation', )
-    export_name = 'MIxSsediment_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = bioinfo_serializers.MixsSedimentSerializer
-    filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'view_mixssediment'
-        context['page_title'] = 'MIxS Sediment'
-        context['export_formats'] = self.export_formats
-        context = {**context, **export_context(self.request, self.export_formats)}
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################
@@ -1004,20 +948,3 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonomicAnnotationSerializerFilter
     swagger_tags = ['bioinformatics taxonomy']
-
-
-# MIXS
-class MixsWaterReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = bioinfo_serializers.MixsWaterSerializer
-    queryset = TaxonomicAnnotation.objects.prefetch_related('feature', 'annotation_metadata', 'reference_database', )
-    filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = bioinfo_filters.MixsWaterSerializerFilter
-    swagger_tags = ['mixs']
-
-
-class MixsSedimentReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = bioinfo_serializers.MixsSedimentSerializer
-    queryset = TaxonomicAnnotation.objects.prefetch_related('feature', 'annotation_metadata', 'reference_database', )
-    filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = bioinfo_filters.MixsSedimentSerializerFilter
-    swagger_tags = ['mixs']
