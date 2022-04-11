@@ -531,6 +531,55 @@ class FastqFile(DateTimeUserMixin):
         qs_list = qs_extr.values_list('amplification_method__amplification_method_name', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
+    @property
+    def mixs_lib_layout(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('lib_prep_layout', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_target_gene(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('primer_set__primer_target_gene', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_target_subfragment(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('primer_set__primer_subfragment', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_pcr_primers(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('primer_set__mixs_pcr_primers', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_mid(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('index_pair__mixs_mid', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_adapters(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('index_pair__index_adapter', flat=True)
+        return '{qs}'.format(qs=list(qs_list))
+
+    @property
+    def mixs_pcr_cond(self):
+        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
+        qs_extr = qs.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('lib_prep_thermal_cond', flat=True)
+        return '{qs}'.format(qs=qs_list)
+
     def save(self, *args, **kwargs):
         self.fastq_slug = '{runid}_{fastq}'.format(runid=slugify(self.run_result.run_id),
                                                    fastq=slugify(self.fastq_filename))
