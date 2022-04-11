@@ -1,1 +1,1 @@
-[{"model": "wet_lab.indexremovalmethod", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-17T02:28:07.983Z", "created_datetime": "2021-08-17T02:28:07.983Z", "index_removal_method_name": "beads", "index_removal_method_slug": "beads", "index_removal_sop":  1}}]
+[{"model": "wet_lab.indexremovalmethod", "pk": 1, "fields": {"created_by": 1, "modified_datetime": "2021-08-17T02:28:07.983Z", "created_datetime": "2021-08-17T02:28:07.983Z", "index_removal_method_name": "beads", "index_removal_method_slug": "beads", "index_removal_sop": 1}}]
