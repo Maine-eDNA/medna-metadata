@@ -18,6 +18,7 @@ def now_plus_max():
 
 
 def set_profile_image_subdir(instance, filename):
+    # returns subdir users for given filename
     return f"users/{filename}"
 
 

@@ -29,6 +29,11 @@ def update_extraction_status(old_barcode, field_sample):
         FieldSample.objects.filter(pk=field_sample.pk).update(is_extracted=YesNo.YES)
 
 
+def get_run_id_upload_subdir(instance, filename):
+    # gets run_id from instance and returns subdir based on run_id
+    return f"{instance.run_result.run_id}/{filename}"
+
+
 # Create your models here.
 class PrimerPair(DateTimeUserMixin):
     # mifishU, ElbrechtB1, ecoprimer, 16sV4V5, 18sV4, ...
