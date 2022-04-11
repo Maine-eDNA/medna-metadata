@@ -196,7 +196,7 @@ class MixsWaterTable(tables.Table):
     # mixs_nucl_acid_ext - wet_lab.Extraction
     nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
-    nucl_acid_amp = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp', verbose_name='Amplification SOP')
+    nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP')
     # lib_prep_layout - wet_lab.LibraryPrep
     lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Library Layout')
     # primer_target_gene - wet_lab.PrimerPair
@@ -293,7 +293,7 @@ class MixsSedimentTable(tables.Table):
     # mixs_nucl_acid_ext - wet_lab.Extraction
     nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
-    nucl_acid_amp = tables.ManyToManyColumn(accessor='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp', verbose_name='Amplification SOP')
+    nucl_acid_amp = tables.ManyToManyColumn(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP')
     # lib_prep_layout - wet_lab.LibraryPrep
     lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Library Layout')
     # primer_target_gene - wet_lab.PrimerPair
