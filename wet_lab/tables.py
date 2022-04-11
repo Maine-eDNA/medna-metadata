@@ -191,6 +191,8 @@ class MixsWaterTable(tables.Table):
     samp_collect_device = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method')
     # mixs_samp_mat_process - field_survey.FilterSample
     samp_mat_process = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_mat_process', verbose_name='Material Processing')
+    # mixs_samp_size - field_survey.FilterSample
+    samp_size = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_size', verbose_name='Collection Size')
     # mixs_nucl_acid_ext - wet_lab.Extraction
     nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
@@ -250,7 +252,7 @@ class MixsWaterTable(tables.Table):
         model = FastqFile
         fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
-                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
                   'seq_quality_check', 'chimera_check',
                   'denoise_cluster_method', 'feature', 'annotation_method',
@@ -292,6 +294,8 @@ class MixsSedimentTable(tables.Table):
     samp_collect_device = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method')
     # mixs_samp_mat_process - field_survey.FilterSample
     samp_mat_process = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_mat_process', verbose_name='Material Processing')
+    # mixs_samp_size - field_survey.FilterSample
+    samp_size = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_size', verbose_name='Collection Size')
     # mixs_nucl_acid_ext - wet_lab.Extraction
     nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
@@ -351,7 +355,7 @@ class MixsSedimentTable(tables.Table):
         model = FastqFile
         fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
-                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
                   'seq_quality_check', 'chimera_check',
                   'denoise_cluster_method', 'feature', 'annotation_method',

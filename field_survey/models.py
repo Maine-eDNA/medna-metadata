@@ -324,9 +324,9 @@ class FilterSample(DateTimeUserMixin):
     def mixs_samp_collect_device(self):
         # mixs_v5
         # The method or device employed for collecting the sample
-        return '{method}'.format(method=self.field_sample.collection_global_id.water_collection.water_collect_mode,
-                                 color=self.field_sample.collection_global_id.water_collection.water_vessel_color,
-                                 material=self.field_sample.collection_global_id.water_collection.water_vessel_material)
+        return '{method}, {color} {material} collection vessel'.format(method=self.field_sample.collection_global_id.water_collection.water_collect_mode,
+                                                                       color=self.field_sample.collection_global_id.water_collection.water_vessel_color,
+                                                                       material=self.field_sample.collection_global_id.water_collection.water_vessel_material)
 
     @property
     def mixs_samp_mat_process(self):
@@ -372,7 +372,7 @@ class SubCoreSample(DateTimeUserMixin):
         # mixs_v5
         # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
         # measured from sediment or soil surface, respectively. Depth can be reported as an interval for subsurface samples
-        size_fmt = '{:.2f}'.format(self.field_sample.collection_global_id.water_collection.water_collect_depth)
+        size_fmt = '{:.2f}'.format(self.field_sample.collection_global_id.sediment_collection.core_collect_depth)
         return '{size} meter'.format(size=size_fmt)
 
     @property
