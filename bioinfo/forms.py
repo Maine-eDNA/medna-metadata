@@ -401,7 +401,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_domain = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -409,7 +409,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_kingdom = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -417,7 +417,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_supergroup = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -425,7 +425,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_phylum_division = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -433,7 +433,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_class = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -441,7 +441,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_order = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -449,7 +449,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_family = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -457,7 +457,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_genus = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -465,7 +465,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_species = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -473,7 +473,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     ta_common_name = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -481,7 +481,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_domain = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonDomain.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -490,7 +490,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_kingdom = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonKingdom.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -499,7 +499,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_supergroup = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonSupergroup.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -508,7 +508,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_phylum_division = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonPhylumDivision.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -517,7 +517,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_class = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonClass.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -526,7 +526,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_order = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonOrder.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -535,7 +535,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_family = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonFamily.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -544,7 +544,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_genus = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonGenus.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -553,7 +553,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         )
     )
     manual_species = forms.ModelChoiceField(
-        required=True,
+        required=False,
         queryset=TaxonSpecies.objects.none(),
         widget=CustomSelect2(
             attrs={
