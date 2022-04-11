@@ -20,7 +20,7 @@ class IndexPairForm(forms.ModelForm):
     index_i7 = forms.CharField(
         label='Index i7',
         help_text='Molecular barcodes, called Multiplex Identifiers (MIDs), that are used to specifically tag unique '
-                  'samples in a sequencing run. Sequence should be reported in uppercase letters. '
+                  'samples in a sequencing run. Sequence should be reported in uppercase letters (MIxS v5). '
                   'Can be found in SampleSheet.csv.',
         required=False,
         widget=forms.TextInput(
@@ -63,7 +63,7 @@ class IndexPairForm(forms.ModelForm):
         required=False,
         label='Index Adapter',
         help_text='Adapters provide priming sequences for both amplification and sequencing of the sample-library '
-                  'fragments. All adapters should be reported and separated by ; in uppercase letters in the form: DNA;DNA. '
+                  'fragments (MIxS v5). All adapters should be reported and separated by ; in uppercase letters in the form: DNA;DNA. '
                   'Can be found in SampleSheet.csv.',
         widget=forms.Textarea(
             attrs={
@@ -117,7 +117,7 @@ class ExtractionForm(forms.ModelForm):
     extraction_method = forms.ModelChoiceField(
         required=True,
         help_text='A standard operating procedure (SOP) that describes the material separation to recover the nucleic '
-                  'acid fraction from a sample',
+                  'acid fraction from a sample (MIxS v5).',
         queryset=ExtractionMethod.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -291,7 +291,7 @@ class PcrCreateForm(forms.ModelForm):
     primer_set = forms.ModelChoiceField(
         required=True,
         label='Primer Pair',
-        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. ',
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment (MIxS v5). ',
         queryset=PrimerPair.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -330,7 +330,7 @@ class PcrCreateForm(forms.ModelForm):
         required=False,
         label='PCR Results',
         help_text='Results will be in copy number (cp) or copies per microliter (copy/ul) for ddPCR '
-                  'and Quantification Cycle (Cq) for qPCR',
+                  'and Quantification Cycle (Cq) for qPCR.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -363,7 +363,7 @@ class PcrCreateForm(forms.ModelForm):
     initial_denaturation = forms.CharField(
         required=True,
         label='Initial Denaturation',
-        help_text='Description of reaction conditions and components of PCR for initial denaturation in the form of: degrees_minutes. '
+        help_text='Description of reaction conditions and components of PCR for initial denaturation in the form of: degrees_minutes (MIxS v5). '
                   'E.g., 94_3',
         widget=forms.Textarea(
             attrs={
@@ -375,7 +375,7 @@ class PcrCreateForm(forms.ModelForm):
     annealing = forms.CharField(
         required=True,
         label='Thermal Conditions Annealing',
-        help_text='Description of reaction conditions and components of PCR for annealing in the form of: degrees_minutes.'
+        help_text='Description of reaction conditions and components of PCR for annealing in the form of: degrees_minutes (MIxS v5).'
                   'E.g., 50_1',
         widget=forms.Textarea(
             attrs={
@@ -386,7 +386,7 @@ class PcrCreateForm(forms.ModelForm):
     )
     elongation = forms.CharField(
         required=True,
-        help_text='Description of reaction conditions and components of PCR for elongation in the form of: degrees_minutes.'
+        help_text='Description of reaction conditions and components of PCR for elongation in the form of: degrees_minutes (MIxS v5).'
                   'E.g., 72_1.5',
         label='Thermal Conditions Elongation',
         widget=forms.Textarea(
@@ -399,7 +399,7 @@ class PcrCreateForm(forms.ModelForm):
     final_elongation = forms.CharField(
         required=True,
         label='Thermal Conditions Final Elongation',
-        help_text='Description of reaction conditions and components of PCR for final elongation in the form of: degrees_minutes.'
+        help_text='Description of reaction conditions and components of PCR for final elongation in the form of: degrees_minutes (MIxS v5).'
                   'E.g., 72_10',
         widget=forms.Textarea(
             attrs={
@@ -411,7 +411,7 @@ class PcrCreateForm(forms.ModelForm):
     total_cycles = forms.IntegerField(
         required=True,
         label='Thermal Conditions Total Cycles',
-        help_text='Description of reaction conditions and components of PCR for total cycles. E.g., 35',
+        help_text='Description of reaction conditions and components of PCR for total cycles (MIxS v5). E.g., 35',
         widget=forms.NumberInput(
             attrs={
                 'placeholder': 'total cycles',
@@ -422,7 +422,7 @@ class PcrCreateForm(forms.ModelForm):
     pcr_sop = forms.ModelChoiceField(
         required=True,
         help_text='A literature reference, electronic resource or a standard operating procedure (SOP), that '
-                  'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids',
+                  'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids (MIxS v5).',
         queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
         widget=CustomSelect2(
             attrs={
@@ -499,7 +499,7 @@ class PcrUpdateForm(forms.ModelForm):
     primer_set = forms.ModelChoiceField(
         required=True,
         label='Primer Pair',
-        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. ',
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment (MIxS v5). ',
         queryset=PrimerPair.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -538,7 +538,7 @@ class PcrUpdateForm(forms.ModelForm):
         required=False,
         label='PCR Results',
         help_text='Results will be in copy number (cp) or copies per microliter (copy/ul) for ddPCR '
-                  'and Quantification Cycle (Cq) for qPCR',
+                  'and Quantification Cycle (Cq) for qPCR.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -560,7 +560,7 @@ class PcrUpdateForm(forms.ModelForm):
     )
     pcr_thermal_cond = forms.CharField(
         required=True,
-        help_text='Description of reaction conditions and components of PCR in the form of: '
+        help_text='Description of reaction conditions and components of PCR in the form of (MIxS v5): '
                   'initial denaturation:degrees_minutes; annealing:degrees_minutes; elongation: degrees_minutes; '
                   'final elongation:degrees_minutes; total cycles',
         widget=forms.Textarea(
@@ -573,7 +573,7 @@ class PcrUpdateForm(forms.ModelForm):
     pcr_sop = forms.ModelChoiceField(
         required=True,
         help_text='A literature reference, electronic resource or a standard operating procedure (SOP), that '
-                  'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids',
+                  'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids (MIxS v5).',
         queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
         widget=CustomSelect2(
             attrs={
@@ -642,7 +642,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     amplification_method = forms.ModelChoiceField(
         required=True,
         label='Amplification Method',
-        help_text='The enzymatic amplification method (PCR, TMA, NASBA) of specific nucleic acids.',
+        help_text='The enzymatic amplification method (PCR, TMA, NASBA) of specific nucleic acids (MIxS v5).',
         queryset=AmplificationMethod.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -653,7 +653,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     primer_set = forms.ModelChoiceField(
         required=True,
         label='Primer Pair',
-        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. ',
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment (MIxS v5). ',
         queryset=PrimerPair.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -675,7 +675,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
         required=True,
         label='Index Pair',
         help_text='Molecular barcodes, called Multiplex Identifiers (MIDs), that are used to specifically tag unique '
-                  'samples in a sequencing run. Sequence should be reported in uppercase letters. '
+                  'samples in a sequencing run. Sequence should be reported in uppercase letters (MIxS v5). '
                   'Can be found in SampleSheet.csv.',
         queryset=IndexPair.objects.none()
     )
@@ -788,7 +788,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     lib_prep_layout = forms.ChoiceField(
         required=True,
         label='Library Layout',
-        help_text='Specify whether to expect single-end, paired-end, or other configuration of reads',
+        help_text='Specify whether to expect single-end, paired-end, or other configuration of reads (MIxS v5).',
         choices=LibLayouts.choices,
         widget=CustomSelect2(
             attrs={
@@ -799,7 +799,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     initial_denaturation = forms.CharField(
         required=True,
         label='Initial Denaturation',
-        help_text='Description of reaction conditions and components of PCR for initial denaturation in the form of: degrees_minutes. '
+        help_text='Description of reaction conditions and components of PCR for initial denaturation in the form of (MIxS v5): degrees_minutes. '
                   'E.g., 94_3',
         widget=forms.Textarea(
             attrs={
@@ -811,7 +811,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     annealing = forms.CharField(
         required=True,
         label='Thermal Conditions Annealing',
-        help_text='Description of reaction conditions and components of PCR for annealing in the form of: degrees_minutes.'
+        help_text='Description of reaction conditions and components of PCR for annealing in the form of (MIxS v5): degrees_minutes.'
                   'E.g., 50_1',
         widget=forms.Textarea(
             attrs={
@@ -822,7 +822,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     )
     elongation = forms.CharField(
         required=True,
-        help_text='Description of reaction conditions and components of PCR for elongation in the form of: degrees_minutes.'
+        help_text='Description of reaction conditions and components of PCR for elongation in the form of (MIxS v5): degrees_minutes.'
                   'E.g., 72_1.5',
         label='Thermal Conditions Elongation',
         widget=forms.Textarea(
@@ -835,7 +835,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     final_elongation = forms.CharField(
         required=True,
         label='Thermal Conditions Final Elongation',
-        help_text='Description of reaction conditions and components of PCR for final elongation in the form of: degrees_minutes.'
+        help_text='Description of reaction conditions and components of PCR for final elongation in the form of (MIxS v5): degrees_minutes.'
                   'E.g., 72_10',
         widget=forms.Textarea(
             attrs={
@@ -847,7 +847,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     total_cycles = forms.IntegerField(
         required=True,
         label='Thermal Conditions Total Cycles',
-        help_text='Description of reaction conditions and components of PCR for total cycles. E.g., 35',
+        help_text='Description of reaction conditions and components of PCR for total cycles (MIxS v5). E.g., 35',
         widget=forms.NumberInput(
             attrs={
                 'placeholder': 'total cycles',
@@ -930,7 +930,7 @@ class LibraryPrepUpdateForm(forms.ModelForm):
     amplification_method = forms.ModelChoiceField(
         required=True,
         label='Amplification Method',
-        help_text='The enzymatic amplification method (PCR, TMA, NASBA) of specific nucleic acids.',
+        help_text='The enzymatic amplification method (PCR, TMA, NASBA) of specific nucleic acids (MIxS v5).',
         queryset=AmplificationMethod.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -941,7 +941,7 @@ class LibraryPrepUpdateForm(forms.ModelForm):
     primer_set = forms.ModelChoiceField(
         required=True,
         label='Primer Pair',
-        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. ',
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment (MIxS v5). ',
         queryset=PrimerPair.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -963,7 +963,7 @@ class LibraryPrepUpdateForm(forms.ModelForm):
         required=True,
         label='Index Pair',
         help_text='Molecular barcodes, called Multiplex Identifiers (MIDs), that are used to specifically tag unique '
-                  'samples in a sequencing run. Sequence should be reported in uppercase letters. '
+                  'samples in a sequencing run. Sequence should be reported in uppercase letters (MIxS v5). '
                   'Can be found in SampleSheet.csv.',
         queryset=IndexPair.objects.none()
     )
@@ -1076,7 +1076,7 @@ class LibraryPrepUpdateForm(forms.ModelForm):
     lib_prep_layout = forms.ChoiceField(
         required=True,
         label='Library Layout',
-        help_text='Specify whether to expect single-end, paired-end, or other configuration of reads',
+        help_text='Specify whether to expect single-end, paired-end, or other configuration of reads (MIxS v5).',
         choices=LibLayouts.choices,
         widget=CustomSelect2(
             attrs={
@@ -1088,7 +1088,7 @@ class LibraryPrepUpdateForm(forms.ModelForm):
     lib_prep_thermal_cond = forms.CharField(
         required=True,
         label='Library Prep Thermal Conditions',
-        help_text='Description of reaction conditions and components of PCR in the form of: initial '
+        help_text='Description of reaction conditions and components of PCR in the form of (MIxS v5): initial '
                   'denaturation:degrees_minutes; annealing:degrees_minutes; elongation: degrees_minutes; '
                   'final elongation:degrees_minutes; total cycles',
         widget=forms.Textarea(
@@ -1468,7 +1468,7 @@ class FastqFileForm(forms.ModelForm):
                   'small-scale) sequences have to be submitted to SRA (Sequence Read Archive), DRA (DDBJ Read Archive) '
                   'or via the classical Webin/Sequin systems to Genbank, ENA and DDBJ. Although this field is mandatory, '
                   'it is meant as a self-test field, therefore it is not necessary to include this field in contextual '
-                  'data submitted to databases',
+                  'data submitted to databases (MIxS v5).',
         choices=YesNo.choices,
         initial=YesNo.NO,
         widget=CustomSelect2(
@@ -1495,7 +1495,7 @@ class FastqFileForm(forms.ModelForm):
         help_text='Nucleic Acid Sequence Report is the root element of all MIGS/MIMS compliant reports as standardized '
                   'by Genomic Standards Consortium. This field is either eukaryote,bacteria,virus,plasmid,organelle, '
                   'metagenome,mimarks-survey, mimarks-specimen, metatranscriptome, single amplified genome, '
-                  'metagenome-assembled genome, or uncultivated viral genome',
+                  'metagenome-assembled genome, or uncultivated viral genome (MIxS v5).',
         choices=InvestigationTypes.choices,
         initial=InvestigationTypes.MIMARKSSURVEY,
         widget=CustomSelect2(

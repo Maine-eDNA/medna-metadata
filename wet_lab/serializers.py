@@ -420,3 +420,125 @@ class FastqFileSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id', queryset=RunResult.objects.all())
     extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='barcode_slug', queryset=Extraction.objects.all())
+
+
+class MixsWaterSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    submitted_to_insdc = serializers.ReadOnlyField()
+    investigation_type = serializers.ReadOnlyField()
+    seq_meth = serializers.ReadOnlyField()
+
+    class Meta:
+        model = FastqFile
+        fields = ['id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
+                  'seq_meth', 'seq_quality_check', 'chimera_check',
+                  'denoise_cluster_method', 'feature', 'annotation_method',
+                  'reference_database', 'confidence',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    feature = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_slug')
+    annotation_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='annotation_slug')
+    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_slug')
+    project_name = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name')
+    lat_lon = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon')
+    depth = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_depth')
+    geo_loc_name = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name')
+    collection_date = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.water_collection.collect_datetime')
+    env_broad_scale = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale')
+    env_local_scale = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale')
+    env_medium = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium')
+    source_mat_id = serializers.ReadOnlyField(source='extraction.field_sample.sample_global_id')
+    samp_collect_device = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_samp_collect_device')
+    samp_mat_process = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_samp_mat_process')
+    nucl_acid_ext = serializers.ReadOnlyField(source='extraction.mixs_nucl_acid_ext')
+    nucl_acid_amp = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp')
+    lib_layout = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.lib_prep_layout')
+    target_gene = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene')
+    target_subfragment = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.primer_set.primer_subfragment')
+    pcr_primers = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.primer_set.mixs_pcr_primers')
+    mid = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.index_pair.mixs_mid')
+    adapters = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.index_pair.index_adapter')
+    pcr_cond = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.lib_prep_thermal_cond')
+    seq_quality_check = serializers.ReadOnlyField(source='run_result.quality_metadata.seq_quality_check')
+    chimera_check = serializers.ReadOnlyField(source='run_result.quality_metadata.chimera_check')
+    confidence = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence')
+    ta_taxon = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon')
+    ta_domain = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain')
+    ta_kingdom = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom')
+    ta_supergroup = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup')
+    ta_phylum_division = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division')
+    ta_class = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class')
+    ta_order = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order')
+    ta_family = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family')
+    ta_genus = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus')
+    ta_species = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species')
+    ta_common_name = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name')
+
+
+class MixsSedimentSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    submitted_to_insdc = serializers.ReadOnlyField()
+    investigation_type = serializers.ReadOnlyField()
+    seq_meth = serializers.ReadOnlyField()
+
+    class Meta:
+        model = FastqFile
+        fields = ['id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+                  'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
+                  'seq_meth', 'seq_quality_check', 'chimera_check',
+                  'denoise_cluster_method', 'feature', 'annotation_method',
+                  'reference_database', 'confidence',
+                  'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
+                  'ta_phylum_division', 'ta_class', 'ta_order',
+                  'ta_family', 'ta_genus', 'ta_species',
+                  'ta_common_name', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligible field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    feature = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_slug')
+    annotation_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='annotation_slug')
+    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_slug')
+    project_name = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name')
+    lat_lon = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon')
+    depth = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_depth')
+    geo_loc_name = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name')
+    collection_date = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.sediment_collection.core_datetime_start')
+    env_broad_scale = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale')
+    env_local_scale = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale')
+    env_medium = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium')
+    source_mat_id = serializers.ReadOnlyField(source='extraction.field_sample.sample_global_id')
+    samp_collect_device = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_samp_collect_device')
+    samp_mat_process = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_samp_mat_process')
+    nucl_acid_ext = serializers.ReadOnlyField(source='extraction.mixs_nucl_acid_ext')
+    nucl_acid_amp = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp')
+    lib_layout = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.lib_prep_layout')
+    target_gene = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene')
+    target_subfragment = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.primer_set.primer_subfragment')
+    pcr_primers = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.primer_set.mixs_pcr_primers')
+    mid = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.index_pair.mixs_mid')
+    adapters = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.index_pair.index_adapter')
+    pcr_cond = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.lib_prep_thermal_cond')
+    seq_quality_check = serializers.ReadOnlyField(source='run_result.quality_metadata.seq_quality_check')
+    chimera_check = serializers.ReadOnlyField(source='run_result.quality_metadata.chimera_check')
+    confidence = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.confidence')
+    ta_taxon = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_taxon')
+    ta_domain = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_domain')
+    ta_kingdom = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_kingdom')
+    ta_supergroup = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_supergroup')
+    ta_phylum_division = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_phylum_division')
+    ta_class = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_class')
+    ta_order = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_order')
+    ta_family = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_family')
+    ta_genus = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus')
+    ta_species = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species')
+    ta_common_name = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name')

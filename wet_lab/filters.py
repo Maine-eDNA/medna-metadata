@@ -182,6 +182,32 @@ class FastqFileFilter(filters.FilterSet):
         fields = ['created_by', 'run_result', 'extraction', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
 
 
+class MixsWaterFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    extraction = filters.ModelMultipleChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
+    submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices, widget=CustomSelect2)
+    seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices, widget=CustomSelect2)
+    investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices, widget=CustomSelect2)
+
+    class Meta:
+        model = FastqFile
+        fields = ['created_by', 'run_result', 'extraction', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+
+
+class MixsSedimentFilter(filters.FilterSet):
+    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
+    extraction = filters.ModelMultipleChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
+    submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices, widget=CustomSelect2)
+    seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices, widget=CustomSelect2)
+    investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices, widget=CustomSelect2)
+
+    class Meta:
+        model = FastqFile
+        fields = ['created_by', 'run_result', 'extraction', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+
+
 ########################################
 # SERIALIZER FILTERS                   #
 ########################################
@@ -373,6 +399,32 @@ class RunResultSerializerFilter(filters.FilterSet):
 
 
 class FastqFileSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
+    run_result = filters.CharFilter(field_name='run_result__run_id', lookup_expr='iexact')
+    extraction = filters.CharFilter(field_name='extraction__barcode_slug', lookup_expr='iexact')
+    fastq_slug = filters.CharFilter(field_name='fastq_slug', lookup_expr='iexact')
+    submitted_to_insdc = filters.CharFilter(field_name='submitted_to_insdc', lookup_expr='iexact')
+
+    class Meta:
+        model = FastqFile
+        fields = ['created_by', 'uuid', 'run_result', 'extraction', 'fastq_slug', 'submitted_to_insdc', ]
+
+
+class MixsWaterSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
+    run_result = filters.CharFilter(field_name='run_result__run_id', lookup_expr='iexact')
+    extraction = filters.CharFilter(field_name='extraction__barcode_slug', lookup_expr='iexact')
+    fastq_slug = filters.CharFilter(field_name='fastq_slug', lookup_expr='iexact')
+    submitted_to_insdc = filters.CharFilter(field_name='submitted_to_insdc', lookup_expr='iexact')
+
+    class Meta:
+        model = FastqFile
+        fields = ['created_by', 'uuid', 'run_result', 'extraction', 'fastq_slug', 'submitted_to_insdc', ]
+
+
+class MixsSedimentSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
     run_result = filters.CharFilter(field_name='run_result__run_id', lookup_expr='iexact')

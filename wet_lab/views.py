@@ -27,7 +27,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
 from .forms import IndexPairForm, ExtractionForm, PcrCreateForm, PcrUpdateForm, PcrReplicateForm, LibraryPrepCreateForm, \
     LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileForm
 from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
-    RunPrepTable, RunResultTable, FastqFileTable
+    RunPrepTable, RunResultTable, FastqFileTable, MixsWaterTable, MixsSedimentTable
 
 
 # Create your views here.
@@ -1041,6 +1041,62 @@ class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
         return reverse('view_fastqfile')
 
 
+class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FastqFile
+    table_class = MixsWaterTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('bioinfo.view_taxonomicannotation', 'wet_lab.view_fastqfile', )
+    export_name = 'MIxSwater_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.MixsWaterSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_mixswater'
+        context['page_title'] = 'MIxS Water'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = FastqFile
+    table_class = MixsSedimentTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('bioinfo.view_taxonomicannotation', 'wet_lab.view_fastqfile', )
+    export_name = 'MIxSsediment_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.MixsSedimentSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = ['csv', 'xlsx']
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_mixssediment'
+        context['page_title'] = 'MIxS Sediment'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################
@@ -1166,3 +1222,20 @@ class FastqFileViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.FastqFileSerializerFilter
     swagger_tags = ['wet lab']
+
+
+# MIXS
+class MixsWaterReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = wetlab_serializers.MixsWaterSerializer
+    queryset = FastqFile.objects.prefetch_related('feature', 'annotation_metadata', 'reference_database', )
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = wetlab_filters.MixsWaterSerializerFilter
+    swagger_tags = ['mixs']
+
+
+class MixsSedimentReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = wetlab_serializers.MixsSedimentSerializer
+    queryset = FastqFile.objects.prefetch_related('feature', 'annotation_metadata', 'reference_database', )
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = wetlab_filters.MixsSedimentSerializerFilter
+    swagger_tags = ['mixs']

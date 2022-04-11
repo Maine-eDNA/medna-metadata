@@ -19,10 +19,10 @@ import bioinfo.filters as bioinfo_filters
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  \
     TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
-from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataForm, \
+from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataCreateForm, QualityMetadataUpdateForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
-    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, MixsWaterTable, MixsSedimentTable
+    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable
 
 
 # Create your views here.
@@ -129,7 +129,7 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = ('bioinfo.add_qualitymetadata', )
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add.html'
 
@@ -143,6 +143,9 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.chimera_check = '{software_name};{software_version};{parameters}'.format(software_name=form.cleaned_data['chimera_software'],
+                                                                                             software_version=form.cleaned_data['chimera_software_version'],
+                                                                                             parameters=form.cleaned_data['chimera_check_parameters'])
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -156,7 +159,7 @@ class QualityMetadataCreateView(LoginRequiredMixin, PermissionRequiredMixin, Cre
 
 class QualityMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update.html'
@@ -185,7 +188,7 @@ class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permi
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'bioinfo.add_qualitymetadata'
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add-popup.html'
 
@@ -199,6 +202,9 @@ class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permi
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
+        self.object.chimera_check = '{software_name};{software_version};{parameters}'.format(software_name=form.cleaned_data['chimera_software'],
+                                                                                             software_version=form.cleaned_data['chimera_software_version'],
+                                                                                             parameters=form.cleaned_data['chimera_check_parameters'])
         return super().form_valid(form)
 
     def handle_no_permission(self):
@@ -209,7 +215,7 @@ class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, Permi
 
 class QualityMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = QualityMetadata
-    form_class = QualityMetadataForm
+    form_class = QualityMetadataUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update-popup.html'
@@ -792,62 +798,6 @@ class TaxonomicAnnotationUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
         return reverse('view_taxonomicannotation')
 
 
-class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
-    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
-    model = TaxonomicAnnotation
-    table_class = MixsWaterTable
-    template_name = 'home/django-material-dashboard/model-filter-list.html'
-    permission_required = ('bioinfo.view_taxonomicannotation', )
-    export_name = 'MIxSwater_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = bioinfo_serializers.MixsWaterSerializer
-    filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'view_mixswater'
-        context['page_title'] = 'MIxS Water'
-        context['export_formats'] = self.export_formats
-        context = {**context, **export_context(self.request, self.export_formats)}
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-
-class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
-    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
-    # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
-    model = TaxonomicAnnotation
-    table_class = MixsSedimentTable
-    template_name = 'home/django-material-dashboard/model-filter-list.html'
-    permission_required = ('bioinfo.view_taxonomicannotation', )
-    export_name = 'MIxSsediment_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
-    serializer_class = bioinfo_serializers.MixsSedimentSerializer
-    filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['segment'] = 'view_mixssediment'
-        context['page_title'] = 'MIxS Sediment'
-        context['export_formats'] = self.export_formats
-        context = {**context, **export_context(self.request, self.export_formats)}
-        return context
-
-    def handle_no_permission(self):
-        if self.raise_exception:
-            raise PermissionDenied(self.get_permission_denied_message())
-        return redirect('main/model-perms-required.html')
-
-
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################
@@ -998,20 +948,3 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonomicAnnotationSerializerFilter
     swagger_tags = ['bioinformatics taxonomy']
-
-
-# MIXS
-class MixsWaterReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = bioinfo_serializers.MixsWaterSerializer
-    queryset = TaxonomicAnnotation.objects.prefetch_related('feature', 'annotation_metadata', 'reference_database', )
-    filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = bioinfo_filters.MixsWaterSerializerFilter
-    swagger_tags = ['mixs']
-
-
-class MixsSedimentReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = bioinfo_serializers.MixsSedimentSerializer
-    queryset = TaxonomicAnnotation.objects.prefetch_related('feature', 'annotation_metadata', 'reference_database', )
-    filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = bioinfo_filters.MixsSedimentSerializerFilter
-    swagger_tags = ['mixs']
