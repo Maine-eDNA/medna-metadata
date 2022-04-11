@@ -76,7 +76,8 @@ class FieldSurvey(DateTimeUserMixin):
     def mixs_project_name(self):
         # mixs_v5
         # Name of the project within which the sequencing was organized
-        return 'Maine-eDNA {project}'.format(project=self.project_ids.all())
+        prjs = self.project_ids.all()
+        return 'Maine-eDNA {project}'.format(project=prjs.values_list('project_label', flat=True))
 
     @property
     def mixs_lat_lon(self):
