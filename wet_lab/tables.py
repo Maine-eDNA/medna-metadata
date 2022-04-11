@@ -198,19 +198,19 @@ class MixsWaterTable(tables.Table):
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
     nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP')
     # lib_prep_layout - wet_lab.LibraryPrep
-    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Library Layout')
+    lib_layout = tables.Column(accessor='mixs_lib_layout', verbose_name='Library Layout')
     # primer_target_gene - wet_lab.PrimerPair
-    target_gene = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene', verbose_name='Target Gene')
+    target_gene = tables.Column(accessor='mixs_target_gene', verbose_name='Target Gene')
     # primer_subfragment - wet_lab.PrimerPair
-    target_subfragment = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_subfragment', verbose_name='Target Subfragment')
+    target_subfragment = tables.Column(accessor='mixs_target_subfragment', verbose_name='Target Subfragment')
     # mixs_pcr_primers - wet_lab.PrimerPair
-    pcr_primers = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.mixs_pcr_primers', verbose_name='PCR Primers')
+    pcr_primers = tables.Column(accessor='mixs_pcr_primers', verbose_name='PCR Primers')
     # mixs_mid - wet_lab.IndexPair
-    mid = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.mixs_mid', verbose_name='Multiplex Identifiers')
+    mid = tables.Column(accessor='mixs_mid', verbose_name='Multiplex Identifiers')
     # index_adapter - wet_lab.IndexPair
-    adapters = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.index_adapter', verbose_name='Adapter')
+    adapters = tables.Column(accessor='mixs_adapters', verbose_name='Adapter')
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
-    pcr_cond = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_thermal_cond', verbose_name='PCR Conditions')
+    pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions')
     # seq_quality_check - bioinfo.QualityMetadata
     seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
@@ -295,19 +295,19 @@ class MixsSedimentTable(tables.Table):
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
     nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP')
     # lib_prep_layout - wet_lab.LibraryPrep
-    lib_layout = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_layout', verbose_name='Library Layout')
+    lib_layout = tables.Column(accessor='mixs_lib_layout', verbose_name='Library Layout')
     # primer_target_gene - wet_lab.PrimerPair
-    target_gene = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_target_gene', verbose_name='Target Gene')
+    target_gene = tables.Column(accessor='mixs_target_gene', verbose_name='Target Gene')
     # primer_subfragment - wet_lab.PrimerPair
-    target_subfragment = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.primer_subfragment', verbose_name='Target Subfragment')
+    target_subfragment = tables.Column(accessor='mixs_target_subfragment', verbose_name='Target Subfragment')
     # mixs_pcr_primers - wet_lab.PrimerPair
-    pcr_primers = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.primer_set.mixs_pcr_primers', verbose_name='PCR Primers')
+    pcr_primers = tables.Column(accessor='mixs_pcr_primers', verbose_name='PCR Primers')
     # mixs_mid - wet_lab.IndexPair
-    mid = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.mixs_mid', verbose_name='Multiplex Identifiers')
+    mid = tables.Column(accessor='mixs_mid', verbose_name='Multiplex Identifiers')
     # index_adapter - wet_lab.IndexPair
-    adapters = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.index_pair.index_adapter', verbose_name='Adapter')
+    adapters = tables.Column(accessor='mixs_adapters', verbose_name='Adapter')
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
-    pcr_cond = tables.Column(accessor='run_result.run_prep.pooled_library.library_prep.lib_prep_thermal_cond', verbose_name='PCR Conditions')
+    pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions')
     # seq_quality_check - bioinfo.QualityMetadata
     seq_quality_check = tables.Column(accessor='run_result.quality_metadata.seq_quality_check', verbose_name='Sequence Quality Check')
     # chimera_check - bioinfo.QualityMetadata
