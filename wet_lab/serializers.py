@@ -433,7 +433,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
         model = FastqFile
         fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
-                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
                   'seq_quality_check', 'chimera_check',
                   'denoise_cluster_method', 'feature', 'annotation_method',
@@ -460,6 +460,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
     source_mat_id = serializers.ReadOnlyField(source='extraction.field_sample.sample_global_id')
     samp_collect_device = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_samp_collect_device')
     samp_mat_process = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_samp_mat_process')
+    samp_size = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_samp_size')
     nucl_acid_ext = serializers.ReadOnlyField(source='extraction.mixs_nucl_acid_ext')
     nucl_acid_amp = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp')
     lib_layout = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.lib_prep_layout')
@@ -496,7 +497,7 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
         model = FastqFile
         fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
-                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
+                  'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
                   'seq_quality_check', 'chimera_check',
                   'denoise_cluster_method', 'feature', 'annotation_method',
@@ -523,6 +524,7 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
     source_mat_id = serializers.ReadOnlyField(source='extraction.field_sample.sample_global_id')
     samp_collect_device = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_samp_collect_device')
     samp_mat_process = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_samp_mat_process')
+    samp_size = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_samp_size')
     nucl_acid_ext = serializers.ReadOnlyField(source='extraction.mixs_nucl_acid_ext')
     nucl_acid_amp = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.mixs_nucl_acid_amp')
     lib_layout = serializers.ReadOnlyField(source='run_result.run_prep.pooled_library.library_prep.lib_prep_layout')
