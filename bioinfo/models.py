@@ -7,7 +7,7 @@ from utility.enumerations import YesNo, QualityChecks
 
 # Create your models here.
 class QualityMetadata(DateTimeUserMixin):
-    run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT)
+    run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT, related_name='quality_metadata')
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     analysis_label = models.CharField('Analysis Label', max_length=255, unique=True)
     analysis_datetime = models.DateTimeField('Analysis DateTime')
