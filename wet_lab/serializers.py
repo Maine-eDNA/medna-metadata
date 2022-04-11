@@ -425,12 +425,13 @@ class FastqFileSerializer(serializers.ModelSerializer):
 class MixsWaterSerializer(serializers.ModelSerializer):
     uuid = serializers.ReadOnlyField()
     submitted_to_insdc = serializers.ReadOnlyField()
+    fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
     seq_meth = serializers.ReadOnlyField()
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'submitted_to_insdc', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
@@ -444,9 +445,10 @@ class MixsWaterSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_slug')
-    annotation_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='annotation_slug')
-    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_slug')
+    denoise_cluster_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method')
+    feature = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence')
+    annotation_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method')
+    reference_database = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database')
     project_name = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name')
     lat_lon = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon')
     depth = serializers.ReadOnlyField(source='extraction.field_sample.filter_sample.mixs_depth')
@@ -486,12 +488,13 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 class MixsSedimentSerializer(serializers.ModelSerializer):
     uuid = serializers.ReadOnlyField()
     submitted_to_insdc = serializers.ReadOnlyField()
+    fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
     seq_meth = serializers.ReadOnlyField()
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'submitted_to_insdc', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
@@ -505,9 +508,10 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
-    feature = serializers.SlugRelatedField(many=False, read_only=True, slug_field='feature_slug')
-    annotation_metadata = serializers.SlugRelatedField(many=False, read_only=True, slug_field='annotation_slug')
-    reference_database = serializers.SlugRelatedField(many=False, read_only=True, slug_field='refdb_slug')
+    denoise_cluster_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method')
+    feature = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence')
+    annotation_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method')
+    reference_database = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.reference_database')
     project_name = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name')
     lat_lon = serializers.ReadOnlyField(source='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon')
     depth = serializers.ReadOnlyField(source='extraction.field_sample.subcore_sample.mixs_depth')
