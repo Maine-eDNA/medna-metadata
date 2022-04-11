@@ -13,14 +13,14 @@ class PrimerPairAdminResource(resources.ModelResource):
     class Meta:
         model = PrimerPair
         import_id_fields = ('primer_set_name', 'primer_target_gene', )
-        fields = ('id', 'primer_set_name', 'primer_slug',
+        fields = ('id', 'primer_set_name', 'primer_slug', 'mixs_pcr_primers',
                   'primer_target_gene', 'primer_subfragment',
                   'primer_name_forward', 'primer_name_reverse',
                   'primer_forward', 'primer_reverse',
                   'primer_amplicon_length_min', 'primer_amplicon_length_max',
                   'primer_ref_biomaterial_url', 'primer_pair_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'primer_set_name', 'primer_slug',
+        export_order = ('id', 'primer_set_name', 'primer_slug', 'mixs_pcr_primers',
                         'primer_target_gene', 'primer_subfragment',
                         'primer_name_forward', 'primer_name_reverse',
                         'primer_forward', 'primer_reverse',
@@ -42,9 +42,9 @@ class IndexPairAdminResource(resources.ModelResource):
     class Meta:
         model = IndexPair
         import_id_fields = ('i7_index_id', 'i5_index_id', 'index_adapter', )
-        fields = ('id', 'index_slug', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+        fields = ('id', 'index_slug', 'mixs_mid', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'index_slug', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
+        export_order = ('id', 'index_slug', 'mixs_mid', 'index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(

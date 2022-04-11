@@ -47,19 +47,16 @@ class PrimerPair(DateTimeUserMixin):
     primer_name_reverse = models.CharField('Primer Name Reverse', max_length=255)
     primer_forward = models.TextField('Primer Forward')
     primer_reverse = models.TextField('Primer Reverse')
+    # mixs_v5
+    # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
+    # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
+    # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
+    mixs_pcr_primers = models.TextField('MIxS Primer Format')
     primer_amplicon_length_min = models.PositiveIntegerField('Min Primer Amplicon Length')
     primer_amplicon_length_max = models.PositiveIntegerField('Max Primer Amplicon Length')
     # primary publication; PMID, DOI, or URL
     primer_ref_biomaterial_url = models.URLField('Primary Publication (PMID, DOI, URL)', blank=True, max_length=255)
     primer_pair_notes = models.TextField('Primer Pair Notes', blank=True)
-
-    @property
-    def mixs_pcr_primers(self):
-        # mixs_v5
-        # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
-        # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
-        # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
-        return 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -67,6 +64,7 @@ class PrimerPair(DateTimeUserMixin):
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
         self.primer_slug = '{name}_{gene}_{date}'.format(name=slugify(self.primer_set_name), gene=slugify(self.primer_target_gene), date=created_date_fmt)
+        self.mixs_pcr_primers = 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
         super(PrimerPair, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -85,15 +83,12 @@ class IndexPair(DateTimeUserMixin):
     i7_index_id = models.CharField('i7 Index ID', max_length=12)
     index_i5 = models.CharField('i5 Index', max_length=16)
     i5_index_id = models.CharField('i5 Index ID', max_length=12)
+    # mixs_v5
+    # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
+    # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
+    # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
+    mixs_mid = models.TextField('MiXS Mid Format')
     index_adapter = models.CharField('Adapter', max_length=30)
-
-    @property
-    def mixs_mid(self):
-        # mixs_v5
-        # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
-        # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
-        # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
-        return 'I7_Index:{i7};I5_Index:{i5}'.format(i7=self.index_i7, i5=self.index_i5)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -103,6 +98,7 @@ class IndexPair(DateTimeUserMixin):
         self.index_slug = '{i7}_{i5}_{date}'.format(i7=slugify(self.i7_index_id),
                                                     i5=slugify(self.i5_index_id),
                                                     date=created_date_fmt)
+        self.mixs_mid = 'I7_Index:{i7};I5_Index:{i5}'.format(i7=self.index_i7, i5=self.index_i5)
         super(IndexPair, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -578,7 +574,7 @@ class FastqFile(DateTimeUserMixin):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
         qs_extr = qs.filter(extraction=self.extraction)
         qs_list = qs_extr.values_list('lib_prep_thermal_cond', flat=True)
-        return '{qs}'.format(qs=qs_list)
+        return '{qs}'.format(qs=list(qs_list))
 
     def save(self, *args, **kwargs):
         self.fastq_slug = '{runid}_{fastq}'.format(runid=slugify(self.run_result.run_id),
