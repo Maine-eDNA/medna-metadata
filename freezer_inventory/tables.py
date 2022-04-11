@@ -20,6 +20,7 @@ class FreezerInventoryTable(tables.Table):
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn(viewname='update_freezerinventory', args=[A('pk')], text='Edit')
 
     class Meta:
         model = FreezerInventory
@@ -66,10 +67,7 @@ class FreezerInventoryReturnMetadataTable(tables.Table):
     freezer_return_vol_taken = tables.Column(verbose_name='Vol Taken')
     freezer_return_vol_units = tables.Column(verbose_name='Vol Units')
     freezer_return_notes = tables.Column(verbose_name='Notes')
-
-    edit = tables.LinkColumn(viewname='update_freezerinventoryreturnmetadata',
-                             args=[A('pk')],
-                             text='Edit')
+    edit = tables.LinkColumn(viewname='update_freezerinventoryreturnmetadata', args=[A('pk')], text='Edit')
 
     class Meta:
         model = FreezerInventoryReturnMetadata
@@ -95,9 +93,7 @@ class UserFreezerInventoryReturnMetadataTable(tables.Table):
     freezer_return_vol_taken = tables.Column(verbose_name='Vol Taken')
     freezer_return_vol_units = tables.Column(verbose_name='Vol Units')
     freezer_return_notes = tables.Column(verbose_name='Notes')
-    edit = tables.LinkColumn(viewname='update_freezerinventoryreturnmetadata',
-                             args=[A('pk')],
-                             text='Edit')
+    edit = tables.LinkColumn(viewname='update_freezerinventoryreturnmetadata', args=[A('pk')], text='Edit')
 
     class Meta:
         model = FreezerInventoryReturnMetadata
