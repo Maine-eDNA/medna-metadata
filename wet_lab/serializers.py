@@ -423,18 +423,18 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
 
 class MixsWaterSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    uuid = serializers.ReadOnlyField()
     submitted_to_insdc = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
     seq_meth = serializers.ReadOnlyField()
 
     class Meta:
         model = FastqFile
-        fields = ['id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_meth', 'seq_quality_check', 'chimera_check',
+                  'seq_quality_check', 'chimera_check',
                   'denoise_cluster_method', 'feature', 'annotation_method',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
@@ -484,18 +484,18 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 
 
 class MixsSedimentSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
+    uuid = serializers.ReadOnlyField()
     submitted_to_insdc = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
     seq_meth = serializers.ReadOnlyField()
 
     class Meta:
         model = FastqFile
-        fields = ['id', 'submitted_to_insdc', 'investigation_type', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_meth', 'seq_quality_check', 'chimera_check',
+                  'seq_quality_check', 'chimera_check',
                   'denoise_cluster_method', 'feature', 'annotation_method',
                   'reference_database', 'confidence',
                   'ta_taxon', 'ta_domain', 'ta_kingdom', 'ta_supergroup',
