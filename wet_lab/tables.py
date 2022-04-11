@@ -163,6 +163,7 @@ class FastqFileTable(tables.Table):
 class MixsWaterTable(tables.Table):
     # MIMARKS-SURVEY
     _selected_action = tables.CheckBoxColumn(accessor='pk', attrs={'td': {'class': 'action-checkbox'}, 'input': {'class': 'action-select'}, 'th__input': {'id': 'action-toggle'}, 'th': {'class': 'action-checkbox-column'}}, orderable=False)
+    fastq_uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
     # submitted_to_insdc - wet_lab.FastqFile
     submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
     # investigation_type - wet_lab.FastqFile
@@ -250,7 +251,7 @@ class MixsWaterTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ('_selected_action', 'fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
@@ -260,6 +261,7 @@ class MixsWaterTable(tables.Table):
 class MixsSedimentTable(tables.Table):
     # MIMARKS-SURVEY
     _selected_action = tables.CheckBoxColumn(accessor='pk', attrs={'td': {'class': 'action-checkbox'}, 'input': {'class': 'action-select'}, 'th__input': {'id': 'action-toggle'}, 'th': {'class': 'action-checkbox-column'}}, orderable=False)
+    fastq_uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
     # submitted_to_insdc - wet_lab.FastqFile
     submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
     # investigation_type - wet_lab.FastqFile
@@ -347,7 +349,7 @@ class MixsSedimentTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ('_selected_action', 'fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',

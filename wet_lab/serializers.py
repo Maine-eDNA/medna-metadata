@@ -425,7 +425,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
 
 class MixsWaterSerializer(serializers.ModelSerializer):
-    uuid = serializers.ReadOnlyField()
+    fastq_uuid = serializers.ReadOnlyField(source='uuid')
     submitted_to_insdc = serializers.ReadOnlyField()
     fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
@@ -433,7 +433,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
@@ -483,7 +483,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 
 
 class MixsSedimentSerializer(serializers.ModelSerializer):
-    uuid = serializers.ReadOnlyField()
+    fastq_uuid = serializers.ReadOnlyField(source='uuid')
     submitted_to_insdc = serializers.ReadOnlyField()
     fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
@@ -491,7 +491,7 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
