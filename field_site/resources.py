@@ -378,20 +378,12 @@ class GeoFieldSiteAdminResource(resources.ModelResource):
         import_id_fields = ('id', 'site_id', )
         exclude = ('site_prefix', 'site_num', )
         fields = ('id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
-                  'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
-                  'envo_biome_second', 'envo_biome_first',
-                  'envo_feature_seventh', 'envo_feature_sixth',
-                  'envo_feature_fifth', 'envo_feature_fourth',
-                  'envo_feature_third', 'envo_feature_second',
-                  'envo_feature_first',
+                  'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                  'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                   'geom', 'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
-                        'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
-                        'envo_biome_second', 'envo_biome_first',
-                        'envo_feature_seventh', 'envo_feature_sixth',
-                        'envo_feature_fifth', 'envo_feature_fourth',
-                        'envo_feature_third', 'envo_feature_second',
-                        'envo_feature_first',
+                        'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                         'geom', 'created_by', 'created_datetime', 'modified_datetime', )
 
     grant = fields.Field(

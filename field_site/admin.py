@@ -609,23 +609,15 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     readonly_fields = ('site_id', 'modified_datetime', 'created_datetime', )
     search_fields = ['site_id']
     autocomplete_fields = ['grant', 'project', 'watershed', 'system',
-                           'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
-                           'envo_biome_second', 'envo_biome_first',
-                           'envo_feature_seventh', 'envo_feature_sixth',
-                           'envo_feature_fifth', 'envo_feature_fourth',
-                           'envo_feature_third', 'envo_feature_second',
-                           'envo_feature_first', ]
+                           'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                           'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['grant', 'project', 'system', 'watershed',
                        'general_location_name', 'purpose',
-                       'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
-                       'envo_biome_second', 'envo_biome_first',
-                       'envo_feature_seventh', 'envo_feature_sixth',
-                       'envo_feature_fifth', 'envo_feature_fourth',
-                       'envo_feature_third', 'envo_feature_second',
-                       'envo_feature_first',
+                       'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                       'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                        'geom', 'created_by', ]
         # self.list_filter = (
         #    ('grant', RelatedDropdownFilter),
@@ -641,12 +633,8 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
         self.fields = ['site_id', 'general_location_name', 'project', 'purpose',
-                       'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
-                       'envo_biome_second', 'envo_biome_first',
-                       'envo_feature_seventh', 'envo_feature_sixth',
-                       'envo_feature_fifth', 'envo_feature_fourth',
-                       'envo_feature_third', 'envo_feature_second',
-                       'envo_feature_first',
+                       'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
+                       'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GeoFieldSiteAdmin, self).change_view(request, object_id)
