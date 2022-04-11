@@ -527,7 +527,8 @@ class FastqFile(DateTimeUserMixin):
     @property
     def mixs_nucl_acid_amp(self):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_list = qs.values_list('amplification_method', flat=True)
+        qs_extr = qs.objects.filter(extraction=self.extraction)
+        qs_list = qs_extr.values_list('amplification_method', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
     def save(self, *args, **kwargs):
