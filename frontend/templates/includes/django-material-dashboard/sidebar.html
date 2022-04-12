@@ -30,7 +30,7 @@
       {% endif %}
       {% if perms.field_site.add_fieldsite %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldsite' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldsite' in segment or 'update_fieldsite' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_fieldsite' %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -59,7 +59,7 @@
       {% endif %}
       {% if perms.sample_label.add_samplelabelrequest %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_samplelabelrequest' in segment or 'update_samplelabelrequest' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_samplelabelrequest' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -231,7 +231,7 @@
       </li>
       {% if perms.wet_lab.add_extraction %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_extraction' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_extraction' in segment or 'update_extraction' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_extraction' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -258,7 +258,7 @@
       </li>
       {% if perms.wet_lab.add_pcr %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_pcr' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_pcr' in segment or 'update_pcr' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_pcr' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -285,7 +285,7 @@
       </li>
       {% if perms.wet_lab.add_libraryprep %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_libraryprep' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_libraryprep' in segment or 'update_libraryprep' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_libraryprep' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -312,7 +312,7 @@
       </li>
       {% if perms.wet_lab.add_pooledlibrary %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_pooledlibrary' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_pooledlibrary' in segment or 'update_pooledlibrary' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_pooledlibrary' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -339,7 +339,7 @@
       </li>
       {% if perms.wet_lab.add_runprep %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_runprep' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_runprep' in segment or 'update_runprep' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_runprep' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -366,7 +366,7 @@
       </li>
       {% if perms.wet_lab.add_runresult %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_runresult' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_runresult' in segment or 'update_runresult' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_runresult' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -420,7 +420,7 @@
       </li>
       {% if perms.bioinfo.add_qualitymetadata %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_qualitymetadata' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_qualitymetadata' in segment or 'update_qualitymetadata' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_qualitymetadata' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -447,7 +447,7 @@
       </li>
       {% if perms.bioinfo.add_denoiseclustermetadata %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_denoiseclustermetadata' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_denoiseclustermetadata' in segment or 'update_denoiseclustermetadata' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_denoiseclustermetadata' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -474,7 +474,7 @@
       </li>
       {% if perms.bioinfo.add_featureoutput %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_featureoutput' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_featureoutput' in segment or 'update_featureoutput' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_featureoutput' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -501,7 +501,7 @@
       </li>
       {% if perms.bioinfo.add_featureread %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_featureread' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_featureread' in segment or 'update_featureread' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_featureread' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -528,7 +528,7 @@
       </li>
       {% if perms.bioinfo.add_annotationmetadata %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_annotationmetadata' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_annotationmetadata' in segment or 'update_annotationmetadata' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_annotationmetadata' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -555,7 +555,7 @@
       </li>
       {% if perms.bioinfo.add_taxonomicannotation %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_taxonomicannotation' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_taxonomicannotation' in segment or 'update_taxonomicannotation' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_taxonomicannotation' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -626,7 +626,7 @@
       </li>
       {% if perms.freezer_inventory.add_freezerinventory %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_freezerinventory' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_freezerinventory' in segment or 'update_freezerinventory' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_freezerinventory' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
