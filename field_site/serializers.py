@@ -16,7 +16,7 @@ from rest_framework.validators import UniqueValidator
 #################################
 class FieldSiteSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    site_id = serializers.SlugField(max_length=7, read_only=True)
+    site_id = serializers.SlugField(max_length=8, read_only=True)
     general_location_name = serializers.CharField(max_length=255)
     purpose = serializers.CharField(max_length=255)
     geom = serializers.CharField(read_only=True)
@@ -364,7 +364,7 @@ class SystemSerializer(serializers.ModelSerializer):
 
 class GeoWatershedSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    watershed_code = serializers.SlugField(max_length=7, validators=[UniqueValidator(queryset=Watershed.objects.all())])
+    watershed_code = serializers.SlugField(max_length=8, validators=[UniqueValidator(queryset=Watershed.objects.all())])
     watershed_label = serializers.CharField(max_length=255)
     huc8 = serializers.CharField(max_length=255)
     states = serializers.CharField(max_length=255)
@@ -388,7 +388,7 @@ class GeoWatershedSerializer(GeoFeatureModelSerializer):
 
 class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    site_id = serializers.SlugField(max_length=7, read_only=True)
+    site_id = serializers.SlugField(max_length=8, read_only=True)
     general_location_name = serializers.CharField(max_length=255)
     purpose = serializers.CharField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
