@@ -65,8 +65,8 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
     sample_label_prefix = serializers.CharField(read_only=True, max_length=11)
     min_sample_label_num = serializers.IntegerField(read_only=True)
     max_sample_label_num = serializers.IntegerField(read_only=True,)
-    min_sample_label_id = serializers.CharField(read_only=True, max_length=16)
-    max_sample_label_id = serializers.CharField(read_only=True, max_length=16)
+    min_sample_label_id = serializers.CharField(read_only=True, max_length=17)
+    max_sample_label_id = serializers.CharField(read_only=True, max_length=17)
     sample_label_request_slug = serializers.SlugField(read_only=True, max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -87,8 +87,8 @@ class SampleLabelRequestSerializer(serializers.ModelSerializer):
 
 
 class SampleBarcodeSerializer(serializers.ModelSerializer):
-    sample_barcode_id = serializers.CharField(read_only=True, max_length=16)
-    barcode_slug = serializers.SlugField(read_only=True, max_length=16)
+    sample_barcode_id = serializers.CharField(read_only=True, max_length=17)
+    barcode_slug = serializers.SlugField(read_only=True, max_length=17)
     sample_year = serializers.IntegerField(read_only=True)
     in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     created_datetime = serializers.DateTimeField(read_only=True)

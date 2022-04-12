@@ -174,7 +174,7 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    barcode_slug = serializers.SlugField(max_length=16, read_only=True)
+    barcode_slug = serializers.SlugField(max_length=17, read_only=True)
     extraction_datetime = serializers.DateTimeField(allow_null=True)
     # in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     extraction_first_name = serializers.CharField(max_length=255, allow_blank=True)
@@ -318,7 +318,7 @@ class PooledLibrarySerializer(serializers.ModelSerializer):
     pooled_lib_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=PooledLibrary.objects.all())])
     pooled_lib_slug = serializers.SlugField(read_only=True, max_length=255)
     pooled_lib_datetime = serializers.DateTimeField()
-    barcode_slug = serializers.SlugField(read_only=True, max_length=16)
+    barcode_slug = serializers.SlugField(read_only=True, max_length=17)
     pooled_lib_concentration = serializers.DecimalField(max_digits=15, decimal_places=10)
     pooled_lib_concentration_units = serializers.ChoiceField(choices=ConcentrationUnits.choices)
     pooled_lib_volume = serializers.DecimalField(max_digits=15, decimal_places=10)

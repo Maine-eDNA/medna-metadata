@@ -610,7 +610,9 @@ class System(DateTimeUserMixin):
 
 
 class Watershed(DateTimeUserMixin):
-    watershed_code = models.SlugField('Watershed Code', unique=True, max_length=2)
+    # PR or PRR; legacy was 2 length watershed code, but including national HUC
+    # necessitated increasing the code to 3
+    watershed_code = models.SlugField('Watershed Code', unique=True, max_length=3)
     watershed_label = models.CharField('Watershed Label', max_length=255)
     huc8 = models.CharField('HUC8', max_length=255)
     states = models.CharField('States', max_length=255)
@@ -632,7 +634,8 @@ class Watershed(DateTimeUserMixin):
 
 
 class FieldSite(DateTimeUserMixin):
-    site_id = models.SlugField('Site ID', unique=True, max_length=7)
+    # ePR_L01 or ePRR_L01
+    site_id = models.SlugField('Site ID', unique=True, max_length=8)
     # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
@@ -657,7 +660,8 @@ class FieldSite(DateTimeUserMixin):
     envo_feature_seventh = models.ForeignKey(EnvoFeatureSeventh, blank=True, null=True, on_delete=models.RESTRICT, related_name='feature_seventh')
     # lat = models.DecimalField('Latitude (DD)', max_digits=22, decimal_places=16)
     # lon = models.DecimalField('Longitude (DD)', max_digits=22, decimal_places=16)
-    site_prefix = models.CharField('Site Prefix', max_length=5)
+    # ePR_L with 2 length watershed, ePRR_L with 3 length watershed
+    site_prefix = models.CharField('Site Prefix', max_length=6)
     site_num = models.IntegerField(default=1)
     # GeoDjango-specific: a geometry field (MultiPolygonField)
     # gps_loc; SRID 4269 is NAD83 and SRID 4326 is WGS84

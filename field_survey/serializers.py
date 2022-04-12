@@ -494,7 +494,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
 class FieldSampleSerializer(serializers.ModelSerializer):
     sample_global_id = serializers.CharField(read_only=False, max_length=255, validators=[UniqueValidator(queryset=FieldSample.objects.all())])
     is_extracted = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
-    barcode_slug = serializers.SlugField(read_only=False, max_length=16)
+    barcode_slug = serializers.SlugField(read_only=False, max_length=17)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 

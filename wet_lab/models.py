@@ -80,16 +80,16 @@ class PrimerPair(DateTimeUserMixin):
 class IndexPair(DateTimeUserMixin):
     index_slug = models.SlugField('Index Pair Slug', max_length=255)
     # SampleSheet.csv
-    index_i7 = models.CharField('i7 Index', max_length=16)
-    i7_index_id = models.CharField('i7 Index ID', max_length=12)
-    index_i5 = models.CharField('i5 Index', max_length=16)
-    i5_index_id = models.CharField('i5 Index ID', max_length=12)
+    index_i7 = models.CharField('i7 Index', max_length=255)
+    i7_index_id = models.CharField('i7 Index ID', max_length=255)
+    index_i5 = models.CharField('i5 Index', max_length=255)
+    i5_index_id = models.CharField('i5 Index ID', max_length=255)
     # mixs_v5
     # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
     # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
     # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
     mixs_mid = models.TextField('MiXS Mid Format')
-    index_adapter = models.CharField('Adapter', max_length=30)
+    index_adapter = models.CharField('Adapter', max_length=255)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -236,7 +236,7 @@ class ExtractionMethod(DateTimeUserMixin):
 
 class Extraction(DateTimeUserMixin):
     extraction_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField('Extraction Barcode Slug', max_length=16)
+    barcode_slug = models.SlugField('Extraction Barcode Slug', max_length=17)
     field_sample = models.OneToOneField(FieldSample, on_delete=models.RESTRICT, limit_choices_to={'is_extracted': YesNo.NO})
     extraction_control = models.CharField('Is Control', max_length=50, choices=YesNo.choices)
     extraction_control_type = models.CharField('Control Type', blank=True, max_length=50, choices=ControlTypes.choices)
@@ -405,7 +405,7 @@ class PooledLibrary(DateTimeUserMixin):
     pooled_lib_slug = models.SlugField('Pooled Library Label Slug', max_length=255)
     pooled_lib_datetime = models.DateTimeField('Pooled Library Date')
     pooled_lib_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT)
-    barcode_slug = models.SlugField('Pooled Library Barcode Slug', max_length=16)
+    barcode_slug = models.SlugField('Pooled Library Barcode Slug', max_length=17)
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     library_prep = models.ManyToManyField(LibraryPrep, related_name='libraryprep_to_pooledlibrary')
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)

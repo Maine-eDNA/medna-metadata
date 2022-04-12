@@ -272,7 +272,7 @@ class FieldSample(DateTimeUserMixin):
     sample_global_id = models.UUIDField(verbose_name='Sample Global ID', primary_key=True, editable=False, default=uuid.uuid4)
     field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', related_name='field_sample_barcode', on_delete=models.RESTRICT)
     collection_global_id = models.ForeignKey(FieldCollection, db_column='collection_global_id', related_name='field_samples', on_delete=models.CASCADE)
-    barcode_slug = models.SlugField('Field Sample Barcode Slug', max_length=16)
+    barcode_slug = models.SlugField('Field Sample Barcode Slug', max_length=17)
     is_extracted = models.CharField('Extracted', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     sample_material = models.ForeignKey('sample_label.SampleMaterial', on_delete=models.RESTRICT)
 

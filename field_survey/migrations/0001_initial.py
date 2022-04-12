@@ -209,7 +209,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('sample_global_id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Sample Global ID')),
                 ('field_sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, related_name='field_sample_barcode', to='sample_label.samplebarcode')),
-                ('barcode_slug', models.SlugField(max_length=16, verbose_name='Field Sample Barcode Slug')),
+                ('barcode_slug', models.SlugField(max_length=17, verbose_name='Field Sample Barcode Slug')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplematerial')),
                 ('is_extracted', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Extracted')),
                 ('collection_global_id', models.ForeignKey(db_column='collection_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='field_samples', to='field_survey.fieldcollection')),

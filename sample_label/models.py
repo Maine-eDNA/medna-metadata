@@ -95,12 +95,13 @@ class SampleLabelRequest(DateTimeUserMixin):
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
     sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(2018)])
     purpose = models.CharField('Sample Label Purpose', max_length=255)
-    sample_label_prefix = models.CharField('Sample Label Prefix', max_length=11)
+    # ePR_L01_22w or ePRR_L01_22w
+    sample_label_prefix = models.CharField('Sample Label Prefix', max_length=12)
     req_sample_label_num = models.IntegerField('Number Requested', default=1)
     min_sample_label_num = models.IntegerField(default=1)
     max_sample_label_num = models.IntegerField(default=1)
-    min_sample_label_id = models.CharField('Min Sample Label ID', max_length=16)
-    max_sample_label_id = models.CharField('Max Sample Label ID', max_length=16)
+    min_sample_label_id = models.CharField('Min Sample Label ID', max_length=17)
+    max_sample_label_id = models.CharField('Max Sample Label ID', max_length=17)
     sample_label_request_slug = models.SlugField('Sample Label Request Slug', max_length=255)
 
     def __str__(self):
@@ -154,9 +155,10 @@ class SampleLabelRequest(DateTimeUserMixin):
 
 
 class SampleBarcode(DateTimeUserMixin):
-    sample_barcode_id = models.CharField('Sample Barcode ID', primary_key=True, max_length=16)
+    # ePR_L01_22w_0001 or ePRR_L01_22w_0001
+    sample_barcode_id = models.CharField('Sample Barcode ID', primary_key=True, max_length=17)
     sample_label_request = models.ForeignKey(SampleLabelRequest, on_delete=models.RESTRICT)
-    barcode_slug = models.CharField('Sample Barcode Slug', max_length=16)
+    barcode_slug = models.CharField('Sample Barcode Slug', max_length=17)
     in_freezer = models.CharField('In Freezer', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # With RESTRICT, if project is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.

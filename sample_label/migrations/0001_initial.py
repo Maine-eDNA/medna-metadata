@@ -55,12 +55,13 @@ class Migration(migrations.Migration):
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
                 ('sample_year', models.PositiveIntegerField(default=sample_label.models.current_year, validators=[django.core.validators.MinValueValidator(2018)], verbose_name='Sample Year')),
                 ('purpose', models.CharField(max_length=255, verbose_name='Sample Label Purpose')),
-                ('sample_label_prefix', models.CharField(max_length=11, verbose_name='Sample Label Prefix')),
+                ('sample_label_prefix', models.CharField(max_length=12, verbose_name='Sample Label Prefix')),
                 ('req_sample_label_num', models.IntegerField(default=1, verbose_name='Number Requested')),
                 ('min_sample_label_num', models.IntegerField(default=1)),
                 ('max_sample_label_num', models.IntegerField(default=1)),
-                ('min_sample_label_id', models.CharField(max_length=16, verbose_name='Min Sample Label ID')),
-                ('max_sample_label_id', models.CharField(max_length=16, verbose_name='Max Sample Label ID')),
+                # ePR_L01_22w_0001 or ePRR_L01_22w_0001
+                ('min_sample_label_id', models.CharField(max_length=17, verbose_name='Min Sample Label ID')),
+                ('max_sample_label_id', models.CharField(max_length=17, verbose_name='Max Sample Label ID')),
                 ('sample_label_request_slug', models.SlugField(max_length=255, verbose_name='Sample Label Request Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplematerial')),
@@ -75,8 +76,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SampleBarcode',
             fields=[
-                ('sample_barcode_id', models.CharField(max_length=16, primary_key=True, serialize=False, verbose_name='Sample Barcode ID')),
-                ('barcode_slug', models.CharField(max_length=16, verbose_name='Sample Barcode Slug')),
+                ('sample_barcode_id', models.CharField(max_length=17, primary_key=True, serialize=False, verbose_name='Sample Barcode ID')),
+                ('barcode_slug', models.CharField(max_length=17, verbose_name='Sample Barcode Slug')),
                 ('in_freezer', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='In Freezer')),
                 ('sample_year', models.PositiveIntegerField(default=sample_label.models.current_year, validators=[django.core.validators.MinValueValidator(2018)], verbose_name='Sample Year')),
                 ('purpose', models.CharField(max_length=255, verbose_name='Sample Barcode Purpose')),
