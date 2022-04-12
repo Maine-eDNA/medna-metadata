@@ -664,7 +664,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.readonly_fields = ('fastq_datafile', )
+        # self.readonly_fields = ('fastq_datafile', )
         self.fields = ['fastq_slug', 'uuid', 'run_result', 'extraction', 'fastq_datafile', 'submitted_to_insdc',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
