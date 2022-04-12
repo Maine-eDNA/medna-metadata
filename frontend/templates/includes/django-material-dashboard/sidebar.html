@@ -94,7 +94,7 @@
       </li>
       {% if perms.field_survey.add_fieldsurvey %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldsurvey' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldsurvey' in segment or 'update_fieldsurvey' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_fieldsurvey' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -122,7 +122,7 @@
       </li>
       {% if perms.field_survey.add_fieldcrew %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldcrew' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_fieldcrew' in segment or 'update_fieldcrew' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_fieldcrew' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -150,7 +150,7 @@
       </li>
       {% if perms.field_survey.add_envmeasurement %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_envmeasurement' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_envmeasurement' in segment or 'update_envmeasurement' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_envmeasurement' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -178,7 +178,7 @@
       </li>
       {% if perms.field_survey.add_watercollection %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_watercollection' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_watercollection' in segment or 'update_watercollection' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_watercollection' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -206,7 +206,7 @@
       </li>
       {% if perms.field_survey.add_sedimentcollection %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_sedimentcollection' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_sedimentcollection' in segment or 'update_sedimentcollection' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_sedimentcollection' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -234,7 +234,7 @@
       </li>
       {% if perms.field_survey.add_filtersample %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_filtersample' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_filtersample' in segment or 'update_filtersample' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_filtersample' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
@@ -262,7 +262,7 @@
       </li>
       {% if perms.field_survey.add_subcoresample %}
       <li class="nav-item col-1">
-        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_subcoresample' in segment %} active bg-gradient-primary {% endif %}"
+        <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_subcoresample' in segment or 'update_subcoresample' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_subcoresample' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">add_box</i>
