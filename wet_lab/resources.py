@@ -536,10 +536,10 @@ class FastqFileAdminResource(resources.ModelResource):
         model = FastqFile
         import_id_fields = ('uuid', 'fastq_datafile', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile', 'fastq_slug',
+        fields = ('uuid', 'run_result', 'extraction', 'fastq_datafile', 'fastq_slug',
                   'submitted_to_insdc',
                   'created_by', 'created_datetime', )
-        export_order = ('uuid', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile', 'fastq_slug',
+        export_order = ('uuid', 'run_result', 'extraction', 'fastq_datafile', 'fastq_slug',
                         'submitted_to_insdc',
                         'created_by', 'created_datetime', )
 
