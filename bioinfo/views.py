@@ -22,7 +22,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataCreateForm, QualityMetadataUpdateForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
-    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, NumReadsTable
+    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, FeatureReadsTable
 
 
 # Create your views here.
@@ -125,10 +125,11 @@ def get_feature_reads_table(request, pk):
             'ta_common_name': record.ta_common_name
             }
         )
-        table = NumReadsTable(data)
+        table = FeatureReadsTable(data)
 
-        return render(request, "home/django-material-dashboard/model-list.html", {
-            "table": table
+        return render(request, 'home/django-material-dashboard/model-list.html', {
+            'table': table,
+            'page_title': 'Feature Reads'
         })
 
 
