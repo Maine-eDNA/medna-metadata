@@ -402,7 +402,6 @@ class FastqFileSerializer(serializers.ModelSerializer):
     # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
     uuid = serializers.UUIDField()
     fastq_slug = serializers.SlugField(max_length=255, read_only=True)
-    fastq_filename = serializers.CharField(max_length=255)
     fastq_datafile = serializers.FileField(max_length=255)
     submitted_to_insdc = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     seq_meth = serializers.ChoiceField(choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
@@ -412,7 +411,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_filename', 'fastq_datafile',
+        fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_datafile',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we

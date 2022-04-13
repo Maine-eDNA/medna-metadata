@@ -2,7 +2,7 @@ from django.contrib.gis.db import models
 from django.utils.text import slugify
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
-import uuid
+import uuid, os
 from bioinfo.models import QualityMetadata
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
@@ -524,7 +524,7 @@ class FastqFile(DateTimeUserMixin):
 
     @property
     def fastq_filename(self):
-        return self.fastq_datafile.name
+        return os.path.basename(self.fastq_datafile.name)
 
     @property
     def fastq_url(self):
