@@ -107,7 +107,7 @@ Activate the virtual environment::
 
 Install python requirements to the virtualenv::
 
-    pip install -U -r /path/to/medna-metadata/requirements/prod.txt
+    pip install -U -r requirements/prod.txt
 
 Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
 --------------------------------------------------------------------------------------------------------------
@@ -204,7 +204,7 @@ Test Gunicorn
 
 Now test to see if the project can be deployed with `Gunicorn <https://gunicorn.org/>`__::
 
-    gunicorn --bind 0.0.0.0:8000 medna-metadata.wsgi
+    gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi
 
 .. seealso::
     If you were able to visit the same page while deployed with `Gunicorn <https://gunicorn.org/>`__, continue onward. If not, some helpful
@@ -338,7 +338,7 @@ Activate the virtualenv::
 
 Install `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__::
 
-    pip install celery>=5.2.3
+    pip install -U "celery>=5.2.3"
 
 Setup `RabbitMQ <https://docs.celeryproject.org/en/stable/getting-started/backends-and-brokers/rabbitmq.html#setting-up-rabbitmq>`__
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -385,12 +385,14 @@ Like Gunicorn, `celery should be run as a Systemd service <https://docs.celerypr
 
 First, open your environment file::
 
-    sudo vim /path/to/medna-metadata/docker/gunicorn.env
+    sudo vim docker/gunicorn.env
 
 Update or add the following `Celery config settings <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#generic-systemd-celery-example>`__ to your environment file::
 
+    CELERY_RESULT_BACKEND='your_result_backend'
+    CELERY_BROKER_URL='transport://yourrabbitmquser:yourrabbitmqpassword@hostname:port/yourrabbitmqvhost'
     CELERYD_NODES='worker'
-    CELERY_BIN='/path/to/bin/celery'
+    CELERY_BIN='/path/to/.virtualenvs/mednaenv/bin/celery'
     CELERY_APP='medna_metadata.celery.app'
     CELERYD_MULTI='multi'
     CELERYD_OPTS=''
@@ -555,6 +557,9 @@ Modify and write the following::
         location / {
             include proxy_params;
             proxy_pass http://unix:/run/gunicorn.sock;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_connect_timeout 300s;
+            proxy_read_timeout 300s;
         }
     }
 

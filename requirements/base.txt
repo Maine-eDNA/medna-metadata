@@ -1,4 +1,5 @@
 celery==5.2.3
+boto3==1.18.16
 Django==4.0.2
 # django-admin-list-filter-dropdown==1.0.3
 django-allauth==0.48.0
