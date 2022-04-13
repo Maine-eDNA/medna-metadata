@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from rest_framework import viewsets
@@ -22,7 +22,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataCreateForm, QualityMetadataUpdateForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
-    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable
+    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, NumReadsTable
 
 
 # Create your views here.
@@ -91,6 +91,45 @@ def get_taxon_species_options(request):
     qs = TaxonSpecies.objects.filter(taxon_genus=taxon).order_by('taxon_species').annotate(text=F('taxon_species'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
+
+
+@login_required(login_url='dashboard_login')
+def get_feature_reads_table(request):
+    data = []
+    denoclust = request.GET.get('id')
+    queryset = TaxonomicAnnotation.objects.raw('SELECT *, '
+                                               'o.feature_id AS "featureoutput_id" '
+                                               'FROM bioinfo_taxonomicannotation t '
+                                               'INNER JOIN bioinfo_featureread r ON r.feature_id = t.feature_id '
+                                               'INNER JOIN wet_lab_extraction e ON e.id = r.extraction_id '
+                                               'INNER JOIN bioinfo_featureoutput o ON o.id = r.feature_id '
+                                               'INNER JOIN bioinfo_denoiseclustermetadata d ON d.id = o.denoise_cluster_metadata_id '
+                                               'WHERE d.id = %s', [denoclust])
+    for record in queryset:
+        data.append({
+            'feature_id': record.featureoutput_id,
+            'feature_sequence': record.feature_sequence,
+            'number_reads': record.number_reads,
+            'confidence': record.confidence,
+            'extraction_barcode': record.barcode_slug,
+            'ta_taxon': record.ta_taxon,
+            'ta_domain': record.ta_domain,
+            'ta_kingdom': record.ta_kingdom,
+            'ta_supergroup': record.ta_supergroup,
+            'ta_phylum_division': record.ta_phylum_division,
+            'ta_class': record.ta_class,
+            'ta_order': record.ta_order,
+            'ta_family': record.ta_family,
+            'ta_genus': record.ta_genus,
+            'ta_species': record.ta_species,
+            'ta_common_name': record.ta_common_name
+            }
+        )
+        table = NumReadsTable(data)
+
+        return render(request, "home/django-material-dashboard/model-list.html", {
+            "table": table
+        })
 
 
 ########################################

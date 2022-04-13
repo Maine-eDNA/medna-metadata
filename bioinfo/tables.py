@@ -30,17 +30,18 @@ class QualityMetadataTable(tables.Table):
 
 
 class DenoiseClusterMetadataTable(tables.Table):
-    edit = tables.LinkColumn('update_denoiseclustermetadata', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    feature_reads = tables.LinkColumn('view_featureread', text='View', args=[A('pk')], orderable=False)
+    edit = tables.LinkColumn('update_denoiseclustermetadata', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = DenoiseClusterMetadata
@@ -138,3 +139,22 @@ class TaxonomicAnnotationTable(tables.Table):
                   'manual_species', 'manual_notes',
                   'annotation_slug',
                   'created_by', 'created_datetime', 'modified_datetime', )
+
+
+class NumReadsTable(tables.Table):
+    feature_id = tables.Column()
+    feature_sequence = tables.Column()
+    number_reads = tables.Column()
+    confidence = tables.Column()
+    extraction_barcode = tables.Column()
+    ta_taxon = tables.Column()
+    ta_domain = tables.Column()
+    ta_kingdom = tables.Column()
+    ta_supergroup = tables.Column()
+    ta_phylum_division = tables.Column()
+    ta_class = tables.Column()
+    ta_order = tables.Column()
+    ta_family = tables.Column()
+    ta_genus = tables.Column()
+    ta_species = tables.Column()
+    ta_common_name = tables.Column()
