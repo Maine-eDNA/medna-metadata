@@ -107,7 +107,7 @@ Activate the virtual environment::
 
 Install python requirements to the virtualenv::
 
-    pip install -U -r /path/to/medna-metadata/requirements/prod.txt
+    pip install -U -r requirements/prod.txt
 
 Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
 --------------------------------------------------------------------------------------------------------------
