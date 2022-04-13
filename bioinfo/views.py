@@ -95,7 +95,7 @@ def get_taxon_species_options(request):
 
 @login_required(login_url='dashboard_login')
 @permission_required('bioinfo.view_taxonomicannotation', login_url='/dashboard/login/')
-def get_feature_reads_table(request, pk):
+def get_feature_reads_taxon_table(request, pk):
     data = []
     queryset = TaxonomicAnnotation.objects.raw('SELECT *, '
                                                'o.feature_id AS "featureoutput_id" '
