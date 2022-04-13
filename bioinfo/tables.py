@@ -142,7 +142,7 @@ class TaxonomicAnnotationTable(tables.Table):
                   'created_by', 'created_datetime', 'modified_datetime', )
 
 
-class FeatureReadsTable(tables.Table):
+class FeatureReadTaxonTable(tables.Table):
     feature_id = tables.Column()
     feature_sequence = tables.Column()
     number_reads = tables.Column()
