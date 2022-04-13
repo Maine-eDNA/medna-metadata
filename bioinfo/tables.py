@@ -78,7 +78,7 @@ class FeatureReadTable(tables.Table):
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
-    feature_reads = tables.LinkColumn('view_featureread', text='View', args=[A('feature__denoise_cluster_metadata__pk')], orderable=False)
+    taxon_reads = tables.LinkColumn('view_featurereadtaxon', text='View', args=[A('feature__denoise_cluster_metadata__pk')], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -88,21 +88,21 @@ class FeatureReadTable(tables.Table):
     class Meta:
         model = FeatureRead
         fields = ('_selected_action', 'id', 'feature', 'extraction', 'number_reads',
-                  'feature_reads', 'edit', 'created_by', 'created_datetime', 'modified_datetime', )
+                  'created_by', 'created_datetime', 'modified_datetime', 'taxon_reads', 'edit')
 
 
 class AnnotationMetadataTable(tables.Table):
-    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = AnnotationMetadata
@@ -113,17 +113,18 @@ class AnnotationMetadataTable(tables.Table):
 
 
 class TaxonomicAnnotationTable(tables.Table):
-    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+
+    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = TaxonomicAnnotation
