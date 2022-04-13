@@ -22,7 +22,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
 from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataCreateForm, QualityMetadataUpdateForm, \
     AnnotationMetadataForm, TaxonomicAnnotationForm, DenoiseClusterMetadataForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
-    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, FeatureReadsTable
+    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, FeatureReadTaxonTable
 
 
 # Create your views here.
@@ -95,7 +95,7 @@ def get_taxon_species_options(request):
 
 @login_required(login_url='dashboard_login')
 @permission_required('bioinfo.view_taxonomicannotation', login_url='/dashboard/login/')
-def get_feature_reads_taxon_table(request, pk):
+def get_feature_read_taxon_table(request, pk):
     data = []
     queryset = TaxonomicAnnotation.objects.raw('SELECT *, '
                                                'o.feature_id AS "featureoutput_id" '
@@ -125,11 +125,11 @@ def get_feature_reads_taxon_table(request, pk):
             'ta_common_name': record.ta_common_name
             }
         )
-        table = FeatureReadsTable(data)
+        table = FeatureReadTaxonTable(data)
 
         return render(request, 'home/django-material-dashboard/model-list.html', {
             'table': table,
-            'page_title': 'Feature Reads'
+            'page_title': 'Taxon Feature Reads'
         })
 
 

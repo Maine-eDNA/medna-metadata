@@ -157,7 +157,7 @@ urlpatterns = [
     # TODO convert add_featureread to table update
     path('dashboard/bioinfo/featureread/view/', bioinfo_views.FeatureReadFilterView.as_view(filterset_class=bioinfo_filters.FeatureReadFilter), name='view_featureread'),
     # this is accessed through the denoclust table because reads are generated post feature output generation
-    path('dashboard/bioinfo/featureread/view/<int:pk>/', bioinfo_views.get_feature_reads_taxon_table, name='view_featurereadtaxon'),
+    path('dashboard/bioinfo/featureread/view/<int:pk>/', bioinfo_views.get_feature_read_taxon_table, name='view_featurereadtaxon'),
     # path('dashboard/bioinfo/featureread/detail/<int:pk>/', bioinfo_views.FeatureReadDetailView.as_view(), name='detail_featureread'),
     path('dashboard/bioinfo/featureread/add/', bioinfo_views.FeatureReadCreateView.as_view(), name='add_featureread'),
     path('dashboard/bioinfo/featureread/update/<int:pk>/', bioinfo_views.FeatureReadUpdateView.as_view(success_url=reverse_lazy('view_featureread')), name='update_featureread'),
