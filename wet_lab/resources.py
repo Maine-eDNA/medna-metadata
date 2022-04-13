@@ -13,14 +13,14 @@ class PrimerPairAdminResource(resources.ModelResource):
     class Meta:
         model = PrimerPair
         import_id_fields = ('primer_set_name', 'primer_target_gene', )
-        fields = ('id', 'primer_set_name', 'primer_slug', 'mixs_pcr_primers',
+        fields = ('id', 'primer_set_name', 'primer_slug',
                   'primer_target_gene', 'primer_subfragment',
                   'primer_name_forward', 'primer_name_reverse',
                   'primer_forward', 'primer_reverse',
                   'primer_amplicon_length_min', 'primer_amplicon_length_max',
                   'primer_ref_biomaterial_url', 'primer_pair_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'primer_set_name', 'primer_slug', 'mixs_pcr_primers',
+        export_order = ('id', 'primer_set_name', 'primer_slug',
                         'primer_target_gene', 'primer_subfragment',
                         'primer_name_forward', 'primer_name_reverse',
                         'primer_forward', 'primer_reverse',

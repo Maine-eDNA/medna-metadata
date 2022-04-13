@@ -19,7 +19,6 @@ class PrimerPairSerializer(serializers.ModelSerializer):
     # mifishU, ElbrechtB1, ecoprimer, v4v5, ...
     primer_set_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=PrimerPair.objects.all())])
     primer_slug = serializers.SlugField(max_length=255, read_only=True)
-    mixs_pcr_primers = serializers.CharField(read_only=True)
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = serializers.ChoiceField(choices=TargetGenes.choices)
     # Name of SubFragments of a gene or locus. Important to e.g. identify special regions on marker genes like V6 on 16S rRNA
@@ -37,7 +36,7 @@ class PrimerPairSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PrimerPair
-        fields = ['id', 'primer_set_name', 'primer_slug', 'mixs_pcr_primers',
+        fields = ['id', 'primer_set_name', 'primer_slug',
                   'primer_target_gene', 'primer_subfragment',
                   'primer_name_forward', 'primer_name_reverse', 'primer_forward', 'primer_reverse',
                   'primer_amplicon_length_min', 'primer_amplicon_length_max',
