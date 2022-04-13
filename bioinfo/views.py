@@ -2,7 +2,7 @@ from django.db.models import F
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
@@ -94,9 +94,9 @@ def get_taxon_species_options(request):
 
 
 @login_required(login_url='dashboard_login')
-def get_feature_reads_table(request):
+@permission_required('bioinfo.view_taxonomicannotation', login_url='/dashboard/login/')
+def get_feature_reads_table(request, pk):
     data = []
-    denoclust = request.GET.get('id')
     queryset = TaxonomicAnnotation.objects.raw('SELECT *, '
                                                'o.feature_id AS "featureoutput_id" '
                                                'FROM bioinfo_taxonomicannotation t '
@@ -104,7 +104,7 @@ def get_feature_reads_table(request):
                                                'INNER JOIN wet_lab_extraction e ON e.id = r.extraction_id '
                                                'INNER JOIN bioinfo_featureoutput o ON o.id = r.feature_id '
                                                'INNER JOIN bioinfo_denoiseclustermetadata d ON d.id = o.denoise_cluster_metadata_id '
-                                               'WHERE d.id = %s', [denoclust])
+                                               'WHERE d.id = %s', [pk])
     for record in queryset:
         data.append({
             'feature_id': record.featureoutput_id,
