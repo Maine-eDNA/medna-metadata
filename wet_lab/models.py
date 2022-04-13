@@ -52,12 +52,20 @@ class PrimerPair(DateTimeUserMixin):
     # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
     # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
     # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
-    mixs_pcr_primers = models.TextField('MIxS Primer Format')
+    # mixs_pcr_primers = models.TextField('MIxS Primer Format')
     primer_amplicon_length_min = models.PositiveIntegerField('Min Primer Amplicon Length')
     primer_amplicon_length_max = models.PositiveIntegerField('Max Primer Amplicon Length')
     # primary publication; PMID, DOI, or URL
     primer_ref_biomaterial_url = models.URLField('Primary Publication (PMID, DOI, URL)', blank=True, max_length=255)
     primer_pair_notes = models.TextField('Primer Pair Notes', blank=True)
+
+    @property
+    def mixs_pcr_primers(self):
+        # mixs_v5
+        # PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment. This field
+        # should contain all the primers used for a single PCR reaction if multiple forward or reverse primers are
+        # present in a single PCR reaction. The primer sequence should be reported in uppercase letters
+        return 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
 
     def save(self, *args, **kwargs):
         if self.created_datetime is None:
@@ -65,7 +73,7 @@ class PrimerPair(DateTimeUserMixin):
         else:
             created_date_fmt = slug_date_format(self.created_datetime)
         self.primer_slug = '{name}_{gene}_{date}'.format(name=slugify(self.primer_set_name), gene=slugify(self.primer_target_gene), date=created_date_fmt)
-        self.mixs_pcr_primers = 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
+        # self.mixs_pcr_primers = 'FWD:{forward};REV:{reverse}'.format(forward=self.primer_forward, reverse=self.primer_reverse)
         super(PrimerPair, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -503,15 +511,16 @@ class FastqFile(DateTimeUserMixin):
     uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT, related_name='run_results')
     extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT, related_name='extractions')
+    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT, related_name='primer_sets')
     fastq_slug = models.SlugField('Fastq Slug', max_length=255)
-    fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage, default='static/utility/images/icon-no.svg')
+    fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage)
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
     submitted_to_insdc = models.CharField('Submitted to INSDC', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # MIxS seq_meth - Sequencing method used; e.g. Sanger, pyrosequencing, ABI-solid
     seq_meth = models.CharField('Sequencing Method', max_length=255, choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
     # MIxS investigation_type - (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
     investigation_type = models.CharField('Investigation Type', max_length=255, choices=InvestigationTypes.choices, default=InvestigationTypes.MIMARKSSURVEY)
-    # TODO - add MIxS assembly_software  - Tool(s) used for assembly, including version number and parameters.
+    # TODO - add MIxS assembly_software?  - Tool(s) used for assembly, including version number and parameters.
 
     @property
     def fastq_filename(self):
@@ -524,56 +533,47 @@ class FastqFile(DateTimeUserMixin):
     @property
     def mixs_nucl_acid_amp(self):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
+        qs_extr = qs.filter(extraction=self.extraction, primer_set=self.primer_set)
         qs_list = qs_extr.values_list('amplification_method__amplification_method_name', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
     @property
     def mixs_lib_layout(self):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
+        qs_extr = qs.filter(extraction=self.extraction, primer_set=self.primer_set)
         qs_list = qs_extr.values_list('lib_prep_layout', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
     @property
     def mixs_target_gene(self):
-        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
-        qs_list = qs_extr.values_list('primer_set__primer_target_gene', flat=True)
-        return '{qs}'.format(qs=list(qs_list))
+        return self.primer_set.primer_target_gene
 
     @property
     def mixs_target_subfragment(self):
-        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
-        qs_list = qs_extr.values_list('primer_set__primer_subfragment', flat=True)
-        return '{qs}'.format(qs=list(qs_list))
+        return self.primer_set.primer_subfragment
 
     @property
     def mixs_pcr_primers(self):
-        qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
-        qs_list = qs_extr.values_list('primer_set__mixs_pcr_primers', flat=True)
-        return '{qs}'.format(qs=list(qs_list))
+        return self.primer_set.mixs_pcr_primers
 
     @property
     def mixs_mid(self):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
+        qs_extr = qs.filter(extraction=self.extraction, primer_set=self.primer_set)
         qs_list = qs_extr.values_list('index_pair__mixs_mid', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
     @property
     def mixs_adapters(self):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
+        qs_extr = qs.filter(extraction=self.extraction, primer_set=self.primer_set)
         qs_list = qs_extr.values_list('index_pair__index_adapter', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
     @property
     def mixs_pcr_cond(self):
         qs = LibraryPrep.objects.filter(pk__in=self.run_result.run_prep.pooled_library.values_list('library_prep'))
-        qs_extr = qs.filter(extraction=self.extraction)
+        qs_extr = qs.filter(extraction=self.extraction, primer_set=self.primer_set)
         qs_list = qs_extr.values_list('lib_prep_thermal_cond', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
