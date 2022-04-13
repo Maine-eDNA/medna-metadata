@@ -43,7 +43,7 @@ Ubuntu
 Install Ubuntu Requirements::
 
    cd medna-metadata
-   sudo bash /path/to/medna-metadata/requirements/ubuntu-requirements.sh
+   sudo bash requirements/ubuntu-requirements.sh
 
 It will run the following installation commands:
 
