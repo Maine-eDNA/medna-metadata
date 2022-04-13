@@ -96,7 +96,7 @@ def get_taxon_species_options(request):
 @login_required(login_url='dashboard_login')
 def get_feature_reads_table(request):
     data = []
-    denoclust = request.GET.get('id')
+    denoclust = request.GET.get('pk')
     queryset = TaxonomicAnnotation.objects.raw('SELECT *, '
                                                'o.feature_id AS "featureoutput_id" '
                                                'FROM bioinfo_taxonomicannotation t '
