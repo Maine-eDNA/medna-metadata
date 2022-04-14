@@ -124,7 +124,7 @@ class TaxonomicAnnotationTable(tables.Table):
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-    edit = tables.LinkColumn('update_annotationannotation', text='Update', args=[A('pk')], orderable=False)
+    edit = tables.LinkColumn('update_taxonomicannotation', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = TaxonomicAnnotation
