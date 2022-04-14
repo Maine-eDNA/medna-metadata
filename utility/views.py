@@ -261,6 +261,11 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
     def get_initial(self):
         return{'sop_type': self.kwargs.get('sop_type'), }
 
+    def get_form_kwargs(self):
+        kwargs = super(StandardOperatingProcedureCreateView, self).get_form_kwargs()
+        kwargs['sop_type'] = self.kwargs.get('sop_type')
+        return kwargs
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
