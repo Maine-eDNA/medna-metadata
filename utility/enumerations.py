@@ -248,6 +248,7 @@ class TargetGenes(models.TextChoices):
     TG_16S = '16s', _('16S')
     TG_18S = '18s', _('18S')
     TG_COI = 'coi', _('COI')
+    TG_ITS = 'ITS', _('ITS')
     __empty__ = _('(Unknown)')
 
 
@@ -261,8 +262,10 @@ class SubFragments(models.TextChoices):
     SF_V7 = 'v7', _('V7')
     SF_V8 = 'v8', _('V8')
     SF_V9 = 'v9', _('V9')
-    SF_ITS = 'its', _('ITS')
+    SF_ITS = 'its1', _('ITS1')
     SF_ITS2 = 'its2', _('ITS2')
+    SF_ITS3 = 'its3', _('ITS3')
+    SF_ITS4 = 'its4', _('ITS4')
     __empty__ = _('(Unknown)')
 
 
