@@ -9,6 +9,7 @@ from django.utils.text import slugify
 from django.utils import timezone
 from utility.enumerations import YesNo
 import datetime
+from medna_metadata.settings import MIN_SAMPLE_YEAR
 
 
 def current_year():
@@ -16,7 +17,7 @@ def current_year():
 
 
 def year_choices():
-    return [(r, r) for r in range(2018, datetime.date.today().year + 1)]
+    return [(r, r) for r in range(MIN_SAMPLE_YEAR, datetime.date.today().year + 1)]
 
 
 def get_unassigned_sample_type():
@@ -93,7 +94,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     site_id = models.ForeignKey('field_site.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
-    sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(2018)])
+    sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(MIN_SAMPLE_YEAR)])
     purpose = models.CharField('Sample Label Purpose', max_length=255)
     # ePR_L01_22w or ePRR_L01_22w
     sample_label_prefix = models.CharField('Sample Label Prefix', max_length=12)
