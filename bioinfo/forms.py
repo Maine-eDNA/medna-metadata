@@ -662,7 +662,7 @@ class TaxonomicAnnotationForm(forms.ModelForm):
     manual_domain = forms.ModelChoiceField(
         required=False,
         help_text='If known, the manually defined domain (e.g., not returned by an annotation method, but validated through some other means)',
-        queryset=TaxonDomain.objects.none(),
+        queryset=TaxonDomain.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
