@@ -7,8 +7,8 @@ from leaflet.forms.widgets import LeafletWidget
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
 from utility.models import Project
-from utility.enumerations import YesNo, CollectionTypes, ControlTypes, WaterCollectionModes, CoreMethods, \
-    FilterLocations, FilterMethods, FilterTypes, SubCoreMethods, TurbidTypes, PrecipTypes, WindSpeeds, CloudCovers, \
+from utility.enumerations import YesNo, CollectionTypes, ControlTypes, WaterCollectionModes, SedimentMethods, \
+    FilterLocations, FilterMethods, FilterTypes, SubSedimentMethods, TurbidTypes, PrecipTypes, WindSpeeds, CloudCovers, \
     EnvoMaterials, MeasureModes, EnvInstruments, YsiModels, BottomSubstrates
 from sample_label.models import SampleBarcode, SampleMaterial
 from users.models import CustomUser
@@ -921,7 +921,7 @@ class SedimentCollectionForm(forms.ModelForm):
     core_method = forms.ChoiceField(
         required=True,
         label='Coring Method',
-        choices=CoreMethods.choices,
+        choices=SedimentMethods.choices,
         help_text='How the sediment was collected.',
         widget=CustomSelect2(
             attrs={
@@ -1236,7 +1236,7 @@ class SubCoreSampleForm(forms.ModelForm):
     subcore_method = forms.ChoiceField(
         required=True,
         label='SubCoring Method',
-        choices=SubCoreMethods.choices,
+        choices=SubSedimentMethods.choices,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
