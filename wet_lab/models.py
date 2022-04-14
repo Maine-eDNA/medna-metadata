@@ -43,7 +43,7 @@ class PrimerPair(DateTimeUserMixin):
     # 12S, 16S, 18S, COI, ...
     primer_target_gene = models.CharField('Target Gene', max_length=50, choices=TargetGenes.choices)
     # Name of SubFragments of a gene or locus. Important to e.g. identify special regions on marker genes like V6 on 16S rRNA
-    primer_subfragment = models.CharField('SubFragment (V6, V9, ITS)', blank=True, max_length=50, choices=SubFragments.choices)
+    primer_subfragment = models.CharField('SubFragment (V6, V9, ITS, etc.)', blank=True, max_length=50, choices=SubFragments.choices)
     primer_name_forward = models.CharField('Primer Name Forward', max_length=255)
     primer_name_reverse = models.CharField('Primer Name Reverse', max_length=255)
     primer_forward = models.TextField('Primer Forward')

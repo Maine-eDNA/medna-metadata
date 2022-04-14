@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('primer_set_name', models.CharField(max_length=255, unique=True, verbose_name='Primer Set Name')),
                 ('primer_slug', models.SlugField(max_length=255, verbose_name='Primer Set Name Slug')),
                 ('primer_target_gene', models.CharField(choices=[(None, '(Unknown)'), ('12s', '12S'), ('16s', '16S'), ('18s', '18S'), ('coi', 'COI')], max_length=50, verbose_name='Target Gene')),
-                ('primer_subfragment', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('v6', 'V6'), ('v9', 'V9'), ('its', 'ITS')], max_length=50, verbose_name='SubFragment (V6, V9, ITS)')),
+                ('primer_subfragment', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('v1', 'V1'), ('v2', 'V2'), ('v3', 'V3'), ('v4', 'V4'), ('v5', 'V5'), ('v6', 'V6'), ('v7', 'V7'), ('v8', 'V8'), ('v9', 'V9'), ('its', 'ITS'), ('its2', 'ITS2')], max_length=50, verbose_name='SubFragment (V6, V9, ITS, etc.)')),
                 ('primer_name_forward', models.CharField(max_length=255, verbose_name='Primer Name Forward')),
                 ('primer_name_reverse', models.CharField(max_length=255, verbose_name='Primer Name Reverse')),
                 ('primer_forward', models.TextField(verbose_name='Primer Forward')),
