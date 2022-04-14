@@ -133,7 +133,7 @@ class ExtractionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
     # Sending user object to the form, to verify which fields to display
     def get_form_kwargs(self):
         kwargs = super(ExtractionUpdateView, self).get_form_kwargs()
-        kwargs.update({'pk': self.request.pk})
+        kwargs['pk'] = self.kwargs.get('pk')
         return kwargs
 
     def handle_no_permission(self):
@@ -631,7 +631,7 @@ class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
     # Sending user object to the form, to verify which fields to display
     def get_form_kwargs(self):
         kwargs = super(PooledLibraryUpdateView, self).get_form_kwargs()
-        kwargs.update({'pk': self.request.pk})
+        kwargs['pk'] = self.kwargs.get('pk')
         return kwargs
 
     def handle_no_permission(self):

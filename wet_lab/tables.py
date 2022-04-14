@@ -4,18 +4,18 @@ from django_tables2.utils import A
 
 
 class ExtractionTable(tables.Table):
-    extraction_barcode = tables.Column(verbose_name='barcode')
-    edit = tables.LinkColumn('update_extraction', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column - https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#std:templatefilter-date
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    extraction_barcode = tables.Column(verbose_name='barcode')
+    # formatting for date column - https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#std:templatefilter-date
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_extraction', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = Extraction
