@@ -208,16 +208,18 @@ class ExtractionForm(forms.ModelForm):
                   'extraction_notes', ]
 
     def __init__(self, *args, **kwargs):
-        _pk = kwargs.pop('pk', None)
+        # _pk = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
-        if _pk:
-            self.fields['extraction_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
-            self.fields['field_sample'].queryset = FieldSample.objects.all().order_by('-created_datetime')
-        else:
-            self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(~Exists(Extraction.objects.filter(extraction_barcode=OuterRef('pk'))))
-            # self.fields['field_sample'].queryset = FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk'))))
-            # only provide FieldSample that are not already linked to a Extraction, plus the FieldSample that was already chosen for this Extraction
-            self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
+        self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
+        self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
+        # if _pk:
+        #     self.fields['extraction_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
+        #     self.fields['field_sample'].queryset = FieldSample.objects.all().order_by('-created_datetime')
+        # else:
+        #     self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(~Exists(Extraction.objects.filter(extraction_barcode=OuterRef('pk'))))
+        #     # self.fields['field_sample'].queryset = FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk'))))
+        #     # only provide FieldSample that are not already linked to a Extraction, plus the FieldSample that was already chosen for this Extraction
+        #     self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
 
 
 class PcrReplicateForm(forms.ModelForm):
