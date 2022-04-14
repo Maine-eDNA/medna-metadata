@@ -1,5 +1,6 @@
 from django import forms
 from django.db.models import Exists, OuterRef
+from django.db.models.query_utils import Q
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from utility.enumerations import YesNo, VolUnits, InvTypes, InvStatus
 from sample_label.models import SampleBarcode
@@ -51,12 +52,8 @@ class FreezerInventoryForm(forms.ModelForm):
                   'freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', )
 
     def __init__(self, *args, **kwargs):
-        _pk = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
-        if _pk:
-            self.fields['sample_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
-        else:
-            self.fields['sample_barcode'].queryset = SampleBarcode.objects.filter(~Exists(FreezerInventory.objects.filter(sample_barcode=OuterRef('pk'))))
+        self.fields['sample_barcode'].queryset = SampleBarcode.objects.filter(Q(freezerinventory__isnull=True)|Q(freezerinventory=self.instance))
 
 
 class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):

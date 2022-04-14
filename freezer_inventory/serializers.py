@@ -158,7 +158,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     freezer_box = serializers.SlugRelatedField(many=False, read_only=False, slug_field='freezer_box_label_slug', queryset=FreezerBox.objects.all())
-    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.filter(~Exists(FreezerInventory.objects.filter(sample_barcode=OuterRef('pk')))))
+    sample_barcode = serializers.SlugRelatedField(many=False, read_only=False, slug_field='barcode_slug', queryset=SampleBarcode.objects.all())
 
 
 class FreezerInventoryLogSerializer(serializers.ModelSerializer):

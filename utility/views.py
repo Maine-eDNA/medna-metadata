@@ -25,8 +25,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, CustomUserCss
-from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureCreateForm, \
-    StandardOperatingProcedureUpdateForm
+from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureForm
 from .charts import return_select2_options
 import utility.enumerations as utility_enums
 import utility.serializers as utility_serializers
@@ -245,7 +244,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_standardoperatingprocedure'
     model = StandardOperatingProcedure
-    form_class = StandardOperatingProcedureCreateForm
+    form_class = StandardOperatingProcedureForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/sop-add.html'
 
@@ -259,10 +258,8 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         context['form_subheader'] = 'Fill and submit.'
         return context
 
-    def get_form_kwargs(self):
-        kwargs = super(StandardOperatingProcedureCreateView, self).get_form_kwargs()
-        kwargs['sop_type'] = self.kwargs.get('sop_type')
-        return kwargs
+    def get_initial(self):
+        return{'sop_type': self.kwargs.get('sop_type'), }
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -280,7 +277,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
 
 class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = StandardOperatingProcedure
-    form_class = StandardOperatingProcedureUpdateForm
+    form_class = StandardOperatingProcedureForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-kit/sop-update.html'
