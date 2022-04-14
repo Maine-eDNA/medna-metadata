@@ -6,17 +6,17 @@ from django_tables2.utils import A
 
 
 class QualityMetadataTable(tables.Table):
-    edit = tables.LinkColumn('update_qualitymetadata', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_qualitymetadata', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = QualityMetadata
@@ -52,17 +52,18 @@ class DenoiseClusterMetadataTable(tables.Table):
 
 
 class FeatureOutputTable(tables.Table):
-    edit = tables.LinkColumn('update_featureoutput', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_featureoutput', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = FeatureOutput
@@ -123,8 +124,7 @@ class TaxonomicAnnotationTable(tables.Table):
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
-
-    edit = tables.LinkColumn('update_annotationmetadata', text='Update', args=[A('pk')], orderable=False)
+    edit = tables.LinkColumn('update_annotationannotation', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = TaxonomicAnnotation
