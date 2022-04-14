@@ -830,25 +830,25 @@ class FilterTypesChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class CoreMethodsChoicesViewSet(viewsets.ViewSet):
+class SedimentMethodsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
-        for choice in utility_enums.CoreMethods:
+        for choice in utility_enums.SedimentMethods:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-class SubCoreMethodsChoicesViewSet(viewsets.ViewSet):
+class SubSedimentMethodsChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
 
     def list(self, request, format=None):
         choices = []
-        for choice in utility_enums.SubCoreMethods:
+        for choice in utility_enums.SubSedimentMethods:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)

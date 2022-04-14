@@ -226,15 +226,16 @@ class FilterTypes(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
-class CoreMethods(models.TextChoices):
+class SedimentMethods(models.TextChoices):
     GRAVITY = 'gravity', _('Gravity')
     PISTON = 'piston', _('Piston')
     WEDGE = 'wedge', _('Wedge')
+    GRAB = 'van_veen_grab', _('Van Veen Grab')
     OTHER = 'other', _('Other')
     __empty__ = _('(Unknown)')
 
 
-class SubCoreMethods(models.TextChoices):
+class SubSedimentMethods(models.TextChoices):
     SLICES = 'slices', _('Slices')
     SYRINGE = 'syringe', _('Syringe')
     OTHER = 'other', _('Other')

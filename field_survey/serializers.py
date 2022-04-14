@@ -8,7 +8,7 @@ from .models import EnvMeasureType, FieldSurvey, FieldCrew, EnvMeasurement, \
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
-    CoreMethods
+    SedimentMethods
 from utility.serializers import EagerLoadingMixin
 # from utility.models import Project
 # from field_site.models import FieldSite
@@ -133,7 +133,7 @@ class SedimentCollectionTableSerializer(serializers.ModelSerializer):
     core_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
     core_datetime_end = serializers.DateTimeField(allow_null=True)
-    core_method = serializers.ChoiceField(read_only=True, choices=CoreMethods.choices, allow_blank=True)
+    core_method = serializers.ChoiceField(read_only=True, choices=SedimentMethods.choices, allow_blank=True)
     core_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     core_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
@@ -544,7 +544,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
     core_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
     core_datetime_end = serializers.DateTimeField(allow_null=True)
-    core_method = serializers.ChoiceField(read_only=True, choices=CoreMethods.choices, allow_blank=True)
+    core_method = serializers.ChoiceField(read_only=True, choices=SedimentMethods.choices, allow_blank=True)
     core_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     core_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
@@ -899,7 +899,7 @@ class SedimentCollectionNestedSerializer(serializers.ModelSerializer):
     core_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
     core_datetime_end = serializers.DateTimeField(allow_null=True)
-    core_method = serializers.ChoiceField(read_only=True, choices=CoreMethods.choices, allow_blank=True)
+    core_method = serializers.ChoiceField(read_only=True, choices=SedimentMethods.choices, allow_blank=True)
     core_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     core_collect_depth = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
     core_length = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)

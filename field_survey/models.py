@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
-    FilterMethods, FilterTypes, CoreMethods, SubCoreMethods
+    FilterMethods, FilterTypes, SedimentMethods, SubSedimentMethods
 # from utility.models import Project
 # from field_site.models import FieldSite
 from utility.models import DateTimeUserMixin, get_sentinel_user, slug_date_format
@@ -277,7 +277,7 @@ class SedimentCollection(DateTimeUserMixin):
     core_label = models.CharField('Core Label', blank=True, max_length=255)
     core_datetime_start = models.DateTimeField('Core Start DateTime', blank=True, null=True)
     core_datetime_end = models.DateTimeField('Core End DateTime', blank=True, null=True)
-    core_method = models.CharField('Corer Method', blank=True, max_length=50, choices=CoreMethods.choices)
+    core_method = models.CharField('Corer Method', blank=True, max_length=50, choices=SedimentMethods.choices)
     core_method_other = models.CharField('Other Corer Method', blank=True, max_length=255)
     core_collect_depth = models.DecimalField('Core Depth (m)', blank=True, null=True, max_digits=15, decimal_places=10)
     core_length = models.DecimalField('Core Length (cm)', blank=True, null=True, max_digits=15, decimal_places=10)
@@ -393,7 +393,7 @@ class SubCoreSample(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name='subcore_sample', on_delete=models.CASCADE)
     subcore_fname = models.CharField('Sub-Corer First Name', blank=True, max_length=255)
     subcore_lname = models.CharField('Sub-Corer Last Name', blank=True, max_length=255)
-    subcore_method = models.CharField('Sub-Core Method', blank=True, max_length=50, choices=SubCoreMethods.choices)
+    subcore_method = models.CharField('Sub-Core Method', blank=True, max_length=50, choices=SubSedimentMethods.choices)
     subcore_method_other = models.CharField('Other Sub-Core Method', blank=True, max_length=255)
     subcore_datetime_start = models.DateTimeField('Sub-Core DateTime Start', blank=True, null=True)
     subcore_datetime_end = models.DateTimeField('Sub-Core DateTime End', blank=True, null=True)
