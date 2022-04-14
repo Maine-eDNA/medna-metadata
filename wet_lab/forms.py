@@ -208,18 +208,9 @@ class ExtractionForm(forms.ModelForm):
                   'extraction_notes', ]
 
     def __init__(self, *args, **kwargs):
-        # _pk = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
         self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
         self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
-        # if _pk:
-        #     self.fields['extraction_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
-        #     self.fields['field_sample'].queryset = FieldSample.objects.all().order_by('-created_datetime')
-        # else:
-        #     self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(~Exists(Extraction.objects.filter(extraction_barcode=OuterRef('pk'))))
-        #     # self.fields['field_sample'].queryset = FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk'))))
-        #     # only provide FieldSample that are not already linked to a Extraction, plus the FieldSample that was already chosen for this Extraction
-        #     self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
 
 
 class PcrReplicateForm(forms.ModelForm):
@@ -1253,15 +1244,10 @@ class PooledLibraryForm(forms.ModelForm):
                   'pooled_lib_notes', ]
 
     def __init__(self, *args, **kwargs):
-        _pk = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
         self.fields['library_prep'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_libraryprep')))
         self.fields['library_prep'].queryset = LibraryPrep.objects.all().order_by('-created_datetime')
-        if _pk:
-            self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.all().order_by('-created_datetime')
-        else:
-            # Only show options where fk does not exist
-            self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.filter(~Exists(PooledLibrary.objects.filter(pooled_lib_barcode=OuterRef('pk'))))
+        self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.filter(Q(pooledlibrary__isnull=True)|Q(pooledlibrary=self.instance))
 
 
 class RunPrepForm(forms.ModelForm):

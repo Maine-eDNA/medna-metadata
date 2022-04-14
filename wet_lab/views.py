@@ -622,12 +622,6 @@ class PooledLibraryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Updat
         context['page_title'] = 'Pooled Library'
         return context
 
-    # Sending user object to the form, to verify which fields to display
-    def get_form_kwargs(self):
-        kwargs = super(PooledLibraryUpdateView, self).get_form_kwargs()
-        kwargs['pk'] = self.kwargs.get('pk')
-        return kwargs
-
     def handle_no_permission(self):
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
