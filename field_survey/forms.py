@@ -88,6 +88,7 @@ class FieldSurveyForm(forms.ModelForm):
     site_id_other = forms.CharField(
         required=False,
         label='Other Site ID',
+        help_text='Other site identifiers. I.e., from another project.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
