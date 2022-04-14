@@ -595,6 +595,7 @@ LEAFLET_CONFIG = dict({
 # or sea names should be chosen from the INSDC country list (http://insdc.org/country.html), or the GAZ ontology
 # (v 1.512) (http://purl.bioontology.org/ontology/GAZ)
 MIXS_COUNTRY = 'USA'
+MIN_SAMPLE_YEAR = 1988
 
 ########################################
 # CUSTOM ADMIN APP ORDERING CONFIG     #

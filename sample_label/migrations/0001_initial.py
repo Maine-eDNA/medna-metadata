@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
-                ('sample_year', models.PositiveIntegerField(default=sample_label.models.current_year, validators=[django.core.validators.MinValueValidator(2018)], verbose_name='Sample Year')),
+                ('sample_year', models.PositiveIntegerField(default=sample_label.models.current_year, validators=[django.core.validators.MinValueValidator(settings.MIN_SAMPLE_YEAR)], verbose_name='Sample Year')),
                 ('purpose', models.CharField(max_length=255, verbose_name='Sample Label Purpose')),
                 ('sample_label_prefix', models.CharField(max_length=12, verbose_name='Sample Label Prefix')),
                 ('req_sample_label_num', models.IntegerField(default=1, verbose_name='Number Requested')),
