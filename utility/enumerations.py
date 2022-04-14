@@ -252,9 +252,17 @@ class TargetGenes(models.TextChoices):
 
 
 class SubFragments(models.TextChoices):
+    SF_V1 = 'v1', _('V1')
+    SF_V2 = 'v2', _('V2')
+    SF_V3 = 'v3', _('V3')
+    SF_V4 = 'v4', _('V4')
+    SF_V5 = 'v5', _('V5')
     SF_V6 = 'v6', _('V6')
+    SF_V7 = 'v7', _('V7')
+    SF_V8 = 'v8', _('V8')
     SF_V9 = 'v9', _('V9')
     SF_ITS = 'its', _('ITS')
+    SF_ITS2 = 'its2', _('ITS2')
     __empty__ = _('(Unknown)')
 
 
