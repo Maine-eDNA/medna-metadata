@@ -138,7 +138,8 @@ $(window).on('map:init', function (e) {
                     return L.circleMarker(latlng, geojsonMarkerOptions);
                 },
                 onEachFeature: function (feature, layer) {
-                    layer.bindPopup(feature.properties.site_id);
+                    fieldsite_popup = feature.properties.site_id + ": " + feature.properties.general_location_name
+                    layer.bindPopup(fieldsite_popup);
                 }
             });
             fieldSiteItems.addLayer(fieldSiteGeoJsonLayer);
