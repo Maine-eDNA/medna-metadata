@@ -190,6 +190,7 @@ class SampleLabelRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
     def get_initial(self):
         return{'site_id': self.kwargs.get('site_id'),
                'sample_material': self.kwargs.get('sample_material'),
+               'sample_year': self.kwargs.get('sample_year'),
                'sample_type': self.kwargs.get('sample_type'),
                'purpose': self.kwargs.get('purpose'), }
 

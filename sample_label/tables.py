@@ -24,7 +24,7 @@ class SampleLabelRequestTable(tables.Table):
     # samplelabel.sample_material.id samplelabel.purpose %}' class='addlink'> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn(viewname='add_samplelabelrequestdetail',
                                   text='Add',
-                                  args=[A('site_id.id'), A('sample_material.id'), A('purpose')],
+                                  args=[A('site_id.id'), A('sample_material.id'), A('sample_year'), A('purpose')],
                                   orderable=False)
 
     class Meta:
