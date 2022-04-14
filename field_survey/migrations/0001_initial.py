@@ -213,7 +213,7 @@ class Migration(migrations.Migration):
                 ('core_label', models.CharField(blank=True, max_length=255, verbose_name='Core Label')),
                 ('core_datetime_start', models.DateTimeField(blank=True, null=True, verbose_name='Core Start DateTime')),
                 ('core_datetime_end', models.DateTimeField(blank=True, null=True, verbose_name='Core End DateTime')),
-                ('core_method', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('gravity', 'Gravity'), ('piston', 'Piston'), ('wedge', 'Wedge'), ('other', 'Other')], max_length=50, verbose_name='Corer Method')),
+                ('core_method', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('gravity', 'Gravity'), ('piston', 'Piston'), ('wedge', 'Wedge'), ('van_veen_grab', 'Van Veen Grab'), ('other', 'Other')], max_length=50, verbose_name='Corer Method')),
                 ('core_method_other', models.CharField(blank=True, max_length=255, verbose_name='Other Corer Method')),
                 ('core_collect_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Core Depth (m)')),
                 ('core_length', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Core Length (cm)')),
