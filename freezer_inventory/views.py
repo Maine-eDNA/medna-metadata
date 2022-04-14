@@ -102,7 +102,7 @@ class FreezerInventoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Up
     # Sending user object to the form, to verify which fields to display
     def get_form_kwargs(self):
         kwargs = super(FreezerInventoryUpdateView, self).get_form_kwargs()
-        kwargs.update({'pk': self.request.pk})
+        kwargs['pk'] = self.kwargs.get('pk')
         return kwargs
 
     def handle_no_permission(self):
