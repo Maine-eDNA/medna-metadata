@@ -187,14 +187,14 @@ $(window).on('map:init', function (e) {
                     var click_watershed_code = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_code.toString();
                     var click_watershed_label = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_label.toString();
                     watershed_click = click_watershed_code + ": " + click_watershed_label;
-                    watershed_id = watershedGeoJsonLayer.getLayers()[0].feature.properties.id.toString();
+                    watershed_id = watershedGeoJsonLayer.getLayers()[0].feature.properties.pk.toString();
                     //console.log(watershed_click);
                     //}
-
-                    // find the id of the drop-down menu that matches the label based
-                    // on clicking on the map
+                    // set ID of the drop-down menu to the returned id from the watershed intersect point query
                     $('#id_watershed').val(watershed_id).trigger('change');
                     /*
+                    // find the id of the drop-down menu that matches the label based
+                    // on clicking on the map
                     var dd = document.getElementById('id_watershed');
                     for (var i = 0; i < dd.options.length; i++) {
                         if (dd.options[i].text === watershed_click) {
