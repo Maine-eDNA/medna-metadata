@@ -151,7 +151,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('extraction_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplebarcode')),
                 ('barcode_slug', models.SlugField(max_length=17, verbose_name='Extraction Barcode Slug')),
-                ('field_sample', models.OneToOneField(limit_choices_to={'is_extracted': 'no'}, on_delete=django.db.models.deletion.RESTRICT, to='field_survey.fieldsample')),
+                ('field_sample', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='field_survey.fieldsample')),
                 ('extraction_control', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Is Control')),
                 ('extraction_control_type', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('field', 'Field'), ('lab', 'Lab'), ('extraction', 'Extraction'), ('no_template_control', 'No Template Control')], max_length=50, verbose_name='Control Type')),
                 ('process_location', models.ForeignKey(null=True, blank=True, default=utility.models.get_default_process_location, on_delete=django.db.models.deletion.RESTRICT, to='utility.processlocation')),
