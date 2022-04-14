@@ -12,6 +12,7 @@ from utility.widgets import CustomRadioSelect, CustomSelect2
 class SampleLabelRequestCreateForm(forms.ModelForm):
     site_id = forms.ModelChoiceField(
         required=True,
+        label='Site ID',
         queryset=FieldSite.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -30,6 +31,10 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
     )
     sample_type = forms.ModelChoiceField(
         required=True,
+        label='Sample Type',
+        help_text='Field Sample (filters, subcores) <br>'
+                  'Extraction (extracted field samples) <br>' 
+                  'Pooled Library (final pooled library to be sent for sequencing)',
         queryset=SampleType.objects.all(),
         widget=CustomRadioSelect(
             attrs={
@@ -39,6 +44,7 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
     )
     sample_year = forms.TypedChoiceField(
         required=True,
+        label='Sample Year',
         help_text='The year the sample was collected in the field.',
         coerce=int,
         choices=year_choices,
@@ -51,6 +57,7 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
     )
     purpose = forms.CharField(
         required=True,
+        label='Purpose',
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control',
@@ -59,6 +66,7 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
     )
     req_sample_label_num = forms.IntegerField(
         required=True,
+        label='Number Requested',
         initial=1,
         widget=forms.NumberInput(
             attrs={
