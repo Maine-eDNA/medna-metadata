@@ -3,6 +3,7 @@
 from django.urls import reverse_lazy
 from django.contrib.gis import forms
 from django.db.models import Exists, OuterRef
+from django.db.models.query_utils import Q
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper, CustomClearableFileInput
 from utility.models import ProcessLocation, StandardOperatingProcedure
@@ -214,7 +215,9 @@ class ExtractionForm(forms.ModelForm):
             self.fields['field_sample'].queryset = FieldSample.objects.all().order_by('-created_datetime')
         else:
             self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(~Exists(Extraction.objects.filter(extraction_barcode=OuterRef('pk'))))
-            self.fields['field_sample'].queryset = FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk'))))
+            # self.fields['field_sample'].queryset = FieldSample.objects.filter(~Exists(Extraction.objects.filter(field_sample=OuterRef('pk'))))
+            # only provide FieldSample that are not already linked to a Extraction, plus the FieldSample that was already chosen for this Extraction
+            self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
 
 
 class PcrReplicateForm(forms.ModelForm):
