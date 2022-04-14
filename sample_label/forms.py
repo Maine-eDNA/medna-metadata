@@ -32,7 +32,7 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
     sample_type = forms.ModelChoiceField(
         required=True,
         label='Sample Type',
-        help_text='Field Sample (filters, subcores) <br>'
+        help_text='Field Sample (filters, subcores/sediment) <br>'
                   'Extraction (extracted field samples) <br>' 
                   'Pooled Library (final pooled library to be sent for sequencing)',
         queryset=SampleType.objects.all(),
