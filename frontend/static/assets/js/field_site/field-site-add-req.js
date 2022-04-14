@@ -167,7 +167,8 @@ $(window).on('map:init', function (e) {
 
         var watershedGeoJsonLayer = L.geoJSON(watershed_results, {
             onEachFeature: function (feature, layer) {
-                layer.bindPopup(feature.properties.watershed_label);
+                watershed_popup = feature.properties.watershed_code + ": " + feature.properties.watershed_label
+                layer.bindPopup(watershed_popup);
             }
         });
                 // clear existing watershed layers
@@ -182,16 +183,18 @@ $(window).on('map:init', function (e) {
                 if (num_results>0) {
                     //if(detail.map.hasLayer(watershedLayer)){
                     // find the feature (watershed) that the point intersects
-                    var click_reg_code = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_code.toString();
-                    var click_reg_lab = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_label.toString();
-                    reg_click = click_reg_code + ": " + click_reg_lab;
+                    var click_watershed_code = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_code.toString();
+                    var click_watershed_label = watershedGeoJsonLayer.getLayers()[0].feature.properties.watershed_label.toString();
+                    watershed_click = click_watershed_code + ": " + click_watershed_label;
+                    //console.log(watershed_click);
                     //}
 
                     // find the id of the drop-down menu that matches the label based
                     // on clicking on the map
                     var dd = document.getElementById('id_watershed');
                     for (var i = 0; i < dd.options.length; i++) {
-                        if (dd.options[i].text === reg_click) {
+                        if (dd.options[i].text === watershed_click) {
+                            //console.log(watershed_click);
                             //dd.selectedIndex = i;
                             $('#id_watershed').val(i).trigger('change');
                             break;
@@ -199,9 +202,9 @@ $(window).on('map:init', function (e) {
                     }
                 } else {
                     clearSelectedWatershed();
-                    reg_click = "NW: No Watershed";
+                    watershed_click = "NW: No Watershed";
                 }
-        return(reg_click);
+        return(watershed_click);
     }
 
     var clearSelectedWatershed = function(){

@@ -67,7 +67,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     watershed = forms.ModelChoiceField(
         required=True,
-        queryset=Watershed.objects.all(),
+        queryset=Watershed.objects.all().order_by('-id'),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
