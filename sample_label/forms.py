@@ -39,6 +39,7 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
     )
     sample_year = forms.TypedChoiceField(
         required=True,
+        help_text='The year the sample was collected in the field.',
         coerce=int,
         choices=year_choices,
         initial=current_year,

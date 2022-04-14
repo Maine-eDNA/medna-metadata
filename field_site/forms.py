@@ -35,6 +35,13 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     system = forms.ModelChoiceField(
         required=True,
+        help_text='(L) Lake: Natural or human-made impoundment <br>'
+                  '(S) Stream/River: Unidirectionally flowing freshwater <br>'
+                  '(E) Estuary: Tidal transition zone between river and ocean <br>'
+                  '(C) Coast: Fully marine site with little to no direct influence of river discharge <br>'
+                  '(P) Pelagic: Generally open ocean (i.e., if you can\'t see the coast) <br>'
+                  '(A) Aquarium <br>'
+                  '(M) Mock Community',
         queryset=System.objects.all(),
         widget=CustomSelect2(
             attrs={
@@ -69,7 +76,16 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFirst.objects.none(),
+        label='Broad-Scale Environmental Context (first tier)',
+        help_text='<figure><blockquote class="blockquote"><p class="ps-2 text-white">'
+                  'In this field, report which major environmental system your sample or specimen came from. The systems '
+                  'identified should have a coarse spatial grain, to provide the general environmental context of where the '
+                  'sampling was done (e.g. were you in the desert or a rainforest?). Options were collected from ENVO’s '
+                  'biome class: http://purl.obolibrary.org/obo/ENVO_00000428.</p></blockquote>'
+                  '<figcaption class="blockquote-footer ps-3 text-white">Described in the <cite title="MixS v5">GSC Minimum Information about any Sequence (MIxS v5)</cite></figcaption>'
+                  '<a target="_blank" href="https://genomicsstandardsconsortium.github.io/gensc.github.io/pages/standards-intro.html" class="text-white icon-move-right">More about the GSC MIxS'
+                  '<i class="fas fa-arrow-right text-sm ms-1"></i></a></figure>',
+        queryset=EnvoBiomeFirst.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -78,6 +94,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_second = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (second tier)',
         queryset=EnvoBiomeSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -87,6 +104,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_third = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (third tier)',
         queryset=EnvoBiomeThird.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -96,6 +114,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_fourth = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (fourth tier)',
         queryset=EnvoBiomeFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -105,6 +124,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_biome_fifth = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (fifth tier)',
         queryset=EnvoBiomeFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -114,7 +134,15 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFirst.objects.none(),
+        label='Local Environmental Context (first tier)',
+        help_text='<figure><blockquote class="blockquote"><p class="ps-2 text-white">'
+                  'In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which '
+                  'you believe have significant causal influences on your sample or specimen. Please use terms that are present '
+                  'in ENVO and which are of smaller spatial grain than your entry for Broad-Scale Environmental Context.</p></blockquote>'
+                  '<figcaption class="blockquote-footer ps-3 text-white">Described in the <cite title="MixS v5">GSC Minimum Information about any Sequence (MIxS v5)</cite></figcaption>'
+                  '<a target="_blank" href="https://genomicsstandardsconsortium.github.io/gensc.github.io/pages/standards-intro.html" class="text-white icon-move-right">More about the GSC MIxS'
+                  '<i class="fas fa-arrow-right text-sm ms-1"></i></a></figure>',
+        queryset=EnvoFeatureFirst.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -123,6 +151,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_second = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (second tier)',
         queryset=EnvoFeatureSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -132,6 +161,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_third = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (third tier)',
         queryset=EnvoFeatureThird.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -141,6 +171,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_fourth = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (fourth tier)',
         queryset=EnvoFeatureFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -150,6 +181,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_fifth = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (fifth tier)',
         queryset=EnvoFeatureFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -159,6 +191,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_sixth = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (sixth tier)',
         queryset=EnvoFeatureSixth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -168,6 +201,7 @@ class FieldSiteCreateForm(forms.ModelForm):
     )
     envo_feature_seventh = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (seventh tier)',
         queryset=EnvoFeatureSeventh.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -189,12 +223,6 @@ class FieldSiteCreateForm(forms.ModelForm):
                 attrs={
                     'map_width': 700,
                     'map_height': 600,
-                    # 'display_raw':True,  # remove viewable text box
-                    # 'map_srid': 4326,
-                    # 'settings_overrides': {
-                    #     'DEFAULT_CENTER': (44, -69),  # Latitude ,  Longitude
-                    #     'DEFAULT_ZOOM': 8,
-                    # },
                 }
             )
         }
@@ -343,7 +371,16 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoBiomeFirst.objects.none(),
+        label='Broad-Scale Environmental Context (first tier)',
+        help_text='<figure><blockquote class="blockquote"><p class="ps-2 text-white">'
+                  'In this field, report which major environmental system your sample or specimen came from. The systems '
+                  'identified should have a coarse spatial grain, to provide the general environmental context of where the '
+                  'sampling was done (e.g. were you in the desert or a rainforest?). Options were collected from ENVO’s '
+                  'biome class: http://purl.obolibrary.org/obo/ENVO_00000428.</p></blockquote>'
+                  '<figcaption class="blockquote-footer ps-3 text-white">Described in the <cite title="MixS v5">GSC Minimum Information about any Sequence (MIxS v5)</cite></figcaption>'
+                  '<a target="_blank" href="https://genomicsstandardsconsortium.github.io/gensc.github.io/pages/standards-intro.html" class="text-white icon-move-right">More about the GSC MIxS'
+                  '<i class="fas fa-arrow-right text-sm ms-1"></i></a></figure>',
+        queryset=EnvoBiomeFirst.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -352,6 +389,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_second = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (second tier)',
         queryset=EnvoBiomeSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -361,6 +399,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_third = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (third tier)',
         queryset=EnvoBiomeThird.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -370,6 +409,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_fourth = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (fourth tier)',
         queryset=EnvoBiomeFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -379,6 +419,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_biome_fifth = forms.ModelChoiceField(
         required=False,
+        label='Broad-Scale Environmental Context (fifth tier)',
         queryset=EnvoBiomeFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -388,7 +429,15 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_first = forms.ModelChoiceField(
         required=False,
-        queryset=EnvoFeatureFirst.objects.none(),
+        label='Local Environmental Context (first tier)',
+        help_text='<figure><blockquote class="blockquote"><p class="ps-2 text-white">'
+                  'In this field, report the entity or entities which are in your sample or specimen’s local vicinity and which '
+                  'you believe have significant causal influences on your sample or specimen. Please use terms that are present '
+                  'in ENVO and which are of smaller spatial grain than your entry for Broad-Scale Environmental Context.</p></blockquote>'
+                  '<figcaption class="blockquote-footer ps-3 text-white">Described in the <cite title="MixS v5">GSC Minimum Information about any Sequence (MIxS v5)</cite></figcaption>'
+                  '<a target="_blank" href="https://genomicsstandardsconsortium.github.io/gensc.github.io/pages/standards-intro.html" class="text-white icon-move-right">More about the GSC MIxS'
+                  '<i class="fas fa-arrow-right text-sm ms-1"></i></a></figure>',
+        queryset=EnvoFeatureFirst.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -397,6 +446,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_second = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (second tier)',
         queryset=EnvoFeatureSecond.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -406,6 +456,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_third = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (third tier)',
         queryset=EnvoFeatureThird.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -415,6 +466,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_fourth = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (fourth tier)',
         queryset=EnvoFeatureFourth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -424,6 +476,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_fifth = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (fifth tier)',
         queryset=EnvoFeatureFifth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -433,6 +486,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_sixth = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (sixth tier)',
         queryset=EnvoFeatureSixth.objects.none(),
         widget=CustomSelect2(
             attrs={
@@ -442,6 +496,7 @@ class FieldSiteUpdateForm(forms.ModelForm):
     )
     envo_feature_seventh = forms.ModelChoiceField(
         required=False,
+        label='Local Environmental Context (seventh tier)',
         queryset=EnvoFeatureSeventh.objects.none(),
         widget=CustomSelect2(
             attrs={
