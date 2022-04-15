@@ -400,7 +400,7 @@ class RunResultSerializer(serializers.ModelSerializer):
 
 class FastqFileSerializer(serializers.ModelSerializer):
     # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
-    uuid = serializers.UUIDField()
+    uuid = serializers.UUIDField(read_only=True)
     fastq_slug = serializers.SlugField(max_length=255, read_only=True)
     fastq_datafile = serializers.FileField(max_length=255)
     submitted_to_insdc = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
@@ -424,7 +424,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
 
 class MixsWaterSerializer(serializers.ModelSerializer):
-    fastq_uuid = serializers.ReadOnlyField(source='uuid')
+    uuid = serializers.UUIDField(read_only=True)
     submitted_to_insdc = serializers.ReadOnlyField()
     fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
@@ -432,7 +432,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', ]
@@ -481,7 +481,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 
 
 class MixsSedimentSerializer(serializers.ModelSerializer):
-    fastq_uuid = serializers.ReadOnlyField(source='uuid')
+    uuid = serializers.UUIDField(read_only=True)
     submitted_to_insdc = serializers.ReadOnlyField()
     fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
@@ -489,7 +489,7 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', ]
