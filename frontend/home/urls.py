@@ -137,6 +137,8 @@ urlpatterns = [
     path('dashboard/wetlab/fastqfile/view/', wetlab_views.FastqFileFilterView.as_view(filterset_class=wetlab_filters.FastqFileFilter), name='view_fastqfile'),
     path('dashboard/wetlab/fastqfile/add/', wetlab_views.FastqFileCreateView.as_view(), name='add_fastqfile'),
     path('dashboard/wetlab/fastqfile/update/<str:pk>/', wetlab_views.FastqFileUpdateView.as_view(success_url=reverse_lazy('view_fastqfile')), name='update_fastqfile'),
+    path('dashboard/wetlab/fastqfile/popup/add/', wetlab_views.FastqFilePopupCreateView.as_view(), name='add_popup_fastqfile'),
+    path('dashboard/wetlab/fastqfile/popup/update/', wetlab_views.FastqFilePopupUpdateView.as_view(), name='update_popup_fastqfile'),
     # FREEZER INVENTORY: FREEZER INVENTORY (VIEW, ADD, UPDATE)
     path('dashboard/freezerinventory/inventory/view/', freezerinventory_views.FreezerInventoryFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryFilter), name='view_freezerinventory'),
     # path('dashboard/freezerinventory/inventory/detail/<int:pk>/', freezerinventory_views.FreezerInventoryDetailView.as_view(), name='detail_freezerinventory'),
