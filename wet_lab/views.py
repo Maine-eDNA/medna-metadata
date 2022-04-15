@@ -1008,7 +1008,7 @@ class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     form_class = FastqFileUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
-    template_name = 'home/django-material-dashboard/model-update-fileupload-fastqfile.html'
+    template_name = 'home/django-material-dashboard/model-update.html'
     permission_required = ('wet_lab.update_fastqfile', 'wet_lab.view_fastqfile', )
 
     def get_context_data(self, **kwargs):
