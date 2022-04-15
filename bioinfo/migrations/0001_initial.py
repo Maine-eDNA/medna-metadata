@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('analysis_datetime', models.DateTimeField(verbose_name='Analysis DateTime')),
                 ('analyst_first_name', models.CharField(max_length=255, verbose_name='Analyst First Name')),
                 ('analyst_last_name', models.CharField(max_length=255, verbose_name='Analyst Last Name')),
-                ('fastq_file', models.ManyToManyField(related_name='fastq_files', to='wet_lab.fastqfile', verbose_name='FASTQ Files')),
+                ('fastq_file', models.ManyToManyField(related_name='fastq_files', to='wet_lab.FastqFile', verbose_name='FASTQ Files')),
                 ('seq_quality_check', models.CharField(choices=[('none', 'None'), ('manual_edit', 'Manually Edited')], max_length=50, verbose_name='Quality Check')),
                 ('chimera_check', models.TextField(blank=True, verbose_name='Chimera Check')),
                 ('trim_length_forward', models.PositiveIntegerField(verbose_name='Trim Length Forward (bp)')),
