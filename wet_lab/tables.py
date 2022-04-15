@@ -11,6 +11,7 @@ class ExtractionTable(tables.Table):
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
     extraction_barcode = tables.Column(verbose_name='barcode')
+    extraction_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.extraction_notes}}">{{ record.extraction_notes|truncatewords:5 }}', orderable=False)
     # formatting for date column - https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#std:templatefilter-date
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -29,6 +30,7 @@ class ExtractionTable(tables.Table):
 class PcrTable(tables.Table):
     edit = tables.LinkColumn('update_pcr', text='Update', args=[A('pk')], orderable=False)
     pcr_replicate = tables.TemplateColumn('{{ record.pcr_replicate.pcr_replicate_results.all|join:", " }}', verbose_name='Replicate Results')
+    pcr_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.pcr_notes}}">{{ record.pcr_notes|truncatewords:5 }}', orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -52,6 +54,7 @@ class PcrTable(tables.Table):
 
 class LibraryPrepTable(tables.Table):
     edit = tables.LinkColumn('update_libraryprep', text='Update', args=[A('pk')], orderable=False)
+    lib_prep_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.lib_prep_notes}}">{{ record.lib_prep_notes|truncatewords:5 }}', orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -76,6 +79,7 @@ class LibraryPrepTable(tables.Table):
 
 class PooledLibraryTable(tables.Table):
     edit = tables.LinkColumn('update_pooledlibrary', text='Update', args=[A('pk')], orderable=False)
+    pooled_lib_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.pooled_lib_notes}}">{{ record.pooled_lib_notes|truncatewords:5 }}', orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -100,6 +104,7 @@ class PooledLibraryTable(tables.Table):
 
 class RunPrepTable(tables.Table):
     edit = tables.LinkColumn('update_runprep', text='Update', args=[A('pk')], orderable=False)
+    run_prep_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.run_prep_notes}}">{{ record.run_prep_notes|truncatewords:5 }}', orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
