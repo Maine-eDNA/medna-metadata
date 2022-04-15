@@ -22,10 +22,10 @@ def get_general_location_name_choices(model=FieldSite, field='general_location_n
 
 
 class FieldSiteFilter(filters.FilterSet):
-    grant = filters.ModelMultipleChoiceFilter(queryset=Grant.objects.all(), widget=CustomSelect2Multiple)
+    grant = filters.ModelChoiceFilter(queryset=Grant.objects.all(), widget=CustomSelect2)
     project = filters.ModelMultipleChoiceFilter(queryset=Project.objects.all(), widget=CustomSelect2Multiple)
-    system = filters.ModelMultipleChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2Multiple)
-    watershed = filters.ModelMultipleChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2Multiple)
+    system = filters.ModelChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2)
+    watershed = filters.ModelChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2)
     general_location_name = filters.ChoiceFilter(choices=get_general_location_name_choices, widget=CustomSelect2)
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
 

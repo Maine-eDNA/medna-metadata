@@ -12,7 +12,7 @@ from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInven
 # FRONTEND FILTERS                     #
 ########################################
 class FreezerInventoryFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     freezer_box = filters.ModelChoiceFilter(field_name='freezer_box__freezer_box_label_slug', queryset=FreezerBox.objects.all(), widget=CustomSelect2)
     freezer_inventory_type = filters.ChoiceFilter(field_name='freezer_inventory_type', lookup_expr='iexact')
     freezer_inventory_status = filters.ChoiceFilter(field_name='freezer_inventory_status', choices=InvTypes.choices, widget=CustomSelect2)
@@ -26,7 +26,7 @@ class FreezerInventoryFilter(filters.FilterSet):
 
 
 class FreezerInventoryLogFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     freezer_inventory = filters.ModelChoiceFilter(field_name='freezer_inventory__freezer_inventory_slug', queryset=FreezerInventory.objects.all(), widget=CustomSelect2)
     freezer_log_action = filters.ChoiceFilter(field_name='freezer_log_action', choices=CheckoutActions.choices, widget=CustomSelect2)
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
@@ -37,7 +37,7 @@ class FreezerInventoryLogFilter(filters.FilterSet):
 
 
 class FreezerInventoryReturnMetadataFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     freezer_log = filters.ModelChoiceFilter(field_name='freezer_log__freezer_log_slug', queryset=FreezerInventoryLog.objects.all(), widget=CustomSelect2)
     freezer_return_metadata_entered = filters.ChoiceFilter(field_name='freezer_return_metadata_entered', choices=YesNo.choices, widget=CustomSelect2)
     freezer_return_actions = filters.ModelChoiceFilter(field_name='freezer_return_actions__action_code', queryset=ReturnAction.objects.all(), widget=CustomSelect2)

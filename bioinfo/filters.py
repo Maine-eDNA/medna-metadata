@@ -22,7 +22,7 @@ def get_quality_metadata_analysis_label_choices(model=QualityMetadata, field='an
 
 
 class QualityMetadataFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     analysis_label = filters.ChoiceFilter(choices=get_quality_metadata_analysis_label_choices, widget=CustomSelect2)
 
@@ -41,7 +41,7 @@ def get_denoise_cluster_metadata_analysis_label_choices(model=DenoiseClusterMeta
 
 
 class DenoiseClusterMetadataFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     quality_metadata = filters.ModelChoiceFilter(field_name='quality_metadata__quality_slug', queryset=QualityMetadata.objects.all(), widget=CustomSelect2)
     analysis_label = filters.ChoiceFilter(choices=get_denoise_cluster_metadata_analysis_label_choices, widget=CustomSelect2)
@@ -53,7 +53,7 @@ class DenoiseClusterMetadataFilter(filters.FilterSet):
 
 
 class FeatureOutputFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     denoise_cluster_metadata = filters.ModelChoiceFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
 
     class Meta:
@@ -62,9 +62,9 @@ class FeatureOutputFilter(filters.FilterSet):
 
 
 class FeatureReadFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
-    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2Multiple)
-    feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
+    extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
+    feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
 
     class Meta:
         model = FeatureRead
@@ -81,7 +81,7 @@ def get_annotation_metadata_analysis_label_choices(model=AnnotationMetadata, fie
 
 
 class AnnotationMetadataFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     analysis_label = filters.ChoiceFilter(choices=get_annotation_metadata_analysis_label_choices, widget=CustomSelect2)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
     denoise_cluster_metadata = filters.ModelChoiceFilter(field_name='denoise_cluster_metadata__denoise_cluster_slug', queryset=DenoiseClusterMetadata.objects.all(), widget=CustomSelect2)
@@ -192,7 +192,7 @@ def get_ta_common_name_choices(model=TaxonomicAnnotation, field='ta_common_name'
 
 
 class TaxonomicAnnotationFilter(filters.FilterSet):
-    created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     feature = filters.ModelChoiceFilter(field_name='feature__feature_slug', queryset=FeatureOutput.objects.all(), widget=CustomSelect2)
     annotation_metadata = filters.ModelChoiceFilter(field_name='annotation_metadata__annotation_slug', queryset=AnnotationMetadata.objects.all(), widget=CustomSelect2)
     reference_database = filters.ModelChoiceFilter(field_name='reference_database__refdb_slug', queryset=ReferenceDatabase.objects.all(), widget=CustomSelect2)
