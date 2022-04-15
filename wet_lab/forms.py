@@ -440,6 +440,7 @@ class PcrCreateForm(forms.ModelForm):
         fields = ['pcr_experiment_name', 'pcr_datetime', 'process_location', 'pcr_type',
                   'extraction', 'primer_set', 'pcr_first_name', 'pcr_last_name',
                   'pcr_probe', 'pcr_results', 'pcr_results_units', 'pcr_replicate',
+                  'initial_denaturation', 'annealing', 'elongation', 'final_elongation', 'total_cycles',
                   'pcr_sop',
                   'pcr_notes', ]
 
@@ -880,6 +881,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
                   'lib_prep_qpcr_results', 'lib_prep_qpcr_units',
                   'lib_prep_final_concentration', 'lib_prep_final_concentration_units',
                   'lib_prep_kit', 'lib_prep_type', 'lib_prep_layout',
+                  'initial_denaturation', 'annealing', 'elongation', 'final_elongation', 'total_cycles',
                   'lib_prep_sop', 'lib_prep_notes', ]
 
     def __init__(self, *args, **kwargs):
