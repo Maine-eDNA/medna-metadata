@@ -1,0 +1,27 @@
+{% extends "layouts/django-material-kit/base-fullscreen.html" %}
+{% load static %}
+
+{% block title %} Add Popup {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+    <script src="{% static 'admin/css/widgets.css' %}"></script>
+{% endblock stylesheets %}
+{% block extrahead %}
+    <script src="{% url 'jsi18n' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+<div class="row min-vh-80 h-100">
+  <div class="col-12">
+        {% include 'includes/django-material-dashboard/form-fileupload-fastqfile.html' %}
+  </div>
+</div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
