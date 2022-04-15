@@ -248,7 +248,7 @@ class TargetGenes(models.TextChoices):
     TG_16S = '16s', _('16S')
     TG_18S = '18s', _('18S')
     TG_COI = 'coi', _('COI')
-    TG_ITS = 'ITS', _('ITS')
+    TG_ITS = 'its', _('ITS')
     __empty__ = _('(Unknown)')
 
 
