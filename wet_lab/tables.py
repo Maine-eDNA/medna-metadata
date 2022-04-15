@@ -161,7 +161,7 @@ class FastqFileTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'uuid', 'run_result', 'extraction', 'fastq_datafile',
+        fields = ('_selected_action', 'uuid', 'run_result', 'extraction', 'primer_set', 'fastq_datafile',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type', 'created_by', 'created_datetime', 'modified_datetime', )
 
 

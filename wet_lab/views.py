@@ -1212,7 +1212,7 @@ class RunResultViewSet(viewsets.ModelViewSet):
 
 class FastqFileViewSet(viewsets.ModelViewSet):
     serializer_class = wetlab_serializers.FastqFileSerializer
-    queryset = FastqFile.objects.prefetch_related('created_by', 'run_result', 'extraction')
+    queryset = FastqFile.objects.prefetch_related('created_by', 'run_result', 'extraction', 'primer_set')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.FastqFileSerializerFilter
     swagger_tags = ['wet lab']

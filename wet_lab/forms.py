@@ -1454,6 +1454,17 @@ class FastqFileForm(forms.ModelForm):
             }
         )
     )
+    primer_set = forms.ModelChoiceField(
+        required=True,
+        label='Primer Pair',
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment (MIxS v5). ',
+        queryset=PrimerPair.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     submitted_to_insdc = forms.ChoiceField(
         required=True,
         label='Submitted to INSDC',
@@ -1500,5 +1511,5 @@ class FastqFileForm(forms.ModelForm):
 
     class Meta:
         model = FastqFile
-        fields = ['run_result', 'extraction', 'fastq_datafile',
+        fields = ['run_result', 'extraction', 'primer_set', 'fastq_datafile',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
