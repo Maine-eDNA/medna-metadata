@@ -1,27 +1,27 @@
 from import_export import resources, fields
-from import_export.widgets import ForeignKeyWidget
+from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import QualityMetadata, DenoiseClusterMethod, FeatureRead, FeatureOutput, DenoiseClusterMetadata, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
     TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 from utility.models import ProcessLocation, StandardOperatingProcedure
-from wet_lab.models import RunResult, Extraction
+from wet_lab.models import FastqFile, Extraction
 from users.models import CustomUser
 
 
 class QualityMetadataAdminResource(resources.ModelResource):
     class Meta:
         model = QualityMetadata
-        import_id_fields = ('analysis_label', 'run_result', 'analysis_datetime',
+        import_id_fields = ('analysis_label', 'fastq_file', 'analysis_datetime',
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
         fields = ('id', 'quality_slug', 'analysis_label', 'process_location',
-                  'run_result', 'analysis_datetime',
+                  'fastq_file', 'analysis_datetime',
                   'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                   'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
                   'analysis_sop', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'quality_slug', 'analysis_label', 'process_location',
-                        'run_result', 'analysis_datetime',
+                        'fastq_file', 'analysis_datetime',
                         'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
                         'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                         'min_read_length', 'max_read_length',
@@ -38,10 +38,10 @@ class QualityMetadataAdminResource(resources.ModelResource):
         attribute='process_location',
         widget=ForeignKeyWidget(ProcessLocation, 'process_location_name'))
 
-    run_result = fields.Field(
-        column_name='run_result',
-        attribute='run_result',
-        widget=ForeignKeyWidget(RunResult, 'run_id'))
+    fastq_file = fields.Field(
+        column_name='fastq_file',
+        attribute='fastq_file',
+        widget=ManyToManyWidget(FastqFile, 'fastq_filename'))
 
     created_by = fields.Field(
         column_name='created_by',

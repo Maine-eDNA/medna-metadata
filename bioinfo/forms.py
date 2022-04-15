@@ -2,10 +2,10 @@
 # from django import forms
 from django.urls import reverse_lazy
 from django.contrib.gis import forms
-from utility.widgets import CustomSelect2, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
+from utility.widgets import CustomSelect2Multiple, CustomSelect2, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
 from utility.models import ProcessLocation, StandardOperatingProcedure
 from utility.enumerations import QualityChecks, SopTypes
-from wet_lab.models import RunResult, Extraction
+from wet_lab.models import FastqFile, Extraction
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  TaxonOrder, \
     TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
@@ -33,9 +33,9 @@ class QualityMetadataCreateForm(forms.ModelForm):
         required=True,
         widget=CustomAdminSplitDateTime()
     )
-    run_result = forms.ModelChoiceField(
+    fastq_file = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=RunResult.objects.none()
+        queryset=FastqFile.objects.none()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -162,7 +162,7 @@ class QualityMetadataCreateForm(forms.ModelForm):
     class Meta:
         model = QualityMetadata
         fields = ['analysis_label', 'process_location', 'analysis_datetime',
-                  'run_result',
+                  'fastq_file',
                   'analyst_first_name', 'analyst_last_name',
                   'seq_quality_check',
                   'trim_length_forward', 'trim_length_reverse',
@@ -171,8 +171,8 @@ class QualityMetadataCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['run_result'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_runresult')))
-        self.fields['run_result'].queryset = RunResult.objects.all().order_by('-created_datetime')
+        self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
+        self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
 
 
 class QualityMetadataUpdateForm(forms.ModelForm):
@@ -197,9 +197,9 @@ class QualityMetadataUpdateForm(forms.ModelForm):
         required=True,
         widget=CustomAdminSplitDateTime()
     )
-    run_result = forms.ModelChoiceField(
+    fastq_file = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=RunResult.objects.none()
+        queryset=FastqFile.objects.none()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -292,7 +292,7 @@ class QualityMetadataUpdateForm(forms.ModelForm):
     class Meta:
         model = QualityMetadata
         fields = ['analysis_label', 'process_location', 'analysis_datetime',
-                  'run_result',
+                  'fastq_file',
                   'analyst_first_name', 'analyst_last_name',
                   'seq_quality_check', 'chimera_check',
                   'trim_length_forward', 'trim_length_reverse',
@@ -301,8 +301,8 @@ class QualityMetadataUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['run_result'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_runresult')))
-        self.fields['run_result'].queryset = RunResult.objects.all().order_by('-created_datetime')
+        self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
+        self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
 
 
 class DenoiseClusterMetadataForm(forms.ModelForm):

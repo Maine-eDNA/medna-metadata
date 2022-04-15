@@ -5,8 +5,8 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
     TaxonPhylumDivision, TaxonKingdom, TaxonSupergroup, TaxonomicAnnotation, AnnotationMethod, AnnotationMetadata
 from utility.tests import ProcessLocationTestCase, StandardOperatingProcedureTestCase
 from utility.models import ProcessLocation, StandardOperatingProcedure
-from wet_lab.tests import RunResultTestCase, ExtractionTestCase
-from wet_lab.models import RunResult, Extraction
+from wet_lab.tests import FastqFileTestCase, ExtractionTestCase
+from wet_lab.models import FastqFile, Extraction
 
 
 class QualityMetadataTestCase(TestCase):
@@ -14,18 +14,18 @@ class QualityMetadataTestCase(TestCase):
         current_datetime = timezone.now()
         sop_test = StandardOperatingProcedureTestCase()
         process_location_test = ProcessLocationTestCase()
+        fastq_file_test = FastqFileTestCase()
         sop_test.setUp()
-        run_result_test = RunResultTestCase()
         process_location_test.setUp()
-        run_result_test.setUp()
+        fastq_file_test.setUp()
         sop = StandardOperatingProcedure.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
-        run_result = RunResult.objects.filter()[:1].get()
+        fastq_file = FastqFile.objects.filter()[:1].get()
         QualityMetadata.objects.get_or_create(defaults={
                                                          'analysis_label': 'test_name',
                                                          'process_location': process_location,
                                                          'analysis_datetime': current_datetime,
-                                                         'run_result': run_result,
+                                                         'fastq_file': fastq_file,
                                                          'analyst_first_name': 'test_first_name',
                                                          'analyst_last_name': 'test_last_name',
                                                          'seq_quality_check': 'manual_edit',

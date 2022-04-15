@@ -12,6 +12,7 @@ class QualityMetadataTable(tables.Table):
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    fastq_file = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.fastq_file.all|join:", " }}">{{ record.fastq_file.all|join:", "|truncatewords:5 }}', verbose_name='FASTQ Files')
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -21,7 +22,7 @@ class QualityMetadataTable(tables.Table):
     class Meta:
         model = QualityMetadata
         fields = ('_selected_action', 'id', 'analysis_label', 'process_location', 'analysis_datetime',
-                  'run_result',
+                  'fastq_file',
                   'analyst_first_name', 'analyst_last_name',
                   'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',

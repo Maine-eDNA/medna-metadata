@@ -843,7 +843,7 @@ class TaxonomicAnnotationUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
 ########################################
 class QualityMetadataViewSet(viewsets.ModelViewSet):
     serializer_class = bioinfo_serializers.QualityMetadataSerializer
-    queryset = QualityMetadata.objects.prefetch_related('created_by', 'process_location', 'run_result', )
+    queryset = QualityMetadata.objects.prefetch_related('created_by', 'process_location', 'fastq_file', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.QualityMetadataSerializerFilter
     swagger_tags = ['bioinformatics denoclust']

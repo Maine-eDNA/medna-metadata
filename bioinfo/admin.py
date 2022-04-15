@@ -23,11 +23,11 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
     # list_filter = ('analysis_sop', 'analysis_script_repo_url', 'analysis_datetime')
     readonly_fields = ('quality_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['analysis_label']
-    autocomplete_fields = ['process_location', 'run_result', ]
+    autocomplete_fields = ['process_location', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['analysis_label', 'process_location', 'run_result',
+        self.fields = ['analysis_label', 'process_location', 'fastq_file',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
                        'seq_quality_check', 'chimera_check',
                        'trim_length_forward', 'trim_length_reverse',
@@ -41,7 +41,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify the fields that can be viewed in change view
-        self.fields = ['quality_slug', 'analysis_label', 'process_location', 'run_result',
+        self.fields = ['quality_slug', 'analysis_label', 'process_location', 'fastq_file',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
                        'seq_quality_check', 'chimera_check',
                        'trim_length_forward', 'trim_length_reverse',
