@@ -24,12 +24,11 @@ def get_quality_metadata_analysis_label_choices(model=QualityMetadata, field='an
 class QualityMetadataFilter(filters.FilterSet):
     created_by = filters.ModelMultipleChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2Multiple)
     process_location = filters.ModelChoiceFilter(field_name='process_location__process_location_name', queryset=ProcessLocation.objects.all(), widget=CustomSelect2)
-    run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
     analysis_label = filters.ChoiceFilter(choices=get_quality_metadata_analysis_label_choices, widget=CustomSelect2)
 
     class Meta:
         model = QualityMetadata
-        fields = ['created_by', 'process_location', 'run_result', 'analysis_label', ]
+        fields = ['created_by', 'process_location', 'analysis_label', ]
 
 
 def get_denoise_cluster_metadata_analysis_label_choices(model=DenoiseClusterMetadata, field='analysis_label'):
@@ -237,12 +236,11 @@ class TaxonomicAnnotationFilter(filters.FilterSet):
 class QualityMetadataSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     process_location = filters.CharFilter(field_name='process_location__process_location_name_slug', lookup_expr='iexact')
-    run_result = filters.CharFilter(field_name='run_result__run_id', lookup_expr='iexact')
     analysis_label = filters.CharFilter(field_name='analysis_label', lookup_expr='iexact')
 
     class Meta:
         model = QualityMetadata
-        fields = ['created_by', 'process_location', 'run_result', 'analysis_label', ]
+        fields = ['created_by', 'process_location', 'analysis_label', ]
 
 
 class DenoiseClusterMethodSerializerFilter(filters.FilterSet):

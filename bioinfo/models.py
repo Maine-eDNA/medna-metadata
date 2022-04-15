@@ -7,7 +7,8 @@ from utility.enumerations import YesNo, QualityChecks
 
 # Create your models here.
 class QualityMetadata(DateTimeUserMixin):
-    run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT, related_name='quality_metadata')
+    # run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT, related_name='quality_metadata')
+    fastq_file = models.ManyToManyField('wet_lab.FastqFile', verbose_name='FASTQ Files', related_name='fastq_files')
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     analysis_label = models.CharField('Analysis Label', max_length=255, unique=True)
     analysis_datetime = models.DateTimeField('Analysis DateTime')
@@ -30,7 +31,11 @@ class QualityMetadata(DateTimeUserMixin):
     quality_slug = models.TextField('Quality Slug', max_length=255)
 
     def save(self, *args, **kwargs):
-        self.quality_slug = '{name}_{run_id}'.format(name=slugify(self.analysis_label), run_id=slugify(self.run_result.run_id))
+        if self.created_datetime is None:
+            created_date_fmt = slug_date_format(timezone.now())
+        else:
+            created_date_fmt = slug_date_format(self.created_datetime)
+        self.quality_slug = '{name}_{date}'.format(name=slugify(self.analysis_label), date=created_date_fmt)
         super(QualityMetadata, self).save(*args, **kwargs)
 
     def __str__(self):

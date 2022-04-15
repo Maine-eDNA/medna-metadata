@@ -4,7 +4,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
     TaxonomicAnnotation
-from wet_lab.models import RunResult, Extraction
+from wet_lab.models import FastqFile, Extraction
 from utility.enumerations import QualityChecks
 from utility.models import ProcessLocation, StandardOperatingProcedure
 
@@ -30,7 +30,7 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
     class Meta:
         model = QualityMetadata
         fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
-                  'run_result',
+                  'fastq_file',
                   'analyst_first_name', 'analyst_last_name',
                   'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
@@ -42,7 +42,7 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     analysis_sop = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='sop_title', queryset=StandardOperatingProcedure.objects.all())
     process_location = serializers.SlugRelatedField(many=False, read_only=False, slug_field='process_location_name_slug', queryset=ProcessLocation.objects.all())
-    run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id', queryset=RunResult.objects.all())
+    fastq_file = serializers.SlugRelatedField(many=True, read_only=False, slug_field='fastq_filename', queryset=FastqFile.objects.all())
 
 
 class DenoiseClusterMethodSerializer(serializers.ModelSerializer):
