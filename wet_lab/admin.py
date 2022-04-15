@@ -437,7 +437,7 @@ class LibraryPrepAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = LibraryPrepAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
+    list_display = ('__str__', 'extraction', 'primer_set', 'created_datetime', 'created_by')
     readonly_fields = ('lib_prep_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['lib_prep_experiment_name', ]
     autocomplete_fields = ['process_location', 'extraction', 'amplification_method',
