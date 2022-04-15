@@ -176,51 +176,51 @@ class MixsWaterTable(tables.Table):
     # seq_meth - wet_lab.FastqFile
     seq_meth = tables.Column(accessor='seq_meth', verbose_name='Sequencing Method')
     # mixs_project_name - field_survey.FieldSurvey
-    project_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name', verbose_name='Project Name')
+    project_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name', verbose_name='Project Name', orderable=False)
     # mixs_lat_lon - field_survey.FieldSurvey
-    lat_lon = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon', verbose_name='Geographic Location')
+    lat_lon = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon', verbose_name='Geographic Location', orderable=False)
     # mixs_depth - field_survey.FilterSample
-    depth = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_depth', verbose_name='Depth')
+    depth = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_depth', verbose_name='Depth', orderable=False)
     # mixs_geo_loc_name - field_site.FieldSite
-    geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location')
+    geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location', orderable=False)
     # water_collect_datetime - field_survey.WaterCollection
     collection_date = tables.Column(accessor='extraction.field_sample.collection_global_id.water_collection.water_collect_datetime', verbose_name='Collection Date')
     # env_biome - field_survey.FieldSurvey
-    env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale')
+    env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale', orderable=False)
     # env_feature - field_survey.FieldSurvey
-    env_local_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale', verbose_name='Envo Local')
+    env_local_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale', verbose_name='Envo Local', orderable=False)
     # mixs_env_medium - field_survey.FieldSurvey
-    env_medium = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium', verbose_name='Envo Medium')
+    env_medium = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium', verbose_name='Envo Medium', orderable=False)
     # mixs_source_mat_id - field_survey.FilterSample
     source_mat_id = tables.Column(accessor='extraction.field_sample.sample_global_id', verbose_name='Source Material ID')
     # mixs_samp_collect_device - field_survey.FilterSample
-    samp_collect_device = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method')
+    samp_collect_device = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method', orderable=False)
     # mixs_samp_mat_process - field_survey.FilterSample
-    samp_mat_process = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_mat_process', verbose_name='Material Processing')
+    samp_mat_process = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_mat_process', verbose_name='Material Processing', orderable=False)
     # mixs_samp_size - field_survey.FilterSample
-    samp_size = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_size', verbose_name='Collection Size')
+    samp_size = tables.Column(accessor='extraction.field_sample.filter_sample.mixs_samp_size', verbose_name='Collection Size', orderable=False)
     # mixs_nucl_acid_ext - wet_lab.Extraction
-    nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
+    nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP', orderable=False)
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
-    nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP')
+    nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP', orderable=False)
     # lib_prep_layout - wet_lab.LibraryPrep
-    lib_layout = tables.Column(accessor='mixs_lib_layout', verbose_name='Library Layout')
+    lib_layout = tables.Column(accessor='mixs_lib_layout', verbose_name='Library Layout', orderable=False)
     # primer_target_gene - wet_lab.PrimerPair
-    target_gene = tables.Column(accessor='mixs_target_gene', verbose_name='Target Gene')
+    target_gene = tables.Column(accessor='mixs_target_gene', verbose_name='Target Gene', orderable=False)
     # primer_subfragment - wet_lab.PrimerPair
-    target_subfragment = tables.Column(accessor='mixs_target_subfragment', verbose_name='Target Subfragment')
+    target_subfragment = tables.Column(accessor='mixs_target_subfragment', verbose_name='Target Subfragment', orderable=False)
     # mixs_pcr_primers - wet_lab.PrimerPair
-    pcr_primers = tables.Column(accessor='mixs_pcr_primers', verbose_name='PCR Primers')
+    pcr_primers = tables.Column(accessor='mixs_pcr_primers', verbose_name='PCR Primers', orderable=False)
     # mixs_mid - wet_lab.IndexPair
-    mid = tables.Column(accessor='mixs_mid', verbose_name='Multiplex Identifiers')
+    mid = tables.Column(accessor='mixs_mid', verbose_name='Multiplex Identifiers', orderable=False)
     # index_adapter - wet_lab.IndexPair
-    adapters = tables.Column(accessor='mixs_adapters', verbose_name='Adapter')
+    adapters = tables.Column(accessor='mixs_adapters', verbose_name='Adapter', orderable=False)
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
-    pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions')
+    pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions', orderable=False)
     # seq_quality_check - bioinfo.QualityMetadata
-    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check')
+    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check', orderable=False)
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check')
+    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check', orderable=False)
     # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
     # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
     # # feature - bioinfo.FeatureOutput
@@ -274,51 +274,51 @@ class MixsSedimentTable(tables.Table):
     # seq_meth - wet_lab.FastqFile
     seq_meth = tables.Column(accessor='seq_meth', verbose_name='Sequencing Method')
     # mixs_project_name - field_survey.FieldSurvey
-    project_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name', verbose_name='Project Name')
+    project_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_project_name', verbose_name='Project Name', orderable=False)
     # mixs_lat_lon - field_survey.FieldSurvey
-    lat_lon = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon', verbose_name='Geographic Location')
+    lat_lon = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_lat_lon', verbose_name='Geographic Location', orderable=False)
     # mixs_depth - field_survey.FilterSample
-    depth = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_depth', verbose_name='Depth')
+    depth = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_depth', verbose_name='Depth', orderable=False)
     # mixs_geo_loc_name - field_site.FieldSite
-    geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location')
+    geo_loc_name = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_geo_loc_name', verbose_name='Geographic Location', orderable=False)
     # core_datetime_start - field_survey.WaterCollection
     collection_date = tables.Column(accessor='extraction.field_sample.collection_global_id.sediment_collection.core_datetime_start', verbose_name='Collection Date')
     # env_biome - field_survey.FieldSurvey
-    env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale')
+    env_broad_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_broad_scale', verbose_name='Envo Broad-Scale', orderable=False)
     # env_feature - field_survey.FieldSurvey
-    env_local_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale', verbose_name='Envo Local')
+    env_local_scale = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.site_id.mixs_env_local_scale', verbose_name='Envo Local', orderable=False)
     # mixs_env_medium - field_survey.FieldSurvey
-    env_medium = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium', verbose_name='Envo Medium')
+    env_medium = tables.Column(accessor='extraction.field_sample.collection_global_id.survey_global_id.mixs_env_medium', verbose_name='Envo Medium', orderable=False)
     # mixs_source_mat_id - field_survey.FilterSample
     source_mat_id = tables.Column(accessor='extraction.field_sample.sample_global_id', verbose_name='Source Material ID')
     # mixs_samp_collect_device - field_survey.FilterSample
-    samp_collect_device = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method')
+    samp_collect_device = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_collect_device', verbose_name='Collection Device or Method', orderable=False)
     # mixs_samp_mat_process - field_survey.FilterSample
-    samp_mat_process = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_mat_process', verbose_name='Material Processing')
+    samp_mat_process = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_mat_process', verbose_name='Material Processing', orderable=False)
     # mixs_samp_size - field_survey.FilterSample
-    samp_size = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_size', verbose_name='Collection Size')
+    samp_size = tables.Column(accessor='extraction.field_sample.subcore_sample.mixs_samp_size', verbose_name='Collection Size', orderable=False)
     # mixs_nucl_acid_ext - wet_lab.Extraction
-    nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP')
+    nucl_acid_ext = tables.Column(accessor='extraction.mixs_nucl_acid_ext', verbose_name='Extraction SOP', orderable=False)
     # mixs_nucl_acid_amp - wet_lab.LibraryPrep
-    nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP')
+    nucl_acid_amp = tables.Column(accessor='mixs_nucl_acid_amp', verbose_name='Amplification SOP', orderable=False)
     # lib_prep_layout - wet_lab.LibraryPrep
-    lib_layout = tables.Column(accessor='mixs_lib_layout', verbose_name='Library Layout')
+    lib_layout = tables.Column(accessor='mixs_lib_layout', verbose_name='Library Layout', orderable=False)
     # primer_target_gene - wet_lab.PrimerPair
-    target_gene = tables.Column(accessor='mixs_target_gene', verbose_name='Target Gene')
+    target_gene = tables.Column(accessor='mixs_target_gene', verbose_name='Target Gene', orderable=False)
     # primer_subfragment - wet_lab.PrimerPair
-    target_subfragment = tables.Column(accessor='mixs_target_subfragment', verbose_name='Target Subfragment')
+    target_subfragment = tables.Column(accessor='mixs_target_subfragment', verbose_name='Target Subfragment', orderable=False)
     # mixs_pcr_primers - wet_lab.PrimerPair
-    pcr_primers = tables.Column(accessor='mixs_pcr_primers', verbose_name='PCR Primers')
+    pcr_primers = tables.Column(accessor='mixs_pcr_primers', verbose_name='PCR Primers', orderable=False)
     # mixs_mid - wet_lab.IndexPair
-    mid = tables.Column(accessor='mixs_mid', verbose_name='Multiplex Identifiers')
+    mid = tables.Column(accessor='mixs_mid', verbose_name='Multiplex Identifiers', orderable=False)
     # index_adapter - wet_lab.IndexPair
-    adapters = tables.Column(accessor='mixs_adapters', verbose_name='Adapter')
+    adapters = tables.Column(accessor='mixs_adapters', verbose_name='Adapter', orderable=False)
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
-    pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions')
+    pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions', orderable=False)
     # seq_quality_check - bioinfo.QualityMetadata
-    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check')
+    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check', orderable=False)
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check')
+    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check', orderable=False)
     # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
     # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
     # # feature - bioinfo.FeatureOutput
