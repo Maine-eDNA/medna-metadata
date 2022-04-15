@@ -2,7 +2,7 @@ from django import forms
 from django_filters import rest_framework as filters
 from .models import SampleLabelRequest, SampleType, SampleMaterial, year_choices, SampleBarcode
 from field_site.models import FieldSite
-from utility.widgets import CustomSelect2Multiple
+from utility.widgets import CustomSelect2Multiple, CustomSelect2
 
 
 # Create your filters here.
@@ -12,9 +12,9 @@ from utility.widgets import CustomSelect2Multiple
 class SampleLabelRequestFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     sample_year = filters.MultipleChoiceFilter(choices=year_choices, widget=CustomSelect2Multiple)
-    sample_material = filters.ModelMultipleChoiceFilter(queryset=SampleMaterial.objects.all(), widget=CustomSelect2Multiple)
-    sample_type = filters.ModelMultipleChoiceFilter(queryset=SampleType.objects.all(), widget=CustomSelect2Multiple)
-    site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(), widget=CustomSelect2Multiple)
+    sample_material = filters.ModelChoiceFilter(queryset=SampleMaterial.objects.all(), widget=CustomSelect2)
+    sample_type = filters.ModelChoiceFilter(queryset=SampleType.objects.all(), widget=CustomSelect2)
+    site_id = filters.ModelChoiceFilter(queryset=FieldSite.objects.all(), widget=CustomSelect2)
 
     class Meta:
         model = SampleLabelRequest
@@ -24,9 +24,9 @@ class SampleLabelRequestFilter(filters.FilterSet):
 class UserSampleLabelRequestFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget())
     sample_year = filters.ChoiceFilter(choices=year_choices)
-    sample_type = filters.ModelMultipleChoiceFilter(queryset=SampleType.objects.all(), widget=forms.CheckboxSelectMultiple)
-    sample_material = filters.ModelMultipleChoiceFilter(queryset=SampleMaterial.objects.all(), widget=forms.CheckboxSelectMultiple)
-    site_id = filters.ModelMultipleChoiceFilter(queryset=FieldSite.objects.all(), widget=forms.CheckboxSelectMultiple)
+    sample_type = filters.ModelChoiceFilter(queryset=SampleType.objects.all(), widget=forms.CheckboxInput)
+    sample_material = filters.ModelChoiceFilter(queryset=SampleMaterial.objects.all(), widget=forms.CheckboxInput)
+    site_id = filters.ModelChoiceFilter(queryset=FieldSite.objects.all(), widget=forms.CheckboxInput)
 
     class Meta:
         model = SampleLabelRequest
