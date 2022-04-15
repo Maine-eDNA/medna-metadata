@@ -147,7 +147,7 @@ class ReferenceDatabase(DateTimeUserMixin):
     refdb_notes = models.TextField('Reference Database Notes', blank=True)
 
     def save(self, *args, **kwargs):
-        self.refdb_slug = '{name}v{version}'.format(name=slugify(self.refdb_name), version=slugify(self.refdb_version))
+        self.refdb_slug = '{name}_{version}'.format(name=slugify(self.refdb_name), version=slugify(self.refdb_version))
         super(ReferenceDatabase, self).save(*args, **kwargs)
 
     def __str__(self):
