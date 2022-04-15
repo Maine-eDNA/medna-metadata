@@ -372,7 +372,10 @@ class FastqFileTestCase(TestCase):
         run_result_test.setUp()
         extraction = Extraction.objects.filter()[:1].get()
         run_result = RunResult.objects.filter()[:1].get()
-        FastqFile.objects.get_or_create(run_result=run_result, defaults={'extraction': extraction})
+        primer_set = PrimerPair.objects.filter()[:1].get()
+        FastqFile.objects.get_or_create(run_result=run_result, defaults={'extraction': extraction,
+                                                                         'primer_set': primer_set
+                                                                         })
 
     def test_was_added_recently(self):
         # test if date is added correctly

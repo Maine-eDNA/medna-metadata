@@ -536,10 +536,10 @@ class FastqFileAdminResource(resources.ModelResource):
         model = FastqFile
         import_id_fields = ('uuid', 'fastq_datafile', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('uuid', 'run_result', 'extraction', 'fastq_datafile', 'fastq_slug',
+        fields = ('uuid', 'run_result', 'extraction', 'primer_set', 'fastq_datafile', 'fastq_slug',
                   'submitted_to_insdc',
                   'created_by', 'created_datetime', )
-        export_order = ('uuid', 'run_result', 'extraction', 'fastq_datafile', 'fastq_slug',
+        export_order = ('uuid', 'run_result', 'extraction', 'primer_set', 'fastq_datafile', 'fastq_slug',
                         'submitted_to_insdc',
                         'created_by', 'created_datetime', )
 
@@ -552,6 +552,11 @@ class FastqFileAdminResource(resources.ModelResource):
         column_name='extraction',
         attribute='extraction',
         widget=ForeignKeyWidget(Extraction, 'barcode_slug'))
+
+    primer_set = fields.Field(
+        column_name='primer_set',
+        attribute='primer_set',
+        widget=ForeignKeyWidget(PrimerPair, 'primer_set_name'))
 
     created_by = fields.Field(
         column_name='created_by',

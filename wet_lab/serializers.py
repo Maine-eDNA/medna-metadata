@@ -411,7 +411,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'fastq_datafile',
+        fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'primer_set', 'fastq_datafile',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
@@ -419,6 +419,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     run_result = serializers.SlugRelatedField(many=False, read_only=False, slug_field='run_id', queryset=RunResult.objects.all())
+    primer_set = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='primer_slug', queryset=PrimerPair.objects.all())
     extraction = serializers.SlugRelatedField(many=False, read_only=False, allow_null=True, slug_field='barcode_slug', queryset=Extraction.objects.all())
 
 
