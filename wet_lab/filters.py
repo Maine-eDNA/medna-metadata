@@ -187,26 +187,28 @@ class MixsWaterFilter(filters.FilterSet):
     created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
     extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
+    primer_set = filters.ModelChoiceFilter(field_name='primer_set__primer_slug', queryset=PrimerPair.objects.all(), widget=CustomSelect2)
     submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices, widget=CustomSelect2)
     seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices, widget=CustomSelect2)
     investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices, widget=CustomSelect2)
 
     class Meta:
         model = FastqFile
-        fields = ['created_by', 'run_result', 'extraction', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+        fields = ['created_by', 'run_result', 'extraction', 'primer_set', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
 
 
 class MixsSedimentFilter(filters.FilterSet):
     created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
     run_result = filters.ModelChoiceFilter(field_name='run_result__run_id', queryset=RunResult.objects.all(), widget=CustomSelect2)
     extraction = filters.ModelChoiceFilter(field_name='extraction__barcode_slug', queryset=Extraction.objects.all(), widget=CustomSelect2)
+    primer_set = filters.ModelChoiceFilter(field_name='primer_set__primer_slug', queryset=PrimerPair.objects.all(), widget=CustomSelect2)
     submitted_to_insdc = filters.ChoiceFilter(field_name='submitted_to_insdc', choices=YesNo.choices, widget=CustomSelect2)
     seq_meth = filters.ChoiceFilter(field_name='seq_meth', choices=SeqMethods.choices, widget=CustomSelect2)
     investigation_type = filters.ChoiceFilter(field_name='investigation_type', choices=InvestigationTypes.choices, widget=CustomSelect2)
 
     class Meta:
         model = FastqFile
-        fields = ['created_by', 'run_result', 'extraction', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+        fields = ['created_by', 'run_result', 'extraction', 'primer_set', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
 
 
 ########################################
