@@ -294,7 +294,7 @@ class LibraryPrepSerializer(serializers.ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=LibraryPrep.objects.all(),
-                fields=['lib_prep_experiment_name', 'extraction', ]
+                fields=['lib_prep_experiment_name', 'extraction', 'primer_set', ]
             )
         ]
     # Since project, system, watershed, and created_by reference different tables and we
