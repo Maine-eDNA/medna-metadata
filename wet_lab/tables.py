@@ -218,9 +218,9 @@ class MixsWaterTable(tables.Table):
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
     pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions', orderable=False)
     # seq_quality_check - bioinfo.QualityMetadata
-    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check', orderable=False)
+    # seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check', orderable=False)
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check', orderable=False)
+    # chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check', orderable=False)
     # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
     # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
     # # feature - bioinfo.FeatureOutput
@@ -259,8 +259,7 @@ class MixsWaterTable(tables.Table):
         fields = ('_selected_action', 'fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
-                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_quality_check', 'chimera_check', )
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )
 
 
 class MixsSedimentTable(tables.Table):
@@ -316,9 +315,9 @@ class MixsSedimentTable(tables.Table):
     # lib_prep_thermal_cond - wet_lab.LibraryPrep
     pcr_cond = tables.Column(accessor='mixs_pcr_cond', verbose_name='PCR Conditions', orderable=False)
     # seq_quality_check - bioinfo.QualityMetadata
-    seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check', orderable=False)
+    # seq_quality_check = tables.Column(accessor='mixs_seq_quality_check', verbose_name='Sequence Quality Check', orderable=False)
     # chimera_check - bioinfo.QualityMetadata
-    chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check', orderable=False)
+    # chimera_check = tables.Column(accessor='mixs_chimera_check', verbose_name='Chimera Check', orderable=False)
     # # denoise_cluster_method - bioinfo.DenoiseClusterMetadata
     # denoise_cluster_method = tables.Column(accessor='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method', verbose_name='DenoiseCluster Method')
     # # feature - bioinfo.FeatureOutput
@@ -357,5 +356,4 @@ class MixsSedimentTable(tables.Table):
         fields = ('_selected_action', 'fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
-                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_quality_check', 'chimera_check', )
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )

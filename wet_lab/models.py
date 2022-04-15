@@ -577,17 +577,17 @@ class FastqFile(DateTimeUserMixin):
         qs_list = qs_extr.values_list('lib_prep_thermal_cond', flat=True)
         return '{qs}'.format(qs=list(qs_list))
 
-    @property
-    def mixs_seq_quality_check(self):
-        qs = self.run_result.quality_metadata.all()
-        qs_list = qs.values_list('seq_quality_check', flat=True)
-        return '{qs}'.format(qs=list(qs_list))
-
-    @property
-    def mixs_chimera_check(self):
-        qs = self.run_result.quality_metadata.all()
-        qs_list = qs.values_list('chimera_check', flat=True)
-        return '{qs}'.format(qs=list(qs_list))
+    # @property
+    # def mixs_seq_quality_check(self):
+    #     qs = self.run_result.quality_metadata.all()
+    #     qs_list = qs.values_list('seq_quality_check', flat=True)
+    #     return '{qs}'.format(qs=list(qs_list))
+    #
+    # @property
+    # def mixs_chimera_check(self):
+    #     qs = self.run_result.quality_metadata.all()
+    #     qs_list = qs.values_list('chimera_check', flat=True)
+    #     return '{qs}'.format(qs=list(qs_list))
 
     def save(self, *args, **kwargs):
         self.fastq_slug = '{runid}_{fastq}'.format(runid=slugify(self.run_result.run_id),

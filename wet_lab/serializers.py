@@ -435,8 +435,7 @@ class MixsWaterSerializer(serializers.ModelSerializer):
         fields = ['fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
-                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_quality_check', 'chimera_check', ]
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -461,8 +460,8 @@ class MixsWaterSerializer(serializers.ModelSerializer):
     mid = serializers.ReadOnlyField(source='mixs_mid')
     adapters = serializers.ReadOnlyField(source='mixs_adapters')
     pcr_cond = serializers.ReadOnlyField(source='mixs_pcr_cond')
-    seq_quality_check = serializers.ReadOnlyField(source='mixs_seq_quality_check')
-    chimera_check = serializers.ReadOnlyField(source='mixs_chimera_check')
+    # seq_quality_check = serializers.ReadOnlyField(source='mixs_seq_quality_check')
+    # chimera_check = serializers.ReadOnlyField(source='mixs_chimera_check')
     # denoise_cluster_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method')
     # feature = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence')
     # annotation_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method')
@@ -493,8 +492,7 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
         fields = ['fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
-                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond',
-                  'seq_quality_check', 'chimera_check', ]
+                  'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
@@ -519,8 +517,8 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
     mid = serializers.ReadOnlyField(source='mixs_mid')
     adapters = serializers.ReadOnlyField(source='mixs_adapters')
     pcr_cond = serializers.ReadOnlyField(source='mixs_pcr_cond')
-    seq_quality_check = serializers.ReadOnlyField(source='mixs_seq_quality_check')
-    chimera_check = serializers.ReadOnlyField(source='mixs_chimera_check')
+    # seq_quality_check = serializers.ReadOnlyField(source='mixs_seq_quality_check')
+    # chimera_check = serializers.ReadOnlyField(source='mixs_chimera_check')
     # denoise_cluster_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.denoise_cluster_method')
     # feature = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.feature_output.feature_sequence')
     # annotation_method = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.annotation_method')
