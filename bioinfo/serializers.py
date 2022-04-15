@@ -144,7 +144,7 @@ class ReferenceDatabaseSerializer(serializers.ModelSerializer):
     refdb_version = serializers.CharField(max_length=255)
     refdb_slug = serializers.SlugField(read_only=True)
     refdb_datetime = serializers.DateTimeField()
-    redfb_coverage_score = serializers.DecimalField(max_digits=6, decimal_places=2)
+    redfb_coverage_score = serializers.DecimalField(allow_null=True, max_digits=6, decimal_places=2)
     refdb_repo_url = serializers.URLField(max_length=255)
     refdb_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)

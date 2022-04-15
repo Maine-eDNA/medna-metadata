@@ -317,7 +317,7 @@ class Migration(migrations.Migration):
                 ('refdb_version', models.CharField(max_length=255, verbose_name='Reference Database Version')),
                 ('refdb_slug', models.SlugField(max_length=255, verbose_name='Reference Database Slug')),
                 ('refdb_datetime', models.DateTimeField(verbose_name='Reference Database DateTime')),
-                ('redfb_coverage_score', models.DecimalField(decimal_places=2, max_digits=6, verbose_name='Coverage Score (Percentage)')),
+                ('redfb_coverage_score', models.DecimalField(decimal_places=2, max_digits=6, verbose_name='Coverage Score (Percentage)', null=True)),
                 ('refdb_repo_url', models.URLField(default='https://github.com/Maine-eDNA', max_length=255, verbose_name='Reference Database URL')),
                 ('refdb_notes', models.TextField(verbose_name='Reference Database Notes', blank=True)),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
