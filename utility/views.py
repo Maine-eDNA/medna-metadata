@@ -261,11 +261,6 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
     def get_initial(self):
         return{'sop_type': self.kwargs.get('sop_type'), }
 
-    def get_form_kwargs(self):
-        kwargs = super(StandardOperatingProcedureCreateView, self).get_form_kwargs()
-        kwargs['sop_type'] = self.kwargs.get('sop_type')
-        return kwargs
-
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
@@ -306,7 +301,8 @@ class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequire
     def get_success_url(self):
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
-        return reverse('view_standardoperatingprocedure')
+        sop_type = self.kwargs['sop_type']
+        return reverse('view_standardoperatingprocedure', kwargs={'sop_type': sop_type})
 
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
