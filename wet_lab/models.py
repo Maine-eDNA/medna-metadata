@@ -402,7 +402,7 @@ class LibraryPrep(DateTimeUserMixin):
         return self.lib_prep_slug
 
     class Meta:
-        unique_together = ['lib_prep_experiment_name', 'extraction']
+        unique_together = ['lib_prep_experiment_name', 'extraction', 'primer_set']
         app_label = 'wet_lab'
         verbose_name = 'Library Prep'
         verbose_name_plural = 'Library Preps'

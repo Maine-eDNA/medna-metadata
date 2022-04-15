@@ -254,7 +254,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Library Prep',
                 'verbose_name_plural': 'Library Preps',
-                'unique_together': {('lib_prep_experiment_name', 'extraction')},
+                'unique_together': {('lib_prep_experiment_name', 'extraction', 'primer_set')},
             },
         ),
         migrations.CreateModel(
