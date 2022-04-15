@@ -28,19 +28,19 @@ class ExtractionTable(tables.Table):
 
 
 class PcrTable(tables.Table):
-    edit = tables.LinkColumn('update_pcr', text='Update', args=[A('pk')], orderable=False)
-    pcr_replicate = tables.TemplateColumn('{{ record.pcr_replicate.pcr_replicate_results.all|join:", " }}', verbose_name='Replicate Results')
-    pcr_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.pcr_notes}}">{{ record.pcr_notes|truncatewords:5 }}', orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    pcr_replicate = tables.TemplateColumn('{{ record.pcr_replicate.pcr_replicate_results.all|join:", " }}', verbose_name='Replicate Results')
+    pcr_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.pcr_notes}}">{{ record.pcr_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_pcr', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = Pcr
@@ -53,18 +53,18 @@ class PcrTable(tables.Table):
 
 
 class LibraryPrepTable(tables.Table):
-    edit = tables.LinkColumn('update_libraryprep', text='Update', args=[A('pk')], orderable=False)
-    lib_prep_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.lib_prep_notes}}">{{ record.lib_prep_notes|truncatewords:5 }}', orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    lib_prep_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.lib_prep_notes}}">{{ record.lib_prep_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_libraryprep', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = LibraryPrep
@@ -78,18 +78,18 @@ class LibraryPrepTable(tables.Table):
 
 
 class PooledLibraryTable(tables.Table):
-    edit = tables.LinkColumn('update_pooledlibrary', text='Update', args=[A('pk')], orderable=False)
-    pooled_lib_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.pooled_lib_notes}}">{{ record.pooled_lib_notes|truncatewords:5 }}', orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    pooled_lib_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.pooled_lib_notes}}">{{ record.pooled_lib_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_pooledlibrary', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = PooledLibrary
@@ -103,18 +103,18 @@ class PooledLibraryTable(tables.Table):
 
 
 class RunPrepTable(tables.Table):
-    edit = tables.LinkColumn('update_runprep', text='Update', args=[A('pk')], orderable=False)
-    run_prep_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.run_prep_notes}}">{{ record.run_prep_notes|truncatewords:5 }}', orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    run_prep_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.run_prep_notes}}">{{ record.run_prep_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_runprep', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = RunPrep
@@ -126,17 +126,17 @@ class RunPrepTable(tables.Table):
 
 
 class RunResultTable(tables.Table):
-    edit = tables.LinkColumn('update_runresult', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_runresult', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = RunResult
@@ -147,17 +147,17 @@ class RunResultTable(tables.Table):
 
 
 class FastqFileTable(tables.Table):
-    edit = tables.LinkColumn('update_fastqfile', text='Update', args=[A('pk')], orderable=False)
-    # formatting for date column
-    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
-    created_by = tables.Column(accessor='created_by.email')
     _selected_action = tables.CheckBoxColumn(accessor='pk',
                                              attrs={'td': {'class': 'action-checkbox'},
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    # formatting for date column
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_fastqfile', text='Update', args=[A('pk')], orderable=False)
 
     class Meta:
         model = FastqFile
@@ -167,8 +167,13 @@ class FastqFileTable(tables.Table):
 
 class MixsWaterTable(tables.Table):
     # MIMARKS-SURVEY
-    _selected_action = tables.CheckBoxColumn(accessor='pk', attrs={'td': {'class': 'action-checkbox'}, 'input': {'class': 'action-select'}, 'th__input': {'id': 'action-toggle'}, 'th': {'class': 'action-checkbox-column'}}, orderable=False)
-    fastq_uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
     # submitted_to_insdc - wet_lab.FastqFile
     submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
     # investigation_type - wet_lab.FastqFile
@@ -256,7 +261,7 @@ class MixsWaterTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )
@@ -264,8 +269,13 @@ class MixsWaterTable(tables.Table):
 
 class MixsSedimentTable(tables.Table):
     # MIMARKS-SURVEY
-    _selected_action = tables.CheckBoxColumn(accessor='pk', attrs={'td': {'class': 'action-checkbox'}, 'input': {'class': 'action-select'}, 'th__input': {'id': 'action-toggle'}, 'th': {'class': 'action-checkbox-column'}}, orderable=False)
-    fastq_uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
     # submitted_to_insdc - wet_lab.FastqFile
     submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
     # investigation_type - wet_lab.FastqFile
@@ -353,7 +363,7 @@ class MixsSedimentTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'fastq_uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )
