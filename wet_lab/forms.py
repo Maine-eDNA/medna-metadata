@@ -361,7 +361,7 @@ class PcrCreateForm(forms.ModelForm):
         label='Initial Denaturation',
         help_text='Description of reaction conditions and components of PCR for initial denaturation in the form of: degrees_minutes (MIxS v5). '
                   'E.g., 94_3',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -373,7 +373,7 @@ class PcrCreateForm(forms.ModelForm):
         label='Thermal Conditions Annealing',
         help_text='Description of reaction conditions and components of PCR for annealing in the form of: degrees_minutes (MIxS v5).'
                   'E.g., 50_1',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -385,7 +385,7 @@ class PcrCreateForm(forms.ModelForm):
         help_text='Description of reaction conditions and components of PCR for elongation in the form of: degrees_minutes (MIxS v5).'
                   'E.g., 72_1.5',
         label='Thermal Conditions Elongation',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -397,7 +397,7 @@ class PcrCreateForm(forms.ModelForm):
         label='Thermal Conditions Final Elongation',
         help_text='Description of reaction conditions and components of PCR for final elongation in the form of: degrees_minutes (MIxS v5).'
                   'E.g., 72_10',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -797,7 +797,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
         label='Initial Denaturation',
         help_text='Description of reaction conditions and components of PCR for initial denaturation in the form of (MIxS v5): degrees_minutes. '
                   'E.g., 94_3',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -809,7 +809,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
         label='Thermal Conditions Annealing',
         help_text='Description of reaction conditions and components of PCR for annealing in the form of (MIxS v5): degrees_minutes.'
                   'E.g., 50_1',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -821,7 +821,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
         help_text='Description of reaction conditions and components of PCR for elongation in the form of (MIxS v5): degrees_minutes.'
                   'E.g., 72_1.5',
         label='Thermal Conditions Elongation',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
@@ -833,7 +833,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
         label='Thermal Conditions Final Elongation',
         help_text='Description of reaction conditions and components of PCR for final elongation in the form of (MIxS v5): degrees_minutes.'
                   'E.g., 72_10',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
                 'placeholder': 'degrees_minutes',
                 'class': 'form-control',
