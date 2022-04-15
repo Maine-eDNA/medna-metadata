@@ -1425,7 +1425,7 @@ class RunResultForm(forms.ModelForm):
         self.fields['run_prep'].queryset = RunPrep.objects.all().order_by('-created_datetime')
 
 
-class FastqFileForm(forms.ModelForm):
+class FastqFileCreateForm(forms.ModelForm):
     fastq_datafile = forms.FileField(
         required=True,
         label='FastQ Datafile',
@@ -1512,4 +1512,85 @@ class FastqFileForm(forms.ModelForm):
     class Meta:
         model = FastqFile
         fields = ['run_result', 'extraction', 'primer_set', 'fastq_datafile',
+                  'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+
+
+class FastqFileUpdateForm(forms.ModelForm):
+    run_result = forms.ModelChoiceField(
+        required=True,
+        label='Run Result',
+        queryset=RunResult.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    extraction = forms.ModelChoiceField(
+        required=True,
+        queryset=Extraction.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    primer_set = forms.ModelChoiceField(
+        required=True,
+        label='Primer Pair',
+        help_text='PCR primers that were used to amplify the sequence of the targeted gene, locus or subfragment (MIxS v5). ',
+        queryset=PrimerPair.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    submitted_to_insdc = forms.ChoiceField(
+        required=True,
+        label='Submitted to INSDC',
+        help_text='Depending on the study (large-scale e.g. done with next generation sequencing technology, or '
+                  'small-scale) sequences have to be submitted to SRA (Sequence Read Archive), DRA (DDBJ Read Archive) '
+                  'or via the classical Webin/Sequin systems to Genbank, ENA and DDBJ. Although this field is mandatory, '
+                  'it is meant as a self-test field, therefore it is not necessary to include this field in contextual '
+                  'data submitted to databases (MIxS v5).',
+        choices=YesNo.choices,
+        initial=YesNo.NO,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    seq_meth = forms.ChoiceField(
+        required=True,
+        label='Sequencing Method',
+        help_text='Sequencing method used.',
+        choices=SeqMethods.choices,
+        initial=SeqMethods.ILLUMINAMISEQ,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    investigation_type = forms.ChoiceField(
+        required=True,
+        label='Investigation Type',
+        help_text='Nucleic Acid Sequence Report is the root element of all MIGS/MIMS compliant reports as standardized '
+                  'by Genomic Standards Consortium. This field is either eukaryote,bacteria,virus,plasmid,organelle, '
+                  'metagenome,mimarks-survey, mimarks-specimen, metatranscriptome, single amplified genome, '
+                  'metagenome-assembled genome, or uncultivated viral genome (MIxS v5).',
+        choices=InvestigationTypes.choices,
+        initial=InvestigationTypes.MIMARKSSURVEY,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = FastqFile
+        fields = ['run_result', 'extraction', 'primer_set',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type', ]

@@ -25,7 +25,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
 from .forms import IndexPairForm, ExtractionForm, PcrCreateForm, PcrUpdateForm, PcrReplicateForm, LibraryPrepCreateForm, \
-    LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileForm
+    LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileUpdateForm, FastqFileCreateForm
 from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
     RunPrepTable, RunResultTable, FastqFileTable, MixsWaterTable, MixsSedimentTable
 
@@ -978,7 +978,7 @@ class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'wet_lab.add_fastqfile'
     model = FastqFile
-    form_class = FastqFileForm
+    form_class = FastqFileCreateForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add-fileupload-fastqfile.html'
 
@@ -1005,7 +1005,7 @@ class FastqFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 
 class FastqFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = FastqFile
-    form_class = FastqFileForm
+    form_class = FastqFileUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update-fileupload-fastqfile.html'
