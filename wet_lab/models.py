@@ -511,8 +511,7 @@ class FastqFile(DateTimeUserMixin):
     uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT, related_name='run_results')
     extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT, related_name='extractions')
-    # TODO add null=True to primer_set
-    primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT, related_name='primer_sets')
+    primer_set = models.ForeignKey(PrimerPair, null=True, on_delete=models.RESTRICT, related_name='primer_sets')
     fastq_slug = models.SlugField('Fastq Slug', max_length=255)
     fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage, upload_to=get_run_id_upload_subdir)
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
