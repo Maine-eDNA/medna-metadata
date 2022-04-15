@@ -302,7 +302,7 @@ class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequire
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         # sop_type = self.kwargs['sop_type']
-        return reverse('view_standardoperatingprocedure', kwargs={'pk': self.object.sop_type})
+        return reverse('view_standardoperatingprocedure', kwargs={'sop_type': self.object.sop_type})
 
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
