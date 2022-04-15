@@ -147,7 +147,7 @@ class ReferenceDatabase(DateTimeUserMixin):
     refdb_version = models.CharField('Reference Database Version', max_length=255)
     refdb_slug = models.SlugField('Reference Database Slug', max_length=255)
     refdb_datetime = models.DateTimeField('Reference Database DateTime')
-    redfb_coverage_score = models.DecimalField('Coverage Score (Percentage)', max_digits=6, decimal_places=2)
+    redfb_coverage_score = models.DecimalField('Coverage Score (Percentage)', max_digits=6, decimal_places=2, null=True)
     refdb_repo_url = models.URLField('Reference Database URL', max_length=255, default='https://github.com/Maine-eDNA')
     refdb_notes = models.TextField('Reference Database Notes', blank=True)
 
