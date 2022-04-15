@@ -648,7 +648,7 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = FastqFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'created_datetime', 'created_by')
+    list_display = ('__str__', 'extraction', 'primer_set', 'created_datetime', 'created_by')
     readonly_fields = ('fastq_slug', 'uuid', 'modified_datetime', 'created_datetime', )
     search_fields = ['fastq_datafile', ]
     autocomplete_fields = ['run_result', 'extraction', ]
