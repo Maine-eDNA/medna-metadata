@@ -541,6 +541,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'tasks.transform_new_records_field_survey_task',
         'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     },
+    'db-backup': {
+        'task': 'tasks.db_backup',
+        'schedule': crontab(hour=4, minute=30),  # Everyday at 04:30
+    },
 }
 
 ###########################################

@@ -1,8 +1,17 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
-    CustomUserCss
+    CustomUserCss, PeriodicTaskRun
 from users.models import CustomUser
+
+
+class PeriodicTaskRunAdminResource(resources.ModelResource):
+    # formerly Project in field_site.models
+    # Maine-eDNA, None
+    class Meta:
+        model = PeriodicTaskRun
+        import_id_fields = ('id', 'task',)
+        export_order = ('id', 'task', 'task_datetime', )
 
 
 class GrantAdminResource(resources.ModelResource):

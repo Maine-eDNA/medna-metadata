@@ -2,9 +2,36 @@ from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ContactUsAdminResource, ProcessLocationAdminResource, PublicationAdminResource, \
     StandardOperatingProcedureAdminResource, ProjectAdminResource, GrantAdminResource, \
-    DefaultSiteCssAdminResource, CustomUserCssAdminResource
+    DefaultSiteCssAdminResource, CustomUserCssAdminResource, PeriodicTaskRunAdminResource
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
-    CustomUserCss
+    CustomUserCss, PeriodicTaskRun
+
+
+class PeriodicTaskRunAdmin(ImportExportActionModelAdmin):
+    # formerly Project in field_site.models
+    # below are import_export configs
+    resource_class = PeriodicTaskRunAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('task', 'task_datetime')
+    readonly_fields = ('task_datetime', )
+
+    def has_add_permission(self, request, obj=None):
+        # disable add because this model is populated by ETL tasks in tasks.py with celery
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        # disable add because this model is populated by ETL tasks in tasks.py with celery
+        return False
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+
+admin.site.register(PeriodicTaskRun, PeriodicTaskRunAdmin)
 
 
 class GrantAdmin(ImportExportActionModelAdmin):
