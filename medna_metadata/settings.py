@@ -64,20 +64,21 @@ INSTALLED_APPS = [
     'freezer_inventory',
     'bioinfo',
     'frontend.home',  # Enable the inner home (home)
-    'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api - https://github.com/adamchainz/django-cors-headers
+    # 'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api - https://github.com/adamchainz/django-cors-headers
     'allauth',  # django-allauth handles user registration as well as social authentication. - https://github.com/pennersr/django-allauth
     'allauth.account',  # Good for email address verification, resetting passwords, etc. - https://github.com/pennersr/django-allauth
     'allauth.socialaccount',  # https://www.section.io/engineering-education/django-google-oauth/
     # 'allauth.socialaccount.providers.google',  # https://django-allauth.readthedocs.io/en/latest/providers.html#google - https://dj-rest-auth.readthedocs.io/en/latest/installation.html#google
     'storages',  # django-storages for s3 storage backends e.g., wasabi - https://github.com/jschneier/django-storages
+    'dbbackup',  # django-dbbackup for periodic db backups via the database (not fixtures) - https://github.com/jazzband/django-dbbackup
     'import_export',  # django-import-export - https://github.com/django-import-export/django-import-export
     'django_filters', # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework. - https://github.com/carltongibson/django-filter
     'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite] - https://github.com/stefanfoulis/django-phonenumber-field
     # 'crispy_forms',  # crispy forms for pretty forms - https://github.com/django-crispy-forms/django-crispy-forms
     # 'crispy_bootstrap5', # bootstrap5 template pack for django-crispy-forms - https://github.com/django-crispy-forms/crispy-bootstrap5
-    'django_tables2', # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
+    'django_tables2',  # django-tables2 - An app for creating HTML tables - https://github.com/jieter/django-tables2
     # 'django_admin_listfilter_dropdown', # django-admin-list-filter-dropdown - Use dropdowns in Django admin list filter - https://github.com/mrts/django-admin-list-filter-dropdown
-    'leaflet', # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
+    'leaflet',  # Use Leaflet in your Django projects - https://github.com/makinacorpus/django-leaflet
     'rest_framework',  # djangorestframework - integrates with django-filter - https://github.com/encode/django-rest-framework/tree/master
     'rest_framework.authtoken',  # for the creation of api tokens
     'rest_framework_gis',  # needed for geojson and geodjango - not compatible with import-export because tablib doesn't have geojson format. - https://github.com/openwisp/django-rest-framework-gis
@@ -198,7 +199,7 @@ WSGI_APPLICATION = 'medna_metadata.wsgi.application'
 # django\conf\global_settings.py
 MIDDLEWARE = [
     # CORS
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -476,6 +477,14 @@ if os.getenv('GITHUB_WORKFLOW'):
     # Example: 'http://example.com/static/', 'http://static.example.com/'
     STATIC_URL = '/static/'  # set by django-storages
 
+    ########################################
+    # DJANGO-DBBACKUP CONFIG               #
+    ########################################
+    DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    DBBACKUP_STORAGE_OPTIONS = {
+        'location': "/backups/"
+    }
+
 else:
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -502,6 +511,17 @@ else:
 
     PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
     AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
+
+    ########################################
+    # DJANGO-DBBACKUP CONFIG               #
+    ########################################
+    DBBACKUP_STORAGE = 'medna_metadata.storage_backends.PrivateBackupStorage'
+    AWS_PRIVATE_BACKUP_LOCATION = '%s/backups/' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    DBBACKUP_STORAGE_OPTIONS = {
+        'access_key': AWS_ACCESS_KEY_ID,
+        'secret_key': AWS_SECRET_ACCESS_KEY,
+        'bucket_name': AWS_STORAGE_BUCKET_NAME
+    }
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [

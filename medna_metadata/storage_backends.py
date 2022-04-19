@@ -29,6 +29,13 @@ class PrivateSequencingStorage(S3Boto3Storage):
     custom_domain = False
 
 
+class PrivateBackupStorage(S3Boto3Storage):
+    location = settings.AWS_PRIVATE_BACKUP_LOCATION
+    default_acl = 'private'
+    file_overwrite = False
+    custom_domain = False
+
+
 # https://stackoverflow.com/questions/59437637/django-use-private-s3-storage-only-in-production-environment
 def select_private_media_storage():
     private_storage_class = get_storage_class(settings.PRIVATE_FILE_STORAGE)
