@@ -4,7 +4,7 @@ Django==4.0.2
 # django-admin-list-filter-dropdown==1.0.3
 django-allauth==0.48.0
 django-cors-headers==3.11.0
-django-dbbackup==3.3.0
+django-dbbackup==4.0.0b0
 # django-crispy-forms==1.14.0
 # crispy-bootstrap5==0.6
 django-dotenv==1.4.2
