@@ -419,12 +419,7 @@ class PcrCreateForm(forms.ModelForm):
         required=True,
         help_text='A literature reference, electronic resource or a standard operating procedure (SOP), that '
                   'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids (MIxS v5).',
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none()
     )
     pcr_notes = forms.CharField(
         required=False,
@@ -449,9 +444,11 @@ class PcrCreateForm(forms.ModelForm):
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['pcr_replicate'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pcrreplicate')))
-        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
+        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
+        self.fields['pcr_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.WETLAB},)))
+        self.fields['pcr_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB).order_by('-created_datetime')
 
 
 class PcrUpdateForm(forms.ModelForm):
@@ -571,12 +568,7 @@ class PcrUpdateForm(forms.ModelForm):
         required=True,
         help_text='A literature reference, electronic resource or a standard operating procedure (SOP), that '
                   'describes the enzymatic amplification (PCR, TMA, NASBA) of specific nucleic acids (MIxS v5).',
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none(),
     )
     pcr_notes = forms.CharField(
         required=False,
@@ -599,10 +591,12 @@ class PcrUpdateForm(forms.ModelForm):
         # filter form options by currently logged in user
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        self.fields['pcr_replicate'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pcrreplicate')))
         self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
-        self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
         self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
+        self.fields['pcr_replicate'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_pcrreplicate')))
+        self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
+        self.fields['pcr_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.WETLAB},)))
+        self.fields['pcr_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB).order_by('-created_datetime')
 
 
 class LibraryPrepCreateForm(forms.ModelForm):
@@ -855,12 +849,7 @@ class LibraryPrepCreateForm(forms.ModelForm):
     lib_prep_sop = forms.ModelChoiceField(
         required=True,
         label='Library Prep Standard Operating Procedure',
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none(),
     )
     lib_prep_notes = forms.CharField(
         required=False,
@@ -889,9 +878,11 @@ class LibraryPrepCreateForm(forms.ModelForm):
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['index_pair'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_indexpair')))
-        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
+        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
+        self.fields['lib_prep_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.WETLAB},)))
+        self.fields['lib_prep_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB).order_by('-created_datetime')
 
 
 class LibraryPrepUpdateForm(forms.ModelForm):
@@ -1100,12 +1091,7 @@ class LibraryPrepUpdateForm(forms.ModelForm):
     lib_prep_sop = forms.ModelChoiceField(
         required=True,
         label='Library Prep Standard Operating Procedure',
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none()
     )
     lib_prep_notes = forms.CharField(
         required=False,
@@ -1133,9 +1119,11 @@ class LibraryPrepUpdateForm(forms.ModelForm):
         _user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['index_pair'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_indexpair')))
-        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['index_pair'].queryset = IndexPair.objects.filter(created_by=_user).order_by('-created_datetime')
+        self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
+        self.fields['lib_prep_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.WETLAB},)))
+        self.fields['lib_prep_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB).order_by('-created_datetime')
 
 
 class PooledLibraryForm(forms.ModelForm):

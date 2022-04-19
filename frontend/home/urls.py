@@ -40,6 +40,8 @@ urlpatterns = [
     path('main/sop/<str:sop_type>/', utility_views.StandardOperatingProcedureTemplateView.as_view(), name='view_standardoperatingprocedure'),
     path('main/sop/add/<str:sop_type>/', utility_views.StandardOperatingProcedureCreateView.as_view(success_url=reverse_lazy('detail_standardoperatingprocedure')), name='add_standardoperatingprocedure'),
     path('main/sop/update/<int:pk>/', utility_views.StandardOperatingProcedureUpdateView.as_view(), name='update_standardoperatingprocedure'),
+    path('main/sop/popup/add/<str:sop_type>/', utility_views.StandardOperatingProcedurePopupCreateView.as_view(), name='add_popup_standardoperatingprocedure'),
+    path('main/sop/popup/update/<int:pk>/', utility_views.StandardOperatingProcedurePopupUpdateView.as_view(), name='update_popup_standardoperatingprocedure'),
     # UTILITY: CONTACT US (VIEW, ADD, UPDATE)
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),
     path('main/contact-us/', utility_views.ContactUsCreateView.as_view(success_url=reverse_lazy('contact_us_received')), name='add_contactus'),
@@ -94,14 +96,14 @@ urlpatterns = [
     path('dashboard/wetlab/extraction/add/', wetlab_views.ExtractionCreateView.as_view(), name='add_extraction'),
     path('dashboard/wetlab/extraction/update/<int:pk>/', wetlab_views.ExtractionUpdateView.as_view(success_url=reverse_lazy('view_extraction')), name='update_extraction'),
     path('dashboard/wetlab/extraction/popup/add/', wetlab_views.ExtractionPopupCreateView.as_view(), name='add_popup_extraction'),
-    path('dashboard/wetlab/extraction/popup/update/', wetlab_views.ExtractionPopupUpdateView.as_view(), name='update_popup_extraction'),
+    path('dashboard/wetlab/extraction/popup/update/<int:pk>/', wetlab_views.ExtractionPopupUpdateView.as_view(), name='update_popup_extraction'),
     # WET LAB: PCR & PCR REPLICATE (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/pcr/view/', wetlab_views.PcrFilterView.as_view(filterset_class=wetlab_filters.PcrFilter), name='view_pcr'),
     # path('dashboard/wetlab/pcr/detail/<int:pk>/', wetlab_views.PcrDetailView.as_view(), name='detail_pcr'),
     path('dashboard/wetlab/pcr/add/', wetlab_views.PcrCreateView.as_view(), name='add_pcr'),
     path('dashboard/wetlab/pcr/update/<int:pk>/', wetlab_views.PcrUpdateView.as_view(success_url=reverse_lazy('view_pcr')), name='update_pcr'),
     path('dashboard/wetlab/pcrreplicate/popup/add/', wetlab_views.PcrReplicatePopupCreateView.as_view(), name='add_popup_pcrreplicate'),
-    path('dashboard/wetlab/pcrreplicate/popup/update/', wetlab_views.PcrReplicatePopupUpdateView.as_view(), name='update_popup_pcrreplicate'),
+    path('dashboard/wetlab/pcrreplicate/popup/update/<int:pk>/', wetlab_views.PcrReplicatePopupUpdateView.as_view(), name='update_popup_pcrreplicate'),
     # WET LAB: LIBRARY PREP & INDEX PAIR (VIEW, ADD, UPDATE) w/ TABLE
     # TODO convert add_libraryprep to table update
     path('dashboard/wetlab/indexpair/add/', wetlab_views.IndexPairPopupCreateView.as_view(), name='add_indexpair'),
@@ -111,28 +113,28 @@ urlpatterns = [
     path('dashboard/wetlab/libraryprep/add/', wetlab_views.LibraryPrepCreateView.as_view(), name='add_libraryprep'),
     path('dashboard/wetlab/libraryprep/update/<int:pk>/', wetlab_views.LibraryPrepUpdateView.as_view(success_url=reverse_lazy('view_libraryprep')), name='update_libraryprep'),
     path('dashboard/wetlab/libraryprep/popup/add/', wetlab_views.LibraryPrepPopupCreateView.as_view(), name='add_popup_libraryprep'),
-    path('dashboard/wetlab/libraryprep/popup/update/', wetlab_views.LibraryPrepPopupUpdateView.as_view(), name='update_popup_libraryprep'),
+    path('dashboard/wetlab/libraryprep/popup/update/<int:pk>/', wetlab_views.LibraryPrepPopupUpdateView.as_view(), name='update_popup_libraryprep'),
     # WET LAB: POOLED LIBRARY (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/pooledlibrary/view/', wetlab_views.PooledLibraryFilterView.as_view(filterset_class=wetlab_filters.PooledLibraryFilter), name='view_pooledlibrary'),
     # path('dashboard/wetlab/pooledlibrary/detail/<int:pk>/', wetlab_views.PooledLibraryDetailView.as_view(), name='detail_pooledlibrary'),
     path('dashboard/wetlab/pooledlibrary/add/', wetlab_views.PooledLibraryCreateView.as_view(), name='add_pooledlibrary'),
     path('dashboard/wetlab/pooledlibrary/update/<int:pk>/', wetlab_views.PooledLibraryUpdateView.as_view(success_url=reverse_lazy('view_pooledlibrary')), name='update_pooledlibrary'),
     path('dashboard/wetlab/pooledlibrary/popup/add/', wetlab_views.PooledLibraryPopupCreateView.as_view(), name='add_popup_pooledlibrary'),
-    path('dashboard/wetlab/pooledlibrary/popup/update/', wetlab_views.PooledLibraryPopupUpdateView.as_view(), name='update_popup_pooledlibrary'),
+    path('dashboard/wetlab/pooledlibrary/popup/update/<int:pk>/', wetlab_views.PooledLibraryPopupUpdateView.as_view(), name='update_popup_pooledlibrary'),
     # WET LAB: RUN PREP (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/runprep/view/', wetlab_views.RunPrepFilterView.as_view(filterset_class=wetlab_filters.RunPrepFilter), name='view_runprep'),
     # path('dashboard/wetlab/runprep/detail/<int:pk>/', wetlab_views.RunPrepDetailView.as_view(), name='detail_runprep'),
     path('dashboard/wetlab/runprep/add/', wetlab_views.RunPrepCreateView.as_view(), name='add_runprep'),
     path('dashboard/wetlab/runprep/update/<int:pk>/', wetlab_views.RunPrepUpdateView.as_view(success_url=reverse_lazy('view_runprep')), name='update_runprep'),
     path('dashboard/wetlab/runprep/popup/add/', wetlab_views.RunPrepPopupCreateView.as_view(), name='add_popup_runprep'),
-    path('dashboard/wetlab/runprep/popup/update/', wetlab_views.RunPrepPopupUpdateView.as_view(), name='update_popup_runprep'),
+    path('dashboard/wetlab/runprep/popup/update/<int:pk>/', wetlab_views.RunPrepPopupUpdateView.as_view(), name='update_popup_runprep'),
     # WET LAB: RUN RESULT (VIEW, ADD, UPDATE)
     path('dashboard/wetlab/runresult/view/', wetlab_views.RunResultFilterView.as_view(filterset_class=wetlab_filters.RunResultFilter), name='view_runresult'),
     # path('dashboard/wetlab/runresult/detail/<int:pk>/', wetlab_views.RunResultDetailView.as_view(), name='detail_runresult'),
     path('dashboard/wetlab/runresult/add/', wetlab_views.RunResultCreateView.as_view(), name='add_runresult'),
     path('dashboard/wetlab/runresult/update/<int:pk>/', wetlab_views.RunResultUpdateView.as_view(success_url=reverse_lazy('view_runresult')), name='update_runresult'),
     path('dashboard/wetlab/runresult/popup/add/', wetlab_views.RunResultPopupCreateView.as_view(), name='add_popup_runresult'),
-    path('dashboard/wetlab/runresult/popup/update/', wetlab_views.RunResultPopupUpdateView.as_view(), name='update_popup_runresult'),
+    path('dashboard/wetlab/runresult/popup/update/<int:pk>/', wetlab_views.RunResultPopupUpdateView.as_view(), name='update_popup_runresult'),
     # WET LAB: FASTQ FILE (VIEW)
     path('dashboard/wetlab/fastqfile/view/', wetlab_views.FastqFileFilterView.as_view(filterset_class=wetlab_filters.FastqFileFilter), name='view_fastqfile'),
     path('dashboard/wetlab/fastqfile/add/', wetlab_views.FastqFileCreateView.as_view(), name='add_fastqfile'),
@@ -157,14 +159,14 @@ urlpatterns = [
     path('dashboard/bioinfo/qualitymetadata/add/', bioinfo_views.QualityMetadataCreateView.as_view(), name='add_qualitymetadata'),
     path('dashboard/bioinfo/qualitymetadata/update/<int:pk>/', bioinfo_views.QualityMetadataUpdateView.as_view(success_url=reverse_lazy('view_qualitymetadata')), name='update_qualitymetadata'),
     path('dashboard/bioinfo/qualitymetadata/popup/add/', bioinfo_views.QualityMetadataPopupCreateView.as_view(), name='add_popup_qualitymetadata'),
-    path('dashboard/bioinfo/qualitymetadata/popup/update/', bioinfo_views.QualityMetadataPopupUpdateView.as_view(), name='update_popup_qualitymetadata'),
+    path('dashboard/bioinfo/qualitymetadata/popup/update/<int:pk>/', bioinfo_views.QualityMetadataPopupUpdateView.as_view(), name='update_popup_qualitymetadata'),
     # BIOINFO: DENOISECLUSTER METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/denoiseclustermetadata/view/', bioinfo_views.DenoiseClusterMetadataFilterView.as_view(filterset_class=bioinfo_filters.DenoiseClusterMetadataFilter), name='view_denoiseclustermetadata'),
     # path('dashboard/bioinfo/denoiseclustermetadata/detail/<int:pk>/', bioinfo_views.DenoiseClusterMetadataDetailView.as_view(), name='detail_denoiseclustermetadata'),
     path('dashboard/bioinfo/denoiseclustermetadata/add/', bioinfo_views.DenoiseClusterMetadataCreateView.as_view(), name='add_denoiseclustermetadata'),
     path('dashboard/bioinfo/denoiseclustermetadata/update/<int:pk>/', bioinfo_views.DenoiseClusterMetadataUpdateView.as_view(success_url=reverse_lazy('view_denoiseclustermetadata')), name='update_denoiseclustermetadata'),
     path('dashboard/bioinfo/denoiseclustermetadata/popup/add/', bioinfo_views.DenoiseClusterMetadataPopupCreateView.as_view(), name='add_popup_denoiseclustermetadata'),
-    path('dashboard/bioinfo/denoiseclustermetadata/popup/update/', bioinfo_views.DenoiseClusterMetadataPopupUpdateView.as_view(), name='update_popup_denoiseclustermetadata'),
+    path('dashboard/bioinfo/denoiseclustermetadata/popup/update/<int:pk>/', bioinfo_views.DenoiseClusterMetadataPopupUpdateView.as_view(), name='update_popup_denoiseclustermetadata'),
     # BIOINFO: FEATURE OUTPUTS (VIEW, ADD) w/ TABLE
     # TODO convert add_featureoutput to table update
     path('dashboard/bioinfo/featureoutput/view/', bioinfo_views.FeatureOutputFilterView.as_view(filterset_class=bioinfo_filters.FeatureOutputFilter), name='view_featureoutput'),
@@ -172,7 +174,7 @@ urlpatterns = [
     path('dashboard/bioinfo/featureoutput/add/', bioinfo_views.FeatureOutputCreateView.as_view(), name='add_featureoutput'),
     path('dashboard/bioinfo/featureoutput/update/<int:pk>/', bioinfo_views.FeatureOutputUpdateView.as_view(success_url=reverse_lazy('view_featureoutput')), name='update_featureoutput'),
     path('dashboard/bioinfo/featureoutput/popup/add/', bioinfo_views.FeatureOutputPopupCreateView.as_view(), name='add_popup_featureoutput'),
-    path('dashboard/bioinfo/featureoutput/popup/update/', bioinfo_views.FeatureOutputPopupUpdateView.as_view(), name='update_popup_featureoutput'),
+    path('dashboard/bioinfo/featureoutput/popup/update/<int:pk>/', bioinfo_views.FeatureOutputPopupUpdateView.as_view(), name='update_popup_featureoutput'),
     # BIOINFO: FEATURE READS (VIEW, ADD) w/ TABLE
     # TODO convert add_featureread to table update
     path('dashboard/bioinfo/featureread/view/', bioinfo_views.FeatureReadFilterView.as_view(filterset_class=bioinfo_filters.FeatureReadFilter), name='view_featureread'),
@@ -188,7 +190,7 @@ urlpatterns = [
     path('dashboard/bioinfo/annotationmetadata/add/', bioinfo_views.AnnotationMetadataCreateView.as_view(), name='add_annotationmetadata'),
     path('dashboard/bioinfo/annotationmetadata/update/<int:pk>/', bioinfo_views.AnnotationMetadataUpdateView.as_view(success_url=reverse_lazy('view_annotationmetadata')), name='update_annotationmetadata'),
     path('dashboard/bioinfo/annotationmetadata/popup/add/', bioinfo_views.AnnotationMetadataPopupCreateView.as_view(), name='add_popup_annotationmetadata'),
-    path('dashboard/bioinfo/annotationmetadata/popup/update/', bioinfo_views.AnnotationMetadataPopupUpdateView.as_view(), name='update_popup_annotationmetadata'),
+    path('dashboard/bioinfo/annotationmetadata/popup/update/<int:pk>/', bioinfo_views.AnnotationMetadataPopupUpdateView.as_view(), name='update_popup_annotationmetadata'),
     # BIOINFO: TAXONOMIC ANNOTATION (VIEW, ADD, UPDATE)
     path('dashboard/bioinfo/taxonomicannotation/view/', bioinfo_views.TaxonomicAnnotationFilterView.as_view(filterset_class=bioinfo_filters.TaxonomicAnnotationFilter), name='view_taxonomicannotation'),
     # path('dashboard/bioinfo/taxonomicannotation/detail/<int:pk>/', bioinfo_views.TaxonomicAnnotationDetailView.as_view(), name='detail_taxonomicannotation'),
