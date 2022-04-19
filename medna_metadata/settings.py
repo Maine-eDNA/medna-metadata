@@ -29,14 +29,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
 # django\conf\global_settings.py
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default=get_random_secret_key())
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # django\conf\global_settings.py
 DEBUG = os.environ.get('DJANGO_DEBUG', True)
 
 # django\conf\global_settings.py
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default="localhost [::1]").split(" ")
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', default='localhost [::1]').split(' ')
 
 ROOT_URLCONF = 'medna_metadata.urls'
 
@@ -241,7 +241,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = [
     # the basic authentication backend that checks the Django users database and queries the built-in permissions.
     # It does not provide protection against brute force attacks via any rate limiting mechanism.
-    "django.contrib.auth.backends.ModelBackend",
+    'django.contrib.auth.backends.ModelBackend',
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
@@ -249,9 +249,9 @@ AUTHENTICATION_BACKENDS = [
 # Then set the redirect links for login and logout, which will both go to our home index template
 # https://learndjango.com/tutorials/django-custom-user-model
 # django\conf\global_settings.py
-# LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
-LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
-LOGIN_URL = "home"  # defaults to /accounts/login, which doesn't exist
+# LOGIN_REDIRECT_URL = 'home'  # Route defined in home/urls.py
+LOGOUT_REDIRECT_URL = 'home'  # Route defined in home/urls.py
+LOGIN_URL = 'home'  # defaults to /accounts/login, which doesn't exist
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -310,8 +310,8 @@ logging.config.dictConfig({
 # The list of directories to search for fixtures
 # location for dump or load of initial data
 # django\conf\global_settings.py
-FIXTURE_DIRS = [os.path.join(BASE_DIR, "fixtures", "dev"), ]
-# FIXTURE_DIRS = (os.path.join(BASE_DIR, "fixtures", "prod"), )
+FIXTURE_DIRS = [os.path.join(BASE_DIR, 'fixtures', 'dev'), ]
+# FIXTURE_DIRS = (os.path.join(BASE_DIR, 'fixtures', 'prod'), )
 
 ########################################
 # STATICFILES                          #
@@ -445,7 +445,7 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization'
         }
     },
-    "DEFAULT_AUTO_SCHEMA_CLASS": "utility.custom_swagger.CustomAutoSchema",
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'utility.custom_swagger.CustomAutoSchema',
     'USE_SESSION_AUTH': True
 }
 
@@ -457,11 +457,11 @@ if os.getenv('GITHUB_WORKFLOW'):
     # media files (if uploaded)
     # django\conf\global_settings.py
     # Absolute filesystem path to the directory that will hold user-uploaded files.
-    # Example: "/var/www/example.com/media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    # Example: '/var/www/example.com/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     # URL that handles the media served from MEDIA_ROOT.
-    # Examples: "http://example.com/media/", "http://media.example.com/"
-    MEDIA_URL = "/media/"
+    # Examples: 'http://example.com/media/', 'http://media.example.com/'
+    MEDIA_URL = '/media/'
     DEFAULT_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
     PRIVATE_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
     PRIVATE_SEQUENCING_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
@@ -470,10 +470,10 @@ if os.getenv('GITHUB_WORKFLOW'):
     # django\conf\global_settings.py
     # https://docs.djangoproject.com/en/3.1/howto/static-files/
     # Absolute path to the directory static files should be collected to.
-    # Example: "/var/www/example.com/static/"
+    # Example: '/var/www/example.com/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
     # URL that handles the static files served from STATIC_ROOT.
-    # Example: "http://example.com/static/", "http://static.example.com/"
+    # Example: 'http://example.com/static/', 'http://static.example.com/'
     STATIC_URL = '/static/'  # set by django-storages
 
 else:
@@ -513,8 +513,8 @@ STATICFILES_DIRS = [
 # CELERY CONFIG                        #
 ########################################
 # https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
-BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
+BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 
 CELERYBEAT_SCHEDULE = {
     'transform-new-records': {
@@ -604,31 +604,31 @@ MIN_SAMPLE_YEAR = 1988
 # https://stackoverflow.com/questions/48293930/reorder-app-and-models-in-django-admin
 # custom app ordering
 APP_ORDER = OrderedDict([
-    ("sites", ["site"]),
-    ("auth", ["Group"]),
-    ("users", ["CustomUser"]),
-    ("account", ["emailaddress"]),
-    ("authtoken", ["tokenproxy"]),
-    # ("socialaccount", ["socialaccount", "socialtoken", "socialapp"]),
-    ("utility", ["Grant", "Project", "Publication", "ProcessLocation", "StandardOperatingProcedure", "ContactUs",
-                 "DefaultSiteCss", "CustomUserCss"]),
-    ("freezer_inventory", ["ReturnAction", "Freezer", "FreezerRack", "FreezerBox", "FreezerInventory",
-                           "FreezerInventoryLog", "FreezerInventoryReturnMetadata"]),
-    ("field_site", ["System", "Watershed", "FieldSite",
-                     "EnvoBiomeFirst", "EnvoBiomeSecond", "EnvoBiomeThird", "EnvoBiomeFourth",
-                     "EnvoBiomeFifth", "EnvoFeatureFirst", "EnvoFeatureSecond", "EnvoFeatureThird",
-                     "EnvoFeatureFourth", "EnvoFeatureFifth", "EnvoFeatureSixth", "EnvoFeatureSeventh"]),
-    ("sample_label", ["SampleType", "SampleMaterial", "SampleLabelRequest", "SampleBarcode"]),
-    ("field_survey", ["EnvMeasureType", "FieldSurvey", "FieldCrew", "EnvMeasurement", "FieldCollection", "WaterCollection",
-                      "SedimentCollection", "FieldSample", "FilterSample", "SubCoreSample",
-                      "FieldSurveyETL", "FieldCrewETL", "EnvMeasurementETL",
-                      "FieldCollectionETL", "SampleFilterETL"]),
-    ("wet_lab", ["PrimerPair", "IndexPair", "IndexRemovalMethod", "SizeSelectionMethod",
-                 "QuantificationMethod", "AmplificationMethod", "ExtractionMethod", "Extraction", "PcrReplicate", "Pcr",
-                 "LibraryPrep", "PooledLibrary", "RunPrep", "RunResult", "FastqFile"]),
-    ("bioinfo", ["QualityMetadata", "DenoiseClusterMethod", "DenoiseClusterMetadata",
-                 "FeatureOutput", "FeatureRead",
-                 "ReferenceDatabase", "AnnotationMethod", "AnnotationMetadata", "TaxonomicAnnotation",
-                 "TaxonDomain", "TaxonKingdom", "TaxonSupergroup", "TaxonPhylumDivision", "TaxonClass",
-                 "TaxonOrder", "TaxonFamily", "TaxonGenus", "TaxonSpecies"]),
+    ('sites', ['site']),
+    ('auth', ['Group']),
+    ('users', ['CustomUser']),
+    ('account', ['emailaddress']),
+    ('authtoken', ['tokenproxy']),
+    # ('socialaccount', ['socialaccount', 'socialtoken', 'socialapp']),
+    ('utility', ['Grant', 'Project', 'Publication', 'ProcessLocation', 'StandardOperatingProcedure', 'ContactUs',
+                 'DefaultSiteCss', 'CustomUserCss']),
+    ('freezer_inventory', ['ReturnAction', 'Freezer', 'FreezerRack', 'FreezerBox', 'FreezerInventory',
+                           'FreezerInventoryLog', 'FreezerInventoryReturnMetadata']),
+    ('field_site', ['System', 'Watershed', 'FieldSite',
+                     'EnvoBiomeFirst', 'EnvoBiomeSecond', 'EnvoBiomeThird', 'EnvoBiomeFourth',
+                     'EnvoBiomeFifth', 'EnvoFeatureFirst', 'EnvoFeatureSecond', 'EnvoFeatureThird',
+                     'EnvoFeatureFourth', 'EnvoFeatureFifth', 'EnvoFeatureSixth', 'EnvoFeatureSeventh']),
+    ('sample_label', ['SampleType', 'SampleMaterial', 'SampleLabelRequest', 'SampleBarcode']),
+    ('field_survey', ['EnvMeasureType', 'FieldSurvey', 'FieldCrew', 'EnvMeasurement', 'FieldCollection', 'WaterCollection',
+                      'SedimentCollection', 'FieldSample', 'FilterSample', 'SubCoreSample',
+                      'FieldSurveyETL', 'FieldCrewETL', 'EnvMeasurementETL',
+                      'FieldCollectionETL', 'SampleFilterETL']),
+    ('wet_lab', ['PrimerPair', 'IndexPair', 'IndexRemovalMethod', 'SizeSelectionMethod',
+                 'QuantificationMethod', 'AmplificationMethod', 'ExtractionMethod', 'Extraction', 'PcrReplicate', 'Pcr',
+                 'LibraryPrep', 'PooledLibrary', 'RunPrep', 'RunResult', 'FastqFile']),
+    ('bioinfo', ['QualityMetadata', 'DenoiseClusterMethod', 'DenoiseClusterMetadata',
+                 'FeatureOutput', 'FeatureRead',
+                 'ReferenceDatabase', 'AnnotationMethod', 'AnnotationMetadata', 'TaxonomicAnnotation',
+                 'TaxonDomain', 'TaxonKingdom', 'TaxonSupergroup', 'TaxonPhylumDivision', 'TaxonClass',
+                 'TaxonOrder', 'TaxonFamily', 'TaxonGenus', 'TaxonSpecies']),
 ])
