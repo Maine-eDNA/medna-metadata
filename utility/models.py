@@ -61,6 +61,11 @@ class PeriodicTaskRun(models.Model):
     task = models.CharField('Task Name', max_length=255)
     task_datetime = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Periodic Task Run'
+        verbose_name_plural = 'Periodic Task Runs'
+
 
 class Grant(DateTimeUserMixin):
     # e: Maine-eDNA

@@ -635,7 +635,7 @@ APP_ORDER = OrderedDict([
     ('authtoken', ['tokenproxy']),
     # ('socialaccount', ['socialaccount', 'socialtoken', 'socialapp']),
     ('utility', ['Grant', 'Project', 'Publication', 'ProcessLocation', 'StandardOperatingProcedure', 'ContactUs',
-                 'DefaultSiteCss', 'CustomUserCss']),
+                 'DefaultSiteCss', 'CustomUserCss', 'PeriodicTaskRun']),
     ('freezer_inventory', ['ReturnAction', 'Freezer', 'FreezerRack', 'FreezerBox', 'FreezerInventory',
                            'FreezerInventoryLog', 'FreezerInventoryReturnMetadata']),
     ('field_site', ['System', 'Watershed', 'FieldSite',

@@ -21,6 +21,10 @@ class Migration(migrations.Migration):
                 ('task', models.CharField(max_length=255, verbose_name='Task Name')),
                 ('task_datetime', models.DateTimeField(auto_now_add=True)),
             ],
+            options={
+                'verbose_name': 'Periodic Task Run',
+                'verbose_name_plural': 'Periodic Task Runs',
+            },
         ),
         migrations.CreateModel(
             name='Grant',

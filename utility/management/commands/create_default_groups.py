@@ -52,6 +52,7 @@ GROUPS = {
         'Contact Us': ['add', 'delete', 'change', 'view'],
         'Default Site CSS': ['add', 'delete', 'change', 'view'],
         'Custom User CSS': ['add', 'delete', 'change', 'view'],
+        'Periodic Task Run': ['view'],
 
         # field_survey
         'Field Survey': ['add', 'change', 'view'],
@@ -160,6 +161,7 @@ GROUPS = {
         'Contact Us': ['add', 'view'],
         'Default Site CSS': ['add', 'change', 'view'],
         'Custom User CSS': ['add', 'change', 'view'],
+        'Periodic Task Run': ['view'],
 
         # field_survey
         'Field Survey': ['add', 'change', 'view'],
@@ -253,6 +255,7 @@ GROUPS = {
         'Contact Us': ['add', 'view'],
         'Default Site CSS': ['view'],
         'Custom User CSS': ['view'],
+        'Periodic Task Run': ['view'],
 
         # field_survey
         'Field Survey': ['view'],
