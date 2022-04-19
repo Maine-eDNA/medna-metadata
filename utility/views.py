@@ -305,6 +305,57 @@ class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequire
         return reverse('view_standardoperatingprocedure', kwargs={'sop_type': self.object.sop_type})
 
 
+class StandardOperatingProcedurePopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'utility.add_standardoperatingprocedure'
+    model = StandardOperatingProcedure
+    form_class = StandardOperatingProcedureForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-popup.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_standardoperatingprocedure'
+        context['page_title'] = 'Standard Operating Procedure'
+        return context
+
+    def get_initial(self):
+        return{'sop_type': self.kwargs.get('sop_type'), }
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class StandardOperatingProcedurePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = StandardOperatingProcedure
+    form_class = StandardOperatingProcedureForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update-popup.html'
+    permission_required = ('utility.update_standardoperatingprocedure', 'utility.view_standardoperatingprocedure', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_standardoperatingprocedure'
+        context['page_title'] = 'Standard Operating Procedure'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     model = ContactUs
     form_class = ContactUsUpdateForm
