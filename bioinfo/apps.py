@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class BioinfoTaxonConfig(AppConfig):
+class BioinfoConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'bioinfo'
 

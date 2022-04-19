@@ -542,7 +542,7 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     },
     'db-backup': {
-        'task': 'medna_metadata.tasks.db_backup',
+        'task': 'utility.tasks.db_backup',
         'schedule': crontab(hour=4, minute=30),  # Everyday at 04:30
     },
 }

@@ -1,1 +1,1 @@
-default_app_config = 'bioinfo.apps.BioinfoTaxonConfig'
+default_app_config = 'bioinfo.apps.BioinfoConfig'
