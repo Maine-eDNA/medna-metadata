@@ -143,12 +143,7 @@ class QualityMetadataCreateForm(forms.ModelForm):
     )
     analysis_sop = forms.ModelChoiceField(
         required=True,
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none()
     )
     analysis_script_repo_url = forms.URLField(
         required=True,
@@ -173,6 +168,8 @@ class QualityMetadataCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
         self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
+        self.fields['analysis_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.BIOINFO},)))
+        self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
 
 class QualityMetadataUpdateForm(forms.ModelForm):
@@ -273,12 +270,7 @@ class QualityMetadataUpdateForm(forms.ModelForm):
     )
     analysis_sop = forms.ModelChoiceField(
         required=True,
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none()
     )
     analysis_script_repo_url = forms.URLField(
         required=True,
@@ -303,6 +295,8 @@ class QualityMetadataUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
         self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
+        self.fields['analysis_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.BIOINFO},)))
+        self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
 
 class DenoiseClusterMetadataForm(forms.ModelForm):
@@ -358,12 +352,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
     )
     analysis_sop = forms.ModelChoiceField(
         required=True,
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none()
     )
     analysis_script_repo_url = forms.URLField(
         required=True,
@@ -385,6 +374,8 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['quality_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_qualitymetadata')))
         self.fields['quality_metadata'].queryset = QualityMetadata.objects.all().order_by('-created_datetime')
+        self.fields['analysis_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.BIOINFO},)))
+        self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
 
 class FeatureOutputForm(forms.ModelForm):
@@ -505,12 +496,7 @@ class AnnotationMetadataForm(forms.ModelForm):
     )
     analysis_sop = forms.ModelChoiceField(
         required=True,
-        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
+        queryset=StandardOperatingProcedure.objects.none()
     )
     analysis_script_repo_url = forms.URLField(
         required=True,
@@ -532,6 +518,8 @@ class AnnotationMetadataForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['denoise_cluster_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_denoiseclustermetadata')))
         self.fields['denoise_cluster_metadata'].queryset = DenoiseClusterMetadata.objects.all().order_by('-created_datetime')
+        self.fields['analysis_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.BIOINFO},)))
+        self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
 
 class TaxonomicAnnotationForm(forms.ModelForm):
