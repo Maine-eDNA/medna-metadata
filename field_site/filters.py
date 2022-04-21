@@ -129,7 +129,7 @@ class EnvoFeatureThirdSerializerFilter(filters.FilterSet):
 
     class Meta:
         model = EnvoFeatureThird
-        fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug', 'envo_identifier',]
+        fields = ['created_by', 'feature_first_tier_slug', 'feature_second_tier_slug', 'feature_third_tier_slug', 'envo_identifier', ]
 
 
 class EnvoFeatureFourthSerializerFilter(filters.FilterSet):
