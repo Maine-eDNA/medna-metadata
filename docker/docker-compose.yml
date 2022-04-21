@@ -36,7 +36,7 @@ services:
     restart: always
     build:
       context: '../'
-      dockerfile: './docker/medna-metadata/prod/Dockerfile'
+      dockerfile: 'docker/web/prod/Dockerfile'
     container_name: medna-metadata-web
     ports:
       - '8000:8000'
@@ -54,8 +54,7 @@ services:
   medna-metadata-celeryworker:
     build:
       context: '../'
-      dockerfile: './docker/web/prod/Dockerfile'
-    image: medna-metadata-celeryworker
+      dockerfile: 'docker/web/prod/Dockerfile'
     command: /home/django/medna-metadata/celeryworker_start.sh
     env_file:
       - './medna.env'
@@ -68,7 +67,7 @@ services:
   medna-metadata-celerybeat:
     build:
       context: '../'
-      dockerfile: './docker/web/prod/Dockerfile'
+      dockerfile: 'docker/web/prod/Dockerfile'
     image: medna-metadata-celerybeat
     command: /home/django/medna-metadata/celerybeat_start.sh
     env_file:
