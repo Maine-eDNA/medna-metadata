@@ -15,51 +15,42 @@ fi
 
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	# Run and apply database migrations
-	#echo "${0}: Creating database migrations"
-	#python manage.py makemigrations users
-	#python manage.py makemigrations utility
-	#python manage.py makemigrations field_site
-	#python manage.py makemigrations sample_label
-	#python manage.py makemigrations field_survey
-	#python manage.py makemigrations wet_lab
-	#python manage.py makemigrations freezer_inventory
-	#python manage.py makemigrations bioinfo
-	echo "${0}: Applying database migrations"
-	python manage.py migrate users
-	python manage.py migrate utility
-	python manage.py migrate field_site
-	python manage.py migrate sample_label
-	python manage.py migrate field_survey
-	python manage.py migrate wet_lab
-	python manage.py migrate freezer_inventory
-	python manage.py migrate bioinfo
-	python manage.py migrate
+  echo "${0}: [$(date -u)] ***Applying database migrations***"
+  python manage.py migrate users
+  python manage.py migrate utility
+  python manage.py migrate field_site
+  python manage.py migrate sample_label
+  python manage.py migrate field_survey
+  python manage.py migrate wet_lab
+  python manage.py migrate freezer_inventory
+  python manage.py migrate bioinfo
+  python manage.py migrate
 fi
 
 if [ "x$DJANGO_SUPERUSER_CREATE" = 'xon' ]; then
 	# Apply createsuperuser
-	echo "${0}: Creating superuser"
+	echo "${0}: [$(date -u)] ***Creating superuser"
 	python manage.py createsuperuser --no-input
 fi
 
 if [ "x$DJANGO_DEFAULT_GROUPS_CREATE" = 'xon' ]; then
- 	echo "${0}: Creating permissions groups"
+ 	echo "${0}: [$(date -u)] ***Creating permissions groups"
  	python manage.py create_default_groups
 fi
 
 if [ "x$DJANGO_DEFAULT_USERS_CREATE" = 'xon' ]; then
- 	echo "${0}: Creating default users"
- 	python manage.py loaddata fixtures/prod/medna_metadata_agol_usernames.json
+ 	echo "${0}: [$(date -u)] ***Creating default users"
+ 	python manage.py loaddata fixtures/prod/medna_metadata_default_usernames.json
 fi
 
 if [ "x$DJANGO_DATABASE_FLUSH" = 'xon' ]; then
- 	echo "${0}: Flushing database"
+ 	echo "${0}: [$(date -u)] ***Flushing database"
  	python manage.py flush --no-input
 fi
 
 if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 	# Load fixtures
-	echo "${0}: Loading fixtures"
+	echo "${0}: [$(date -u)] ***Loading fixtures"
 	# utility
 	python manage.py loaddata fixtures/prod/utility_grant.json
   python manage.py loaddata fixtures/prod/utility_project.json
@@ -140,7 +131,7 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 fi
 
 # Start server
-echo "${0}: Starting server"
+echo "${0}: [$(date -u)] ***Starting server"
 gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi \
 --workers 3 --log-level=info \
 --log-syslog || exit 1
