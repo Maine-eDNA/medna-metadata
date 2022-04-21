@@ -55,8 +55,8 @@ services:
     build:
       context: '../'
       dockerfile: './docker/web/prod/Dockerfile'
-    image: &img medna-metadata-celeryworker
-    command: /home/app/web/celeryworker_start.sh
+    image: medna-metadata-celeryworker
+    command: /home/django/medna-metadata/celeryworker_start.sh
     env_file:
       - './medna.env'
     depends_on:
@@ -69,8 +69,8 @@ services:
     build:
       context: '../'
       dockerfile: './docker/web/prod/Dockerfile'
-    image: &img medna-metadata-celerybeat
-    command: /home/app/web/celerybeat_start.sh
+    image: medna-metadata-celerybeat
+    command: /home/django/medna-metadata/celerybeat_start.sh
     env_file:
       - './medna.env'
     depends_on:
