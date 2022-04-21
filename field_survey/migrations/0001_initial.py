@@ -188,7 +188,7 @@ class Migration(migrations.Migration):
                 ('water_vessel_label', models.CharField(blank=True, max_length=255, verbose_name='Water Vessel Label')),
                 ('water_collect_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Water Collection DateTime')),
                 ('water_collect_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Water Collection Depth')),
-                ('water_collect_mode', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('hand', 'By Hand'), ('niskin_handtoss', 'By Hand-Tossed Niskin'), ('niskin_array', 'By Array Niskin')],  max_length=50, verbose_name='Collection Mode')),
+                ('water_collect_mode', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('hand', 'By Hand'), ('niskin_handtoss', 'By Hand-Tossed Niskin'), ('niskin_array', 'By Array Niskin')], max_length=50, verbose_name='Collection Mode')),
                 ('water_niskin_number', models.IntegerField(blank=True, null=True, verbose_name='Niskin Number')),
                 ('water_niskin_vol', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Niskin Sample Volume (ml)')),
                 ('water_vessel_vol', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Water Vessel Volume (ml)')),
