@@ -124,7 +124,7 @@ class SampleBarcodeAdmin(ExportActionModelAdmin):
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('sample_barcode_id', 'sample_type', 'purpose', 'created_datetime', 'created_by', )
     readonly_fields = ('barcode_slug', 'sample_barcode_id', 'modified_datetime', 'created_datetime', )
-    search_fields = ['barcode_slug', 'sample_barcode_id',]
+    search_fields = ['barcode_slug', 'sample_barcode_id', ]
 
     def has_add_permission(self, request, obj=None):
         # disable add on SampleBarcode because it is populated on insert on SampleLabelRequest
