@@ -47,7 +47,6 @@ class FieldSurveyTestCase(TestCase):
 
 class FieldCollectionTestCase(TestCase):
     def setUp(self):
-        current_datetime = timezone.now()
         survey_test = FieldSurveyTestCase()
         survey_test.setUp()
         survey = FieldSurvey.objects.filter()[:1].get()
@@ -65,7 +64,6 @@ class FieldCollectionTestCase(TestCase):
 
 class FieldSampleTestCase(TestCase):
     def setUp(self):
-        current_datetime = timezone.now()
         collection_test = FieldCollectionTestCase()
         sample_barcode_test = SampleBarcodeTestCase()
         collection_test.setUp()

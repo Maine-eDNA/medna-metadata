@@ -481,7 +481,7 @@ def water_collection_create_view(request):
             watercollection_form.full_clean()  # Manually clean the form this time. It is implicitly called by "is_valid()" method
             watercollection = watercollection_form.save(commit=False)
             watercollection.created_by = request.user
-            watercollection.save() # Gracefully save the form
+            watercollection.save()  # Gracefully save the form
             return redirect('view_watercollection')
     else:
         fieldcollection_form = FieldCollectionForm(collection_type=CollectionTypes.WATER_SAMPLE)

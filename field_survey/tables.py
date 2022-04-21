@@ -220,7 +220,7 @@ class FilterSampleTable(tables.Table):
         model = FilterSample
         fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
                   'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
-                  'filter_method', 'filter_vol', 'is_prefilter',  'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
+                  'filter_method', 'filter_vol', 'is_prefilter', 'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
                   'water_collect_datetime', 'project_ids', 'supervisor', 'username',
                   'site_id', 'site_name',
                   'survey_complete', 'qa_editor', 'qa_datetime',

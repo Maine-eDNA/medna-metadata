@@ -1033,15 +1033,15 @@ class FieldSampleForm(forms.ModelForm):
         )
     )
     is_extracted = forms.ChoiceField(
-            required=True,
-            label='Was this sample extracted?',
-            choices=YesNo.choices,
-            widget=CustomRadioSelect(
-                attrs={
-                    'class': 'form-check-input',
-                }
-            )
+        required=True,
+        label='Was this sample extracted?',
+        choices=YesNo.choices,
+        widget=CustomRadioSelect(
+            attrs={
+                'class': 'form-check-input',
+            }
         )
+    )
 
     class Meta:
         model = FieldSample
