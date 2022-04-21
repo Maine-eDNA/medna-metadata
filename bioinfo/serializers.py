@@ -243,7 +243,7 @@ class TaxonPhylumDivisionSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'taxon_phylum_division_slug', 'taxon_phylum_division', 'taxon_url',
                   'taxon_supergroup', 'taxon_supergroup_slug',
-                  'taxon_kingdom_slug',  'taxon_domain_slug',
+                  'taxon_kingdom_slug', 'taxon_domain_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add

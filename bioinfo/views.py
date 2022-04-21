@@ -123,8 +123,7 @@ def get_feature_read_taxon_table(request, pk):
             'ta_genus': record.ta_genus,
             'ta_species': record.ta_species,
             'ta_common_name': record.ta_common_name
-            }
-        )
+        })
         table = FeatureReadTaxonTable(data)
 
         return render(request, 'home/django-material-dashboard/model-list.html', {
@@ -221,7 +220,7 @@ class QualityMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMixin, Upd
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         return reverse('view_qualitymetadata')
-    
+
 
 class QualityMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
@@ -356,7 +355,7 @@ class DenoiseClusterMetadataUpdateView(LoginRequiredMixin, PermissionRequiredMix
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         return reverse('view_denoiseclustermetadata')
-    
+
 
 class DenoiseClusterMetadataPopupCreateView(CreatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
@@ -620,7 +619,7 @@ class FeatureReadUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
         # after successfully filling out and submitting a form,
         # show the user the detail view of the label
         return reverse('view_featureread')
-    
+
 
 class AnnotationMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
