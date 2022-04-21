@@ -72,7 +72,7 @@ INSTALLED_APPS = [
     'storages',  # django-storages for s3 storage backends e.g., wasabi - https://github.com/jschneier/django-storages
     'dbbackup',  # django-dbbackup for periodic db backups via the database (not fixtures) - https://github.com/jazzband/django-dbbackup
     'import_export',  # django-import-export - https://github.com/django-import-export/django-import-export
-    'django_filters', # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework. - https://github.com/carltongibson/django-filter
+    'django_filters',  # The django-filter library includes a DjangoFilterBackend class which supports highly customizable field filtering for REST framework. - https://github.com/carltongibson/django-filter
     'phonenumber_field',  # specific formatting for phone numbers - django-phonenumber-field[phonenumberslite] - https://github.com/stefanfoulis/django-phonenumber-field
     # 'crispy_forms',  # crispy forms for pretty forms - https://github.com/django-crispy-forms/django-crispy-forms
     # 'crispy_bootstrap5', # bootstrap5 template pack for django-crispy-forms - https://github.com/django-crispy-forms/crispy-bootstrap5
@@ -361,7 +361,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],  # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',  # can authenticate via token
-                                       'rest_framework.authentication.SessionAuthentication', ],  #  'dj_rest_auth.jwt_auth.JWTCookieAuthentication' - simple_jwt auth configuration
+                                       'rest_framework.authentication.SessionAuthentication', ],  # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication' - simple_jwt auth configuration
     'DEFAULT_PERMISSION_CLASSES': ['utility.permissions.CustomDjangoModelPermissions', ],  # have to be authenticated AND have specific model permissions for CRUD
     'DEFAULT_THROTTLE_CLASSES': ['utility.serializers.BurstRateThrottle',  # subclass UserRateThrottle - https://www.django-rest-framework.org/api-guide/throttling/
                                  'utility.serializers.SustainedRateThrottle', ],
@@ -646,9 +646,9 @@ APP_ORDER = OrderedDict([
     ('freezer_inventory', ['ReturnAction', 'Freezer', 'FreezerRack', 'FreezerBox', 'FreezerInventory',
                            'FreezerInventoryLog', 'FreezerInventoryReturnMetadata']),
     ('field_site', ['System', 'Watershed', 'FieldSite',
-                     'EnvoBiomeFirst', 'EnvoBiomeSecond', 'EnvoBiomeThird', 'EnvoBiomeFourth',
-                     'EnvoBiomeFifth', 'EnvoFeatureFirst', 'EnvoFeatureSecond', 'EnvoFeatureThird',
-                     'EnvoFeatureFourth', 'EnvoFeatureFifth', 'EnvoFeatureSixth', 'EnvoFeatureSeventh']),
+                    'EnvoBiomeFirst', 'EnvoBiomeSecond', 'EnvoBiomeThird', 'EnvoBiomeFourth',
+                    'EnvoBiomeFifth', 'EnvoFeatureFirst', 'EnvoFeatureSecond', 'EnvoFeatureThird',
+                    'EnvoFeatureFourth', 'EnvoFeatureFifth', 'EnvoFeatureSixth', 'EnvoFeatureSeventh']),
     ('sample_label', ['SampleType', 'SampleMaterial', 'SampleLabelRequest', 'SampleBarcode']),
     ('field_survey', ['EnvMeasureType', 'FieldSurvey', 'FieldCrew', 'EnvMeasurement', 'FieldCollection', 'WaterCollection',
                       'SedimentCollection', 'FieldSample', 'FilterSample', 'SubCoreSample',
