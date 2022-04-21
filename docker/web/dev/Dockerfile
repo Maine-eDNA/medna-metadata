@@ -9,8 +9,6 @@ FROM ubuntu:focal
 ENV HOME=/home/django
 RUN mkdir -p $HOME
 
-#RUN groupadd -r django && useradd -r -g django django
-RUN adduser --disabled-password --gecos '' django
 # create working directories
 ENV VIRTUAL_ENV=$HOME/appenv
 RUN mkdir -p $VIRTUAL_ENV
@@ -18,11 +16,8 @@ ENV APP_HOME=/home/django/medna-metadata
 RUN mkdir -p $APP_HOME
 RUN mkdir -p $APP_HOME/static
 RUN mkdir -p $APP_HOME/media
-RUN chown -R django:django $APP_HOME
-WORKDIR $APP_HOME
 
-# owner can read/write/execute, group/others can read/execute.
-RUN chmod 755 -R $APP_HOME
+WORKDIR $APP_HOME
 
 # set environment variables
 # Prevents Python from writing pyc files to disc (equivalent to python -B option)
@@ -38,14 +33,11 @@ ENV LANG C.UTF-8
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# switch to django user
-USER django
-
 # install dependencies
 RUN pip install --upgrade pip
 
 # Copy and install requirements
-COPY --chown=django:django ./requirements ./requirements
+COPY ./requirements ./requirements
 
 # set permissions for docker-requirements.sh
 # RUN chmod +x /home/django/requirements/docker-requirements.sh
@@ -57,22 +49,22 @@ RUN pip install --upgrade setuptools wheel
 RUN pip install --no-cache-dir -r requirements/dev.txt
 
 # copy app
-COPY --chown=django:django . .
+COPY . .
 
 # Collect static files
 RUN python manage.py collectstatic --noinput --clear
-# RUN chmod +x entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 # set permissions for entrypoint.sh
 RUN sed -i 's/\r$//g' /home/django/entrypoint.sh
-# RUN chmod +x /home/django/entrypoint.sh
+RUN chmod +x /home/django/entrypoint.sh
 
 # set permissions for celeryworker celerybeat start
 # COPY ./docker/celery/ .
 RUN sed -i 's/\r$//g' /home/django/celerybeat_start.sh
 RUN sed -i 's/\r$//g' /home/django/celeryworker_start.sh
-# RUN chmod +x /home/django/celerybeat_start.sh
-# RUN chmod +x /home/django/celeryworker_start.sh
+RUN chmod +x /home/django/celerybeat_start.sh
+RUN chmod +x /home/django/celeryworker_start.sh
 
 # run entrypoint.sh
-ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
+ENTRYPOINT ["/home/django/medna-metadata/entrypoint-dev.sh"]
