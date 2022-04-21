@@ -280,26 +280,33 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGGING_CONFIG = None
 
 # Get loglevel from env
-LOGLEVEL = os.environ.get('DJANGO_LOGLEVEL', 'info').upper()
+LOGLEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'info').upper()
 
 logging.config.dictConfig({
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'console': {
-            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
         },
     },
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console',
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/django/debug.log',
         },
     },
     'loggers': {
-        '': {
+        'django': {
+            'handlers': ['file'],
             'level': LOGLEVEL,
-            'handlers': ['console', ],
+            'propagate': True,
         },
     },
 })
