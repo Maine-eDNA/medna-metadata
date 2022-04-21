@@ -27,8 +27,7 @@ def return_select2_options(queryset):
         results.append({
             'id': field.pk,
             'text': field.text
-            }
-        )
+        })
     return results
 
 
@@ -84,7 +83,7 @@ def return_merged_zeros_lists(labels_array, data_array):
         raise Exception('Length of labels array does not match data array')
     # add dfs to an array
     for i in range(len(data_array)):
-        colname = 'data_'+str(i)
+        colname = 'data_' + str(i)
         df = fill_month_zeros(labels_array[i], data_array[i], colname)
         dfs.append(df)
     # merge dfs in array into one df

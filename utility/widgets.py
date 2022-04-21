@@ -1,16 +1,14 @@
-import copy
 import django
 from django import forms
 from django.contrib.admin.views.main import IS_POPUP_VAR
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
-from django import forms
-from django.urls import reverse_lazy
 from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget, AdminSplitDateTime, RelatedFieldWidgetWrapper
-from django.utils.translation import gettext as _
-from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
 from django.template import loader
+from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext as _
 # from django.template.loader import render_to_string
+import copy
 
 
 class CustomClearableFileInput(forms.ClearableFileInput):
