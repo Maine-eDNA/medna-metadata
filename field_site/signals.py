@@ -1,5 +1,5 @@
 # https://stackoverflow.com/questions/2719038/where-should-signal-handlers-live-in-a-django-project
-# https://docs.djangoproject.com/en/3.2/topics/signals/
+# https://docs.djangoproject.com/en/4.0/topics/signals/
 from field_site.tasks import update_biome_first, update_biome_fourth, update_biome_second, update_biome_third, \
     update_feature_first, update_feature_fifth, update_feature_fourth, update_feature_sixth, update_feature_second, \
     update_feature_third

@@ -380,8 +380,8 @@ admin.site.register(PcrReplicate, PcrReplicateAdmin)
 
 
 class PcrInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = Pcr.pcr_replicate.through
     # extra = 1
 
@@ -494,8 +494,8 @@ admin.site.register(LibraryPrep, LibraryPrepAdmin)
 
 
 class LibraryPrepInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = PooledLibrary.library_prep.through
     # extra = 1
 
@@ -551,8 +551,8 @@ admin.site.register(PooledLibrary, PooledLibraryAdmin)
 
 
 class PooledLibraryInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = RunPrep.pooled_library.through
     # extra = 1
 

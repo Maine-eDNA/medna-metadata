@@ -1,7 +1,7 @@
 import requests
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-# https://docs.djangoproject.com/en/3.2/topics/http/middleware/
+# https://docs.djangoproject.com/en/4.0/topics/http/middleware/
 
 
 # https://stackoverflow.com/questions/51188439/handling-django-user-subscription-expiry-date

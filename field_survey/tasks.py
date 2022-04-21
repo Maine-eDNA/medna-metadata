@@ -298,7 +298,7 @@ def update_record_field_collection(record, pk):
 def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_barcode_record):
     try:
         update_count = 0
-        # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#update-or-create
+        # https://docs.djangoproject.com/en/4.0/ref/models/querysets/#update-or-create
         field_sample, created = FieldSample.objects.update_or_create(
             sample_global_id=field_sample_pk,
             defaults={

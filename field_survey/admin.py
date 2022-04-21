@@ -16,8 +16,8 @@ from import_export.admin import ImportExportActionModelAdmin, ExportActionMixin
 
 # Register your models here.
 class ProjectInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = FieldSurvey.project_ids.through
     # extra = 1
 
