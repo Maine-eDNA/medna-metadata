@@ -9,7 +9,7 @@ if [ "$ENTRYPOINT_DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
 
-    while ! nc -z $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT; do
+    while [ ! nc -z $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT ] || [ ! nc -z $RABBITMQ_HOST $RABBITMQ_PORT ]; do
       sleep 0.1
     done
 
