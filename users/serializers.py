@@ -1,7 +1,7 @@
 from users.models import CustomUser
 from rest_framework import serializers
-#from rest_auth.serializers import LoginSerializer
-#from rest_auth.registration.serializers import RegisterSerializer
+# from rest_auth.serializers import LoginSerializer
+# from rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import LoginSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.utils.translation import gettext_lazy as _

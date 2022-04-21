@@ -1,6 +1,6 @@
 # sample_label/forms.py
 from django import forms
-#from django.utils.translation import gettext, gettext_lazy as _
+# from django.utils.translation import gettext, gettext_lazy as _
 from django.utils import timezone
 import datetime
 from .models import SampleLabelRequest, SampleMaterial, SampleType, current_year, year_choices
@@ -33,7 +33,7 @@ class SampleLabelRequestCreateForm(forms.ModelForm):
         required=True,
         label='Sample Type',
         help_text='Field Sample (filters, subcores/sediment) <br>'
-                  'Extraction (extracted field samples) <br>' 
+                  'Extraction (extracted field samples) <br>'
                   'Pooled Library (final pooled library to be sent for sequencing)',
         queryset=SampleType.objects.all(),
         widget=CustomRadioSelect(
