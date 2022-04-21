@@ -53,7 +53,7 @@ class FreezerInventoryForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['sample_barcode'].queryset = SampleBarcode.objects.filter(Q(freezerinventory__isnull=True)|Q(freezerinventory=self.instance))
+        self.fields['sample_barcode'].queryset = SampleBarcode.objects.filter(Q(freezerinventory__isnull=True) | Q(freezerinventory=self.instance))
 
 
 class FreezerInventoryReturnMetadataUpdateForm(forms.ModelForm):

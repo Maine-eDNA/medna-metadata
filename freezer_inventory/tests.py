@@ -86,14 +86,13 @@ class FreezerInventoryTestCase(TestCase):
         sample_barcode_test.setUp()
         freezer_box = FreezerBox.objects.filter()[:1].get()
         sample_barcode = SampleBarcode.objects.filter()[:1].get()
-        FreezerInventory.objects.get_or_create(defaults={
-                                                   'freezer_box': freezer_box,
-                                                   'sample_barcode': sample_barcode,
-                                                   'freezer_inventory_type': InvTypes.FILTER,
-                                                   'freezer_inventory_status': InvStatus.IN,
-                                                   'freezer_inventory_loc_status': InvLocStatus.FILLED,
-                                                   'freezer_inventory_column': 1,
-                                                   'freezer_inventory_row': 1})
+        FreezerInventory.objects.get_or_create(defaults={'freezer_box': freezer_box,
+                                                         'sample_barcode': sample_barcode,
+                                                         'freezer_inventory_type': InvTypes.FILTER,
+                                                         'freezer_inventory_status': InvStatus.IN,
+                                                         'freezer_inventory_loc_status': InvLocStatus.FILLED,
+                                                         'freezer_inventory_column': 1,
+                                                         'freezer_inventory_row': 1})
 
     def test_was_added_recently(self):
         # test if date is added correctly

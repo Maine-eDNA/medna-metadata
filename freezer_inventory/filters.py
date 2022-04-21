@@ -33,7 +33,7 @@ class FreezerInventoryLogFilter(filters.FilterSet):
 
     class Meta:
         model = FreezerInventoryLog
-        fields = ['created_by', 'freezer_inventory', 'freezer_log_action', 'created_datetime',  ]
+        fields = ['created_by', 'freezer_inventory', 'freezer_log_action', 'created_datetime', ]
 
 
 class FreezerInventoryReturnMetadataFilter(filters.FilterSet):
