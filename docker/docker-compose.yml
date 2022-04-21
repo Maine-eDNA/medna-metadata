@@ -77,22 +77,6 @@ services:
       - medna-metadata-rabbitmq
       - medna-metadata-pgdb
  # ----------------------------------------
- # MEDNA-METADATA-FLOWER
- # ----------------------------------------
-  medna-metadata-flower:
-    build:
-      context: '../'
-      dockerfile: './docker/web/Dockerfile'
-    image: &img medna-metadata-flower
-    command: /home/app/web/flower_start.sh
-    ports:
-      - '5555'
-    env_file:
-      - './medna.env'
-    depends_on:
-      - medna-metadata-rabbitmq
-      - medna-metadata-pgdb
- # ----------------------------------------
  # NGINX-PROXY
  # ----------------------------------------
   nginx-proxy:
@@ -111,7 +95,6 @@ services:
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
     depends_on:
       - medna-metadata
-
    # ----------------------------------------
    # NGINX-LETSENCRYPT
    # ----------------------------------------
