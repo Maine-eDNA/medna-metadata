@@ -141,8 +141,17 @@ cython_debug/
 
 # ignore specific env files - these have settings important to installation
 # but should not be pushed to GitHub for security
-/docker-ignore/medna.env
-/docker-ignore/medna.env.db
-/docker-ignore/nginx.proxycompanion.env
-/docker-ignore/gunicorn.env
-/docker-ignore/
+docker/bashrc
+docker/profile
+docker/medna.env
+docker/medna.env.db
+docker/nginx.proxycompanion.env
+docker/gunicorn.env
+
+docker-ignore/bashrc
+docker-ignore/profile
+docker-ignore/medna.env
+docker-ignore/medna.env.db
+docker-ignore/nginx.proxycompanion.env
+docker-ignore/gunicorn.env
+docker-ignore/
