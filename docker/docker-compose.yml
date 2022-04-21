@@ -112,6 +112,8 @@ services:
 
 volumes:
   postgres_data:
+  rabbitmq_data:
+  rabbitmq_logs:
   static_volume:
   media_volume:
   certs:
