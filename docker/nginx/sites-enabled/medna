@@ -1,16 +1,16 @@
 server {
     listen 80;
-    server_name localhost 127.0.0.1 www.yourdomain.com;
+    server_name medna-metadata-web;
     charset utf-8;
     client_max_body_size 100m;
 
     location /static {
-        alias /home/django/static;
+        alias /home/django/medna-metadata/static;
         add_header Access-Control-Allow-Origin *;
     }
 
     location /media {
-        alias /home/django/media;
+        alias /home/django/medna-metadata/media;
         add_header Access-Control-Allow-Origin *;
     }
 

@@ -1,0 +1,19 @@
+[
+    {
+        "model": "users.customuser",
+        "pk": null,
+        "fields": {
+            "password": "",
+            "last_login": null,
+            "is_superuser": false,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-11-08T20:37:34.272Z",
+            "email": "default@user.com",
+            "phone_number": null,
+            "agol_username": ""
+        }
+    }
+]
