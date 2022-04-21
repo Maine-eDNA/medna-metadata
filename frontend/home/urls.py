@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
 # Copyright (c) 2019 - present AppSeed.us
-from django.urls import path, re_path, reverse_lazy
+from django.urls import path, re_path, reverse_lazy, register_converter
 from django.views.i18n import JavaScriptCatalog
 from frontend.home import views
-from django.urls import path, register_converter
 from utility import converters
 import utility.views as utility_views
 import users.views as user_views
@@ -19,7 +18,7 @@ import field_survey.filters as fieldsurvey_filters
 import wet_lab.filters as wetlab_filters
 import freezer_inventory.filters as freezerinventory_filters
 import bioinfo.filters as bioinfo_filters
-register_converter(converters.FloatUrlParameterConverter, 'float')
+register_converter(converters.FloatConverter, 'float')
 
 urlpatterns = [
     path('', views.IndexTemplateView.as_view(), name='home'),

@@ -21,21 +21,20 @@ class QualityMetadataTestCase(TestCase):
         sop = StandardOperatingProcedure.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         fastq_file = FastqFile.objects.filter()[:1].get()
-        QualityMetadata.objects.get_or_create(defaults={
-                                                         'analysis_label': 'test_name',
-                                                         'process_location': process_location,
-                                                         'analysis_datetime': current_datetime,
-                                                         'fastq_file': fastq_file,
-                                                         'analyst_first_name': 'test_first_name',
-                                                         'analyst_last_name': 'test_last_name',
-                                                         'seq_quality_check': 'manual_edit',
-                                                         'chimera_check': 'check',
-                                                         'trim_length_forward': 100,
-                                                         'trim_length_reverse': 100,
-                                                         'min_read_length': 100,
-                                                         'max_read_length': 100,
-                                                         'analysis_sop': sop,
-                                                         'analysis_script_repo_url': 'https://www.test_repo.com'})
+        QualityMetadata.objects.get_or_create(defaults={'analysis_label': 'test_name',
+                                                        'process_location': process_location,
+                                                        'analysis_datetime': current_datetime,
+                                                        'fastq_file': fastq_file,
+                                                        'analyst_first_name': 'test_first_name',
+                                                        'analyst_last_name': 'test_last_name',
+                                                        'seq_quality_check': 'manual_edit',
+                                                        'chimera_check': 'check',
+                                                        'trim_length_forward': 100,
+                                                        'trim_length_reverse': 100,
+                                                        'min_read_length': 100,
+                                                        'max_read_length': 100,
+                                                        'analysis_sop': sop,
+                                                        'analysis_script_repo_url': 'https://www.test_repo.com'})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -71,16 +70,15 @@ class DenoiseClusterMetadataTestCase(TestCase):
         denoise_cluster_method = DenoiseClusterMethod.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         quality_metadata = QualityMetadata.objects.filter()[:1].get()
-        DenoiseClusterMetadata.objects.get_or_create(defaults={
-                                                         'analysis_label': 'test_name',
-                                                         'process_location': process_location,
-                                                         'analysis_datetime': current_datetime,
-                                                         'quality_metadata': quality_metadata,
-                                                         'denoise_cluster_method': denoise_cluster_method,
-                                                         'analyst_first_name': 'test_first_name',
-                                                         'analyst_last_name': 'test_last_name',
-                                                         'analysis_sop': sop,
-                                                         'analysis_script_repo_url': 'https://www.test_repo.com'})
+        DenoiseClusterMetadata.objects.get_or_create(defaults={'analysis_label': 'test_name',
+                                                               'process_location': process_location,
+                                                               'analysis_datetime': current_datetime,
+                                                               'quality_metadata': quality_metadata,
+                                                               'denoise_cluster_method': denoise_cluster_method,
+                                                               'analyst_first_name': 'test_first_name',
+                                                               'analyst_last_name': 'test_last_name',
+                                                               'analysis_sop': sop,
+                                                               'analysis_script_repo_url': 'https://www.test_repo.com'})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -112,10 +110,9 @@ class FeatureReadTestCase(TestCase):
         extraction_test.setUp()
         feature = FeatureOutput.objects.filter()[:1].get()
         extraction = Extraction.objects.filter()[:1].get()
-        FeatureRead.objects.get_or_create(defaults={
-                                              'feature': feature,
-                                              'extraction': extraction,
-                                              'number_reads': 9999})
+        FeatureRead.objects.get_or_create(defaults={'feature': feature,
+                                                    'extraction': extraction,
+                                                    'number_reads': 9999})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -282,16 +279,15 @@ class AnnotationMetadataTestCase(TestCase):
         process_location = ProcessLocation.objects.filter()[:1].get()
         denoise_cluster_metadata = DenoiseClusterMetadata.objects.filter()[:1].get()
         annotation_method = AnnotationMethod.objects.filter()[:1].get()
-        AnnotationMetadata.objects.get_or_create(defaults={
-                                                        'analysis_label': 'test_name',
-                                                        'process_location': process_location,
-                                                        'denoise_cluster_metadata': denoise_cluster_metadata,
-                                                        'analysis_datetime': current_datetime,
-                                                        'annotation_method': annotation_method,
-                                                        'analyst_first_name': 'test_first_name',
-                                                        'analyst_last_name': 'test_last_name',
-                                                        'analysis_sop': sop,
-                                                        'analysis_script_repo_url': 'https://testrepo.com'})
+        AnnotationMetadata.objects.get_or_create(defaults={'analysis_label': 'test_name',
+                                                           'process_location': process_location,
+                                                           'denoise_cluster_metadata': denoise_cluster_metadata,
+                                                           'analysis_datetime': current_datetime,
+                                                           'annotation_method': annotation_method,
+                                                           'analyst_first_name': 'test_first_name',
+                                                           'analyst_last_name': 'test_last_name',
+                                                           'analysis_sop': sop,
+                                                           'analysis_script_repo_url': 'https://testrepo.com'})
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -322,32 +318,31 @@ class TaxonomicAnnotationTestCase(TestCase):
         manual_kingdom = TaxonKingdom.objects.filter()[:1].get()
         manual_domain = TaxonDomain.objects.filter()[:1].get()
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
-        TaxonomicAnnotation.objects.get_or_create(defaults={
-                                                      'feature': feature,
-                                                      'annotation_metadata': annotation_metadata,
-                                                      'reference_database': reference_database,
-                                                      'confidence': 0.99,
-                                                      'ta_taxon': 'test_taxon',
-                                                      'ta_domain': 'test_domain',
-                                                      'ta_kingdom': 'test_kingdom',
-                                                      'ta_supergroup': 'test_supergroup',
-                                                      'ta_phylum_division': 'test_phylum',
-                                                      'ta_class': 'test_class',
-                                                      'ta_order': 'test_order',
-                                                      'ta_family': 'test_family',
-                                                      'ta_genus': 'test_genus',
-                                                      'ta_species': 'test_species',
-                                                      'ta_common_name': 'test_common_name',
-                                                      'manual_domain': manual_domain,
-                                                      'manual_kingdom': manual_kingdom,
-                                                      'manual_supergroup': manual_supergroup,
-                                                      'manual_phylum_division': manual_phylum_division,
-                                                      'manual_class': manual_class,
-                                                      'manual_order': manual_order,
-                                                      'manual_family': manual_family,
-                                                      'manual_genus': manual_genus,
-                                                      'manual_species': manual_species,
-                                                      'manual_notes': 'test notes'})
+        TaxonomicAnnotation.objects.get_or_create(defaults={'feature': feature,
+                                                            'annotation_metadata': annotation_metadata,
+                                                            'reference_database': reference_database,
+                                                            'confidence': 0.99,
+                                                            'ta_taxon': 'test_taxon',
+                                                            'ta_domain': 'test_domain',
+                                                            'ta_kingdom': 'test_kingdom',
+                                                            'ta_supergroup': 'test_supergroup',
+                                                            'ta_phylum_division': 'test_phylum',
+                                                            'ta_class': 'test_class',
+                                                            'ta_order': 'test_order',
+                                                            'ta_family': 'test_family',
+                                                            'ta_genus': 'test_genus',
+                                                            'ta_species': 'test_species',
+                                                            'ta_common_name': 'test_common_name',
+                                                            'manual_domain': manual_domain,
+                                                            'manual_kingdom': manual_kingdom,
+                                                            'manual_supergroup': manual_supergroup,
+                                                            'manual_phylum_division': manual_phylum_division,
+                                                            'manual_class': manual_class,
+                                                            'manual_order': manual_order,
+                                                            'manual_family': manual_family,
+                                                            'manual_genus': manual_genus,
+                                                            'manual_species': manual_species,
+                                                            'manual_notes': 'test notes'})
 
     def test_was_added_recently(self):
         # test if date is added correctly

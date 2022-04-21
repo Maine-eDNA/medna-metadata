@@ -138,7 +138,7 @@ class FreezerInventoryLogFilterView(LoginRequiredMixin, PermissionRequiredMixin,
         return redirect('main/model-perms-required.html')
 
 
-class FreezerInventoryLogDetailView(LoginRequiredMixin, PermissionRequiredMixin,  DetailView):
+class FreezerInventoryLogDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = FreezerInventoryLog
     fields = ['freezer_inventory', 'freezer_log_slug', 'freezer_log_action', 'freezer_log_notes', ]
     login_url = '/dashboard/login/'

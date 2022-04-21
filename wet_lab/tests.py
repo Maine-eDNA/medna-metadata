@@ -258,24 +258,24 @@ class LibraryPrepTestCase(TestCase):
                                               'process_location': process_location,
                                               'extraction': extraction,
                                               'amplification_method': amplification_method,
-                                                                      'primer_set': primer_set,
-                                                                      'index_pair': index_pair,
-                                                                      'index_removal_method': index_removal_method,
-                                                                      'size_selection_method': size_selection_method,
-                                                                      'quantification_method': quantification_method,
-                                                                      'lib_prep_qubit_results': 0.100,
-                                                                      'lib_prep_qubit_units': ConcentrationUnits.NGML,
-                                                                      'lib_prep_qpcr_results': 0.100,
-                                                                      'lib_prep_qpcr_units': ConcentrationUnits.NM,
-                                                                      'lib_prep_final_concentration': 0.100,
-                                                                      'lib_prep_final_concentration_units': ConcentrationUnits.NM,
-                                                                      'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
-                                                                      'lib_prep_layout': LibLayouts.PAIRED,
-                                                                      'lib_prep_type': LibPrepTypes.AMPLICON,
-                                                                      'lib_prep_thermal_cond': 'initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles',
-                                                                      'lib_prep_sop': sop,
-                                                                      'lib_prep_notes': 'lib prep notes'
-                                                                  })
+                                              'primer_set': primer_set,
+                                              'index_pair': index_pair,
+                                              'index_removal_method': index_removal_method,
+                                              'size_selection_method': size_selection_method,
+                                              'quantification_method': quantification_method,
+                                              'lib_prep_qubit_results': 0.100,
+                                              'lib_prep_qubit_units': ConcentrationUnits.NGML,
+                                              'lib_prep_qpcr_results': 0.100,
+                                              'lib_prep_qpcr_units': ConcentrationUnits.NM,
+                                              'lib_prep_final_concentration': 0.100,
+                                              'lib_prep_final_concentration_units': ConcentrationUnits.NM,
+                                              'lib_prep_kit': LibPrepKits.NEXTERAXTV2,
+                                              'lib_prep_layout': LibLayouts.PAIRED,
+                                              'lib_prep_type': LibPrepTypes.AMPLICON,
+                                              'lib_prep_thermal_cond': 'initial denaturation:degrees_minutes;annealing:degrees_minutes;elongation:degrees_minutes;final elongation:degrees_minutes;total cycles',
+                                              'lib_prep_sop': sop,
+                                              'lib_prep_notes': 'lib prep notes'
+                                          })
 
     def test_was_added_recently(self):
         # test if date is added correctly

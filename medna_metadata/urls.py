@@ -49,7 +49,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     # allauth urls
     re_path(r'^account/', include('allauth.urls')),
-    re_path(r'^account/disabled/signup/', signup, name='account_signup'), # re-registering signup to change url
+    re_path(r'^account/disabled/signup/', signup, name='account_signup'),  # re-registering signup to change url
     re_path(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),  # allauth email confirmation
     # dj-rest-auth urls - https://dj-rest-auth.readthedocs.io/en/latest/api_endpoints.html
     re_path(r'^rest-auth/login/$', users_views.CustomRestAuthLoginView.as_view(), name='rest_login'),

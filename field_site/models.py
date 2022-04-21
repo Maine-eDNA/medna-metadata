@@ -652,7 +652,7 @@ class FieldSite(DateTimeUserMixin):
     envo_biome_fifth = models.ForeignKey(EnvoBiomeFifth, blank=True, null=True, on_delete=models.RESTRICT, related_name='biome_fifth')
     # ENVO Features are hierarchical trees
     envo_feature_first = models.ForeignKey(EnvoFeatureFirst, blank=True, null=True, on_delete=models.RESTRICT, related_name='feature_first')
-    envo_feature_second = models.ForeignKey(EnvoFeatureSecond, blank=True, null=True, on_delete=models.RESTRICT,related_name='feature_second')
+    envo_feature_second = models.ForeignKey(EnvoFeatureSecond, blank=True, null=True, on_delete=models.RESTRICT, related_name='feature_second')
     envo_feature_third = models.ForeignKey(EnvoFeatureThird, blank=True, null=True, on_delete=models.RESTRICT, related_name='feature_third')
     envo_feature_fourth = models.ForeignKey(EnvoFeatureFourth, blank=True, null=True, on_delete=models.RESTRICT, related_name='feature_fourth')
     envo_feature_fifth = models.ForeignKey(EnvoFeatureFifth, blank=True, null=True, on_delete=models.RESTRICT, related_name='feature_fifth')

@@ -501,8 +501,7 @@ class ContactUsCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-         # It should return an HttpResponse.
+        # This method is called when valid form data has been POSTed. It should return an HttpResponse.
         if self.request.user.is_authenticated:
             # if logged in, add current user to created_by
             self.object = form.save(commit=False)

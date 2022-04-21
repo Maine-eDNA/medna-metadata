@@ -182,7 +182,6 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
-
     class Meta:
         model = EnvoFeatureFirst
         fields = ['id', 'feature_first_tier_slug', 'feature_first_tier', 'envo_identifier', 'ontology_url',

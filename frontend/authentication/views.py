@@ -60,7 +60,7 @@ def main_register_user(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            authenticate(username=username, password=raw_password)
 
             msg = 'User created - please <a href="/login">login</a>.'
             success = True
@@ -85,7 +85,7 @@ def dashboard_register_user(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            authenticate(username=username, password=raw_password)
 
             msg = 'User created - please <a href="/dashboard/login">login</a>.'
             success = True

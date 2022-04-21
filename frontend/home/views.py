@@ -46,8 +46,9 @@ def main_pages(request):
         html_template = loader.get_template('home/django-material-kit/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
-    except:
+    except Exception as err:
         html_template = loader.get_template('home/django-material-kit/page-500.html')
+        print(str(err))
         return HttpResponse(html_template.render(context, request))
 
 
@@ -86,6 +87,7 @@ def dashboard_pages(request):
         html_template = loader.get_template('home/django-material-kit/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
-    except:
+    except Exception as err:
         html_template = loader.get_template('home/django-material-kit/page-500.html')
+        print(str(err))
         return HttpResponse(html_template.render(context, request))

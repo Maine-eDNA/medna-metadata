@@ -16,5 +16,6 @@ def db_backup(self):
         call_command("dbbackup")
         PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': timezone.now()})
         logger.info('Backed up successfully: %s' % timezone.now())
-    except:
+    except Exception as err:
         logger.warning('Could not be backed up: %s' % timezone.now())
+        logger.warning(err, exc_info=True)

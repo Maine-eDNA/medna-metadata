@@ -448,5 +448,3 @@ class FieldSiteListView(generics.ListAPIView):
                         'envo_feature_sixth__feature_sixth_tier_slug',
                         'envo_feature_seventh__feature_seventh_tier_slug']
     swagger_tags = ['field sites']
-
-

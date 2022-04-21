@@ -1,15 +1,13 @@
-from django.urls import reverse
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q, F, Count, Func, Value, CharField
 from django.db.models.functions import TruncMonth
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
+from django.views.generic.edit import CreateView, UpdateView
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from django_tables2.views import SingleTableMixin

@@ -75,7 +75,7 @@ class IndexPairForm(forms.ModelForm):
 
     class Meta:
         model = IndexPair
-        fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter' ]
+        fields = ['index_i7', 'i7_index_id', 'index_i5', 'i5_index_id', 'index_adapter', ]
 
 
 class ExtractionForm(forms.ModelForm):
@@ -209,8 +209,8 @@ class ExtractionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
-        self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(Q(extraction__isnull=True)|Q(extraction=self.instance))
+        self.fields['field_sample'].queryset = FieldSample.objects.filter(Q(extraction__isnull=True) | Q(extraction=self.instance))
+        self.fields['extraction_barcode'].queryset = SampleBarcode.objects.filter(Q(extraction__isnull=True) | Q(extraction=self.instance))
 
 
 class PcrReplicateForm(forms.ModelForm):
@@ -1237,7 +1237,7 @@ class PooledLibraryForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['library_prep'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_libraryprep')))
         self.fields['library_prep'].queryset = LibraryPrep.objects.all().order_by('-created_datetime')
-        self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.filter(Q(pooledlibrary__isnull=True)|Q(pooledlibrary=self.instance))
+        self.fields['pooled_lib_barcode'].queryset = SampleBarcode.objects.filter(Q(pooledlibrary__isnull=True) | Q(pooledlibrary=self.instance))
 
 
 class RunPrepForm(forms.ModelForm):

@@ -245,7 +245,7 @@ class FreezerInventoryReturnMetadataAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['freezer_log', 'freezer_return_metadata_entered',  'freezer_return_actions',
+        self.fields = ['freezer_log', 'freezer_return_metadata_entered', 'freezer_return_actions',
                        'freezer_return_vol_taken', 'freezer_return_vol_units', 'freezer_return_notes', 'created_by', ]
         # self.inlines = (ReturnActionInline, )
         # self.exclude = ('created_datetime', )
