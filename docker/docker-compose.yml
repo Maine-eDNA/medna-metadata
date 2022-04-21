@@ -36,7 +36,7 @@ services:
     restart: always
     build:
       context: '../'
-      dockerfile: './docker/web/Dockerfile'
+      dockerfile: './docker/web/prod/Dockerfile'
     container_name: medna-metadata
     ports:
       - '8000:8000'
@@ -54,7 +54,7 @@ services:
   medna-metadata-celeryworker:
     build:
       context: '../'
-      dockerfile: './docker/web/Dockerfile'
+      dockerfile: './docker/web/prod/Dockerfile'
     image: &img medna-metadata-celeryworker
     command: /home/app/web/celeryworker_start.sh
     env_file:
@@ -68,7 +68,7 @@ services:
   medna-metadata-celerybeat:
     build:
       context: '../'
-      dockerfile: './docker/web/Dockerfile'
+      dockerfile: './docker/web/prod/Dockerfile'
     image: &img medna-metadata-celerybeat
     command: /home/app/web/celerybeat_start.sh
     env_file:

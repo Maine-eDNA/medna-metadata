@@ -45,16 +45,19 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 FROM ubuntu:focal
 
-# create directory for the app user
-RUN mkdir -p /home/app
+# create directory for the django user
+ENV HOME=/home/django
+RUN mkdir -p $HOME
 
-# create the app user
-RUN adduser --disabled-password --gecos '' app
+#RUN groupadd -r django && useradd -r -g django django
+RUN adduser --disabled-password --gecos '' django
 
 # create the appropriate directories
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME
+ENV APP_HOME=/home/django/medna-metadata
+RUN mkdir -p $APP_HOME
+RUN mkdir -p $APP_HOME/static
+RUN mkdir -p $APP_HOME/media
+RUN chown -R django:django $APP_HOME
 WORKDIR $APP_HOME
 
 # install dependencies
@@ -75,19 +78,17 @@ RUN sed -i 's/\r$//g' $APP_HOME/celeryworker_start.sh
 RUN chmod +x $APP_HOME/celerybeat_start.sh
 RUN chmod +x $APP_HOME/celeryworker_start.sh
 
-# set permissions for flower start
-COPY ./docker/flower/ .
-RUN sed -i 's/\r$//g' $APP_HOME/flower_start.sh
-RUN chmod +x $APP_HOME/flower_start.sh
-
 # copy project
 COPY . $APP_HOME
 
 # chown all the files to the app user
-RUN chown -R app:app $APP_HOME
+RUN chown -R django:django $APP_HOME
+
+# owner can read/write/execute, group/others can read/execute.
+RUN chmod 755 -R $APP_HOME
 
 # change to the app user
-USER app
+USER django
 
 # run entrypoint.sh
-ENTRYPOINT ["/home/app/web/entrypoint.sh"]
+ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
