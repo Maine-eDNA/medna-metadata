@@ -1,5 +1,5 @@
 # https://stackoverflow.com/questions/2719038/where-should-signal-handlers-live-in-a-django-project
-# https://docs.djangoproject.com/en/3.2/topics/signals/
+# https://docs.djangoproject.com/en/4.0/topics/signals/
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import transaction

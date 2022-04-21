@@ -125,7 +125,7 @@ class FreezerRack(DateTimeUserMixin):
                                                     depth_end=self.freezer_rack_depth_end)
 
     class Meta:
-        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # https://docs.djangoproject.com/en/4.0/ref/models/options/#unique-together
         # racks cannot occupy the same space within a freezer
         unique_together = ['freezer', 'freezer_rack_column_start', 'freezer_rack_column_end',
                            'freezer_rack_row_start', 'freezer_rack_row_end', 'freezer_rack_depth_start',
@@ -160,7 +160,7 @@ class FreezerBox(DateTimeUserMixin):
                                                               depth=self.freezer_box_depth)
 
     class Meta:
-        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # https://docs.djangoproject.com/en/4.0/ref/models/options/#unique-together
         # boxes cannot occupy the same space within a rack
         unique_together = ['freezer_rack', 'freezer_box_column', 'freezer_box_row', 'freezer_box_depth']
         app_label = 'freezer_inventory'
@@ -222,7 +222,7 @@ class FreezerInventory(DateTimeUserMixin):
                                                        column=self.freezer_inventory_column)
 
     class Meta:
-        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # https://docs.djangoproject.com/en/4.0/ref/models/options/#unique-together
         # inventory with the same status cannot occupy the same space within a box
         unique_together = ['freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', 'freezer_inventory_loc_status']
         app_label = 'freezer_inventory'

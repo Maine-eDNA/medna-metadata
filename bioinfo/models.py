@@ -68,7 +68,7 @@ class DenoiseClusterMethod(DateTimeUserMixin):
         return self.denoise_cluster_method_slug
 
     class Meta:
-        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # https://docs.djangoproject.com/en/4.0/ref/models/options/#unique-together
         unique_together = ['denoise_cluster_method_name', 'denoise_cluster_method_software_package']
         app_label = 'bioinfo'
         verbose_name = 'DenoiseCluster Method'
@@ -159,7 +159,7 @@ class ReferenceDatabase(DateTimeUserMixin):
         return self.refdb_slug
 
     class Meta:
-        # https://docs.djangoproject.com/en/3.2/ref/models/options/#unique-together
+        # https://docs.djangoproject.com/en/4.0/ref/models/options/#unique-together
         unique_together = ['refdb_name', 'refdb_version']
         app_label = 'bioinfo'
         verbose_name = 'Reference Database'
@@ -169,7 +169,7 @@ class ReferenceDatabase(DateTimeUserMixin):
 class TaxonDomain(DateTimeUserMixin):
     # Multi-table inheritance enforces one-to-one relationships, which is
     # not what we want here. Changing back to FK with populated fields.
-    # https://docs.djangoproject.com/en/3.2/topics/db/models/#multi-table-inheritance
+    # https://docs.djangoproject.com/en/4.0/topics/db/models/#multi-table-inheritance
     taxon_domain = models.CharField('Domain', unique=True, max_length=255)
     taxon_domain_slug = models.SlugField('Domain Slug', max_length=255)
     taxon_url = models.URLField('Taxon URL', blank=True, max_length=255)

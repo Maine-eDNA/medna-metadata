@@ -71,8 +71,8 @@ admin.site.register(Grant, GrantAdmin)
 
 
 class GrantInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = Project.grant_names.through
     # extra = 1
 
@@ -116,15 +116,15 @@ admin.site.register(Project, ProjectAdmin)
 
 
 class ProjectInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = Publication.project_names.through
     # extra = 1
 
 
 class UserInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = Publication.publication_authors.through
     # extra = 1
 

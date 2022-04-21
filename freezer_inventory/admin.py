@@ -230,8 +230,8 @@ admin.site.register(FreezerInventoryLog, FreezerInventoryLogAdmin)
 
 
 class ReturnActionInline(admin.TabularInline):
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-intermediary-models
-    # https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#working-with-many-to-many-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
+    # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
     model = ReturnAction.freezer_return_actions.through
     # extra = 1
 
