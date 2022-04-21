@@ -66,15 +66,15 @@ COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements/prod.txt .
 RUN pip install --no-cache /wheels/*
 
+# copy project
+COPY . $APP_HOME
+
 # set permissions for celeryworker celerybeat start
 COPY ./docker/celery/ .
 RUN sed -i 's/\r$//g' $APP_HOME/celerybeat_start.sh
 RUN sed -i 's/\r$//g' $APP_HOME/celeryworker_start.sh
 RUN chmod +x $APP_HOME/celerybeat_start.sh
 RUN chmod +x $APP_HOME/celeryworker_start.sh
-
-# copy project
-COPY . $APP_HOME
 
 # set permissions for entrypoint.sh
 RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
