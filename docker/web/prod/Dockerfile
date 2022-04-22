@@ -45,6 +45,11 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 FROM ubuntu:focal
 
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND noninteractive
+
 # create directory for the django user
 ENV HOME=/home/django
 RUN mkdir -p $HOME
