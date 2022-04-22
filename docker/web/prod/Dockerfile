@@ -9,6 +9,13 @@
 # pull official base image
 FROM ubuntu:focal as builder
 
+#RUN groupadd -r django && useradd -r -g django django
+RUN adduser --disabled-password --gecos '' django
+RUN usermod -a -G sudo django
+
+# change to the app user
+USER django
+
 # set work directory
 WORKDIR /usr/src/app
 
@@ -45,6 +52,13 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 FROM ubuntu:focal
 
+#RUN groupadd -r django && useradd -r -g django django
+RUN adduser --disabled-password --gecos '' django
+RUN usermod -a -G sudo django
+
+# change to the app user
+USER django
+
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -53,9 +67,6 @@ ENV DEBIAN_FRONTEND noninteractive
 # create directory for the django user
 ENV HOME=/home/django
 RUN mkdir -p $HOME
-
-#RUN groupadd -r django && useradd -r -g django django
-RUN adduser --disabled-password --gecos '' django
 
 # create the appropriate directories
 ENV APP_HOME=/home/django/medna-metadata
@@ -97,8 +108,7 @@ RUN chown -R django:django $APP_HOME
 # owner can read/write/execute, group/others can read/execute.
 RUN chmod 755 -R $APP_HOME
 
-# change to the app user
-USER django
+
 
 # run entrypoint.sh
 ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
