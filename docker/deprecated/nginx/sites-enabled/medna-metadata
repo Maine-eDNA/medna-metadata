@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name medna-metadata-web;
+    server_name medna_metadata_web;
     charset utf-8;
     client_max_body_size 100m;
 
