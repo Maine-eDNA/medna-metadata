@@ -278,7 +278,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Clear prev config
 # django\conf\global_settings.py
 LOGGING_CONFIG = None
-LOGGING_DIR = [os.path.join(BASE_DIR, 'logs'), ]
+LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
 LOG_FILE = '%s/debug.log' % LOGGING_DIR
 
 # Get loglevel from env
