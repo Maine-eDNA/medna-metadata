@@ -9,16 +9,6 @@
 # pull official base image
 FROM ubuntu:focal as builder
 
-#RUN groupadd -r django && useradd -r -g django django
-RUN adduser --disabled-password --gecos '' django
-RUN usermod -a -G sudo django
-
-# change to the app user
-USER django
-
-# set work directory
-WORKDIR /usr/src/app
-
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -30,6 +20,17 @@ ENV LANG C.UTF-8
 
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+#RUN groupadd -r django && useradd -r -g django django
+RUN adduser --disabled-password --gecos '' django
+RUN usermod -a -G sudo django
+
+# change to the app user
+USER django
+
+# set work directory
+WORKDIR /usr/src/app
+
 
 # Copy and install requirements
 COPY ./requirements ./requirements
@@ -52,17 +53,17 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 FROM ubuntu:focal
 
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND noninteractive
+
 #RUN groupadd -r django && useradd -r -g django django
 RUN adduser --disabled-password --gecos '' django
 RUN usermod -a -G sudo django
 
 # change to the app user
 USER django
-
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV DEBIAN_FRONTEND noninteractive
 
 # create directory for the django user
 ENV HOME=/home/django
@@ -107,8 +108,6 @@ RUN chown -R django:django $APP_HOME
 
 # owner can read/write/execute, group/others can read/execute.
 RUN chmod 755 -R $APP_HOME
-
-
 
 # run entrypoint.sh
 ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
