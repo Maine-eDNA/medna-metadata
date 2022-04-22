@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.5'
 services:
   # docker-compose up -d
  # ----------------------------------------
@@ -15,8 +15,8 @@ services:
     env_file:
       - './medna.env'
     volumes:
-      - 'static_volume:./static/'
-      - 'media_volume:./media/'
+      - 'static_volume:/home/django/medna-metadata/static/'
+      - 'media_volume:/home/django/medna-metadata/media/'
     depends_on:
       - medna-metadata-pgdb
       - medna-metadata-rabbitmq
@@ -88,8 +88,8 @@ services:
     env_file:
       - './medna.env'
     volumes:
-      - 'static_volume:./static/'
-      - 'media_volume:./media/'
+      - 'static_volume:/home/django/medna-metadata/static/'
+      - 'media_volume:/home/django/medna-metadata/media/'
       - 'certs:/etc/nginx/certs'
       - 'html:/usr/share/nginx/html'
       - 'vhost:/etc/nginx/vhost.d'
