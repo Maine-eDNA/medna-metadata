@@ -8,14 +8,24 @@ FIXTURES_DIR=${APP_HOME}/fixtures/prod
 
 if [ "$ENTRYPOINT_DATABASE" = "postgres" ]
 then
-    echo "Waiting for postgres and rabbitmq ..."
+    echo "Waiting for postgres ..."
     echo "${0}: [$(date -u)] $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT"
-    echo "${0}: [$(date -u)] $RABBITMQ_HOST $RABBITMQ_PORT"
-    while (!(nc -z "$DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT" || nc -z "$RABBITMQ_HOST $RABBITMQ_PORT")) ; do
+    while ! nc -z $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT; do
       sleep 0.1
     done
 
     echo "PostgreSQL started"
+fi
+
+if [ "$ENTRYPOINT_MESSAGING" = "rabbitmq" ]
+then
+    echo "Waiting for rabbitmq ..."
+    echo "${0}: [$(date -u)] $RABBITMQ_HOST $RABBITMQ_PORT"
+    while ! nc -z $RABBITMQ_HOST $RABBITMQ_PORT; do
+      sleep 0.1
+    done
+
+    echo "RabbitMQ started"
 fi
 
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
