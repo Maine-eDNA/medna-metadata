@@ -4,10 +4,10 @@ services:
   # ----------------------------------------
   # MEDNA-METADATA-POSTGIS
   # ----------------------------------------
-  medna-metadata-pgdb:
+  medna_metadata_pgdb:
     restart: always
     image: postgis/postgis:12-master
-    container_name: medna-metadata-pgdb
+    container_name: medna_metadata_pgdb
     ports:
       - 5432:5432     # expose ports - HOST:CONTAINER
     env_file:
@@ -17,10 +17,10 @@ services:
  # ----------------------------------------
  # MEDNA-METADATA-RABBITMQ
  # ----------------------------------------
-  medna-metadata-rabbitmq:
+  medna_metadata_rabbitmq:
     restart: always
     image: rabbitmq:3.8.29-management
-    container_name: medna-metadata-rabbitmq
+    container_name: medna_metadata_rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -32,12 +32,12 @@ services:
  # ----------------------------------------
  # MEDNA-METADATA
  # ----------------------------------------
-  medna-metadata-web:
+  medna_metadata_web:
     restart: always
     build:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
-    container_name: medna-metadata-web
+    container_name: medna_metadata_web
     expose:
       - 8000
     env_file:
@@ -46,12 +46,12 @@ services:
       - 'static_volume:./static/'
       - 'media_volume:./media/'
     depends_on:
-      - medna-metadata-pgdb
-      - medna-metadata-rabbitmq
+      - medna_metadata_pgdb
+      - medna_metadata_rabbitmq
  # ----------------------------------------
  # MEDNA-METADATA-CELERYWORKER
  # ----------------------------------------
-  medna-metadata-celeryworker:
+  medna_metadata_celeryworker:
     build:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
@@ -59,22 +59,22 @@ services:
     env_file:
       - './medna.env'
     depends_on:
-      - medna-metadata-rabbitmq
-      - medna-metadata-pgdb
+      - medna_metadata_rabbitmq
+      - medna_metadata_pgdb
  # ----------------------------------------
  # MEDNA-METADATA-CELERYBEAT
  # ----------------------------------------
-  medna-metadata-celerybeat:
+  medna_metadata_celerybeat:
     build:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
-    image: medna-metadata-celerybeat
+    image: medna_metadata_celerybeat
     command: /home/django/medna-metadata/celerybeat_start.sh
     env_file:
       - './medna.env'
     depends_on:
-      - medna-metadata-rabbitmq
-      - medna-metadata-pgdb
+      - medna_metadata_rabbitmq
+      - medna_metadata_pgdb
  # ----------------------------------------
  # NGINX-PROXY
  # ----------------------------------------
@@ -95,7 +95,7 @@ services:
       - 'vhost:/etc/nginx/vhost.d'
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
     depends_on:
-      - medna-metadata-web
+      - medna_metadata_web
    # ----------------------------------------
    # NGINX-LETSENCRYPT
    # ----------------------------------------
