@@ -21,21 +21,13 @@ ENV LANG C.UTF-8
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-#RUN groupadd -r django && useradd -r -g django django
-RUN adduser --disabled-password --gecos '' django
-RUN usermod -a -G sudo django
-
-# change to the app user
-USER django
-
 # set work directory
 WORKDIR /usr/src/app
-
 
 # Copy and install requirements
 COPY ./requirements ./requirements
 
-# set permissions for entrypoint.sh
+# set permissions for docker-requirements.sh
 RUN chmod +x requirements/docker-requirements.sh
 RUN requirements/docker-requirements.sh
 
@@ -58,12 +50,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBIAN_FRONTEND noninteractive
 
-#RUN groupadd -r django && useradd -r -g django django
+RUN groupadd -r django && useradd -r -g django django
 RUN adduser --disabled-password --gecos '' django
-RUN usermod -a -G sudo django
-
-# change to the app user
-USER django
+#RUN usermod -a -G sudo django
 
 # create directory for the django user
 ENV HOME=/home/django
@@ -82,10 +71,19 @@ WORKDIR $APP_HOME
 RUN apt-get update && apt-get install -y libpq-dev python3-pip
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements/prod.txt .
+
+USER django
+
+ENV VIRTUAL_ENV=$HOME/appenv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 RUN pip install --no-cache /wheels/*
 
 # copy project
 COPY . $APP_HOME
+
+USER root
 
 RUN chmod +x $APP_HOME/requirements/docker-requirements.sh
 RUN $APP_HOME/requirements/docker-requirements.sh
@@ -104,10 +102,13 @@ RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
 RUN chmod +x $APP_HOME/entrypoint.sh
 
 # chown all the files to the app user
-RUN chown -R django:django $APP_HOME
+RUN chown -R django:django $HOME
 
 # owner can read/write/execute, group/others can read/execute.
-RUN chmod 755 -R $APP_HOME
+RUN chmod 755 -R $HOME
+
+# change to the app user
+USER django
 
 # run entrypoint.sh
 ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]

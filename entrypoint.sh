@@ -90,6 +90,11 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 
 fi
 
+if [ "x$DJANGO_COLLECT_STATIC" = 'xon' ]; then
+ 	echo "${0}: [$(date -u)] ***Collecting staticfiles"
+ 	python ${APP_HOME}/manage.py collectstatic --noinput --clear
+fi
+
 # Start server
 echo "${0}: [$(date -u)] ***Starting server"
 gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi \
