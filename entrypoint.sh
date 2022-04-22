@@ -8,9 +8,10 @@ FIXTURES_DIR=${APP_HOME}/fixtures/prod
 
 if [ "$ENTRYPOINT_DATABASE" = "postgres" ]
 then
-    echo "Waiting for postgres..."
-
-    while [ ! nc -z "$DJANGO_DATABASE_HOST" "$DJANGO_DATABASE_PORT" ] || [ ! nc -z "$RABBITMQ_HOST" "$RABBITMQ_PORT" ]; do
+    echo "Waiting for postgres and rabbitmq ..."
+    echo "${0}: [$(date -u)] $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT"
+    echo "${0}: [$(date -u)] $RABBITMQ_HOST $RABBITMQ_PORT"
+    while [ ! nc -z "$DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT" ] || [ ! nc -z "$RABBITMQ_HOST $RABBITMQ_PORT" ]; do
       sleep 0.1
     done
 
@@ -20,6 +21,7 @@ fi
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	# Run and apply database migrations
   echo "${0}: [$(date -u)] ***Applying database migrations***"
+  echo "${0}: [$(date -u)] ${APP_HOME}"
   python ${APP_HOME}/manage.py migrate users
   python ${APP_HOME}/manage.py migrate utility
   python ${APP_HOME}/manage.py migrate field_site
