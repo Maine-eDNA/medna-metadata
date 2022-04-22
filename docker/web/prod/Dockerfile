@@ -62,6 +62,7 @@ ENV APP_HOME=/home/django/medna-metadata
 RUN mkdir -p $APP_HOME
 RUN mkdir -p $APP_HOME/static
 RUN mkdir -p $APP_HOME/media
+RUN mkdir -p $APP_HOME/logs
 RUN chown -R django:django $APP_HOME
 WORKDIR $APP_HOME
 
