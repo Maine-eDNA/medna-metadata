@@ -69,6 +69,9 @@ RUN pip install --no-cache /wheels/*
 # copy project
 COPY . $APP_HOME
 
+RUN chmod +x $APP_HOME/requirements/docker-requirements.sh
+RUN $APP_HOME/requirements/docker-requirements.sh
+
 # set permissions for celeryworker celerybeat start
 COPY ./docker/celery/ .
 RUN sed -i 's/\r$//g' $APP_HOME/celerybeat_start.sh
@@ -88,9 +91,6 @@ RUN chmod 755 -R $APP_HOME
 
 # change to the app user
 USER django
-
-RUN chmod +x $APP_HOME/requirements/docker-requirements.sh
-RUN $APP_HOME/requirements/docker-requirements.sh
 
 # run entrypoint.sh
 ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
