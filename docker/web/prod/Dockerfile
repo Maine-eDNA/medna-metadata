@@ -64,9 +64,7 @@ WORKDIR $APP_HOME
 RUN apt-get update && apt-get install -y libpq-dev python3-pip
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements/prod.txt .
-COPY --from=builder /usr/src/app/requirements/docker-requirements.sh .
 RUN pip install --no-cache /wheels/*
-RUN docker-requirements.sh
 
 # copy project
 COPY . $APP_HOME
@@ -90,6 +88,9 @@ RUN chmod 755 -R $APP_HOME
 
 # change to the app user
 USER django
+
+RUN chmod +x $APP_HOME/requirements/docker-requirements.sh
+RUN $APP_HOME/requirements/docker-requirements.sh
 
 # run entrypoint.sh
 ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
