@@ -77,6 +77,8 @@ COPY . $APP_HOME
 RUN chmod +x $APP_HOME/requirements/docker-requirements.sh
 RUN $APP_HOME/requirements/docker-requirements.sh
 
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # set permissions for celeryworker celerybeat start
 COPY ./docker/celery/ .
 RUN sed -i 's/\r$//g' $APP_HOME/celerybeat_start.sh
