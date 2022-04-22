@@ -3,7 +3,7 @@
 apt-get update && apt-get install -y --no-install-recommends apt-utils
 # VIM text editor
 apt update && apt install -y \
- libpq-dev postgresql postgresql-contrib vim
+ libpq-dev postgresql postgresql-contrib vim netcat
 # GDAL, GEOS, PROJ.4, python deps
 apt-get install -y \
  binutils libproj-dev gdal-bin \
