@@ -39,6 +39,9 @@ COPY ./requirements ./requirements
 RUN chmod +x requirements/docker-requirements.sh
 RUN requirements/docker-requirements.sh
 
+  # cleaning up unused files
+RUN apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && rm -rf /var/lib/apt/lists/*
+
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN chown -R django:django $HOME
