@@ -11,7 +11,7 @@ then
     echo "Waiting for postgres and rabbitmq ..."
     echo "${0}: [$(date -u)] $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT"
     echo "${0}: [$(date -u)] $RABBITMQ_HOST $RABBITMQ_PORT"
-    while [ ! nc -z "$DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT" ] || [ ! nc -z "$RABBITMQ_HOST $RABBITMQ_PORT" ]; do
+    while ! [ nc -z "$DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT" ] || ! [ nc -z "$RABBITMQ_HOST $RABBITMQ_PORT" ]; do
       sleep 0.1
     done
 
