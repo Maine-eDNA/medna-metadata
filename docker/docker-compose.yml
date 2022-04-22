@@ -25,8 +25,9 @@ services:
   # ----------------------------------------
   medna-metadata-pgdb:
     restart: always
-    image: postgis/postgis:12-master
+    image: postgis/postgis:13-master
     container_name: medna-metadata-pgdb
+    command: update-postgis.sh
     ports:
       - 5432:5432     # expose ports - HOST:CONTAINER
     env_file:
