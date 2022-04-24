@@ -16,14 +16,14 @@ class QualityMetadataAdminResource(resources.ModelResource):
         fields = ('id', 'quality_slug', 'analysis_label', 'process_location',
                   'fastq_file', 'analysis_datetime',
                   'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
-                  'chimera_check', 'trim_length_forward', 'trim_length_reverse',
+                  'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
                   'analysis_sop', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'quality_slug', 'analysis_label', 'process_location',
                         'fastq_file', 'analysis_datetime',
                         'analyst_first_name', 'analyst_last_name', 'seq_quality_check',
-                        'chimera_check', 'trim_length_forward', 'trim_length_reverse',
+                        'trim_length_forward', 'trim_length_reverse',
                         'min_read_length', 'max_read_length',
                         'analysis_sop', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', 'modified_datetime', )
@@ -83,12 +83,12 @@ class DenoiseClusterMetadataAdminResource(resources.ModelResource):
                             'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', )
         fields = ('id', 'denoise_cluster_slug', 'analysis_label', 'process_location', 'analysis_datetime',
                   'quality_metadata',
-                  'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
+                  'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', 'chimera_check',
                   'analysis_sop', 'analysis_script_repo_url',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'denoise_cluster_slug', 'analysis_label', 'process_location', 'analysis_datetime',
                         'quality_metadata',
-                        'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method',
+                        'analyst_first_name', 'analyst_last_name', 'denoise_cluster_method', 'chimera_check',
                         'analysis_sop', 'analysis_script_repo_url',
                         'created_by', 'created_datetime', 'modified_datetime', )
 

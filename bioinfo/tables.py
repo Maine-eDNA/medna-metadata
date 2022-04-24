@@ -24,7 +24,7 @@ class QualityMetadataTable(tables.Table):
         fields = ('_selected_action', 'id', 'analysis_label', 'process_location', 'analysis_datetime',
                   'fastq_file',
                   'analyst_first_name', 'analyst_last_name',
-                  'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
+                  'seq_quality_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
                   'analysis_sop', 'analysis_script_repo_url', 'quality_slug',
                   'created_by', 'created_datetime', 'modified_datetime', )
@@ -46,7 +46,7 @@ class DenoiseClusterMetadataTable(tables.Table):
     class Meta:
         model = DenoiseClusterMetadata
         fields = ('_selected_action', 'id', 'analysis_label', 'process_location', 'analysis_datetime',
-                  'quality_metadata', 'denoise_cluster_method',
+                  'quality_metadata', 'denoise_cluster_method', 'chimera_check',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop', 'analysis_script_repo_url', 'denoise_cluster_slug',
                   'created_by', 'created_datetime', 'modified_datetime', )
