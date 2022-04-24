@@ -16,8 +16,6 @@ class QualityMetadata(DateTimeUserMixin):
     analyst_last_name = models.CharField('Analyst Last Name', max_length=255)
     # MIxS seq_quality_check - (none, manually edited) indicate if the sequence has been called by automatic systems (none) or undergone manual editing procedure
     seq_quality_check = models.CharField('Quality Check', max_length=50, choices=QualityChecks.choices)
-    # MIxS chimera_check - name and version of software, parameters used
-    chimera_check = models.TextField('Chimera Check', blank=True)
     # the length to trim the forward reads
     trim_length_forward = models.PositiveIntegerField('Trim Length Forward (bp)')
     # the length to trim the reverse reads
@@ -83,6 +81,8 @@ class DenoiseClusterMetadata(DateTimeUserMixin):
     analyst_first_name = models.CharField('Analyst First Name', max_length=255)
     analyst_last_name = models.CharField('Analyst Last Name', max_length=255)
     denoise_cluster_method = models.ForeignKey(DenoiseClusterMethod, on_delete=models.RESTRICT)
+    # MIxS chimera_check - name and version of software, parameters used
+    chimera_check = models.TextField('Chimera Check', blank=True)
     analysis_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Analysis SOP', on_delete=models.RESTRICT)
     analysis_script_repo_url = models.URLField('Repository URL', max_length=255, default='https://github.com/Maine-eDNA')
     denoise_cluster_slug = models.SlugField('Metadata Slug', max_length=255)

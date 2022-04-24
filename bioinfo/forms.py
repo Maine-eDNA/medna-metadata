@@ -11,7 +11,7 @@ from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadat
     TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
 
 
-class QualityMetadataCreateForm(forms.ModelForm):
+class QualityMetadataForm(forms.ModelForm):
     analysis_label = forms.CharField(
         required=True,
         widget=forms.TextInput(
@@ -65,50 +65,6 @@ class QualityMetadataCreateForm(forms.ModelForm):
             }
         )
     )
-    chimera_software = forms.CharField(
-        required=False,
-        help_text='Name of software used for the chimera check, e.g., uchime. A chimeric sequence, or chimera for short, '
-                  'is a sequence comprised of two or more phylogenetically distinct parent sequences. Chimeras are '
-                  'usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals to a foreign '
-                  'DNA strand and is copied to completion in the following PCR cycles. The point at which the chimeric '
-                  'sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': 'software name',
-                'class': 'form-control',
-            }
-        )
-    )
-    chimera_software_version = forms.CharField(
-        required=False,
-        help_text='Version of software used for the chimera check, e.g., v4.1',
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': 'software version of software, parameters used, e.g., uchime;v4.1;default parameters',
-                'class': 'form-control',
-            }
-        )
-    )
-    chimera_check_parameters = forms.CharField(
-        required=False,
-        help_text='Parameters used for the chimera check; if default parameters were used, enter "default parameters".',
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': 'default parameters',
-                'class': 'form-control',
-            }
-        )
-    )
-    # chimera_check = forms.CharField(
-    #     required=True,
-    #     widget=forms.Textarea(
-    #         attrs={
-    #             'placeholder': 'name and version of software, parameters used, e.g., uchime;v4.1;default parameters',
-    #             'class': 'form-control',
-    #         }
-    #     )
-    # )
-
     trim_length_forward = forms.IntegerField(
         required=True,
         widget=forms.NumberInput(
@@ -172,7 +128,7 @@ class QualityMetadataCreateForm(forms.ModelForm):
         self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
 
-class QualityMetadataUpdateForm(forms.ModelForm):
+class DenoiseClusterMetadataCreateForm(forms.ModelForm):
     analysis_label = forms.CharField(
         required=True,
         widget=forms.TextInput(
@@ -190,13 +146,13 @@ class QualityMetadataUpdateForm(forms.ModelForm):
             }
         )
     )
+    quality_metadata = forms.ModelChoiceField(
+        required=True,
+        queryset=QualityMetadata.objects.none()
+    )
     analysis_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
-    )
-    fastq_file = forms.ModelMultipleChoiceField(
-        required=True,
-        queryset=FastqFile.objects.none()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -214,60 +170,59 @@ class QualityMetadataUpdateForm(forms.ModelForm):
             }
         )
     )
-    seq_quality_check = forms.ChoiceField(
+    denoise_cluster_method = forms.ModelChoiceField(
         required=True,
-        choices=QualityChecks.choices,
+        queryset=DenoiseClusterMethod.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
         )
     )
-    chimera_check = forms.CharField(
+    chimera_software = forms.CharField(
         required=False,
-        help_text='Name and version of software, parameters used, e.g., uchime;v4.1;default parameters. A chimeric sequence, '
-                  'or chimera for short, is a sequence comprised of two or more phylogenetically distinct parent sequences. '
-                  'Chimeras are usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals '
-                  'to a foreign DNA strand and is copied to completion in the following PCR cycles. The point at which '
-                  'the chimeric sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
+        help_text='Name of software used for the chimera check, e.g., uchime. A chimeric sequence, or chimera for short, '
+                  'is a sequence comprised of two or more phylogenetically distinct parent sequences. Chimeras are '
+                  'usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals to a foreign '
+                  'DNA strand and is copied to completion in the following PCR cycles. The point at which the chimeric '
+                  'sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
         widget=forms.Textarea(
             attrs={
+                'placeholder': 'software name',
                 'class': 'form-control',
             }
         )
     )
-    trim_length_forward = forms.IntegerField(
-        required=True,
-        widget=forms.NumberInput(
+    chimera_software_version = forms.CharField(
+        required=False,
+        help_text='Version of software used for the chimera check, e.g., v4.1',
+        widget=forms.Textarea(
             attrs={
+                'placeholder': 'software version of software, parameters used, e.g., uchime;v4.1;default parameters',
                 'class': 'form-control',
             }
         )
     )
-    trim_length_reverse = forms.IntegerField(
-        required=True,
-        widget=forms.NumberInput(
+    chimera_check_parameters = forms.CharField(
+        required=False,
+        help_text='Parameters used for the chimera check; if default parameters were used, enter "default parameters".',
+        widget=forms.Textarea(
             attrs={
+                'placeholder': 'default parameters',
                 'class': 'form-control',
             }
         )
     )
-    min_read_length = forms.IntegerField(
-        required=True,
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
-    max_read_length = forms.IntegerField(
-        required=True,
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
+    # chimera_check = forms.CharField(
+    #     required=True,
+    #     widget=forms.Textarea(
+    #         attrs={
+    #             'placeholder': 'name and version of software, parameters used, e.g., uchime;v4.1;default parameters',
+    #             'class': 'form-control',
+    #         }
+    #     )
+    # )
+
     analysis_sop = forms.ModelChoiceField(
         required=True,
         queryset=StandardOperatingProcedure.objects.none()
@@ -282,24 +237,21 @@ class QualityMetadataUpdateForm(forms.ModelForm):
     )
 
     class Meta:
-        model = QualityMetadata
+        model = DenoiseClusterMetadata
         fields = ['analysis_label', 'process_location', 'analysis_datetime',
-                  'fastq_file',
+                  'quality_metadata', 'denoise_cluster_method',
                   'analyst_first_name', 'analyst_last_name',
-                  'seq_quality_check', 'chimera_check',
-                  'trim_length_forward', 'trim_length_reverse',
-                  'min_read_length', 'max_read_length',
                   'analysis_sop', 'analysis_script_repo_url', ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
-        self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
+        self.fields['quality_metadata'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_qualitymetadata')))
+        self.fields['quality_metadata'].queryset = QualityMetadata.objects.all().order_by('-created_datetime')
         self.fields['analysis_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.BIOINFO},)))
         self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
 
-class DenoiseClusterMetadataForm(forms.ModelForm):
+class DenoiseClusterMetadataUpdateForm(forms.ModelForm):
     analysis_label = forms.CharField(
         required=True,
         widget=forms.TextInput(
@@ -317,22 +269,13 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
             }
         )
     )
-    analysis_datetime = forms.SplitDateTimeField(
-        required=True,
-        widget=CustomAdminSplitDateTime()
-    )
-    denoise_cluster_method = forms.ModelChoiceField(
-        required=True,
-        queryset=DenoiseClusterMethod.objects.all(),
-        widget=CustomSelect2(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
     quality_metadata = forms.ModelChoiceField(
         required=True,
         queryset=QualityMetadata.objects.none()
+    )
+    analysis_datetime = forms.SplitDateTimeField(
+        required=True,
+        widget=CustomAdminSplitDateTime()
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -345,6 +288,28 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
     analyst_last_name = forms.CharField(
         required=True,
         widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    denoise_cluster_method = forms.ModelChoiceField(
+        required=True,
+        queryset=DenoiseClusterMethod.objects.all(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    chimera_check = forms.CharField(
+        required=False,
+        help_text='Name and version of software, parameters used, e.g., uchime;v4.1;default parameters. A chimeric sequence, '
+                  'or chimera for short, is a sequence comprised of two or more phylogenetically distinct parent sequences. '
+                  'Chimeras are usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals '
+                  'to a foreign DNA strand and is copied to completion in the following PCR cycles. The point at which '
+                  'the chimeric sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
+        widget=forms.Textarea(
             attrs={
                 'class': 'form-control',
             }
@@ -366,7 +331,7 @@ class DenoiseClusterMetadataForm(forms.ModelForm):
     class Meta:
         model = DenoiseClusterMetadata
         fields = ['analysis_label', 'process_location', 'analysis_datetime',
-                  'quality_metadata', 'denoise_cluster_method',
+                  'quality_metadata', 'denoise_cluster_method', 'chimera_check',
                   'analyst_first_name', 'analyst_last_name',
                   'analysis_sop', 'analysis_script_repo_url', ]
 

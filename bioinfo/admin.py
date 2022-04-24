@@ -29,7 +29,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['analysis_label', 'process_location', 'fastq_file',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
-                       'seq_quality_check', 'chimera_check',
+                       'seq_quality_check',
                        'trim_length_forward', 'trim_length_reverse',
                        'min_read_length', 'max_read_length',
                        'analysis_sop', 'analysis_script_repo_url', 'created_by', ]
@@ -43,7 +43,7 @@ class QualityMetadataAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in change view
         self.fields = ['quality_slug', 'analysis_label', 'process_location', 'fastq_file',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
-                       'seq_quality_check', 'chimera_check',
+                       'seq_quality_check',
                        'trim_length_forward', 'trim_length_reverse',
                        'min_read_length', 'max_read_length',
                        'analysis_sop', 'analysis_script_repo_url',
@@ -118,7 +118,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['analysis_label', 'process_location', 'quality_metadata',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
-                       'denoise_cluster_method',
+                       'denoise_cluster_method', 'chimera_check',
                        'analysis_sop', 'analysis_script_repo_url', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -131,7 +131,7 @@ class DenoiseClusterMetadataAdmin(ImportExportActionModelAdmin):
         self.fields = ['denoise_cluster_slug',
                        'analysis_label', 'process_location', 'quality_metadata',
                        'analysis_datetime', 'analyst_first_name', 'analyst_last_name',
-                       'denoise_cluster_method',
+                       'denoise_cluster_method', 'chimera_check',
                        'analysis_sop', 'analysis_script_repo_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

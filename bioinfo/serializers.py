@@ -17,7 +17,6 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
     seq_quality_check = serializers.ChoiceField(choices=QualityChecks.choices)
-    chimera_check = serializers.CharField(allow_blank=True)
     trim_length_forward = serializers.IntegerField()
     trim_length_reverse = serializers.IntegerField()
     min_read_length = serializers.IntegerField()
@@ -32,7 +31,7 @@ class QualityMetadataSerializer(serializers.ModelSerializer):
         fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
                   'fastq_file',
                   'analyst_first_name', 'analyst_last_name',
-                  'seq_quality_check', 'chimera_check', 'trim_length_forward', 'trim_length_reverse',
+                  'seq_quality_check', 'trim_length_forward', 'trim_length_reverse',
                   'min_read_length', 'max_read_length',
                   'analysis_sop', 'analysis_script_repo_url', 'quality_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
@@ -79,6 +78,7 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
     denoise_cluster_slug = serializers.SlugField(max_length=255, read_only=True)
     analyst_first_name = serializers.CharField(max_length=255)
     analyst_last_name = serializers.CharField(max_length=255)
+    chimera_check = serializers.CharField(allow_blank=True)
     analysis_script_repo_url = serializers.URLField(max_length=255)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
@@ -86,8 +86,8 @@ class DenoiseClusterMetadataSerializer(serializers.ModelSerializer):
     class Meta:
         model = DenoiseClusterMetadata
         fields = ['id', 'analysis_label', 'process_location', 'analysis_datetime',
-                  'quality_metadata', 'denoise_cluster_method',
                   'analyst_first_name', 'analyst_last_name',
+                  'quality_metadata', 'denoise_cluster_method', 'chimera_check',
                   'analysis_sop', 'analysis_script_repo_url', 'denoise_cluster_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
