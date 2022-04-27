@@ -19,8 +19,6 @@ RUN adduser --disabled-password --gecos '' django
 # create directory for the django user
 ENV HOME=/home/django
 RUN mkdir -p $HOME
-ENV VIRTUAL_ENV=$HOME/.virtualenvs/mednaenv
-run mkdir -p $VIRTUAL_ENV
 
 # create the appropriate directories
 ENV APP_HOME=/home/django/medna-metadata
@@ -39,9 +37,10 @@ COPY ./requirements ./requirements
 RUN chmod +x requirements/docker-requirements.sh
 RUN requirements/docker-requirements.sh
 
-  # cleaning up unused files
+ # clean up unused files
 RUN apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && rm -rf /var/lib/apt/lists/*
 
+# link python3 to python so that 'python' cmd calls python3
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN chown -R django:django $HOME
@@ -49,6 +48,9 @@ RUN chmod 755 -R $HOME
 
 USER django
 
+# create venv dir and activate the venv
+ENV VIRTUAL_ENV=$HOME/.virtualenvs/mednaenv
+RUN mkdir -p $VIRTUAL_ENV
 RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN pip install --upgrade setuptools wheel

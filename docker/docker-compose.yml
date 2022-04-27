@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 services:
   # docker-compose up -d
  # ----------------------------------------
@@ -13,7 +13,7 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - '/home/django/medna-metadata/docker/medna.env'
+      - 'medna.env'
     volumes:
       - '../:/home/django/medna-metadata/'
     depends_on:
@@ -25,12 +25,12 @@ services:
   # ----------------------------------------
   medna_metadata_pgdb:
     restart: always
-    image: postgis/postgis:13-master
+    image: postgis/postgis:12-master
     container_name: medna_metadata_pgdb
     ports:
       - 5432:5432     # expose ports - HOST:CONTAINER
     env_file:
-      - '/home/django/medna-metadata/docker/medna.env.db'
+      - 'medna.env.db'
     volumes:
       - 'postgres_data:/var/lib/postgresql/data/'
  # ----------------------------------------
@@ -44,7 +44,7 @@ services:
       - 5672:5672
       - 15672:15672
     env_file:
-      - '/home/django/medna-metadata/docker/medna.env'
+      - 'medna.env'
     volumes:
       - 'rabbitmq_data:/var/lib/rabbitmq/'
       - 'rabbitmq_logs:/var/log/rabbitmq/'
@@ -55,14 +55,16 @@ services:
     build:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
+    container_name: medna_metadata_celeryworker
     command: /home/django/medna-metadata/celeryworker_start.sh
     env_file:
-      - '/home/django/medna-metadata/docker/medna.env'
+      - 'medna.env'
     volumes:
       - '../:/home/django/medna-metadata/'
     depends_on:
-      - medna_metadata_rabbitmq
       - medna_metadata_pgdb
+      - medna_metadata_rabbitmq
+      - medna_metadata_web
  # ----------------------------------------
  # MEDNA-METADATA-CELERYBEAT
  # ----------------------------------------
@@ -70,15 +72,17 @@ services:
     build:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
-    image: medna_metadata_celerybeat
+    container_name: medna_metadata_celerybeat
     command: /home/django/medna-metadata/celerybeat_start.sh
     env_file:
-      - '/home/django/medna-metadata/docker/medna.env'
+      - 'medna.env'
     volumes:
       - '../:/home/django/medna-metadata/'
     depends_on:
-      - medna_metadata_rabbitmq
       - medna_metadata_pgdb
+      - medna_metadata_rabbitmq
+      - medna_metadata_web
+      - medna_metadata_celeryworker
  # ----------------------------------------
  # NGINX
  # ----------------------------------------
@@ -87,10 +91,9 @@ services:
     build: nginx
     restart: always
     ports:
-      - 443:443
-      - 80:80
+      - 80:8080
     env_file:
-      - '/home/django/medna-metadata/docker/medna.env'
+      - 'medna.env'
     volumes:
       - 'static_volume:/home/django/medna-metadata/static/'
       - 'media_volume:/home/django/medna-metadata/media/'
