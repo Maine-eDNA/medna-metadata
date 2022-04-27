@@ -15,18 +15,18 @@ services:
     env_file:
       - '/home/django/medna-metadata/docker/medna.env'
     volumes:
-      - 'app_volume:/home/django/medna-metadata/'
+      - '../:/home/django/medna-metadata/'
     depends_on:
       - medna_metadata_pgdb
       - medna_metadata_rabbitmq
   # ----------------------------------------
   # MEDNA-METADATA-POSTGIS
+  # command: update-postgis.sh
   # ----------------------------------------
   medna_metadata_pgdb:
     restart: always
-    image: postgis/postgis:12-master
+    image: postgis/postgis:13-master
     container_name: medna_metadata_pgdb
-    command: update-postgis.sh
     ports:
       - 5432:5432     # expose ports - HOST:CONTAINER
     env_file:
@@ -59,7 +59,7 @@ services:
     env_file:
       - '/home/django/medna-metadata/docker/medna.env'
     volumes:
-      - 'app_volume:/home/django/medna-metadata/'
+      - '../:/home/django/medna-metadata/'
     depends_on:
       - medna_metadata_rabbitmq
       - medna_metadata_pgdb
@@ -75,7 +75,7 @@ services:
     env_file:
       - '/home/django/medna-metadata/docker/medna.env'
     volumes:
-      - 'app_volume:/home/django/medna-metadata/'
+      - '../:/home/django/medna-metadata/'
     depends_on:
       - medna_metadata_rabbitmq
       - medna_metadata_pgdb
@@ -104,7 +104,6 @@ volumes:
   postgres_data:
   rabbitmq_data:
   rabbitmq_logs:
-  app_volume:
   static_volume:
   media_volume:
   certs:
