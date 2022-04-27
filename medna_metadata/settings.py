@@ -278,8 +278,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Clear prev config
 # django\conf\global_settings.py
 LOGGING_CONFIG = None
-LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
-LOG_FILE = '%s/debug.log' % LOGGING_DIR
 
 # Get loglevel from env
 LOGLEVEL = os.environ.get('DJANGO_LOG_LEVEL', 'info').upper()
@@ -298,17 +296,15 @@ logging.config.dictConfig({
         },
     },
     'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': LOG_FILE,
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
             'level': LOGLEVEL,
-            'propagate': True,
+            'handlers': ['console', ],
         },
     },
 })
