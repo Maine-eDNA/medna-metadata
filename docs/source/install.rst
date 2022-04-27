@@ -390,7 +390,7 @@ First, open your environment file::
 Update or add the following `Celery config settings <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#generic-systemd-celery-example>`__ to your environment file::
 
     CELERY_RESULT_BACKEND='your_result_backend'
-    CELERY_BROKER_URL='transport://yourrabbitmquser:yourrabbitmqpassword@hostname:port/yourrabbitmqvhost'
+    CELERY_BROKER_URL='transport://your_rabbitmq_user:your_rabbitmq_password@hostname:port/your_rabbitmq_vhost'
     CELERYD_NODES='worker'
     CELERY_BIN='/path/to/.virtualenvs/mednaenv/bin/celery'
     CELERY_APP='medna_metadata.celery.app'
