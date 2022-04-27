@@ -23,9 +23,6 @@ RUN mkdir -p $HOME
 # create the appropriate directories
 ENV APP_HOME=/home/django/medna-metadata
 RUN mkdir -p $APP_HOME
-RUN mkdir -p $APP_HOME/static
-RUN mkdir -p $APP_HOME/media
-RUN mkdir -p $APP_HOME/logs
 
 RUN chown -R django:django $HOME
 
@@ -59,14 +56,18 @@ RUN pip install -r requirements/prod.txt
 # Copy app
 COPY . $APP_HOME
 
+RUN mkdir -p $APP_HOME/static
+RUN mkdir -p $APP_HOME/media
+RUN mkdir -p $APP_HOME/logs
+RUN touch $APP_HOME/logs/debug.log
+
 USER root
 
 # set permissions for celeryworker celerybeat start
-COPY ./docker/celery/ .
-RUN sed -i 's/\r$//g' $APP_HOME/celerybeat_start.sh
-RUN sed -i 's/\r$//g' $APP_HOME/celeryworker_start.sh
-RUN chmod +x $APP_HOME/celerybeat_start.sh
-RUN chmod +x $APP_HOME/celeryworker_start.sh
+RUN sed -i 's/\r$//g' $APP_HOME/docker/celery/celerybeat_start.sh
+RUN sed -i 's/\r$//g' $APP_HOME/docker/celery/celeryworker_start.sh
+RUN chmod +x $APP_HOME/docker/celery/celerybeat_start.sh
+RUN chmod +x $APP_HOME/docker/celery/celeryworker_start.sh
 
 # set permissions for entrypoint.sh
 RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
