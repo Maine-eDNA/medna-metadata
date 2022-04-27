@@ -56,22 +56,19 @@ RUN pip install -r requirements/prod.txt
 # Copy app
 COPY . $APP_HOME
 
-RUN mkdir -p $APP_HOME/static
-RUN mkdir -p $APP_HOME/media
-RUN mkdir -p $APP_HOME/logs
-RUN touch $APP_HOME/logs/debug.log
-
 USER root
 
 # set permissions for celeryworker celerybeat start
-RUN sed -i 's/\r$//g' $APP_HOME/docker/celery/celerybeat_start.sh
-RUN sed -i 's/\r$//g' $APP_HOME/docker/celery/celeryworker_start.sh
-RUN chmod +x $APP_HOME/docker/celery/celerybeat_start.sh
-RUN chmod +x $APP_HOME/docker/celery/celeryworker_start.sh
+COPY ./docker/celery/ $HOME
+RUN sed -i 's/\r$//g' $HOME/celerybeat_start.sh
+RUN sed -i 's/\r$//g' $HOME/celeryworker_start.sh
+RUN chmod +x $HOME/celerybeat_start.sh
+RUN chmod +x $HOME/celeryworker_start.sh
 
 # set permissions for entrypoint.sh
-RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.sh
-RUN chmod +x $APP_HOME/entrypoint.sh
+COPY ./entrypoint.sh $HOME/entrypoint.sh
+RUN sed -i 's/\r$//g' $HOME/entrypoint.sh
+RUN chmod +x $HOME/entrypoint.sh
 
 # chown all the files to the app user
 RUN chown -R django:django $HOME
@@ -80,4 +77,4 @@ RUN chmod 755 -R $HOME
 
 USER django
 # run entrypoint.sh
-ENTRYPOINT ["/home/django/medna-metadata/entrypoint.sh"]
+ENTRYPOINT ["/home/django/entrypoint.sh"]
