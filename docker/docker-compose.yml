@@ -56,7 +56,7 @@ services:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
     container_name: medna_metadata_celeryworker
-    command: /home/django/medna-metadata/docker/celery/celeryworker_start.sh
+    command: /home/django/celeryworker_start.sh
     env_file:
       - 'medna.env'
     volumes:
@@ -73,7 +73,7 @@ services:
       context: '../'
       dockerfile: 'docker/web/prod/Dockerfile'
     container_name: medna_metadata_celerybeat
-    command: /home/django/medna-metadata/docker/celery/celerybeat_start.sh
+    command: /home/django/celerybeat_start.sh
     env_file:
       - 'medna.env'
     volumes:
