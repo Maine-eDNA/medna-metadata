@@ -277,6 +277,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ########################################
 # Clear prev config
 # django\conf\global_settings.py
+# https://docs.djangoproject.com/en/4.0/topics/logging/#examples
 LOGGING_CONFIG = None
 
 # Get loglevel from env
@@ -297,14 +298,15 @@ logging.config.dictConfig({
     },
     'handlers': {
         'console': {
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'console',
+            'formatter': 'verbose'
         },
     },
     'loggers': {
         'django': {
-            'level': LOGLEVEL,
-            'handlers': ['console', ],
+            'handlers': ['console'],
+            'propagate': True,
         },
     },
 })
