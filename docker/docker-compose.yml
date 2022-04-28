@@ -53,6 +53,7 @@ services:
  # MEDNA-METADATA-CELERYWORKER
  # ----------------------------------------
   medna_metadata_celeryworker:
+    restart: always
     build:
       context: '../'
       dockerfile: 'docker/web/Dockerfile'
@@ -70,6 +71,7 @@ services:
  # MEDNA-METADATA-CELERYBEAT
  # ----------------------------------------
   medna_metadata_celerybeat:
+    restart: always
     build:
       context: '../'
       dockerfile: 'docker/web/Dockerfile'
@@ -88,9 +90,9 @@ services:
  # NGINX
  # ----------------------------------------
   nginx:
-    container_name: nginx
-    build: nginx
     restart: always
+    build: nginx
+    container_name: nginx
     ports:
       - 80:8080
     env_file:
