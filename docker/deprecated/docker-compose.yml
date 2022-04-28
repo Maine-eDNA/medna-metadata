@@ -36,7 +36,7 @@ services:
     restart: always
     build:
       context: '../'
-      dockerfile: 'docker/web/prod/Dockerfile'
+      dockerfile: 'docker/web/Dockerfile'
     container_name: medna_metadata_web
     expose:
       - 8000
@@ -54,7 +54,7 @@ services:
   medna_metadata_celeryworker:
     build:
       context: '../'
-      dockerfile: 'docker/web/prod/Dockerfile'
+      dockerfile: 'docker/web/Dockerfile'
     command: /home/django/medna-metadata/celeryworker_start.sh
     env_file:
       - './medna.env'
@@ -67,7 +67,7 @@ services:
   medna_metadata_celerybeat:
     build:
       context: '../'
-      dockerfile: 'docker/web/prod/Dockerfile'
+      dockerfile: 'docker/web/Dockerfile'
     image: medna_metadata_celerybeat
     command: /home/django/medna-metadata/celerybeat_start.sh
     env_file:

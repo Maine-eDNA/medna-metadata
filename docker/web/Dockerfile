@@ -70,6 +70,11 @@ COPY ./entrypoint.sh $HOME/entrypoint.sh
 RUN sed -i 's/\r$//g' $HOME/entrypoint.sh
 RUN chmod +x $HOME/entrypoint.sh
 
+# set permissions for entrypoint.sh
+COPY ./docker/web/web_start.sh $HOME/web_start.sh
+RUN sed -i 's/\r$//g' $HOME/web_start.sh
+RUN chmod +x $HOME/web_start.sh
+
 # chown all the files to the app user
 RUN chown -R django:django $HOME
 # owner can read/write/execute, group/others can read/execute.
