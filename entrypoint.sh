@@ -56,8 +56,8 @@ if [ "x$DJANGO_DEFAULT_GROUPS_CREATE" = 'xon' ]; then
 fi
 
 if [ "x$DJANGO_DEFAULT_USERS_CREATE" = 'xon' ]; then
- 	echo "${0}: [$(date -u)] ***Creating default users"
- 	python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/medna_metadata_default_usernames.json
+ 	echo "${0}: [$(date -u)] ***Creating default user"
+ 	python ${APP_HOME}/manage.py create_default_user
 fi
 
 if [ "x$DJANGO_DATABASE_FLUSH" = 'xon' ]; then
