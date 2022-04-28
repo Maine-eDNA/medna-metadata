@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default=get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # django\conf\global_settings.py
-DEBUG = os.environ.get('DJANGO_DEBUG', True)
+DEBUG = os.environ.get('DJANGO_DEBUG', False)
 
 # django\conf\global_settings.py
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', default='localhost [::1]').split(' ')
