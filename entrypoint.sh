@@ -4,7 +4,7 @@ set -e
 
 # set variables
 APP_HOME=/home/django/medna-metadata
-FIXTURES_DIR=${APP_HOME}/fixtures/prod
+FIXTURES_DIR=${APP_HOME}/fixtures/demo
 
 if [ "$ENTRYPOINT_DATABASE" = "postgres" ]
 then
