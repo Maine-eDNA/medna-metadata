@@ -27,6 +27,11 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
   python ${APP_HOME}/manage.py migrate
 fi
 
+if [ "x$DJANGO_DATABASE_FLUSH" = 'xon' ]; then
+ 	echo "${0}: [$(date -u)] ***Flushing database"
+ 	python ${APP_HOME}/manage.py flush --no-input
+fi
+
 if [ "x$DJANGO_SUPERUSER_CREATE" = 'xon' ]; then
 	# PW and USERNAME supplied in medna.env
   # DJANGO_SUPERUSER_PASSWORD, DJANGO_SUPERUSER_EMAIL
@@ -42,11 +47,6 @@ fi
 if [ "x$DJANGO_DEFAULT_USERS_CREATE" = 'xon' ]; then
  	echo "${0}: [$(date -u)] ***Creating default user"
  	python ${APP_HOME}/manage.py create_default_user
-fi
-
-if [ "x$DJANGO_DATABASE_FLUSH" = 'xon' ]; then
- 	echo "${0}: [$(date -u)] ***Flushing database"
- 	python ${APP_HOME}/manage.py flush --no-input
 fi
 
 if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
