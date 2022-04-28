@@ -6,9 +6,5 @@ class Command(BaseCommand):
     help = 'Creates default user'
 
     def handle(self, *args, **options):
-        user = get_user_model()
         default_email = 'default@user.com'
-        user.objects.create_user(email=default_email,
-                                 is_active=True,
-                                 is_staff=False,
-                                 is_superuser=False)
+        get_user_model().objects.create(email=default_email)
