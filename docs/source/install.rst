@@ -36,23 +36,62 @@ To clone the development branch::
 Docker Setup
 ============
 
-The ``/docker`` directory has ``medna.env.txt`` and ``medna.env.db.txt``, which contain
-all environmental variables for docker deployment. Make a copy of these files in the same ``/docker`` directory with
-the ``.txt`` extension removed (e.g., ``medna.env.db``, ``medna.env``) and variables updated with desired settings.
-These files are necessary for docker. Other files that affect docker are:
+Install Requirements
+--------------------
+
+Ubuntu 20.04
+~~~~~~~~~~~~
+Deploying with docker requires docker and docker-compose. Docker-compose must be able to run at least version 3.8.
+DigitalOcean provides tutorials on `How to Install and Use Docker on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04>`__
+and `How To Install and Use Docker Compose on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04>`__.
+
+After following DigitalOcean's tutorials, create a symbolic link of the installation to the ``docker-compose`` command ::
+
+    sudo ln -s ~/.docker/cli-plugins/docker-compose /usr/bin/docker-compose
+
+.. important::
+    This allows you to call ``docker-compose`` from the command line, and is highly recommended to avoid future headaches.
+
+The ``/docker`` directory has ``medna.env.txt`` and ``medna.env.db.txt``, which contain all environmental variables for
+docker deployment. These files are necessary for docker. Other files that affect docker are:
  - ``entrypoint.sh``
  - ``.dockerignore``
  - contents of ``/docker`` directory
  - settings in ``medna_metadata/settings.py``
 
+Navigate to the ``/docker`` directory ::
+
+    cd medna-metadata/docker/
+
+Make a copy of ``medna.env.txt`` and ``medna.env.db.txt`` in the same ``/docker`` directory with the ``.txt`` extension removed (e.g., ``medna.env.db``, ``medna.env``) ::
+
+    cp medna.env.txt medna.env
+    cp medna.env.db.txt medna.env.db
+
+``medna.env``:
+
 .. literalinclude:: ../../docker/medna.env.txt
    :language: env
+
+``medna.env.db``:
 
 .. literalinclude:: ../../docker/medna.env.db.txt
    :language: env
 
-Once settings are verified, run ``sudo docker-compose up -d`` from the ``/docker`` directory to build and deploy Maine-eDNA Metadata, `PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`__,
-`RabbitMQ <https://hub.docker.com/_/rabbitmq>`__, `Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, and `NGINX <https://hub.docker.com/_/nginx>`__.
+Open and update the environmental variables with desired settings in a text editor such as VIM ::
+
+    sudo vim medna.env
+
+Write and exit the VIM text editor::
+
+    :wq!
+
+Repeat these steps with ``medna.env.db``.
+
+Once settings are verified, run ``sudo docker-compose up -d`` from the ``/docker`` directory to build and deploy Maine-eDNA Metadata,
+`PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`__, `RabbitMQ <https://hub.docker.com/_/rabbitmq>`__,
+`Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, `Gunicorn <https://gunicorn.org/>`__, and
+`NGINX <https://hub.docker.com/_/nginx>`__.
 
 ============
 Manual Setup
@@ -87,13 +126,20 @@ Dotenv is a python library for reading in environmental variables from a file::
 
     pip install django-dotenv
 
-Add environmental variables to the end of bashrc, which will reload variables anytime the server reboots.
+Add environmental variables to the bottom of bashrc, which reloads environmental variables anytime the server reboots.
 
-The variables to copy into ``~/.bashrc`` are listed in ``docker/bashrc.txt``::
+The environmental variables required to run this application are listed in ``docker/bashrc.txt``:
+
+.. literalinclude:: ../../docker/bashrc.txt
+   :language: env
+
+These environmental variables must be updated with values specific to your deployment.
+
+Open ``~/.bashrc`` with a text editor such as VIM::
 
     sudo vim ~/.bashrc
 
-Write and exit the VIM text editor::
+Scroll to the bottom of ``bashrc`` and type ``i`` to insert into the file. Write and exit the VIM text editor::
 
     :wq!
 
@@ -104,12 +150,20 @@ Load the environmental variables::
 
     source ~/.bashrc
 
-Copy ``gunicorn.env.txt`` as ``gunicorn.env`` and modify the variables::
+Make a copy of ``gunicorn.env.txt`` in the same ``/docker`` directory with the ``.txt`` extension removed (e.g., ``gunicorn.env``) ::
 
     cp docker/gunicorn.env.txt docker/gunicorn.env
+
+``gunicorn.env``:
+
+.. literalinclude:: ../../docker/gunicorn.env.txt
+   :language: env
+
+Update the environmental variables with values specific to your deployment in a text editor such as VIM ::
+
     sudo vim docker/gunicorn.env
 
-Write and exit the VIM text editor::
+Type ``i`` to insert into the file. Write and exit the VIM text editor::
 
     :wq!
 
@@ -132,6 +186,12 @@ Activate the virtual environment::
 Install python requirements to the virtualenv::
 
     pip install -U -r requirements/prod.txt
+
+The following python libraries will install:
+.. literalinclude:: ../../requirements/base.txt
+   :language: env
+.. literalinclude:: ../../requirements/prod.txt
+   :language: env
 
 Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
 --------------------------------------------------------------------------------------------------------------

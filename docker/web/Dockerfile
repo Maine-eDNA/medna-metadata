@@ -65,6 +65,14 @@ RUN sed -i 's/\r$//g' $HOME/celeryworker_start.sh
 RUN chmod +x $HOME/celerybeat_start.sh
 RUN chmod +x $HOME/celeryworker_start.sh
 
+# create log dirs for celery with appropriate permissions
+RUN mkdir /var/run/celery/
+RUN mkdir /var/log/celery/
+RUN chgrp django /var/run/celery/
+RUN chgrp django /var/log/celery/
+RUN chmod g+rwx /var/run/celery/
+RUN chmod g+rwx /var/log/celery/
+
 # set permissions for entrypoint.sh
 COPY ./entrypoint.sh $HOME/entrypoint.sh
 RUN sed -i 's/\r$//g' $HOME/entrypoint.sh
