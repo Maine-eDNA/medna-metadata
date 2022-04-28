@@ -29,32 +29,32 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 fi
 
 if [ "x$DJANGO_DATABASE_FLUSH" = 'xon' ]; then
- 	echo "${0}: [$(date -u)] ***Flushing database"
- 	python ${APP_HOME}/manage.py flush --no-input
+  echo "${0}: [$(date -u)] ***Flushing database"
+  python ${APP_HOME}/manage.py flush --no-input
 fi
 
 if [ "x$DJANGO_SUPERUSER_CREATE" = 'xon' ]; then
-	# PW and USERNAME supplied in medna.env
+  # PW and USERNAME supplied in medna.env
   # DJANGO_SUPERUSER_PASSWORD, DJANGO_SUPERUSER_EMAIL
-	echo "${0}: [$(date -u)] ***Creating superuser"
-	python ${APP_HOME}/manage.py createsuperuser --no-input
+  echo "${0}: [$(date -u)] ***Creating superuser"
+  python ${APP_HOME}/manage.py createsuperuser --no-input
 fi
 
 if [ "x$DJANGO_DEFAULT_GROUPS_CREATE" = 'xon' ]; then
- 	echo "${0}: [$(date -u)] ***Creating permissions groups"
- 	python ${APP_HOME}/manage.py create_default_groups
+  echo "${0}: [$(date -u)] ***Creating permissions groups"
+  python ${APP_HOME}/manage.py create_default_groups
 fi
 
 if [ "x$DJANGO_DEFAULT_USERS_CREATE" = 'xon' ]; then
- 	echo "${0}: [$(date -u)] ***Creating default user"
- 	python ${APP_HOME}/manage.py create_default_user
+  echo "${0}: [$(date -u)] ***Creating default user"
+  python ${APP_HOME}/manage.py create_default_user
 fi
 
 if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
-	# Load fixtures
-	echo "${0}: [$(date -u)] ***Loading fixtures"
-	# utility
-	echo "${0}: [$(date -u)] ***Loading utility_defaultsitecss"
+  # Load fixtures
+  echo "${0}: [$(date -u)] ***Loading fixtures"
+  # utility
+  echo "${0}: [$(date -u)] ***Loading utility_defaultsitecss"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_defaultsitecss.json
   # field_site
   echo "${0}: [$(date -u)] ***Loading field_site_system"
@@ -72,16 +72,13 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   # freezer_inventory
   echo "${0}: [$(date -u)] ***Loading freezer_inventory_returnaction"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/freezer_inventory_returnaction.json
-
 fi
 
 if [ "x$DJANGO_COLLECT_STATIC" = 'xon' ]; then
- 	echo "${0}: [$(date -u)] ***Collecting staticfiles"
- 	python ${APP_HOME}/manage.py collectstatic --noinput --clear
+  echo "${0}: [$(date -u)] ***Collecting staticfiles"
+  python ${APP_HOME}/manage.py collectstatic --noinput --clear
 fi
 
 # Start server
 echo "${0}: [$(date -u)] ***Starting server"
-gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi \
---workers $CELERYD_NUM_NODES --log-level=info \
---log-syslog || exit 1
+gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi --workers $CELERYD_NUM_NODES --log-level=info --log-syslog || exit 1
