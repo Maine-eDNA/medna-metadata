@@ -32,11 +32,6 @@ Additional libraries include:
 - `Leaflet.js <https://leafletjs.com/>`__
 - `Bootstrap <https://github.com/twbs/bootstrap>`__
 
-
-.. note::
-    The Dockerfiles in ``/docker`` are **not fully tested**. Once they have been this message will be updated and users
-    can use the docker steps to deploy the django app.
-
 Documentation & Setup
 ---------------------
 

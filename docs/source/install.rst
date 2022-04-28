@@ -12,9 +12,6 @@ Installation
      - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
-Setup
------
-
 The following instructions provide guidance on installing MeDNA-Metadata on Ubuntu 20.04.
 
 .. important::
@@ -23,8 +20,9 @@ The following instructions provide guidance on installing MeDNA-Metadata on Ubun
     setup process, as long as it is **not** the root username. Never use root. For more information, see the aforementioned
     `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__.
 
+====================
 Clone the Repository
---------------------
+====================
 
 To clone the most recent stable release as read-only::
 
@@ -34,11 +32,37 @@ To clone the development branch::
 
     git clone -b main git@github.com:Maine-eDNA/medna-metadata.git
 
+============
+Docker Setup
+============
+
+The ``/docker`` directory has ``medna.env.txt`` and ``medna.env.db.txt``, which contain
+all environmental variables for docker deployment. Make a copy of these files in the same ``/docker`` directory with
+the ``.txt`` extension removed (e.g., ``medna.env.db``, ``medna.env``) and variables updated with desired settings.
+These files are necessary for docker. Other files that affect docker are:
+ - ``entrypoint.sh``
+ - ``.dockerignore``
+ - contents of ``/docker`` directory
+ - settings in ``medna_metadata/settings.py``
+
+.. literalinclude:: ../../docker/medna.env.txt
+   :language: env
+
+.. literalinclude:: ../../docker/medna.env.db.txt
+   :language: env
+
+Once settings are verified, run ``sudo docker-compose up -d`` from the ``/docker`` directory to build and deploy Maine-eDNA Metadata, `PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`__,
+`RabbitMQ <https://hub.docker.com/_/rabbitmq>`__, `Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, and `NGINX <https://hub.docker.com/_/nginx>`__.
+
+============
+Manual Setup
+============
+
 Install Requirements
 --------------------
 
-Ubuntu
-~~~~~~
+Ubuntu 20.04
+~~~~~~~~~~~~
 
 Install Ubuntu Requirements::
 
@@ -608,23 +632,3 @@ Verify Certbot auto-renewal::
     sudo certbot renew --dry-run
 
 You should now be good to go and running with your desired server and domain.
-
-Docker Setup
-------------
-.. note::
-    The modules in Maine-eDNA metadata have **not yet been fully tested and migrated for the Dockerfile**.
-    This message will be updated after successful implementation with the following Docker commands.
-
-The ``/docker`` directory has ``medna.env.db.txt``, ``medna.env.txt``, and ``nginx.proxycompanion.env.txt`` which contain
-all environmental variables for docker deployment. Make a copy of these files with the ``.txt`` extension removed
-(e.g., ``medna.env.db``, ``medna.env``, ``nginx.proxycompanion.env``) and variables updated with desired settings.
-These files are necessary for docker. Other files that affect docker are:
- - ``entrypoint.sh``
- - ``.dockerignore``
- - contents of ``/docker`` directory
- - settings in ``medna_metadata/settings.py``
-
-
-Once settings are verified, run ``sudo docker-compose up -d`` to build and deploy MeDNA-Metadata, `PostgreSQL <https://www.postgresql.org/>`__ with `PostGIS <https://postgis.net/>`__,
-and NGINX with LetsEncrypt.
-
