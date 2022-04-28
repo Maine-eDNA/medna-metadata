@@ -33,6 +33,7 @@ export DJANGO_EMAIL_HOST_PASSWORD='your_email_password'
 ####################################################################
 export AWS_ACCESS_KEY_ID='your_access_key_id'
 export AWS_SECRET_ACCESS_KEY='your_secret_access_key'
+export AWS_REGION='your_aws_region'
 export AWS_STORAGE_BUCKET_NAME='your_bucket'
 export AWS_STORAGE_BUCKET_SUBFOLDER_NAME='your_bucket_subfolder'
 
