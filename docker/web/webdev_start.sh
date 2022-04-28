@@ -2,21 +2,16 @@
 
 set -e
 
-# set variables
+# if any of the commands in your code fails for any reason, the entire script fails
+set -o errexit
+# fail exit if one of your pipe command fails
+set -o pipefail
+# exits if any of your variables is not set
+set -o nounset
+
 # set variables
 APP_HOME=/home/django/medna-metadata
 FIXTURES_DIR=${APP_HOME}/fixtures/demo
-
-if [ "$ENTRYPOINT_DATABASE" = "postgres" ]
-then
-    echo "Waiting for postgres..."
-
-    while ! nc -z $DJANGO_DATABASE_HOST $DJANGO_DATABASE_PORT; do
-      sleep 0.1
-    done
-
-    echo "PostgreSQL started"
-fi
 
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
 	# Run and apply database migrations
@@ -216,10 +211,13 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonomicannotation.json
 fi
 
+if [ "x$DJANGO_COLLECT_STATIC" = 'xon' ]; then
+ 	echo "${0}: [$(date -u)] ***Collecting staticfiles"
+ 	python ${APP_HOME}/manage.py collectstatic --noinput --clear
+fi
+
 # Start server
 echo "${0}: [$(date -u)] ***Starting server"
 gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi \
 --workers $CELERYD_NUM_NODES --log-level=info \
 --log-syslog || exit 1
-
-exec "$@"
