@@ -1,31 +1,53 @@
-# django settings.py
-export DJANGO_DEBUG=True
-
-export DJANGO_ALLOWED_HOSTS='localhost www.yourdomain.com [::1]'
+####################################################################
+# django general settings; loaded in settings.py
+# The secret key must be a large random value and it must be kept secret.
+# https://docs.djangoproject.com/en/4.0/ref/settings/#std:setting-SECRET_KEY
+####################################################################
 export DJANGO_SECRET_KEY='your_secret_key'
+export DJANGO_ALLOWED_HOSTS='localhost www.yourdomain.com [::1]'
 export DJANGO_SETTINGS_MODULE=medna_metadata.settings
+export DJANGO_DEBUG=False
+export DJANGO_LOG_LEVEL='info'
+
+####################################################################
+# django database settings; loaded in settings.py
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+####################################################################
 export DJANGO_DATABASE_NAME='medna_metadata'
 export DJANGO_DATABASE_TESTNAME='test_medna_metadata'
-export DJANGO_DATABASE_USERNAME='youruser'
+export DJANGO_DATABASE_USERNAME='your_db_user'
 export DJANGO_DATABASE_PASSWORD='your_db_password'
 export DJANGO_DATABASE_HOST='localhost'
 export DJANGO_DATABASE_PORT=''
+
+####################################################################
+# django smtp (email) settings; loaded in settings.py
+# https://docs.djangoproject.com/en/4.0/topics/email/
+####################################################################
 export DJANGO_EMAIL_HOST_USER='your_email@domain.com'
 export DJANGO_EMAIL_HOST_PASSWORD='your_email_password'
 
-# S3 settings
+####################################################################
+# django-storages settings; loaded in settings.py
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+####################################################################
 export AWS_ACCESS_KEY_ID='your_access_key_id'
 export AWS_SECRET_ACCESS_KEY='your_secret_access_key'
 export AWS_STORAGE_BUCKET_NAME='your_bucket'
 export AWS_STORAGE_BUCKET_SUBFOLDER_NAME='your_bucket_subfolder'
 
-# celery settings
-export CELERY_RESULT_BACKEND=your_result_backend
-export CELERY_BROKER_URL=transport://your_rabbitmq_user:your_rabbitmq_password@hostname:port/your_rabbitmq_vhost
+####################################################################
+# Celery settings
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html
+####################################################################
+export CELERY_RESULT_BACKEND='rpc'
+export CELERY_BROKER_URL='pyamqp://your_rabbitmq_user:your_rabbitmq_password@localhost:5672/your_rabbitmq_vhost'
 
+####################################################################
 # virtualenv settings
+# https://virtualenvwrapper.readthedocs.io/en/latest/install.html#python-interpreter-virtualenv-and-path
+####################################################################
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/medna-metadata
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 source /usr/local/bin/virtualenvwrapper.sh
-
