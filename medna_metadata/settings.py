@@ -517,7 +517,7 @@ else:
     PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
     PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
-    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'
+    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'  # this setting only applies to Maine-eDNA Deployment that shares MyTardis S3 storage
 
     ########################################
     # DJANGO-DBBACKUP CONFIG               #
