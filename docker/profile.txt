@@ -1,0 +1,8 @@
+####################################################################
+# Creates a superuser account (a user who has all permissions).
+# https://docs.djangoproject.com/en/4.0/ref/django-admin/#createsuperuser
+####################################################################
+export DJANGO_SUPERUSER_PASSWORD='your_superuser_password'
+export DJANGO_SUPERUSER_EMAIL='your_superuser_email@domain.com'
+export DJANGO_SUPERUSER_USERNAME='your_superuser_email@domain.com'
+export WEBSITE_NAME='medna_metadata'
