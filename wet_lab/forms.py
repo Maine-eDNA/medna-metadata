@@ -7,7 +7,7 @@ from django.db.models.query_utils import Q
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper, CustomClearableFileInput
 from utility.models import ProcessLocation, StandardOperatingProcedure
-from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, \
+from utility.enumerations import VolUnits, ConcentrationUnits, PcrTypes, PcrUnits, ControlTypes, \
     LibPrepKits, LibPrepTypes, LibLayouts, YesNo, InvestigationTypes, SeqMethods, SopTypes
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
@@ -109,6 +109,30 @@ class ExtractionForm(forms.ModelForm):
     field_sample = forms.ModelChoiceField(
         required=True,
         queryset=FieldSample.objects.none(),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    extraction_control = forms.ChoiceField(
+        required=True,
+        label='Is the extraction a control?',
+        choices=YesNo.choices,
+        widget=CustomRadioSelect(
+            attrs={
+                'class': 'form-check-input',
+            }
+        )
+    )
+    extraction_control_type = forms.ChoiceField(
+        required=False,
+        label='Control Type',
+        help_text='If the extraction is a control, the type of control. A field control is deionized (DI) water exposed '
+                  'to air in the field. A lab control is a blank filter that was placed on the filter apparatus with '
+                  'fresh DI water (not the same DI water as the field control). An extraction control is a dry, unused '
+                  'filter that is put into a tube and extracted. A No Template Control is DNA free water used in PCR.',
+        choices=ControlTypes.choices,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
