@@ -21,10 +21,11 @@ class ExtractionTable(tables.Table):
     class Meta:
         model = Extraction
         fields = ('_selected_action', 'id', 'extraction_barcode', 'process_location',
-                  'extraction_datetime', 'field_sample', 'extraction_method',
-                  'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
-                  'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
-                  'extraction_notes', 'barcode_slug', 'created_by', 'created_datetime', 'modified_datetime', )
+                  'extraction_datetime', 'field_sample', 'extraction_control', 'extraction_control_type',
+                  'extraction_method', 'extraction_first_name', 'extraction_last_name', 'extraction_volume',
+                  'extraction_volume_units', 'quantification_method', 'extraction_concentration',
+                  'extraction_concentration_units', 'extraction_notes', 'barcode_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', )
 
 
 class PcrTable(tables.Table):

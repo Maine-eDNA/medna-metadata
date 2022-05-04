@@ -3,7 +3,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, QuantificationMet
     SizeSelectionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
     RunPrep, RunResult, FastqFile, AmplificationMethod
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, VolUnits, ConcentrationUnits, PcrUnits, LibPrepKits, \
-    LibPrepTypes, PhiXConcentrationUnits, LibLayouts
+    LibPrepTypes, PhiXConcentrationUnits, LibLayouts, YesNo, ControlTypes
 from utility.tests import ProcessLocationTestCase, StandardOperatingProcedureTestCase
 from utility.models import ProcessLocation, StandardOperatingProcedure
 from sample_label.models import SampleBarcode
@@ -151,6 +151,8 @@ class ExtractionTestCase(TestCase):
                                              'process_location': process_location,
                                              'extraction_datetime': current_datetime,
                                              'field_sample': field_sample,
+                                             'extraction_control': YesNo.YES,
+                                             'extraction_control_type': ControlTypes.EXTRACTION,
                                              'extraction_barcode': sample_barcode,
                                              'extraction_method': extraction_method,
                                              'extraction_first_name': 'test_first_name',

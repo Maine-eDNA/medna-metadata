@@ -16,6 +16,7 @@ from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMeth
 class ExtractionFilter(filters.FilterSet):
     barcode_slug = filters.ModelChoiceFilter(queryset=Extraction.objects.all(), widget=CustomSelect2)
     extraction_method = filters.ModelChoiceFilter(field_name='extraction_method__extraction_method_slug', queryset=ExtractionMethod.objects.all(), widget=CustomSelect2)
+    extraction_control = filters.CharFilter(field_name='extraction_control', lookup_expr='iexact')
     extraction_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 

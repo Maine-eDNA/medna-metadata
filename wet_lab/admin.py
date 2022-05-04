@@ -296,7 +296,7 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['extraction_barcode', 'field_sample',
+        self.fields = ['extraction_barcode', 'field_sample', 'extraction_control', 'extraction_control_type',
                        'process_location', 'extraction_datetime', 'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
@@ -316,7 +316,8 @@ class ExtractionAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['barcode_slug', 'extraction_barcode',
-                       'field_sample', 'process_location', 'extraction_datetime', 'extraction_method',
+                       'field_sample', 'extraction_control', 'extraction_control_type',
+                       'process_location', 'extraction_datetime', 'extraction_method',
                        'extraction_first_name', 'extraction_last_name',
                        'extraction_volume', 'extraction_volume_units',
                        'quantification_method', 'extraction_concentration', 'extraction_concentration_units',

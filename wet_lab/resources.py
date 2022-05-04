@@ -195,7 +195,8 @@ class ExtractionAdminResource(resources.ModelResource):
         import_id_fields = ('id', 'extraction_barcode', 'field_sample', )
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'extraction_barcode', 'barcode_slug',
-                  'field_sample', 'process_location', 'extraction_datetime', 'extraction_method',
+                  'field_sample', 'extraction_control', 'extraction_control_type',
+                  'process_location', 'extraction_datetime', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name',
                   'extraction_volume', 'extraction_volume_units',
                   'quantification_method',
@@ -203,7 +204,8 @@ class ExtractionAdminResource(resources.ModelResource):
                   'extraction_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'extraction_barcode', 'barcode_slug',
-                        'field_sample', 'process_location', 'extraction_datetime', 'extraction_method',
+                        'field_sample', 'extraction_control', 'extraction_control_type',
+                        'process_location', 'extraction_datetime', 'extraction_method',
                         'extraction_first_name', 'extraction_last_name',
                         'extraction_volume', 'extraction_volume_units',
                         'quantification_method',

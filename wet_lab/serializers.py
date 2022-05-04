@@ -7,7 +7,7 @@ from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation, StandardOperatingProcedure
 from utility.enumerations import YesNo, TargetGenes, SubFragments, PcrTypes, PcrUnits, VolUnits, ConcentrationUnits, \
-    LibPrepTypes, LibLayouts, InvestigationTypes, SeqMethods
+    LibPrepTypes, LibLayouts, InvestigationTypes, SeqMethods, ControlTypes
 from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
 # and a separate button for downloading GeoJSON format along with CSV
@@ -174,6 +174,8 @@ class ExtractionMethodSerializer(serializers.ModelSerializer):
 class ExtractionSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     barcode_slug = serializers.SlugField(max_length=17, read_only=True)
+    extraction_control = serializers.ChoiceField(choices=YesNo.choices, allow_blank=False)
+    extraction_control_type = serializers.ChoiceField(choices=ControlTypes.choices, allow_blank=True)
     extraction_datetime = serializers.DateTimeField(allow_null=True)
     # in_freezer = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
     extraction_first_name = serializers.CharField(max_length=255, allow_blank=True)
@@ -189,7 +191,7 @@ class ExtractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Extraction
         fields = ['id', 'extraction_barcode', 'barcode_slug', 'process_location', 'extraction_datetime',
-                  'field_sample', 'extraction_method',
+                  'field_sample', 'extraction_control', 'extraction_control_type', 'extraction_method',
                   'extraction_first_name', 'extraction_last_name', 'extraction_volume', 'extraction_volume_units',
                   'quantification_method', 'extraction_concentration', 'extraction_concentration_units',
                   'extraction_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
