@@ -234,7 +234,7 @@ class FieldSurveyForm(forms.ModelForm):
     )
     env_bottom_depth = forms.DecimalField(
         required=False,
-        label='Bottom Depth (m)',
+        label='Bottom Depth in meters (m)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -287,7 +287,7 @@ class FieldSurveyForm(forms.ModelForm):
     )
     gps_alt = forms.DecimalField(
         required=False,
-        label='GPS Altitude (m)',
+        label='GPS Altitude in meters (m)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -296,7 +296,7 @@ class FieldSurveyForm(forms.ModelForm):
     )
     gps_horacc = forms.DecimalField(
         required=False,
-        label='GPS Horizontal Accuracy (m)',
+        label='GPS Horizontal Accuracy in meters (m)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -305,7 +305,7 @@ class FieldSurveyForm(forms.ModelForm):
     )
     gps_vertacc = forms.DecimalField(
         required=False,
-        label='GPS Vertical Accuracy (m)',
+        label='GPS Vertical Accuracy in meters (m)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -396,7 +396,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_measure_depth = forms.DecimalField(
         label='Environmental Measurement Depth (m)',
         required=True,
-        help_text='Depth (m) environmental conditions were measured at.',
+        help_text='Depth in meters (m) environmental conditions were measured at.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -468,7 +468,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_secchi_depth = forms.DecimalField(
         required=False,
         label='Secchi Depth (m)',
-        help_text='If a secchi disk was used, enter the secchi depth (m).',
+        help_text='If a secchi disk was used, enter the secchi depth in meters (m).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -529,7 +529,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_flow_rate = forms.DecimalField(
         required=False,
         label='Flow Rate (m/s)',
-        help_text='Flow rate (m/s).',
+        help_text='Flow rate in meters per second (m/s).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -569,7 +569,8 @@ class EnvMeasurementForm(forms.ModelForm):
     env_par1 = forms.DecimalField(
         required=False,
         label='PAR1 (μmoles/sec/m²)',
-        help_text='Photosynthetically Active Radiation (Channel 1: Up looking) in μmoles/sec/m².',
+        help_text='Photosynthetically Active Radiation (Channel 1: Up looking) in micromoles per second per square '
+                  'meter (μmoles/sec/m²).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -579,7 +580,8 @@ class EnvMeasurementForm(forms.ModelForm):
     env_par2 = forms.DecimalField(
         required=False,
         label='PAR2 (μmoles/sec/m²)',
-        help_text='Photosynthetically Active Radiation (Channel 2: Down looking) in μmoles/sec/m².',
+        help_text='Photosynthetically Active Radiation (Channel 2: Down looking) in micromoles per second per square '
+                  'meter (μmoles/sec/m²).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -599,7 +601,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_conductivity = forms.DecimalField(
         required=False,
         label='Conductivity (μS/cm)',
-        help_text='Conductivity in μS/cm.',
+        help_text='Conductivity in microsiemens per centimeter (μS/cm).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -609,7 +611,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_do = forms.DecimalField(
         required=False,
         label='Dissolved oxygen (mg/L)',
-        help_text='Dissolved oxygen in mg/L.',
+        help_text='Dissolved oxygen in milligram per liter (mg/L).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -619,7 +621,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_pheophytin = forms.DecimalField(
         required=False,
         label='Pheophytin (µg/L)',
-        help_text='Pheophytin in µg/L.',
+        help_text='Pheophytin in micrograms per liter (µg/L).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -629,7 +631,7 @@ class EnvMeasurementForm(forms.ModelForm):
     env_chla = forms.DecimalField(
         required=False,
         label='Chlorophyll a (µg/L)',
-        help_text='Chlorophyll a in µg/L.',
+        help_text='Chlorophyll a in micrograms per liter (µg/L).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -793,7 +795,7 @@ class WaterCollectionForm(forms.ModelForm):
     water_collect_depth = forms.DecimalField(
         required=True,
         label='Water Collection Depth (m)',
-        help_text='Depth water collected at (m). The vertical distance below local surface.',
+        help_text='Depth water collected at in meters (m). The vertical distance below local surface.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -823,8 +825,8 @@ class WaterCollectionForm(forms.ModelForm):
     )
     water_niskin_vol = forms.DecimalField(
         required=False,
-        label='Niskin Volume (ml)',
-        help_text='If a niskin was used, the total volume (ml) of the niskin the water was collected from.',
+        label='Niskin Volume (mL)',
+        help_text='If a niskin was used, the total volume in milliliters (mL) of the niskin the water was collected from.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -833,8 +835,8 @@ class WaterCollectionForm(forms.ModelForm):
     )
     water_vessel_vol = forms.DecimalField(
         required=True,
-        label='Water Vessel Volume (ml)',
-        help_text='The volume (ml) of the water vessel.',
+        label='Water Vessel Volume (mL)',
+        help_text='The volume in milliliters (mL) of the water vessel.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -943,7 +945,7 @@ class SedimentCollectionForm(forms.ModelForm):
     core_collect_depth = forms.DecimalField(
         required=True,
         label='Core Collection Depth (m)',
-        help_text='The vertical distance (m) below local surface. For sediment or soil samples depth is measured from '
+        help_text='The vertical distance in meters (m) below local surface. For sediment or soil samples depth is measured from '
                   'sediment or soil surface, respectively.',
         widget=forms.NumberInput(
             attrs={
@@ -954,7 +956,7 @@ class SedimentCollectionForm(forms.ModelForm):
     core_length = forms.DecimalField(
         required=True,
         label='Core Length (cm)',
-        help_text='Full length of sediment core (cm)',
+        help_text='Full length of sediment core in centimeters (cm)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -964,7 +966,7 @@ class SedimentCollectionForm(forms.ModelForm):
     core_diameter = forms.DecimalField(
         required=True,
         label='Core Diameter (cm)',
-        help_text='Diameter of sediment core (cm)',
+        help_text='Diameter of sediment core in centimeters (cm)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -1143,7 +1145,7 @@ class FilterSampleForm(forms.ModelForm):
     )
     filter_vol = forms.DecimalField(
         required=True,
-        label='Water Volume Filtered (ml)',
+        label='Water Volume Filtered in milliliters (mL)',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -1173,7 +1175,9 @@ class FilterSampleForm(forms.ModelForm):
     )
     filter_pore = forms.DecimalField(
         required=True,
-        label='Filter Pore Size (microns)',
+        label='Filter Pore Size in microns (μm)',
+        help_text='Typically, Nitex are 80 μm, Glass Fiber Filter (GF/F) are 0.7 μm, Supor are 0.2 μm, '
+                  'and Cellulose Nitrate (CN) are 0.7 μm.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -1182,7 +1186,8 @@ class FilterSampleForm(forms.ModelForm):
     )
     filter_size = forms.DecimalField(
         required=True,
-        label='Filter Size (mm)',
+        label='Filter Size in milimeters (mm)',
+        help_text='Typically, Nitex, Glass Fiber Filter (GF/F), Supor, and Cellulose Nitrate (CN) are 47 mm.',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -1275,7 +1280,7 @@ class SubCoreSampleForm(forms.ModelForm):
     subcore_length = forms.DecimalField(
         required=True,
         label='SubCore Length (cm)',
-        help_text='Length or thickness of each subcore (cm).',
+        help_text='Length or thickness of each subcore in centimeters (cm).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -1285,7 +1290,7 @@ class SubCoreSampleForm(forms.ModelForm):
     subcore_diameter = forms.DecimalField(
         required=True,
         label='SubCore Diameter (cm)',
-        help_text='Diameter of each subcore (cm).',
+        help_text='Diameter of each subcore in centimeters (cm).',
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
