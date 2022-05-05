@@ -23,6 +23,7 @@ from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataForm, Anno
      TaxonomicAnnotationForm, DenoiseClusterMetadataCreateForm, DenoiseClusterMetadataUpdateForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
     DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, FeatureReadTaxonTable
+from medna_metadata.settings import EXPORT_FORMATS
 
 
 # Create your views here.
@@ -138,7 +139,7 @@ def get_feature_read_taxon_table(request, pk):
 class QualityMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    # export_formats = ['csv', 'xlsx'] # set in user_sites in default
     model = QualityMetadata
     table_class = QualityMetadataTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
@@ -146,7 +147,7 @@ class QualityMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, Ser
     export_name = 'qualitymetadata_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = bioinfo_serializers.QualityMetadataSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -270,7 +271,7 @@ class QualityMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, Permi
 class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    # export_formats = ['csv', 'xlsx'] # set in user_sites in default
     model = DenoiseClusterMetadata
     table_class = DenoiseClusterMetadataTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
@@ -278,7 +279,7 @@ class DenoiseClusterMetadataFilterView(LoginRequiredMixin, PermissionRequiredMix
     export_name = 'denoiseclustermetadata_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = bioinfo_serializers.DenoiseClusterMetadataSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -408,7 +409,7 @@ class DenoiseClusterMetadataPopupUpdateView(UpdatePopupMixin, LoginRequiredMixin
 class FeatureOutputFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
     # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
     # View site filter view with REST serializer and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    # export_formats = ['csv', 'xlsx'] # set in user_sites in default
     model = FeatureOutput
     table_class = FeatureOutputTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
@@ -416,7 +417,7 @@ class FeatureOutputFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
     export_name = 'featureoutput_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = bioinfo_serializers.FeatureOutputSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -548,7 +549,7 @@ class FeatureReadFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
     export_name = 'featureread_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = bioinfo_serializers.FeatureReadSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -632,7 +633,7 @@ class AnnotationMetadataFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     export_name = 'annotationmetadata_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = bioinfo_serializers.AnnotationMetadataSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -764,7 +765,7 @@ class TaxonomicAnnotationFilterView(LoginRequiredMixin, PermissionRequiredMixin,
     export_name = 'taxonomicannotation_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = bioinfo_serializers.TaxonomicAnnotationSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

@@ -27,6 +27,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
 from .forms import FieldSiteCreateForm, FieldSiteUpdateForm
+from medna_metadata.settings import EXPORT_FORMATS
 
 
 # Create your views here.
@@ -172,7 +173,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     export_name = 'fieldsite_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsite_serializers.FieldSiteSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

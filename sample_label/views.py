@@ -20,6 +20,7 @@ from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer,
 import sample_label.filters as samplelabel_filters
 from .forms import SampleLabelRequestCreateForm, SampleLabelRequestUpdateForm
 from utility.views import export_context
+from medna_metadata.settings import EXPORT_FORMATS
 
 
 # Create your views here.
@@ -28,7 +29,7 @@ from utility.views import export_context
 ########################################
 class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, SampleLabelRequestSerializerExportMixin, SingleTableMixin, FilterView):
     # View SampleBarcode filter view with REST serializers and django-tables2
-    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    # export_formats = ['csv', 'xlsx'] # set in user_sites in default
     model = SampleLabelRequest
     # control how the table in the view is formatted and which fields to show
     table_class = SampleLabelRequestTable
@@ -42,7 +43,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

@@ -32,6 +32,7 @@ from .tables import FieldSurveyTable, FieldCrewTable, EnvMeasurementTable, Water
     SedimentCollectionTable, FilterSampleTable, SubCoreSampleTable
 from .forms import FieldSurveyForm, FieldCrewForm, EnvMeasurementForm, FieldCollectionForm, WaterCollectionForm, \
     SedimentCollectionForm, FieldSampleForm, FilterSampleForm, SubCoreSampleForm
+from medna_metadata.settings import EXPORT_FORMATS
 
 
 # Create your views here.
@@ -135,7 +136,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     export_name = 'fieldsurvey_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.FieldSurveyTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -279,7 +280,7 @@ class EnvMeasurementFilterView(LoginRequiredMixin, PermissionRequiredMixin, Char
     export_name = 'envmeas_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.EnvMeasurementSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -362,7 +363,7 @@ class FieldCrewFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
     export_name = 'fieldcrew_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.FieldCrewSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -445,7 +446,7 @@ class WaterCollectionFilterView(LoginRequiredMixin, PermissionRequiredMixin, Cha
     export_name = 'watercollection_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.WaterCollectionTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -534,7 +535,7 @@ class SedimentCollectionFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     export_name = 'sedimentcollection_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.SedimentCollectionTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -626,7 +627,7 @@ class FilterSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     export_name = 'filtersample_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.FilterSampleTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -718,7 +719,7 @@ class SubCoreSampleFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharS
     export_name = 'subcoresample_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.SubCoreSampleTableSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

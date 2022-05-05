@@ -26,6 +26,7 @@ from .forms import IndexPairForm, ExtractionForm, PcrCreateForm, PcrUpdateForm, 
     LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileUpdateForm, FastqFileCreateForm
 from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
     RunPrepTable, RunResultTable, FastqFileTable, MixsWaterTable, MixsSedimentTable
+from medna_metadata.settings import EXPORT_FORMATS
 
 
 # Create your views here.
@@ -66,7 +67,7 @@ class ExtractionFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serializ
     export_name = 'extraction_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.ExtractionSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -246,7 +247,7 @@ class PcrFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExpor
     export_name = 'pcr_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.PcrSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -396,7 +397,7 @@ class LibraryPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seriali
     export_name = 'libraryprep_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.LibraryPrepSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -558,7 +559,7 @@ class PooledLibraryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Seria
     export_name = 'pooledlibrary_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.PooledLibrarySerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -690,7 +691,7 @@ class RunPrepFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerE
     export_name = 'runprep_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.RunPrepSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -822,7 +823,7 @@ class RunResultFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     export_name = 'runresult_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.RunResultSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -954,7 +955,7 @@ class FastqFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
     export_name = 'fastqfile_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.FastqFileSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -1086,7 +1087,7 @@ class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
     export_name = 'MIxSwater_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.MixsWaterSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -1117,7 +1118,7 @@ class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     export_name = 'MIxSsediment_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.MixsSedimentSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = ['csv', 'xlsx']
+    export_formats = EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

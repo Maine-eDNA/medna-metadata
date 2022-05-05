@@ -629,6 +629,11 @@ MIXS_COUNTRY = 'USA'
 MIN_SAMPLE_YEAR = 1988
 
 ########################################
+# CUSTOM EXPORT FORMATS                #
+########################################
+EXPORT_FORMATS = ['csv', 'xlsx']
+
+########################################
 # CUSTOM ADMIN APP ORDERING CONFIG     #
 ########################################
 # https://learnbatta.com/blog/how-to-re-order-apps-models-django/
