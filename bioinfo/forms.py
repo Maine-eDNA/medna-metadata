@@ -186,19 +186,19 @@ class DenoiseClusterMetadataCreateForm(forms.ModelForm):
                   'usually PCR artifacts thought to occur when a prematurely terminated amplicon reanneals to a foreign '
                   'DNA strand and is copied to completion in the following PCR cycles. The point at which the chimeric '
                   'sequence changes from one parent to the next is called the breakpoint or conversion point (MIxS v5).',
-        widget=forms.Textarea(
+        widget=forms.TextInput(
             attrs={
-                'placeholder': 'software name',
+                'placeholder': 'uchime',
                 'class': 'form-control',
             }
         )
     )
     chimera_software_version = forms.CharField(
         required=False,
-        help_text='Version of software used for the chimera check, e.g., v4.1',
-        widget=forms.Textarea(
+        help_text='Version of software used for the chimera check e.g., v4.1',
+        widget=forms.TextInput(
             attrs={
-                'placeholder': 'software version of software, parameters used, e.g., uchime;v4.1;default parameters',
+                'placeholder': 'v4.1',
                 'class': 'form-control',
             }
         )
