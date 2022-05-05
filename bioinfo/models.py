@@ -8,6 +8,7 @@ from utility.enumerations import YesNo, QualityChecks
 # Create your models here.
 class QualityMetadata(DateTimeUserMixin):
     # run_result = models.ForeignKey('wet_lab.RunResult', on_delete=models.RESTRICT, related_name='quality_metadata')
+    # TODO change fastq_file to 1:m from m:m?
     fastq_file = models.ManyToManyField('wet_lab.FastqFile', verbose_name='FASTQ Files', related_name='fastq_files')
     process_location = models.ForeignKey(ProcessLocation, on_delete=models.RESTRICT, default=get_default_process_location)
     analysis_label = models.CharField('Analysis Label', max_length=255, unique=True)
