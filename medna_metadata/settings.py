@@ -631,7 +631,8 @@ MIN_SAMPLE_YEAR = 1988
 ########################################
 # CUSTOM EXPORT FORMATS                #
 ########################################
-EXPORT_FORMATS = ['csv', 'xlsx']
+# EXPORT_FORMATS = ['csv', 'xlsx']
+EXPORT_FORMATS = ['csv', ]
 
 ########################################
 # CUSTOM ADMIN APP ORDERING CONFIG     #
