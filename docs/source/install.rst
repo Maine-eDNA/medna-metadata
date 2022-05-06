@@ -93,6 +93,9 @@ Once settings are verified, run ``sudo docker-compose up -d`` from the ``/docker
 `Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, `Gunicorn <https://gunicorn.org/>`__, and
 `NGINX <https://hub.docker.com/_/nginx>`__.
 
+After the containers are up, it will take a moment for the application to set itself up. Once it is done, it will be
+accessible at `http://localhost:8000`
+
 ============
 Manual Setup
 ============
