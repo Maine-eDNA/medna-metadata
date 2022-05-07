@@ -5,11 +5,11 @@ from django.contrib.gis.db import models
 # from field_site.models import FieldSite
 from utility.models import DateTimeUserMixin, slug_date_format
 from django.core.validators import MinValueValidator
+from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
 from utility.enumerations import YesNo
 import datetime
-from medna_metadata.settings import MIN_SAMPLE_YEAR
 
 
 def current_year():
@@ -17,7 +17,7 @@ def current_year():
 
 
 def year_choices():
-    return [(r, r) for r in range(MIN_SAMPLE_YEAR, datetime.date.today().year + 1)]
+    return [(r, r) for r in range(settings.MIN_SAMPLE_YEAR, datetime.date.today().year + 1)]
 
 
 def get_unassigned_sample_type():

@@ -4,7 +4,7 @@
 from django.contrib.gis.db import models
 from utility.models import DateTimeUserMixin, Grant
 from django.utils.text import slugify
-from medna_metadata.settings import MIXS_COUNTRY
+from django.conf import settings
 
 
 class EnvoBiomeFirst(DateTimeUserMixin):
@@ -674,7 +674,7 @@ class FieldSite(DateTimeUserMixin):
         # The geographical origin of the sample as defined by the country or sea name followed by specific region name.
         # Country or sea names should be chosen from the INSDC country list (http://insdc.org/country.html),
         # or the GAZ ontology (v 1.512) (http://purl.bioontology.org/ontology/GAZ)
-        return '{country};{name};{watershed}'.format(country=MIXS_COUNTRY, name=self.general_location_name, watershed=self.watershed.watershed_label)
+        return '{country};{name};{watershed}'.format(country=settings.MIXS_COUNTRY, name=self.general_location_name, watershed=self.watershed.watershed_label)
 
     @property
     def mixs_env_broad_scale(self):

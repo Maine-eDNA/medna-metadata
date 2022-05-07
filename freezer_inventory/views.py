@@ -20,7 +20,7 @@ from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInven
 from .tables import UserFreezerInventoryReturnMetadataTable, FreezerInventoryTable, FreezerInventoryLogTable, \
     FreezerInventoryReturnMetadataTable
 from .forms import FreezerInventoryReturnMetadataUpdateForm, FreezerInventoryForm
-from medna_metadata.settings import EXPORT_FORMATS
+from django.conf import settings
 
 
 # Create your views here.
@@ -38,7 +38,7 @@ class FreezerInventoryFilterView(LoginRequiredMixin, PermissionRequiredMixin, Se
     export_name = 'freezerinventory_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = freezerinventory_serializers.FreezerInventorySerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = EXPORT_FORMATS
+    export_formats = settings.EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -122,7 +122,7 @@ class FreezerInventoryLogFilterView(LoginRequiredMixin, PermissionRequiredMixin,
     export_name = 'freezerinventorylog_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = freezerinventory_serializers.FreezerInventoryLogSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = EXPORT_FORMATS
+    export_formats = settings.EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
@@ -171,7 +171,7 @@ class FreezerInventoryReturnMetadataFilterView(LoginRequiredMixin, PermissionReq
     export_name = 'freezerinventoryreturnmetadata_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = freezerinventory_serializers.FreezerInventoryReturnMetadataSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = EXPORT_FORMATS
+    export_formats = settings.EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.

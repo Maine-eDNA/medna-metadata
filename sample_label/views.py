@@ -20,7 +20,7 @@ from .serializers import SampleMaterialSerializer, SampleLabelRequestSerializer,
 import sample_label.filters as samplelabel_filters
 from .forms import SampleLabelRequestCreateForm, SampleLabelRequestUpdateForm
 from utility.views import export_context
-from medna_metadata.settings import EXPORT_FORMATS
+from django.conf import settings
 
 
 # Create your views here.
@@ -43,7 +43,7 @@ class SampleLabelRequestFilterView(LoginRequiredMixin, PermissionRequiredMixin, 
     serializer_class = SampleLabelRequestSerializer
     # where the filter is applied -- at the backend upon exporting
     filter_backends = [filters.DjangoFilterBackend]
-    export_formats = EXPORT_FORMATS
+    export_formats = settings.EXPORT_FORMATS
 
     def get_context_data(self, **kwargs):
         # Return the view context data.
