@@ -6,9 +6,7 @@ services:
  # ----------------------------------------
   medna_metadata_web:
     restart: always
-    build:
-      context: '../'
-      dockerfile: 'docker/web/Dockerfile'
+    image: mkimble88/medna-metadata:latest
     container_name: medna_metadata_web
     command: /home/django/web_start.sh
     ports:
@@ -54,9 +52,7 @@ services:
  # ----------------------------------------
   medna_metadata_celeryworker:
     restart: always
-    build:
-      context: '../'
-      dockerfile: 'docker/web/Dockerfile'
+    image: mkimble88/medna-metadata:latest
     container_name: medna_metadata_celeryworker
     command: /home/django/celeryworker_start.sh
     env_file:
@@ -72,9 +68,7 @@ services:
  # ----------------------------------------
   medna_metadata_celerybeat:
     restart: always
-    build:
-      context: '../'
-      dockerfile: 'docker/web/Dockerfile'
+    image: mkimble88/medna-metadata:latest
     container_name: medna_metadata_celerybeat
     command: /home/django/celerybeat_start.sh
     env_file:
@@ -91,7 +85,7 @@ services:
  # ----------------------------------------
   nginx:
     restart: always
-    build: nginx
+    image: mkimble88/medna-metadata-nginx:latest
     container_name: nginx
     ports:
       - 80:8080

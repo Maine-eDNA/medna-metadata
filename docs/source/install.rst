@@ -88,10 +88,13 @@ Write and exit the VIM text editor::
 
 Repeat these steps with ``medna.env.db``.
 
-Once settings are verified, run ``sudo docker-compose up -d`` from the ``/docker`` directory to build and deploy Maine-eDNA Metadata,
+Once settings are verified, run ``sudo docker-compose -f docker-compose.prod.yml up -d`` from the ``/docker`` directory to build and deploy Maine-eDNA Metadata,
 `PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`__, `RabbitMQ <https://hub.docker.com/_/rabbitmq>`__,
 `Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, `Gunicorn <https://gunicorn.org/>`__, and
 `NGINX <https://hub.docker.com/_/nginx>`__.
+
+If you want to build and load the docker containers directly from the Dockerfiles in ``/web`` and ``/nginx``,
+run ``sudo docker-compose -f docker-compose.yml up -d --build``.
 
 After the containers are up, it will take a moment for the application to set itself up. Once it is done, it will be
 accessible at `http://localhost:8000`
