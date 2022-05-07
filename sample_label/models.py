@@ -94,7 +94,7 @@ class SampleLabelRequest(DateTimeUserMixin):
     site_id = models.ForeignKey('field_site.FieldSite', on_delete=models.RESTRICT)
     sample_material = models.ForeignKey(SampleMaterial, on_delete=models.RESTRICT)
     sample_type = models.ForeignKey(SampleType, on_delete=models.RESTRICT, default=get_unassigned_sample_type)
-    sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(MIN_SAMPLE_YEAR)])
+    sample_year = models.PositiveIntegerField('Sample Year', default=current_year, validators=[MinValueValidator(settings.MIN_SAMPLE_YEAR)])
     purpose = models.CharField('Sample Label Purpose', max_length=255)
     # ePR_L01_22w or ePRR_L01_22w
     sample_label_prefix = models.CharField('Sample Label Prefix', max_length=12)
