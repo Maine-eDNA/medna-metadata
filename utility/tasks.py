@@ -11,6 +11,7 @@ logger = get_task_logger(__name__)
 @shared_task
 def db_backup(self):
     # https://radity.com/en/digital-magazine/how-to-backup-django-database-to-amazon-s3-automatically-and-restore/
+    # https://django-dbbackup.readthedocs.io/en/master/index.html
     if settings.DB_BACKUPS is False:
         logger.info('Could not be backed up: Backups are disabled: %s' % timezone.now())
     try:
