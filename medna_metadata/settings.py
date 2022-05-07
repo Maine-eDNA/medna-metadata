@@ -457,11 +457,17 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': True
 }
 
-########################################
-# DJANGO-STORAGES CONFIG               #
-########################################
+############################################
+# DJANGO-STORAGES & DJANGO-DBBACKUP CONFIG #
+############################################
 
-if os.getenv('GITHUB_WORKFLOW'):
+# Defaults to False. Saves the full database at 4:30AM local time,
+# which can be updated under CELERYBEAT_SCHEDULE (below)
+# The db_backup task is in utility/tasks.py
+DB_BACKUPS = os.environ.get('DB_BACKUPS', False)
+
+if os.getenv('GITHUB_WORKFLOW') or 'AWS_ACCESS_KEY_ID' not in os.environ:
+    # if there is no AWS_ACCESS_KEY_ID in environment, then use local storage
     # media files (if uploaded)
     # django\conf\global_settings.py
     # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -548,6 +554,7 @@ CELERYBEAT_SCHEDULE = {
     #     'task': 'field_survey.tasks.transform_new_records_field_survey_task',
     #     'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     # },
+    # If DB_BACKUPS is true, then this sets the scheduler for the db_backup task.
     'db-backup': {
         'task': 'utility.tasks.db_backup',
         'schedule': crontab(hour=4, minute=30),  # Everyday at 04:30
