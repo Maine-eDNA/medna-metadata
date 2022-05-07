@@ -10,8 +10,9 @@ logger = get_task_logger(__name__)
 
 @shared_task
 def db_backup(self):
-    if settings.DEBUG is True:
-        logger.info('Could not be backed up: Debug is True: %s' % timezone.now())
+    # https://radity.com/en/digital-magazine/how-to-backup-django-database-to-amazon-s3-automatically-and-restore/
+    if settings.DB_BACKUPS is False:
+        logger.info('Could not be backed up: Backups are disabled: %s' % timezone.now())
     try:
         call_command("dbbackup")
         PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': timezone.now()})
