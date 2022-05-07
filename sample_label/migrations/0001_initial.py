@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
                 ('sample_barcode_id', models.CharField(max_length=17, primary_key=True, serialize=False, verbose_name='Sample Barcode ID')),
                 ('barcode_slug', models.CharField(max_length=17, verbose_name='Sample Barcode Slug')),
                 ('in_freezer', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='In Freezer')),
-                ('sample_year', models.PositiveIntegerField(default=sample_label.models.current_year, validators=[django.core.validators.MinValueValidator(2018)], verbose_name='Sample Year')),
+                ('sample_year', models.PositiveIntegerField(default=sample_label.models.current_year, validators=[django.core.validators.MinValueValidator(settings.MIN_SAMPLE_YEAR)], verbose_name='Sample Year')),
                 ('purpose', models.CharField(max_length=255, verbose_name='Sample Barcode Purpose')),
                 ('sample_label_request', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplelabelrequest')),
                 ('sample_material', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplematerial')),
