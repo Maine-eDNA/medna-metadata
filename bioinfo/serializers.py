@@ -484,7 +484,7 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     feature = serializers.SlugRelatedField(many=False, read_only=False, slug_field='feature_slug', queryset=FeatureOutput.objects.all())
     annotation_metadata = serializers.SlugRelatedField(many=False, read_only=False, slug_field='annotation_slug', queryset=AnnotationMetadata.objects.all())
-    reference_database = serializers.SlugRelatedField(many=False, read_only=False, slug_field='refdb_slug', queryset=ReferenceDatabase.objects.all())
+    reference_database = serializers.SlugRelatedField(many=True, read_only=False, slug_field='refdb_slug', queryset=ReferenceDatabase.objects.all())
     manual_domain = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_domain_slug', queryset=TaxonDomain.objects.all())
     manual_kingdom = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_kingdom_slug', queryset=TaxonKingdom.objects.all())
     manual_supergroup = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_supergroup_slug', queryset=TaxonSupergroup.objects.all())

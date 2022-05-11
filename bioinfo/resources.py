@@ -543,7 +543,7 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
     reference_database = fields.Field(
         column_name='reference_database',
         attribute='reference_database',
-        widget=ForeignKeyWidget(ReferenceDatabase, 'refdb_slug'))
+        widget=ManyToManyWidget(ReferenceDatabase, 'refdb_slug'))
 
     manual_domain = fields.Field(
         column_name='manual_domain',

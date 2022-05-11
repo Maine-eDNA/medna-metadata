@@ -514,7 +514,7 @@ class AnnotationMetadata(DateTimeUserMixin):
 class TaxonomicAnnotation(DateTimeUserMixin):
     feature = models.ForeignKey(FeatureOutput, on_delete=models.RESTRICT)
     annotation_metadata = models.ForeignKey(AnnotationMetadata, on_delete=models.RESTRICT)
-    reference_database = models.ForeignKey(ReferenceDatabase, on_delete=models.RESTRICT)
+    reference_database = models.ManyToManyField(ReferenceDatabase, verbose_name='Reference Databases', related_name='reference_databases')
     confidence = models.DecimalField('Confidence', blank=True, null=True, max_digits=15, decimal_places=10)
     ta_taxon = models.CharField('Taxon', blank=True, max_length=255)
     ta_domain = models.CharField('Domain', blank=True, max_length=255)
