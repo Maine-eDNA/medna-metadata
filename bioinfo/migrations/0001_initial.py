@@ -377,7 +377,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('feature', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo.featureoutput')),
                 ('annotation_metadata', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='bioinfo.annotationmetadata')),
-                ('reference_database', models.ManyToManyField(related_name='reference_databases', to='bioinfo.referencedatabase', verbose_name='Reference Databases')),
+                ('reference_database', models.ManyToManyField(related_name='reference_databases', to='bioinfo.ReferenceDatabase', verbose_name='Reference Databases')),
                 ('confidence', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Confidence')),
                 ('ta_taxon', models.CharField(blank=True, max_length=255, verbose_name='Taxon')),
                 ('ta_domain', models.CharField(blank=True, max_length=255, verbose_name='Domain')),
