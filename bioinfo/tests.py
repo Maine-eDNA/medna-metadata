@@ -11,6 +11,7 @@ from wet_lab.models import FastqFile, Extraction
 
 class QualityMetadataTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         current_datetime = timezone.now()
         sop_test = StandardOperatingProcedureTestCase()
         process_location_test = ProcessLocationTestCase()
@@ -21,19 +22,20 @@ class QualityMetadataTestCase(TestCase):
         sop = StandardOperatingProcedure.objects.filter()[:1].get()
         process_location = ProcessLocation.objects.filter()[:1].get()
         fastq_file = FastqFile.objects.filter()[:1].get()
-        QualityMetadata.objects.get_or_create(defaults={'analysis_label': 'test_name',
-                                                        'process_location': process_location,
-                                                        'analysis_datetime': current_datetime,
-                                                        'fastq_file': fastq_file,
-                                                        'analyst_first_name': 'test_first_name',
-                                                        'analyst_last_name': 'test_last_name',
-                                                        'seq_quality_check': 'manual_edit',
-                                                        'trim_length_forward': 100,
-                                                        'trim_length_reverse': 100,
-                                                        'min_read_length': 100,
-                                                        'max_read_length': 100,
-                                                        'analysis_sop': sop,
-                                                        'analysis_script_repo_url': 'https://www.test_repo.com'})
+        manytomany_list.append(fastq_file)
+        quality, created = QualityMetadata.objects.get_or_create(defaults={'analysis_label': 'test_name',
+                                                                           'process_location': process_location,
+                                                                           'analysis_datetime': current_datetime,
+                                                                           'analyst_first_name': 'test_first_name',
+                                                                           'analyst_last_name': 'test_last_name',
+                                                                           'seq_quality_check': 'manual_edit',
+                                                                           'trim_length_forward': 100,
+                                                                           'trim_length_reverse': 100,
+                                                                           'min_read_length': 100,
+                                                                           'max_read_length': 100,
+                                                                           'analysis_sop': sop,
+                                                                           'analysis_script_repo_url': 'https://www.test_repo.com'})
+        quality.fastq_file.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
@@ -297,6 +299,7 @@ class AnnotationMetadataTestCase(TestCase):
 
 class TaxonomicAnnotationTestCase(TestCase):
     def setUp(self):
+        manytomany_list = []
         feature_test = FeatureOutputTestCase()
         annotation_metadata_test = AnnotationMetadataTestCase()
         species_test = TaxonSpeciesTestCase()
@@ -318,31 +321,32 @@ class TaxonomicAnnotationTestCase(TestCase):
         manual_kingdom = TaxonKingdom.objects.filter()[:1].get()
         manual_domain = TaxonDomain.objects.filter()[:1].get()
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
-        TaxonomicAnnotation.objects.get_or_create(defaults={'feature': feature,
-                                                            'annotation_metadata': annotation_metadata,
-                                                            'reference_database': [reference_database],
-                                                            'confidence': 0.99,
-                                                            'ta_taxon': 'test_taxon',
-                                                            'ta_domain': 'test_domain',
-                                                            'ta_kingdom': 'test_kingdom',
-                                                            'ta_supergroup': 'test_supergroup',
-                                                            'ta_phylum_division': 'test_phylum',
-                                                            'ta_class': 'test_class',
-                                                            'ta_order': 'test_order',
-                                                            'ta_family': 'test_family',
-                                                            'ta_genus': 'test_genus',
-                                                            'ta_species': 'test_species',
-                                                            'ta_common_name': 'test_common_name',
-                                                            'manual_domain': manual_domain,
-                                                            'manual_kingdom': manual_kingdom,
-                                                            'manual_supergroup': manual_supergroup,
-                                                            'manual_phylum_division': manual_phylum_division,
-                                                            'manual_class': manual_class,
-                                                            'manual_order': manual_order,
-                                                            'manual_family': manual_family,
-                                                            'manual_genus': manual_genus,
-                                                            'manual_species': manual_species,
-                                                            'manual_notes': 'test notes'})
+        manytomany_list.append(reference_database)
+        taxon, created = TaxonomicAnnotation.objects.get_or_create(defaults={'feature': feature,
+                                                                             'annotation_metadata': annotation_metadata,
+                                                                             'confidence': 0.99,
+                                                                             'ta_taxon': 'test_taxon',
+                                                                             'ta_domain': 'test_domain',
+                                                                             'ta_kingdom': 'test_kingdom',
+                                                                             'ta_supergroup': 'test_supergroup',
+                                                                             'ta_phylum_division': 'test_phylum',
+                                                                             'ta_class': 'test_class',
+                                                                             'ta_order': 'test_order',
+                                                                             'ta_family': 'test_family',
+                                                                             'ta_genus': 'test_genus',
+                                                                             'ta_species': 'test_species',
+                                                                             'ta_common_name': 'test_common_name',
+                                                                             'manual_domain': manual_domain,
+                                                                             'manual_kingdom': manual_kingdom,
+                                                                             'manual_supergroup': manual_supergroup,
+                                                                             'manual_phylum_division': manual_phylum_division,
+                                                                             'manual_class': manual_class,
+                                                                             'manual_order': manual_order,
+                                                                             'manual_family': manual_family,
+                                                                             'manual_genus': manual_genus,
+                                                                             'manual_species': manual_species,
+                                                                             'manual_notes': 'test notes'})
+        taxon.reference_database.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly
