@@ -499,7 +499,7 @@ class AnnotationMetadata(DateTimeUserMixin):
 
     def save(self, *args, **kwargs):
         analysis_date_fmt = slug_date_format(self.analysis_datetime)
-        self.annotation_slug = '{method}_{date}'.format(method=slugify(self.annotation_method.annotation_method_name), date=slugify(analysis_date_fmt))
+        self.annotation_slug = '{label}_{method}_{date}'.format(label=slugify(self.analysis_label), method=slugify(self.annotation_method.annotation_method_name), date=slugify(analysis_date_fmt))
         super(AnnotationMetadata, self).save(*args, **kwargs)
 
     def __str__(self):
