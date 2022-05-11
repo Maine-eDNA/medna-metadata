@@ -121,6 +121,7 @@ class TaxonomicAnnotationTable(tables.Table):
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
+    reference_database = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.reference_database.all|join:", " }}">{{ record.reference_database.all|join:", "|truncatewords:5 }}', verbose_name='Reference Databases')
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')

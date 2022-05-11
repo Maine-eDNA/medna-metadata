@@ -496,10 +496,10 @@ class TaxonomicAnnotationForm(forms.ModelForm):
         required=True,
         queryset=AnnotationMetadata.objects.none()
     )
-    reference_database = forms.ModelChoiceField(
+    reference_database = forms.ModelMultipleChoiceField(
         required=True,
         queryset=ReferenceDatabase.objects.all(),
-        widget=CustomSelect2(
+        widget=CustomSelect2Multiple(
             attrs={
                 'class': 'form-control',
             }

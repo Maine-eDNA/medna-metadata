@@ -320,7 +320,7 @@ class TaxonomicAnnotationTestCase(TestCase):
         reference_database = ReferenceDatabase.objects.filter()[:1].get()
         TaxonomicAnnotation.objects.get_or_create(defaults={'feature': feature,
                                                             'annotation_metadata': annotation_metadata,
-                                                            'reference_database': reference_database,
+                                                            'reference_database': [reference_database],
                                                             'confidence': 0.99,
                                                             'ta_taxon': 'test_taxon',
                                                             'ta_domain': 'test_domain',
