@@ -514,7 +514,7 @@ class FastqFile(DateTimeUserMixin):
     extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT, related_name='extractions')
     primer_set = models.ForeignKey(PrimerPair, null=True, on_delete=models.RESTRICT, related_name='primer_sets')
     fastq_slug = models.SlugField('Fastq Slug', max_length=255)
-    fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage, upload_to=get_run_id_upload_subdir)
+    fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage)
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
     submitted_to_insdc = models.CharField('Submitted to INSDC', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # MIxS seq_meth - Sequencing method used; e.g. Sanger, pyrosequencing, ABI-solid

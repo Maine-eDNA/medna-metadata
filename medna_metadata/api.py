@@ -89,6 +89,12 @@ router.register(r'sample_label/sample_type', samplelabel_views.SampleTypeViewSet
 router.register(r'sample_label/sample_material', samplelabel_views.SampleMaterialViewSet, 'sample_material')
 router.register(r'sample_label/sample_label_req', samplelabel_views.SampleLabelRequestViewSet, 'sample_label_req')
 router.register(r'sample_label/sample_barcode', samplelabel_views.SampleBarcodeViewSet, 'sample_barcode')
+# field_survey:pre-transform
+router.register(r'field_survey/field_survey_etl', fieldsurvey_views.GeoFieldSurveyETLViewSet, 'field_survey_etl')
+router.register(r'field_survey/field_crew_etl', fieldsurvey_views.FieldCrewETLViewSet, 'field_crew_etl')
+router.register(r'field_survey/env_measurement_etl', fieldsurvey_views.EnvMeasurementETLViewSet, 'env_measurement_etl')
+router.register(r'field_survey/field_collection_etl', fieldsurvey_views.FieldCollectionETLViewSet, 'field_collection_etl')
+router.register(r'field_survey/sample_filter_etl', fieldsurvey_views.SampleFilterETLViewSet, 'sample_filter_etl')
 # field_survey:post-transform
 router.register(r'field_survey/field_survey', fieldsurvey_views.GeoFieldSurveyViewSet, 'field_survey')
 router.register(r'field_survey/field_crew', fieldsurvey_views.FieldCrewViewSet, 'field_crew')

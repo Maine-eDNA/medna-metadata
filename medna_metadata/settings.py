@@ -523,7 +523,7 @@ else:
     PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
 
     PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
-    AWS_PRIVATE_SEQUENCING_LOCATION = '%s/media/private/wet_lab' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'  # this setting only applies to Maine-eDNA Deployment that shares MyTardis S3 storage
 
     ########################################
     # DJANGO-DBBACKUP CONFIG               #
@@ -550,10 +550,10 @@ CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
 BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 
 CELERYBEAT_SCHEDULE = {
-    # 'transform-new-records': {
-    #     'task': 'field_survey.tasks.transform_new_records_field_survey_task',
-    #     'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
-    # },
+    'transform-new-records': {
+        'task': 'field_survey.tasks.transform_new_records_field_survey_task',
+        'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
+    },
     # If DB_BACKUPS is true, then this sets the scheduler for the db_backup task.
     'db-backup': {
         'task': 'utility.tasks.db_backup',

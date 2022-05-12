@@ -58,36 +58,36 @@ urlpatterns = [
     path('dashboard/labelrequest/add/<int:site_id>/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequestsite'),
     path('dashboard/labelrequest/add/', samplelabel_views.SampleLabelRequestCreateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='add_samplelabelrequest'),
     path('dashboard/labelrequest/update/<int:pk>/', samplelabel_views.SampleLabelRequestUpdateView.as_view(success_url=reverse_lazy('detail_samplelabelrequest')), name='update_samplelabelrequest'),
-    # FIELD SURVEY: FIELD SURVEY (VIEW, ADD, UPDATE)
+    # FIELD SURVEY: FIELD SURVEY (VIEW)
     path('dashboard/fieldsurvey/fieldsurvey/view/', fieldsurvey_views.FieldSurveyFilterView.as_view(filterset_class=fieldsurvey_filters.FieldSurveyFilter), name='view_fieldsurvey'),
-    path('dashboard/fieldsurvey/fieldsurvey/add/', fieldsurvey_views.FieldSurveyCreateView.as_view(), name='add_fieldsurvey'),
-    path('dashboard/fieldsurvey/fieldsurvey/update/<str:pk>/', fieldsurvey_views.FieldSurveyUpdateView.as_view(success_url=reverse_lazy('view_fieldsurvey')), name='update_fieldsurvey'),
-    path('dashboard/fieldsurvey/fieldsurvey/popup/add/', fieldsurvey_views.FieldSurveyPopupCreateView.as_view(), name='add_popup_fieldsurvey'),
-    path('dashboard/fieldsurvey/fieldsurvey/popup/update/', fieldsurvey_views.FieldSurveyPopupUpdateView.as_view(), name='update_popup_fieldsurvey'),
-    # FIELD SURVEY: FIELD CREW (VIEW, ADD, UPDATE)
+    # path('dashboard/fieldsurvey/fieldsurvey/add/', fieldsurvey_views.FieldSurveyCreateView.as_view(), name='add_fieldsurvey'),
+    # path('dashboard/fieldsurvey/fieldsurvey/update/<str:pk>/', fieldsurvey_views.FieldSurveyUpdateView.as_view(success_url=reverse_lazy('view_fieldsurvey')), name='update_fieldsurvey'),
+    # path('dashboard/fieldsurvey/fieldsurvey/popup/add/', fieldsurvey_views.FieldSurveyPopupCreateView.as_view(), name='add_popup_fieldsurvey'),
+    # path('dashboard/fieldsurvey/fieldsurvey/popup/update/', fieldsurvey_views.FieldSurveyPopupUpdateView.as_view(), name='update_popup_fieldsurvey'),
+    # FIELD SURVEY: FIELD CREW (VIEW)
     path('dashboard/fieldsurvey/fieldcrew/view/', fieldsurvey_views.FieldCrewFilterView.as_view(filterset_class=fieldsurvey_filters.FieldCrewFilter), name='view_fieldcrew'),
-    path('dashboard/fieldsurvey/fieldcrew/add/', fieldsurvey_views.FieldCrewCreateView.as_view(), name='add_fieldcrew'),
-    path('dashboard/fieldsurvey/fieldcrew/update/<str:pk>/', fieldsurvey_views.FieldCrewUpdateView.as_view(success_url=reverse_lazy('view_fieldcrew')), name='update_fieldcrew'),
-    # FIELD SURVEY: ENV MEASUREMENT (VIEW, ADD, UPDATE)
+    # path('dashboard/fieldsurvey/fieldcrew/add/', fieldsurvey_views.FieldCrewCreateView.as_view(), name='add_fieldcrew'),
+    # path('dashboard/fieldsurvey/fieldcrew/update/<str:pk>/', fieldsurvey_views.FieldCrewUpdateView.as_view(success_url=reverse_lazy('view_fieldcrew')), name='update_fieldcrew'),
+    # FIELD SURVEY: ENV MEASUREMENT (VIEW)
     path('dashboard/fieldsurvey/envmeasurement/view/', fieldsurvey_views.EnvMeasurementFilterView.as_view(filterset_class=fieldsurvey_filters.EnvMeasurementFilter), name='view_envmeasurement'),
-    path('dashboard/fieldsurvey/envmeasurement/add/', fieldsurvey_views.EnvMeasurementCreateView.as_view(), name='add_envmeasurement'),
-    path('dashboard/fieldsurvey/envmeasurement/update/<str:pk>/', fieldsurvey_views.EnvMeasurementUpdateView.as_view(success_url=reverse_lazy('view_envmeasurement')), name='update_envmeasurement'),
-    # FIELD SURVEY: WATER COLLECTION (VIEW, ADD, UPDATE)
+    # path('dashboard/fieldsurvey/envmeasurement/add/', fieldsurvey_views.EnvMeasurementCreateView.as_view(), name='add_envmeasurement'),
+    # path('dashboard/fieldsurvey/envmeasurement/update/<str:pk>/', fieldsurvey_views.EnvMeasurementUpdateView.as_view(success_url=reverse_lazy('view_envmeasurement')), name='update_envmeasurement'),
+    # FIELD SURVEY: WATER COLLECTION (VIEW)
     path('dashboard/fieldsurvey/watercollection/view/', fieldsurvey_views.WaterCollectionFilterView.as_view(filterset_class=fieldsurvey_filters.WaterCollectionFilter), name='view_watercollection'),
-    path('dashboard/fieldsurvey/watercollection/add/', fieldsurvey_views.water_collection_create_view, name='add_watercollection'),
-    path('dashboard/fieldsurvey/watercollection/update/<str:pk>/', fieldsurvey_views.water_collection_update_view, name='update_watercollection'),
-    # FIELD SURVEY: SEDIMENT COLLECTION (VIEW, ADD, UPDATE)
+    # path('dashboard/fieldsurvey/watercollection/add/', fieldsurvey_views.water_collection_create_view, name='add_watercollection'),
+    # path('dashboard/fieldsurvey/watercollection/update/<str:pk>/', fieldsurvey_views.water_collection_update_view, name='update_watercollection'),
+    # FIELD SURVEY: SEDIMENT COLLECTION (VIEW)
     path('dashboard/fieldsurvey/sedimentcollection/view/', fieldsurvey_views.SedimentCollectionFilterView.as_view(filterset_class=fieldsurvey_filters.SedimentCollectionFilter), name='view_sedimentcollection'),
-    path('dashboard/fieldsurvey/sedimentcollection/add/', fieldsurvey_views.sediment_collection_create_view, name='add_sedimentcollection'),
-    path('dashboard/fieldsurvey/sedimentcollection/update/<str:pk>/', fieldsurvey_views.sediment_collection_update_view, name='update_sedimentcollection'),
-    # FIELD SURVEY: FILTER SAMPLE (VIEW, ADD, UPDATE)
+    # path('dashboard/fieldsurvey/sedimentcollection/add/', fieldsurvey_views.sediment_collection_create_view, name='add_sedimentcollection'),
+    # path('dashboard/fieldsurvey/sedimentcollection/update/<str:pk>/', fieldsurvey_views.sediment_collection_update_view, name='update_sedimentcollection'),
+    # FIELD SURVEY: FILTER SAMPLE (VIEW)
     path('dashboard/fieldsurvey/filtersample/view/', fieldsurvey_views.FilterSampleFilterView.as_view(filterset_class=fieldsurvey_filters.FilterSampleFilter), name='view_filtersample'),
-    path('dashboard/fieldsurvey/filtersample/add/', fieldsurvey_views.filter_sample_create_view, name='add_filtersample'),
-    path('dashboard/fieldsurvey/filtersample/update/<str:pk>/', fieldsurvey_views.filter_sample_update_view, name='update_filtersample'),
-    # FIELD SURVEY: SUBCORE SAMPLE (VIEW, ADD, UPDATE)
+    # path('dashboard/fieldsurvey/filtersample/add/', fieldsurvey_views.filter_sample_create_view, name='add_filtersample'),
+    # path('dashboard/fieldsurvey/filtersample/update/<str:pk>/', fieldsurvey_views.filter_sample_update_view, name='update_filtersample'),
+    # FIELD SURVEY: SUBCORE SAMPLE (VIEW,)
     path('dashboard/fieldsurvey/subcoresample/view/', fieldsurvey_views.SubCoreSampleFilterView.as_view(filterset_class=fieldsurvey_filters.SubCoreSampleFilter), name='view_subcoresample'),
-    path('dashboard/fieldsurvey/subcoresample/add/', fieldsurvey_views.subcore_sample_create_view, name='add_subcoresample'),
-    path('dashboard/fieldsurvey/subcoresample/update/<str:pk>/', fieldsurvey_views.subcore_sample_update_view, name='update_subcoresample'),
+    # path('dashboard/fieldsurvey/subcoresample/add/', fieldsurvey_views.subcore_sample_create_view, name='add_subcoresample'),
+    # path('dashboard/fieldsurvey/subcoresample/update/<str:pk>/', fieldsurvey_views.subcore_sample_update_view, name='update_subcoresample'),
     # WET LAB: EXTRACTION (VIEW, ADD, UPDATE)
     # TODO convert add_extraction to table update
     path('dashboard/wetlab/extraction/view/', wetlab_views.ExtractionFilterView.as_view(filterset_class=wetlab_filters.ExtractionFilter), name='view_extraction'),
@@ -136,9 +136,9 @@ urlpatterns = [
     path('dashboard/wetlab/runresult/popup/update/<int:pk>/', wetlab_views.RunResultPopupUpdateView.as_view(), name='update_popup_runresult'),
     # WET LAB: FASTQ FILE (VIEW)
     path('dashboard/wetlab/fastqfile/view/', wetlab_views.FastqFileFilterView.as_view(filterset_class=wetlab_filters.FastqFileFilter), name='view_fastqfile'),
-    path('dashboard/wetlab/fastqfile/add/', wetlab_views.FastqFileCreateView.as_view(), name='add_fastqfile'),
+    # path('dashboard/wetlab/fastqfile/add/', wetlab_views.FastqFileCreateView.as_view(), name='add_fastqfile'),
     path('dashboard/wetlab/fastqfile/update/<str:pk>/', wetlab_views.FastqFileUpdateView.as_view(success_url=reverse_lazy('view_fastqfile')), name='update_fastqfile'),
-    path('dashboard/wetlab/fastqfile/popup/add/', wetlab_views.FastqFilePopupCreateView.as_view(), name='add_popup_fastqfile'),
+    # path('dashboard/wetlab/fastqfile/popup/add/', wetlab_views.FastqFilePopupCreateView.as_view(), name='add_popup_fastqfile'),
     path('dashboard/wetlab/fastqfile/popup/update/', wetlab_views.FastqFilePopupUpdateView.as_view(), name='update_popup_fastqfile'),
     # FREEZER INVENTORY: FREEZER INVENTORY (VIEW, ADD, UPDATE)
     path('dashboard/freezerinventory/inventory/view/', freezerinventory_views.FreezerInventoryFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryFilter), name='view_freezerinventory'),

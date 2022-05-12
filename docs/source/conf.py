@@ -6,7 +6,7 @@ project = 'medna-metadata'
 copyright = '2021, melkimble'
 author = 'melkimble'
 
-version = 'latest'
+version = 'medna'
 release = version
 
 

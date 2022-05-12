@@ -30,11 +30,18 @@ class FieldSurveyTestCase(TestCase):
                                                                       'supervisor': get_default_user(),
                                                                       'recorder_fname': 'test_first_name',
                                                                       'recorder_lname': 'test_last_name',
+                                                                      'arrival_datetime': current_datetime,
                                                                       'site_id': field_site,
+                                                                      'lat_manual': 0,
+                                                                      'long_manual': 0,
                                                                       'env_obs_turbidity': TurbidTypes.NONE,
                                                                       'env_obs_precip': PrecipTypes.NONE,
                                                                       'env_obs_wind_speed': WindSpeeds.NONE,
                                                                       'env_obs_cloud_cover': CloudCovers.NONE,
+                                                                      'record_create_datetime': current_datetime,
+                                                                      'record_creator': get_default_user(),
+                                                                      'record_edit_datetime': current_datetime,
+                                                                      'record_editor': get_default_user(),
                                                                       'geom': 'SRID=4326;POINT (-68.81489999999999 44.5925)'
                                                                   })
         field_survey.project_ids.set(manytomany_list, clear=True)
@@ -47,13 +54,18 @@ class FieldSurveyTestCase(TestCase):
 
 class FieldCollectionTestCase(TestCase):
     def setUp(self):
+        current_datetime = timezone.now()
         survey_test = FieldSurveyTestCase()
         survey_test.setUp()
         survey = FieldSurvey.objects.filter()[:1].get()
         FieldCollection.objects.get_or_create(collection_global_id='test_collection_global_id',
                                               defaults={
                                                   'survey_global_id': survey,
-                                                  'collection_type': CollectionTypes.WATER_SAMPLE
+                                                  'collection_type': CollectionTypes.WATER_SAMPLE,
+                                                  'record_create_datetime': current_datetime,
+                                                  'record_creator': get_default_user(),
+                                                  'record_edit_datetime': current_datetime,
+                                                  'record_editor': get_default_user()
                                               })
 
     def test_was_added_recently(self):
@@ -64,6 +76,7 @@ class FieldCollectionTestCase(TestCase):
 
 class FieldSampleTestCase(TestCase):
     def setUp(self):
+        current_datetime = timezone.now()
         collection_test = FieldCollectionTestCase()
         sample_barcode_test = SampleBarcodeTestCase()
         collection_test.setUp()
@@ -76,7 +89,11 @@ class FieldSampleTestCase(TestCase):
                                               'sample_global_id': 'test_sample_global_id',
                                               'collection_global_id': collection,
                                               'sample_material': sample_material,
-                                              'is_extracted': YesNo.NO
+                                              'is_extracted': YesNo.NO,
+                                              'record_create_datetime': current_datetime,
+                                              'record_creator': get_default_user(),
+                                              'record_edit_datetime': current_datetime,
+                                              'record_editor': get_default_user()
                                           })
 
     def test_was_added_recently(self):

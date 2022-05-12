@@ -6,7 +6,9 @@ from utility.models import Project
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
-    FieldSample, FilterSample, SubCoreSample
+    FieldSample, FilterSample, SubCoreSample, \
+    FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
+    FieldCollectionETL, SampleFilterETL
 
 
 ########################################
@@ -100,29 +102,36 @@ class SubCoreSampleFilter(filters.FilterSet):
 
 
 ########################################
-# SERIALIZER FILTERS                   #
+# SERIALIZER FILTERS - POST TRANSFORM  #
 ########################################
 class GeoFieldSurveySerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
-    username = filters.CharFilter(field_name='username__email', lookup_expr='iexact')
-    supervisor = filters.CharFilter(field_name='supervisor__email', lookup_expr='iexact')
-    qa_editor = filters.CharFilter(field_name='qa_editor__email', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
+    water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
+    qa_editor = filters.CharFilter(field_name='qa_editor__agol_username', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
     class Meta:
         model = FieldSurvey
-        fields = ['created_by', 'project_ids', 'site_id', 'username', 'supervisor', 'qa_editor', 'survey_datetime']
+        fields = ['created_by', 'project_ids', 'site_id', 'username', 'supervisor', 'core_subcorer',
+                  'water_filterer', 'qa_editor', 'record_creator', 'record_editor', 'survey_datetime']
 
 
 class FieldCrewSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
     class Meta:
         model = FieldCrew
-        fields = ['created_by', 'survey_global_id', ]
+        fields = ['created_by', 'survey_global_id', 'record_creator', 'record_editor']
 
 
 class EnvMeasureTypeSerializerFilter(filters.FilterSet):
@@ -137,20 +146,24 @@ class EnvMeasurementSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     env_measurement = filters.CharFilter(field_name='env_measurement__env_measure_type_code', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
     class Meta:
         model = EnvMeasurement
-        fields = ['created_by', 'survey_global_id', ]
+        fields = ['created_by', 'survey_global_id', 'record_creator', 'record_editor']
 
 
 class FieldCollectionSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
     collection_type = filters.CharFilter(field_name='collection_type', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
     class Meta:
         model = FieldCollection
-        fields = ['created_by', 'survey_global_id', 'collection_type']
+        fields = ['created_by', 'survey_global_id', 'collection_type', 'record_creator', 'record_editor', ]
 
 
 class WaterCollectionSerializerFilter(filters.FilterSet):
@@ -181,11 +194,13 @@ class FieldSampleSerializerFilter(filters.FilterSet):
     sample_material = filters.CharFilter(field_name='sample_material__sample_material_code', lookup_expr='iexact')
     is_extracted = filters.CharFilter(field_name='is_extracted', lookup_expr='iexact')
     barcode_slug = filters.CharFilter(field_name='barcode_slug', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator__agol_username', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor__agol_username', lookup_expr='iexact')
 
     class Meta:
         model = FieldSample
         fields = ['created_by', 'collection_global_id', 'sample_material',
-                  'is_extracted', 'barcode_slug']
+                  'is_extracted', 'barcode_slug', 'record_creator', 'record_editor', ]
 
 
 class FilterSampleSerializerFilter(filters.FilterSet):
@@ -218,38 +233,129 @@ class FilterJoinSerializerFilter(filters.FilterSet):
 class FieldSurveyEnvsNestedSerializerFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
-    username = filters.CharFilter(field_name='username__email', lookup_expr='iexact')
-    supervisor = filters.CharFilter(field_name='supervisor__email', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
+    water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
     env_measure_type = filters.CharFilter(field_name='env_measurements__env_measurement__env_measure_type_code', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
-        fields = ['site_id', 'username', 'supervisor', 'survey_datetime', 'field_collections']
+        fields = ['site_id', 'username', 'supervisor', 'core_subcorer', 'water_filterer', 'survey_datetime',
+                  'field_sample_barcode', 'env_measure_type', 'field_collections']
 
 
 class FieldSurveyFiltersNestedSerializerFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
-    username = filters.CharFilter(field_name='username__email', lookup_expr='iexact')
-    supervisor = filters.CharFilter(field_name='supervisor__email', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
+    water_filterer = filters.CharFilter(field_name='water_filterer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
-        fields = ['site_id', 'username', 'supervisor', 'survey_datetime', 'field_collections']
+        fields = ['site_id', 'username', 'supervisor', 'core_subcorer', 'water_filterer', 'survey_datetime',
+                  'field_sample_barcode', 'field_collections']
 
 
 class FieldSurveySubCoresNestedSerializerFilter(filters.FilterSet):
     # project_ids = filters.CharFilter(field_name='project_ids__project_code', lookup_expr='iexact')
     site_id = filters.CharFilter(field_name='site_id__site_id', lookup_expr='iexact')
-    username = filters.CharFilter(field_name='username__email', lookup_expr='iexact')
-    supervisor = filters.CharFilter(field_name='supervisor__email', lookup_expr='iexact')
+    username = filters.CharFilter(field_name='username__agol_username', lookup_expr='iexact')
+    supervisor = filters.CharFilter(field_name='supervisor__agol_username', lookup_expr='iexact')
+    core_subcorer = filters.CharFilter(field_name='core_subcorer__agol_username', lookup_expr='iexact')
     survey_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
     field_sample_barcode = filters.CharFilter(field_name='field_collections__field_samples__barcode_slug', lookup_expr='iexact')
 
     class Meta:
         model = FieldSurvey
-        fields = ['site_id', 'username', 'supervisor', 'survey_datetime', 'field_collections']
+        fields = ['site_id', 'username', 'supervisor', 'core_subcorer', 'survey_datetime',
+                  'field_sample_barcode', 'field_collections']
+
+
+########################################
+# SERIALIZER FILTERS - PRE TRANSFORM   #
+########################################
+class GeoFieldSurveyETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldSurveyETL
+        fields = ['created_by', 'site_id', 'record_creator', 'record_editor']
+
+
+class FieldCrewETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldCrewETL
+        fields = ['created_by', 'survey_global_id', 'record_creator', 'record_editor']
+
+
+class EnvMeasurementETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = EnvMeasurementETL
+        fields = ['created_by', 'survey_global_id', 'record_creator', 'record_editor']
+
+
+class FieldCollectionETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldCollectionETL
+        fields = ['created_by', 'survey_global_id', 'record_creator', 'record_editor']
+
+
+class SampleFilterETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    collection_global_id = filters.CharFilter(field_name='collection_global_id__collection_global_id', lookup_expr='iexact')
+    filter_barcode = filters.CharFilter(field_name='filter_barcode', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = SampleFilterETL
+        fields = ['created_by', 'collection_global_id', 'record_creator', 'record_editor']
+
+
+class DuplicateFilterSampleETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    collection_global_id = filters.CharFilter(field_name='collection_global_id__collection_global_id', lookup_expr='iexact')
+    filter_barcode = filters.CharFilter(field_name='filter_barcode', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = SampleFilterETL
+        fields = ['created_by', 'collection_global_id', 'record_creator', 'record_editor']
+
+
+class DuplicateSubCoreSampleETLSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    survey_global_id = filters.CharFilter(field_name='survey_global_id__survey_global_id', lookup_expr='iexact')
+    subcore_min_barcode = filters.CharFilter(field_name='subcore_min_barcode', lookup_expr='iexact')
+    subcore_max_barcode = filters.CharFilter(field_name='subcore_max_barcode', lookup_expr='iexact')
+    record_creator = filters.CharFilter(field_name='record_creator', lookup_expr='iexact')
+    record_editor = filters.CharFilter(field_name='record_editor', lookup_expr='iexact')
+
+    class Meta:
+        model = FieldCollectionETL
+        fields = ['created_by', 'collection_global_id', 'record_creator', 'record_editor']

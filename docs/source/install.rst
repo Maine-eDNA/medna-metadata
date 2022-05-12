@@ -24,13 +24,13 @@ The following instructions provide guidance on installing MeDNA-Metadata on Ubun
 Clone the Repository
 ====================
 
-To clone the most recent stable release as read-only::
+To clone the most recent release as read-only::
 
-    git clone -b stable/1.0.x https://github.com/Maine-eDNA/medna-metadata.git
+    git clone -b medna https://github.com/Maine-eDNA/medna-metadata.git
 
-To clone the development branch::
+To clone for development::
 
-    git clone -b main git@github.com:Maine-eDNA/medna-metadata.git
+    git clone -b medna git@github.com:Maine-eDNA/medna-metadata.git
 
 ============
 Docker Setup
