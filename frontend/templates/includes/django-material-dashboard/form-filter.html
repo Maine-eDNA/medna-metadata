@@ -15,11 +15,14 @@
                 <i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
         </div>
     </div>
+    <hr class="horizontal light my-1">
     <div class="row">
         {% for field in filter.form %}
         <div class="col-md-12">
             {{ field.errors }}
-            <label class="text-white text-capitalize" for="{{ field.auto_id }}">{{ field.label }}</label>
+            <div>
+                <h6 class="mb-0"><label class="text-white text-capitalize" for="{{ field.auto_id }}">{{ field.label }}</label></h6>
+            </div>
             <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
                 {{ field }}
             </div>
@@ -29,6 +32,7 @@
             </div>
             {% endif %}
         </div>
+        <hr class="horizontal light my-1">
         {% endfor %}
     </div>
 </form>
