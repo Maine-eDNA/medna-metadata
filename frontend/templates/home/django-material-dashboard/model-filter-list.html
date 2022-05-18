@@ -1,4 +1,4 @@
-{% extends "layouts/django-material-dashboard/base.html" %}
+{% extends "layouts/django-material-dashboard/base-filter.html" %}
 {% load static i18n %}
 {% load humanize %}
 {% load django_tables2 %}
@@ -17,17 +17,18 @@
     <div class="col-12">
       <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-
+            <!-- START filter group
           <div class="bg-gradient-dark bg-white border-radius-lg pt-4 pb-3">
             <h6 class="text-white text-capitalize ps-3">{{ page_title|title }} Table</h6>
-                <!-- START filter -->
+                 START filter
                 {% if filter %}
                 <div id="changelist">
                     {% include 'includes/django-material-dashboard/form-filter.html' %}
                 </div>
                  {% endif %}
-                <!-- END filter -->
+                END filter
           </div>
+           END filter group -->
             <div class="card-body px-0 pb-2">
                 <!-- START export options -->
                 {% custom_filter_actions %}
