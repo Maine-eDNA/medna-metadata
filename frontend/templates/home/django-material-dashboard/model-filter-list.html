@@ -1,5 +1,8 @@
 {% extends "layouts/django-material-dashboard/base-filter.html" %}
-
+{% load custom_filter_list %}
+{% load html_tags %}
+{% load humanize %}
+{% load django_tables2 %}
 {% block title %} {{ page_title|title }} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
@@ -31,17 +34,3 @@
 
   </div>
 {% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-    <script src="{% static 'assets/js/django/vendor/jquery/jquery.js' %}"></script>
-    <script src="{% static 'assets/js/django/jquery.init.js' %}"></script>
-    <script src="{% static 'assets/js/django/core.js' %}"></script>
-    <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
-    <script src="{% static 'assets/js/django/actions.js' %}"></script>
-    <script src="{% static 'assets/js/django/urlify.js' %}"></script>
-    <script src="{% static 'assets/js/django/prepopulate.js' %}"></script>
-    <script src="{% static 'assets/js/django/vendor/xregexp/xregexp.js' %}"></script>
-    <script src="{% static 'assets/js/selectbox_all.js' %}"></script>
-    <script src="{% url 'jsi18n' %}"></script>
-{% endblock javascripts %}
