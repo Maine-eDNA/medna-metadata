@@ -40,14 +40,14 @@
     <link href="{% static 'assets/css/custom-dashboard.css' %}" rel="stylesheet" />
   {% endblock stylesheets %}
 
-   <!-- Specific Page JS goes HERE  -->
-  {% block javascripts %}{% endblock javascripts %}
 </head> 
 <body class="g-sidenav-show bg-gray-200">
 
   {% include 'includes/django-material-dashboard/sidebar.html' %}
+  {% include 'includes/django-material-dashboard/filter-plugin.html' %}
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+
   
     {% include 'includes/django-material-dashboard/navigation-filter.html' %}
 
@@ -55,9 +55,10 @@
 
   </main>
 
-  {% include 'includes/django-material-dashboard/filter-plugin.html' %}
-
   {% include 'includes/django-material-dashboard/scripts.html' %}
+
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}{% endblock javascripts %}
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
