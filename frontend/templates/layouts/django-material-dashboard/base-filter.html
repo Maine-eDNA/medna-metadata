@@ -39,11 +39,11 @@
   {% block stylesheets %}
     <link href="{% static 'assets/css/custom-dashboard.css' %}" rel="stylesheet" />
   {% endblock stylesheets %}
+
+   <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}{% endblock javascripts %}
 </head> 
 <body class="g-sidenav-show bg-gray-200">
-
-  <!-- Specific Page JS goes HERE  -->
-  {% block javascripts %}{% endblock javascripts %}
 
   {% include 'includes/django-material-dashboard/sidebar.html' %}
 
