@@ -31,7 +31,7 @@ class SampleLabelRequestTable(tables.Table):
         model = SampleLabelRequest
         fields = ('_selected_action', 'max_sample_label_id', 'min_sample_label_num', 'req_sample_label_num',
                   'sample_year', 'sample_material', 'sample_type', 'purpose', 'created_datetime')
-        order_by = '-id'
+        order_by = '-pk'  # use dash for descending order
         # attrs = {'class': 'table align-items-center mb-0'}
         # set table css class to 'result_list'
         # attrs = {'class': 'result_list'}
