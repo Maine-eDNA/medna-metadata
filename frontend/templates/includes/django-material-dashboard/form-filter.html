@@ -10,14 +10,14 @@
 <form action="" method="get" id="changelist-form" class="p-3">
   {% csrf_token %}
     <div class="row">
-        <div class="col-md-3 text-end">
+        <div class="col-md-12 text-end">
             <button type="submit" value="Submit" class="btn bg-gradient-light w-100">
                 <i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
         </div>
     </div>
     <div class="row">
         {% for field in filter.form %}
-        <div class="col-md-4">
+        <div class="col-md-12">
             {{ field.errors }}
             <label class="text-white text-capitalize" for="{{ field.auto_id }}">{{ field.label }}</label>
             <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% else %}input-group input-group-outline my-3{% endif %}">
