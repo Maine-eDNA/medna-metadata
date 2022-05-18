@@ -9,6 +9,7 @@ class SampleLabelRequestTable(tables.Table):
                                                     'input': {'class': 'action-select'},
                                                     'th__input': {'id': 'action-toggle'}},
                                              orderable=False)
+    id = tables.Column(visible=False)
     # add hyperlinked column - this is to view the samplelabel detail
     # same as <a href="{% url 'users:samplelabel_detail' samplelabel.id %}"> {{ samplelabel.max_sample_label_id }}</a>
     max_sample_label_id = tables.LinkColumn(viewname='detail_samplelabelrequest',
@@ -29,9 +30,9 @@ class SampleLabelRequestTable(tables.Table):
 
     class Meta:
         model = SampleLabelRequest
-        fields = ('_selected_action', 'max_sample_label_id', 'min_sample_label_num', 'req_sample_label_num',
+        fields = ('_selected_action', 'id', 'max_sample_label_id', 'min_sample_label_num', 'req_sample_label_num',
                   'sample_year', 'sample_material', 'sample_type', 'purpose', 'created_datetime')
-        order_by = '-pk'  # use dash for descending order
+        order_by = ('-id', )  # use dash for descending order
         # attrs = {'class': 'table align-items-center mb-0'}
         # set table css class to 'result_list'
         # attrs = {'class': 'result_list'}
