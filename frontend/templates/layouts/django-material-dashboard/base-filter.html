@@ -1,4 +1,8 @@
-{% load static %}
+{% load static i18n %}
+{% load html_tags %}
+{% load humanize %}
+{% load django_tables2 %}
+{% load custom_filter_list %}
 <!--
 =========================================================
 * Material Dashboard 2 - v3.0.0
@@ -39,7 +43,7 @@
   {% block stylesheets %}
     <link href="{% static 'assets/css/custom-dashboard.css' %}" rel="stylesheet" />
   {% endblock stylesheets %}
-  {% block extrahead %}{% endblock %}
+  {% block extrahead %} {{ filter.form.media }} {% endblock %}
 </head> 
 <body class="g-sidenav-show bg-gray-200">
 
