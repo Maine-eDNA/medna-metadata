@@ -1,8 +1,4 @@
 {% load static i18n %}
-{% load html_tags %}
-{% load humanize %}
-{% load django_tables2 %}
-{% load custom_filter_list %}
 <!--
 =========================================================
 * Material Dashboard 2 - v3.0.0
@@ -44,6 +40,20 @@
     <link href="{% static 'assets/css/custom-dashboard.css' %}" rel="stylesheet" />
   {% endblock stylesheets %}
   {% block extrahead %} {{ filter.form.media }} {% endblock %}
+
+  <!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script src="{% static 'assets/js/django/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/js/django/jquery.init.js' %}"></script>
+    <script src="{% static 'assets/js/django/core.js' %}"></script>
+    <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
+    <script src="{% static 'assets/js/django/actions.js' %}"></script>
+    <script src="{% static 'assets/js/django/urlify.js' %}"></script>
+    <script src="{% static 'assets/js/django/prepopulate.js' %}"></script>
+    <script src="{% static 'assets/js/django/vendor/xregexp/xregexp.js' %}"></script>
+    <script src="{% static 'assets/js/selectbox_all.js' %}"></script>
+    <script src="{% url 'jsi18n' %}"></script>
+{% endblock javascripts %}
 </head> 
 <body class="g-sidenav-show bg-gray-200">
 
