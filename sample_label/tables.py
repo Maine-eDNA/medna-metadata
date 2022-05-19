@@ -15,7 +15,11 @@ class SampleLabelRequestTable(tables.Table):
     max_sample_label_id = tables.LinkColumn(viewname='detail_samplelabelrequest',
                                             args=[A('pk')])
     # Change column header
-    min_sample_label_num = tables.Column(verbose_name='Min Label Num')
+    min_sample_label_num = tables.Column(verbose_name='Min')
+    req_sample_label_num = tables.Column(verbose_name='Requested')
+    sample_material = tables.Column(verbose_name='Material')
+    sample_type = tables.Column(verbose_name='Type')
+    purpose = tables.Column(verbose_name='Purpose')
     # sample_year = tables.Column(attrs={'th': {'class': 'text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'}})
     # sample_material = tables.Column(attrs={'th': {'class': 'text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'}})
     # purpose = tables.Column(attrs={'th': {'class': 'text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'}})
@@ -24,7 +28,7 @@ class SampleLabelRequestTable(tables.Table):
     # Same as <a href="{% url 'users:samplelabel_samplelabel_add' samplelabel.site_id.id
     # samplelabel.sample_material.id samplelabel.purpose %}' class='addlink'> {% translate 'Add' %}</a>
     add_label = tables.LinkColumn(viewname='add_samplelabelrequestdetail',
-                                  text='Add',
+                                  text='Add Label',
                                   args=[A('site_id.id'), A('sample_material.id'), A('sample_year'), A('purpose')],
                                   orderable=False)
 
