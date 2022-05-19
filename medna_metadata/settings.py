@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default=get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # django\conf\global_settings.py
-DEBUG = os.environ.get('DJANGO_DEBUG', False)
+DEBUG = os.environ.get('DJANGO_DEBUG', False) == 'True'
 
 # django\conf\global_settings.py
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', default='localhost [::1]').split(' ')
@@ -464,7 +464,7 @@ SWAGGER_SETTINGS = {
 # Defaults to False. Saves the full database at 4:30AM local time,
 # which can be updated under CELERYBEAT_SCHEDULE (below)
 # The db_backup task is in utility/tasks.py
-DB_BACKUPS = os.environ.get('DB_BACKUPS', False)
+DB_BACKUPS = os.environ.get('DB_BACKUPS', False) == 'True'
 
 if os.getenv('GITHUB_WORKFLOW') or 'AWS_ACCESS_KEY_ID' not in os.environ:
     # if there is no AWS_ACCESS_KEY_ID in environment, then use local storage
