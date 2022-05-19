@@ -15,7 +15,7 @@ class FieldSiteTable(tables.Table):
     site_id = tables.LinkColumn('detail_fieldsite', args=[A('pk')])
     project = tables.TemplateColumn('<data-toggle="tooltip" title="{{ record.project.all|join:", " }}">{{ record.project.all|join:", "|truncatewords:5 }}', verbose_name='Projects')
     # same as <a href="{% url 'users:site_samplelabel_add' site.id %}" class="addlink"> {% translate 'Add' %}</a>
-    add_label = tables.LinkColumn('add_samplelabelrequestsite', text='Add', args=[A('pk')], orderable=False)
+    add_label = tables.LinkColumn('add_samplelabelrequestsite', text='Add Label', args=[A('pk')], orderable=False)
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
 
