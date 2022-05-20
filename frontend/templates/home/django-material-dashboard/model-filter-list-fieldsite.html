@@ -16,22 +16,22 @@
   <div class="container-fluid py-4">
     <div class="col-12">
       <div class="card my-4">
-        <div class="card-header p-0 position-relative mx-3 z-index-2">
-            <div class="card-body px-0 pb-2">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-light bg-white border-radius-lg pt-4 pb-3">
                 <h6 class="text-dark text-capitalize ps-3">{{ page_title|title }} Table</h6>
                 <hr class="horizontal dark my-2">
                 <!-- -------- START Grids -------- -->
-                  <div class="container">
-                    <div id="mapLoading" class="d-flex justify-content-center">
-                      <button class="btn btn-primary" type="button" disabled>
+                <div id="mapLoading" class="d-flex justify-content-center">
+                    <button class="btn btn-primary" type="button" disabled>
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         Map Loading...
-                      </button>
-                    </div>
-                    <div id="map" data-url="{% url 'geom_fieldsite' %}"></div>
-                    <div id="mapEmpty" class="d-flex justify-content-center lead"></div>
-                  </div>
+                    </button>
+                </div>
+                <div id="map" data-url="{% url 'geom_fieldsite' %}"></div>
+                <div id="mapEmpty" class="d-flex justify-content-center lead"></div>
                 <!-- -------- END Grids -------- -->
+            </div>
+            <div class="card-body px-0 pb-2">
                 <!-- START export options -->
                 {% custom_filter_actions %}
                 <!-- END export options -->
@@ -52,12 +52,8 @@
 
   <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-     crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/map-cluster.js' %}"></script>
+    <script src="{% static 'assets/js/django/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/js/django/jquery.init.js' %}"></script>
     <script src="{% static 'assets/js/django/core.js' %}"></script>
     <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
     <script src="{% static 'assets/js/django/actions.js' %}"></script>
@@ -66,4 +62,10 @@
     <script src="{% static 'assets/js/django/vendor/xregexp/xregexp.js' %}"></script>
     <script src="{% static 'assets/js/selectbox_all.js' %}"></script>
     <script src="{% url 'jsi18n' %}"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+     crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="{% static 'assets/js/plugins/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/map-cluster.js' %}"></script>
 {% endblock javascripts %}
