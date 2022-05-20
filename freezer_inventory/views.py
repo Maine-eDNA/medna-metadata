@@ -25,6 +25,16 @@ from django.conf import settings
 
 # Create your views here.
 ########################################
+# FRONTEND REQUESTS                    #
+########################################
+@login_required(login_url='dashboard_login')
+def freezer_inventory_return_metadata_table(request):
+    return_metadata_table = UserFreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
+    return_metadata_count = FreezerInventoryReturnMetadata.objects.filter(created_by=request.user, freezer_return_metadata_entered=YesNo.YES).count()
+    return return_metadata_table, return_metadata_count
+
+
+########################################
 # FRONTEND VIEWS                       #
 ########################################
 class FreezerInventoryFilterView(LoginRequiredMixin, PermissionRequiredMixin, SerializerExportMixin, SingleTableMixin, FilterView):
@@ -229,13 +239,6 @@ class FreezerInventoryReturnMetadataUpdateView(LoginRequiredMixin, PermissionReq
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
-
-
-@login_required(login_url='dashboard_login')
-def freezer_inventory_return_metadata_table(request):
-    return_metadata_table = UserFreezerInventoryReturnMetadataTable(FreezerInventoryReturnMetadata.objects.filter(created_by=request.user))
-    return_metadata_count = FreezerInventoryReturnMetadata.objects.filter(created_by=request.user, freezer_return_metadata_entered=YesNo.YES).count()
-    return return_metadata_table, return_metadata_count
 
 
 ########################################
