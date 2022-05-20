@@ -146,7 +146,7 @@ class FieldSurveyFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSer
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSurvey
     table_class = FieldSurveyTable
-    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    template_name = 'home/django-material-dashboard/model-filter-list-fieldsurvey.html'
     permission_required = ('field_survey.view_fieldsurvey', )
     export_name = 'fieldsurvey_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsurvey_serializers.FieldSurveyTableSerializer

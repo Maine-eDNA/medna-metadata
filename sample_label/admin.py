@@ -81,7 +81,7 @@ class SampleLabelRequestAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = SampleLabelRequestAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('max_sample_label_id', 'min_sample_label_id', 'sample_material', 'sample_type')
+    list_display = ('max_sample_label_id', 'min_sample_label_num', 'req_sample_label_num', 'sample_material', 'sample_type')
     readonly_fields = ('sample_label_request_slug', 'modified_datetime', 'created_datetime', )
     search_fields = ['sample_label_request_slug']
     autocomplete_fields = ['site_id', ]

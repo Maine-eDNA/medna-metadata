@@ -169,7 +169,7 @@ class FieldSiteFilterView(LoginRequiredMixin, PermissionRequiredMixin, Serialize
     # export_formats = ['csv','xlsx'] # set in user_sites in default
     model = FieldSite
     table_class = FieldSiteTable
-    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    template_name = 'home/django-material-dashboard/model-filter-list-fieldsite.html'
     permission_required = ('field_site.view_fieldsite', )
     export_name = 'fieldsite_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = fieldsite_serializers.FieldSiteSerializer
