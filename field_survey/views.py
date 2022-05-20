@@ -41,6 +41,19 @@ from django.conf import settings
 ########################################
 # FRONTEND REQUESTS                    #
 ########################################
+@permission_required('field_survey.view_fieldsurvey', login_url='dashboard_login')
+@login_required(login_url='dashboard_login')
+def get_field_survey_geom(request):
+    # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
+    # project = get_object_or_404(Project, pk=pk)
+    qs = FieldSurvey.objects.only('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids').prefetch_related('project_ids')
+    qs_json = serialize('geojson', qs, fields=('survey_global_id', 'geom', 'survey_datetime', 'site_name', 'project_ids'))
+    return JsonResponse(json.loads(qs_json))
+
+
 def get_project_survey_geom(request, pk):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
