@@ -214,7 +214,7 @@ urlpatterns = [
     path('dashboard/chart/runresult/count/', wetlab_views.get_run_result_count_chart, name='chart_runresultcount'),
     # AJAX GEOM
     path('main/geom/project_survey/<int:pk>/', fieldsurvey_views.get_project_survey_geom, name='geom_projectsurvey'),
-    path('dashboard/geom/field_survey/', fieldsurvey_views.get_field_survey_geom, name='geom_fieldsurvey'),
+    path('dashboard/geom/fieldsurvey/', fieldsurvey_views.get_field_survey_geom, name='geom_fieldsurvey'),
     path('dashboard/geom/watershed/', fieldsite_views.get_watershed_geom, name='geom_watershed'),
     path('dashboard/geom/fieldsite/', fieldsite_views.get_field_site_geom, name='geom_fieldsite'),
     path('dashboard/intersect/point/watershed/<float:lat>/<float:long>/<int:srid>/', fieldsite_views.get_point_intersect_watershed_geom, name='intersect_watershed'),
