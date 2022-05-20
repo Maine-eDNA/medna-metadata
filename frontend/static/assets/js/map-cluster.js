@@ -49,3 +49,8 @@ $(function () {
   });
 
 });
+
+$('#map').on('shown.bs.collapse', function (e) {
+    // https://stackoverflow.com/questions/24412325/resizing-a-leaflet-map-on-container-resize
+    map.invalidateSize(true);
+})
