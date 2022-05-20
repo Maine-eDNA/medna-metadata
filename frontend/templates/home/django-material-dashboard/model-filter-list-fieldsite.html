@@ -1,0 +1,53 @@
+{% extends "layouts/django-material-dashboard/base-filter.html" %}
+{% load static i18n %}
+{% load humanize %}
+{% load django_tables2 %}
+{% load custom_filter_list %}
+
+{% block title %} {{ page_title|title }} {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/django/changelists.css' %}">
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mx-3 z-index-2">
+            <div class="card-body px-0 pb-2">
+                <h6 class="text-dark text-capitalize ps-3">{{ page_title|title }} Table</h6>
+                <hr class="horizontal dark my-2">
+                <!-- START export options -->
+                {% custom_filter_actions %}
+                <!-- END export options -->
+                <!-- START table -->
+                <div class="results">
+                {% render_table table %}
+                </div>
+                <!-- END table -->
+            </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'includes/django-material-dashboard/footer.html' %}
+
+  </div>
+{% endblock content %}
+
+  <!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script src="{% static 'assets/js/django/vendor/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/js/django/jquery.init.js' %}"></script>
+    <script src="{% static 'assets/js/django/core.js' %}"></script>
+    <script src="{% static 'assets/js/django/admin/RelatedObjectLookups.js' %}"></script>
+    <script src="{% static 'assets/js/django/actions.js' %}"></script>
+    <script src="{% static 'assets/js/django/urlify.js' %}"></script>
+    <script src="{% static 'assets/js/django/prepopulate.js' %}"></script>
+    <script src="{% static 'assets/js/django/vendor/xregexp/xregexp.js' %}"></script>
+    <script src="{% static 'assets/js/selectbox_all.js' %}"></script>
+    <script src="{% url 'jsi18n' %}"></script>
+{% endblock javascripts %}

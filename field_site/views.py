@@ -2,7 +2,7 @@ from django.db.models import F
 from django.core.serializers import serialize
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.gis.geos import Point
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -46,6 +46,7 @@ def get_watershed_geom(request):
     return JsonResponse(json.loads(qs_json))
 
 
+@permission_required('field_site.view_fieldsite', login_url='dashboard_login')
 @login_required(login_url='dashboard_login')
 def get_field_site_geom(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
