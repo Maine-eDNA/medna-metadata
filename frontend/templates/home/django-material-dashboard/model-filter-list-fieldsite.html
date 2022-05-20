@@ -20,6 +20,18 @@
             <div class="card-body px-0 pb-2">
                 <h6 class="text-dark text-capitalize ps-3">{{ page_title|title }} Table</h6>
                 <hr class="horizontal dark my-2">
+                <!-- -------- START Grids -------- -->
+                  <div class="container">
+                    <div id="mapLoading" class="d-flex justify-content-center">
+                      <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Map Loading...
+                      </button>
+                    </div>
+                    <div id="map" data-url="{% url 'geom_fieldsite' %}"></div>
+                    <div id="mapEmpty" class="d-flex justify-content-center lead"></div>
+                  </div>
+                <!-- -------- END Grids -------- -->
                 <!-- START export options -->
                 {% custom_filter_actions %}
                 <!-- END export options -->
