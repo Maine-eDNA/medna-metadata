@@ -131,13 +131,13 @@ $(function () {
             $lastRunResultDate.text(lastRunResult);
             $chartRunResultCountLoading.remove();
             $chartRunResultCountEmpty.remove();
-            var wlCtx1 = $chartRunResultCount[0].getContext("2d");
-            new Chart(wlCtx1, {
+            var wlCtx2 = $chartRunResultCount[0].getContext("2d");
+            new Chart(wlCtx2, {
               type: "line",
               data: {
                 labels: data.labels,
                 datasets: [{
-                    label: "Extraction Count",
+                    label: "Run Count",
                     tension: 0.4,
                     borderWidth: 0,
                     pointRadius: 2,
