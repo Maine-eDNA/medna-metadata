@@ -209,6 +209,12 @@ class ControlTypes(models.TextChoices):
     __empty__ = _('(Unknown)')
 
 
+class FieldSamplingProtocols(models.TextChoices):
+    INDEXSITE = 'index_sites', _('Index Sites')
+    OTHER = 'other', _('Other')
+    __empty__ = _('(Unknown)')
+
+
 class FilterMethods(models.TextChoices):
     VACUUM = 'vacuum', _('Vacuum')
     GRAVITY = 'gravity', _('Gravity')
