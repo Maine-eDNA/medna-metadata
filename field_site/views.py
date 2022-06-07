@@ -54,16 +54,18 @@ def get_field_site_geom(request):
     # https://leafletjs.com/examples/geojson/
     # https://stackoverflow.com/questions/52025577/how-to-remove-certain-fields-when-doing-serialization-to-a-django-model
     # project = get_object_or_404(Project, pk=pk)
-    qs = FieldSite.objects.only('site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
-                                'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
-                                'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
-                                'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
-                                'geom', )
-    qs_json = serialize('geojson', qs, fields=('site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
-                                               'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
-                                               'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
-                                               'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
-                                               'geom',))
+    qs = FieldSite.objects.only('site_id', 'general_location_name', 'geom', )
+    qs_json = serialize('geojson', qs, fields=('site_id', 'general_location_name', 'geom', ))
+    # qs = FieldSite.objects.only('site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+    #                             'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
+    #                             'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+    #                             'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
+    #                             'geom', )
+    # qs_json = serialize('geojson', qs, fields=('site_id', 'grant', 'system', 'watershed', 'general_location_name', 'purpose',
+    #                                            'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
+    #                                            'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second', 'envo_feature_third',
+    #                                            'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
+    #                                            'geom',))
     return JsonResponse(json.loads(qs_json))
 
 
