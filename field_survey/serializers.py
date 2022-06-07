@@ -636,7 +636,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    filter_protocol = serializers.SlugRelatedField(many=False, read_only=True)
+    filter_protocol = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sop_title')
 
 
 class SubCoreSampleSerializer(serializers.ModelSerializer):
@@ -668,7 +668,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    subcore_protocol = serializers.SlugRelatedField(many=False, read_only=True)
+    subcore_protocol = serializers.SlugRelatedField(many=False, read_only=True, slug_field='sop_title')
 
 
 #################################
