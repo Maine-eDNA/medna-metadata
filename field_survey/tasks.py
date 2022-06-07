@@ -89,7 +89,7 @@ def update_record_field_survey(record, pk):
 
         # survey123 srid defaults to 4326 (WGS84)
 
-        print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
+        # print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
@@ -172,8 +172,7 @@ def update_record_env_measurement(record, pk):
         env_type_list = []
         env_types = record.env_measurement.split(',')
 
-        # print(record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+
-        #      ' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
+        # print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
 
         for env_type in env_types:
             if not env_type.strip():
@@ -181,6 +180,8 @@ def update_record_env_measurement(record, pk):
                 env_type = 'none'
             env_measure_type = EnvMeasureType.objects.get(env_measure_type_code=env_type)
             env_type_list.append(env_measure_type)
+        print(pk)
+        print(env_type_list)
 
         env_measurement, created = EnvMeasurement.objects.update_or_create(
             env_global_id=pk,
