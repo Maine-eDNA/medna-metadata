@@ -1,7 +1,7 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
 from medna_metadata.celery import app
 from medna_metadata.tasks import BaseTaskWithRetry
-from utility.models import PeriodicTaskRun, Project
+from utility.models import PeriodicTaskRun, Project, StandardOperatingProcedure
 from utility.enumerations import CollectionTypes
 from users.models import CustomUser
 from field_site.models import FieldSite
@@ -89,8 +89,7 @@ def update_record_field_survey(record, pk):
 
         # survey123 srid defaults to 4326 (WGS84)
 
-        # print(record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+
-        #      ' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
+        print(record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
@@ -325,7 +324,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                     'filter_lname': record.filter_lname,
                     'filter_sample_label': record.filter_sample_label,
                     'filter_datetime': record.filter_datetime,
-                    'filter_protocol': record.filter_protocol,
+                    'filter_protocol': StandardOperatingProcedure.objects.get(sop_title=record.filter_protocol),
                     'filter_protocol_other': record.filter_protocol_other,
                     'filter_method': record.filter_method,
                     'filter_method_other': record.filter_method_other,
@@ -347,7 +346,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                 defaults={
                     'subcore_fname': record.subcore_fname,
                     'subcore_lname': record.subcore_lname,
-                    'subcore_protocol': record.subcore_protocol,
+                    'subcore_protocol': StandardOperatingProcedure.objects.get(sop_title=record.subcore_protocol),
                     'subcore_protocol_other': record.subcore_protocol_other,
                     'subcore_method': record.subcore_method,
                     'subcore_method_other': record.subcore_method_other,
