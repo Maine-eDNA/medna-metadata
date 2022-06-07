@@ -171,17 +171,19 @@ def update_record_env_measurement(record, pk):
     try:
         env_type_list = []
         env_types = record.env_measurement.split(',')
-
+        # print(pk)
+        # print(record.env_measurement)
         # print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
 
         for env_type in env_types:
             if not env_type.strip():
                 # if project is blank, replace it with blank
                 env_type = 'none'
+            if env_type == 'env_waterph':
+                # ph type changed from waterph to env_ph in survey123
+                env_type = 'env_ph'
             env_measure_type = EnvMeasureType.objects.get(env_measure_type_code=env_type)
             env_type_list.append(env_measure_type)
-        print(pk)
-        print(env_type_list)
 
         env_measurement, created = EnvMeasurement.objects.update_or_create(
             env_global_id=pk,
@@ -316,6 +318,11 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
             update_count += 1
 
         if collection_type == CollectionTypes.WATER_SAMPLE:
+            if not record.filter_protocol.strip() or record.filter_protocol == 'other':
+                # if filter_protocol is blank, replace it with blank
+                filter_protocol = StandardOperatingProcedure.objects.get(sop_title='other_field_sampling_protocol')
+            else:
+                filter_protocol = StandardOperatingProcedure.objects.get(sop_title=record.filter_protocol)
             filter_sample, created = FilterSample.objects.update_or_create(
                 field_sample=field_sample,
                 defaults={
@@ -325,7 +332,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                     'filter_lname': record.filter_lname,
                     'filter_sample_label': record.filter_sample_label,
                     'filter_datetime': record.filter_datetime,
-                    'filter_protocol': StandardOperatingProcedure.objects.get(sop_title=record.filter_protocol),
+                    'filter_protocol': filter_protocol,
                     'filter_protocol_other': record.filter_protocol_other,
                     'filter_method': record.filter_method,
                     'filter_method_other': record.filter_method_other,
@@ -342,12 +349,17 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                 update_count += 1
 
         elif collection_type == CollectionTypes.SED_SAMPLE:
+            if not record.subcore_protocol.strip() or record.subcore_protocol == 'other':
+                # if filter_protocol is blank, replace it with blank
+                subcore_protocol = StandardOperatingProcedure.objects.get(sop_title='other_field_sampling_protocol')
+            else:
+                subcore_protocol = StandardOperatingProcedure.objects.get(sop_title=record.subcore_protocol)
             subcore_sample, created = SubCoreSample.objects.update_or_create(
                 field_sample=field_sample,
                 defaults={
                     'subcore_fname': record.subcore_fname,
                     'subcore_lname': record.subcore_lname,
-                    'subcore_protocol': StandardOperatingProcedure.objects.get(sop_title=record.subcore_protocol),
+                    'subcore_protocol': subcore_protocol,
                     'subcore_protocol_other': record.subcore_protocol_other,
                     'subcore_method': record.subcore_method,
                     'subcore_method_other': record.subcore_method_other,
