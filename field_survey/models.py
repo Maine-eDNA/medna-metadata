@@ -395,7 +395,6 @@ class SubCoreSample(DateTimeUserMixin):
     field_sample = models.OneToOneField(FieldSample, primary_key=True, related_name='subcore_sample', on_delete=models.CASCADE)
     subcore_fname = models.CharField('Sub-Corer First Name', blank=True, max_length=255)
     subcore_lname = models.CharField('Sub-Corer Last Name', blank=True, max_length=255)
-    subcore_sample_label = models.CharField('Sub-Core Sample Label', blank=True, max_length=255)
     subcore_protocol = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Sub-Core Protocol', on_delete=models.RESTRICT)
     subcore_protocol_other = models.CharField('Other Sub-Core Protocol', blank=True, max_length=255)
     subcore_method = models.CharField('Sub-Core Method', blank=True, max_length=50, choices=SubSedimentMethods.choices)

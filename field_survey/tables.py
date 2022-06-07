@@ -254,7 +254,6 @@ class SubCoreSampleTable(tables.Table):
     is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
     subcore_fname = tables.Column(verbose_name='SubCorer First Name')
     subcore_lname = tables.Column(verbose_name='SubCorer Last Name')
-    subcore_sample_label = tables.Column(verbose_name='SubCore Label')
     core_control = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_control', verbose_name='Control')
     subcore_datetime_start = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='SubCore Start')
     subcore_datetime_end = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='SubCore End')
