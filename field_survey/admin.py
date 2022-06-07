@@ -379,8 +379,10 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
         # specify the fields that can be viewed in add view
         self.fields = ['field_sample', 'filter_location',
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
-                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
-                       'filter_pore', 'filter_size', 'filter_notes', 'created_by', ]
+                       'filter_protocol',
+                       'filter_method', 'filter_method_other', 'filter_vol',
+                       'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                       'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -392,8 +394,9 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['field_sample', 'filter_location',
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
-                       'filter_method', 'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
-                       'filter_pore', 'filter_size', 'filter_notes',
+                       'filter_protocol',
+                       'filter_method', 'filter_method_other', 'filter_vol',
+                       'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FilterSampleAdmin, self).change_view(request, object_id)
@@ -421,9 +424,11 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_sample_label', 'subcore_method',
-                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
-                       'subcore_length', 'subcore_diameter', 'subcore_clayer', 'subcore_notes', 'created_by', ]
+        self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_sample_label',
+                       'subcore_protocol',
+                       'subcore_method', 'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
+                       'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer', 'subcore_notes',
+                       'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -433,9 +438,10 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_sample_label', 'subcore_method',
-                       'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
-                       'subcore_length', 'subcore_diameter', 'subcore_clayer', 'subcore_notes',
+        self.fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_sample_label',
+                       'subcore_protocol',
+                       'subcore_method', 'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
+                       'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer', 'subcore_notes',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(SubCoreSampleAdmin, self).change_view(request, object_id)
