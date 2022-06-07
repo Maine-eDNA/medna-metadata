@@ -325,6 +325,8 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                     'filter_lname': record.filter_lname,
                     'filter_sample_label': record.filter_sample_label,
                     'filter_datetime': record.filter_datetime,
+                    'filter_protocol': record.filter_protocol,
+                    'filter_protocol_other': record.filter_protocol_other,
                     'filter_method': record.filter_method,
                     'filter_method_other': record.filter_method_other,
                     'filter_vol': record.filter_vol,
@@ -345,6 +347,8 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                 defaults={
                     'subcore_fname': record.subcore_fname,
                     'subcore_lname': record.subcore_lname,
+                    'subcore_protocol': record.subcore_protocol,
+                    'subcore_protocol_other': record.subcore_protocol_other,
                     'subcore_method': record.subcore_method,
                     'subcore_method_other': record.subcore_method_other,
                     'subcore_datetime_start': record.subcore_datetime_start,

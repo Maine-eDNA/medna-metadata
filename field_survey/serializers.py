@@ -172,6 +172,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
     filter_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_sample_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    filter_protocol_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_method = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
@@ -187,7 +188,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
         model = FilterSample
         fields = ['field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
                   'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
-                  'filter_protocol',
+                  'filter_protocol', 'filter_protocol_other',
                   'filter_method', 'filter_method_other', 'filter_vol', 'is_prefilter',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'water_collect_datetime', 'project_ids', 'supervisor', 'username',
@@ -238,6 +239,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
 class SubCoreSampleTableSerializer(serializers.ModelSerializer):
     subcore_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    subcore_protocol_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_method = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
@@ -253,7 +255,7 @@ class SubCoreSampleTableSerializer(serializers.ModelSerializer):
         model = SubCoreSample
         fields = ['field_sample_barcode', 'core_label', 'survey_datetime', 'is_extracted',
                   'subcore_fname', 'subcore_lname', 'core_control',
-                  'subcore_protocol',
+                  'subcore_protocol', 'subcore_protocol_other',
                   'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                   'subcore_length', 'subcore_diameter', 'subcore_clayer',
@@ -607,6 +609,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
     filter_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_sample_label = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_datetime = serializers.DateTimeField(read_only=True, allow_null=True)
+    filter_protocol_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_method = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     filter_vol = serializers.DecimalField(read_only=True, max_digits=15, decimal_places=10, allow_null=True)
@@ -623,7 +626,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
         fields = ['field_sample', 'filter_location', 'is_prefilter',
                   'filter_fname', 'filter_lname',
                   'filter_sample_label', 'filter_datetime',
-                  'filter_protocol',
+                  'filter_protocol', 'filter_protocol_other',
                   'filter_method', 'filter_method_other', 'filter_vol',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'created_by', 'created_datetime', 'modified_datetime']
@@ -639,6 +642,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
 class SubCoreSampleSerializer(serializers.ModelSerializer):
     subcore_fname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_lname = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
+    subcore_protocol_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_method = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_method_other = serializers.CharField(read_only=True, max_length=255, allow_blank=True)
     subcore_datetime_start = serializers.DateTimeField(read_only=True, allow_null=True)
@@ -653,7 +657,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCoreSample
         fields = ['field_sample', 'subcore_fname', 'subcore_lname',
-                  'subcore_protocol',
+                  'subcore_protocol', 'subcore_protocol_other',
                   'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
                   'subcore_diameter', 'subcore_clayer',
@@ -1298,6 +1302,8 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
     subcores_taken = serializers.CharField(max_length=3, allow_blank=True)
     subcore_fname = serializers.CharField(max_length=255, allow_blank=True)
     subcore_lname = serializers.CharField(max_length=255, allow_blank=True)
+    subcore_protocol = serializers.CharField(max_length=255, allow_blank=True)
+    subcore_protocol_other = serializers.CharField(max_length=255, allow_blank=True)
     subcore_method = serializers.CharField(max_length=255, allow_blank=True)
     subcore_method_other = serializers.CharField(max_length=255, allow_blank=True)
     subcore_datetime_start = serializers.DateTimeField(allow_null=True)
@@ -1324,8 +1330,9 @@ class FieldCollectionETLSerializer(serializers.ModelSerializer):
                   'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material', 'water_vessel_color',
                   'water_collect_notes', 'was_filtered', 'core_control', 'core_label', 'core_datetime_start',
                   'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth', 'core_length',
-                  'core_diameter', 'subcores_taken', 'subcore_fname', 'subcore_lname', 'subcore_method',
-                  'subcore_method_other',
+                  'core_diameter', 'subcores_taken', 'subcore_fname', 'subcore_lname',
+                  'subcore_protocol', 'subcore_protocol_other',
+                  'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode',
                   'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose',
                   'core_notes', 'survey_global_id',
@@ -1348,6 +1355,8 @@ class SampleFilterETLSerializer(serializers.ModelSerializer):
     filter_sample_label = serializers.CharField(max_length=255, allow_blank=True)
     filter_barcode = serializers.CharField(max_length=17, allow_blank=True)
     filter_datetime = serializers.DateTimeField(allow_null=True)
+    filter_protocol = serializers.CharField(max_length=255, allow_blank=True)
+    filter_protocol_other = serializers.CharField(max_length=255, allow_blank=True)
     filter_method = serializers.CharField(max_length=255, allow_blank=True)
     filter_method_other = serializers.CharField(max_length=255, allow_blank=True)
     filter_vol = serializers.DecimalField(max_digits=15, decimal_places=10, allow_null=True)
@@ -1366,8 +1375,10 @@ class SampleFilterETLSerializer(serializers.ModelSerializer):
     class Meta:
         model = SampleFilterETL
         fields = ['filter_global_id', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                  'filter_sample_label', 'filter_barcode', 'filter_datetime', 'filter_method',
-                  'filter_method_other', 'filter_vol', 'filter_type', 'filter_type_other',
+                  'filter_sample_label', 'filter_barcode', 'filter_datetime',
+                  'filter_protocol', 'filter_protocol_other',
+                  'filter_method', 'filter_method_other',
+                  'filter_vol', 'filter_type', 'filter_type_other',
                   'filter_pore', 'filter_size', 'filter_notes', 'collection_global_id',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]

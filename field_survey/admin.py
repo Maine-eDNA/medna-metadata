@@ -331,7 +331,7 @@ class FilterSampleAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         self.fields = ['field_sample', 'filter_location',
                        'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label', 'filter_datetime',
-                       'filter_protocol',
+                       'filter_protocol', 'filter_protocol_other',
                        'filter_method', 'filter_method_other', 'filter_vol',
                        'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'created_by', 'modified_datetime', 'created_datetime', ]
@@ -366,7 +366,7 @@ class SubCoreSampleAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['field_sample', 'subcore_fname', 'subcore_lname',
-                       'subcore_protocol',
+                       'subcore_protocol', 'subcore_protocol_other',
                        'subcore_method', 'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
                        'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
                        'created_by', 'modified_datetime', 'created_datetime', ]
@@ -516,9 +516,12 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                        'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
                        'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
-                       'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken', 'subcore_fname',
-                       'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
-                       'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
+                       'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',
+                       'subcore_fname', 'subcore_lname',
+                       'subcore_protocol', 'subcore_protocol_other',
+                       'subcore_method', 'subcore_method_other',
+                       'subcore_datetime_start', 'subcore_datetime_end',
+                       'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', 'created_by', ]
         add_fields = request.GET.copy()
@@ -533,9 +536,12 @@ class FieldCollectionETLAdmin(ImportExportActionModelAdmin):
                        'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                        'water_vessel_color', 'water_collect_notes', 'was_filtered', 'core_control', 'core_label',
                        'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other',
-                       'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken', 'subcore_fname',
-                       'subcore_lname', 'subcore_method', 'subcore_method_other', 'subcore_datetime_start',
-                       'subcore_datetime_end', 'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
+                       'core_collect_depth', 'core_length', 'core_diameter', 'subcores_taken',
+                       'subcore_fname', 'subcore_lname',
+                       'subcore_protocol', 'subcore_protocol_other',
+                       'subcore_method', 'subcore_method_other',
+                       'subcore_datetime_start', 'subcore_datetime_end',
+                       'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number',
                        'subcore_length', 'subcore_diameter', 'subcore_clayer', 'core_purpose', 'core_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by', 'modified_datetime', 'created_datetime']
@@ -557,8 +563,10 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         self.fields = ['filter_global_id', 'collection_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                       'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
-                       'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                       'filter_sample_label', 'filter_datetime',
+                       'filter_protocol', 'filter_protocol_other',
+                       'filter_method', 'filter_method_other',
+                       'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor', 'created_by', ]
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -568,8 +576,10 @@ class SampleFilterETLAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['filter_global_id', 'collection_global_id', 'filter_barcode', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                       'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
-                       'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                       'filter_sample_label', 'filter_datetime',
+                       'filter_protocol', 'filter_protocol_other',
+                       'filter_method', 'filter_method_other',
+                       'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                        'record_create_datetime', 'record_creator', 'record_edit_datetime', 'record_editor',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

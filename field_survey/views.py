@@ -1016,8 +1016,9 @@ class DuplicateSubCoreSampleETLAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         # returns a list of all the duplicate subcore barcodes
-        fields = ('subcore_fname', 'subcore_lname', 'subcore_method',
-                  'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
+        fields = ('subcore_fname', 'subcore_lname',
+                  'subcore_protocol', 'subcore_protocol_other',
+                  'subcore_method', 'subcore_method_other', 'subcore_datetime_start', 'subcore_datetime_end',
                   'subcore_min_barcode', 'subcore_max_barcode', 'subcore_number', 'subcore_length',
                   'subcore_diameter', 'subcore_clayer', 'record_creator', 'record_editor')
         # https://stackoverflow.com/questions/31306875/pass-a-custom-queryset-to-serializer-in-django-rest-framework
