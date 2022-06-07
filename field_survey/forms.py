@@ -6,10 +6,10 @@ from django.db.models import Exists, OuterRef
 from leaflet.forms.widgets import LeafletWidget
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
-from utility.models import Project
+from utility.models import Project, StandardOperatingProcedure
 from utility.enumerations import YesNo, CollectionTypes, ControlTypes, WaterCollectionModes, SedimentMethods, \
     FilterLocations, FilterMethods, FilterTypes, SubSedimentMethods, TurbidTypes, PrecipTypes, WindSpeeds, CloudCovers, \
-    EnvoMaterials, MeasureModes, EnvInstruments, YsiModels, BottomSubstrates
+    EnvoMaterials, MeasureModes, EnvInstruments, YsiModels, BottomSubstrates, SopTypes
 from sample_label.models import SampleBarcode, SampleMaterial
 from users.models import CustomUser
 from field_site.models import FieldSite
@@ -1123,6 +1123,18 @@ class FilterSampleForm(forms.ModelForm):
         label='Filtration DateTime',
         widget=CustomAdminSplitDateTime()
     )
+    filter_protocol = forms.ModelChoiceField(
+        required=True,
+        label='Filter Protocol',
+        help_text='A literature reference, electronic resource or a standard operating procedure (SOP) '
+                  'that describes the field sample collection method.',
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.FIELDCOLLECTION).order_by('-created_datetime'),
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     filter_method = forms.ChoiceField(
         required=True,
         label='Filtration Method',
@@ -1207,8 +1219,8 @@ class FilterSampleForm(forms.ModelForm):
     class Meta:
         model = FilterSample
         fields = ['filter_location', 'is_prefilter', 'filter_fname', 'filter_lname', 'filter_sample_label',
-                  'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol', 'filter_type',
-                  'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', ]
+                  'filter_datetime', 'filter_protocol', 'filter_method', 'filter_method_other',
+                  'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes', ]
 
 
 class SubCoreSampleForm(forms.ModelForm):
@@ -1234,6 +1246,18 @@ class SubCoreSampleForm(forms.ModelForm):
         required=True,
         label='SubCore Label',
         widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    subcore_protocol = forms.ModelChoiceField(
+        required=True,
+        label='SubCore Protocol',
+        help_text='A literature reference, electronic resource or a standard operating procedure (SOP) '
+                  'that describes the field sample collection method.',
+        queryset=StandardOperatingProcedure.objects.filter(sop_type=SopTypes.FIELDCOLLECTION).order_by('-created_datetime'),
+        widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
             }
@@ -1319,7 +1343,8 @@ class SubCoreSampleForm(forms.ModelForm):
 
     class Meta:
         model = SubCoreSample
-        fields = ['subcore_fname', 'subcore_lname', 'subcore_sample_label', 'subcore_method', 'subcore_method_other',
+        fields = ['subcore_fname', 'subcore_lname', 'subcore_sample_label', 'subcore_protocol',
+                  'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end',
                   'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
                   'subcore_notes', ]

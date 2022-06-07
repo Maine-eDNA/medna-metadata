@@ -471,7 +471,7 @@ class PcrCreateForm(forms.ModelForm):
         self.fields['pcr_replicate'].queryset = PcrReplicate.objects.filter(created_by=_user).order_by('-created_datetime')
         self.fields['extraction'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_extraction')))
         self.fields['extraction'].queryset = Extraction.objects.all().order_by('-created_datetime')
-        self.fields['pcr_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.WETLAB},)))
+        self.fields['pcr_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.WETLAB}, )))
         self.fields['pcr_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.WETLAB).order_by('-created_datetime')
 
 

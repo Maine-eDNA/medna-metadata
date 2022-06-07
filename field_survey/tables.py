@@ -188,9 +188,10 @@ class FilterSampleTable(tables.Table):
     filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
     filter_fname = tables.Column(verbose_name='Filterer First Name')
     filter_lname = tables.Column(verbose_name='Filterer Last Name')
-    water_control = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control', verbose_name="Control")
-    water_control_type = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control_type', verbose_name="Control Type")
+    water_control = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control', verbose_name='Control')
+    water_control_type = tables.Column(accessor='field_sample.collection_global_id.water_collection.water_control_type', verbose_name='Control Type')
     # water_filterer = tables.Column(accessor='field_sample.collection_global_id.survey_global_id.water_filterer.agol_username')
+    filter_protocol = tables.Column(accessor='filter_protocol.sop_title', verbose_name='Protocol')
     filter_method = tables.Column(verbose_name='Method')
     filter_vol = tables.TemplateColumn('{{ record.filter_vol|floatformat:2 }}', verbose_name='Volume')
     is_prefilter = tables.Column(verbose_name='Prefilter')
@@ -228,6 +229,7 @@ class FilterSampleTable(tables.Table):
         model = FilterSample
         fields = ('_selected_action', 'field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
                   'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
+                  'filter_protocol',
                   'filter_method', 'filter_vol', 'is_prefilter', 'filter_type', 'filter_pore', 'filter_size', 'filter_notes',
                   'water_collect_datetime', 'project_ids', 'supervisor', 'username',
                   'site_id', 'site_name', 'lat_manual', 'long_manual',
@@ -251,9 +253,11 @@ class SubCoreSampleTable(tables.Table):
     is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
     subcore_fname = tables.Column(verbose_name='SubCorer First Name')
     subcore_lname = tables.Column(verbose_name='SubCorer Last Name')
-    core_control = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_control', verbose_name="Control")
+    subcore_sample_label = tables.Column(verbose_name='SubCore Label')
+    core_control = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_control', verbose_name='Control')
     subcore_datetime_start = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='SubCore Start')
     subcore_datetime_end = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='SubCore End')
+    subcore_protocol = tables.Column(accessor='subcore_protocol.sop_title', verbose_name='Protocol')
     subcore_method = tables.Column(verbose_name='SubCore Method')
     subcore_number = tables.Column(verbose_name='Num SubCores')
     subcore_length = tables.TemplateColumn('{{ record.subcore_length|floatformat:2 }}', verbose_name='SubCore Length')
@@ -290,9 +294,10 @@ class SubCoreSampleTable(tables.Table):
         model = SubCoreSample
         fields = ('_selected_action', 'field_sample_barcode', 'core_label', 'survey_datetime', 'is_extracted',
                   'subcore_fname', 'subcore_lname', 'core_control', 'subcore_datetime_start', 'subcore_datetime_end',
+                  'subcore_protocol',
                   'subcore_method', 'subcore_number', 'subcore_length', 'subcore_diameter', 'subcore_clayer',
                   'core_purpose', 'core_notes', 'core_datetime_start', 'project_ids', 'supervisor', 'username',
-                  'site_id', 'site_name', 'lat_manual', 'long_manual',
+                  'site_id', 'site_name',
                   'survey_complete', 'qa_editor', 'qa_datetime',
                   'gps_cap_lat', 'gps_cap_long', 'gps_cap_alt', 'gps_cap_horacc', 'gps_cap_vertacc',
                   'record_creator', 'record_create_datetime',

@@ -4,7 +4,7 @@ from .models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
     FieldCollection, WaterCollection, SedimentCollection, \
     FieldSample, FilterSample, SubCoreSample, \
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, FieldCollectionETL, SampleFilterETL
-from utility.models import Project
+from utility.models import Project, StandardOperatingProcedure
 from users.models import CustomUser
 from sample_label.models import SampleBarcode, SampleMaterial
 
@@ -351,18 +351,27 @@ class FilterSampleAdminResource(resources.ModelResource):
         model = FilterSample
         import_id_fields = ('field_sample', )
         fields = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
-                  'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                  'filter_notes', 'created_by', 'created_datetime', 'modified_datetime', )
+                  'filter_sample_label', 'filter_datetime',
+                  'filter_protocol',
+                  'filter_method', 'filter_method_other',
+                  'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('field_sample', 'filter_location', 'is_prefilter', 'filter_fname', 'filter_lname',
-                        'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other',
-                        'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size',
-                        'filter_notes', 'created_by', 'created_datetime', 'modified_datetime', )
+                        'filter_sample_label', 'filter_datetime',
+                        'filter_protocol',
+                        'filter_method', 'filter_method_other',
+                        'filter_vol', 'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     field_sample = fields.Field(
         column_name='field_sample',
         attribute='field_sample',
         widget=ForeignKeyWidget(FieldSample, 'field_sample'))
+
+    filter_protocol = fields.Field(
+        column_name='filter_protocol',
+        attribute='filter_protocol',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'filter_protocol'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -378,11 +387,14 @@ class SubCoreSampleAdminResource(resources.ModelResource):
         # SampleBarcode
         model = SubCoreSample
         import_id_fields = ('field_sample', )
-        fields = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+        fields = ('field_sample', 'subcore_fname', 'subcore_lname',
+                  'subcore_protocol',
+                  'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
                   'subcore_diameter', 'subcore_clayer',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+        export_order = ('field_sample', 'subcore_fname', 'subcore_lname',
+                        'subcore_protocol',
                         'subcore_method', 'subcore_method_other',
                         'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
                         'subcore_diameter', 'subcore_clayer',
@@ -392,6 +404,11 @@ class SubCoreSampleAdminResource(resources.ModelResource):
         column_name='field_sample',
         attribute='field_sample',
         widget=ForeignKeyWidget(FieldSample, 'field_sample'))
+
+    subcore_protocol = fields.Field(
+        column_name='subcore_protocol',
+        attribute='subcore_protocol',
+        widget=ForeignKeyWidget(StandardOperatingProcedure, 'subcore_protocol'))
 
     created_by = fields.Field(
         column_name='created_by',

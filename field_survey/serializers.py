@@ -8,9 +8,9 @@ from .models import EnvMeasureType, FieldSurvey, FieldCrew, EnvMeasurement, \
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
     BottomSubstrates, WaterCollectionModes, CollectionTypes, ControlTypes, \
-    SedimentMethods
+    SedimentMethods, SopTypes
 from utility.serializers import EagerLoadingMixin
-from utility.models import Project
+from utility.models import Project, StandardOperatingProcedure
 from field_site.models import FieldSite
 from users.models import CustomUser
 from sample_label.models import SampleMaterial, SampleBarcode
@@ -187,6 +187,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
         model = FilterSample
         fields = ['field_sample_barcode', 'filter_sample_label', 'survey_datetime', 'is_extracted',
                   'filter_location', 'filter_datetime', 'filter_fname', 'filter_lname', 'water_control', 'water_control_type',
+                  'filter_protocol',
                   'filter_method', 'filter_method_other', 'filter_vol', 'is_prefilter',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'water_collect_datetime', 'project_ids', 'supervisor', 'username',
@@ -203,6 +204,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    filter_protocol = serializers.ReadOnlyField(source='filter_protocol.sop_title')
     field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.sample_barcode_id')
     survey_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.survey_datetime')
     is_extracted = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.is_extracted')
@@ -251,6 +253,7 @@ class SubCoreSampleTableSerializer(serializers.ModelSerializer):
         model = SubCoreSample
         fields = ['field_sample_barcode', 'core_label', 'survey_datetime', 'is_extracted',
                   'subcore_fname', 'subcore_lname', 'core_control',
+                  'subcore_protocol',
                   'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number',
                   'subcore_length', 'subcore_diameter', 'subcore_clayer',
@@ -271,6 +274,7 @@ class SubCoreSampleTableSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.sample_barcode_id')
+    subcore_protocol = serializers.ReadOnlyField(source='subcore_protocol.sop_title')
     survey_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.survey_datetime')
     is_extracted = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.is_extracted')
     core_control = serializers.ReadOnlyField(source='field_sample.collection_global_id.sediment_collection.core_control')
@@ -618,7 +622,9 @@ class FilterSampleSerializer(serializers.ModelSerializer):
         model = FilterSample
         fields = ['field_sample', 'filter_location', 'is_prefilter',
                   'filter_fname', 'filter_lname',
-                  'filter_sample_label', 'filter_datetime', 'filter_method', 'filter_method_other', 'filter_vol',
+                  'filter_sample_label', 'filter_datetime',
+                  'filter_protocol',
+                  'filter_method', 'filter_method_other', 'filter_vol',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'created_by', 'created_datetime', 'modified_datetime']
     # Since grant, system, watershed, and created_by reference different tables and we
@@ -627,6 +633,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    filter_protocol = serializers.SlugRelatedField(many=False, read_only=True)
 
 
 class SubCoreSampleSerializer(serializers.ModelSerializer):
@@ -645,7 +652,9 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubCoreSample
-        fields = ['field_sample', 'subcore_fname', 'subcore_lname', 'subcore_method', 'subcore_method_other',
+        fields = ['field_sample', 'subcore_fname', 'subcore_lname',
+                  'subcore_protocol',
+                  'subcore_method', 'subcore_method_other',
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
                   'subcore_diameter', 'subcore_clayer',
                   'created_by', 'created_datetime', 'modified_datetime']
@@ -655,6 +664,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    subcore_protocol = serializers.SlugRelatedField(many=False, read_only=True)
 
 
 #################################

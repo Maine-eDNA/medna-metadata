@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from utility.enumerations import YesNo, YsiModels, WindSpeeds, CloudCovers, \
     PrecipTypes, TurbidTypes, EnvoMaterials, MeasureModes, EnvInstruments, \
-    BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, FieldSamplingProtocols, \
+    BottomSubstrates, WaterCollectionModes, CollectionTypes, FilterLocations, ControlTypes, \
     FilterMethods, FilterTypes, SedimentMethods, SubSedimentMethods
 # from utility.models import Project
 # from field_site.models import FieldSite
@@ -340,8 +340,7 @@ class FilterSample(DateTimeUserMixin):
     filter_lname = models.CharField('Filterer Last Name', blank=True, max_length=255)
     filter_sample_label = models.CharField('Filter Sample Label', blank=True, max_length=255)
     filter_datetime = models.DateTimeField('Filter DateTime', blank=True, null=True)
-    # TODO add protocol field
-    # filter_protocol = models.CharField('Filter Protocol', blank=True, max_length=255, choices=FieldSamplingProtocols.choices)
+    filter_protocol = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Filter Protocol', on_delete=models.RESTRICT)
     # filter_protocol_other = models.CharField('Other Filter Protocol', blank=True, max_length=255)
     filter_method = models.CharField('Filter Method', blank=True, max_length=50, choices=FilterMethods.choices)
     filter_method_other = models.CharField('Other Filter Method', blank=True, max_length=255)
@@ -397,8 +396,7 @@ class SubCoreSample(DateTimeUserMixin):
     subcore_fname = models.CharField('Sub-Corer First Name', blank=True, max_length=255)
     subcore_lname = models.CharField('Sub-Corer Last Name', blank=True, max_length=255)
     subcore_sample_label = models.CharField('Sub-Core Sample Label', blank=True, max_length=255)
-    # TODO add protocol field
-    # subcore_protocol = models.CharField('Sub-Core Protocol', blank=True, max_length=255, choices=FieldSamplingProtocols.choices)
+    subcore_protocol = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Sub-Core Protocol', on_delete=models.RESTRICT)
     # subcore_protocol_other = models.CharField('Other Sub-Core Protocol', blank=True, max_length=255)
     subcore_method = models.CharField('Sub-Core Method', blank=True, max_length=50, choices=SubSedimentMethods.choices)
     subcore_method_other = models.CharField('Other Sub-Core Method', blank=True, max_length=255)
