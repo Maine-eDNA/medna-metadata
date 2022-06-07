@@ -635,7 +635,7 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
         self.fields = ['site_id', 'general_location_name', 'project', 'purpose',
                        'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
-                       'created_by', 'modified_datetime', 'created_datetime']
+                       'geom', 'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(GeoFieldSiteAdmin, self).change_view(request, object_id)
 
