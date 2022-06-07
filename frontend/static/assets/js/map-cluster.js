@@ -13,7 +13,12 @@ $(function () {
         var markers = data;
         var geoJsonLayer = L.geoJSON(markers, {
             onEachFeature: function (feature, layer) {
-                layer.bindPopup(feature.properties.site_name);
+                if (feature.properties.site_name == null) {
+                    popupText = feature.properties.site_id+": "+feature.properties.general_location_name;
+                } else {
+                    popupText = feature.properties.site_name;
+                }
+                layer.bindPopup(popupText);
             }
         });
 
