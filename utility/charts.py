@@ -88,6 +88,8 @@ def return_merged_zeros_lists(labels_array, data_array):
         dfs.append(df)
     # merge dfs in array into one df
     df_merge = pd.concat(dfs, axis=0)
+    # fill NaN with zeros
+    df_merge = df_merge.fillna(0.0)
     # if there are duplicate dates in the array, collapse them by group, e.g.,
     #          data_0  data_1      data_0  data_1
     # 2022-04     1.0     NaN  =>  2022-04     1.0     1.0
