@@ -10,7 +10,7 @@ class ExtractionTable(tables.Table):
                                                     'th__input': {'id': 'action-toggle'},
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
-    extraction_barcode = tables.Column(verbose_name='barcode')
+    extraction_barcode = tables.Column(verbose_name='Extraction Barcode')
     extraction_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.extraction_notes}}">{{ record.extraction_notes|truncatewords:5 }}', orderable=False)
     # formatting for date column - https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#std:templatefilter-date
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
