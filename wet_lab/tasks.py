@@ -114,7 +114,7 @@ def update_queryset_fastq_file(queryset):
 
 
 # @app.task(bind=True, base=BaseTaskWithRetry)
-# def create_fastq_from_s3(self):
+# def create_fastq_from_s3():
 #     # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
 #     # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
 #     # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
@@ -128,10 +128,11 @@ def update_queryset_fastq_file(queryset):
 #     # https://stackoverflow.com/questions/37087203/retrieve-s3-file-as-object-instead-of-downloading-to-absolute-system-path
 #     # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
 #     try:
+#         task_name = "transform_new_records_field_survey_task"
 #         now = timezone.now()
-#         if PeriodicTaskRun.objects.filter(task=self.name).exists():
+#         if PeriodicTaskRun.objects.filter(task=task_name).exists():
 #             # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset
-#             last_run = PeriodicTaskRun.objects.filter(task=self.name).order_by('-task_datetime')[:1].get()
+#             last_run = PeriodicTaskRun.objects.filter(task=task_name).order_by('-task_datetime')[:1].get()
 #             new_records = RunResult.objects.filter(created_datetime__range=[last_run.task_datetime, now])
 #         else:
 #             # task has never been ran, so there is no timestamp to reference
@@ -147,6 +148,6 @@ def update_queryset_fastq_file(queryset):
 #             if runs_in_s3:
 #                 created_count = create_fastq_files(runs_in_s3)
 #                 logger.info('Update count: ' + str(created_count))
-#                 PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
+#                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
 #     except Exception as err:
 #         raise RuntimeError('** Error: create_fastq_from_s3 Failed (' + str(err) + ')')
