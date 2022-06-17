@@ -9,7 +9,7 @@ $(function () {
         //data
         dataType:'json',
         success: function (data) {
-            if data.length {
+            if (data.length) {
                 if (data.notice) {
                     $lcProjectIdSpan.remove()
                     $.each(data.notice, function(key, value){ // The contents inside notice
