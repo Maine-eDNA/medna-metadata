@@ -9,7 +9,8 @@ $(function () {
         //data
         dataType:'json',
         success: function (data) {
-            if (data.length) {
+         	var $isEmpty = $.isEmptyObject(data)
+            if (!$isEmpty) {
                 if (data.notice) {
                     $lcProjectIdSpan.remove()
                     $.each(data.notice, function(key, value){ // The contents inside notice
