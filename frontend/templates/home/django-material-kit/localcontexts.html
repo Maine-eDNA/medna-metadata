@@ -80,31 +80,26 @@
                     {% if project.local_contexts_id %}
                     <h3>{{ project.project_label }}</h3>
                     <div class="row">
-                        <div class="col-md-4">
-                            <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts</h5>
-                            <span id="lcProjectId" hidden>{{ project.local_contexts_id }}</span>
-                            <span id="lcResponse"></span>
-                        </div>
-                        <a href="{% url 'detail_localcontexts' project.pk %}">
-                            <div class="col-md-8">
-                                <div class="row">
-                                    {% if project.project_goals %}
-                                    <div class="col-md-12">
-                                    <h5 class="font-weight-bolder mt-3">Goals</h5>
-                                    <p class="pe-5">{{ project.project_goals }}</p>
-                                    </div>
-                                    {% endif %}
-                                    {% if project.project_description %}
-                                    <div class="col-md-12">
-                                        <h5 class="font-weight-bolder mt-3">Description</h5>
-                                        <p class="pe-5">{{ project.project_description }}</p>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </a>
-                        <div class="w-100"></div>
+                        <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts</h5>
+                        <span id="lcProjectId" hidden>{{ project.local_contexts_id }}</span>
+                        <span id="lcResponse"></span>
                     </div>
+                    <a href="{% url 'detail_localcontexts' project.pk %}">
+                        {% if project.project_goals %}
+                        <div class="row">
+                        <h5 class="font-weight-bolder mt-3">Goals</h5>
+                        <p class="pe-5">{{ project.project_goals }}</p>
+                        </div>
+                        {% endif %}
+                        {% if project.project_description %}
+                        <div class="row">
+                            <h5 class="font-weight-bolder mt-3">Description</h5>
+                            <p class="pe-5">{{ project.project_description }}</p>
+                        </div>
+                        {% endif %}
+                    </a>
+                    <div class="w-100"></div>
+
                     <hr/>
                     {% endif %}
                     {% endif %}
