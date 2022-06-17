@@ -85,13 +85,13 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     {% if project.project_goals %}
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                     <h5 class="font-weight-bolder mt-3">Goals</h5>
                                     <p class="pe-5">{{ project.project_goals }}</p>
                                     </div>
                                     {% endif %}
                                     {% if project.project_description %}
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <h5 class="font-weight-bolder mt-3">Description</h5>
                                         <p class="pe-5">{{ project.project_description }}</p>
                                     </div>
@@ -114,8 +114,11 @@
       </div>
     </div>
   </div>
+  </div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+    <script src="{% static 'assets/js/local-contexts-api.js' %}"></script>
+{% endblock javascripts %}
