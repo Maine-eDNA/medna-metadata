@@ -11,7 +11,7 @@ $(function () {
             var i = data.clo.length; while(i--) {
                 $lcProjectIdSpan.append('<p>'+data.clo[i].fin+'</>');
             }
-        };
+        }
     });
 
 });
