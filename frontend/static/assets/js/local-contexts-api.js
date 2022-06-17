@@ -8,9 +8,11 @@ $(function () {
         //data
         dataType:'json',
         success: function (data) {
-            var i = data.clo.length; while(i--) {
-                $lcProjectIdSpan.append('<p>'+data.clo[i].fin+'</>');
-            }
+            $.each(data.data , function(key , value){ // First Level
+                 $.each(value.stars , function(k , v ){  // The contents inside stars
+                     console.log(v)
+                 });
+            });
         }
     });
 
