@@ -5,7 +5,9 @@
 # from celery.utils.log import get_task_logger
 from medna_metadata import settings
 import boto3
-from wet_lab.models import FastqFile, RunResult
+from wet_lab.models import FastqFile, RunResult, WetLabDocumentationFile
+import csv
+from io import StringIO
 # from django.utils import timezone
 # logger = get_task_logger(__name__)
 
@@ -66,6 +68,34 @@ def get_s3_fastq_keys(run_keys):
         raise RuntimeError('** Error: get_s3_fastq_keys Failed (' + str(err) + ')')
 
 
+def get_s3_wetlabdoc_keys(run_keys):
+    try:
+        client = boto3.client('s3',
+                              endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+                              aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                              aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+        object_keys = []
+        for run_key in run_keys:
+            response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
+                                              Prefix=run_key)
+            for obj in response['Contents']:
+                object_keys.append(obj['Key'])
+
+        # filter key list for files that end with .fastq.gz
+        wetlabdoc_keys = [s for s in object_keys if 'WetLabDocumentation' in s]
+
+        return wetlabdoc_keys
+    except Exception as err:
+        raise RuntimeError('** Error: get_s3_wetlabdoc_keys Failed (' + str(err) + ')')
+
+
+def ingest_wet_lab_documentation(wetlabdoc_datafile):
+    file = wetlabdoc_datafile.read().decode('utf-8')
+    csv_data = csv.reader(StringIO(file), delimiter = ',')
+    for row in csv_data:
+        print(row)
+
+
 def update_record_fastq(record, pk):
     try:
         fastq_file, created = FastqFile.objects.update_or_create(
@@ -86,15 +116,24 @@ def create_fastq_files(runs_in_s3):
         update_count = 0
         for s3_run in runs_in_s3:
             run_id = get_runid_from_key(s3_run)
-            run_result = RunResult.objects.get(run_id=run_id)
-            s3_fastq_keys = get_s3_fastq_keys(s3_run)
-            for s3_fastq_key in s3_fastq_keys:
-                fastq_file = FastqFile.objects.get(fastq_datafile=s3_fastq_key)
-                if not fastq_file:
-                    fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result.pk,
-                                                                             fastq_datafile=s3_fastq_key)
+            # ingest wetlabdocumentation here
+            s3_wetlabdoc_keys = get_s3_wetlabdoc_keys(s3_run)
+            for s3_wetlabdoc_key in s3_wetlabdoc_keys:
+                wetlabdoc_file = WetLabDocumentationFile.objects.get(wetlabdoc_datafile=s3_wetlabdoc_key)
+                if not wetlabdoc_file:
+                    wetlabdoc_file, created = FastqFile.objects.update_or_create(wetlabdoc_datafile=s3_fastq_key)
+                    ingest_wet_lab_documentation(s3_fastq_key)
                     if created:
                         update_count += 1
+                run_result = RunResult.objects.get(run_id=run_id)
+                s3_fastq_keys = get_s3_fastq_keys(s3_run)
+                for s3_fastq_key in s3_fastq_keys:
+                    fastq_file = FastqFile.objects.get(fastq_datafile=s3_fastq_key)
+                    if not fastq_file:
+                        fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result.pk,
+                                                                                 fastq_datafile=s3_fastq_key)
+                        if created:
+                            update_count += 1
         return update_count
     except Exception as err:
         raise RuntimeError('** Error: create_fastq_files Failed (' + str(err) + ')')
