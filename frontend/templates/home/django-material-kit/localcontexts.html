@@ -79,12 +79,12 @@
                     {% if project.project_label != 'Maine eDNA' %}
                     {% if project.local_contexts_id %}
                     <h3>{{ project.project_label }}</h3>
-                    <a href="{% url 'detail_localcontexts' project.pk %}">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts</h5>
-                                <span id="lcProjectId" aria-hidden="true">{{ project.local_contexts_id }}</span>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts</h5>
+                            <span id="lcProjectId" aria-hidden="true">{{ project.local_contexts_id }}</span>
+                        </div>
+                        <a href="{% url 'detail_localcontexts' project.pk %}">
                             <div class="col-md-8">
                                 <div class="row">
                                     {% if project.project_goals %}
@@ -101,9 +101,9 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="w-100"></div>
-                        </div>
-                    </a>
+                        </a>
+                        <div class="w-100"></div>
+                    </div>
                     <hr/>
                     {% endif %}
                     {% endif %}
