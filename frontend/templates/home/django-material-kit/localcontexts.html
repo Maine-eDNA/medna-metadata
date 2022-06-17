@@ -82,7 +82,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts</h5>
-                            <span id="lcProjectId" aria-hidden="true">{{ project.local_contexts_id }}</span>
+                            <span id="lcProjectId" hidden>{{ project.local_contexts_id }}</span>
+                            <span id="lcResponse"></span>
                         </div>
                         <a href="{% url 'detail_localcontexts' project.pk %}">
                             <div class="col-md-8">
