@@ -85,6 +85,7 @@ GROUPS = {
         'Run Prep': ['add', 'delete', 'change', 'view'],
         'Run Result': ['add', 'delete', 'change', 'view'],
         'Fastq File': ['add', 'delete', 'change', 'view'],
+        'WetLabDocumentationFile': ['add', 'delete', 'change', 'view'],
 
         # freezer_inventory
         'Return Action': ['add', 'delete', 'change', 'view'],
@@ -198,6 +199,7 @@ GROUPS = {
         'Run Prep': ['add', 'change', 'view'],
         'Run Result': ['view'],
         'Fastq File': ['view'],
+        'WetLabDocumentationFile': ['view'],
 
         # freezer_inventory
         'Return Action': ['add', 'change', 'view'],
@@ -296,6 +298,7 @@ GROUPS = {
         'Run Prep': ['add', 'change', 'view'],
         'Run Result': ['view'],
         'Fastq File': ['view'],
+        'WetLabDocumentationFile': ['view'],
 
         # freezer_inventory
         'Return Action': ['view'],
