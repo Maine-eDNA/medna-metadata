@@ -86,7 +86,7 @@ def create_fastq_files(runs_in_s3):
         update_count = 0
         for s3_run in runs_in_s3:
             run_id = get_runid_from_key(s3_run)
-            run_result = FastqFile.objects.get(run_id=run_id)
+            run_result = RunResult.objects.get(run_id=run_id)
             s3_fastq_keys = get_s3_fastq_keys(s3_run)
             for s3_fastq_key in s3_fastq_keys:
                 fastq_file = FastqFile.objects.get(fastq_datafile=s3_fastq_key)
