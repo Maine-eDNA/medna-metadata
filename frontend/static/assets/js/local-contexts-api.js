@@ -8,17 +8,17 @@ $(function () {
         //data
         dataType:'json',
         success: function (data) {
-            $.each(data.data, function(key, value){ // First Level
+            $.each(data.notice, function(key, value){ // First Level
                 console.log(value)
-                $.each(value.notice, function(k, v){  // The contents inside stars
-                 console.log(v)
-                });
-                $.each(value.institution_notice, function(k, v){  // The contents inside stars
-                 console.log(v)
-                });
-                $.each(value.project_boundary_geojson, function(k, v){  // The contents inside stars
-                 console.log(v)
-                });
+            });
+            $.each(data.notice, function(key, value){  // The contents inside stars
+                console.log(value)
+            });
+            $.each(data.institution_notice, function(key, value){  // The contents inside stars
+                console.log(value)
+            });
+            $.each(data.project_boundary_geojson, function(key, value){  // The contents inside stars
+                console.log(value)
             });
         }
     });
