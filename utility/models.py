@@ -102,6 +102,13 @@ class Project(DateTimeUserMixin):
     project_description = models.TextField('Project Description', blank=True)
     project_goals = models.TextField('Project Goals', blank=True)
     grant_names = models.ManyToManyField(Grant, verbose_name='Affiliated Grant(s)', related_name='grant_names')
+    local_contexts_id = models.CharField('Local Contexts Project ID', unique=True, default=None, blank=True, null=True, max_length=255)
+
+    def save(self, *args, **kwargs):
+        # Empty strings are not unique, but we can save multiple NULLs
+        if not self.local_contexts_id:
+            self.local_contexts_id = None
+        super(Project, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.project_label

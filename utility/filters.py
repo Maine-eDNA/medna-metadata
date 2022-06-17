@@ -30,10 +30,11 @@ class GrantSerializerFilter(filters.FilterSet):
 class ProjectSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     grant_names = filters.CharFilter(field_name='grant_names__grant_code', lookup_expr='iexact')
+    local_contexts_id = filters.CharFilter(field_name='local_contexts_id', lookup_expr='iexact')
 
     class Meta:
         model = Project
-        fields = ['created_by', 'grant_names', ]
+        fields = ['created_by', 'grant_names', 'local_contexts_id', ]
 
 
 class PublicationSerializerFilter(filters.FilterSet):

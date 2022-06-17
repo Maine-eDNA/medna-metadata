@@ -51,6 +51,7 @@ class Migration(migrations.Migration):
                 ('project_description', models.TextField(blank=True, verbose_name='Project Description')),
                 ('project_goals', models.TextField(blank=True, verbose_name='Project Goals')),
                 ('grant_names', models.ManyToManyField(related_name='grant_names', to='utility.Grant', verbose_name='Affiliated Grant(s)')),
+                ('local_contexts_id', models.CharField(default=None, blank=True, null=True, max_length=255, unique=True, verbose_name='Local Contexts Project ID')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

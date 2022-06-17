@@ -85,6 +85,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     project_label = serializers.CharField(max_length=255)
     project_description = serializers.CharField(allow_blank=True)
     project_goals = serializers.CharField(allow_blank=True)
+    local_contexts_id = serializers.CharField(allow_blank=True, max_length=255, validators=[UniqueValidator(queryset=Project.objects.all())])
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 

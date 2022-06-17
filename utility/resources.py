@@ -39,9 +39,9 @@ class ProjectAdminResource(resources.ModelResource):
         model = Project
         import_id_fields = ('id', 'project_code', )
         fields = ('id', 'project_code', 'project_label', 'project_description', 'project_goals',
-                  'grant_names', 'created_by', 'created_datetime', 'modified_datetime', )
+                  'grant_names', 'local_contexts_id', 'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'project_code', 'project_label', 'project_description', 'project_goals',
-                        'grant_names', 'created_by', 'created_datetime', 'modified_datetime', )
+                        'grant_names', 'local_contexts_id', 'created_by', 'created_datetime', 'modified_datetime', )
 
     grant_names = fields.Field(
         column_name='grant_names',
