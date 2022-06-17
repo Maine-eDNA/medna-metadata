@@ -440,6 +440,23 @@ class ProjectsTemplateView(TemplateView):
         return context
 
 
+class ProjectSurveyTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/project-detail.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Project Surveys'
+        context['segment'] = 'projectsurvey'
+        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        # context['markers'] = json.loads(serialize('geojson', FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
+        context['project'] = self.project
+        return context
+
+
 class LocalContextsTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
@@ -468,23 +485,6 @@ class PublicationTemplateView(TemplateView):
         context['page_title'] = 'Publications'
         context['page_subtitle'] = 'Peer-reviewed content'
         context['pub_list'] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
-        return context
-
-
-class ProjectSurveyTemplateView(TemplateView):
-    # public template, to make private add LoginRequiredMixin
-    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
-    # https://leafletjs.com/examples/geojson/
-    template_name = 'home/django-material-kit/project-detail.html'
-
-    def get_context_data(self, **kwargs):
-        # Return the view context data.
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'Project Surveys'
-        context['segment'] = 'projectsurvey'
-        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
-        # context['markers'] = json.loads(serialize('geojson', FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
-        context['project'] = self.project
         return context
 
 
