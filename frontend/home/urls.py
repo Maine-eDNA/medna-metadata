@@ -31,6 +31,8 @@ urlpatterns = [
     # UTILITY: PROJECT (VIEW)
     path('main/projects/', utility_views.ProjectsTemplateView.as_view(), name='view_projects'),
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
+    path('main/localcontexts/', utility_views.LocalContextsTemplateView.as_view(), name='view_localcontexts'),
+    path('main/localcontexts/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_localcontexts'),
     # UTILITY: PUBLICATION (VIEW, ADD, UPDATE)
     path('main/publications/', utility_views.PublicationTemplateView.as_view(), name='view_publications'),
     path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('detail_publication')), name='add_publication'),

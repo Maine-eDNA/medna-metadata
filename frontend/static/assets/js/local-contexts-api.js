@@ -1,5 +1,17 @@
-// In your Javascript (external .js resource or <script> tag)
-$(document).ready(function() {
-    $('.js-example-basic-single').select2();
-    $('.js-example-basic-multiple').select2();
+$(function () {
+    var $localContextsUrl = "https://localcontextshub.org/api/v1/projects/"
+    var $lcProjectIdSpan = $("#lcProjectId")
+    var $projectUniqueId = $lcProjectIdSpan.text();
+    $.ajax({
+        //type
+        url: $localContextsUrl + $projectUniqueId,
+        //data
+        dataType:'json',
+        success: function (data) {
+            var i = data.clo.length; while(i--) {
+                $lcProjectIdSpan.append('<p>'+data.clo[i].fin+'</>');
+            }
+        };
+    });
+
 });

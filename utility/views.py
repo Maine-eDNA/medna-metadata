@@ -440,6 +440,21 @@ class ProjectsTemplateView(TemplateView):
         return context
 
 
+class LocalContextsTemplateView(TemplateView):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/localcontexts.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_localcontexts'
+        context['page_title'] = 'Local Contexts'
+        context['project_list'] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
+        return context
+
+
 class PublicationTemplateView(TemplateView):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/

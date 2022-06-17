@@ -1,7 +1,7 @@
 {% extends "layouts/django-material-kit/base.html" %}
 {% load static %}
 
-{% block title %} Projects {% endblock %}
+{% block title %} Local Contexts and Maine-eDNA {% endblock %}
 
 {% block body_class %} index-page {% endblock %}
 
@@ -18,8 +18,8 @@
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="text-center">
-            <h1 class="text-white">Projects</h1>
-            <p class="lead mb-4 text-white opacity-8">Descriptions, goals</p>
+            <h1 class="text-white">Local Contexts and Maine-eDNA</h1>
+            <p class="lead mb-4 text-white opacity-8">Documenting Indigenous provenance through sustained partnerships.</p>
           </div>
         </div>
       </div>
@@ -30,25 +30,77 @@
       <div class="section text-start py-5">
         <!-- -------- START Grids -------- -->
           <div class="container">
+              <div class="row">
+                  <div class="col-md-8 col-12 my-auto">
+                      <h3>Local Contexts and Maine-eDNA</h3>
+                      <p class="pe-md-5 mb-4">
+                          These samples are collected on traditional Wabanaki territory, Maine-eDNA is collaborating
+                          with <a href="https://localcontextshub.org" target="_blank">Local Contexts Hub</a> to document
+                          the Indigenous provenance of and rights to these data through the use of
+                          <a href="https://localcontexts.org/labels/biocultural-labels/" target="_blank">Biocultural Notices and Labels.</a> <br>
+                          <a href="https://localcontexts.org/" class="text-info icon-move-right" target="_blank">More about Local Contexts
+                              <i class="fas fa-arrow-right text-sm ms-1"></i>
+                          </a>
+                      </p>
+                  </div>
+                  <div class="col-md-4 col-12 my-auto">
+                      <a target="_blank" href="https://localcontexts.org/">
+                          <img class="w-100 border-radius-lg shadow-lg" src="https://localcontextshub.org/static/images/logos/lc-logo-signin.png" alt="local contexts logo">
+                      </a>
+                  </div>
+              <div class="row">
+                  <div class="col-md-8 col-12 my-auto">
+                      <h3>University of Maine Land Acknowledgement</h3>
+                      <p class="pe-md-5 mb-4">
+                          The University of Maine recognizes that it is located on Marsh Island in the homeland of the
+                          Penobscot Nation, where issues of water and territorial rights, and encroachment upon sacred
+                          sites, are ongoing. Penobscot homeland is connected to the other Wabanaki Tribal Nations — the
+                          Passamaquoddy, Maliseet, and Mi’kmaq — through kinship, alliances and diplomacy. The
+                          university also recognizes that the Penobscot Nation and the other Wabanaki Tribal Nations are
+                          distinct, sovereign, legal and political entities with their own powers of self-governance and
+                          self-determination. <br>
+                          <a href="https://umaine.edu/about/university-of-maine-land-acknowledgement/" class="text-info icon-move-right" target="_blank">UMaine Land Acknowledgement
+                              <i class="fas fa-arrow-right text-sm ms-1"></i>
+                          </a>
+                      </p>
+                  </div>
+                  <div class="col-md-4 col-12 my-auto">
+                      <a target="_blank" href="https://umaine.edu/about/university-of-maine-land-acknowledgement/">
+                          <img class="w-100 border-radius-lg shadow-lg" src="https://umaine.edu/wp-content/uploads/sites/2/2020/06/land-header-1268x401.jpg" alt="University of Maine">
+                      </a>
+                  </div>
+              </div>
             <!-- -------- START loop -------- -->
             {% if project_list %}
                 {% for project in project_list %}
                     {% if project.project_label != 'Maine eDNA' %}
-                    {% if project.project_description %}
+                    {% if project.local_contexts_id %}
                     <h3>{{ project.project_label }}</h3>
-                    <a href="{% url 'detail_project' project.pk %}"><div class="row">
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">Description</h5>
-                            <p class="pe-5">{{ project.project_description }}</p>
+                    <a href="{% url 'detail_localcontexts' project.pk %}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts</h5>
+                                <span id="lcProjectId" aria-hidden="true">{{ project.local_contexts_id }}</span>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    {% if project.project_goals %}
+                                    <div class="col-md-6">
+                                    <h5 class="font-weight-bolder mt-3">Goals</h5>
+                                    <p class="pe-5">{{ project.project_goals }}</p>
+                                    </div>
+                                    {% endif %}
+                                    {% if project.project_description %}
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-bolder mt-3">Description</h5>
+                                        <p class="pe-5">{{ project.project_description }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="w-100"></div>
                         </div>
-                        {% if project.project_goals %}
-                        <div class="col">
-                            <h5 class="font-weight-bolder mt-3">Goals</h5>
-                            <p class="pe-5">{{ project.project_goals }}</p>
-                        </div>
-                        {% endif %}
-                    <div class="w-100"></div>
-                    </div> </a>
+                    </a>
                     <hr/>
                     {% endif %}
                     {% endif %}
