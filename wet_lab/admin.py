@@ -7,14 +7,14 @@ from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .models import PrimerPair, IndexPair, AmplificationMethod, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
-    RunResult, FastqFile
+    RunResult, FastqFile, WetLabDocumentationFile
 # from field_survey.models import FieldSample
 # from utility.enumerations import YesNo
 from .resources import PrimerPairAdminResource, IndexPairAdminResource, IndexRemovalMethodAdminResource, \
     SizeSelectionMethodAdminResource, QuantificationMethodAdminResource, ExtractionMethodAdminResource, \
     ExtractionAdminResource, PcrReplicateAdminResource, PcrAdminResource, LibraryPrepAdminResource, \
     PooledLibraryAdminResource, RunPrepAdminResource, RunResultAdminResource, \
-    FastqFileAdminResource, AmplificationMethodAdminResource
+    FastqFileAdminResource, AmplificationMethodAdminResource, WetLabDocumentationFileAdminResource
 
 
 class PrimerPairAdmin(ImportExportActionModelAdmin):
@@ -680,3 +680,42 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(FastqFile, FastqFileAdmin)
+
+
+class WetLabDocumentationFileAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    resource_class = WetLabDocumentationFileAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('fastq_filename', 'library_prep_experiment_name', 'created_datetime', 'created_by')
+    readonly_fields = ('uuid', 'modified_datetime', 'created_datetime', )
+    search_fields = ['wetlabdoc_datafile', ]
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['wetlabdoc_datafile', 'documentation_notes', 'created_by', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(WetLabDocumentationFileAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        # self.readonly_fields = ('fastq_datafile', )
+        self.fields = ['uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+                       'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
+                       'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
+                       'documentation_notes',
+                       'created_by', 'modified_datetime', 'created_datetime']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(WetLabDocumentationFileAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+
+admin.site.register(WetLabDocumentationFile, WetLabDocumentationFileAdmin)

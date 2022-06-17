@@ -603,157 +603,48 @@ class FastqFile(DateTimeUserMixin):
         verbose_name = 'Fastq File'
         verbose_name_plural = 'Fastq Files'
 
-#
-# class ExtractionLibraryPrepETL(DateTimeUserMixin):
-#     # WetLabDocumentation.xlsx
-#     # Has the sample been recorded in Survey123? This field is populated from a list of options.
-#     in_survey123 = models.CharField('In Survey123', max_length=50)
-#     # The name of the sample given to the sequencing facility that will also appear in SampleSheet.csv; this may be the same as the Sample_Barcode.
-#     sample_name = models.CharField('In Survey123', blank=True, max_length=255)
-#     # The barcode assigned to the field sample.
-#     field_barcode = models.CharField('Field Barcode', blank=True, max_length=17)
-#     # The barcode assigned to the extraction.
-#     extraction_barcode = models.CharField('Field Barcode', blank=True, max_length=17)
-#     # The location of extraction. This field is populated from a list of common extraction locations. If "Other" is
-#     # selected, please specify the location in extraction_notes
-#     extraction_location = models.CharField('Extraction Location', blank=True, max_length=255)
-#     # Whether the extraction is a control.
-#     extraction_control = models.CharField('Extraction Control', max_length=50)
-#     # If the extraction is a control, the type of control. A field control is deionized (DI) water exposed to air in the
-#     # field. A lab control is a blank filter that was placed on the filter aparatus with fresh DI water (not the same DI
-#     # water as the field control). An extraction control is a dry, unused filter that is put into a tube and extracted.
-#     # A No Template Control is DNA free water used in PCR.
-#     extraction_control_type = models.CharField('Control Type', blank=True, max_length=50)
-#     # The date and time filters or sub-cores were extracted. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
-#     extraction_datetime = models.DateTimeField('Extraction DateTime', blank=True, null=True)
-#     # Method used for extracting filters or sub-cores. This field is populated from a list of common extraction methods.
-#     extraction_method = models.CharField('Extraction Method', blank=True, max_length=255)
-#     # A URL to the Standard Operating Procedure (SOP) used for extracting filters or sub-cores.
-#     extraction_sop_url = models.URLField('Extraction SOP URL', blank=True, max_length=255)
-#     # The extraction total volume.
-#     extraction_elution_volume = models.DecimalField('Total Extraction Elution Volume', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # The extraction total volume units. This field is populated from a list of common volume units.
-#     extraction_elution_volume_units = models.CharField('Volume Units', blank=True, max_length=50)
-#     # The method used for quantifying the extraction concentration. This field is populated from a list of common quantification methods.
-#     extraction_quantification_method = models.CharField('Extraction Quant Method', blank=True, max_length=50)
-#     # The extraction concentration.
-#     extraction_concentration = models.DecimalField('Extraction Concentration', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # The extraction concentration units. This field is populated from a list of common concentration units.
-#     extraction_concentration_units = models.CharField('Concentration Units', blank=True, max_length=50)
-#     # extraction notes
-#     extraction_notes = models.TextField('Extraction Notes')
-#     # The location of library preparation. This field is populated from a list of common library preparation locations.
-#     # If "Other" is selected, please specify the location in the library_prep_notes.
-#     library_prep_location = models.CharField('Lib Prep Location', blank=True, max_length=50)
-#     # The date and time the library was prepared. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
-#     library_prep_datetime = models.DateTimeField('Lib Prep DateTime', blank=True, null=True)
-#     # Nucleic acid amplification method used.
-#     library_prep_amplification_method = models.CharField('Lib Prep Amplification Method', blank=True, max_length=50)
-#     # The name of the primer set. This field is populated from a list of common primer pair set names.
-#     library_prep_primer_set_name = models.CharField('Lib Prep Primer Set', blank=True, max_length=50)
-#     # The name of the library preparation index removal method. This field is populated from a list of common index removal methods.
-#     library_prep_index_removal_method = models.CharField('Lib Prep Index Removal Method', blank=True, max_length=50)
-#     # The name of the library preparation size selection method. This field is populated from a list of common size selection methods.
-#     library_prep_size_selection_method = models.CharField('Lib Prep Size Selection Method', blank=True, max_length=50)
-#     # The experiment name of the library preparation.
-#     library_prep_experiment_name = models.CharField('Lib Prep Experiment Name', max_length=50)
-#     # The method used for quantifying the library preparation final concentration. This field is populated from a list
-#     # of common quantification methods. *If the "QuBit and qPCR" method was used as a quantification method, then both
-#     # QuBit and qPCR fields were used to generate a final library concentration. If neither QuBit or qPCR were used,
-#     # leave the QuBit and qPCR fields blank, select the correct quantification method and fill in the library preparation's
-#     # final concentration and units.
-#     library_prep_quantification_method = models.CharField('Lib Prep Quant Method', blank=True, max_length=50)
-#     # Field used when the "QuBit and qPCR" quantification method was selected for final library quantification.
-#     qubit_results = models.DecimalField('QuBit Concentration', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # Field used when the "QuBit and qPCR" quantification method was selected for final library quantification. This
-#     # field is populated from a list of common QuBit units.
-#     qubit_units = models.CharField('QuBit Units', blank=True, max_length=50)
-#     # Field used when the "QuBit and qPCR" quantification method was selected for final library quantification.
-#     qpcr_results = models.DecimalField('qPCR Concentration', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # Field used when the "QuBit and qPCR" quantification method was selected for final library quantification. This
-#     # field is populated from a list of common qPCR units.
-#     qpcr_units = models.CharField('qPCR Units', blank=True, max_length=50)
-#     # Final concentration of each prepared sample.
-#     library_prep_final_concentration = models.DecimalField('Lib Prep Final Concentration', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # Final concentration units of each prepared sample. This field is populated from a list of common concentration units.
-#     library_prep_final_concentration_units = models.CharField('Concentration Units', blank=True, max_length=50)
-#     # The library preparation kit used for sequencing. This field is populated from a common list of library preparation
-#     # kits. If "Custom" is selected, please include the given kit name in library_prep_notes.
-#     library_prep_kit = models.CharField('Lib Prep Kit', blank=True, max_length=50)
-#     # The method of sequencing. This field is populated from a common list of methods.
-#     library_prep_type = models.CharField('Lib Prep Type', blank=True, max_length=50)
-#     # A URL to the Standard Operating Procedure (SOP) used for library preparation thermal. Example provided at the
-#     # following link: https://docs.google.com/document/d/1OFevTGKDKeihD2t2xdG65KKe3Vrd7zXy/edit?usp=sharing&ouid=118444935175337857864&rtpof=true&sd=true
-#     library_prep_thermal_sop_url = models.URLField('Extraction SOP URL', blank=True, max_length=255)
-#     # Library preparation notes.
-#     library_prep_notes = models.TextField('Library Prep Notes', blank=True)
-#
-#     def __str__(self):
-#         return self.library_prep_experiment_name
-#
-#     class Meta:
-#         app_label = 'wet_lab'
-#         verbose_name = 'ExtractionLibraryPrepETL'
-#         verbose_name_plural = 'ExtractionLibraryPrepETLs'
-#
-#
-# class PooledLibraryETL(DateTimeUserMixin):
-#     # WetLabDocumentation.xlsx
-#     extraction_library_prep_etl = models.ForeignKey(ExtractionLibraryPrepETL, related_name='elp_to_pl_etl', on_delete=models.CASCADE)
-#     # Label of the final pooled library.
-#     pooled_library_label = models.CharField('Pooled Lib Label', max_length=50)
-#     # The location the library was pooled. This field is populated from a list of common process locations. If "Other"
-#     # is selected, please specify the location in the pooled_library_notes.
-#     pooled_library_location = models.CharField('Pooled Lib Location', blank=True, max_length=50)
-#     # Date and time library was pooled. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
-#     pooled_library_datetime = models.DateTimeField('Pooled Lib DateTime', blank=True, null=True)
-#     # The method used for quantifying the final pooled library concentration. This field is populated from a list of
-#     # common quantification methods.
-#     pooled_library_quantification_method = models.CharField('Pooled Lib Quant Method', blank=True, max_length=50)
-#     # The final pooled library concentration.
-#     pooled_library_concentration = models.DecimalField('Pooled Lib Concentration', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # The final pooled library concentration units. This field is populated from a list of common concentration units.
-#     pooled_library_concentration_units = models.CharField('Concentration Units', blank=True, max_length=50)
-#     # Final pooled library notes.
-#     pooled_library_notes = models.TextField('Pooled Lib Notes', blank=True)
-#
-#     def __str__(self):
-#         return '{label} - {experiment}'.format(label=self.pooled_library_label, experiment=self.extraction_library_prep_etl.library_prep_experiment_name)
-#
-#     class Meta:
-#         app_label = 'wet_lab'
-#         verbose_name = 'PooledLibraryETL'
-#         verbose_name_plural = 'PooledLibraryETLs'
-#
-#
-# class RunPrepETL(DateTimeUserMixin):
-#     # WetLabDocumentation.xlsx
-#     pooled_library = models.ForeignKey(PooledLibraryETL, related_name='pl_to_rp_etl', on_delete=models.CASCADE)
-#     # Location of run preparation. This field is populated from a list of common process locations. If "Other" is
-#     # selected, please specify the location in the library_prep_notes.
-#     run_prep_location = models.CharField('Run Prep Location', blank=True, max_length=50)
-#     # Date and time library was pooled. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
-#     run_prep_datetime = models.DateTimeField('Run Prep DateTime', blank=True, null=True)
-#     # The location the final library was sequenced. This field is populated from a list of common sequencing locations.
-#     # If "Other" is selected, please specify the location in the library_prep_notes.
-#     sequencing_location = models.CharField('Sequencing Location', blank=True, max_length=50)
-#     # Amount of PhiX spike-in.
-#     phix_spike_in = models.DecimalField('PhiX Spike-In', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # PhiX spike-in units.
-#     phix_spike_in_units = models.CharField('PhiX Units', blank=True, max_length=50)
-#     # The method used for quantifying the final library concentration. This field is populated from a list of common quantification methods.
-#     final_library_quantification_method = models.CharField('Final Lib Quant Method', blank=True, max_length=50)
-#     # The final library concentration.
-#     final_library_concentration = models.DecimalField('Final Lib Concentration', blank=True, null=True, max_digits=15, decimal_places=10)
-#     # The final library concentration units. This field is populated from a list of common concentration units.
-#     final_library_concentration_units = models.CharField('Concentration Units', blank=True, max_length=50)
-#     # Run prep notes.
-#     run_prep_notes = models.TextField('Run Prep Notes', blank=True)
-#
-#     def __str__(self):
-#         return self.pooled_library.pooled_library_label
-#
-#     class Meta:
-#         app_label = 'wet_lab'
-#         verbose_name = 'RunPrepETL'
-#         verbose_name_plural = 'RunPrepETLs'
+
+class WetLabDocumentationFile(DateTimeUserMixin):
+    # WetLabDocumentation.xlsx
+    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    wetlabdoc_datafile = models.FileField('Documentation Datafile', max_length=255, storage=select_private_sequencing_storage)
+    # The location of library preparation. This field is populated from a list of common wet lab locations.
+    # If "Other" is selected, please specify the location in the library_prep_notes.
+    library_prep_location = models.CharField('Lib Prep Location', blank=True, max_length=255)
+    # The date and time the library was prepared. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
+    library_prep_datetime = models.DateTimeField('Lib Prep DateTime', blank=True, null=True)
+    # The experiment name of the library preparation.
+    library_prep_experiment_name = models.CharField('Lib Prep Experiment Name', blank=True, max_length=255)
+    # Label of the final pooled library.
+    pooled_library_label = models.CharField('Pooled Lib Label', blank=True, max_length=255)
+    # The location the library was pooled. This field is populated from a list of common wet lab locations.
+    # If "Other" is selected, please specify the location in the pooled_library_notes.
+    pooled_library_location = models.CharField('Pooled Lib Location', blank=True, max_length=255)
+    # Date and time library was pooled. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
+    pooled_library_datetime = models.DateTimeField('Pooled Lib DateTime', blank=True, null=True)
+    # The location the run prep. This field is populated from a list of common wet lab locations.
+    # If "Other" selected, please specify the location in the library_prep_notes.
+    run_prep_location = models.CharField('Run Prep Location', blank=True, max_length=255)
+    # Date and time of the run prep. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
+    run_prep_datetime = models.DateTimeField('Run Prep DateTime', blank=True, null=True)
+    # The location the final library was sequenced. This field is populated from a list of common sequencing locations.
+    # If "Other" is selected, please specify the location in the library_prep_notes.
+    sequencing_location = models.CharField('Sequencing Location', blank=True, max_length=255)
+    # Wet Lab Documentation notes.
+    documentation_notes = models.TextField('Documentation Notes', blank=True)
+
+    @property
+    def fastq_filename(self):
+        return os.path.basename(self.wetlabdoc_datafile.name)
+
+    @property
+    def fastq_url(self):
+        return self.wetlabdoc_datafile.url
+
+    def __str__(self):
+        return self.fastq_filename
+
+    class Meta:
+        app_label = 'wet_lab'
+        verbose_name = 'WetLabDocumentationFile'
+        verbose_name_plural = 'WetLabDocumentationFiles'

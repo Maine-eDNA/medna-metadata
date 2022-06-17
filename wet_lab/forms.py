@@ -14,7 +14,7 @@ from field_survey.models import FieldSample
 from .models import Extraction, ExtractionMethod, \
     QuantificationMethod, PrimerPair, Pcr, PcrReplicate, LibraryPrep, \
     AmplificationMethod, SizeSelectionMethod, IndexRemovalMethod, IndexPair, PooledLibrary, \
-    RunPrep, RunResult, FastqFile
+    RunPrep, RunResult, FastqFile, WetLabDocumentationFile
 
 
 class IndexPairForm(forms.ModelForm):
@@ -1606,3 +1606,135 @@ class FastqFileUpdateForm(forms.ModelForm):
         model = FastqFile
         fields = ['run_result', 'extraction', 'primer_set',
                   'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+
+
+class WetLabDocumentationFileCreateForm(forms.ModelForm):
+    wetlabdoc_datafile = forms.FileField(
+        required=True,
+        label='FastQ Datafile',
+        widget=CustomClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    documentation_notes = forms.CharField(
+        required=False,
+        label='Documentation Notes',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = WetLabDocumentationFile
+        fields = ['wetlabdoc_datafile', 'documentation_notes', ]
+
+
+class WetLabDocumentationFileUpdateForm(forms.ModelForm):
+    wetlabdoc_datafile = forms.FileField(
+        required=True,
+        label='Documentation Datafile',
+        widget=CustomClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    library_prep_location = forms.CharField(
+        required=False,
+        label='Lib Prep Location',
+        help_text='The location of library preparation. This field is populated from a list of common wet lab locations.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    library_prep_datetime = forms.SplitDateTimeField(
+        required=False,
+        label='Lib Prep DateTime',
+        help_text='The date and time the library was prepared.',
+        widget=CustomAdminSplitDateTime()
+    )
+    library_prep_experiment_name = forms.CharField(
+        required=False,
+        label='Lib Prep Experiment Name',
+        help_text='The experiment name of the library preparation.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_library_label = forms.CharField(
+        required=False,
+        label='Pooled Lib Label',
+        help_text='Label of the final pooled library.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_library_location = forms.CharField(
+        required=False,
+        label='Pooled Lib Location',
+        help_text='The location the library was pooled. This field is populated from a list of common wet lab locations.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    pooled_library_datetime = forms.SplitDateTimeField(
+        required=False,
+        label='Pooled Lib DateTime',
+        help_text='Date and time library was pooled.',
+        widget=CustomAdminSplitDateTime()
+    )
+    run_prep_location = forms.CharField(
+        required=False,
+        label='Run Prep Location',
+        help_text='The location the run prep. This field is populated from a list of common wet lab locations.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    run_prep_datetime = forms.SplitDateTimeField(
+        required=False,
+        label='Run Prep DateTime',
+        help_text='Date and time of the run prep.',
+        widget=CustomAdminSplitDateTime()
+    )
+    sequencing_location = forms.CharField(
+        required=False,
+        label='Sequencing Location',
+        help_text='The location the final library was sequenced. This field is populated from a list of common sequencing locations.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    documentation_notes = forms.CharField(
+        required=False,
+        label='Documentation Notes',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = WetLabDocumentationFile
+        fields = ['wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+                  'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
+                  'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
+                  'documentation_notes', ]

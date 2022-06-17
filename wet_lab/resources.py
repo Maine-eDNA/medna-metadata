@@ -2,7 +2,7 @@ from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
-    RunResult, FastqFile, AmplificationMethod
+    RunResult, FastqFile, AmplificationMethod, WetLabDocumentationFile
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation, StandardOperatingProcedure
@@ -559,6 +559,32 @@ class FastqFileAdminResource(resources.ModelResource):
         column_name='primer_set',
         attribute='primer_set',
         widget=ForeignKeyWidget(PrimerPair, 'primer_set_name'))
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class WetLabDocumentationFileAdminResource(resources.ModelResource):
+    class Meta:
+        model = WetLabDocumentationFile
+        import_id_fields = ('uuid', 'wetlabdoc_datafile', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+                  'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
+                  'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
+                  'documentation_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+                        'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
+                        'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
+                        'documentation_notes',
+                        'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
         column_name='created_by',

@@ -349,4 +349,28 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Fastq Files',
             },
         ),
+        migrations.CreateModel(
+            name='WetLabDocumentationFile',
+            fields=[
+                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('wetlabdoc_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.select_private_sequencing_storage, upload_to='', verbose_name='Documentation Datafile')),
+                ('library_prep_location', models.CharField(blank=True, max_length=255, verbose_name='Lib Prep Location')),
+                ('library_prep_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Lib Prep DateTime')),
+                ('library_prep_experiment_name', models.CharField(blank=True, max_length=255, verbose_name='Lib Prep Experiment Name')),
+                ('pooled_library_label', models.CharField(blank=True, max_length=255, verbose_name='Pooled Lib Label')),
+                ('pooled_library_location', models.CharField(blank=True, max_length=255, verbose_name='Pooled Lib Location')),
+                ('pooled_library_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Pooled Lib DateTime')),
+                ('run_prep_location', models.CharField(blank=True, max_length=255, verbose_name='Run Prep Location')),
+                ('run_prep_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Run Prep DateTime')),
+                ('sequencing_location', models.CharField(blank=True, max_length=255, verbose_name='Sequencing Location')),
+                ('documentation_notes', models.TextField(blank=True, verbose_name='Documentation Notes')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'WetLabDocumentationFile',
+                'verbose_name_plural': 'WetLabDocumentationFiles',
+            },
+        ),
     ]

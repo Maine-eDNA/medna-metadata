@@ -2,7 +2,7 @@ from django.db.models import Exists, OuterRef
 from rest_framework import serializers
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, RunPrep, \
-    RunResult, FastqFile, AmplificationMethod
+    RunResult, FastqFile, AmplificationMethod, WetLabDocumentationFile
 from sample_label.models import SampleBarcode
 from field_survey.models import FieldSample
 from utility.models import ProcessLocation, StandardOperatingProcedure
@@ -537,3 +537,33 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
     # ta_genus = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_genus')
     # ta_species = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_species')
     # ta_common_name = serializers.ReadOnlyField(source='run_result.quality_metadata.denoise_cluster_metadata.annotation_metadata.taxonomic_annotation.ta_common_name')
+
+
+class WetLabDocumentationFileSerializer(serializers.ModelSerializer):
+    # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
+    uuid = serializers.UUIDField(read_only=True)
+    wetlabdoc_datafile = serializers.FileField(max_length=255)
+    library_prep_location = serializers.CharField(allow_blank=True, max_length=255)
+    library_prep_datetime = serializers.DateTimeField(allow_null=True)
+    library_prep_experiment_name = serializers.CharField(allow_blank=True, max_length=255)
+    pooled_library_label = serializers.CharField(allow_blank=True, max_length=255)
+    pooled_library_location = serializers.CharField(allow_blank=True, max_length=255)
+    pooled_library_datetime = serializers.DateTimeField(allow_null=True)
+    run_prep_location = serializers.CharField(allow_blank=True, max_length=255)
+    run_prep_datetime = serializers.DateTimeField(allow_null=True)
+    sequencing_location = serializers.CharField(allow_blank=True, max_length=255)
+    documentation_notes = serializers.CharField(allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = WetLabDocumentationFile
+        fields = ['uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+                  'library_prep_experiment_name', 'pooled_library_label',
+                  'pooled_library_location', 'pooled_library_datetime', 'run_prep_location',
+                  'run_prep_datetime', 'sequencing_location', 'documentation_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

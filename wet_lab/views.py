@@ -21,11 +21,12 @@ import wet_lab.filters as wetlab_filters
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, \
     SizeSelectionMethod, QuantificationMethod, ExtractionMethod, \
     Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
-    RunPrep, RunResult, FastqFile, AmplificationMethod
+    RunPrep, RunResult, FastqFile, AmplificationMethod, WetLabDocumentationFile
 from .forms import IndexPairForm, ExtractionForm, PcrCreateForm, PcrUpdateForm, PcrReplicateForm, LibraryPrepCreateForm, \
-    LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileUpdateForm, FastqFileCreateForm
+    LibraryPrepUpdateForm, PooledLibraryForm, RunPrepForm, RunResultForm, FastqFileUpdateForm, FastqFileCreateForm, \
+    WetLabDocumentationFileCreateForm, WetLabDocumentationFileUpdateForm
 from .tables import ExtractionTable, PcrTable, LibraryPrepTable, PooledLibraryTable, \
-    RunPrepTable, RunResultTable, FastqFileTable, MixsWaterTable, MixsSedimentTable
+    RunPrepTable, RunResultTable, FastqFileTable, MixsWaterTable, MixsSedimentTable, WetLabDocumentationFileTable
 from django.conf import settings
 
 
@@ -1136,6 +1137,90 @@ class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
         if self.raise_exception:
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('main/model-perms-required.html')
+
+
+class WetLabDocumentationFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = WetLabDocumentationFile
+    table_class = WetLabDocumentationFileTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('wet_lab.view_wetlabdocumentationfile', )
+    export_name = 'wetlabdocumentationfile_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = wetlab_serializers.WetLabDocumentationFileSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = settings.EXPORT_FORMATS
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_wetlabdocumentationfile'
+        context['page_title'] = 'Wet Lab Documentation File'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class WetLabDocumentationFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'wet_lab.add_wetlabdocumentationfile'
+    model = WetLabDocumentationFile
+    form_class = WetLabDocumentationFileCreateForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-fileupload-fastqfile.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_wetlabdocumentationfile'
+        context['page_title'] = 'Wet Lab Documentation File'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_wetlabdocumentationfile')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class WetLabDocumentationFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = WetLabDocumentationFile
+    form_class = WetLabDocumentationFileUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('wet_lab.update_wetlabdocumentationfile', 'wet_lab.view_wetlabdocumentationfile', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_wetlabdocumentationfile'
+        context['page_title'] = 'Wet Lab Documentation File'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_wetlabdocumentationfile')
 
 
 ########################################

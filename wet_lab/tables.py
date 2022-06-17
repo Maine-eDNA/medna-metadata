@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import Extraction, LibraryPrep, Pcr, PooledLibrary, RunPrep, RunResult, FastqFile
+from .models import Extraction, LibraryPrep, Pcr, PooledLibrary, RunPrep, RunResult, FastqFile, WetLabDocumentationFile
 from django_tables2.utils import A
 
 
@@ -368,3 +368,29 @@ class MixsSedimentTable(tables.Table):
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )
+
+
+class WetLabDocumentationFileTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    documentation_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.documentation_notes}}">{{ record.documentation_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date columns
+    library_prep_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    pooled_library_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    run_prep_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_wetlabdocfile', text='Update', args=[A('pk')], orderable=False)
+
+    class Meta:
+        model = WetLabDocumentationFile
+        fields = ('_selected_action', 'uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+                  'library_prep_experiment_name', 'pooled_library_label',
+                  'pooled_library_location', 'pooled_library_datetime', 'run_prep_location',
+                  'run_prep_datetime', 'sequencing_location', 'documentation_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
