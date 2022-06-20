@@ -81,6 +81,12 @@
                     <h3>{{ project.project_label }}</h3>
                     <div class="row">
                         <h5 id="lcProjectDetail" class="font-weight-bolder mt-3">Local Contexts' Project Detail (Notices and Labels)</h5>
+                        <div id="lcLoading" class="d-flex justify-content-center">
+                            <button class="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Notices or Labels Loading...
+                            </button>
+                        </div>
                         <span id="lcProjectId" hidden>{{ project.local_contexts_id }}</span>
                         <span id="lcResponse"></span>
                     </div>

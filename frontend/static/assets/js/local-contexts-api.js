@@ -10,6 +10,7 @@ $(function () {
         dataType:'json',
         success: function (data) {
         //console.log(data[0].detail);
+            document.getElementById('lcLoading').remove(); // remove loading spinner from page
             if (data.notice) {
                 $lcProjectIdSpan.remove()
                 $.each(data.notice, function(key, value){ // The contents inside notice
