@@ -93,7 +93,7 @@ INSTALLED_APPS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 # django\conf\global_settings.py
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.environ.get('TIME_ZONE', default='UTC')
 USE_TZ = True
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
