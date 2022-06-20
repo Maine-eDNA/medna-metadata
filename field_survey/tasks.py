@@ -639,10 +639,10 @@ def transform_field_survey_etls(queryset):
         raise RuntimeError('** Error: transform_field_survey_etls Failed (' + str(err) + ')')
 
 
-@app.task(bind=True, base=BaseTaskWithRetry)
-def transform_new_records_field_survey_task():
+@app.task(bind=True, base=BaseTaskWithRetry, name='transform-new-records-field-survey-task')
+def transform_new_records_field_survey_task(self):
     try:
-        task_name = "transform_new_records_field_survey_task"
+        task_name = self.name
         now = timezone.now()
         if PeriodicTaskRun.objects.filter(task=task_name).exists():
             # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset

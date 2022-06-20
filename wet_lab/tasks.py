@@ -152,8 +152,8 @@ def update_queryset_fastq_file(queryset):
         raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
 
 
-# @app.task(bind=True, base=BaseTaskWithRetry)
-# def create_fastq_from_s3():
+# @app.task(bind=True, base=BaseTaskWithRetry, name='create-fastq-from-s3')
+# def create_fastq_from_s3(self):
 #     # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
 #     # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
 #     # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
@@ -167,7 +167,7 @@ def update_queryset_fastq_file(queryset):
 #     # https://stackoverflow.com/questions/37087203/retrieve-s3-file-as-object-instead-of-downloading-to-absolute-system-path
 #     # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
 #     try:
-#         task_name = "transform_new_records_field_survey_task"
+#         task_name = self.name
 #         now = timezone.now()
 #         if PeriodicTaskRun.objects.filter(task=task_name).exists():
 #             # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset
