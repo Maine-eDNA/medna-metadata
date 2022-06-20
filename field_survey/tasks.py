@@ -95,7 +95,8 @@ def update_record_field_survey(record, pk):
 
         # survey123 srid defaults to 4326 (WGS84)
 
-        # print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
+        print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
+        print('with replace: ' + pk + ': ' + replace_quote_space(record.username) + ' ' + replace_quote_space(record.supervisor) + ' ' + replace_quote_space(record.core_subcorer) + ' ' + replace_quote_space(record.water_filterer) + ' ' + replace_quote_space(record.qa_editor) + ' ' + replace_quote_space(record.record_creator) + ' ' + replace_quote_space(record.record_editor))
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
