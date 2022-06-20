@@ -24,6 +24,14 @@ def replace_quote_space(field):
     return field
 
 
+def return_user_or_none(field):
+    try:
+        user = CustomUser.objects.get(agol_username=field)
+    except CustomUser.DoesNotExist:
+        user = None
+    return user
+
+
 def get_filter_etl_delete_labels():
     try:
         filter_deletes = SampleFilterETL.objects.filter(filter_sample_label__icontains='delete')
@@ -95,15 +103,15 @@ def update_record_field_survey(record, pk):
 
         # survey123 srid defaults to 4326 (WGS84)
 
-        print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
-        print('with replace: ' + pk + ': ' + replace_quote_space(record.username) + ' ' + replace_quote_space(record.supervisor) + ' ' + replace_quote_space(record.core_subcorer) + ' ' + replace_quote_space(record.water_filterer) + ' ' + replace_quote_space(record.qa_editor) + ' ' + replace_quote_space(record.record_creator) + ' ' + replace_quote_space(record.record_editor))
+        # print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
+        # print('with replace: ' + pk + ': ' + replace_quote_space(record.username) + ' ' + replace_quote_space(record.supervisor) + ' ' + replace_quote_space(record.core_subcorer) + ' ' + replace_quote_space(record.water_filterer) + ' ' + replace_quote_space(record.qa_editor) + ' ' + replace_quote_space(record.record_creator) + ' ' + replace_quote_space(record.record_editor))
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
             defaults={
-                'username': CustomUser.objects.get(agol_username=replace_quote_space(record.username)),
+                'username': return_user_or_none(record.username),
                 'survey_datetime': record.survey_datetime,
-                'supervisor': CustomUser.objects.get(agol_username=replace_quote_space(record.supervisor)),
+                'supervisor': return_user_or_none(record.supervisor),
                 'recorder_fname': replace_quote_space(record.recorder_fname),
                 'recorder_lname': replace_quote_space(record.recorder_lname),
                 'arrival_datetime': record.arrival_datetime,
@@ -127,10 +135,10 @@ def update_record_field_survey(record, pk):
                 'env_boat_type': replace_quote_space(record.env_boat_type),
                 'env_bottom_depth': record.env_bottom_depth,
                 'measurements_taken': replace_quote_space(record.measurements_taken),
-                'core_subcorer': CustomUser.objects.get(agol_username=replace_quote_space(record.core_subcorer)),
-                'water_filterer': CustomUser.objects.get(agol_username=replace_quote_space(record.water_filterer)),
+                'core_subcorer': return_user_or_none(record.core_subcorer),
+                'water_filterer': return_user_or_none(record.water_filterer),
                 'survey_complete': replace_quote_space(record.survey_complete),
-                'qa_editor': CustomUser.objects.get(agol_username=replace_quote_space(record.qa_editor)),
+                'qa_editor': return_user_or_none(record.qa_editor),
                 'qa_datetime': record.qa_datetime,
                 'qa_initial': replace_quote_space(record.qa_initial),
                 'gps_cap_lat': record.gps_cap_lat,
@@ -139,9 +147,9 @@ def update_record_field_survey(record, pk):
                 'gps_cap_horacc': record.gps_cap_horacc,
                 'gps_cap_vertacc': record.gps_cap_vertacc,
                 'record_create_datetime': record.record_create_datetime,
-                'record_creator': CustomUser.objects.get(agol_username=replace_quote_space(record.record_creator)),
+                'record_creator': return_user_or_none(record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
-                'record_editor': CustomUser.objects.get(agol_username=replace_quote_space(record.record_editor)),
+                'record_editor': return_user_or_none(record.record_editor),
                 'geom': record.geom,
                 'created_by': record.created_by,
             }
@@ -163,9 +171,9 @@ def update_record_field_crew(record, pk):
                 'crew_fname': replace_quote_space(record.crew_fname),
                 'crew_lname': replace_quote_space(record.crew_lname),
                 'record_create_datetime': record.record_create_datetime,
-                'record_creator': CustomUser.objects.get(agol_username=replace_quote_space(record.record_creator)),
+                'record_creator': return_user_or_none(record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
-                'record_editor': CustomUser.objects.get(agol_username=replace_quote_space(record.record_editor)),
+                'record_editor': return_user_or_none(record.record_editor),
                 'created_by': record.created_by,
             }
         )
@@ -229,9 +237,9 @@ def update_record_env_measurement(record, pk):
                 'env_lab_datetime': record.env_lab_datetime,
                 'env_measure_notes': record.env_measure_notes,
                 'record_create_datetime': record.record_create_datetime,
-                'record_creator': CustomUser.objects.get(agol_username=replace_quote_space(record.record_creator)),
+                'record_creator': return_user_or_none(record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
-                'record_editor': CustomUser.objects.get(agol_username=replace_quote_space(record.record_editor)),
+                'record_editor': return_user_or_none(record.record_editor),
                 'created_by': record.created_by,
             }
         )
@@ -251,9 +259,9 @@ def update_record_field_collection(record, pk):
                 'survey_global_id': FieldSurvey.objects.get(survey_global_id=record.survey_global_id.survey_global_id),
                 'collection_type': replace_quote_space(record.collection_type),
                 'record_create_datetime': record.record_create_datetime,
-                'record_creator': CustomUser.objects.get(agol_username=replace_quote_space(record.record_creator)),
+                'record_creator': return_user_or_none(record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
-                'record_editor': CustomUser.objects.get(agol_username=replace_quote_space(record.record_editor)),
+                'record_editor': return_user_or_none(record.record_editor),
                 'created_by': record.created_by,
             }
         )
@@ -314,9 +322,9 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                 'field_sample_barcode': replace_quote_space(sample_barcode_record),
                 'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
                 'record_create_datetime': record.record_create_datetime,
-                'record_creator': CustomUser.objects.get(agol_username=replace_quote_space(record.record_creator)),
+                'record_creator': return_user_or_none(record.record_creator),
                 'record_edit_datetime': record.record_edit_datetime,
-                'record_editor': CustomUser.objects.get(agol_username=replace_quote_space(record.record_editor)),
+                'record_editor': return_user_or_none(record.record_editor),
                 'created_by': record.created_by,
             }
         )
