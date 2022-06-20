@@ -674,14 +674,15 @@ def transform_new_records_field_survey_task(self):
         raise RuntimeError('** Error: transform_new_records_field_survey_task Failed (' + str(err) + ')')
 
 
-# @app.task(bind=True)
-# def transform_all_records_field_survey(self):
-#     try:
-#         now = timezone.now()
-#         all_records = FieldSurveyETL.objects.all()
-#         if all_records:
-#           updated_count = transform_field_survey_etls(all_records)
-#           logger.info('Update count: ' + str(updated_count))
-#           PeriodicTaskRun.objects.update_or_create(task=self.name, defaults={'task_datetime': now})
-#     except Exception as err:
-#         raise RuntimeError('** Error: transform_all_records_field_survey Failed (' + str(err) + ')')
+@app.task(bind=True, base=BaseTaskWithRetry, name='transform-all-records-field-survey-task')
+def transform_all_records_field_survey_task(self):
+    try:
+        task_name = self.name
+        now = timezone.now()
+        all_records = FieldSurveyETL.objects.all()
+        if all_records:
+          updated_count = transform_field_survey_etls(all_records)
+          logger.info('Update count: ' + str(updated_count))
+          PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+    except Exception as err:
+        raise RuntimeError('** Error: transform_all_records_field_survey_task Failed (' + str(err) + ')')
