@@ -128,7 +128,7 @@ class WaterCollectionTable(tables.Table):
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
     collection_global_id = tables.Column(accessor='field_collection.collection_global_id')
-    survey_global_id = tables.Column(accessor='field_collection.collection_global_id.survey_global_id')
+    survey_global_id = tables.Column(accessor='field_collection.survey_global_id.survey_global_id')
     water_collect_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     water_collect_depth = tables.TemplateColumn('{{ record.water_collect_depth|floatformat:2 }}')
     water_niskin_vol = tables.TemplateColumn('{{ record.water_niskin_vol|floatformat:2 }}')
@@ -157,7 +157,7 @@ class SedimentCollectionTable(tables.Table):
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
     collection_global_id = tables.Column(accessor='field_collection.collection_global_id')
-    survey_global_id = tables.Column(accessor='field_collection.collection_global_id.survey_global_id')
+    survey_global_id = tables.Column(accessor='field_collection.survey_global_id.survey_global_id')
     core_datetime_start = tables.DateTimeColumn(format='M d, Y h:i a')
     core_datetime_end = tables.DateTimeColumn(format='M d, Y h:i a')
     core_collect_depth = tables.TemplateColumn('{{ record.core_collect_depth|floatformat:2 }}')
