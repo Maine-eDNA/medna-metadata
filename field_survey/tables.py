@@ -43,6 +43,7 @@ class FieldSurveyTable(tables.Table):
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_lat', 'gps_lon',
                   'gps_alt', 'gps_horacc', 'gps_vertacc', )
+        order_by = ('-survey_datetime', )  # use dash for descending order
 
 
 class FieldCrewTable(tables.Table):
