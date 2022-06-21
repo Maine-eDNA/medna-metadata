@@ -67,6 +67,7 @@ class FieldCrewTable(tables.Table):
         model = FieldCrew
         fields = ('_selected_action', 'crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+        order_by = ('-survey_datetime', )  # use dash for descending order
 
 
 class EnvMeasurementTable(tables.Table):
@@ -114,6 +115,7 @@ class EnvMeasurementTable(tables.Table):
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes', 'survey_global_id',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+        order_by = ('-env_measure_datetime', )  # use dash for descending order
 
 
 class WaterCollectionTable(tables.Table):
@@ -142,6 +144,7 @@ class WaterCollectionTable(tables.Table):
                   'water_control', 'water_control_type', 'water_vessel_label', 'water_collect_datetime', 'water_collect_depth', 'water_collect_mode', 'water_niskin_number',
                   'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material', 'water_vessel_color', 'water_collect_notes', 'was_filtered',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+        order_by = ('-water_collect_datetime', )  # use dash for descending order
 
 
 class SedimentCollectionTable(tables.Table):
@@ -171,6 +174,7 @@ class SedimentCollectionTable(tables.Table):
                   'core_control', 'core_label', 'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
                   'core_length', 'core_diameter', 'core_notes', 'subcores_taken',
                   'record_creator', 'record_create_datetime', 'record_editor', 'record_edit_datetime', )
+        order_by = ('-core_datetime_start', )  # use dash for descending order
 
 
 class FilterSampleTable(tables.Table):
@@ -183,7 +187,7 @@ class FilterSampleTable(tables.Table):
     field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Field Barcode')
     filter_sample_label = tables.Column(verbose_name='Filter Label')
     survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
-    is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
+    is_extracted = tables.Column(accessor='field_sample.is_extracted', verbose_name='Extracted')
     filter_location = tables.Column(verbose_name='Filter Location')
     filter_datetime = tables.DateTimeColumn(format='M d, Y h:i a', verbose_name='Filtration DateTime')
     filter_fname = tables.Column(verbose_name='Filterer First Name')
@@ -239,6 +243,7 @@ class FilterSampleTable(tables.Table):
                   'record_creator', 'record_create_datetime',
                   'record_editor', 'record_edit_datetime',
                   'sample_global_id', 'collection_global_id', 'survey_global_id', )
+        order_by = ('-survey_datetime', )  # use dash for descending order
 
 
 class SubCoreSampleTable(tables.Table):
@@ -251,7 +256,7 @@ class SubCoreSampleTable(tables.Table):
     field_sample_barcode = tables.Column(accessor='field_sample.field_sample_barcode.sample_barcode_id', verbose_name='Field Barcode')
     core_label = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_label', verbose_name='Core Label')
     survey_datetime = tables.DateTimeColumn(accessor='field_sample.collection_global_id.survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
-    is_extracted = tables.Column(accessor='field_sample.field_sample_barcode.is_extracted', verbose_name='Extracted')
+    is_extracted = tables.Column(accessor='field_sample.is_extracted', verbose_name='Extracted')
     subcore_fname = tables.Column(verbose_name='SubCorer First Name')
     subcore_lname = tables.Column(verbose_name='SubCorer Last Name')
     core_control = tables.Column(accessor='field_sample.collection_global_id.sediment_collection.core_control', verbose_name='Control')
@@ -304,3 +309,4 @@ class SubCoreSampleTable(tables.Table):
                   'record_creator', 'record_create_datetime',
                   'record_editor', 'record_edit_datetime',
                   'sample_global_id', 'collection_global_id', 'survey_global_id', )
+        order_by = ('-survey_datetime', )  # use dash for descending order
