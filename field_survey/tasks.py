@@ -104,7 +104,7 @@ def update_record_field_survey(record, pk):
         # survey123 srid defaults to 4326 (WGS84)
 
         # print(pk+': '+record.username+' '+record.supervisor+' '+record.core_subcorer+' '+record.water_filterer+' '+record.qa_editor+' '+record.record_creator+' '+record.record_editor)
-        # print('with replace: ' + pk + ': ' + replace_quote_space(record.username) + ' ' + replace_quote_space(record.supervisor) + ' ' + replace_quote_space(record.core_subcorer) + ' ' + replace_quote_space(record.water_filterer) + ' ' + replace_quote_space(record.qa_editor) + ' ' + replace_quote_space(record.record_creator) + ' ' + replace_quote_space(record.record_editor))
+        print('with replace: ' + pk + ': ' + replace_quote_space(record.username) + ' ' + replace_quote_space(record.supervisor) + ' ' + replace_quote_space(record.core_subcorer) + ' ' + replace_quote_space(record.water_filterer) + ' ' + replace_quote_space(record.qa_editor) + ' ' + replace_quote_space(record.record_creator) + ' ' + replace_quote_space(record.record_editor))
 
         field_survey, created = FieldSurvey.objects.update_or_create(
             survey_global_id=pk,
@@ -679,6 +679,9 @@ def transform_new_records_field_survey_task(self):
             updated_count = transform_field_survey_etls(new_records)
             logger.info('Update count: ' + str(updated_count))
             PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+            return updated_count
+        else:
+            return 0
     except Exception as err:
         raise RuntimeError('** Error: transform_new_records_field_survey_task Failed (' + str(err) + ')')
 
@@ -690,8 +693,11 @@ def transform_all_records_field_survey_task(self):
         now = timezone.now()
         all_records = FieldSurveyETL.objects.all()
         if all_records:
-          updated_count = transform_field_survey_etls(all_records)
-          logger.info('Update count: ' + str(updated_count))
-          PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+            updated_count = transform_field_survey_etls(all_records)
+            logger.info('Update count: ' + str(updated_count))
+            PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+            return updated_count
+        else:
+            return 0
     except Exception as err:
         raise RuntimeError('** Error: transform_all_records_field_survey_task Failed (' + str(err) + ')')
