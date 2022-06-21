@@ -634,15 +634,15 @@ class WetLabDocumentationFile(DateTimeUserMixin):
     documentation_notes = models.TextField('Documentation Notes', blank=True)
 
     @property
-    def fastq_filename(self):
+    def wetlabdoc_filename(self):
         return os.path.basename(self.wetlabdoc_datafile.name)
 
     @property
-    def fastq_url(self):
+    def wetlabdoc_url(self):
         return self.wetlabdoc_datafile.url
 
     def __str__(self):
-        return self.fastq_filename
+        return self.wetlabdoc_filename
 
     class Meta:
         app_label = 'wet_lab'
