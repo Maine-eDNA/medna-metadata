@@ -115,7 +115,7 @@ def update_record_field_survey(record, pk):
                 'recorder_fname': replace_quote_space(record.recorder_fname),
                 'recorder_lname': replace_quote_space(record.recorder_lname),
                 'arrival_datetime': record.arrival_datetime,
-                'site_id': FieldSite.objects.get(site_id=replace_quote_space(record_site_id)),
+                'site_id': FieldSite.objects.get(site_id=record_site_id),
                 'site_id_other': replace_quote_space(record.site_id_other),
                 'site_name': replace_quote_space(record.site_name),
                 'lat_manual': record.lat_manual,
