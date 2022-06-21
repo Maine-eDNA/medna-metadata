@@ -53,6 +53,7 @@ class FieldCrewTable(tables.Table):
                                                     'th': {'class': 'action-checkbox-column'}},
                                              orderable=False)
     # formatting for date column
+    survey_datetime = tables.DateTimeColumn(accessor='survey_global_id.survey_datetime', format='M d, Y h:i a', verbose_name='Survey DateTime')
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     created_by = tables.Column(accessor='created_by.email')
@@ -60,7 +61,7 @@ class FieldCrewTable(tables.Table):
 
     class Meta:
         model = FieldCrew
-        fields = ('_selected_action', 'crew_global_id', 'crew_fname', 'crew_lname',
+        fields = ('_selected_action', 'crew_global_id', 'survey_datetime', 'crew_fname', 'crew_lname',
                   'survey_global_id', 'created_datetime', 'modified_datetime', 'created_by', )
         order_by = ('-survey_datetime', )  # use dash for descending order
 
