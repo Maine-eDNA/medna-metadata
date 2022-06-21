@@ -68,7 +68,8 @@ def get_survey_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/38570258/how-to-get-django-queryset-results-with-formatted-datetime-field
     # https://stackoverflow.com/questions/52354104/django-query-set-for-counting-records-each-month
-    labels, data = return_queryset_lists(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').order_by('survey_date').annotate(data=Count('pk')).annotate(label=Func(F('survey_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    # labels, data = return_queryset_lists(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').order_by('survey_date').annotate(data=Count('pk')).annotate(label=Func(F('survey_datetime'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
+    labels, data = return_queryset_lists(FieldSurvey.objects.annotate(survey_date=TruncMonth('survey_datetime')).values('survey_date').annotate(data=Count('pk')).order_by('survey_date').annotate(label=Func(F('survey_date'), Value('MM/YYYY'), function='to_char', output_field=CharField())))
     labels, data = return_zeros_lists(labels, data)
     return JsonResponse(data={'labels': labels, 'data': data, })
 
