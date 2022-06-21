@@ -1,15 +1,15 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
-# from medna_metadata.celery import app
-# from medna_metadata.tasks import BaseTaskWithRetry
-# from utility.models import PeriodicTaskRun
-# from celery.utils.log import get_task_logger
+from medna_metadata.celery import app
+from medna_metadata.tasks import BaseTaskWithRetry
+from utility.models import PeriodicTaskRun
+from celery.utils.log import get_task_logger
 from medna_metadata import settings
 import boto3
 from wet_lab.models import FastqFile, RunResult, WetLabDocumentationFile
 import csv
 from io import StringIO
-# from django.utils import timezone
-# logger = get_task_logger(__name__)
+from django.utils import timezone
+logger = get_task_logger(__name__)
 
 
 # TODO - these tasks are not running and partially tested
@@ -91,7 +91,7 @@ def get_s3_wetlabdoc_keys(run_keys):
 
 def ingest_wet_lab_documentation(wetlabdoc_datafile):
     file = wetlabdoc_datafile.read().decode('utf-8')
-    csv_data = csv.reader(StringIO(file), delimiter = ',')
+    csv_data = csv.reader(StringIO(file), delimiter=',')
     for row in csv_data:
         print(row)
 
@@ -152,41 +152,41 @@ def update_queryset_fastq_file(queryset):
         raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
 
 
-# @app.task(bind=True, base=BaseTaskWithRetry, name='create-fastq-from-s3')
-# def create_fastq_from_s3(self):
-#     # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
-#     # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
-#     # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
-#     # https://stackoverflow.com/questions/8332443/set-djangos-filefield-to-an-existing-file
-#     # https://stackoverflow.com/questions/45033737/how-to-list-the-files-in-s3-subdirectory-using-python
-#     # https://stackoverflow.com/questions/27292145/python-boto-list-contents-of-specific-dir-in-bucket
-#     # https://stackoverflow.com/questions/30249069/listing-contents-of-a-bucket-with-boto3
-#     # https://wasabi-support.zendesk.com/hc/en-us/articles/115002579891-How-do-I-use-AWS-SDK-for-Python-boto3-with-Wasabi-
-#     # https://stackoverflow.com/questions/17029691/how-to-save-image-located-at-url-to-s3-with-django-on-heroku
-#     # https://stackoverflow.com/questions/51357955/access-url-of-s3-files-using-boto
-#     # https://stackoverflow.com/questions/37087203/retrieve-s3-file-as-object-instead-of-downloading-to-absolute-system-path
-#     # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
-#     try:
-#         task_name = self.name
-#         now = timezone.now()
-#         if PeriodicTaskRun.objects.filter(task=task_name).exists():
-#             # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset
-#             last_run = PeriodicTaskRun.objects.filter(task=task_name).order_by('-task_datetime')[:1].get()
-#             new_records = RunResult.objects.filter(created_datetime__range=[last_run.task_datetime, now])
-#         else:
-#             # task has never been ran, so there is no timestamp to reference
-#             # run query for less than or equal to current datetime.
-#             new_records = RunResult.objects.filter(created_datetime__lte=now)
-#         if new_records:
-#             # there are new run_ids, so create list of ids
-#             run_ids = new_records.values_list('run_id', flat=True).order_by('run_id')
-#             # get list of run folders in s3
-#             s3_run_keys = get_s3_run_dirs()
-#             # check if any run_ids are in s3
-#             runs_in_s3 = [s for s in s3_run_keys if any(xs in s for xs in run_ids)]
-#             if runs_in_s3:
-#                 created_count = create_fastq_files(runs_in_s3)
-#                 logger.info('Update count: ' + str(created_count))
-#                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
-#     except Exception as err:
-#         raise RuntimeError('** Error: create_fastq_from_s3 Failed (' + str(err) + ')')
+@app.task(bind=True, base=BaseTaskWithRetry, name='create-fastq-from-s3')
+def create_fastq_from_s3(self):
+    # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
+    # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
+    # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
+    # https://stackoverflow.com/questions/8332443/set-djangos-filefield-to-an-existing-file
+    # https://stackoverflow.com/questions/45033737/how-to-list-the-files-in-s3-subdirectory-using-python
+    # https://stackoverflow.com/questions/27292145/python-boto-list-contents-of-specific-dir-in-bucket
+    # https://stackoverflow.com/questions/30249069/listing-contents-of-a-bucket-with-boto3
+    # https://wasabi-support.zendesk.com/hc/en-us/articles/115002579891-How-do-I-use-AWS-SDK-for-Python-boto3-with-Wasabi-
+    # https://stackoverflow.com/questions/17029691/how-to-save-image-located-at-url-to-s3-with-django-on-heroku
+    # https://stackoverflow.com/questions/51357955/access-url-of-s3-files-using-boto
+    # https://stackoverflow.com/questions/37087203/retrieve-s3-file-as-object-instead-of-downloading-to-absolute-system-path
+    # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
+    try:
+        task_name = self.name
+        now = timezone.now()
+        if PeriodicTaskRun.objects.filter(task=task_name).exists():
+            # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset
+            last_run = PeriodicTaskRun.objects.filter(task=task_name).order_by('-task_datetime')[:1].get()
+            new_records = RunResult.objects.filter(created_datetime__range=[last_run.task_datetime, now])
+        else:
+            # task has never been ran, so there is no timestamp to reference
+            # run query for less than or equal to current datetime.
+            new_records = RunResult.objects.filter(created_datetime__lte=now)
+        if new_records:
+            # there are new run_ids, so create list of ids
+            run_ids = new_records.values_list('run_id', flat=True).order_by('run_id')
+            # get list of run folders in s3
+            s3_run_keys = get_s3_run_dirs()
+            # check if any run_ids are in s3
+            runs_in_s3 = [s for s in s3_run_keys if any(xs in s for xs in run_ids)]
+            if runs_in_s3:
+                created_count = create_fastq_files(runs_in_s3)
+                logger.info('Update count: ' + str(created_count))
+                PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+    except Exception as err:
+        raise RuntimeError('** Error: create_fastq_from_s3 Failed (' + str(err) + ')')
