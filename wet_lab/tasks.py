@@ -143,10 +143,12 @@ def update_record_wetlabdoc_file(record, pk):
 
 def parse_wetlabdoc_file(wetlabdoc_datafile):
     try:
+        import pandas as pd
         record = dict({})
         file = wetlabdoc_datafile.read().decode('utf-8')
-        csv_data = csv.reader(StringIO(file), delimiter=',')
-        for row in csv_data:
+        # csv_data = csv.reader(StringIO(file), delimiter=',')
+        extr_libprep_df = pd.read_excel(StringIO(file), sheet_name=0)
+        for row in extr_libprep_df:
             print(row)
             # EXTRACTION + LIB PREP
             record.append('in_survey123', row[0])
@@ -183,6 +185,8 @@ def parse_wetlabdoc_file(wetlabdoc_datafile):
             record.append('library_prep_type', row[31])
             record.append('library_prep_thermal_sop_url', row[32])
             record.append('library_prep_notes', row[33])
+        pooledlib_df = pd.read_excel(StringIO(file), sheet_name=1)
+        for row in pooledlib_df:
             # POOLED LIBRARY
             record.append('pooled_library_label', row[0])
             record.append('pooled_library_location', row[1])
@@ -191,6 +195,8 @@ def parse_wetlabdoc_file(wetlabdoc_datafile):
             record.append('pooled_library_concentration', row[4])
             record.append('pooled_library_concentration_units', row[5])
             record.append('pooled_library_notes', row[6])
+        runprep_df = pd.read_excel(StringIO(file), sheet_name=2)
+        for row in runprep_df:
             # RUN PREP
             record.append('run_prep_location', row[0])
             record.append('run_prep_datetime', row[1])
@@ -213,10 +219,11 @@ def ingest_wetlabdoc_files(runs_in_s3):
         for s3_run in runs_in_s3:
             s3_wetlabdoc_keys = get_s3_wetlabdoc_keys(s3_run)
             for s3_wetlabdoc_key in s3_wetlabdoc_keys:
-                wetlabdoc_filename = get_wetlabdoc_filename_from_key(s3_wetlabdoc_key)
-                wetlabdoc_file = WetLabDocumentationFile.objects.get(wetlabdoc_filename=wetlabdoc_filename)
+                # wetlabdoc_filename = get_wetlabdoc_filename_from_key(s3_wetlabdoc_key)
+                wetlabdoc_file = WetLabDocumentationFile.objects.get(wetlabdoc_datafile=s3_wetlabdoc_key)
                 if not wetlabdoc_file:
                     wetlabdoc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlabdoc_datafile=s3_wetlabdoc_key)
+                    parse_wetlabdoc_file(wetlabdoc_file)
                     if created:
                         update_count += 1
 
