@@ -686,7 +686,7 @@ class WetLabDocumentationFileAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = WetLabDocumentationFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('fastq_filename', 'library_prep_experiment_name', 'created_datetime', 'created_by')
+    list_display = ('wetlabdoc_filename', 'library_prep_experiment_name', 'created_datetime', 'created_by')
     readonly_fields = ('uuid', 'modified_datetime', 'created_datetime', )
     search_fields = ['wetlabdoc_datafile', ]
 
