@@ -113,7 +113,7 @@ class FieldSurvey(DateTimeUserMixin):
 class FieldCrew(DateTimeUserMixin):
     crew_global_id = models.UUIDField('Crew Global ID', primary_key=True, editable=False, default=uuid.uuid4)
     crew_fname = models.CharField('Crew First Name', blank=True, max_length=255)
-    crew_lname = models.CharField('Crew First Name', blank=True, max_length=255)
+    crew_lname = models.CharField('Crew Last Name', blank=True, max_length=255)
     survey_global_id = models.ForeignKey(FieldSurvey, db_column='survey_global_id', related_name='field_crew', on_delete=models.CASCADE)
 
     @property

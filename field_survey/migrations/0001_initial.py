@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('crew_global_id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Crew Global ID')),
                 ('crew_fname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
-                ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
+                ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew Last Name')),
                 ('survey_global_id', models.ForeignKey(db_column='survey_global_id', on_delete=django.db.models.deletion.CASCADE, related_name='field_crew', to='field_survey.fieldsurvey')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
