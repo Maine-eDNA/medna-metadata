@@ -129,7 +129,7 @@ class FieldSurvey(DateTimeUserMixin):
 class FieldCrew(DateTimeUserMixin):
     crew_global_id = models.CharField('Crew Global ID', primary_key=True, max_length=255)
     crew_fname = models.CharField('Crew First Name', blank=True, max_length=255)
-    crew_lname = models.CharField('Crew First Name', blank=True, max_length=255)
+    crew_lname = models.CharField('Crew Last Name', blank=True, max_length=255)
     record_create_datetime = models.DateTimeField('Crew Creation DateTime', blank=True, null=True)
     record_creator = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='Crew Creator', on_delete=models.SET(get_sentinel_user), related_name='crew_record_creator')
     record_edit_datetime = models.DateTimeField('Crew Edit DateTime', blank=True, null=True)

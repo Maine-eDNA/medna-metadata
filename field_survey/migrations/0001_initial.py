@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('crew_global_id', models.CharField(max_length=255, primary_key=True, serialize=False, verbose_name='Crew Global ID')),
                 ('crew_fname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
-                ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew First Name')),
+                ('crew_lname', models.CharField(blank=True, max_length=255, verbose_name='Crew Last Name')),
                 ('record_create_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Crew Creation DateTime')),
                 ('record_edit_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Crew Edit DateTime')),
                 ('record_creator', models.ForeignKey(blank=True, null=True, on_delete=models.SET(utility.models.get_sentinel_user), related_name='crew_record_creator', to=settings.AUTH_USER_MODEL, verbose_name='Crew Creator')),
