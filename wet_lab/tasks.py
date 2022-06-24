@@ -1,14 +1,15 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
+from django.utils import timezone
+from celery.utils.log import get_task_logger
 from medna_metadata.celery import app
 from medna_metadata.tasks import BaseTaskWithRetry
-from utility.models import PeriodicTaskRun
-from celery.utils.log import get_task_logger
 from medna_metadata import settings
-import boto3
+from utility.models import PeriodicTaskRun
 from wet_lab.models import FastqFile, RunResult, WetLabDocumentationFile
-import csv
+# import csv
+import pandas as pd
 from io import StringIO
-from django.utils import timezone
+import boto3
 logger = get_task_logger(__name__)
 
 
@@ -42,6 +43,8 @@ def get_runid_from_key(run_key):
         idx = filename.rfind('-')
         if idx >= 0:
             run_id = filename[:idx]
+        else:
+            run_id = None
         return run_id
     except Exception as err:
         raise RuntimeError('** Error: get_runid_from_key Failed (' + str(err) + ')')
@@ -49,29 +52,20 @@ def get_runid_from_key(run_key):
 
 def get_wetlabdoc_filename_from_key(run_key):
     try:
-        # https://stackoverflow.com/questions/18731028/remove-last-instance-of-a-character-and-rest-of-a-string
         filename = run_key.split('/')[1]
-        # find the index of the last -, then split and keep
-        # beginning up to last -
-        # MyTardis appends -## to RunIDs, they need to be converted back.
-        idx = filename.rfind('-')
-        if idx >= 0:
-            wetlabdoc_filename = filename[:idx]
-        return wetlabdoc_filename
+        return filename
     except Exception as err:
         raise RuntimeError('** Error: get_wetlabdoc_filename_from_key Failed (' + str(err) + ')')
 
 
 def get_s3_fastq_keys(run_keys):
     try:
-        client = boto3.client('s3',
-                              endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-                              aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                              aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+        if type(run_keys) is not list:
+            run_keys = [run_keys]
+        client = boto3.client('s3', endpoint_url=settings.AWS_S3_ENDPOINT_URL, aws_access_key_id=settings.AWS_ACCESS_KEY_ID, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
         object_keys = []
         for run_key in run_keys:
-            response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
-                                              Prefix=run_key)
+            response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME, Prefix=run_key)
             for obj in response['Contents']:
                 object_keys.append(obj['Key'])
 
@@ -141,9 +135,21 @@ def update_record_wetlabdoc_file(record, pk):
         raise RuntimeError('** Error: update_record_wetlabdoc_file Failed (' + str(err) + ')')
 
 
+def update_queryset_fastq_file(queryset):
+    try:
+        update_count = 0
+        for record in queryset:
+            pk = record.uuid
+            fastq_file, created = update_record_fastq_file(record, pk)
+            if created:
+                update_count += 1
+        return update_count
+    except Exception as err:
+        raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
+
+
 def parse_wetlabdoc_file(wetlabdoc_datafile):
     try:
-        import pandas as pd
         record = dict({})
         file = wetlabdoc_datafile.read().decode('utf-8')
         # csv_data = csv.reader(StringIO(file), delimiter=',')
@@ -238,6 +244,7 @@ def ingest_fastq_files(runs_in_s3):
         for s3_run in runs_in_s3:
             run_id = get_runid_from_key(s3_run)
             run_result = RunResult.objects.get(run_id=run_id)
+            # TODO - check get_s3_fastq_keys commit history & see what changed b/c failing on contents
             s3_fastq_keys = get_s3_fastq_keys(s3_run)
             for s3_fastq_key in s3_fastq_keys:
                 fastq_file = FastqFile.objects.get(fastq_datafile=s3_fastq_key)
@@ -252,33 +259,8 @@ def ingest_fastq_files(runs_in_s3):
         raise RuntimeError('** Error: ingest_fastq_files Failed (' + str(err) + ')')
 
 
-def update_queryset_fastq_file(queryset):
-    try:
-        update_count = 0
-        for record in queryset:
-            pk = record.uuid
-            fastq_file, created = update_record_fastq_file(record, pk)
-            if created:
-                update_count += 1
-        return update_count
-    except Exception as err:
-        raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
-
-
 @app.task(bind=True, base=BaseTaskWithRetry, name='ingest-new-wetlabdoc-fastq-files-from-s3')
 def ingest_new_wetlabdoc_fastq_files_from_s3(self):
-    # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
-    # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
-    # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
-    # https://stackoverflow.com/questions/8332443/set-djangos-filefield-to-an-existing-file
-    # https://stackoverflow.com/questions/45033737/how-to-list-the-files-in-s3-subdirectory-using-python
-    # https://stackoverflow.com/questions/27292145/python-boto-list-contents-of-specific-dir-in-bucket
-    # https://stackoverflow.com/questions/30249069/listing-contents-of-a-bucket-with-boto3
-    # https://wasabi-support.zendesk.com/hc/en-us/articles/115002579891-How-do-I-use-AWS-SDK-for-Python-boto3-with-Wasabi-
-    # https://stackoverflow.com/questions/17029691/how-to-save-image-located-at-url-to-s3-with-django-on-heroku
-    # https://stackoverflow.com/questions/51357955/access-url-of-s3-files-using-boto
-    # https://stackoverflow.com/questions/37087203/retrieve-s3-file-as-object-instead-of-downloading-to-absolute-system-path
-    # https://stackoverflow.com/questions/26933834/django-retrieval-of-list-of-files-in-s3-bucket
     try:
         task_name = self.name
         now = timezone.now()
@@ -291,10 +273,17 @@ def ingest_new_wetlabdoc_fastq_files_from_s3(self):
             # get list of run folders in s3
             s3_run_keys = get_s3_run_dirs()
             # check if any run_ids are in s3
-            # TODO - test to see if only selects runs that are not already in database
-            runs_not_in_db = [s for s in run_ids if any(xs in s for xs in s3_run_keys)]
+            if run_ids:
+                # when compared to an empty queryset, list comprehension returns an empty list
+                # so check first if run_ids is empty
+                runs_not_in_db = [s for s in s3_run_keys if any(xs not in s for xs in run_ids)]
+            else:
+                runs_not_in_db = s3_run_keys
+            # runs_not_in_db = list(set(s3_run_keys) - set(run_ids))
             if runs_not_in_db:
-                created_count = ingest_fastq_files(runs_not_in_db)
+                created_count_wetlabdoc = ingest_wetlabdoc_files(runs_not_in_db)
+                created_count_fastqfile = ingest_fastq_files(runs_not_in_db)
+                created_count = created_count_wetlabdoc+created_count_fastqfile
                 logger.info('Update count: ' + str(created_count))
                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
     except Exception as err:
@@ -322,15 +311,11 @@ def ingest_all_wetlabdoc_fastq_files_from_s3(self):
         # only ingest runs that are not in the database
         all_records = RunResult.objects.all()
         if all_records:
-            # there are new run_ids, so create list of ids
-            run_ids = all_records.values_list('run_id', flat=True).order_by('run_id')
             # get list of run folders in s3
             s3_run_keys = get_s3_run_dirs()
-            # check if any run_ids are in s3
-            runs_in_s3 = [s for s in s3_run_keys if any(xs in s for xs in run_ids)]
-            if runs_in_s3:
-                created_count_wetlabdoc = ingest_wetlabdoc_files(runs_in_s3)
-                created_count_fastqfile = ingest_fastq_files(runs_in_s3)
+            if s3_run_keys:
+                created_count_wetlabdoc = ingest_wetlabdoc_files(s3_run_keys)
+                created_count_fastqfile = ingest_fastq_files(s3_run_keys)
                 created_count = created_count_wetlabdoc+created_count_fastqfile
                 logger.info('Update count: ' + str(created_count))
                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
