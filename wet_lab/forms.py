@@ -1493,6 +1493,14 @@ class FastqFileCreateForm(forms.ModelForm):
             }
         )
     )
+    insdc_url = forms.URLField(
+        required=False,
+        widget=forms.URLInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     seq_meth = forms.ChoiceField(
         required=True,
         label='Sequencing Method',
@@ -1524,7 +1532,7 @@ class FastqFileCreateForm(forms.ModelForm):
     class Meta:
         model = FastqFile
         fields = ['run_result', 'extraction', 'primer_set', 'fastq_datafile',
-                  'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+                  'submitted_to_insdc', 'insdc_url', 'seq_meth', 'investigation_type', ]
 
 
 class FastqFileUpdateForm(forms.ModelForm):
@@ -1574,6 +1582,14 @@ class FastqFileUpdateForm(forms.ModelForm):
             }
         )
     )
+    insdc_url = forms.URLField(
+        required=False,
+        widget=forms.URLInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     seq_meth = forms.ChoiceField(
         required=True,
         label='Sequencing Method',
@@ -1605,4 +1621,4 @@ class FastqFileUpdateForm(forms.ModelForm):
     class Meta:
         model = FastqFile
         fields = ['run_result', 'extraction', 'primer_set',
-                  'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+                  'submitted_to_insdc', 'insdc_url', 'seq_meth', 'investigation_type', ]
