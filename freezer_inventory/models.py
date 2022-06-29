@@ -177,6 +177,8 @@ class FreezerInventory(DateTimeUserMixin):
     freezer_inventory_type = models.CharField('Freezer Inventory Type', max_length=50, choices=InvTypes.choices)
     freezer_inventory_status = models.CharField('Freezer Inventory Status', max_length=50, choices=InvStatus.choices, default=InvStatus.IN)
     freezer_inventory_loc_status = models.CharField('Freezer Inventory Location Status', max_length=50, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
+    # DateTime freezer inventory was frozen for the first time
+    freezer_inventory_freeze_datetime = models.DateTimeField('First Freeze DateTime', blank=True, null=True)
     # location of inventory in freezer box
     freezer_inventory_column = models.PositiveIntegerField('Freezer Box Column')
     freezer_inventory_row = models.PositiveIntegerField('Freezer Box Row')
