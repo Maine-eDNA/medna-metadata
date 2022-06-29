@@ -1,1 +1,0 @@
-[{"model": "bioinfo.taxonsupergroup", "pk": 2, "fields": {"created_by": 1, "modified_datetime": "2022-03-08T04:10:33.308Z", "created_datetime": "2022-03-08T04:10:33.308Z", "taxon_supergroup": "(no supergroup)", "taxon_supergroup_slug": "no-supergroup", "taxon_kingdom": 2, "taxon_url": "", "taxon_kingdom_slug": "animalia", "taxon_domain_slug": "eukaryote"}}]

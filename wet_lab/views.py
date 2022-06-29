@@ -1083,7 +1083,7 @@ class MixsWaterFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSeria
     model = FastqFile
     table_class = MixsWaterTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
-    permission_required = ('bioinfo.view_taxonomicannotation', 'wet_lab.view_fastqfile', )
+    permission_required = ('bioinformatics.view_taxonomicannotation', 'wet_lab.view_fastqfile', )
     export_name = 'MIxSwater_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.MixsWaterSerializer
     filter_backends = [filters.DjangoFilterBackend]
@@ -1114,7 +1114,7 @@ class MixsSedimentFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSe
     model = FastqFile
     table_class = MixsSedimentTable
     template_name = 'home/django-material-dashboard/model-filter-list.html'
-    permission_required = ('bioinfo.view_taxonomicannotation', 'wet_lab.view_fastqfile', )
+    permission_required = ('bioinformatics.view_taxonomicannotation', 'wet_lab.view_fastqfile', )
     export_name = 'MIxSsediment_v5_' + str(timezone.now().replace(microsecond=0).isoformat())
     serializer_class = wetlab_serializers.MixsSedimentSerializer
     filter_backends = [filters.DjangoFilterBackend]

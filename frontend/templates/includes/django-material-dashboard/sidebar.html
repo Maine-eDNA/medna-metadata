@@ -510,15 +510,15 @@
     {% endif %}
     <!-- end wet lab -->
     {% endif %}
-    {% if perms.bioinfo %}
-    <!-- begin bioinfo -->
+    {% if perms.bioinformatics %}
+    <!-- begin bioinformatics -->
     <hr class="horizontal light mt-0 mb-2">
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-12">
         <h6 class="text-uppercase text-xs text-white font-weight-bolder opacity-8">Bioinformatics</h6>
       </li>
     </ul>
-    {% if perms.bioinfo.view_qualitymetadata %}
+    {% if perms.bioinformatics.view_qualitymetadata %}
     <!-- begin qualitymetadata -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
@@ -532,7 +532,7 @@
           </div>
         </a>
       </li>
-      {% if perms.bioinfo.add_qualitymetadata %}
+      {% if perms.bioinformatics.add_qualitymetadata %}
       <li class="nav-item col-1">
         <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_qualitymetadata' in segment or 'update_qualitymetadata' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_qualitymetadata' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
@@ -545,7 +545,7 @@
     </ul>
     <!-- end qualitymetadata -->
     {% endif %}
-    {% if perms.bioinfo.view_denoiseclustermetadata %}
+    {% if perms.bioinformatics.view_denoiseclustermetadata %}
     <!-- begin denoiseclustermetadata -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
@@ -559,7 +559,7 @@
           </div>
         </a>
       </li>
-      {% if perms.bioinfo.add_denoiseclustermetadata %}
+      {% if perms.bioinformatics.add_denoiseclustermetadata %}
       <li class="nav-item col-1">
         <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_denoiseclustermetadata' in segment or 'update_denoiseclustermetadata' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_denoiseclustermetadata' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
@@ -572,7 +572,7 @@
     </ul>
     <!-- end denoiseclustermetadata -->
     {% endif %}
-    {% if perms.bioinfo.view_featureoutput %}
+    {% if perms.bioinformatics.view_featureoutput %}
     <!-- begin featureoutput -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
@@ -586,7 +586,7 @@
           </div>
         </a>
       </li>
-      {% if perms.bioinfo.add_featureoutput %}
+      {% if perms.bioinformatics.add_featureoutput %}
       <li class="nav-item col-1">
         <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_featureoutput' in segment or 'update_featureoutput' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_featureoutput' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
@@ -599,7 +599,7 @@
     </ul>
     <!-- end featureoutput -->
     {% endif %}
-    {% if perms.bioinfo.view_featureread %}
+    {% if perms.bioinformatics.view_featureread %}
     <!-- begin featureread -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
@@ -613,7 +613,7 @@
           </div>
         </a>
       </li>
-      {% if perms.bioinfo.add_featureread %}
+      {% if perms.bioinformatics.add_featureread %}
       <li class="nav-item col-1">
         <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_featureread' in segment or 'update_featureread' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_featureread' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
@@ -626,7 +626,7 @@
     </ul>
     <!-- end featureread -->
     {% endif %}
-    {% if perms.bioinfo.view_annotationmetadata %}
+    {% if perms.bioinformatics.view_annotationmetadata %}
     <!-- begin annotationmetadata -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
@@ -640,7 +640,7 @@
           </div>
         </a>
       </li>
-      {% if perms.bioinfo.add_annotationmetadata %}
+      {% if perms.bioinformatics.add_annotationmetadata %}
       <li class="nav-item col-1">
         <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_annotationmetadata' in segment or 'update_annotationmetadata' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_annotationmetadata' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
@@ -653,7 +653,7 @@
     </ul>
     <!-- end annotationmetadata -->
     {% endif %}
-    {% if perms.bioinfo.view_taxonomicannotation %}
+    {% if perms.bioinformatics.view_taxonomicannotation %}
     <!-- begin taxonomicannotation -->
     <ul class="nav nav-fill p-1" role="tablist">
       <li class="nav-item mt-2 col-8">
@@ -667,7 +667,7 @@
           </div>
         </a>
       </li>
-      {% if perms.bioinfo.add_taxonomicannotation %}
+      {% if perms.bioinformatics.add_taxonomicannotation %}
       <li class="nav-item col-1">
         <a class="nav-link text-white mb-0 px-0 py-1 {% if 'add_taxonomicannotation' in segment or 'update_taxonomicannotation' in segment %} active bg-gradient-primary {% endif %}"
            href="{% url 'add_taxonomicannotation' %}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
@@ -680,7 +680,7 @@
     </ul>
     <!-- end taxonomicannotation -->
     {% endif %}
-    <!-- end bioinfo -->
+    <!-- end bioinformatics -->
     {% endif %}
     {% if perms.freezer_inventory %}
     <!-- begin freezer inventory -->

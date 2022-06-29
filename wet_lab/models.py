@@ -4,7 +4,7 @@ from django.utils.text import slugify
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 import uuid
 import os
-from bioinfo.models import QualityMetadata
+from bioinformatics.models import QualityMetadata
 from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
