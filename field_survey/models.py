@@ -315,6 +315,18 @@ class FilterSample(DateTimeUserMixin):
     filter_notes = models.TextField('Filter Notes', blank=True)
 
     @property
+    def collection_to_filtration_duration(self):
+        # compute time difference from collection to filtration
+        if not self.filter_datetime:
+            filtration_duration_fmt = 'Collection to filtration duration unavailable (no filtration datetime)'
+        else:
+            water_collection = self.field_sample.collection_global_id.water_collection.water_collect_datetime
+            filtration = self.filter_datetime
+            filtration_duration = filtration - water_collection
+            filtration_duration_fmt = '{timediff} from collection to filtration'.format(timediff=filtration_duration)
+        return filtration_duration_fmt
+
+    @property
     def mixs_depth(self):
         # mixs_v5
         # Depth is defined as the vertical distance below local surface, e.g. For sediment or soil samples depth is
@@ -370,6 +382,18 @@ class SubCoreSample(DateTimeUserMixin):
     subcore_diameter = models.DecimalField('Sub-Core Diameter (cm)', blank=True, null=True, max_digits=15, decimal_places=10)
     subcore_clayer = models.IntegerField('Sub-Core Consistency Layer', blank=True, null=True)
     subcore_notes = models.TextField('Sub-Core Notes', blank=True)
+
+    @property
+    def collection_to_subcoring_duration(self):
+        # compute time difference from collection to subcoring
+        if not self.subcore_datetime_start:
+            subcoring_duration_fmt = 'Collection to subcoring duration unavailable (no subcoring datetime)'
+        else:
+            sediment_collection = self.field_sample.collection_global_id.sediment_collection.core_datetime_start
+            subcoring = self.subcore_datetime_start
+            subcoring_duration = subcoring - sediment_collection
+            subcoring_duration_fmt = '{timediff} from collection to subcoring'.format(timediff=subcoring_duration)
+        return subcoring_duration_fmt
 
     @property
     def mixs_depth(self):
