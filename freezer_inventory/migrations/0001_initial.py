@@ -110,6 +110,7 @@ class Migration(migrations.Migration):
                 ('freezer_inventory_type', models.CharField(choices=[('filter', 'Filter'), ('subcore', 'SubCore'), ('extraction', 'Extraction'), ('pooled_lib', 'Pooled Library')], max_length=50, verbose_name='Freezer Inventory Type')),
                 ('freezer_inventory_status', models.CharField(choices=[('in', 'In Stock'), ('out', 'Checked Out'), ('perm_removed', 'Permanently Removed')], default='in', max_length=50, verbose_name='Freezer Inventory Status')),
                 ('freezer_inventory_loc_status', models.CharField(choices=[('empty', 'Empty'), ('filled', 'Filled')], default='filled', max_length=50, verbose_name='Freezer Inventory Location Status')),
+                ('freezer_inventory_freeze_datetime', models.DateTimeField(blank=True, null=True, verbose_name='First Freeze DateTime')),
                 ('freezer_inventory_column', models.PositiveIntegerField(verbose_name='Freezer Box Column')),
                 ('freezer_inventory_row', models.PositiveIntegerField(verbose_name='Freezer Box Row')),
                 ('freezer_box', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='freezer_box', to='freezer_inventory.freezerbox')),
