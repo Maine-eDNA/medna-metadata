@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models import Exists, OuterRef
 from django.db.models.query_utils import Q
-from utility.widgets import CustomSelect2Multiple, CustomSelect2
+from utility.widgets import CustomSelect2Multiple, CustomSelect2, CustomAdminSplitDateTime
 from utility.enumerations import YesNo, VolUnits, InvTypes, InvStatus
 from sample_label.models import SampleBarcode
 from .models import FreezerInventoryReturnMetadata, ReturnAction, FreezerInventory, FreezerBox
@@ -27,6 +27,11 @@ class FreezerInventoryForm(forms.ModelForm):
             }
         )
     )
+    freezer_inventory_freeze_datetime = forms.SplitDateTimeField(
+        required=True,
+        help_text='The date and time the sample was first placed in the freezer.',
+        widget=CustomAdminSplitDateTime()
+    )
     freezer_inventory_status = forms.ChoiceField(
         choices=InvStatus.choices,
         widget=CustomSelect2(
@@ -48,7 +53,7 @@ class FreezerInventoryForm(forms.ModelForm):
     class Meta:
         model = FreezerInventory
         fields = ('sample_barcode',
-                  'freezer_inventory_type', 'freezer_inventory_status',
+                  'freezer_inventory_type', 'freezer_inventory_freeze_datetime', 'freezer_inventory_status',
                   'freezer_box', 'freezer_inventory_column', 'freezer_inventory_row', )
 
     def __init__(self, *args, **kwargs):

@@ -132,6 +132,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
     freezer_inventory_type = serializers.ChoiceField(choices=InvTypes.choices)
     freezer_inventory_status = serializers.ChoiceField(choices=InvStatus.choices, default=InvStatus.IN)
     freezer_inventory_loc_status = serializers.ChoiceField(read_only=True, choices=InvLocStatus.choices, default=InvLocStatus.FILLED)
+    freezer_inventory_freeze_datetime = serializers.DateTimeField(allow_null=True)
     # location of inventory in freezer box
     freezer_inventory_column = serializers.IntegerField(min_value=1)
     freezer_inventory_row = serializers.IntegerField(min_value=1)
@@ -143,7 +144,7 @@ class FreezerInventorySerializer(serializers.ModelSerializer):
         fields = ['id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug',
                   'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_loc_status',
+                  'freezer_inventory_loc_status', 'freezer_inventory_freeze_datetime',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', ]
         validators = [

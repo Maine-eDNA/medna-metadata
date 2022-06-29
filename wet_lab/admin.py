@@ -656,7 +656,9 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['run_result', 'extraction', 'primer_set', 'fastq_datafile', 'submitted_to_insdc', 'created_by', ]
+        self.fields = ['run_result', 'extraction', 'primer_set', 'fastq_datafile',
+                       'submitted_to_insdc', 'insdc_url',
+                       'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -666,7 +668,8 @@ class FastqFileAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         # self.readonly_fields = ('fastq_datafile', )
-        self.fields = ['fastq_slug', 'uuid', 'run_result', 'extraction', 'primer_set', 'fastq_datafile', 'submitted_to_insdc',
+        self.fields = ['fastq_slug', 'uuid', 'run_result', 'extraction', 'primer_set', 'fastq_datafile',
+                       'submitted_to_insdc', 'insdc_url',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(FastqFileAdmin, self).change_view(request, object_id)

@@ -16,6 +16,7 @@ class FreezerInventoryTable(tables.Table):
     sample_barcode = tables.Column(accessor='sample_barcode.sample_barcode_id')
     freezer_inventory_type = tables.Column(verbose_name='Type')
     freezer_inventory_status = tables.Column(verbose_name='Status')
+    freezer_inventory_freeze_datetime = tables.Column(verbose_name='First Freeze DateTime', format='M d, Y h:i a')
     # formatting for date column
     created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
     modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
@@ -26,6 +27,7 @@ class FreezerInventoryTable(tables.Table):
         model = FreezerInventory
         fields = ('_selected_action', 'id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_type', 'freezer_inventory_status',
+                  'freezer_inventory_freeze_datetime',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', )
 

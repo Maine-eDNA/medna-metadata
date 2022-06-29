@@ -406,6 +406,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
     fastq_slug = serializers.SlugField(max_length=255, read_only=True)
     fastq_datafile = serializers.FileField(max_length=255)
     submitted_to_insdc = serializers.ChoiceField(choices=YesNo.choices, default=YesNo.NO)
+    insdc_url = serializers.URLField(allow_blank=True, max_length=255)
     seq_meth = serializers.ChoiceField(choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
     investigation_type = serializers.ChoiceField(choices=InvestigationTypes.choices, default=InvestigationTypes.MIMARKSSURVEY)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -414,7 +415,7 @@ class FastqFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = FastqFile
         fields = ['uuid', 'fastq_slug', 'run_result', 'extraction', 'primer_set', 'fastq_datafile',
-                  'submitted_to_insdc', 'seq_meth', 'investigation_type',
+                  'submitted_to_insdc', 'insdc_url', 'seq_meth', 'investigation_type',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
@@ -428,13 +429,14 @@ class FastqFileSerializer(serializers.ModelSerializer):
 class MixsWaterSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(read_only=True)
     submitted_to_insdc = serializers.ReadOnlyField()
+    insdc_url = serializers.ReadOnlyField()
     fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
     seq_meth = serializers.ReadOnlyField()
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'insdc_url', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', ]
@@ -485,13 +487,14 @@ class MixsWaterSerializer(serializers.ModelSerializer):
 class MixsSedimentSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(read_only=True)
     submitted_to_insdc = serializers.ReadOnlyField()
+    insdc_url = serializers.ReadOnlyField()
     fastq_datafile = serializers.ReadOnlyField()
     investigation_type = serializers.ReadOnlyField()
     seq_meth = serializers.ReadOnlyField()
 
     class Meta:
         model = FastqFile
-        fields = ['uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ['uuid', 'submitted_to_insdc', 'insdc_url', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', ]

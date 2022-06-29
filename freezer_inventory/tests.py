@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils import timezone
 from .models import ReturnAction, Freezer, FreezerRack, FreezerBox, FreezerInventory, FreezerInventoryLog, \
     FreezerInventoryReturnMetadata
 from utility.enumerations import TempUnits, MeasureUnits, CheckoutActions, YesNo, InvStatus, InvLocStatus, InvTypes
@@ -80,6 +81,7 @@ class FreezerBoxTestCase(TestCase):
 
 class FreezerInventoryTestCase(TestCase):
     def setUp(self):
+        current_datetime = timezone.now()
         freezer_box_test = FreezerBoxTestCase()
         sample_barcode_test = SampleBarcodeTestCase()
         freezer_box_test.setUp()
@@ -91,6 +93,7 @@ class FreezerInventoryTestCase(TestCase):
                                                          'freezer_inventory_type': InvTypes.FILTER,
                                                          'freezer_inventory_status': InvStatus.IN,
                                                          'freezer_inventory_loc_status': InvLocStatus.FILLED,
+                                                         'freezer_inventory_freeze_datetime': current_datetime,
                                                          'freezer_inventory_column': 1,
                                                          'freezer_inventory_row': 1})
 

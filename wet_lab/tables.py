@@ -163,7 +163,7 @@ class FastqFileTable(tables.Table):
     class Meta:
         model = FastqFile
         fields = ('_selected_action', 'uuid', 'run_result', 'extraction', 'primer_set', 'fastq_datafile',
-                  'submitted_to_insdc', 'seq_meth', 'investigation_type', 'created_by', 'created_datetime', 'modified_datetime', )
+                  'submitted_to_insdc', 'insdc_url', 'seq_meth', 'investigation_type', 'created_by', 'created_datetime', 'modified_datetime', )
 
 
 class MixsWaterTable(tables.Table):
@@ -177,6 +177,8 @@ class MixsWaterTable(tables.Table):
     uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
     # submitted_to_insdc - wet_lab.FastqFile
     submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
+    # insdc_url wet_lab.FastqFile
+    insdc_url = tables.Column(accessor='insdc_url', verbose_name='INSDC URL')
     # investigation_type - wet_lab.FastqFile
     investigation_type = tables.Column(accessor='investigation_type', verbose_name='Investigation Type')
     # seq_meth - wet_lab.FastqFile
@@ -262,7 +264,7 @@ class MixsWaterTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'insdc_url', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )
@@ -279,6 +281,8 @@ class MixsSedimentTable(tables.Table):
     uuid = tables.Column(accessor='uuid', verbose_name='Fastq File UUID')
     # submitted_to_insdc - wet_lab.FastqFile
     submitted_to_insdc = tables.Column(accessor='submitted_to_insdc', verbose_name='Submitted to INSDC')
+    # insdc_url - wet_lab.FastqFile
+    insdc_url = tables.Column(accessor='insdc_url', verbose_name='INSDC URL')
     # investigation_type - wet_lab.FastqFile
     investigation_type = tables.Column(accessor='investigation_type', verbose_name='Investigation Type')
     # seq_meth - wet_lab.FastqFile
@@ -364,7 +368,7 @@ class MixsSedimentTable(tables.Table):
 
     class Meta:
         model = FastqFile
-        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
+        fields = ('_selected_action', 'uuid', 'submitted_to_insdc', 'insdc_url', 'fastq_datafile', 'investigation_type', 'seq_meth', 'project_name', 'lat_lon', 'depth',
                   'geo_loc_name', 'collection_date', 'env_broad_scale', 'env_local_scale', 'env_medium',
                   'source_mat_id', 'samp_collect_device', 'samp_mat_process', 'samp_size', 'nucl_acid_ext', 'nucl_acid_amp',
                   'lib_layout', 'target_gene', 'target_subfragment', 'pcr_primers', 'mid', 'adapters', 'pcr_cond', )
