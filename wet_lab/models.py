@@ -544,6 +544,7 @@ class FastqFile(DateTimeUserMixin):
     fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage)
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
     submitted_to_insdc = models.CharField('Submitted to INSDC', max_length=3, choices=YesNo.choices, default=YesNo.NO)
+    insdc_url = models.URLField('INSDC URL', blank=True, max_length=255)
     # MIxS seq_meth - Sequencing method used; e.g. Sanger, pyrosequencing, ABI-solid
     seq_meth = models.CharField('Sequencing Method', max_length=255, choices=SeqMethods.choices, default=SeqMethods.ILLUMINAMISEQ)
     # MIxS investigation_type - (eukaryote, bacteria, virus, plasmid, organelle, metagenome, mimarks-survey, mimarks-specimen) - Yilmaz et al., 2011
