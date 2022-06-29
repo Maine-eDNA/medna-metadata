@@ -23,7 +23,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
   python ${APP_HOME}/manage.py migrate field_survey
   python ${APP_HOME}/manage.py migrate wet_lab
   python ${APP_HOME}/manage.py migrate freezer_inventory
-  python ${APP_HOME}/manage.py migrate bioinfo
+  python ${APP_HOME}/manage.py migrate bioinformatics
   python ${APP_HOME}/manage.py migrate
 fi
 
@@ -172,43 +172,43 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/freezer_inventory_freezerinventorylog.json
   echo "${0}: [$(date -u)] ***Loading freezer_inventory_freezerinventoryreturn"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/freezer_inventory_freezerinventoryreturn.json
-  # bioinfo
-  echo "${0}: [$(date -u)] ***Loading bioinfo_qualitymetadata"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_qualitymetadata.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_denoiseclustermethod"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_denoiseclustermethod.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_denoiseclustermetadata"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_denoiseclustermetadata.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_featureoutput"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_featureoutput.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_featureread"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_featureread.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxondomain"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxondomain.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonkingdom"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonkingdom.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonsupergroup"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonsupergroup.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonphylumdivision"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonphylumdivision.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonclass"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonclass.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonorder"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonorder.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonfamily"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonfamily.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxongenus"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxongenus.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonspecies"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonspecies.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_annotationmethod"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_annotationmethod.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_referencedatabase"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_referencedatabase.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_annotationmetadata"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_annotationmetadata.json
-  echo "${0}: [$(date -u)] ***Loading bioinfo_taxonomicannotation"
-  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinfo_taxonomicannotation.json
+  # bioinformatics
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_qualitymetadata"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_qualitymetadata.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_denoiseclustermethod"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_denoiseclustermethod.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_denoiseclustermetadata"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_denoiseclustermetadata.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_featureoutput"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_featureoutput.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_featureread"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_featureread.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxondomain"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxondomain.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonkingdom"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonkingdom.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonsupergroup"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonsupergroup.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonphylumdivision"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonphylumdivision.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonclass"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonclass.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonorder"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonorder.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonfamily"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonfamily.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxongenus"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxongenus.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonspecies"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonspecies.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_annotationmethod"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_annotationmethod.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_referencedatabase"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_referencedatabase.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_annotationmetadata"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_annotationmetadata.json
+  echo "${0}: [$(date -u)] ***Loading bioinformatics_taxonomicannotation"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/bioinformatics_taxonomicannotation.json
 fi
 
 if [ "x$DJANGO_COLLECT_STATIC" = 'xon' ]; then

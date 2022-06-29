@@ -24,7 +24,7 @@ if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
   python ${APP_HOME}/manage.py migrate field_survey
   python ${APP_HOME}/manage.py migrate wet_lab
   python ${APP_HOME}/manage.py migrate freezer_inventory
-  python ${APP_HOME}/manage.py migrate bioinfo
+  python ${APP_HOME}/manage.py migrate bioinformatics
   python ${APP_HOME}/manage.py migrate
 fi
 

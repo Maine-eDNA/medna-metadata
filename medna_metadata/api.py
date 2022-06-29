@@ -13,7 +13,7 @@ from sample_label import views as samplelabel_views
 from field_survey import views as fieldsurvey_views
 from wet_lab import views as wetlab_views
 from freezer_inventory import views as freezerinventory_views
-from bioinfo import views as bioinfo_views
+from bioinformatics import views as bioinfo_views
 from utility import views as utility_views
 from users import views as users_views
 
@@ -137,24 +137,24 @@ router.register(r'freezer_inventory/return_metadata', freezerinventory_views.Fre
 router.register(r'freezer_inventory/inventory_location', freezerinventory_views.FreezerInventoryLocNestedViewSet, 'inventory_location')
 router.register(r'freezer_inventory/inventory_logs', freezerinventory_views.FreezerInventoryLogsNestedViewSet, 'inventory_logs')
 router.register(r'freezer_inventory/inventory_returns', freezerinventory_views.FreezerInventoryReturnsNestedViewSet, 'inventory_returns')
-# bioinfo
-router.register(r'bioinfo/quality_metadata', bioinfo_views.QualityMetadataViewSet, 'quality_metadata')
-router.register(r'bioinfo/denoisecluster_method', bioinfo_views.DenoiseClusterMethodViewSet, 'denoisecluster_method')
-router.register(r'bioinfo/denoisecluster_metadata', bioinfo_views.DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
-router.register(r'bioinfo/feature', bioinfo_views.FeatureOutputViewSet, 'feature')
-router.register(r'bioinfo/feature_read', bioinfo_views.FeatureReadViewSet, 'feature_read')
-router.register(r'bioinfo/refdb', bioinfo_views.ReferenceDatabaseViewSet, 'refdb')
-router.register(r'bioinfo/domain', bioinfo_views.TaxonDomainViewSet, 'domain')
-router.register(r'bioinfo/kingdom', bioinfo_views.TaxonKingdomViewSet, 'kingdom')
-router.register(r'bioinfo/phylum_division', bioinfo_views.TaxonPhylumDivisionViewSet, 'phylum_division')
-router.register(r'bioinfo/class', bioinfo_views.TaxonClassViewSet, 'class')
-router.register(r'bioinfo/order', bioinfo_views.TaxonOrderViewSet, 'order')
-router.register(r'bioinfo/family', bioinfo_views.TaxonFamilyViewSet, 'family')
-router.register(r'bioinfo/genus', bioinfo_views.TaxonGenusViewSet, 'genus')
-router.register(r'bioinfo/species', bioinfo_views.TaxonSpeciesViewSet, 'species')
-router.register(r'bioinfo/annotation_method', bioinfo_views.AnnotationMethodViewSet, 'annotation_method')
-router.register(r'bioinfo/annotation_metadata', bioinfo_views.AnnotationMetadataViewSet, 'annotation_metadata')
-router.register(r'bioinfo/taxon_annotation', bioinfo_views.TaxonomicAnnotationViewSet, 'taxon_annotation')
+# bioinformatics
+router.register(r'bioinformatics/quality_metadata', bioinfo_views.QualityMetadataViewSet, 'quality_metadata')
+router.register(r'bioinformatics/denoisecluster_method', bioinfo_views.DenoiseClusterMethodViewSet, 'denoisecluster_method')
+router.register(r'bioinformatics/denoisecluster_metadata', bioinfo_views.DenoiseClusterMetadataViewSet, 'denoisecluster_metadata')
+router.register(r'bioinformatics/feature', bioinfo_views.FeatureOutputViewSet, 'feature')
+router.register(r'bioinformatics/feature_read', bioinfo_views.FeatureReadViewSet, 'feature_read')
+router.register(r'bioinformatics/refdb', bioinfo_views.ReferenceDatabaseViewSet, 'refdb')
+router.register(r'bioinformatics/domain', bioinfo_views.TaxonDomainViewSet, 'domain')
+router.register(r'bioinformatics/kingdom', bioinfo_views.TaxonKingdomViewSet, 'kingdom')
+router.register(r'bioinformatics/phylum_division', bioinfo_views.TaxonPhylumDivisionViewSet, 'phylum_division')
+router.register(r'bioinformatics/class', bioinfo_views.TaxonClassViewSet, 'class')
+router.register(r'bioinformatics/order', bioinfo_views.TaxonOrderViewSet, 'order')
+router.register(r'bioinformatics/family', bioinfo_views.TaxonFamilyViewSet, 'family')
+router.register(r'bioinformatics/genus', bioinfo_views.TaxonGenusViewSet, 'genus')
+router.register(r'bioinformatics/species', bioinfo_views.TaxonSpeciesViewSet, 'species')
+router.register(r'bioinformatics/annotation_method', bioinfo_views.AnnotationMethodViewSet, 'annotation_method')
+router.register(r'bioinformatics/annotation_metadata', bioinfo_views.AnnotationMetadataViewSet, 'annotation_metadata')
+router.register(r'bioinformatics/taxon_annotation', bioinfo_views.TaxonomicAnnotationViewSet, 'taxon_annotation')
 # mixs
 router.register(r'mixs/water', wetlab_views.MixsWaterReadOnlyViewSet, 'mixs_water')
 router.register(r'mixs/sediment', wetlab_views.MixsSedimentReadOnlyViewSet, 'mixs_sediment')

@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'field_survey',
     'wet_lab',
     'freezer_inventory',
-    'bioinfo',
+    'bioinformatics',
     'frontend.home',  # Enable the inner home (home)
     # 'corsheaders',  # corsheaders to whitelist urls for backend=>frontend api - https://github.com/adamchainz/django-cors-headers
     'allauth',  # django-allauth handles user registration as well as social authentication. - https://github.com/pennersr/django-allauth
@@ -670,9 +670,9 @@ APP_ORDER = OrderedDict([
     ('wet_lab', ['PrimerPair', 'IndexPair', 'IndexRemovalMethod', 'SizeSelectionMethod',
                  'QuantificationMethod', 'AmplificationMethod', 'ExtractionMethod', 'Extraction', 'PcrReplicate', 'Pcr',
                  'LibraryPrep', 'PooledLibrary', 'RunPrep', 'RunResult', 'FastqFile', 'WetLabDocumentationFile']),
-    ('bioinfo', ['QualityMetadata', 'DenoiseClusterMethod', 'DenoiseClusterMetadata',
-                 'FeatureOutput', 'FeatureRead',
-                 'ReferenceDatabase', 'AnnotationMethod', 'AnnotationMetadata', 'TaxonomicAnnotation',
-                 'TaxonDomain', 'TaxonKingdom', 'TaxonSupergroup', 'TaxonPhylumDivision', 'TaxonClass',
-                 'TaxonOrder', 'TaxonFamily', 'TaxonGenus', 'TaxonSpecies']),
+    ('bioinformatics', ['QualityMetadata', 'DenoiseClusterMethod', 'DenoiseClusterMetadata',
+                        'FeatureOutput', 'FeatureRead',
+                        'ReferenceDatabase', 'AnnotationMethod', 'AnnotationMetadata', 'TaxonomicAnnotation',
+                        'TaxonDomain', 'TaxonKingdom', 'TaxonSupergroup', 'TaxonPhylumDivision', 'TaxonClass',
+                        'TaxonOrder', 'TaxonFamily', 'TaxonGenus', 'TaxonSpecies']),
 ])

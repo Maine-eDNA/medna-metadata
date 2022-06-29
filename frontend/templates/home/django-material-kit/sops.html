@@ -15,7 +15,7 @@
   <div class="page-header min-vh-80"
        style="{% if sop_type == 'wet_lab' %}background-image: url('https://images.unsplash.com/photo-1615631570866-4ff59a69093a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
        {% elif sop_type == 'field_collection' %}background-image: url('https://images.unsplash.com/photo-1592870407191-67fa2b6c374e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
-       {% elif sop_type == 'bioinfo' %}background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% elif sop_type == 'bioinformatics' %}background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
        {% else %}background-image: url('https://images.unsplash.com/photo-1546250001-6b7b60086f17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
        {% endif %}">
     <span class="mask bg-gradient-dark opacity-6"></span>
@@ -26,7 +26,7 @@
             <h1 class="text-white">
               {% if sop_type == 'wet_lab' %} Wet Laboratory
               {% elif sop_type == 'field_collection' %} Field Collection
-              {% elif sop_type == 'bioinfo' %} Bioinformatics
+              {% elif sop_type == 'bioinformatics' %} Bioinformatics
               {% else %} {{ page_title|title }} {% endif %}
             </h1>
             <p class="lead mb-4 text-white opacity-8">{% if sop_type %}Standard Operating Procedures{% else %}{{ page_subtitle }}{% endif %}</p>

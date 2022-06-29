@@ -96,7 +96,7 @@ GROUPS = {
         'Inventory Log': ['add', 'delete', 'change', 'view'],
         'Inventory Return Metadata': ['add', 'delete', 'change', 'view'],
 
-        # bioinfo
+        # bioinformatics
         'Quality Metadata': ['add', 'delete', 'change', 'view'],
         'DenoiseCluster Method': ['add', 'delete', 'change', 'view'],
         'DenoiseCluster Metadata': ['add', 'delete', 'change', 'view'],
@@ -210,7 +210,7 @@ GROUPS = {
         'Inventory Log': ['add', 'change', 'view'],
         'Inventory Return Metadata': ['add', 'change', 'view'],
 
-        # bioinfo
+        # bioinformatics
         'Quality Metadata': ['add', 'change', 'view'],
         'DenoiseCluster Method': ['add', 'change', 'view'],
         'DenoiseCluster Metadata': ['add', 'change', 'view'],
@@ -309,7 +309,7 @@ GROUPS = {
         'Inventory Log': ['add', 'change', 'view'],
         'Inventory Return Metadata': ['change', 'view'],
 
-        # bioinfo
+        # bioinformatics
         'Quality Metadata': ['view'],
         'DenoiseCluster Method': ['view'],
         'DenoiseCluster Metadata': ['view'],
