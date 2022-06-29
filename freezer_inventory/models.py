@@ -183,6 +183,17 @@ class FreezerInventory(DateTimeUserMixin):
     freezer_inventory_column = models.PositiveIntegerField('Freezer Box Column')
     freezer_inventory_row = models.PositiveIntegerField('Freezer Box Row')
 
+    @property
+    def freeze_duration(self):
+        # total inventory freeze time since date first frozen
+        now = timezone.now()
+        if not self.freezer_inventory_freeze_datetime:
+            freezer_duration_fmt = 'Freeze duration unavailable (no first freeze datetime)'
+        else:
+            freezer_duration = now - self.freezer_inventory_freeze_datetime
+            freezer_duration_fmt = '{timediff} since first freeze date'.format(timediff=freezer_duration)
+        return freezer_duration_fmt
+
     def save(self, *args, **kwargs):
         old_barcode = None
         # set this way rather than 'if: == REMOVED; = EMPTY; else: = FILLED' so that the DB isn't hit every time
