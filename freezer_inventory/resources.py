@@ -122,12 +122,12 @@ class FreezerInventoryAdminResource(resources.ModelResource):
         # exclude = ('site_prefix', 'site_num')
         fields = ('id', 'freezer_box', 'sample_barcode',
                   'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
-                  'freezer_inventory_loc_status',
+                  'freezer_inventory_loc_status', 'freezer_inventory_freeze_datetime',
                   'freezer_inventory_column', 'freezer_inventory_row',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'freezer_box', 'sample_barcode',
                         'freezer_inventory_slug', 'freezer_inventory_type', 'freezer_inventory_status',
-                        'freezer_inventory_loc_status',
+                        'freezer_inventory_loc_status', 'freezer_inventory_freeze_datetime',
                         'freezer_inventory_column', 'freezer_inventory_row',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
