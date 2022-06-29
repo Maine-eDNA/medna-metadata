@@ -264,6 +264,33 @@ class Extraction(DateTimeUserMixin):
     extraction_notes = models.TextField('Extraction Notes', blank=True)
 
     @property
+    def sampling_to_extraction_duration(self):
+        # total inventory freeze time since date first frozen
+        WATER_SAMPLE = 'w'
+        SED_SAMPLE = 's'
+        extraction = self.extraction_datetime
+        if extraction:
+            if self.field_sample.sample_material.sample_material_code == WATER_SAMPLE:
+                filtration_datetime = self.field_sample.filter_sample.filter_datetime
+                if filtration_datetime:
+                    extraction_duration = extraction - filtration_datetime
+                    extraction_duration_fmt = '{timediff} from sampling to extraction'.format(timediff=extraction_duration)
+                else:
+                    extraction_duration_fmt = 'Sampling to extraction duration unavailable (no sampling datetime)'
+            elif self.field_sample.sample_material.sample_material_code == SED_SAMPLE:
+                subcoring_datetime = self.field_sample.subcore_sample.subcore_datetime_start
+                if subcoring_datetime:
+                    extraction_duration = extraction - subcoring_datetime
+                    extraction_duration_fmt = '{timediff} from sampling to extraction'.format(timediff=extraction_duration)
+                else:
+                    extraction_duration_fmt = 'Sampling to extraction duration unavailable (no sampling datetime)'
+            else:
+                extraction_duration_fmt = 'Sampling to extraction duration unavailable (no sampling datetime)'
+        else:
+            extraction_duration_fmt = 'Sampling to extraction duration unavailable (no extraction datetime)'
+        return extraction_duration_fmt
+
+    @property
     def mixs_nucl_acid_ext(self):
         # mixs_v5
         # Any processing applied to the sample during or after retrieving the sample from environment. This field
