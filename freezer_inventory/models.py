@@ -187,11 +187,12 @@ class FreezerInventory(DateTimeUserMixin):
     def freeze_duration(self):
         # total inventory freeze time since date first frozen
         now = timezone.now()
-        if not self.freezer_inventory_freeze_datetime:
-            freezer_duration_fmt = 'Freeze duration unavailable (no first freeze datetime)'
-        else:
-            freezer_duration = now - self.freezer_inventory_freeze_datetime
+        freeze_datetime = self.freezer_inventory_freeze_datetime
+        if freeze_datetime:
+            freezer_duration = now - freeze_datetime
             freezer_duration_fmt = '{timediff} since first freeze date'.format(timediff=freezer_duration)
+        else:
+            freezer_duration_fmt = 'Freeze duration unavailable (no first freeze datetime)'
         return freezer_duration_fmt
 
     def save(self, *args, **kwargs):

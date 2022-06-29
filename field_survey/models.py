@@ -354,13 +354,16 @@ class FilterSample(DateTimeUserMixin):
     @property
     def collection_to_filtration_duration(self):
         # compute time difference from collection to filtration
-        if not self.filter_datetime:
-            filtration_duration_fmt = 'Collection to filtration duration unavailable (no filtration datetime)'
-        else:
+        filtration = self.filter_datetime
+        if filtration:
             water_collection = self.field_sample.collection_global_id.water_collection.water_collect_datetime
-            filtration = self.filter_datetime
-            filtration_duration = filtration - water_collection
-            filtration_duration_fmt = '{timediff} from collection to filtration'.format(timediff=filtration_duration)
+            if water_collection:
+                filtration_duration = filtration - water_collection
+                filtration_duration_fmt = '{timediff} from collection to filtration'.format(timediff=filtration_duration)
+            else:
+                filtration_duration_fmt = 'Collection to filtration duration unavailable (no collection datetime)'
+        else:
+            filtration_duration_fmt = 'Collection to filtration duration unavailable (no filtration datetime)'
         return filtration_duration_fmt
 
     @property
@@ -422,13 +425,16 @@ class SubCoreSample(DateTimeUserMixin):
     @property
     def collection_to_subcoring_duration(self):
         # compute time difference from collection to subcoring
-        if not self.subcore_datetime_start:
-            subcoring_duration_fmt = 'Collection to subcoring duration unavailable (no subcoring datetime)'
-        else:
+        subcoring = self.subcore_datetime_start
+        if subcoring:
             sediment_collection = self.field_sample.collection_global_id.sediment_collection.core_datetime_start
-            subcoring = self.subcore_datetime_start
-            subcoring_duration = subcoring - sediment_collection
-            subcoring_duration_fmt = '{timediff} from collection to subcoring'.format(timediff=subcoring_duration)
+            if sediment_collection:
+                subcoring_duration = subcoring - sediment_collection
+                subcoring_duration_fmt = '{timediff} from collection to subcoring'.format(timediff=subcoring_duration)
+            else:
+                subcoring_duration_fmt = 'Collection to subcoring duration unavailable (no collection datetime)'
+        else:
+            subcoring_duration_fmt = 'Collection to subcoring duration unavailable (no subcoring datetime)'
         return subcoring_duration_fmt
 
     @property
