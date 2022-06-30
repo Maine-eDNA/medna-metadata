@@ -770,7 +770,9 @@ class WaterCollectionForm(forms.ModelForm):
         help_text='If the collection is a control, the type of control. A field control is deionized (DI) water exposed '
                   'to air in the field. A lab control is a blank filter that was placed on the filter apparatus with '
                   'fresh DI water (not the same DI water as the field control). An extraction control is a dry, unused '
-                  'filter that is put into a tube and extracted. A No Template Control is DNA free water used in PCR.',
+                  'filter that is put into a tube and extracted. A No Template Control is DNA free water used in PCR. A '
+                  'Mock Community is a positive control comprised of pre-selected specimens. An Environmental Standard '
+                  'is a multi-seasonal representation of a single location.',
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
