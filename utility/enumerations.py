@@ -206,6 +206,8 @@ class ControlTypes(models.TextChoices):
     LAB = 'lab', _('Lab')
     EXTRACTION = 'extraction', _('Extraction')
     NO_TEMPLATE_CONTROL = 'no_template_control', _('No Template Control')
+    MOCK_COMMUNITY = 'mock_community', _('Mock Community')
+    ENV_STANDARD = 'env_standard', _('Environmental Standard')
     __empty__ = _('(Unknown)')
 
 
