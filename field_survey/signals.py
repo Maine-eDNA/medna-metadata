@@ -31,13 +31,14 @@ def create_sample(sender, instance, created, **kwargs):
     # WATER_SAMPLE = SampleMaterial.objects.get(sample_material_code='w')
     WATER_SAMPLE = 'w'
     SED_SAMPLE = 's'
-    if created and instance.sample_material.sample_material_code == WATER_SAMPLE:
+    material_code = instance.sample_material.sample_material_code
+    if created and material_code == WATER_SAMPLE:
         FilterSample.objects.create(field_sample=instance)
-    elif created and instance.sample_material.sample_material_code == SED_SAMPLE:
+    elif created and material_code == SED_SAMPLE:
         SubCoreSample.objects.create(field_sample=instance)
-    if instance.sample_material.sample_material_code == WATER_SAMPLE:
+    if material_code == WATER_SAMPLE:
         # filter_sample is the related_name for FilterSample to FieldSample
         instance.filter_sample.save()
-    if instance.sample_material.sample_material_code == SED_SAMPLE:
+    if material_code == SED_SAMPLE:
         # subcore_sample is the related_name for SubCoreSample to FieldSample
         instance.subcore_sample.save()
