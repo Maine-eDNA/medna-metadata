@@ -772,7 +772,8 @@ class WaterCollectionForm(forms.ModelForm):
                   'fresh DI water (not the same DI water as the field control). An extraction control is a dry, unused '
                   'filter that is put into a tube and extracted. A No Template Control is DNA free water used in PCR. A '
                   'Mock Community is a positive control comprised of pre-selected specimens. An Environmental Standard '
-                  'is a multi-seasonal representation of a single location.',
+                  'is a positive control that is derived from a single water collection taken at a distinct location and '
+                  'time.',
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
