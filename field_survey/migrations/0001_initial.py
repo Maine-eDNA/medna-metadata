@@ -159,7 +159,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('field_collection', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, related_name='water_collection', serialize=False, to='field_survey.fieldcollection')),
                 ('water_control', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], max_length=50, verbose_name='Is Control')),
-                ('water_control_type', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('field', 'Field'), ('lab', 'Lab'), ('extraction', 'Extraction'), ('no_template_control', 'No Template Control')], max_length=50, verbose_name='Control Type')),
+                ('water_control_type', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('field', 'Field'), ('lab', 'Lab'), ('extraction', 'Extraction'), ('no_template_control', 'No Template Control'), ('mock_community', 'Mock Community'), ('env_standard', 'Environmental Standard')], max_length=50, verbose_name='Control Type')),
                 ('water_vessel_label', models.CharField(blank=True, max_length=255, verbose_name='Water Vessel Label')),
                 ('water_collect_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Water Collection DateTime')),
                 ('water_collect_depth', models.DecimalField(blank=True, decimal_places=10, max_digits=15, null=True, verbose_name='Water Collection Depth')),
