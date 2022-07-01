@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(
+        initial='test@user.com',
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Username',
@@ -16,7 +17,9 @@ class LoginForm(forms.Form):
             }
         ))
     password = forms.CharField(
+        initial='t3st3dn@',
         widget=forms.PasswordInput(
+            render_value = True,
             attrs={
                 'placeholder': 'Password',
                 'class': 'form-control'
