@@ -345,7 +345,7 @@ Modify then write the following to the file::
     WorkingDirectory=/path/to/medna-metadata
     EnvironmentFile=/path/to/medna-metadata/docker/gunicorn.env
     ExecStart=/path/to/.virtualenvs/mednaenv/bin/gunicorn \
-              -- log-config /path/to/medna-metadata/docker/gunicorn-logging.conf \
+              --log-config ${GUNICORN_CONFIG_FILE} \
               --workers 3 \
               --timeout 300 \
               --bind unix:/run/gunicorn.sock \
