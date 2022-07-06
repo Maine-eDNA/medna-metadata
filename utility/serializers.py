@@ -91,7 +91,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals',
+        fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals', 'local_contexts_id',
                   'grant_names', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
