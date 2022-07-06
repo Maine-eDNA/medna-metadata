@@ -302,10 +302,18 @@ logging.config.dictConfig({
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
+        'logfile': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/tmp/django.log',
+            'maxBytes': 1000000,
+            'backupCount': 10,
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'logfile'],
+            'level': 'INFO',
             'propagate': True,
         },
     },
