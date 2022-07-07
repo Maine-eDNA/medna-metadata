@@ -3,9 +3,12 @@ from django.utils import timezone
 from celery.utils.log import get_task_logger
 from medna_metadata.celery import app
 from medna_metadata.tasks import BaseTaskWithRetry
-from medna_metadata import settings
-from utility.models import PeriodicTaskRun
-from wet_lab.models import FastqFile, RunResult, WetLabDocumentationFile
+from django.conf import settings
+from sample_label.models import SampleBarcode
+from utility.models import PeriodicTaskRun, ProcessLocation, StandardOperatingProcedure
+from wet_lab.models import Extraction, LibraryPrep, PooledLibrary, FastqFile, RunPrep, RunResult, \
+    WetLabDocumentationFile, ExtractionMethod, QuantificationMethod, AmplificationMethod, PrimerPair,\
+    SizeSelectionMethod, IndexPair, IndexRemovalMethod
 # import csv
 import pandas as pd
 from io import StringIO
@@ -14,23 +17,13 @@ logger = get_task_logger(__name__)
 
 
 # TODO - these tasks are not running and partially tested
-def get_s3_run_dirs():
-    try:
-        client = boto3.client('s3',
-                              endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-                              aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                              aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
-
-        response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
-                                          Prefix=settings.AWS_PRIVATE_SEQUENCING_LOCATION + '/',
-                                          Delimiter='/')
-        run_dirs = []
-        for prefix in response['CommonPrefixes']:
-            run_dirs.append(prefix['Prefix'][:-1])
-
-        return run_dirs
-    except Exception as err:
-        raise RuntimeError('** Error: get_s3_run_dirs Failed (' + str(err) + ')')
+def remove_s3_subfolder_from_path(s3_key):
+    if settings.AWS_PRIVATE_SEQUENCING_LOCATION:
+        sequencing_subfolder = settings.AWS_PRIVATE_SEQUENCING_LOCATION + '/'
+    else:
+        sequencing_subfolder = ''
+    replaced_s3_key = s3_key.replace(sequencing_subfolder, '')
+    return replaced_s3_key
 
 
 def get_runid_from_key(run_key):
@@ -48,6 +41,25 @@ def get_runid_from_key(run_key):
         return run_id
     except Exception as err:
         raise RuntimeError('** Error: get_runid_from_key Failed (' + str(err) + ')')
+
+
+def get_s3_run_dirs():
+    try:
+        client = boto3.client('s3',
+                              endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+                              aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                              aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+
+        response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
+                                          Prefix=settings.AWS_PRIVATE_SEQUENCING_LOCATION + '/',
+                                          Delimiter='/')
+        run_dirs = []
+        for prefix in response['CommonPrefixes']:
+            run_dirs.append(prefix['Prefix'][:-1])
+
+        return run_dirs
+    except Exception as err:
+        raise RuntimeError('** Error: get_s3_run_dirs Failed (' + str(err) + ')')
 
 
 def get_wetlabdoc_filename_from_key(run_key):
@@ -79,14 +91,12 @@ def get_s3_fastq_keys(run_keys):
 
 def get_s3_wetlabdoc_keys(run_keys):
     try:
-        client = boto3.client('s3',
-                              endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-                              aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                              aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+        if type(run_keys) is not list:
+            run_keys = [run_keys]
+        client = boto3.client('s3', endpoint_url=settings.AWS_S3_ENDPOINT_URL, aws_access_key_id=settings.AWS_ACCESS_KEY_ID, aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
         object_keys = []
         for run_key in run_keys:
-            response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME,
-                                              Prefix=run_key)
+            response = client.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME, Prefix=run_key)
             for obj in response['Contents']:
                 object_keys.append(obj['Key'])
 
@@ -113,26 +123,116 @@ def update_record_fastq_file(record, pk):
         raise RuntimeError('** Error: update_record_fastq_file Failed (' + str(err) + ')')
 
 
-def update_record_wetlabdoc_file(record, pk):
+def update_record_wetlabdoc_file(pk, library_prep_location, library_prep_datetime, pooled_library_label,
+                                 pooled_library_location, pooled_library_datetime, run_prep_location,
+                                 run_prep_datetime, sequencing_location):
     try:
         wetlabdoc_file, created = WetLabDocumentationFile.objects.update_or_create(
             uuid=pk,
             defaults={
-                'library_prep_location': record.library_prep_location,
-                'library_prep_datetime': record.library_prep_datetime,
-                'pooled_library_label': record.pooled_library_label,
-                'pooled_library_location': record.pooled_library_location,
-                'pooled_library_datetime': record.pooled_library_datetime,
-                'run_prep_location': record.run_prep_location,
-                'run_prep_datetime': record.run_prep_datetime,
-                'sequencing_location': record.sequencing_location,
-                'documentation_notes': record.documentation_notes,
-                'created_by': record.created_by,
+                'library_prep_location': library_prep_location,
+                'library_prep_datetime': library_prep_datetime,
+                'pooled_library_label': pooled_library_label,
+                'pooled_library_location': pooled_library_location,
+                'pooled_library_datetime': pooled_library_datetime,
+                'run_prep_location': run_prep_location,
+                'run_prep_datetime': run_prep_datetime,
+                'sequencing_location': sequencing_location,
             }
         )
         return wetlabdoc_file, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_wetlabdoc_file Failed (' + str(err) + ')')
+
+
+def update_record_extraction(extraction_barcode, field_sample, extraction_control,
+                             extraction_control_type, process_location, extraction_datetime,
+                             extraction_method,
+                             extraction_volume, extraction_volume_units, quantification_method,
+                             extraction_concentration, extraction_concentration_units,
+                             extraction_notes):
+    try:
+        # convert to lowercase to prevent mismatches due to camelcase
+        extraction_barcode = SampleBarcode.objects.get(barcode_slug=extraction_barcode.lower())
+        field_sample = SampleBarcode.objects.get(barcode_slug=field_sample.lower())
+        if extraction_barcode and field_sample:
+            process_location = ProcessLocation.objects.get(process_location_name=process_location)
+            # TODO change to lookup via sop_url
+            extraction_method = ExtractionMethod.objects.get(extraction_method_name=extraction_method)
+            quantification_method = QuantificationMethod.objects.get(quant_method_name=quantification_method)
+            extraction, created = Extraction.objects.update_or_create(
+                extraction_barcode=extraction_barcode,
+                defaults={
+                    'field_sample': field_sample,
+                    'extraction_control': extraction_control,
+                    'extraction_control_type': extraction_control_type,
+                    'process_location': process_location,
+                    'extraction_datetime': extraction_datetime,
+                    'extraction_method': extraction_method,
+                    'extraction_volume': extraction_volume,
+                    'extraction_volume_units': extraction_volume_units,
+                    'quantification_method': quantification_method,
+                    'extraction_concentration': extraction_concentration,
+                    'extraction_concentration_units': extraction_concentration_units,
+                    'extraction_notes': extraction_notes,
+                }
+            )
+        else:
+            extraction, created = None
+        return extraction, created
+    except Exception as err:
+        raise RuntimeError('** Error: update_record_extraction Failed (' + str(err) + ')')
+
+
+def update_record_libraryprep(lib_prep_experiment_name, lib_prep_datetime, process_location,
+                              extraction, amplification_method, primer_set,
+                              size_selection_method, index_removal_method,
+                              quantification_method, lib_prep_qubit_results, lib_prep_qubit_units,
+                              lib_prep_qpcr_results, lib_prep_qpcr_units,
+                              lib_prep_final_concentration, lib_prep_final_concentration_units,
+                              lib_prep_kit, lib_prep_type, lib_prep_layout, lib_prep_thermal_cond,
+                              lib_prep_sop, lib_prep_notes):
+    try:
+        # convert to lowercase to prevent mismatches due to camelcase
+        extraction = Extraction.objects.get(extraction=extraction)
+        if extraction and lib_prep_experiment_name:
+            process_location = ProcessLocation.objects.get(process_location_name=process_location)
+            primer_set = PrimerPair.objects.get(extraction_method_name=primer_set)
+            amplification_method = AmplificationMethod.objects.get(amplification_method_name=amplification_method)
+            size_selection_method = SizeSelectionMethod.objects.get(size_selection_method_name=size_selection_method)
+            index_removal_method = IndexRemovalMethod.objects.get(index_removal_method_name=index_removal_method)
+            quantification_method = QuantificationMethod.objects.get(quant_method_name=quantification_method)
+            lib_prep_sop = StandardOperatingProcedure.objects.get(sop_url=lib_prep_sop)
+            extraction, created = LibraryPrep.objects.update_or_create(
+                lib_prep_experiment_name=lib_prep_experiment_name,
+                extraction=extraction,
+                primer_set=primer_set,
+                defaults={
+                    'lib_prep_datetime': lib_prep_datetime,
+                    'process_location': process_location,
+                    'amplification_method': amplification_method,
+                    'size_selection_method': size_selection_method,
+                    'index_removal_method': index_removal_method,
+                    'quantification_method': quantification_method,
+                    'lib_prep_qubit_results': lib_prep_qubit_results,
+                    'lib_prep_qubit_units': lib_prep_qubit_units,
+                    'lib_prep_qpcr_results': lib_prep_qpcr_results,
+                    'lib_prep_qpcr_units': lib_prep_qpcr_units,
+                    'lib_prep_final_concentration': lib_prep_final_concentration,
+                    'lib_prep_final_concentration_units': lib_prep_final_concentration_units,
+                    'lib_prep_kit': lib_prep_kit,
+                    'lib_prep_type': lib_prep_type,
+                    'lib_prep_layout': lib_prep_layout,
+                    'lib_prep_thermal_cond': lib_prep_thermal_cond,
+                    'lib_prep_sop': lib_prep_sop,
+                    'lib_prep_notes': lib_prep_notes,
+                }
+            )
+        else:
+            extraction, created = None
+        return extraction, created
+    except Exception as err:
+        raise RuntimeError('** Error: update_record_extraction Failed (' + str(err) + ')')
 
 
 def update_queryset_fastq_file(queryset):
@@ -148,72 +248,107 @@ def update_queryset_fastq_file(queryset):
         raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
 
 
-def parse_wetlabdoc_file(wetlabdoc_datafile):
+def parse_wetlabdoc_file(wetlabdoc_file):
     try:
-        record = dict({})
-        file = wetlabdoc_datafile.read().decode('utf-8')
+        update_count = 0
+        wetlabdoc_datafile = wetlabdoc_file.wetlabdoc_datafile
+        pk = wetlabdoc_file.pk
+        # record = dict({})
+        # file = wetlabdoc_datafile.read().decode('utf-8')
         # csv_data = csv.reader(StringIO(file), delimiter=',')
-        extr_libprep_df = pd.read_excel(StringIO(file), sheet_name=0)
-        for row in extr_libprep_df:
+        extr_libprep_df = pd.read_excel(wetlabdoc_datafile, sheet_name=1)
+        num_rows = extr_libprep_df.shape[0]
+        for row in range(0, num_rows):
             print(row)
             # EXTRACTION + LIB PREP
-            record.append('in_survey123', row[0])
-            record.append('sample_name', row[1])
-            record.append('field_barcode', row[2])
-            record.append('extraction_barcode', row[3])
-            record.append('extraction_location', row[4])
-            record.append('extraction_control', row[5])
-            record.append('extraction_control_type', row[6])
-            record.append('extraction_datetime', row[7])
-            record.append('extraction_method', row[8])
-            record.append('extraction_sop_url', row[9])
-            record.append('extraction_elution_volume', row[10])
-            record.append('extraction_elution_volume_units', row[11])
-            record.append('extraction_quantification_method', row[12])
-            record.append('extraction_concentration', row[13])
-            record.append('extraction_concentration_units', row[14])
-            record.append('extraction_notes', row[15])
-            record.append('library_prep_location', row[16])
-            record.append('library_prep_datetime', row[17])
-            record.append('library_prep_amplification_method', row[18])
-            record.append('library_prep_primer_set_name', row[19])
-            record.append('library_prep_index_removal_method', row[20])
-            record.append('library_prep_size_selection_method', row[21])
-            record.append('library_prep_experiment_name', row[22])
-            record.append('library_prep_quantification_method', row[23])
-            record.append('qubit_results', row[24])
-            record.append('qubit_units', row[25])
-            record.append('qpcr_results', row[26])
-            record.append('qpcr_units', row[27])
-            record.append('library_prep_final_concentration', row[28])
-            record.append('library_prep_final_concentration_units', row[29])
-            record.append('library_prep_kit', row[30])
-            record.append('library_prep_type', row[31])
-            record.append('library_prep_thermal_sop_url', row[32])
-            record.append('library_prep_notes', row[33])
-        pooledlib_df = pd.read_excel(StringIO(file), sheet_name=1)
+            in_survey123 = extr_libprep_df['in_survey123'][row]
+            sample_name = extr_libprep_df['sample_name'][row]
+            field_barcode = extr_libprep_df['field_barcode'][row]
+            extraction_barcode = extr_libprep_df['extraction_barcode'][row]
+            extraction_location = extr_libprep_df['extraction_location'][row]
+            extraction_control = extr_libprep_df['extraction_control'][row]
+            extraction_control_type = extr_libprep_df['extraction_control_type'][row]
+            extraction_datetime = extr_libprep_df['extraction_datetime'][row]
+            extraction_method = extr_libprep_df['extraction_method'][row]
+            # TODO change extraction_method to instead lookup via the sop_url
+            extraction_sop_url = extr_libprep_df['extraction_sop_url'][row]
+            extraction_elution_volume = extr_libprep_df['extraction_elution_volume'][row]
+            extraction_elution_volume_units = extr_libprep_df['extraction_elution_volume_units'][row]
+            extraction_quantification_method = extr_libprep_df['extraction_quantification_method'][row]
+            extraction_concentration = extr_libprep_df['extraction_concentration'][row]
+            extraction_concentration_units = extr_libprep_df['extraction_concentration_units'][row]
+            extraction_notes = extr_libprep_df['extraction_notes'][row]
+
+            # create extraction record
+            extraction, extr_created = update_record_extraction(extraction_barcode, field_barcode, extraction_control,
+                                                                extraction_control_type, extraction_location,
+                                                                extraction_datetime,
+                                                                extraction_method,
+                                                                extraction_elution_volume,
+                                                                extraction_elution_volume_units,
+                                                                extraction_quantification_method,
+                                                                extraction_concentration,
+                                                                extraction_concentration_units,
+                                                                extraction_notes)
+
+            if extr_created:
+                update_count += 1
+
+            library_prep_location = extr_libprep_df['library_prep_location'][row]
+            library_prep_datetime = extr_libprep_df['library_prep_datetime'][row]
+            library_prep_amplification_method = extr_libprep_df['library_prep_amplification_method'][row]
+            library_prep_primer_set_name = extr_libprep_df['library_prep_primer_set_name'][row]
+            library_prep_index_removal_method = extr_libprep_df['library_prep_index_removal_method'][row]
+            library_prep_size_selection_method = extr_libprep_df['library_prep_size_selection_method'][row]
+            library_prep_experiment_name = extr_libprep_df['library_prep_experiment_name'][row]
+            library_prep_quantification_method = extr_libprep_df['library_prep_quantification_method'][row]
+            qubit_results = extr_libprep_df['qubit_results'][row]
+            qubit_units = extr_libprep_df['qubit_units'][row]
+            qpcr_results = extr_libprep_df['qpcr_results'][row]
+            qpcr_units = extr_libprep_df['qpcr_units'][row]
+            library_prep_final_concentration = extr_libprep_df['library_prep_final_concentration'][row]
+            library_prep_final_concentration_units = extr_libprep_df['library_prep_final_concentration_units'][row]
+            library_prep_kit = extr_libprep_df['library_prep_kit'][row]
+            library_prep_type = extr_libprep_df['library_prep_type'][row]
+            library_prep_thermal_sop_url = extr_libprep_df['library_prep_thermal_sop_url'][row]
+            library_prep_notes = extr_libprep_df['library_prep_notes'][row]
+
+            # update_record_libraryprep(library_prep_experiment_name, library_prep_datetime, library_prep_location,
+            #                           extraction, library_prep_amplification_method, library_prep_primer_set_name,
+            #                           library_prep_size_selection_method, library_prep_index_removal_method,
+            #                           library_prep_quantification_method, qubit_results, qubit_units,
+            #                           qpcr_results, qpcr_units,
+            #                           library_prep_final_concentration, library_prep_final_concentration_units,
+            #                           library_prep_kit, library_prep_type, lib_prep_layout, lib_prep_thermal_cond,
+            #                           lib_prep_sop, lib_prep_notes)
+
+        pooledlib_df = pd.read_excel(wetlabdoc_datafile, sheet_name=2)
         for row in pooledlib_df:
             # POOLED LIBRARY
-            record.append('pooled_library_label', row[0])
-            record.append('pooled_library_location', row[1])
-            record.append('pooled_library_datetime', row[2])
-            record.append('pooled_library_quantification_method', row[3])
-            record.append('pooled_library_concentration', row[4])
-            record.append('pooled_library_concentration_units', row[5])
-            record.append('pooled_library_notes', row[6])
-        runprep_df = pd.read_excel(StringIO(file), sheet_name=2)
+            pooled_library_label = extr_libprep_df['pooled_library_label'][row]
+            pooled_library_location = extr_libprep_df['pooled_library_location'][row]
+            pooled_library_datetime = extr_libprep_df['pooled_library_datetime'][row]
+            pooled_library_quantification_method = extr_libprep_df['pooled_library_quantification_method'][row]
+            pooled_library_concentration = extr_libprep_df['pooled_library_concentration'][row]
+            pooled_library_concentration_units = extr_libprep_df['pooled_library_concentration_units'][row]
+            pooled_library_notes = extr_libprep_df['pooled_library_notes'][row]
+        runprep_df = pd.read_excel(wetlabdoc_datafile, sheet_name=3)
         for row in runprep_df:
             # RUN PREP
-            record.append('run_prep_location', row[0])
-            record.append('run_prep_datetime', row[1])
-            record.append('sequencing_location', row[2])
-            record.append('phix_spike_in', row[3])
-            record.append('phix_spike_in_units', row[4])
-            record.append('final_library_quantification_method', row[5])
-            record.append('final_library_concentration', row[6])
-            record.append('final_library_concentration_units', row[7])
-            record.append('run_prep_notes', row[8])
-        return record
+            run_prep_location = extr_libprep_df['run_prep_location'][row]
+            run_prep_datetime = extr_libprep_df['run_prep_datetime'][row]
+            sequencing_location = extr_libprep_df['sequencing_location'][row]
+            phix_spike_in = extr_libprep_df['phix_spike_in'][row]
+            phix_spike_in_units = extr_libprep_df['phix_spike_in_units'][row]
+            final_library_quantification_method = extr_libprep_df['final_library_quantification_method'][row]
+            final_library_concentration = extr_libprep_df['final_library_concentration'][row]
+            final_library_concentration_units = extr_libprep_df['final_library_concentration_units'][row]
+            run_prep_notes = extr_libprep_df['run_prep_notes'][row]
+
+        update_record_wetlabdoc_file(pk, library_prep_location, library_prep_datetime, pooled_library_label,
+                                     pooled_library_location, pooled_library_datetime, run_prep_location,
+                                     run_prep_datetime, sequencing_location)
+        return update_count
     except Exception as err:
         raise RuntimeError('** Error: update_record_wetlabdoc_file Failed (' + str(err) + ')')
 
@@ -225,10 +360,11 @@ def ingest_wetlabdoc_files(runs_in_s3):
         for s3_run in runs_in_s3:
             s3_wetlabdoc_keys = get_s3_wetlabdoc_keys(s3_run)
             for s3_wetlabdoc_key in s3_wetlabdoc_keys:
+                wetlabdoc_datafile = remove_s3_subfolder_from_path(s3_wetlabdoc_key)
                 # wetlabdoc_filename = get_wetlabdoc_filename_from_key(s3_wetlabdoc_key)
-                wetlabdoc_file = WetLabDocumentationFile.objects.get(wetlabdoc_datafile=s3_wetlabdoc_key)
+                wetlabdoc_file = WetLabDocumentationFile.objects.get(wetlabdoc_datafile=wetlabdoc_datafile)
                 if not wetlabdoc_file:
-                    wetlabdoc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlabdoc_datafile=s3_wetlabdoc_key)
+                    wetlabdoc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlabdoc_datafile=wetlabdoc_datafile)
                     parse_wetlabdoc_file(wetlabdoc_file)
                     if created:
                         update_count += 1
@@ -244,16 +380,17 @@ def ingest_fastq_files(runs_in_s3):
         for s3_run in runs_in_s3:
             run_id = get_runid_from_key(s3_run)
             run_result = RunResult.objects.get(run_id=run_id)
-            # TODO - check get_s3_fastq_keys commit history & see what changed b/c failing on contents
-            s3_fastq_keys = get_s3_fastq_keys(s3_run)
-            for s3_fastq_key in s3_fastq_keys:
-                fastq_file = FastqFile.objects.get(fastq_datafile=s3_fastq_key)
-                if not fastq_file:
-                    # TODO - change to call update_record_fastq_file
-                    fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result.pk,
-                                                                             fastq_datafile=s3_fastq_key)
-                    if created:
-                        update_count += 1
+            if run_result:
+                s3_fastq_keys = get_s3_fastq_keys(s3_run)
+                for s3_fastq_key in s3_fastq_keys:
+                    fastq_datafile = remove_s3_subfolder_from_path(s3_fastq_key)
+                    fastq_file = FastqFile.objects.get(fastq_datafile=fastq_datafile)
+                    if not fastq_file:
+                        # TODO - change to call update_record_fastq_file
+                        fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result,
+                                                                                 fastq_datafile=fastq_datafile)
+                        if created:
+                            update_count += 1
         return update_count
     except Exception as err:
         raise RuntimeError('** Error: ingest_fastq_files Failed (' + str(err) + ')')
