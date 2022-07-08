@@ -14,7 +14,6 @@ from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import logging.config
 import os
-from celery.schedules import crontab
 from collections import OrderedDict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -470,7 +469,7 @@ SWAGGER_SETTINGS = {
 ############################################
 
 # Defaults to False. Saves the full database at 4:30AM local time,
-# which can be updated under CELERYBEAT_SCHEDULE (below)
+# which can be updated under CELERYBEAT_SCHEDULE in celery.py
 # The db_backup task is in utility/tasks.py
 DB_BACKUPS = os.environ.get('DB_BACKUPS', False) == 'True'
 
@@ -550,24 +549,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/static'),
 ]
 
-########################################
-# CELERY CONFIG                        #
-########################################
+##########################################
+# CELERY CONFIG                          #
+# remaining celery settings in celery.py #
+##########################################
 # https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
 BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-
-CELERYBEAT_SCHEDULE = {
-    # 'transform-new-records': {
-    #     'task': 'field_survey.tasks.transform_new_records_field_survey_task',
-    #     'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
-    # },
-    # If DB_BACKUPS is true, then this sets the scheduler for the db_backup task.
-    'db-backup': {
-        'task': 'utility.tasks.db_backup',
-        'schedule': crontab(hour=4, minute=30),  # Everyday at 04:30
-    },
-}
 
 ###########################################
 # DJANGO-CRISPY-FORMS & BOOTSTRAP5 CONFIG #
