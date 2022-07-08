@@ -25,6 +25,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 # celerybeat config
+# https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html#crontab-schedules
 # crontab e.g., 'schedule': crontab(hour=7, minute=30, day_of_week=1) - Executes every Monday morning at 7:30 a.m.
 app.conf.beat_schedule = {
     'transform-new-records-field-survey-task': {
