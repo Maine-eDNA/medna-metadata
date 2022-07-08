@@ -3,7 +3,8 @@ $(function () {
     // grab each project_code from response to render each project's local context project ID
     $('[id^=lcLoading_]').each(function() {
         // dynamically set ID based on returned project_code in template
-        var project_code = this.id.split('_').pop();
+        var project_code = this.id.split('_').splice(1).join('_');
+        var lc_loading_id = 'lcLoading_'+project_code
         var $lcProjectIdSpan = $("#lcProjectId_"+project_code)
         var $projectUniqueId = $lcProjectIdSpan.text();
         var $lcResponse = $("#lcResponse_"+project_code)
@@ -20,7 +21,7 @@ $(function () {
             dataType:'json',
             success: function (data) {
             //console.log(data[0].detail);
-                document.getElementById('lcLoading_'+project_code).remove() // remove loading spinner from page
+                document.getElementById(lc_loading_id).remove() // remove loading spinner from page
                 if (data.notice) {
                     $lcProjectIdSpan.remove()
                     $.each(data.notice, function(key, value){ // The contents inside notice
