@@ -1,6 +1,6 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, \
     CustomUserCss, PeriodicTaskRun, MetadataTemplate
 from users.models import CustomUser
 
@@ -14,13 +14,13 @@ class PeriodicTaskRunAdminResource(resources.ModelResource):
         export_order = ('id', 'task', 'task_datetime', )
 
 
-class GrantAdminResource(resources.ModelResource):
+class FundAdminResource(resources.ModelResource):
     # formerly Project in field_site.models
     # Maine-eDNA, None
     class Meta:
-        model = Grant
-        import_id_fields = ('id', 'grant_code',)
-        export_order = ('id', 'grant_code', 'grant_label', 'grant_description',
+        model = Fund
+        import_id_fields = ('id', 'fund_code',)
+        export_order = ('id', 'fund_code', 'fund_label', 'fund_description',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
@@ -39,14 +39,14 @@ class ProjectAdminResource(resources.ModelResource):
         model = Project
         import_id_fields = ('id', 'project_code', )
         fields = ('id', 'project_code', 'project_label', 'project_description', 'project_goals',
-                  'grant_names', 'local_contexts_id', 'created_by', 'created_datetime', 'modified_datetime', )
+                  'fund_names', 'local_contexts_id', 'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'project_code', 'project_label', 'project_description', 'project_goals',
-                        'grant_names', 'local_contexts_id', 'created_by', 'created_datetime', 'modified_datetime', )
+                        'fund_names', 'local_contexts_id', 'created_by', 'created_datetime', 'modified_datetime', )
 
-    grant_names = fields.Field(
-        column_name='grant_names',
-        attribute='grant_names',
-        widget=ManyToManyWidget(Grant, 'grant_label'))
+    fund_names = fields.Field(
+        column_name='fund_names',
+        attribute='fund_names',
+        widget=ManyToManyWidget(Fund, 'fund_label'))
 
     created_by = fields.Field(
         column_name='created_by',
@@ -70,12 +70,12 @@ class PublicationAdminResource(resources.ModelResource):
     project_names = fields.Field(
         column_name='project_names',
         attribute='project_names',
-        widget=ManyToManyWidget(Grant, 'project_label'))
+        widget=ManyToManyWidget(Fund, 'project_label'))
 
     publication_authors = fields.Field(
         column_name='publication_authors',
         attribute='publication_authors',
-        widget=ManyToManyWidget(Grant, 'email'))
+        widget=ManyToManyWidget(Fund, 'email'))
 
     created_by = fields.Field(
         column_name='created_by',

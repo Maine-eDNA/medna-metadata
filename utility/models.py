@@ -75,20 +75,20 @@ class PeriodicTaskRun(models.Model):
         verbose_name_plural = 'Periodic Task Runs'
 
 
-class Grant(DateTimeUserMixin):
+class Fund(DateTimeUserMixin):
     # e: Maine-eDNA
     # formerly Project in field_site.models
-    grant_code = models.CharField('Grant Code', unique=True, max_length=1)
-    grant_label = models.CharField('Grant Label', max_length=255)
-    grant_description = models.TextField('Grant Description', blank=True)
+    fund_code = models.CharField('Fund Code', unique=True, max_length=1)
+    fund_label = models.CharField('Fund Label', max_length=255)
+    fund_description = models.TextField('Fund Description', blank=True)
 
     def __str__(self):
-        return '{code}: {label}'.format(code=self.grant_code, label=self.grant_label)
+        return '{code}: {label}'.format(code=self.fund_code, label=self.fund_label)
 
     class Meta:
         app_label = 'utility'
-        verbose_name = 'Grant'
-        verbose_name_plural = 'Grants'
+        verbose_name = 'Fund'
+        verbose_name_plural = 'Funds'
 
 
 class Project(DateTimeUserMixin):
@@ -109,7 +109,7 @@ class Project(DateTimeUserMixin):
     project_label = models.CharField('Project Label', max_length=255)
     project_description = models.TextField('Project Description', blank=True)
     project_goals = models.TextField('Project Goals', blank=True)
-    grant_names = models.ManyToManyField(Grant, verbose_name='Affiliated Grant(s)', related_name='grant_names')
+    fund_names = models.ManyToManyField(Fund, verbose_name='Affiliated Fund(s)', related_name='fund_names')
     local_contexts_id = models.CharField('Local Contexts Project ID', unique=True, default=None, blank=True, null=True, max_length=255)
 
     def save(self, *args, **kwargs):

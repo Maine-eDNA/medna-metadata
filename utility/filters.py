@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, \
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, \
     DefaultSiteCss, CustomUserCss, MetadataTemplate
 
 
@@ -19,22 +19,22 @@ def get_choices(model, field):
 ########################################
 # SERIALIZER FILTERS                   #
 ########################################
-class GrantSerializerFilter(filters.FilterSet):
+class FundSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:
-        model = Grant
+        model = Fund
         fields = ['created_by', ]
 
 
 class ProjectSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    grant_names = filters.CharFilter(field_name='grant_names__grant_code', lookup_expr='iexact')
+    fund_names = filters.CharFilter(field_name='fund_names__fund_code', lookup_expr='iexact')
     local_contexts_id = filters.CharFilter(field_name='local_contexts_id', lookup_expr='iexact')
 
     class Meta:
         model = Project
-        fields = ['created_by', 'grant_names', 'local_contexts_id', ]
+        fields = ['created_by', 'fund_names', 'local_contexts_id', ]
 
 
 class PublicationSerializerFilter(filters.FilterSet):

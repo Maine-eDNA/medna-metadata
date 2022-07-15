@@ -21,7 +21,7 @@ router = routers.DefaultRouter()
 # users
 router.register(r'users/user', users_views.CustomUserViewSet, 'users')
 # utility
-router.register(r'utility/grant', utility_views.GrantViewSet, 'grant')
+router.register(r'utility/fund', utility_views.FundViewSet, 'fund')
 router.register(r'utility/project', utility_views.ProjectViewSet, 'project')
 router.register(r'utility/publication', utility_views.PublicationViewSet, 'publication')
 router.register(r'utility/sop', utility_views.StandardOperatingProcedureViewSet, 'sop')

@@ -4,7 +4,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
-from utility.models import Grant, Project
+from utility.models import Fund, Project
 from utility.widgets import CustomSelect2Multiple, CustomSelect2
 
 
@@ -22,7 +22,7 @@ def get_general_location_name_choices(model=FieldSite, field='general_location_n
 
 
 class FieldSiteFilter(filters.FilterSet):
-    grant = filters.ModelChoiceFilter(queryset=Grant.objects.all(), widget=CustomSelect2)
+    fund = filters.ModelChoiceFilter(queryset=Fund.objects.all(), widget=CustomSelect2)
     project = filters.ModelMultipleChoiceFilter(queryset=Project.objects.all(), widget=CustomSelect2Multiple)
     system = filters.ModelChoiceFilter(queryset=System.objects.all(), widget=CustomSelect2)
     watershed = filters.ModelChoiceFilter(queryset=Watershed.objects.all(), widget=CustomSelect2)
@@ -31,7 +31,7 @@ class FieldSiteFilter(filters.FilterSet):
 
     class Meta:
         model = FieldSite
-        fields = ['general_location_name', 'grant', 'project', 'system', 'watershed', 'created_datetime']
+        fields = ['general_location_name', 'fund', 'project', 'system', 'watershed', 'created_datetime']
 
 
 ########################################
@@ -213,7 +213,7 @@ class WatershedSerializerFilter(filters.FilterSet):
 
 class FieldSiteSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    grant = filters.CharFilter(field_name='grant__grant_code', lookup_expr='iexact')
+    fund = filters.CharFilter(field_name='fund__fund_code', lookup_expr='iexact')
     project = filters.CharFilter(field_name='project__project_code', lookup_expr='icontains')
     system = filters.CharFilter(field_name='system__system_code', lookup_expr='iexact')
     watershed = filters.CharFilter(field_name='watershed__watershed_code', lookup_expr='iexact')
@@ -232,7 +232,7 @@ class FieldSiteSerializerFilter(filters.FilterSet):
 
     class Meta:
         model = FieldSite
-        fields = ['created_by', 'grant', 'project', 'system', 'watershed', 'envo_biome_first',
+        fields = ['created_by', 'fund', 'project', 'system', 'watershed', 'envo_biome_first',
                   'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth',
                   'envo_biome_fifth', 'envo_feature_first', 'envo_feature_second',
                   'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth',

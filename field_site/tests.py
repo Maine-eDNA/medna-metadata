@@ -2,8 +2,8 @@ from django.test import TestCase
 from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureFirst, EnvoFeatureSecond, System, Watershed, \
     FieldSite, EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureThird, EnvoFeatureFourth, EnvoBiomeThird, \
     EnvoBiomeFourth, EnvoBiomeFifth, EnvoFeatureSeventh
-from utility.models import Grant, Project
-from utility.tests import GrantTestCase, ProjectTestCase
+from utility.models import Fund, Project
+from utility.tests import FundTestCase, ProjectTestCase
 # Create your tests here.
 
 
@@ -201,17 +201,17 @@ class FieldSiteTestCase(TestCase):
         manytomany_list = []
         watershed_test = WatershedTestCase()
         system_test = SystemTestCase()
-        grant_test = GrantTestCase()
+        fund_test = FundTestCase()
         project_test = ProjectTestCase()
         biome_first_test = EnvoBiomeFirstTestCase()
         feature_first_test = EnvoFeatureFirstTestCase()
         watershed_test.setUp()
         system_test.setUp()
-        grant_test.setUp()
+        fund_test.setUp()
         project_test.setUp()
         biome_first_test.setUp()
         feature_first_test.setUp()
-        grant = Grant.objects.filter()[:1].get()
+        fund = Fund.objects.filter()[:1].get()
         project = Project.objects.filter()[:1].get()
         manytomany_list.append(project)
         system = System.objects.filter()[:1].get()
@@ -222,7 +222,7 @@ class FieldSiteTestCase(TestCase):
         tasl = EnvoFeatureFirst.objects.filter(feature_first_tier='Turbulent Aquatic Surface Layer')[:1].get()
         field_site, created = FieldSite.objects.get_or_create(general_location_name='FieldSiteTest1',
                                                               defaults={
-                                                                  'grant': grant,
+                                                                  'fund': fund,
                                                                   'system': system,
                                                                   'watershed': watershed,
                                                                   'purpose': 'FieldSiteTest1',
@@ -232,7 +232,7 @@ class FieldSiteTestCase(TestCase):
         field_site.project.set(manytomany_list, clear=True)
         field_site, created = FieldSite.objects.get_or_create(general_location_name='FieldSiteTest2',
                                                               defaults={
-                                                                  'grant': grant,
+                                                                  'fund': fund,
                                                                   'system': system,
                                                                   'watershed': watershed,
                                                                   'purpose': 'FieldSiteTest2',
