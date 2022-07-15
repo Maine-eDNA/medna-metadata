@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
+from django.utils import timezone
 # UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
 # It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
 import uuid
@@ -9,7 +10,6 @@ from field_survey.models import FieldSample
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import TargetGenes, SubFragments, PcrTypes, ConcentrationUnits, PhiXConcentrationUnits, VolUnits, LibPrepTypes, \
     PcrUnits, YesNo, LibPrepKits, SeqMethods, InvestigationTypes, LibLayouts, ControlTypes
-from django.utils import timezone
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_sequencing_storage
 
