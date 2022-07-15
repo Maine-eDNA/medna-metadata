@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
-    CustomUserCss, PeriodicTaskRun
+    CustomUserCss, PeriodicTaskRun, MetadataTemplate
 from users.models import CustomUser
 
 
@@ -94,6 +94,25 @@ class StandardOperatingProcedureAdminResource(resources.ModelResource):
         fields = ('id', 'sop_title', 'sop_url', 'sop_type',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'sop_title', 'sop_url', 'sop_type',
+                        'created_by', 'created_datetime', 'modified_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class MetadataTemplateAdminResource(resources.ModelResource):
+    class Meta:
+        # Project
+        model = MetadataTemplate
+        import_id_fields = ('uuid', 'template_datafile', )
+        fields = ('uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', )
+        export_order = ('uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(
