@@ -307,6 +307,7 @@ logging.config.dictConfig({
             'filename': '/tmp/django.log',
             'maxBytes': 1000000,
             'backupCount': 10,
+            'formatter': 'verbose'
         },
     },
     'loggers': {

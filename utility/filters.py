@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, \
-    DefaultSiteCss, CustomUserCss
+    DefaultSiteCss, CustomUserCss, MetadataTemplate
 
 
 # Create your filters here.
@@ -55,6 +55,16 @@ class StandardOperatingProcedureSerializerFilter(filters.FilterSet):
     class Meta:
         model = StandardOperatingProcedure
         fields = ['created_by', 'sop_title', 'sop_type', ]
+
+
+class MetadataTemplateSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    template_slug = filters.CharFilter(field_name='template_slug', lookup_expr='icontains')
+    template_type = filters.CharFilter(field_name='template_type', lookup_expr='iexact')
+
+    class Meta:
+        model = MetadataTemplate
+        fields = ['created_by', 'template_slug', 'template_type', ]
 
 
 class ProcessLocationSerializerFilter(filters.FilterSet):

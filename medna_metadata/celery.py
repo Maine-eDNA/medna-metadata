@@ -28,13 +28,13 @@ app.autodiscover_tasks()
 # https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html#crontab-schedules
 # crontab e.g., 'schedule': crontab(hour=7, minute=30, day_of_week=1) - Executes every Monday morning at 7:30 a.m.
 app.conf.beat_schedule = {
-    # 'transform-new-records': {
-    #     'task': 'field_survey.tasks.transform_new_records_field_survey_task',
+    # 'transform-new-records-field-survey-task': {
+    #     'task': 'transform-new-records-field-survey-task',
     #     'schedule': crontab(minute=0, hour=0),  # Will run everyday midnight
     # },
     # If DB_BACKUPS is true, then this sets the scheduler for the db_backup task.
     'db-backup': {
-        'task': 'utility.tasks.db_backup',
+        'task': 'db-backup',
         'schedule': crontab(hour=4, minute=30),  # Everyday at 04:30
     },
 }
