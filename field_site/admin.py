@@ -603,24 +603,24 @@ class GeoFieldSiteAdmin(ExportActionMixin, admin.OSMGeoAdmin):
     # import_export configs - export ONLY
     resource_class = GeoFieldSiteAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    # search_fields = ['grant', 'system', 'watershed']
-    list_display = ('site_id', 'general_location_name', 'grant', 'system', 'watershed')
-    # list_filter = ('grant', 'system', 'watershed', )
+    # search_fields = ['fund', 'system', 'watershed']
+    list_display = ('site_id', 'general_location_name', 'fund', 'system', 'watershed')
+    # list_filter = ('fund', 'system', 'watershed', )
     readonly_fields = ('site_id', 'modified_datetime', 'created_datetime', )
     search_fields = ['site_id']
-    autocomplete_fields = ['grant', 'project', 'watershed', 'system',
+    autocomplete_fields = ['fund', 'project', 'watershed', 'system',
                            'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                            'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant', 'project', 'system', 'watershed',
+        self.fields = ['fund', 'project', 'system', 'watershed',
                        'general_location_name', 'purpose',
                        'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                        'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                        'geom', 'created_by', ]
         # self.list_filter = (
-        #    ('grant', RelatedDropdownFilter),
+        #    ('fund', RelatedDropdownFilter),
         #    ('system', RelatedDropdownFilter),
         #    ('watershed', RelatedDropdownFilter)
         # )

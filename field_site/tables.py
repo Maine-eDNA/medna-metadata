@@ -21,4 +21,4 @@ class FieldSiteTable(tables.Table):
 
     class Meta:
         model = FieldSite
-        fields = ('_selected_action', 'site_id', 'general_location_name', 'grant', 'project', 'system', 'watershed', 'created_datetime')
+        fields = ('_selected_action', 'site_id', 'general_location_name', 'fund', 'project', 'system', 'watershed', 'created_datetime')

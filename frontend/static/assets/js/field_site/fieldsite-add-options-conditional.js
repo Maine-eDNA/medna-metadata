@@ -13,7 +13,7 @@ $(function () {
     $('#id_envo_feature_seventh').closest('.row').hide();
 });
 
-$("#id_grant").on("select2:select", function (e) {
+$("#id_fund").on("select2:select", function (e) {
     // https://stackoverflow.com/questions/19908273/jquery-select2-get-value-of-select-tag
     var select_val = $(e.currentTarget).val();
     var data_url = $("#url_project").data("url");

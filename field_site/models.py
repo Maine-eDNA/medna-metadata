@@ -2,7 +2,7 @@
 # from django.db import models
 # swapping to GeoDjango
 from django.contrib.gis.db import models
-from utility.models import DateTimeUserMixin, Grant
+from utility.models import DateTimeUserMixin, Fund
 from django.utils.text import slugify
 from django.conf import settings
 
@@ -636,9 +636,9 @@ class Watershed(DateTimeUserMixin):
 class FieldSite(DateTimeUserMixin):
     # ePR_L01 or ePRR_L01
     site_id = models.SlugField('Site ID', unique=True, max_length=8)
-    # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
+    # With RESTRICT, if fund is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
-    grant = models.ForeignKey(Grant, on_delete=models.RESTRICT)
+    fund = models.ForeignKey(Fund, on_delete=models.RESTRICT)
     project = models.ManyToManyField('utility.Project', blank=True, verbose_name='Affiliated Project(s)', related_name='projects')
     system = models.ForeignKey(System, on_delete=models.RESTRICT)
     watershed = models.ForeignKey(Watershed, on_delete=models.RESTRICT)
@@ -738,10 +738,10 @@ class FieldSite(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         # if it already exists we don't want to change the site_id; we only want to update the associated fields.
         if self.pk is None:
-            # concatenate grant, watershed, and system to create site_prefix, e.g., 'eAL_L'
-            self.site_prefix = '{grant}{watershed}_{system}'.format(grant=self.grant.grant_code,
-                                                                    watershed=self.watershed.watershed_code,
-                                                                    system=self.system.system_code)
+            # concatenate fund, watershed, and system to create site_prefix, e.g., 'eAL_L'
+            self.site_prefix = '{fund}{watershed}_{system}'.format(fund=self.fund.fund_code,
+                                                                   watershed=self.watershed.watershed_code,
+                                                                   system=self.system.system_code)
             # Retrieve a list of `Site` instances, group them by the site_prefix and sort them by
             # the `site_num` field and get the largest entry - Returns the next default value for the `site_num` field
             largest = FieldSite.objects.only('site_prefix', 'site_num').filter(site_prefix=self.site_prefix).order_by('site_num').last()

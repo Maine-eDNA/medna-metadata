@@ -2,7 +2,7 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplate
+from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplate
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
@@ -62,18 +62,18 @@ class CreatedBySlugRelatedField(serializers.SlugRelatedField):
 
 
 # Django REST Framework to allow the automatic downloading of data!
-class GrantSerializer(serializers.ModelSerializer):
+class FundSerializer(serializers.ModelSerializer):
     # formerly Project in field_site.models
     id = serializers.IntegerField(read_only=True)
-    grant_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Grant.objects.all())])
-    grant_label = serializers.CharField(max_length=255)
-    grant_description = serializers.CharField(read_only=False)
+    fund_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Fund.objects.all())])
+    fund_label = serializers.CharField(max_length=255)
+    fund_description = serializers.CharField(read_only=False)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = Grant
-        fields = ['id', 'grant_code', 'grant_label', 'grant_description',
+        model = Fund
+        fields = ['id', 'fund_code', 'fund_label', 'fund_description',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -91,10 +91,10 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals',
-                  'grant_names', 'created_by', 'created_datetime', 'modified_datetime', ]
+                  'fund_names', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
+    fund_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='fund_code', queryset=Fund.objects.all())
 
 
 class PublicationSerializer(serializers.ModelSerializer):
