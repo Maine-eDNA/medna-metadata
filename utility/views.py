@@ -24,7 +24,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, CustomUserCss, MetadataTemplate
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, MetadataTemplate
 from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureForm
 from .charts import return_select2_options
 import utility.enumerations as utility_enums
@@ -138,8 +138,8 @@ class UpdatePopupMixin(BasePopupMixin):
 ########################################
 @login_required(login_url='dashboard_login')
 def get_project_options(request):
-    grant = request.GET.get('id')
-    qs = Project.objects.filter(grant_names=grant).order_by('project_label').annotate(text=F('project_label'))
+    fund = request.GET.get('id')
+    qs = Project.objects.filter(fund_names=fund).order_by('project_label').annotate(text=F('project_label'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
@@ -436,7 +436,7 @@ class ProjectsTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'view_projects'
         context['page_title'] = 'Projects'
-        context['project_list'] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
+        context['project_list'] = Project.objects.prefetch_related('created_by', 'fund_names').order_by('pk')
         return context
 
 
@@ -525,19 +525,19 @@ class ContactUsReceivedTemplateView(TemplateView):
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################
-class GrantViewSet(viewsets.ModelViewSet):
+class FundViewSet(viewsets.ModelViewSet):
     # formerly Project in field_site.models
-    serializer_class = utility_serializers.GrantSerializer
-    queryset = Grant.objects.prefetch_related('created_by')
+    serializer_class = utility_serializers.FundSerializer
+    queryset = Fund.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = utility_filters.GrantSerializerFilter
+    filterset_class = utility_filters.FundSerializerFilter
     swagger_tags = ['utility']
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ProjectSerializer
-    queryset = Project.objects.prefetch_related('created_by', 'grant_names')
+    queryset = Project.objects.prefetch_related('created_by', 'fund_names')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.ProjectSerializerFilter
     swagger_tags = ['utility']

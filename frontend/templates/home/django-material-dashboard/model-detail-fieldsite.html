@@ -53,7 +53,7 @@
             {% if object %}
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Site ID:</strong> &nbsp; {{ object.site_id }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Geometry:</strong> &nbsp; {{ object.geom }}</li>
-            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Grant:</strong> &nbsp; {{ object.grant.grant_label }}</li>
+            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Fund:</strong> &nbsp; {{ object.fund.fund_label }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Project:</strong> &nbsp; {{ object.project.all|join:", " }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">System:</strong> &nbsp; {{ object.system.system_label }}</li>
             <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Watershed:</strong> &nbsp; {{ object.watershed.watershed_label }}</li>

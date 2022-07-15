@@ -60,7 +60,7 @@ class FieldSurveyTableSerializer(serializers.ModelSerializer):
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_alt', 'gps_horacc', 'gps_vertacc', 'lat', 'lon', 'srid', 'geom',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -97,7 +97,7 @@ class WaterCollectionTableSerializer(serializers.ModelSerializer):
                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                   'water_vessel_color', 'water_collect_notes', 'was_filtered',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='collection_global_id'
@@ -130,7 +130,7 @@ class SedimentCollectionTableSerializer(serializers.ModelSerializer):
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
                   'core_length', 'core_diameter', 'core_purpose', 'core_notes', 'subcores_taken',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='collection_global_id'
@@ -170,7 +170,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
                   'gps_alt', 'gps_horacc', 'gps_vertacc',
                   'sample_global_id', 'collection_global_id', 'survey_global_id', 'field_sample',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
@@ -231,7 +231,7 @@ class SubCoreSampleTableSerializer(serializers.ModelSerializer):
                   'gps_alt', 'gps_horacc', 'gps_vertacc',
                   'sample_global_id', 'collection_global_id', 'survey_global_id', 'field_sample',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
@@ -311,7 +311,7 @@ class GeoFieldSurveySerializer(GeoFeatureModelSerializer):
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_alt', 'gps_horacc', 'gps_vertacc',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -333,7 +333,7 @@ class FieldCrewSerializer(serializers.ModelSerializer):
         model = FieldCrew
         fields = ['crew_global_id', 'crew_fname', 'crew_lname', 'survey_global_id',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -352,7 +352,7 @@ class EnvMeasureTypeSerializer(serializers.ModelSerializer):
         model = EnvMeasureType
         fields = ['env_measure_type_code', 'env_measure_type_label', 'env_measure_type_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -407,7 +407,7 @@ class EnvMeasurementSerializer(serializers.ModelSerializer):
                   'env_par2', 'env_turbidity', 'env_conductivity', 'env_do', 'env_pheophytin', 'env_chla', 'env_no3no2',
                   'env_no2', 'env_nh4', 'env_phosphate', 'env_substrate', 'env_lab_datetime', 'env_measure_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -426,7 +426,7 @@ class FieldCollectionSerializer(serializers.ModelSerializer):
         model = FieldCollection
         fields = ['survey_global_id', 'collection_global_id', 'collection_type',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -458,7 +458,7 @@ class WaterCollectionSerializer(serializers.ModelSerializer):
                   'water_niskin_number', 'water_niskin_vol', 'water_vessel_vol', 'water_vessel_material',
                   'water_vessel_color', 'water_collect_notes', 'was_filtered',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='collection_global_id'
@@ -487,7 +487,7 @@ class SedimentCollectionSerializer(serializers.ModelSerializer):
                   'core_datetime_start', 'core_datetime_end', 'core_method', 'core_method_other', 'core_collect_depth',
                   'core_length', 'core_diameter', 'core_notes', 'subcores_taken',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='collection_global_id'
@@ -507,7 +507,7 @@ class FieldSampleSerializer(serializers.ModelSerializer):
         fields = ['collection_global_id', 'sample_global_id', 'sample_material', 'is_extracted',
                   'field_sample_barcode', 'barcode_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -544,7 +544,7 @@ class FilterSampleSerializer(serializers.ModelSerializer):
                   'filter_method', 'filter_method_other', 'filter_vol',
                   'filter_type', 'filter_type_other', 'filter_pore', 'filter_size', 'filter_notes',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
@@ -577,7 +577,7 @@ class SubCoreSampleSerializer(serializers.ModelSerializer):
                   'subcore_datetime_start', 'subcore_datetime_end', 'subcore_number', 'subcore_length',
                   'subcore_diameter', 'subcore_clayer', 'subcore_notes',
                   'created_by', 'created_datetime', 'modified_datetime']
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     # slug_field='sample_global_id'
@@ -697,7 +697,7 @@ class FieldSurveyEnvsNestedSerializer(GeoFeatureModelSerializer, EagerLoadingMix
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_alt', 'gps_horacc', 'gps_vertacc',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_crew = FieldCrewNestedSerializer(many=True, read_only=True)
@@ -763,7 +763,7 @@ class FilterFieldSampleNestedSerializer(serializers.ModelSerializer, EagerLoadin
     class Meta:
         model = FieldSample
         fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'filter_sample', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -779,7 +779,7 @@ class SubCoreFieldSampleNestedSerializer(serializers.ModelSerializer, EagerLoadi
     class Meta:
         model = FieldSample
         fields = ['sample_global_id', 'is_extracted', 'field_sample_barcode', 'subcore_sample', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_sample_barcode = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
@@ -837,7 +837,7 @@ class WaterFieldCollectionNestedSerializer(serializers.ModelSerializer, EagerLoa
     class Meta:
         model = FieldCollection
         fields = ['collection_global_id', 'survey_global_id', 'water_collection', 'field_samples', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     water_collection = WaterCollectionNestedSerializer(many=False, read_only=True)
@@ -853,7 +853,7 @@ class SedimentFieldCollectionNestedSerializer(serializers.ModelSerializer, Eager
     class Meta:
         model = FieldCollection
         fields = ['collection_global_id', 'survey_global_id', 'sediment_collection', 'field_samples', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     sediment_collection = SedimentCollectionNestedSerializer(many=False, read_only=True)
@@ -906,7 +906,7 @@ class FieldSurveyFiltersNestedSerializer(GeoFeatureModelSerializer, EagerLoading
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_alt', 'gps_horacc', 'gps_vertacc',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_crew = FieldCrewNestedSerializer(many=True, read_only=True)
@@ -965,7 +965,7 @@ class FieldSurveySubCoresNestedSerializer(GeoFeatureModelSerializer, EagerLoadin
                   'survey_complete', 'qa_editor', 'qa_datetime', 'qa_initial',
                   'gps_alt', 'gps_horacc', 'gps_vertacc',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligable field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     field_crew = FieldCrewNestedSerializer(many=True, read_only=True)

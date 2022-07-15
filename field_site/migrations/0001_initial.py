@@ -324,7 +324,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('site_id', models.SlugField(max_length=8, unique=True, verbose_name='Site ID')),
-                ('grant', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='utility.grant')),
+                ('fund', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='utility.Fund')),
                 ('project', models.ManyToManyField(blank=True, related_name='projects', to='utility.Project', verbose_name='Affiliated Project(s)')),
                 ('system', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.system')),
                 ('watershed', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='field_site.watershed')),

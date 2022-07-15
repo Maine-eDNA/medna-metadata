@@ -15,7 +15,7 @@ from utility.models import DateTimeUserMixin, get_sentinel_user, slug_date_forma
 
 
 class FieldSurvey(DateTimeUserMixin):
-    # With RESTRICT, if grant is deleted but system and watershed still exists, it will not cascade delete
+    # With RESTRICT, if fund is deleted but system and watershed still exists, it will not cascade delete
     # unless all 3 related fields are gone.
     survey_global_id = models.UUIDField(verbose_name='Survey Global ID', primary_key=True, editable=False, default=uuid.uuid4)
     username = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='Username', on_delete=models.SET(get_sentinel_user), related_name='username')

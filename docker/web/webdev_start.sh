@@ -53,8 +53,8 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
 	# Load fixtures
 	echo "${0}: [$(date -u)] ***Loading fixtures"
 	# utility
-	echo "${0}: [$(date -u)] ***Loading utility_grant"
-	python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_grant.json
+	echo "${0}: [$(date -u)] ***Loading utility_fund"
+	python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_fund.json
 	echo "${0}: [$(date -u)] ***Loading utility_project"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_project.json
   echo "${0}: [$(date -u)] ***Loading utility_publication"
