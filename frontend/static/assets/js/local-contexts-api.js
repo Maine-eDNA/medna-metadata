@@ -87,7 +87,7 @@ $(function () {
         		//console.log(data[0].detail);
             document.getElementById(collab_loading_id).remove() // remove loading spinner from page
             if (data) {
-                $lcCollabResponse.append("<div class='row'><div class='col-md-3 col-12 mx-auto'><a target='_blank' href="+data.img_svg+"><img class='w-100' src="+data.img_svg+" alt="+data.title+"></img></a></div><div class='col-md-9 col-12 mx-auto'><p class='lead mb-4 text-white opacity-8'>"+data.default_text+"</p></div>")
+                $lcCollabResponse.append("<div class='row'><div class='col-md-12 mx-auto'><div class='text-center'><h2 class='text-white'>Open to Collaborate</h2></div></div></div><div class='row'><div class='col-md-3 col-12 mx-auto'><a target='_blank' href="+data.img_svg+"><img class='w-100' src="+data.img_svg+" alt="+data.title+"></img></a></div><div class='col-md-9 col-12 mx-auto'><div class='text-center'><p class='lead mb-4 text-white opacity-8'>"+data.default_text+"</p></div></div></div>")
             }
             if ($lcCollabResponse.html() == "") {
                 $lcCollabSpan.remove() // remove collab content from page
