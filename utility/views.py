@@ -468,7 +468,7 @@ class LocalContextsTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'view_localcontexts'
         context['page_title'] = 'Local Contexts'
-        context['project_list'] = Project.objects.prefetch_related('created_by', 'grant_names').order_by('pk')
+        context['project_list'] = Project.objects.prefetch_related('created_by', 'fund_names').order_by('pk')
         return context
 
 
