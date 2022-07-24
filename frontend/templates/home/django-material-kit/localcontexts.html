@@ -54,7 +54,7 @@
                           data, Maine-eDNA is working with <a href="https://localcontexts.org/" target="_blank">Local Contexts</a>
                           to openly collaborate with Wabanaki Tribal Nations through the use of Biocultural (BC) Notices
                           and Labels. Maine-eDNA and Local Contexts are collaborating with Wabanaki Tribal Nations to
-                          develop BC Notices and Labels projects that also will be shared as models for the international community.<br>
+                          develop BC Notices and Labels projects that also will be shared as models for the international community.<br><br>
 
                           Local Contexts is an international organization founded in 2010 to “enhance and legitimize
                           locally based decision-making and Indigenous governance frameworks for determining ownership,
@@ -85,7 +85,7 @@
                           and environmental data within the digital environment. Traditional Knowledge and Biocultural
                           Notices, applied by a researcher or institution, signal the right of Indigenous communities
                           to define the use of information, collections, and data (including Digital Sequence Information,
-                          DSI) generated from biodiversity and genetic resources associated with traditional lands or waters.<br>
+                          DSI) generated from biodiversity and genetic resources associated with traditional lands or waters.<br><br>
 
                           As participants in the Maine-eDNA Project, we respectfully acknowledge that we are conducting
                           research on the Homelands of the Penobscot, Passamaquoddy, Maliseet, and Mi’kmaq Wabanaki
@@ -99,9 +99,16 @@
                       </p>
                   </div>
                   <div class="col-md-4 col-12 my-auto">
-                      <a target="_blank" href="https://localcontexts.org/labels/biocultural-labels/">
-                          <img class="w-100 border-radius-lg shadow-lg p-2" src="https://localcontexts.org/wp-content/uploads/2020/11/BC-BLACK-NOTICE-20-AUG-2020.png" alt="biocultural label">
-                      </a>
+                      <div class="row">
+                        <a target="_blank" href="https://localcontexts.org/labels/biocultural-labels/">
+                          <img class="w-75 border-radius-lg shadow-lg p-2" src="https://localcontexts.org/wp-content/uploads/2020/11/BC-BLACK-NOTICE-20-AUG-2020.png" alt="biocultural label">
+                        </a>
+                      </div>
+                      <div class="row">
+                        <a target="_blank" href="https://localcontexts.org/labels/traditional-knowledge-labels/">
+                          <img class="w-75 border-radius-lg shadow-lg p-2" src="https://localcontexts.org/wp-content/uploads/2020/11/TK-BLACK-NOTICE-20-AUG-2020.png" alt="traditional knowledge label">
+                        </a>
+                      </div>
                   </div>
               </div>
               <div class="row">
@@ -110,7 +117,7 @@
                       <p class="pe-md-5 mb-4">
                           As part of the collaboration between Maine-eDNA and Local Contexts, Maine-eDNA has created a
                           long-term institutional account on the Local Contexts Hub under the
-                          <a href="https://umaine.edu/mcge/" target="_blank">Maine Center for Genetics in the Environment (MCGE)</a>.<br>
+                          <a href="https://umaine.edu/mcge/" target="_blank">Maine Center for Genetics in the Environment (MCGE)</a>.<br><br>
 
                           The <a href="https://localcontexts.org/tk-label-hub/" target="_blank">Local Contexts Hub</a>
                           is a platform for communication and collaboration between communities,
@@ -142,14 +149,19 @@
                       </p>
                   </div>
               </div>
-            <!-- -------- START loop -------- -->
+
             {% if project_list %}
+              <hr/>
+              <div class="row">
+                <h3 class="text-center">Local Contexts Projects within Maine-eDNA</h3>
+              </div>
+              <hr/>
+              <!-- -------- START loop -------- -->
                 {% for project in project_list %}
                     {% if project.project_label != 'Maine eDNA' %}
                     {% if project.local_contexts_id %}
-                    <h3>{{ project.project_label }}</h3>
                     <div class="row">
-                        <h5 class="font-weight-bolder mt-3">Local Contexts' Project Detail (Notices and Labels)</h5>
+                        <h5 class="font-weight-bolder mt-3">{{ project.project_label }} Local Contexts' Project Detail (Notices and Labels)</h5>
                         <div id="lcLoading_{{ project.project_code|slugify }}" class="d-flex justify-content-center">
                             <button class="btn btn-primary" type="button" disabled>
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
