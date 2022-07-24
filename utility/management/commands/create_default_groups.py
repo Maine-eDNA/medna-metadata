@@ -44,7 +44,7 @@ GROUPS = {
         'SampleBarcode': ['view'],
 
         # utility
-        'Grant': ['add', 'change', 'view'],
+        'Fund': ['add', 'change', 'view'],
         'Project': ['add', 'delete', 'change', 'view'],
         'Publication': ['add', 'delete', 'change', 'view'],
         'Process Location': ['add', 'delete', 'change', 'view'],
@@ -158,7 +158,7 @@ GROUPS = {
         'SampleBarcode': ['view'],
 
         # utility
-        'Grant': ['view'],
+        'Fund': ['view'],
         'Project': ['add', 'change', 'view'],
         'Publication': ['add', 'change', 'view'],
         'Process Location': ['add', 'change', 'view'],
@@ -257,7 +257,7 @@ GROUPS = {
         'SampleBarcode': ['view'],
 
         # utility
-        'Grant': ['view'],
+        'Fund': ['view'],
         'Project': ['view'],
         'Publication': ['view'],
         'Process Location': ['view'],

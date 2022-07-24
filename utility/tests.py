@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import ContactUs, Grant, Project, Publication, ProcessLocation, StandardOperatingProcedure, DefaultSiteCss, CustomUserCss
+from .models import ContactUs, Fund, Project, Publication, ProcessLocation, StandardOperatingProcedure, DefaultSiteCss, CustomUserCss
 from utility.enumerations import SopTypes
 from users.tests import UsersManagersTests
 from users.models import CustomUser
@@ -7,15 +7,15 @@ from users.models import CustomUser
 
 
 # Create your tests here.
-class GrantTestCase(TestCase):
+class FundTestCase(TestCase):
     # formerly Project in field_site.models
     def setUp(self):
-        Grant.objects.get_or_create(grant_code='e', defaults={'grant_label': 'Maine-eDNA',
-                                                              'grant_description': 'test description'})
+        Fund.objects.get_or_create(fund_code='e', defaults={'fund_label': 'Maine-eDNA',
+                                                              'fund_description': 'test description'})
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = Grant.objects.get(grant_code='e')
+        medna = Fund.objects.get(fund_code='e')
         self.assertIs(medna.was_added_recently(), True)
 
 
@@ -23,15 +23,15 @@ class ProjectTestCase(TestCase):
     # formerly Project in field_site.models
     def setUp(self):
         manytomany_list = []
-        grant_test = GrantTestCase()
-        grant_test.setUp()
-        grant_name = Grant.objects.filter()[:1].get()
-        manytomany_list.append(grant_name)
+        fund_test = FundTestCase()
+        fund_test.setUp()
+        fund_name = Fund.objects.filter()[:1].get()
+        manytomany_list.append(fund_name)
         project, created = Project.objects.get_or_create(project_code='prj_commsci',
                                                          defaults={'project_label': 'Community Science',
                                                                    'project_description': 'test description',
                                                                    'project_goals': 'test questions'})
-        project.grant_names.set(manytomany_list, clear=True)
+        project.fund_names.set(manytomany_list, clear=True)
 
     def test_was_added_recently(self):
         # test if date is added correctly

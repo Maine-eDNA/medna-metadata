@@ -3,7 +3,7 @@
 from django.contrib.gis import forms
 from leaflet.forms.widgets import LeafletWidget
 from utility.widgets import CustomSelect2, CustomSelect2Multiple
-from utility.models import Grant, Project
+from utility.models import Fund, Project
 from .models import FieldSite, System, Watershed, EnvoBiomeFirst, EnvoBiomeSecond, EnvoFeatureSecond, EnvoBiomeFourth, \
     EnvoBiomeFifth, EnvoFeatureFourth, EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, EnvoFeatureFirst, \
     EnvoFeatureThird, EnvoBiomeThird
@@ -15,9 +15,9 @@ class FieldSiteAllowEditLeaflet(LeafletWidget):
 
 
 class FieldSiteCreateForm(forms.ModelForm):
-    grant = forms.ModelChoiceField(
+    fund = forms.ModelChoiceField(
         required=True,
-        queryset=Grant.objects.all(),
+        queryset=Fund.objects.all(),
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',
@@ -212,7 +212,7 @@ class FieldSiteCreateForm(forms.ModelForm):
 
     class Meta:
         model = FieldSite
-        fields = ['grant', 'project', 'system', 'general_location_name', 'purpose',
+        fields = ['fund', 'project', 'system', 'general_location_name', 'purpose',
                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                   'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                   'geom', 'watershed', ]
@@ -231,16 +231,16 @@ class FieldSiteCreateForm(forms.ModelForm):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
 
-        if 'grant' in self.data:
+        if 'fund' in self.data:
             try:
-                grant_id = int(self.data.get('grant'))
-                self.fields['project'].queryset = Project.objects.filter(grant_names=grant_id).order_by('project_label')
+                fund_id = int(self.data.get('fund'))
+                self.fields['project'].queryset = Project.objects.filter(fund_names=fund_id).order_by('project_label')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
         elif self.instance.pk:
-            if self.instance.grant:
+            if self.instance.fund:
                 # if pk already exists, i.e., on update, populate queryset with related set
-                self.fields['project'].queryset = Project.objects.filter(grant_names=self.instance.grant.pk).order_by('project_label')
+                self.fields['project'].queryset = Project.objects.filter(fund_names=self.instance.fund.pk).order_by('project_label')
 
         if 'envo_biome_first' in self.data:
             try:
@@ -515,16 +515,16 @@ class FieldSiteUpdateForm(forms.ModelForm):
         # https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
         super().__init__(*args, **kwargs)
 
-        if 'grant' in self.data:
+        if 'fund' in self.data:
             try:
-                grant_id = int(self.data.get('grant'))
-                self.fields['project'].queryset = Project.objects.filter(grant_names=grant_id).order_by('project_label')
+                fund_id = int(self.data.get('fund'))
+                self.fields['project'].queryset = Project.objects.filter(fund_names=fund_id).order_by('project_label')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Project queryset
         elif self.instance.pk:
-            if self.instance.grant:
+            if self.instance.fund:
                 # if pk already exists, i.e., on update, populate queryset with related set
-                self.fields['project'].queryset = Project.objects.filter(grant_names=self.instance.grant.pk).order_by('project_label')
+                self.fields['project'].queryset = Project.objects.filter(fund_names=self.instance.fund.pk).order_by('project_label')
 
         if 'envo_biome_first' in self.data:
             try:

@@ -3,7 +3,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFirst, EnvoFeatureSecond, EnvoFeatureThird, EnvoFeatureFourth, \
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, FieldSite, Watershed
-from utility.models import Grant
+from utility.models import Fund
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework.validators import UniqueValidator
 # would have to add another serializer that uses GeoFeatureModelSerializer class
@@ -25,7 +25,7 @@ class FieldSiteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldSite
-        fields = ['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
+        fields = ['id', 'site_id', 'fund', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
@@ -34,11 +34,11 @@ class FieldSiteSerializer(serializers.ModelSerializer):
                   'envo_feature_first',
                   'lat', 'lon', 'srid', 'geom',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
+    fund = serializers.SlugRelatedField(many=False, read_only=False, slug_field='fund_code', queryset=Fund.objects.all())
     project = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
     system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code', queryset=System.objects.all())
     watershed = serializers.SlugRelatedField(many=False, read_only=False, slug_field='watershed_code', queryset=Watershed.objects.all())
@@ -74,7 +74,7 @@ class EnvoBiomeFirstSerializer(serializers.ModelSerializer):
         model = EnvoBiomeFirst
         fields = ['id', 'biome_first_tier_slug', 'biome_first_tier', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -94,7 +94,7 @@ class EnvoBiomeSecondSerializer(serializers.ModelSerializer):
         model = EnvoBiomeSecond
         fields = ['id', 'biome_second_tier_slug', 'biome_second_tier', 'biome_first_tier_slug', 'biome_first_tier',
                   'envo_identifier', 'ontology_url', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -117,7 +117,7 @@ class EnvoBiomeThirdSerializer(serializers.ModelSerializer):
         fields = ['id', 'biome_third_tier_slug', 'biome_third_tier', 'biome_second_tier_slug', 'biome_second_tier',
                   'biome_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -141,7 +141,7 @@ class EnvoBiomeFourthSerializer(serializers.ModelSerializer):
         fields = ['id', 'biome_fourth_tier_slug', 'biome_fourth_tier', 'biome_third_tier_slug', 'biome_third_tier',
                   'biome_second_tier_slug', 'biome_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -166,7 +166,7 @@ class EnvoBiomeFifthSerializer(serializers.ModelSerializer):
         fields = ['id', 'biome_fifth_tier_slug', 'biome_fifth_tier', 'biome_fourth_tier_slug', 'biome_fourth_tier',
                   'biome_third_tier_slug', 'biome_second_tier_slug', 'biome_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -187,7 +187,7 @@ class EnvoFeatureFirstSerializer(serializers.ModelSerializer):
         fields = ['id', 'feature_first_tier_slug', 'feature_first_tier', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -208,7 +208,7 @@ class EnvoFeatureSecondSerializer(serializers.ModelSerializer):
         fields = ['id', 'feature_second_tier_slug', 'feature_second_tier', 'feature_first_tier_slug', 'feature_first_tier', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -232,7 +232,7 @@ class EnvoFeatureThirdSerializer(serializers.ModelSerializer):
                   'feature_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -259,7 +259,7 @@ class EnvoFeatureFourthSerializer(serializers.ModelSerializer):
                   'feature_second_tier_slug', 'feature_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -285,7 +285,7 @@ class EnvoFeatureFifthSerializer(serializers.ModelSerializer):
                   'feature_third_tier_slug', 'feature_second_tier_slug', 'feature_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
 
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -311,7 +311,7 @@ class EnvoFeatureSixthSerializer(serializers.ModelSerializer):
         fields = ['id', 'feature_sixth_tier_slug', 'feature_sixth_tier', 'feature_fifth_tier_slug', 'feature_fifth_tier',
                   'feature_fourth_tier_slug', 'feature_third_tier_slug', 'feature_second_tier_slug', 'feature_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -338,7 +338,7 @@ class EnvoFeatureSeventhSerializer(serializers.ModelSerializer):
         fields = ['id', 'feature_seventh_tier_slug', 'feature_seventh_tier', 'feature_sixth_tier_slug', 'feature_sixth_tier',
                   'feature_fifth_tier_slug', 'feature_fourth_tier_slug', 'feature_third_tier_slug', 'feature_second_tier_slug', 'feature_first_tier_slug', 'envo_identifier', 'ontology_url',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -355,7 +355,7 @@ class SystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = System
         fields = ['id', 'system_code', 'system_label', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -379,7 +379,7 @@ class GeoWatershedSerializer(GeoFeatureModelSerializer):
         geo_field = 'geom'
         fields = ['id', 'watershed_label', 'watershed_code', 'huc8', 'states', 'lat', 'lon',
                   'area_sqkm', 'area_acres', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -396,18 +396,18 @@ class GeoFieldSiteSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = FieldSite
         geo_field = 'geom'
-        fields = ['id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
+        fields = ['id', 'site_id', 'fund', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                   'envo_biome_fifth', 'envo_biome_fourth', 'envo_biome_third',
                   'envo_biome_second', 'envo_biome_first',
                   'envo_feature_seventh', 'envo_feature_sixth',
                   'envo_feature_fifth', 'envo_feature_fourth',
                   'envo_feature_third', 'envo_feature_second',
                   'envo_feature_first', 'created_by', 'created_datetime', 'modified_datetime', ]
-    # Since grant, system, watershed, and created_by reference different tables and we
+    # Since fund, system, watershed, and created_by reference different tables and we
     # want to show 'label' rather than some unintelligible field (like pk 1), have to add
     # slug to tell it to print the desired field from the other table
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-    grant = serializers.SlugRelatedField(many=False, read_only=False, slug_field='grant_code', queryset=Grant.objects.all())
+    fund = serializers.SlugRelatedField(many=False, read_only=False, slug_field='fund_code', queryset=Fund.objects.all())
     project = serializers.SlugRelatedField(many=True, read_only=True, allow_null=True, slug_field='project_code')
     system = serializers.SlugRelatedField(many=False, read_only=False, slug_field='system_code', queryset=System.objects.all())
     watershed = serializers.SlugRelatedField(many=False, read_only=False, slug_field='watershed_code', queryset=Watershed.objects.all())

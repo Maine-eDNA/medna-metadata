@@ -5,7 +5,7 @@ from .models import EnvoBiomeFirst, EnvoBiomeSecond, EnvoBiomeThird, EnvoBiomeFo
     EnvoFeatureFifth, EnvoFeatureSixth, EnvoFeatureSeventh, \
     System, Watershed, FieldSite, WorldBorder
 from users.models import CustomUser
-from utility.models import Grant, Project
+from utility.models import Fund, Project
 
 
 class EnvoBiomeFirstAdminResource(resources.ModelResource):
@@ -377,19 +377,19 @@ class GeoFieldSiteAdminResource(resources.ModelResource):
         model = FieldSite
         import_id_fields = ('id', 'site_id', )
         exclude = ('site_prefix', 'site_num', )
-        fields = ('id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
+        fields = ('id', 'site_id', 'fund', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                   'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                   'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                   'geom', 'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'site_id', 'grant', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
+        export_order = ('id', 'site_id', 'fund', 'project', 'system', 'watershed', 'general_location_name', 'purpose',
                         'envo_biome_first', 'envo_biome_second', 'envo_biome_third', 'envo_biome_fourth', 'envo_biome_fifth',
                         'envo_feature_first', 'envo_feature_second', 'envo_feature_third', 'envo_feature_fourth', 'envo_feature_fifth', 'envo_feature_sixth', 'envo_feature_seventh',
                         'geom', 'created_by', 'created_datetime', 'modified_datetime', )
 
-    grant = fields.Field(
-        column_name='grant',
-        attribute='grant',
-        widget=ForeignKeyWidget(Grant, 'grant_label'))
+    fund = fields.Field(
+        column_name='fund',
+        attribute='fund',
+        widget=ForeignKeyWidget(Fund, 'fund_label'))
 
     project = fields.Field(
         column_name='project',

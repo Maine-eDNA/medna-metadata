@@ -1,10 +1,10 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ContactUsAdminResource, ProcessLocationAdminResource, PublicationAdminResource, \
-    StandardOperatingProcedureAdminResource, ProjectAdminResource, GrantAdminResource, \
-    DefaultSiteCssAdminResource, CustomUserCssAdminResource, PeriodicTaskRunAdminResource
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Grant, DefaultSiteCss, \
-    CustomUserCss, PeriodicTaskRun
+    StandardOperatingProcedureAdminResource, ProjectAdminResource, FundAdminResource, \
+    DefaultSiteCssAdminResource, CustomUserCssAdminResource, PeriodicTaskRunAdminResource, MetadataTemplateAdminResource
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, \
+    CustomUserCss, PeriodicTaskRun, MetadataTemplate
 
 
 class PeriodicTaskRunAdmin(ImportExportActionModelAdmin):
@@ -34,30 +34,30 @@ class PeriodicTaskRunAdmin(ImportExportActionModelAdmin):
 admin.site.register(PeriodicTaskRun, PeriodicTaskRunAdmin)
 
 
-class GrantAdmin(ImportExportActionModelAdmin):
+class FundAdmin(ImportExportActionModelAdmin):
     # formerly Project in field_site.models
     # below are import_export configs
-    resource_class = GrantAdminResource
+    resource_class = FundAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
-    search_fields = ['grant_label']
+    search_fields = ['fund_label']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['grant_label', 'grant_code', 'grant_description', 'created_by', ]
+        self.fields = ['fund_label', 'fund_code', 'fund_description', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(GrantAdmin, self).add_view(request)
+        return super(FundAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['grant_label', 'grant_description',
+        self.fields = ['fund_label', 'fund_description',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(GrantAdmin, self).change_view(request, object_id)
+        return super(FundAdmin, self).change_view(request, object_id)
 
     # removes 'delete selected' from drop down menu
     def get_actions(self, request):
@@ -67,13 +67,13 @@ class GrantAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(Grant, GrantAdmin)
+admin.site.register(Fund, FundAdmin)
 
 
-class GrantInline(admin.TabularInline):
+class FundInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
-    model = Project.grant_names.through
+    model = Project.fund_names.through
     # extra = 1
 
 
@@ -89,7 +89,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
         self.fields = ['project_code', 'project_label', 'project_description', 'project_goals',
-                       'grant_names', 'local_contexts_id', 'created_by', ]
+                       'fund_names', 'local_contexts_id', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -99,7 +99,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['project_label', 'project_description', 'project_goals',
-                       'grant_names', 'local_contexts_id', 'created_by', 'modified_datetime', 'created_datetime', ]
+                       'fund_names', 'local_contexts_id', 'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(ProjectAdmin, self).change_view(request, object_id)
 
@@ -201,6 +201,43 @@ class StandardOperatingProcedureAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(StandardOperatingProcedure, StandardOperatingProcedureAdmin)
+
+
+class MetadataTemplateAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = MetadataTemplateAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'template_version', 'created_datetime', )
+    readonly_fields = ('uuid', 'template_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['template_datafile']
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['template_datafile', 'template_type', 'template_version', 'template_notes', 'created_by', ]
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(MetadataTemplateAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(MetadataTemplateAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(MetadataTemplate, MetadataTemplateAdmin)
 
 
 # Register your models here.

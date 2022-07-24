@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+import medna_metadata.storage_backends
 import phonenumber_field.modelfields
 import utility.models
+import uuid
 
 
 class Migration(migrations.Migration):
@@ -27,19 +29,19 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Grant',
+            name='Fund',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('grant_code', models.CharField(max_length=1, unique=True, verbose_name='Grant Code')),
-                ('grant_label', models.CharField(max_length=255, verbose_name='Grant Label')),
-                ('grant_description', models.TextField(blank=True, verbose_name='Grant Description')),
+                ('fund_code', models.CharField(max_length=1, unique=True, verbose_name='Fund Code')),
+                ('fund_label', models.CharField(max_length=255, verbose_name='Fund Label')),
+                ('fund_description', models.TextField(blank=True, verbose_name='Fund Description')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
             ],
             options={
-                'verbose_name': 'Grant',
-                'verbose_name_plural': 'Grants',
+                'verbose_name': 'Fund',
+                'verbose_name_plural': 'Funds',
             },
         ),
         migrations.CreateModel(
@@ -50,7 +52,7 @@ class Migration(migrations.Migration):
                 ('project_label', models.CharField(max_length=255, verbose_name='Project Label')),
                 ('project_description', models.TextField(blank=True, verbose_name='Project Description')),
                 ('project_goals', models.TextField(blank=True, verbose_name='Project Goals')),
-                ('grant_names', models.ManyToManyField(related_name='grant_names', to='utility.Grant', verbose_name='Affiliated Grant(s)')),
+                ('fund_names', models.ManyToManyField(related_name='fund_names', to='utility.Fund', verbose_name='Affiliated Fund(s)')),
                 ('local_contexts_id', models.CharField(default=None, blank=True, null=True, max_length=255, unique=True, verbose_name='Local Contexts Project ID')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
@@ -94,6 +96,25 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Standard Operating Procedure',
                 'verbose_name_plural': 'Standard Operating Procedures',
+            },
+        ),
+        migrations.CreateModel(
+            name='MetadataTemplate',
+            fields=[
+                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('template_slug', models.SlugField(max_length=255, verbose_name='Template Slug')),
+                ('template_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.select_private_media_storage, upload_to=utility.models.set_template_subdir, verbose_name='Template Datafile')),
+                ('template_type', models.CharField(choices=[('bioinformatics', 'Bioinformatics'), ('wet_lab', 'Wet Lab'), ('field_collection', 'Field Collection'), ('freezer_inventory', 'Freezer Inventory')], max_length=50, verbose_name='Template Type')),
+                ('template_version', models.PositiveIntegerField(verbose_name='Template Version')),
+                ('template_notes', models.TextField(blank=True, verbose_name='Notes')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'Metadata Template',
+                'verbose_name_plural': 'Metadata Templates',
+                'unique_together': {('template_datafile', 'template_version')},
             },
         ),
         migrations.CreateModel(
