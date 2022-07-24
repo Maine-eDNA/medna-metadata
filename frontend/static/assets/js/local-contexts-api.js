@@ -25,7 +25,7 @@ $(function () {
                 $lcProjectIdSpan.remove() // remove id from page
                 if (data.created_by) {
                     $.each(data.created_by, function(key, value){ // The contents inside notice
-                        $lcResponse.append("<div class='row justify-content-center'><div class='col-auto'><h6 class='font-weight-bolder mt-3' style='text-transform:capitalize;'>Affiliated Institution: "+value.institution.institution_name+"</h6></div></div><div class='row justify-content-center'><div class='col-auto'><a target='_blank' href="+data.project_page+"><h9 class='font-weight-bolder mt-3'>"+data.project_page+"</h9></a></div></div><div class='w-100'></div><hr/>")
+                        $lcResponse.append("<div class='row'><div class='col-auto'><h6 class='font-weight-bolder mt-3' style='text-transform:capitalize;'>Affiliated Institution: "+value.institution.institution_name+"</h6></div></div><div class='row'><div class='col-auto'><a target='_blank' href="+data.project_page+"><h9 class='font-weight-bolder mt-3'>"+data.project_page+"</h9></a></div></div><div class='w-100'></div><hr/>")
                     });
                 }
                 if (data.notice) {
