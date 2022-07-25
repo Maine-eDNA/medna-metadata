@@ -15,29 +15,21 @@
   <div class="page-header min-vh-80" style="background-image: url('https://images.unsplash.com/photo-1584986643223-a3676d817c4a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div class="text-center">
-            <h1 class="text-white">Local Contexts and Maine-eDNA</h1>
-            <p class="lead mb-4 text-white opacity-8">Documenting Indigenous provenance through sustained partnerships.</p>
-          </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center mx-auto my-auto">
+          <h1 class="text-white">Local Contexts and Maine-eDNA</h1>
+          <p class="lead mb-4 text-white opacity-8">Documenting Indigenous provenance through sustained partnerships.</p>
+          <span id="lcCollabSpan">
+            <div id="lcCollabLoading" class="d-flex justify-content-center">
+              <button class="btn btn-primary" type="button" disabled>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Collaboration Notice Loading...
+              </button>
+            </div>
+            <span id="lcCollabResponse"></span>
+          </span>
         </div>
       </div>
-      <span id="lcCollabSpan">
-        <div class="row mt-5">
-          <div class="col-md-8 mx-auto">
-            <div class="text-center">
-                <div id="lcCollabLoading" class="d-flex justify-content-center">
-                  <button class="btn btn-primary" type="button" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      Collaboration Notice Loading...
-                  </button>
-                </div>
-            </div>
-          </div>
-        </div>
-        <span id="lcCollabResponse"></span>
-      </span>
     </div>
   </div>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
