@@ -171,7 +171,7 @@ class FreezerBox(DateTimeUserMixin):
 class FreezerInventory(DateTimeUserMixin):
     # freezer_inventory_datetime is satisfied by created_datetime from DateTimeUserMixin
     freezer_box = models.ForeignKey(FreezerBox, on_delete=models.RESTRICT, related_name='freezer_box')
-    sample_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT, limit_choices_to={'in_freezer': YesNo.NO})
+    sample_barcode = models.OneToOneField('sample_label.SampleBarcode', on_delete=models.RESTRICT)
     freezer_inventory_slug = models.SlugField('Freezer Inventory Slug', unique=True, max_length=27)
     # TODO change to fk to sample_type in sample_label module
     freezer_inventory_type = models.CharField('Freezer Inventory Type', max_length=50, choices=InvTypes.choices)
