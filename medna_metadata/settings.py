@@ -373,8 +373,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['utility.permissions.CustomDjangoModelPermissions', ],  # have to be authenticated AND have specific model permissions for CRUD
     'DEFAULT_THROTTLE_CLASSES': ['utility.serializers.BurstRateThrottle',  # subclass UserRateThrottle - https://www.django-rest-framework.org/api-guide/throttling/
                                  'utility.serializers.SustainedRateThrottle', ],
-    'DEFAULT_THROTTLE_RATES': {'burst': '60/min',  # custom global user restrictions
-                               'sustained': '1000/day',  # custom global user restrictions
+    'DEFAULT_THROTTLE_RATES': {'burst': '120/min',  # custom global user restrictions
+                               'sustained': '10000/day',  # custom global user restrictions
                                'filter_join': '5/min'}  # throttle_scope property for custom throttling on filter_join view
 }
 

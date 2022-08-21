@@ -114,7 +114,7 @@ class Migration(migrations.Migration):
                 ('freezer_inventory_column', models.PositiveIntegerField(verbose_name='Freezer Box Column')),
                 ('freezer_inventory_row', models.PositiveIntegerField(verbose_name='Freezer Box Row')),
                 ('freezer_box', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, related_name='freezer_box', to='freezer_inventory.freezerbox')),
-                ('sample_barcode', models.OneToOneField(limit_choices_to={'in_freezer': 'no'}, on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplebarcode')),
+                ('sample_barcode', models.OneToOneField(on_delete=django.db.models.deletion.RESTRICT, to='sample_label.samplebarcode')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
