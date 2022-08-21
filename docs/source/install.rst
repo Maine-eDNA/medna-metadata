@@ -98,7 +98,7 @@ to build and deploy Maine-eDNA Metadata from the Dockerfiles in ``/web`` and ``/
     sudo docker-compose -f docker-compose.yml up -d --build
 
 After the containers are up, it will take a moment for the application to set itself up. Once it is done, it will be
-accessible at `http://localhost:8000`.
+accessible at `http://localhost:8000`
 
 ============
 Manual Setup
