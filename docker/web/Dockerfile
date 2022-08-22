@@ -56,6 +56,10 @@ RUN pip install -r requirements/prod.txt
 # Copy app
 COPY . $APP_HOME
 
+# create static and media folders
+RUN mkdir $APP_HOME/static/
+RUN mkdir $APP_HOME/media/
+
 USER root
 
 # set permissions for celeryworker celerybeat start
