@@ -52,18 +52,18 @@ After following DigitalOcean's tutorials, create a symbolic link of the installa
 .. important::
     This allows you to call ``docker-compose`` from the command line, and is highly recommended to avoid future headaches.
 
-The ``/docker`` directory has ``medna.env.txt`` and ``medna.env.db.txt``, which contain all environmental variables for
+The ``docker/`` directory has ``medna.env.txt`` and ``medna.env.db.txt``, which contain all environmental variables for
 docker deployment. These files are necessary for docker. Other files that affect docker are:
  - ``entrypoint.sh``
  - ``.dockerignore``
- - contents of ``/docker`` directory
+ - contents of ``docker/`` directory
  - settings in ``medna_metadata/settings.py``
 
-Navigate to the ``/docker`` directory ::
+Navigate to the ``docker/`` directory ::
 
     cd medna-metadata/docker/
 
-Make a copy of ``medna.env.txt`` and ``medna.env.db.txt`` in the same ``/docker`` directory with the ``.txt`` extension removed (e.g., ``medna.env.db``, ``medna.env``) ::
+Make a copy of ``medna.env.txt`` and ``medna.env.db.txt`` in the same ``docker/`` directory with the ``.txt`` extension removed (e.g., ``medna.env.db``, ``medna.env``) ::
 
     cp medna.env.txt medna.env
     cp medna.env.db.txt medna.env.db
@@ -88,8 +88,8 @@ Write and exit the VIM text editor::
 
 Repeat these steps with ``medna.env.db``.
 
-Once settings are verified, run ``sudo docker-compose -f docker-compose.yml up -d --build`` from the ``/docker`` directory
-to build and deploy Maine-eDNA Metadata from the Dockerfiles in ``/web`` and ``/nginx``,
+Once settings are verified, run ``sudo docker-compose -f docker-compose.yml up -d --build`` from the ``docker/`` directory
+to build and deploy medna-metadata from the Dockerfiles in ``docker/web/`` and ``docker/nginx/``,
 `PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`__, `RabbitMQ <https://hub.docker.com/_/rabbitmq>`__,
 `Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, `Gunicorn <https://gunicorn.org/>`__, and
 `NGINX <https://hub.docker.com/_/nginx>`__.::
@@ -157,7 +157,7 @@ Load the environmental variables::
 
     source ~/.bashrc
 
-Make a copy of ``gunicorn.env.txt`` in the same ``/docker`` directory with the ``.txt`` extension removed (e.g., ``gunicorn.env``) ::
+Make a copy of ``gunicorn.env.txt`` in the same ``docker/`` directory with the ``.txt`` extension removed (e.g., ``gunicorn.env``) ::
 
     cp docker/gunicorn.env.txt docker/gunicorn.env
 
@@ -238,7 +238,7 @@ Migrate the Database Tables
 Migrate the database schema to `PostgreSQL <https://www.postgresql.org/>`__ from within the same directory as ``manage.py``
 Within each app there is a migration directory which contains files which tell the database how to
 create the database tables. These have been pre-generated and added to this repository to simplify the
-process of deplying the Maine-eDNA Metadata application::
+process of deplying the medna-metadata application::
 
     python manage.py migrate users
     python manage.py migrate utility
