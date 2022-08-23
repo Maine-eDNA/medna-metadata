@@ -127,6 +127,7 @@ router.register(r'wet_lab/pooled_lib', wetlab_views.PooledLibraryViewSet, 'poole
 router.register(r'wet_lab/run_prep', wetlab_views.RunPrepViewSet, 'run_prep')
 router.register(r'wet_lab/run_result', wetlab_views.RunResultViewSet, 'run_result')
 router.register(r'wet_lab/fastq', wetlab_views.FastqFileViewSet, 'fastq')
+router.register(r'wet_lab/wetlabdocfile', wetlab_views.WetLabDocumentationFileViewSet, 'wetlabdocfile')
 # freezer_inventory
 router.register(r'freezer_inventory/return_action', freezerinventory_views.ReturnActionViewSet, 'return_action')
 router.register(r'freezer_inventory/freezer', freezerinventory_views.FreezerViewSet, 'freezer')
@@ -156,6 +157,7 @@ router.register(r'bioinformatics/species', bioinfo_views.TaxonSpeciesViewSet, 's
 router.register(r'bioinformatics/annotation_method', bioinfo_views.AnnotationMethodViewSet, 'annotation_method')
 router.register(r'bioinformatics/annotation_metadata', bioinfo_views.AnnotationMetadataViewSet, 'annotation_metadata')
 router.register(r'bioinformatics/taxon_annotation', bioinfo_views.TaxonomicAnnotationViewSet, 'taxon_annotation')
+router.register(r'bioinformatics/bioinfodocfile', bioinfo_views.BioinformaticsDocumentationFileViewSet, 'bioinfodocfile')
 # mixs
 router.register(r'mixs/water', wetlab_views.MixsWaterReadOnlyViewSet, 'mixs_water')
 router.register(r'mixs/sediment', wetlab_views.MixsSedimentReadOnlyViewSet, 'mixs_sediment')

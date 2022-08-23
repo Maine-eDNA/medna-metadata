@@ -142,6 +142,9 @@ urlpatterns = [
     path('dashboard/wetlab/fastqfile/update/<str:pk>/', wetlab_views.FastqFileUpdateView.as_view(success_url=reverse_lazy('view_fastqfile')), name='update_fastqfile'),
     # path('dashboard/wetlab/fastqfile/popup/add/', wetlab_views.FastqFilePopupCreateView.as_view(), name='add_popup_fastqfile'),
     path('dashboard/wetlab/fastqfile/popup/update/', wetlab_views.FastqFilePopupUpdateView.as_view(), name='update_popup_fastqfile'),
+    # WET LAB: WETLAB DOC FILE (VIEW)
+    path('dashboard/wetlab/wetlabdocfile/view/', wetlab_views.WetLabDocumentationFileFilterView.as_view(filterset_class=wetlab_filters.WetLabDocumentationFileFilter), name='view_wetlabdocfile'),
+    path('dashboard/wetlab/wetlabdocfile/update/<str:pk>/', wetlab_views.WetLabDocumentationFileUpdateView.as_view(success_url=reverse_lazy('view_wetlabdocfile')), name='update_wetlabdocfile'),
     # FREEZER INVENTORY: FREEZER INVENTORY (VIEW, ADD, UPDATE)
     path('dashboard/freezerinventory/inventory/view/', freezerinventory_views.FreezerInventoryFilterView.as_view(filterset_class=freezerinventory_filters.FreezerInventoryFilter), name='view_freezerinventory'),
     # path('dashboard/freezerinventory/inventory/detail/<int:pk>/', freezerinventory_views.FreezerInventoryDetailView.as_view(), name='detail_freezerinventory'),
@@ -184,7 +187,6 @@ urlpatterns = [
     # path('dashboard/bioinformatics/featureread/detail/<int:pk>/', bioinfo_views.FeatureReadDetailView.as_view(), name='detail_featureread'),
     path('dashboard/bioinformatics/featureread/add/', bioinfo_views.FeatureReadCreateView.as_view(), name='add_featureread'),
     path('dashboard/bioinformatics/featureread/update/<int:pk>/', bioinfo_views.FeatureReadUpdateView.as_view(success_url=reverse_lazy('view_featureread')), name='update_featureread'),
-
     # BIOINFO: ANNOTATION METADATA (VIEW, ADD, UPDATE)
     path('dashboard/bioinformatics/annotationmetadata/view/', bioinfo_views.AnnotationMetadataFilterView.as_view(filterset_class=bioinfo_filters.AnnotationMetadataFilter), name='view_annotationmetadata'),
     # path('dashboard/bioinformatics/annotationmetadata/detail/<int:pk>/', bioinfo_views.AnnotationMetadataDetailView.as_view(), name='detail_annotationmetadata'),
@@ -197,6 +199,9 @@ urlpatterns = [
     # path('dashboard/bioinformatics/taxonomicannotation/detail/<int:pk>/', bioinfo_views.TaxonomicAnnotationDetailView.as_view(), name='detail_taxonomicannotation'),
     path('dashboard/bioinformatics/taxonomicannotation/add/', bioinfo_views.TaxonomicAnnotationCreateView.as_view(), name='add_taxonomicannotation'),
     path('dashboard/bioinformatics/taxonomicannotation/update/<int:pk>/', bioinfo_views.TaxonomicAnnotationUpdateView.as_view(success_url=reverse_lazy('view_taxonomicannotation')), name='update_taxonomicannotation'),
+    # BIOINFO: BIOINFO DOC FILE (VIEW)
+    path('dashboard/bioinformatics/bioinfodocfile/view/', bioinfo_views.BioinformaticsDocumentationFileFilterView.as_view(filterset_class=bioinfo_filters.BioinformaticsDocumentationFileFilter), name='view_bioinfodocfile'),
+    path('dashboard/bioinformatics/bioinfodocfile/update/<str:pk>/', bioinfo_views.BioinformaticsDocumentationFileUpdateView.as_view(success_url=reverse_lazy('view_bioinfodocfile')), name='update_bioinfodocfile'),
     # MIXS
     path('dashboard/mixs/water/view/', wetlab_views.MixsWaterFilterView.as_view(filterset_class=wetlab_filters.MixsWaterFilter), name='view_mixswater'),
     path('dashboard/mixs/sediment/view/', wetlab_views.MixsSedimentFilterView.as_view(filterset_class=wetlab_filters.MixsSedimentFilter), name='view_mixssediment'),
