@@ -16,6 +16,7 @@ def db_backup(self):
     # https://django-dbbackup.readthedocs.io/en/master/index.html
     if settings.DB_BACKUPS is False:
         logger.info('Could not be backed up: Backups are disabled: %s' % timezone.now())
+        return 'Could not be backed up: Backups are disabled: %s' % timezone.now()
     try:
         task_name = self.name
         call_command('dbbackup')
