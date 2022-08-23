@@ -545,7 +545,7 @@ class MixsSedimentSerializer(serializers.ModelSerializer):
 class WetLabDocumentationFileSerializer(serializers.ModelSerializer):
     # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
     uuid = serializers.UUIDField(read_only=True)
-    wetlabdoc_datafile = serializers.FileField(max_length=255)
+    wetlab_doc_datafile = serializers.FileField(max_length=255)
     library_prep_location = serializers.CharField(allow_blank=True, max_length=255)
     library_prep_datetime = serializers.DateTimeField(allow_null=True)
     library_prep_experiment_name = serializers.CharField(allow_blank=True, max_length=255)
@@ -561,7 +561,7 @@ class WetLabDocumentationFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WetLabDocumentationFile
-        fields = ['uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+        fields = ['uuid', 'wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
                   'library_prep_experiment_name', 'pooled_library_label',
                   'pooled_library_location', 'pooled_library_datetime', 'run_prep_location',
                   'run_prep_datetime', 'sequencing_location', 'documentation_notes',

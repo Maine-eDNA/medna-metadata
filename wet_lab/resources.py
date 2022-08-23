@@ -573,14 +573,14 @@ class FastqFileAdminResource(resources.ModelResource):
 class WetLabDocumentationFileAdminResource(resources.ModelResource):
     class Meta:
         model = WetLabDocumentationFile
-        import_id_fields = ('uuid', 'wetlabdoc_datafile', )
+        import_id_fields = ('uuid', 'wetlab_doc_datafile', )
         # exclude = ('site_prefix', 'site_num')
-        fields = ('uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+        fields = ('uuid', 'wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
                   'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
                   'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
                   'documentation_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+        export_order = ('uuid', 'wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
                         'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
                         'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
                         'documentation_notes',

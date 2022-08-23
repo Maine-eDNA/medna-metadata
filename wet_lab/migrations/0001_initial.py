@@ -3,7 +3,6 @@ from django.db import migrations, models
 import django.db.models.deletion
 import medna_metadata.storage_backends
 import utility.models
-import wet_lab.models
 import uuid
 
 
@@ -354,7 +353,7 @@ class Migration(migrations.Migration):
             name='WetLabDocumentationFile',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('wetlabdoc_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.select_private_sequencing_storage, upload_to='', verbose_name='Documentation Datafile')),
+                ('wetlab_doc_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.select_private_sequencing_storage, upload_to='', verbose_name='Documentation Datafile')),
                 ('library_prep_location', models.CharField(blank=True, max_length=255, verbose_name='Lib Prep Location')),
                 ('library_prep_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Lib Prep DateTime')),
                 ('library_prep_experiment_name', models.CharField(blank=True, max_length=255, verbose_name='Lib Prep Experiment Name')),

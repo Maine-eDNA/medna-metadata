@@ -635,7 +635,7 @@ class FastqFile(DateTimeUserMixin):
 class WetLabDocumentationFile(DateTimeUserMixin):
     # WetLabDocumentation.xlsx
     uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    wetlabdoc_datafile = models.FileField('Documentation Datafile', max_length=255, storage=select_private_sequencing_storage)
+    wetlab_doc_datafile = models.FileField('Documentation Datafile', max_length=255, storage=select_private_sequencing_storage)
     # The location of library preparation. This field is populated from a list of common wet lab locations.
     # If "Other" is selected, please specify the location in the library_prep_notes.
     library_prep_location = models.CharField('Lib Prep Location', blank=True, max_length=255)
@@ -662,15 +662,15 @@ class WetLabDocumentationFile(DateTimeUserMixin):
     documentation_notes = models.TextField('Documentation Notes', blank=True)
 
     @property
-    def wetlabdoc_filename(self):
-        return os.path.basename(self.wetlabdoc_datafile.name)
+    def wetlab_doc_filename(self):
+        return os.path.basename(self.wetlab_doc_datafile.name)
 
     @property
-    def wetlabdoc_url(self):
-        return self.wetlabdoc_datafile.url
+    def wetlab_doc_url(self):
+        return self.wetlab_doc_datafile.url
 
     def __str__(self):
-        return self.wetlabdoc_filename
+        return self.wetlab_doc_filename
 
     class Meta:
         app_label = 'wet_lab'

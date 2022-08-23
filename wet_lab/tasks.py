@@ -62,12 +62,12 @@ def get_s3_run_dirs():
         raise RuntimeError('** Error: get_s3_run_dirs Failed (' + str(err) + ')')
 
 
-def get_wetlabdoc_filename_from_key(run_key):
+def get_wetlab_doc_filename_from_key(run_key):
     try:
         filename = run_key.split('/')[1]
         return filename
     except Exception as err:
-        raise RuntimeError('** Error: get_wetlabdoc_filename_from_key Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: get_wetlab_doc_filename_from_key Failed (' + str(err) + ')')
 
 
 def get_s3_fastq_keys(run_keys):
@@ -89,7 +89,7 @@ def get_s3_fastq_keys(run_keys):
         raise RuntimeError('** Error: get_s3_fastq_keys Failed (' + str(err) + ')')
 
 
-def get_s3_wetlabdoc_keys(run_keys):
+def get_s3_wetlab_doc_keys(run_keys):
     try:
         if type(run_keys) is not list:
             run_keys = [run_keys]
@@ -101,11 +101,11 @@ def get_s3_wetlabdoc_keys(run_keys):
                 object_keys.append(obj['Key'])
 
         # filter key list for files that end with .fastq.gz
-        wetlabdoc_keys = [s for s in object_keys if 'WetLabDocumentation' in s]
+        wetlab_doc_keys = [s for s in object_keys if 'WetLabDocumentation' in s]
 
-        return wetlabdoc_keys
+        return wetlab_doc_keys
     except Exception as err:
-        raise RuntimeError('** Error: get_s3_wetlabdoc_keys Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: get_s3_wetlab_doc_keys Failed (' + str(err) + ')')
 
 
 def update_record_fastq_file(record, pk):
@@ -123,11 +123,11 @@ def update_record_fastq_file(record, pk):
         raise RuntimeError('** Error: update_record_fastq_file Failed (' + str(err) + ')')
 
 
-def update_record_wetlabdoc_file(pk, library_prep_location, library_prep_datetime, pooled_library_label,
+def update_record_wetlab_doc_file(pk, library_prep_location, library_prep_datetime, pooled_library_label,
                                  pooled_library_location, pooled_library_datetime, run_prep_location,
                                  run_prep_datetime, sequencing_location):
     try:
-        wetlabdoc_file, created = WetLabDocumentationFile.objects.update_or_create(
+        wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(
             uuid=pk,
             defaults={
                 'library_prep_location': library_prep_location,
@@ -140,9 +140,9 @@ def update_record_wetlabdoc_file(pk, library_prep_location, library_prep_datetim
                 'sequencing_location': sequencing_location,
             }
         )
-        return wetlabdoc_file, created
+        return wetlab_doc_file, created
     except Exception as err:
-        raise RuntimeError('** Error: update_record_wetlabdoc_file Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: update_record_wetlab_doc_file Failed (' + str(err) + ')')
 
 
 def update_record_extraction(extraction_barcode, field_sample, extraction_control,
@@ -319,16 +319,16 @@ def update_queryset_fastq_file(queryset):
         raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
 
 
-def parse_wetlabdoc_file(wetlabdoc_file):
+def parse_wetlab_doc_file(wetlab_doc_file):
     try:
         update_count = 0
         lib_prep_list = dict()
         pooled_lib_list = dict()
-        wetlabdoc_datafile = wetlabdoc_file.wetlabdoc_datafile
-        pk = wetlabdoc_file.pk
-        # file = wetlabdoc_datafile.read().decode('utf-8')
+        wetlab_doc_datafile = wetlab_doc_file.wetlab_doc_datafile
+        pk = wetlab_doc_file.pk
+        # file = wetlab_doc_datafile.read().decode('utf-8')
         # csv_data = csv.reader(StringIO(file), delimiter=',')
-        extr_libprep_df = pd.read_excel(wetlabdoc_datafile, sheet_name=1)
+        extr_libprep_df = pd.read_excel(wetlab_doc_datafile, sheet_name=1)
         num_rows = extr_libprep_df.shape[0]
         for row in range(0, num_rows):
             print(row)
@@ -410,7 +410,7 @@ def parse_wetlabdoc_file(wetlabdoc_file):
                         lib_prep_list[library_prep_experiment_name] = set()
                         lib_prep_list[library_prep_experiment_name].add(lib_prep)
 
-        pooledlib_df = pd.read_excel(wetlabdoc_datafile, sheet_name=2)
+        pooledlib_df = pd.read_excel(wetlab_doc_datafile, sheet_name=2)
         for row in pooledlib_df:
             # POOLED LIBRARY
             library_prep_experiment_name_list = pooledlib_df['library_prep_experiment_name_list'][row]
@@ -446,7 +446,7 @@ def parse_wetlabdoc_file(wetlabdoc_file):
                     pooled_lib_list[pooled_library_barcode] = set()
                     pooled_lib_list[pooled_library_barcode].add(pooled_lib)
 
-        runprep_df = pd.read_excel(wetlabdoc_datafile, sheet_name=3)
+        runprep_df = pd.read_excel(wetlab_doc_datafile, sheet_name=3)
         for row in runprep_df:
             # RUN PREP
             pooled_library_barcode_list =  runprep_df['pooled_library_barcode_list'][row]
@@ -472,7 +472,7 @@ def parse_wetlabdoc_file(wetlabdoc_file):
             if rp_created:
                 update_count += 1
 
-        wet_lab_doc, weblabdoc_created = update_record_wetlabdoc_file(pk, library_prep_location,
+        wet_lab_doc, weblabdoc_created = update_record_wetlab_doc_file(pk, library_prep_location,
                                                                       library_prep_datetime, pooled_library_label,
                                                                       pooled_library_location, pooled_library_datetime,
                                                                       sequencing_location, run_prep_datetime,
@@ -481,22 +481,22 @@ def parse_wetlabdoc_file(wetlabdoc_file):
             update_count += 1
         return update_count
     except Exception as err:
-        raise RuntimeError('** Error: update_record_wetlabdoc_file Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: update_record_wetlab_doc_file Failed (' + str(err) + ')')
 
 
-def ingest_wetlabdoc_files(runs_in_s3):
+def ingest_wetlab_doc_files(runs_in_s3):
     try:
         # ingest wetlabdocumentation here
         update_count = 0
         for s3_run in runs_in_s3:
-            s3_wetlabdoc_keys = get_s3_wetlabdoc_keys(s3_run)
-            for s3_wetlabdoc_key in s3_wetlabdoc_keys:
-                wetlabdoc_datafile = remove_s3_subfolder_from_path(s3_wetlabdoc_key)
-                # wetlabdoc_filename = get_wetlabdoc_filename_from_key(s3_wetlabdoc_key)
-                wetlabdoc_file = WetLabDocumentationFile.objects.get(wetlabdoc_datafile=wetlabdoc_datafile)
-                if not wetlabdoc_file:
-                    wetlabdoc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlabdoc_datafile=wetlabdoc_datafile)
-                    parse_wetlabdoc_file(wetlabdoc_file)
+            s3_wetlab_doc_keys = get_s3_wetlab_doc_keys(s3_run)
+            for s3_wetlab_doc_key in s3_wetlab_doc_keys:
+                wetlab_doc_datafile = remove_s3_subfolder_from_path(s3_wetlab_doc_key)
+                # wetlab_doc_filename = get_wetlab_doc_filename_from_key(s3_wetlab_doc_key)
+                wetlab_doc_file = WetLabDocumentationFile.objects.get(wetlab_doc_datafile=wetlab_doc_datafile)
+                if not wetlab_doc_file:
+                    wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlab_doc_datafile=wetlab_doc_datafile)
+                    parse_wetlab_doc_file(wetlab_doc_file)
                     if created:
                         update_count += 1
 
@@ -528,7 +528,7 @@ def ingest_fastq_files(runs_in_s3):
 
 
 @app.task(bind=True, base=BaseTaskWithRetry, name='ingest-new-wetlabdoc-fastq-files-from-s3')
-def ingest_new_wetlabdoc_fastq_files_from_s3(self):
+def ingest_new_wetlab_doc_fastq_files_from_s3(self):
     try:
         task_name = self.name
         now = timezone.now()
@@ -549,17 +549,17 @@ def ingest_new_wetlabdoc_fastq_files_from_s3(self):
                 runs_not_in_db = s3_run_keys
             # runs_not_in_db = list(set(s3_run_keys) - set(run_ids))
             if runs_not_in_db:
-                created_count_wetlabdoc = ingest_wetlabdoc_files(runs_not_in_db)
+                created_count_wetlabdoc = ingest_wetlab_doc_files(runs_not_in_db)
                 created_count_fastqfile = ingest_fastq_files(runs_not_in_db)
                 created_count = created_count_wetlabdoc+created_count_fastqfile
                 logger.info('Update count: ' + str(created_count))
                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
     except Exception as err:
-        raise RuntimeError('** Error: ingest_new_wetlabdoc_fastq_files_from_s3 Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: ingest_new_wetlab_doc_fastq_files_from_s3 Failed (' + str(err) + ')')
 
 
 @app.task(bind=True, base=BaseTaskWithRetry, name='ingest-all-wetlabdoc-fastq-files-from-s3')
-def ingest_all_wetlabdoc_fastq_files_from_s3(self):
+def ingest_all_wetlab_doc_fastq_files_from_s3(self):
     # https://stackoverflow.com/questions/50609686/django-storages-s3-store-existing-file
     # https://stackoverflow.com/questions/44600110/how-to-get-the-aws-s3-object-key-using-django-storages-and-boto3
     # https://stackoverflow.com/questions/64834783/updating-filesfield-django-with-s3
@@ -582,10 +582,10 @@ def ingest_all_wetlabdoc_fastq_files_from_s3(self):
             # get list of run folders in s3
             s3_run_keys = get_s3_run_dirs()
             if s3_run_keys:
-                created_count_wetlabdoc = ingest_wetlabdoc_files(s3_run_keys)
+                created_count_wetlabdoc = ingest_wetlab_doc_files(s3_run_keys)
                 created_count_fastqfile = ingest_fastq_files(s3_run_keys)
                 created_count = created_count_wetlabdoc+created_count_fastqfile
                 logger.info('Update count: ' + str(created_count))
                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
     except Exception as err:
-        raise RuntimeError('** Error: ingest_all_wetlabdoc_fastq_files_from_s3 Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: ingest_all_wetlab_doc_fastq_files_from_s3 Failed (' + str(err) + ')')

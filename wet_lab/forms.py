@@ -1628,7 +1628,7 @@ class FastqFileUpdateForm(forms.ModelForm):
 
 
 class WetLabDocumentationFileCreateForm(forms.ModelForm):
-    wetlabdoc_datafile = forms.FileField(
+    wetlab_doc_datafile = forms.FileField(
         required=True,
         label='FastQ Datafile',
         widget=CustomClearableFileInput(
@@ -1650,11 +1650,11 @@ class WetLabDocumentationFileCreateForm(forms.ModelForm):
 
     class Meta:
         model = WetLabDocumentationFile
-        fields = ['wetlabdoc_datafile', 'documentation_notes', ]
+        fields = ['wetlab_doc_datafile', 'documentation_notes', ]
 
 
 class WetLabDocumentationFileUpdateForm(forms.ModelForm):
-    wetlabdoc_datafile = forms.FileField(
+    wetlab_doc_datafile = forms.FileField(
         required=True,
         label='Documentation Datafile',
         widget=CustomClearableFileInput(
@@ -1753,7 +1753,7 @@ class WetLabDocumentationFileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = WetLabDocumentationFile
-        fields = ['wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+        fields = ['wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
                   'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
                   'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
                   'documentation_notes', ]

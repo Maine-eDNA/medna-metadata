@@ -689,13 +689,13 @@ class WetLabDocumentationFileAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = WetLabDocumentationFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('wetlabdoc_filename', 'library_prep_experiment_name', 'created_datetime', 'created_by')
+    list_display = ('wetlab_doc_filename', 'library_prep_experiment_name', 'created_datetime', 'created_by')
     readonly_fields = ('uuid', 'modified_datetime', 'created_datetime', )
-    search_fields = ['wetlabdoc_datafile', ]
+    search_fields = ['wetlab_doc_datafile', ]
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['wetlabdoc_datafile', 'documentation_notes', 'created_by', ]
+        self.fields = ['wetlab_doc_datafile', 'documentation_notes', 'created_by', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
@@ -705,7 +705,7 @@ class WetLabDocumentationFileAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         # self.readonly_fields = ('fastq_datafile', )
-        self.fields = ['uuid', 'wetlabdoc_datafile', 'library_prep_location', 'library_prep_datetime',
+        self.fields = ['uuid', 'wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
                        'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
                        'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
                        'documentation_notes',
