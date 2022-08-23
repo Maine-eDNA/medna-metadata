@@ -173,7 +173,7 @@ class StandardOperatingProcedure(DateTimeUserMixin):
         verbose_name_plural = 'Standard Operating Procedures'
 
 
-class MetadataTemplate(DateTimeUserMixin):
+class MetadataTemplateFile(DateTimeUserMixin):
     # i.e., WetLabDocumentation.xlsx blank template
     uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     template_slug = models.SlugField('Template Slug', max_length=255)
@@ -194,7 +194,7 @@ class MetadataTemplate(DateTimeUserMixin):
     def save(self, *args, **kwargs):
         self.template_slug = '{type}_{template_filename}'.format(template_filename=slugify(self.template_datafile.name),
                                                                  type=slugify(self.template_type))
-        super(MetadataTemplate, self).save(*args, **kwargs)
+        super(MetadataTemplateFile, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.template_slug
@@ -204,8 +204,8 @@ class MetadataTemplate(DateTimeUserMixin):
         # can only have new versions of documentation
         unique_together = ['template_datafile', 'template_version']
         app_label = 'utility'
-        verbose_name = 'Metadata Template'
-        verbose_name_plural = 'Metadata Templates'
+        verbose_name = 'Metadata Template File'
+        verbose_name_plural = 'Metadata Template Files'
 
 
 class ProcessLocation(DateTimeUserMixin):

@@ -24,7 +24,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, MetadataTemplate
+from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, MetadataTemplateFile
 from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureForm
 from .charts import return_select2_options
 import utility.enumerations as utility_enums
@@ -574,11 +574,11 @@ class StandardOperatingProcedureViewSet(viewsets.ModelViewSet):
     swagger_tags = ['utility']
 
 
-class MetadataTemplateViewSet(viewsets.ModelViewSet):
-    serializer_class = utility_serializers.MetadataTemplateSerializer
-    queryset = MetadataTemplate.objects.prefetch_related('created_by', )
+class MetadataTemplateFileViewSet(viewsets.ModelViewSet):
+    serializer_class = utility_serializers.MetadataTemplateFileSerializer
+    queryset = MetadataTemplateFile.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = utility_filters.MetadataTemplateSerializerFilter
+    filterset_class = utility_filters.MetadataTemplateFileSerializerFilter
     swagger_tags = ['utility']
 
 

@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='MetadataTemplate',
+            name='MetadataTemplateFile',
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('template_slug', models.SlugField(max_length=255, verbose_name='Template Slug')),
@@ -112,8 +112,8 @@ class Migration(migrations.Migration):
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name': 'Metadata Template',
-                'verbose_name_plural': 'Metadata Templates',
+                'verbose_name': 'Metadata Template File',
+                'verbose_name_plural': 'Metadata Template Files',
                 'unique_together': {('template_datafile', 'template_version')},
             },
         ),
