@@ -13,6 +13,11 @@ set -o nounset
 APP_HOME=/home/django/medna-metadata
 FIXTURES_DIR=${APP_HOME}/fixtures/prod
 
+# Create static and media directories
+echo "${0}: [$(date -u)] ***Creating static and media dirs***"
+mkdir -p ${APP_HOME}/static
+mkdir -p ${APP_HOME}/media
+
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
   # Run and apply database migrations
   echo "${0}: [$(date -u)] ***Applying database migrations***"

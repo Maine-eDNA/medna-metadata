@@ -2,9 +2,6 @@
 
 set -e
 
-# set variables
-APP_HOME=/home/django/medna-metadata
-FIXTURES_DIR=${APP_HOME}/fixtures/demo
 # if any of the commands in your code fails for any reason, the entire script fails
 set -o errexit
 # fail exit if one of your pipe command fails
