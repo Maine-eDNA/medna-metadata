@@ -13,16 +13,19 @@ from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from utility.views import export_context, CreatePopupMixin, UpdatePopupMixin
 from utility.charts import return_select2_options
-from utility.serializers import SerializerExportMixin
+from utility.serializers import SerializerExportMixin, CharSerializerExportMixin
 import bioinformatics.serializers as bioinfo_serializers
 import bioinformatics.filters as bioinfo_filters
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass,  \
-    TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation, \
+    BioinformaticsDocumentationFile
 from .forms import FeatureOutputForm, FeatureReadForm, QualityMetadataForm, AnnotationMetadataForm, \
-     TaxonomicAnnotationForm, DenoiseClusterMetadataCreateForm, DenoiseClusterMetadataUpdateForm
+     TaxonomicAnnotationForm, DenoiseClusterMetadataCreateForm, DenoiseClusterMetadataUpdateForm, \
+     BioinformaticsDocumentationFileCreateForm, BioinformaticsDocumentationFileUpdateForm
 from .tables import QualityMetadataTable, TaxonomicAnnotationTable, AnnotationMetadataTable, \
-    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, FeatureReadTaxonTable
+    DenoiseClusterMetadataTable, FeatureOutputTable, FeatureReadTable, FeatureReadTaxonTable, \
+    BioinformaticsDocumentationFileTable
 from django.conf import settings
 
 
@@ -838,6 +841,90 @@ class TaxonomicAnnotationUpdateView(LoginRequiredMixin, PermissionRequiredMixin,
         return reverse('view_taxonomicannotation')
 
 
+class BioinformaticsDocumentationFileFilterView(LoginRequiredMixin, PermissionRequiredMixin, CharSerializerExportMixin, SingleTableMixin, FilterView):
+    # permissions - https://stackoverflow.com/questions/9469590/check-permission-inside-a-template-in-django
+    # View site filter view with REST serializer and django-tables2
+    # export_formats = ['csv','xlsx'] # set in user_sites in default
+    model = BioinformaticsDocumentationFile
+    table_class = BioinformaticsDocumentationFileTable
+    template_name = 'home/django-material-dashboard/model-filter-list.html'
+    permission_required = ('bioinformatics.view_bioinformaticsdocumentationfile', )
+    export_name = 'bioinformaticsdocumentationfile_' + str(timezone.now().replace(microsecond=0).isoformat())
+    serializer_class = bioinfo_serializers.BioinformaticsDocumentationFileSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    export_formats = settings.EXPORT_FORMATS
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'view_bioinformaticsdocumentationfile'
+        context['page_title'] = 'Bioinformatics Documentation File'
+        context['export_formats'] = self.export_formats
+        context = {**context, **export_context(self.request, self.export_formats)}
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class BioinformaticsDocumentationFileCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'bioinformatics.add_bioinformaticsdocumentationfile'
+    model = BioinformaticsDocumentationFile
+    form_class = BioinformaticsDocumentationFileCreateForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-dashboard/model-add-fileupload-fastqfile.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_bioinformaticsdocumentationfile'
+        context['page_title'] = 'Bioinformatics Documentation File'
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('view_bioinformaticsdocumentationfile')
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class BioinformaticsDocumentationFileUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = BioinformaticsDocumentationFile
+    form_class = BioinformaticsDocumentationFileUpdateForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-dashboard/model-update.html'
+    permission_required = ('bioinformatics.update_bioinformaticsdocumentationfile', 'bioinformatics.view_bioinformaticsdocumentationfile', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_bioinformaticsdocumentationfile'
+        context['page_title'] = 'Bioinformatics Documentation File'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        return reverse('view_bioinformaticsdocumentationfile')
+
+
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################
@@ -988,3 +1075,11 @@ class TaxonomicAnnotationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = bioinfo_filters.TaxonomicAnnotationSerializerFilter
     swagger_tags = ['bioinformatics taxonomy']
+
+
+class BioinformaticsDocumentationFileViewSet(viewsets.ModelViewSet):
+    serializer_class = bioinfo_serializers.BioinformaticsDocumentationFileSerializer
+    queryset = BioinformaticsDocumentationFile.objects.prefetch_related('created_by', )
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = bioinfo_filters.BioinformaticsDocumentationFileSerializerFilter
+    swagger_tags = ['bioinformatics']

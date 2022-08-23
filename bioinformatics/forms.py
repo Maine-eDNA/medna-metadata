@@ -2,13 +2,15 @@
 # from django import forms
 from django.urls import reverse_lazy
 from django.contrib.gis import forms
-from utility.widgets import CustomSelect2Multiple, CustomSelect2, CustomAdminSplitDateTime, AddAnotherWidgetWrapper
+from utility.widgets import CustomSelect2Multiple, CustomSelect2, CustomAdminSplitDateTime, AddAnotherWidgetWrapper, \
+    CustomClearableFileInput
 from utility.models import ProcessLocation, StandardOperatingProcedure
 from utility.enumerations import QualityChecks, SopTypes
 from wet_lab.models import FastqFile, Extraction
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, \
-    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation, \
+    BioinformaticsDocumentationFile
 
 
 class QualityMetadataForm(forms.ModelForm):
@@ -821,3 +823,134 @@ class TaxonomicAnnotationForm(forms.ModelForm):
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species', 'manual_notes', ]
+
+
+class BioinformaticsDocumentationFileCreateForm(forms.ModelForm):
+    bioinformatics_doc_datafile = forms.FileField(
+        required=True,
+        label='Documentation Datafile',
+        widget=CustomClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    documentation_notes = forms.CharField(
+        required=False,
+        label='Documentation Notes',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        fields = ['bioinformatics_doc_datafile', 'documentation_notes', ]
+
+
+class BioinformaticsDocumentationFileUpdateForm(forms.ModelForm):
+    bioinformatics_doc_datafile = forms.FileField(
+        required=True,
+        label='Documentation Datafile',
+        widget=CustomClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    quality_location = forms.CharField(
+        required=False,
+        label='Quality Check Location',
+        help_text='The location of the quality check.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    quality_datetime = forms.SplitDateTimeField(
+        required=False,
+        label='Quality Check DateTime',
+        help_text='Date and time of the analysis.',
+        widget=CustomAdminSplitDateTime()
+    )
+    quality_label = forms.CharField(
+        required=False,
+        label='Quality Check Label',
+        help_text='The label of the analysis.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    feature_location = forms.CharField(
+        required=False,
+        label='Denoise/Cluster Location',
+        help_text='The location of the denoising or clustering.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    feature_datetime = forms.SplitDateTimeField(
+        required=False,
+        label='Denoise/Cluster DateTime',
+        help_text='Date and time of the analysis.',
+        widget=CustomAdminSplitDateTime()
+    )
+    feature_label = forms.CharField(
+        required=False,
+        label='Denoise/Cluster Label',
+        help_text='The label of the analysis.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    annotation_location = forms.CharField(
+        required=False,
+        label='Annotation Location',
+        help_text='The location of the taxonomic annotation.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    annotation_datetime = forms.SplitDateTimeField(
+        required=False,
+        label='Annotation DateTime',
+        help_text='Date and time of the analysis.',
+        widget=CustomAdminSplitDateTime()
+    )
+    annotation_label = forms.CharField(
+        required=False,
+        label='Annotation Label',
+        help_text='The label of the analysis.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    documentation_notes = forms.CharField(
+        required=False,
+        label='Documentation Notes',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        fields = ['bioinformatics_doc_datafile', 'quality_location', 'quality_datetime',
+                  'quality_label', 'feature_location', 'feature_datetime', 'feature_label',
+                  'annotation_location', 'annotation_datetime', 'annotation_label', 'documentation_notes', ]

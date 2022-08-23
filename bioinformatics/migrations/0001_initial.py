@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+import medna_metadata.storage_backends
 import utility.models
+import uuid
 
 
 class Migration(migrations.Migration):
@@ -408,6 +410,30 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Taxonomic Annotation',
                 'verbose_name_plural': 'Taxonomic Annotations',
+            },
+        ),
+        migrations.CreateModel(
+            name='BioinformaticsDocumentationFile',
+            fields=[
+                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('bioinformatics_doc_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.select_private_sequencing_storage, upload_to='', verbose_name='Documentation Datafile')),
+                ('quality_location', models.CharField(blank=True, max_length=255, verbose_name='Quality Check Location')),
+                ('quality_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Quality Check DateTime')),
+                ('quality_label', models.CharField(blank=True, max_length=255, verbose_name='Quality Check Label')),
+                ('feature_location', models.CharField(blank=True, max_length=255, verbose_name='Denoise/Cluster Location')),
+                ('feature_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Denoise/Cluster DateTime')),
+                ('feature_label', models.CharField(blank=True, max_length=255, verbose_name='Denoise/Cluster Label')),
+                ('annotation_location', models.CharField(blank=True, max_length=255, verbose_name='Annotation Location')),
+                ('annotation_datetime', models.DateTimeField(blank=True, null=True, verbose_name='Annotation DateTime')),
+                ('annotation_label', models.CharField(blank=True, max_length=255, verbose_name='Annotation Label')),
+                ('documentation_notes', models.TextField(blank=True, verbose_name='Documentation Notes')),
+                ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
+                ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),
+                ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name': 'BioinformaticsDocumentationFile',
+                'verbose_name_plural': 'BioinformaticsDocumentationFiles',
             },
         ),
     ]

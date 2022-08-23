@@ -5,13 +5,14 @@ from import_export.admin import ImportExportActionModelAdmin
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
-    TaxonomicAnnotation
+    TaxonomicAnnotation, BioinformaticsDocumentationFile
 from .resources import QualityMetadataAdminResource, DenoiseClusterMethodAdminResource, \
     DenoiseClusterMetadataAdminResource, FeatureOutputAdminResource, FeatureReadAdminResource, \
     ReferenceDatabaseAdminResource, TaxonDomainAdminResource, TaxonKingdomAdminResource, TaxonSupergroupAdminResource, \
     TaxonPhylumDivisionAdminResource, TaxonClassAdminResource, TaxonOrderAdminResource, TaxonFamilyAdminResource, \
     TaxonGenusAdminResource, TaxonSpeciesAdminResource, \
-    AnnotationMethodAdminResource, AnnotationMetadataAdminResource, TaxonomicAnnotationAdminResource
+    AnnotationMethodAdminResource, AnnotationMetadataAdminResource, TaxonomicAnnotationAdminResource, \
+    BioinformaticsDocumentationFileAdminResource
 
 
 class QualityMetadataAdmin(ImportExportActionModelAdmin):
@@ -786,3 +787,41 @@ class TaxonomicAnnotationAdmin(ImportExportActionModelAdmin):
 
 
 admin.site.register(TaxonomicAnnotation, TaxonomicAnnotationAdmin)
+
+
+class BioinformaticsDocumentationFileAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    resource_class = BioinformaticsDocumentationFileAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('bioinformatics_doc_datafile', 'annotation_label', 'created_datetime', 'created_by')
+    readonly_fields = ('uuid', 'modified_datetime', 'created_datetime', )
+    search_fields = ['bioinformatics_doc_datafile', ]
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['bioinformatics_doc_datafile', 'documentation_notes', 'created_by', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(BioinformaticsDocumentationFileAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        # self.readonly_fields = ('fastq_datafile', )
+        self.fields = ['uuid', 'bioinformatics_doc_datafile', 'quality_location', 'quality_datetime',
+                       'quality_label', 'feature_location', 'feature_datetime', 'feature_label',
+                       'annotation_location', 'annotation_datetime', 'annotation_label', 'documentation_notes',
+                       'created_by', 'modified_datetime', 'created_datetime']
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(BioinformaticsDocumentationFileAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+
+admin.site.register(BioinformaticsDocumentationFile, BioinformaticsDocumentationFileAdmin)

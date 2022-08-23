@@ -1,8 +1,14 @@
 from django.contrib.gis.db import models
 from django.utils.text import slugify
 from django.utils import timezone
+# UUID, Universal Unique Identifier, is a python library which helps in generating random objects of 128 bits as ids.
+# It provides the uniqueness as it generates ids on the basis of time, Computer hardware (MAC etc.).
+import uuid
+import os
 from utility.models import DateTimeUserMixin, ProcessLocation, slug_date_format, get_default_process_location
 from utility.enumerations import YesNo, QualityChecks
+# custom private media S3 backend storage
+from medna_metadata.storage_backends import select_private_sequencing_storage
 
 
 # Create your models here.
@@ -550,3 +556,48 @@ class TaxonomicAnnotation(DateTimeUserMixin):
         app_label = 'bioinformatics'
         verbose_name = 'Taxonomic Annotation'
         verbose_name_plural = 'Taxonomic Annotations'
+
+
+class BioinformaticsDocumentationFile(DateTimeUserMixin):
+    # WetLabDocumentation.xlsx
+    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    bioinformatics_doc_datafile = models.FileField('Documentation Datafile', max_length=255, storage=select_private_sequencing_storage)
+    # The location of the quality check. This field is populated from a list of common locations.
+    # If "Other" is selected, please specify the location in the quality_metadata_notes.
+    quality_location = models.CharField('Quality Check Location', blank=True, max_length=255)
+    # Date and time of the analysis. In the format MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
+    quality_datetime = models.DateTimeField('Quality Check DateTime', blank=True, null=True)
+    # The label of the analysis.
+    quality_label = models.CharField('Quality Check Label', blank=True, max_length=255)
+    # The location of the denoising or clustering. This field is populated from a list of common locations.
+    # If "Other" is selected, please specify the location in the denoise_cluster_notes.
+    feature_location = models.CharField('Denoise/Cluster Location', blank=True, max_length=255)
+    # Date and time of the analysis. In the format MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
+    feature_datetime = models.DateTimeField('Denoise/Cluster DateTime', blank=True, null=True)
+    # The label of the analysis.
+    feature_label = models.CharField('Denoise/Cluster Label', blank=True, max_length=255)
+    # The location of the taxonomic annotation. This field is populated from a list of common locations.
+    # If "Other" is selected, please specify the location in the annotation_metadata_notes.
+    annotation_location = models.CharField('Annotation Location', blank=True, max_length=255)
+    # Date and time of the analysis. In the format MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
+    annotation_datetime = models.DateTimeField('Annotation DateTime', blank=True, null=True)
+    # The label of the analysis.
+    annotation_label = models.CharField('Annotation Label', blank=True, max_length=255)
+    # Bioinformatics Documentation notes.
+    documentation_notes = models.TextField('Documentation Notes', blank=True)
+
+    @property
+    def bioinformatics_doc_filename(self):
+        return os.path.basename(self.bioinformatics_doc_datafile.name)
+
+    @property
+    def bioinformatics_doc_url(self):
+        return self.bioinformatics_doc_datafile.url
+
+    def __str__(self):
+        return self.bioinformatics_doc_filename
+
+    class Meta:
+        app_label = 'bioinformatics'
+        verbose_name = 'BioinformaticsDocumentationFile'
+        verbose_name_plural = 'BioinformaticsDocumentationFiles'

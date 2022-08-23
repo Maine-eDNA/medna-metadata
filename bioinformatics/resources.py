@@ -2,7 +2,7 @@ from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import QualityMetadata, DenoiseClusterMethod, FeatureRead, FeatureOutput, DenoiseClusterMetadata, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, \
-    TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation, BioinformaticsDocumentationFile
 from utility.models import ProcessLocation, StandardOperatingProcedure
 from wet_lab.models import FastqFile, Extraction
 from users.models import CustomUser
@@ -595,5 +595,29 @@ class TaxonomicAnnotationAdminResource(resources.ModelResource):
         attribute='created_by',
         widget=ForeignKeyWidget(CustomUser, 'email'))
 
+    def before_import_row(self, row, **kwargs):
+        row['created_by'] = kwargs['user'].email
+
+
+class BioinformaticsDocumentationFileAdminResource(resources.ModelResource):
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        import_id_fields = ('uuid', 'bioinformatics_doc_datafile', )
+        # exclude = ('site_prefix', 'site_num')
+        fields = ('uuid', 'bioinformatics_doc_datafile', 'quality_location', 'quality_datetime',
+                  'quality_label', 'feature_location', 'feature_datetime', 'feature_label',
+                  'annotation_location', 'annotation_datetime', 'annotation_label', 'documentation_notes',
+                  'created_by', 'modified_datetime', 'created_datetime', )
+        export_order = ('uuid', 'bioinformatics_doc_datafile', 'quality_location', 'quality_datetime',
+                        'quality_label', 'feature_location', 'feature_datetime', 'feature_label',
+                        'annotation_location', 'annotation_datetime', 'annotation_label', 'documentation_notes',
+                        'created_by', 'modified_datetime', 'created_datetime', )
+
+    created_by = fields.Field(
+        column_name='created_by',
+        attribute='created_by',
+        widget=ForeignKeyWidget(CustomUser, 'email'))
+
+    # https://stackoverflow.com/questions/50952887/django-import-export-assign-current-user
     def before_import_row(self, row, **kwargs):
         row['created_by'] = kwargs['user'].email

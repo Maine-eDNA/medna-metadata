@@ -3,7 +3,7 @@ from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, \
     TaxonClass, TaxonOrder, TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, \
-    TaxonomicAnnotation
+    TaxonomicAnnotation, BioinformaticsDocumentationFile
 from wet_lab.models import FastqFile, Extraction
 from utility.enumerations import QualityChecks
 from utility.models import ProcessLocation, StandardOperatingProcedure
@@ -494,3 +494,32 @@ class TaxonomicAnnotationSerializer(serializers.ModelSerializer):
     manual_family = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_family_slug', queryset=TaxonFamily.objects.all())
     manual_genus = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_genus_slug', queryset=TaxonGenus.objects.all())
     manual_species = serializers.SlugRelatedField(many=False, allow_null=True, read_only=False, slug_field='taxon_species_slug', queryset=TaxonSpecies.objects.all())
+
+
+class BioinformaticsDocumentationFileSerializer(serializers.ModelSerializer):
+    # https://www.section.io/engineering-education/how-to-upload-files-to-aws-s3-using-django-rest-framework/
+    uuid = serializers.UUIDField(read_only=True)
+    bioinformatics_doc_datafile = serializers.FileField(max_length=255)
+    quality_location = serializers.CharField(allow_blank=True, max_length=255)
+    quality_datetime = serializers.DateTimeField(allow_null=True)
+    quality_label = serializers.CharField(allow_blank=True, max_length=255)
+    feature_location = serializers.CharField(allow_blank=True, max_length=255)
+    feature_datetime = serializers.DateTimeField(allow_null=True)
+    feature_label = serializers.CharField(allow_blank=True, max_length=255)
+    annotation_location = serializers.CharField(allow_blank=True, max_length=255)
+    annotation_datetime = serializers.DateTimeField(allow_null=True)
+    annotation_label = serializers.CharField(allow_blank=True, max_length=255)
+    documentation_notes = serializers.CharField(allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        fields = ['uuid', 'bioinformatics_doc_datafile', 'quality_location', 'quality_datetime',
+                  'quality_label', 'feature_location', 'feature_datetime', 'feature_label',
+                  'annotation_location', 'annotation_datetime', 'annotation_label', 'documentation_notes',
+                  'created_by', 'modified_datetime', 'created_datetime', ]
+    # Since project, system, watershed, and created_by reference different tables and we
+    # want to show 'label' rather than some unintelligable field (like pk 1), have to add
+    # slug to tell it to print the desired field from the other table
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')

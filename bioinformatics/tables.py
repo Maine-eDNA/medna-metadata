@@ -1,7 +1,8 @@
 import django_tables2 as tables
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, \
-    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation, \
+    BioinformaticsDocumentationFile
 from django_tables2.utils import A
 
 
@@ -161,3 +162,28 @@ class FeatureReadTaxonTable(tables.Table):
     ta_genus = tables.Column()
     ta_species = tables.Column()
     ta_common_name = tables.Column()
+
+
+class BioinformaticsDocumentationFileTable(tables.Table):
+    _selected_action = tables.CheckBoxColumn(accessor='pk',
+                                             attrs={'td': {'class': 'action-checkbox'},
+                                                    'input': {'class': 'action-select'},
+                                                    'th__input': {'id': 'action-toggle'},
+                                                    'th': {'class': 'action-checkbox-column'}},
+                                             orderable=False)
+    documentation_notes = tables.TemplateColumn('<data-toggle="tooltip" title="{{record.documentation_notes}}">{{ record.documentation_notes|truncatewords:5 }}', orderable=False)
+    # formatting for date columns
+    quality_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    feature_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    annotation_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    modified_datetime = tables.DateTimeColumn(format='M d, Y h:i a')
+    created_by = tables.Column(accessor='created_by.email')
+    edit = tables.LinkColumn('update_bioinfodocfile', text='Update', args=[A('pk')], orderable=False)
+
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        fields = ('_selected_action', 'uuid', 'bioinformatics_doc_datafile', 'quality_location', 'quality_datetime',
+                  'quality_label', 'feature_location', 'feature_datetime', 'feature_label',
+                  'annotation_location', 'annotation_datetime', 'annotation_label', 'documentation_notes',
+                  'created_by', 'modified_datetime', 'created_datetime', )

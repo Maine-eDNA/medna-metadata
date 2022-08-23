@@ -1,3 +1,4 @@
+from django import forms
 from django_filters import rest_framework as filters
 from users.models import CustomUser
 from utility.models import ProcessLocation
@@ -5,7 +6,8 @@ from utility.widgets import CustomSelect2Multiple, CustomSelect2
 from wet_lab.models import RunResult, Extraction
 from .models import QualityMetadata, DenoiseClusterMethod, DenoiseClusterMetadata, FeatureOutput, FeatureRead, \
     ReferenceDatabase, TaxonDomain, TaxonKingdom, TaxonSupergroup, TaxonPhylumDivision, TaxonClass, TaxonOrder, \
-    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation
+    TaxonFamily, TaxonGenus, TaxonSpecies, AnnotationMethod, AnnotationMetadata, TaxonomicAnnotation, \
+    BioinformaticsDocumentationFile
 
 
 # Create your filters here.
@@ -228,6 +230,25 @@ class TaxonomicAnnotationFilter(filters.FilterSet):
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species']
+
+
+class BioinformaticsDocumentationFileFilter(filters.FilterSet):
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
+    quality_location = filters.CharFilter(field_name='quality_location', lookup_expr='icontains')
+    quality_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    quality_label = filters.CharFilter(field_name='quality_label', lookup_expr='icontains')
+    feature_location = filters.CharFilter(field_name='feature_location', lookup_expr='icontains')
+    feature_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    feature_label = filters.CharFilter(field_name='feature_label', lookup_expr='icontains')
+    annotation_location = filters.CharFilter(field_name='annotation_location', lookup_expr='icontains')
+    annotation_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    annotation_label = filters.CharFilter(field_name='annotation_label', lookup_expr='icontains')
+
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        fields = ['created_by', 'quality_location', 'quality_datetime', 'quality_label',
+                  'feature_location', 'feature_datetime', 'feature_label',
+                  'annotation_location', 'annotation_datetime', 'annotation_label', ]
 
 
 ########################################
@@ -471,3 +492,22 @@ class TaxonomicAnnotationSerializerFilter(filters.FilterSet):
                   'manual_class', 'manual_order',
                   'manual_family', 'manual_genus',
                   'manual_species']
+
+
+class BioinformaticsDocumentationFileSerializerFilter(filters.FilterSet):
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
+    quality_location = filters.CharFilter(field_name='quality_location', lookup_expr='iexact')
+    quality_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    quality_label = filters.CharFilter(field_name='quality_label', lookup_expr='iexact')
+    feature_location = filters.CharFilter(field_name='feature_location', lookup_expr='iexact')
+    feature_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    feature_label = filters.CharFilter(field_name='feature_label', lookup_expr='iexact')
+    annotation_location = filters.CharFilter(field_name='annotation_location', lookup_expr='iexact')
+    annotation_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    annotation_label = filters.CharFilter(field_name='annotation_label', lookup_expr='iexact')
+
+    class Meta:
+        model = BioinformaticsDocumentationFile
+        fields = ['created_by', 'quality_location', 'quality_datetime', 'quality_label',
+                  'feature_location', 'feature_datetime', 'feature_label',
+                  'annotation_location', 'annotation_datetime', 'annotation_label', ]
