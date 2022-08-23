@@ -549,9 +549,9 @@ class WetLabDocumentationFileSerializer(serializers.ModelSerializer):
     library_prep_location = serializers.CharField(allow_blank=True, max_length=255)
     library_prep_datetime = serializers.DateTimeField(allow_null=True)
     library_prep_experiment_name = serializers.CharField(allow_blank=True, max_length=255)
-    pooled_library_label = serializers.CharField(allow_blank=True, max_length=255)
     pooled_library_location = serializers.CharField(allow_blank=True, max_length=255)
     pooled_library_datetime = serializers.DateTimeField(allow_null=True)
+    pooled_library_label = serializers.CharField(allow_blank=True, max_length=255)
     run_prep_location = serializers.CharField(allow_blank=True, max_length=255)
     run_prep_datetime = serializers.DateTimeField(allow_null=True)
     sequencing_location = serializers.CharField(allow_blank=True, max_length=255)
@@ -562,8 +562,8 @@ class WetLabDocumentationFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = WetLabDocumentationFile
         fields = ['uuid', 'wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
-                  'library_prep_experiment_name', 'pooled_library_label',
-                  'pooled_library_location', 'pooled_library_datetime', 'run_prep_location',
+                  'library_prep_experiment_name', 'pooled_library_location', 'pooled_library_datetime',
+                  'pooled_library_label', 'run_prep_location',
                   'run_prep_datetime', 'sequencing_location', 'documentation_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Since project, system, watershed, and created_by reference different tables and we

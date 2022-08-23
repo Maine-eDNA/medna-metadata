@@ -6,7 +6,7 @@ from utility.models import ProcessLocation
 from users.models import CustomUser
 from .models import PrimerPair, IndexPair, IndexRemovalMethod, SizeSelectionMethod, QuantificationMethod, \
     AmplificationMethod, ExtractionMethod, Extraction, PcrReplicate, Pcr, LibraryPrep, PooledLibrary, \
-    RunPrep, RunResult, FastqFile
+    RunPrep, RunResult, FastqFile, WetLabDocumentationFile
 
 
 # Create your filters here.
@@ -210,6 +210,25 @@ class MixsSedimentFilter(filters.FilterSet):
     class Meta:
         model = FastqFile
         fields = ['created_by', 'run_result', 'extraction', 'primer_set', 'submitted_to_insdc', 'seq_meth', 'investigation_type', ]
+
+
+class WetLabDocumentationFileFilter(filters.FilterSet):
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
+    library_prep_location = filters.CharFilter(field_name='library_prep_location', lookup_expr='icontains')
+    library_prep_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    library_prep_experiment_name = filters.CharFilter(field_name='library_prep_experiment_name', lookup_expr='icontains')
+    pooled_library_location = filters.CharFilter(field_name='pooled_library_location', lookup_expr='icontains')
+    pooled_library_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    pooled_library_label = filters.CharFilter(field_name='pooled_library_label', lookup_expr='icontains')
+    run_prep_location = filters.CharFilter(field_name='run_prep_location', lookup_expr='icontains')
+    run_prep_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }))
+    sequencing_location = filters.CharFilter(field_name='sequencing_location', lookup_expr='icontains')
+
+    class Meta:
+        model = WetLabDocumentationFile
+        fields = ['created_by', 'library_prep_location', 'library_prep_datetime', 'library_prep_experiment_name',
+                  'pooled_library_location', 'pooled_library_datetime', 'pooled_library_label',
+                  'run_prep_location', 'run_prep_datetime', 'sequencing_location', ]
 
 
 ########################################
@@ -442,3 +461,22 @@ class MixsSedimentSerializerFilter(filters.FilterSet):
     class Meta:
         model = FastqFile
         fields = ['created_by', 'uuid', 'run_result', 'extraction', 'primer_set', 'fastq_slug', 'submitted_to_insdc', ]
+
+
+class WetLabDocumentationFileSerializerFilter(filters.FilterSet):
+    created_by = filters.ModelChoiceFilter(field_name='created_by__email', queryset=CustomUser.objects.all(), widget=CustomSelect2)
+    library_prep_location = filters.CharFilter(field_name='library_prep_location', lookup_expr='iexact')
+    library_prep_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    library_prep_experiment_name = filters.CharFilter(field_name='library_prep_experiment_name', lookup_expr='iexact')
+    pooled_library_location = filters.CharFilter(field_name='pooled_library_location', lookup_expr='iexact')
+    pooled_library_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    pooled_library_label = filters.CharFilter(field_name='pooled_library_label', lookup_expr='iexact')
+    run_prep_location = filters.CharFilter(field_name='run_prep_location', lookup_expr='iexact')
+    run_prep_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    sequencing_location = filters.CharFilter(field_name='sequencing_location', lookup_expr='iexact')
+
+    class Meta:
+        model = WetLabDocumentationFile
+        fields = ['created_by', 'library_prep_location', 'library_prep_datetime', 'library_prep_experiment_name',
+                  'pooled_library_location', 'pooled_library_datetime', 'pooled_library_label',
+                  'run_prep_location', 'run_prep_datetime', 'sequencing_location', ]

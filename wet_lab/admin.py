@@ -706,8 +706,8 @@ class WetLabDocumentationFileAdmin(ImportExportActionModelAdmin):
         # specify what can be changed in admin change view
         # self.readonly_fields = ('fastq_datafile', )
         self.fields = ['uuid', 'wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
-                       'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
-                       'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
+                       'library_prep_experiment_name', 'pooled_library_location', 'pooled_library_datetime',
+                       'pooled_library_label', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
                        'documentation_notes',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

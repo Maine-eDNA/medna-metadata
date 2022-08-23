@@ -1365,3 +1365,11 @@ class MixsSedimentReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = wetlab_filters.MixsSedimentSerializerFilter
     swagger_tags = ['mixs']
+
+
+class WetLabDocumentationFileViewSet(viewsets.ModelViewSet):
+    serializer_class = wetlab_serializers.WetLabDocumentationFileSerializer
+    queryset = WetLabDocumentationFile.objects.prefetch_related('created_by', )
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = wetlab_filters.WetLabDocumentationFileSerializerFilter
+    swagger_tags = ['wet lab']

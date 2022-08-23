@@ -643,13 +643,13 @@ class WetLabDocumentationFile(DateTimeUserMixin):
     library_prep_datetime = models.DateTimeField('Lib Prep DateTime', blank=True, null=True)
     # The experiment name of the library preparation.
     library_prep_experiment_name = models.CharField('Lib Prep Experiment Name', blank=True, max_length=255)
-    # Label of the final pooled library.
-    pooled_library_label = models.CharField('Pooled Lib Label', blank=True, max_length=255)
     # The location the library was pooled. This field is populated from a list of common wet lab locations.
     # If "Other" is selected, please specify the location in the pooled_library_notes.
     pooled_library_location = models.CharField('Pooled Lib Location', blank=True, max_length=255)
     # Date and time library was pooled. MM/DD/YYYY hh:mm:ss (https://www.w3.org/TR/NOTE-datetime).
     pooled_library_datetime = models.DateTimeField('Pooled Lib DateTime', blank=True, null=True)
+    # Label of the final pooled library.
+    pooled_library_label = models.CharField('Pooled Lib Label', blank=True, max_length=255)
     # The location the run prep. This field is populated from a list of common wet lab locations.
     # If "Other" selected, please specify the location in the library_prep_notes.
     run_prep_location = models.CharField('Run Prep Location', blank=True, max_length=255)

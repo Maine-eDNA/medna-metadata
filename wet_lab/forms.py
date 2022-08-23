@@ -2,7 +2,7 @@
 # from django import forms
 from django.urls import reverse_lazy
 from django.contrib.gis import forms
-from django.db.models import Exists, OuterRef
+# from django.db.models import Exists, OuterRef
 from django.db.models.query_utils import Q
 from utility.widgets import CustomRadioSelect, CustomSelect2, CustomSelect2Multiple, \
     CustomAdminDateWidget, CustomAdminSplitDateTime, AddAnotherWidgetWrapper, CustomClearableFileInput
@@ -1630,7 +1630,7 @@ class FastqFileUpdateForm(forms.ModelForm):
 class WetLabDocumentationFileCreateForm(forms.ModelForm):
     wetlab_doc_datafile = forms.FileField(
         required=True,
-        label='FastQ Datafile',
+        label='Documentation Datafile',
         widget=CustomClearableFileInput(
             attrs={
                 'class': 'form-control',
@@ -1666,7 +1666,7 @@ class WetLabDocumentationFileUpdateForm(forms.ModelForm):
     library_prep_location = forms.CharField(
         required=False,
         label='Lib Prep Location',
-        help_text='The location of library preparation. This field is populated from a list of common wet lab locations.',
+        help_text='The location of library preparation.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -1689,20 +1689,10 @@ class WetLabDocumentationFileUpdateForm(forms.ModelForm):
             }
         )
     )
-    pooled_library_label = forms.CharField(
-        required=False,
-        label='Pooled Lib Label',
-        help_text='Label of the final pooled library.',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-            }
-        )
-    )
     pooled_library_location = forms.CharField(
         required=False,
         label='Pooled Lib Location',
-        help_text='The location the library was pooled. This field is populated from a list of common wet lab locations.',
+        help_text='The location the library was pooled.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -1715,10 +1705,20 @@ class WetLabDocumentationFileUpdateForm(forms.ModelForm):
         help_text='Date and time library was pooled.',
         widget=CustomAdminSplitDateTime()
     )
+    pooled_library_label = forms.CharField(
+        required=False,
+        label='Pooled Lib Label',
+        help_text='Label of the final pooled library.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     run_prep_location = forms.CharField(
         required=False,
         label='Run Prep Location',
-        help_text='The location the run prep. This field is populated from a list of common wet lab locations.',
+        help_text='The location the run prep.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -1734,7 +1734,7 @@ class WetLabDocumentationFileUpdateForm(forms.ModelForm):
     sequencing_location = forms.CharField(
         required=False,
         label='Sequencing Location',
-        help_text='The location the final library was sequenced. This field is populated from a list of common sequencing locations.',
+        help_text='The location the final library was sequenced.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -1754,6 +1754,6 @@ class WetLabDocumentationFileUpdateForm(forms.ModelForm):
     class Meta:
         model = WetLabDocumentationFile
         fields = ['wetlab_doc_datafile', 'library_prep_location', 'library_prep_datetime',
-                  'library_prep_experiment_name', 'pooled_library_label', 'pooled_library_location',
-                  'pooled_library_datetime', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
+                  'library_prep_experiment_name', 'pooled_library_location', 'pooled_library_datetime',
+                  'pooled_library_label', 'run_prep_location', 'run_prep_datetime', 'sequencing_location',
                   'documentation_notes', ]
