@@ -1,7 +1,7 @@
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, \
-    CustomUserCss, PeriodicTaskRun, MetadataTemplate
+    CustomUserCss, PeriodicTaskRun, MetadataTemplateFile
 from users.models import CustomUser
 
 
@@ -105,10 +105,10 @@ class StandardOperatingProcedureAdminResource(resources.ModelResource):
         row['created_by'] = kwargs['user'].email
 
 
-class MetadataTemplateAdminResource(resources.ModelResource):
+class MetadataTemplateFileAdminResource(resources.ModelResource):
     class Meta:
         # Project
-        model = MetadataTemplate
+        model = MetadataTemplateFile
         import_id_fields = ('uuid', 'template_datafile', )
         fields = ('uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )

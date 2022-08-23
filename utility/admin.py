@@ -2,9 +2,9 @@ from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
 from .resources import ContactUsAdminResource, ProcessLocationAdminResource, PublicationAdminResource, \
     StandardOperatingProcedureAdminResource, ProjectAdminResource, FundAdminResource, \
-    DefaultSiteCssAdminResource, CustomUserCssAdminResource, PeriodicTaskRunAdminResource, MetadataTemplateAdminResource
+    DefaultSiteCssAdminResource, CustomUserCssAdminResource, PeriodicTaskRunAdminResource, MetadataTemplateFileAdminResource
 from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, \
-    CustomUserCss, PeriodicTaskRun, MetadataTemplate
+    CustomUserCss, PeriodicTaskRun, MetadataTemplateFile
 
 
 class PeriodicTaskRunAdmin(ImportExportActionModelAdmin):
@@ -203,10 +203,10 @@ class StandardOperatingProcedureAdmin(ImportExportActionModelAdmin):
 admin.site.register(StandardOperatingProcedure, StandardOperatingProcedureAdmin)
 
 
-class MetadataTemplateAdmin(ImportExportActionModelAdmin):
+class MetadataTemplateFileAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleLabelAdminResource
-    resource_class = MetadataTemplateAdminResource
+    resource_class = MetadataTemplateFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'template_version', 'created_datetime', )
     readonly_fields = ('uuid', 'template_slug', 'modified_datetime', 'created_datetime', )
@@ -219,14 +219,14 @@ class MetadataTemplateAdmin(ImportExportActionModelAdmin):
         add_fields = request.GET.copy()
         add_fields['created_by'] = request.user
         request.GET = add_fields
-        return super(MetadataTemplateAdmin, self).add_view(request)
+        return super(MetadataTemplateFileAdmin, self).add_view(request)
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(MetadataTemplateAdmin, self).change_view(request, object_id)
+        return super(MetadataTemplateFileAdmin, self).change_view(request, object_id)
 
     # removes 'delete selected' from drop down menu
     def get_actions(self, request):
@@ -237,7 +237,7 @@ class MetadataTemplateAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
 
 
-admin.site.register(MetadataTemplate, MetadataTemplateAdmin)
+admin.site.register(MetadataTemplateFile, MetadataTemplateFileAdmin)
 
 
 # Register your models here.
