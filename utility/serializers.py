@@ -2,7 +2,7 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplate
+from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplateFile
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
@@ -130,7 +130,7 @@ class StandardOperatingProcedureSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-class MetadataTemplateSerializer(serializers.ModelSerializer):
+class MetadataTemplateFileSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(read_only=True)
     template_slug = serializers.SlugField(read_only=True)
     template_datafile = serializers.FileField(max_length=255)
@@ -141,7 +141,7 @@ class MetadataTemplateSerializer(serializers.ModelSerializer):
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = MetadataTemplate
+        model = MetadataTemplateFile
         fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.

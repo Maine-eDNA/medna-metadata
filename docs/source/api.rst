@@ -5,7 +5,7 @@ Application Programming Interface (API)
 API Documentation
 -----------------
 
-MeDNA-Metadata's API was written in the `Django REST Framework <https://www.django-rest-framework.org/>`__ and all API
+medna-metadata's API was written in the `Django REST Framework <https://www.django-rest-framework.org/>`__ and all API
 documentation are automatically generated with `drf-yasg <https://github.com/axnsan12/drf-yasg>`__ library. With an active
 deployment, simply navigate to ``https://yourdomain.com/swagger/`` to view details on all Create, Read, Update, and Delete
 (CRUD) operations.
@@ -20,7 +20,7 @@ Database Design
 
 .. image:: ../../erds/medna_erd.png
     :width: 400
-    :alt: Full Maine-eDNA Metadata entity relationship diagram
+    :alt: Full medna-metadata entity relationship diagram
     :align: center
 
 Field Data Collection

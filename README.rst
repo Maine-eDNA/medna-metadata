@@ -1,6 +1,6 @@
-===================
-Maine-eDNA Metadata
-===================
+==============
+medna-metadata
+==============
 .. image:: https://readthedocs.org/projects/medna-metadata/badge/?version=latest
   :target: https://medna-metadata.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
@@ -9,9 +9,11 @@ Support for this project is provided through a National Science Foundation award
 Maine <https://umaine.edu/edna/>`__ and is part of the RII Track-1: Molecule to Ecosystem: Environmental DNA as a Nexus
 of Coastal Ecosystem Sustainability for Maine (Maine-eDNA).
 
-Kimble, M., Allers, S., Campbell, K., Chen, C., Jackson, L. M., King, B. L., Silverbrand, S., York, G., & Beard, K. (2022). medna-metadata: An open-source data management system for tracking environmental DNA samples and metadata. *Bioinformatics*, btac556. https://doi.org/10.1093/bioinformatics/btac556
+Kimble, M., Allers, S., Campbell, K., Chen, C., Jackson, L. M., King, B. L., Silverbrand, S., York, G., & Beard, K. (2022).
+medna-metadata: An open-source data management system for tracking environmental DNA samples and metadata. *Bioinformatics*,
+btac556. https://doi.org/10.1093/bioinformatics/btac556
 
-This repository contains the backend and frontend components of Maine-eDNA metadata (API, database, UI) and was built
+This repository contains the backend and frontend components of medna-metadata (API, database, UI) and was built
 with the `Django web framework <https://www.djangoproject.com/>`__.
 
 Additional libraries include:
@@ -42,9 +44,7 @@ Documentation & Setup
 Related Repositories and Projects
 ---------------------------------
 
-- **medna-metadata-react-frontend**: https://github.com/Maine-eDNA/medna-metadata-frontend
 - **maine-edna-freezer-mapping-ios**: https://github.com/Maine-eDNA/Maine-Edna-Freezer-Mapping-iOS
-
 
 Contributors
 ------------
