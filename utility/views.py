@@ -366,14 +366,14 @@ class DefinedTermTemplateView(TemplateView, LoginRequiredMixin, PermissionRequir
         # Return the view context data.
         context = super().get_context_data(**kwargs)
         defined_term_type = self.kwargs['defined_term_type']
-        if defined_term_type == utility_enums.DefinedTermTypes.SCHEMA:
-            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_model')
-        else:
-            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_name')
+        # if defined_term_type == utility_enums.DefinedTermTypes.SCHEMA:
+        #     defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_model')
+        # else:
+        #     defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_name')
         context['segment'] = 'view_definedterm'
         context['page_title'] = 'Defined Terms'
         context['page_subtitle'] = 'Definitions for common terminology.'
-        context['defined_term_list'] = defined_term_list
+        context['defined_term_list'] = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_name')
         return context
 
     def handle_no_permission(self):
