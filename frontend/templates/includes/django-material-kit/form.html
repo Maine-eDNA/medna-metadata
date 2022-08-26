@@ -17,17 +17,29 @@
     <div class="card-body pt-1">
         {% for field in form %}
         <div class="row">
-            {{ field.errors }}
+            {% if field.errors %}
+            <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                <span class="text-sm">{{ field.label }}: {{ field.errors }}</span>
+                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% if field.help_text %}
+            <div class="row">
+                <div class="alert alert-info alert-dismissible text-white" role="alert">
+                    <span class="text-sm help">{{ field.help_text|safe }}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            {% endif %}
             {{ field.label_tag }}
             <div class="col-md-12 pe-2 mb-3">
                 <div class="input-group input-group-static mb-4">
                     {{ field }}
                 </div>
-                {% if field.help_text %}
-                <div class="row">
-                    <p class="help">{{ field.help_text|safe }}</p>
-                </div>
-                {% endif %}
             </div>
         </div>
         {% endfor %}
