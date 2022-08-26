@@ -2,12 +2,12 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplateFile
+from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplateFile, DefinedTerm
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
-from utility.enumerations import YesNo, SopTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes
 
 
 class EagerLoadingMixin:
@@ -114,17 +114,44 @@ class PublicationSerializer(serializers.ModelSerializer):
     publication_authors = serializers.SlugRelatedField(many=True, read_only=False, slug_field='email', queryset=CustomUser.objects.all())
 
 
+class ProcessLocationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    process_location_name = serializers.CharField(max_length=255)
+    process_location_name_slug = serializers.SlugField(read_only=True, max_length=255)
+    affiliation = serializers.CharField(max_length=255)
+    process_location_url = serializers.URLField(max_length=255)
+    location_email_address = serializers.EmailField(allow_blank=True)
+    point_of_contact_email_address = serializers.EmailField(allow_blank=True)
+    point_of_contact_first_name = serializers.CharField(max_length=255, allow_blank=True)
+    point_of_contact_last_name = serializers.CharField(max_length=255, allow_blank=True)
+    location_notes = serializers.CharField(allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = ProcessLocation
+        fields = ['id', 'process_location_name', 'process_location_name_slug',
+                  'affiliation',
+                  'process_location_url', 'phone_number',
+                  'location_email_address', 'point_of_contact_email_address',
+                  'point_of_contact_first_name', 'point_of_contact_last_name',
+                  'location_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
 class StandardOperatingProcedureSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     sop_title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=StandardOperatingProcedure.objects.all())])
     sop_url = serializers.URLField(max_length=255)
     sop_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
+    sop_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = StandardOperatingProcedure
-        fields = ['id', 'sop_title', 'sop_url', 'sop_type',
+        fields = ['id', 'sop_title', 'sop_url', 'sop_type', 'sop_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
@@ -148,28 +175,22 @@ class MetadataTemplateFileSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
-class ProcessLocationSerializer(serializers.ModelSerializer):
+class DefinedTermSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    process_location_name = serializers.CharField(max_length=255)
-    process_location_name_slug = serializers.SlugField(read_only=True, max_length=255)
-    affiliation = serializers.CharField(max_length=255)
-    process_location_url = serializers.URLField(max_length=255)
-    location_email_address = serializers.EmailField(allow_blank=True)
-    point_of_contact_email_address = serializers.EmailField(allow_blank=True)
-    point_of_contact_first_name = serializers.CharField(max_length=255, allow_blank=True)
-    point_of_contact_last_name = serializers.CharField(max_length=255, allow_blank=True)
-    location_notes = serializers.CharField(allow_blank=True)
+    defined_term_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DefinedTerm.objects.all())])
+    defined_term = serializers.CharField(read_only=False)
+    defined_term_type = serializers.ChoiceField(read_only=False, max_length=50, choices=DefinedTermTypes.choices)
+    defined_term_module = serializers.ChoiceField(read_only=False, max_length=50, choices=SopTypes.choices, allow_blank=True)
+    defined_term_model = serializers.CharField(read_only=False, max_length=255, allow_blank=True)
+    defined_term_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = ProcessLocation
-        fields = ['id', 'process_location_name', 'process_location_name_slug',
-                  'affiliation',
-                  'process_location_url', 'phone_number',
-                  'location_email_address', 'point_of_contact_email_address',
-                  'point_of_contact_first_name', 'point_of_contact_last_name',
-                  'location_notes', 'created_by', 'created_datetime', 'modified_datetime', ]
+        model = DefinedTerm
+        fields = ['id', 'defined_term_name', 'defined_term', 'defined_term_type',
+                  'defined_term_module', 'defined_term_model', 'defined_term_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 

@@ -3,8 +3,8 @@ from django.contrib.admin.helpers import ActionForm
 from django.utils.translation import gettext_lazy as _
 from users.models import CustomUser
 from .widgets import CustomSelect2, CustomSelect2Multiple, CustomAdminSplitDateTime
-from .models import ContactUs, Project, Publication, StandardOperatingProcedure
-from .enumerations import SopTypes
+from .models import ContactUs, Project, Publication, StandardOperatingProcedure, DefinedTerm
+from .enumerations import SopTypes, DefinedTermTypes
 
 
 # custom import from import_export/forms.py
@@ -98,6 +98,59 @@ class StandardOperatingProcedureForm(forms.ModelForm):
     class Meta:
         model = StandardOperatingProcedure
         fields = ['sop_title', 'sop_url', 'sop_type', ]
+
+
+class DefinedTermForm(forms.ModelForm):
+    # https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
+    # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
+    defined_term_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    defined_term = forms.CharField(
+        required=True,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    defined_term_type = forms.ChoiceField(
+        required=True,
+        choices=DefinedTermTypes.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    defined_term_module = forms.ChoiceField(
+        required=False,
+        help_text='(Optional) The related module.',
+        choices=SopTypes.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    defined_term_model = forms.CharField(
+        required=False,
+        help_text='(Optional) The related table.',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+    class Meta:
+        model = DefinedTerm
+        fields = ['defined_term_name', 'defined_term', 'defined_term_type', 'defined_term_module', 'defined_term_model', ]
 
 
 class ContactUsForm(forms.ModelForm):

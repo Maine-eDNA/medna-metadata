@@ -18,6 +18,12 @@ class SopTypes(models.TextChoices):
     FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
 
 
+class DefinedTermTypes(models.TextChoices):
+    SCHEMA = 'schema', _('Schema')
+    PERMISSION = 'permission', _('Permission')
+    GENERAL = 'general', _('General')
+
+
 # UNITS CHOICES
 class TempUnits(models.TextChoices):
     F = 'fahrenheit', _('Fahrenheit')
