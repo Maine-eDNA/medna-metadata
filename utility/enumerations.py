@@ -16,6 +16,7 @@ class SopTypes(models.TextChoices):
     WETLAB = 'wet_lab', _('Wet Lab')
     FIELDCOLLECTION = 'field_collection', _('Field Collection')
     FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
+    __empty__ = _('(Unknown)')
 
 
 class DefinedTermTypes(models.TextChoices):
