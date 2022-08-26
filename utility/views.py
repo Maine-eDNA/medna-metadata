@@ -26,7 +26,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .charts import return_select2_options
 import utility.models as utility_models
-import utility.forms as utility_forms
+from utility.forms import PublicationForm, StandardOperatingProcedureForm, DefinedTermForm, ContactUsForm, ContactUsUpdateForm
 import utility.enumerations as utility_enums
 import utility.serializers as utility_serializers
 import utility.filters as utility_filters
@@ -54,7 +54,7 @@ def export_context(request, export_formats):
         formats.append(('', '---'))
         for i, f in enumerate(export_formats):
             formats.append((f, f))
-    export_action_form = utility_forms.export_action_form_factory(formats)
+    export_action_form = export_action_form_factory(formats)
 
     # Build the action form and populate it with available actions.
     action_form = export_action_form(auto_id=None)
@@ -155,7 +155,7 @@ def contact_us_list(request):
 ########################################
 class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = utility_models.Publication
-    form_class = utility_forms.PublicationForm
+    form_class = PublicationForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-kit/publication-update.html'
@@ -187,7 +187,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_publication'
     model = utility_models.Publication
-    form_class = utility_forms.PublicationForm
+    form_class = PublicationForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/publication-add.html'
 
@@ -243,7 +243,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_standardoperatingprocedure'
     model = utility_models.StandardOperatingProcedure
-    form_class = utility_forms.StandardOperatingProcedureForm
+    form_class = StandardOperatingProcedureForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/sop-add.html'
 
@@ -276,7 +276,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
 
 class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = utility_models.StandardOperatingProcedure
-    form_class = utility_forms.StandardOperatingProcedureForm
+    form_class = StandardOperatingProcedureForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-kit/sop-update.html'
@@ -309,7 +309,7 @@ class StandardOperatingProcedurePopupCreateView(CreatePopupMixin, LoginRequiredM
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_standardoperatingprocedure'
     model = utility_models.StandardOperatingProcedure
-    form_class = utility_forms.StandardOperatingProcedureForm
+    form_class = StandardOperatingProcedureForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add-popup.html'
 
@@ -336,7 +336,7 @@ class StandardOperatingProcedurePopupCreateView(CreatePopupMixin, LoginRequiredM
 
 class StandardOperatingProcedurePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = utility_models.StandardOperatingProcedure
-    form_class = utility_forms.StandardOperatingProcedureForm
+    form_class = StandardOperatingProcedureForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update-popup.html'
@@ -387,7 +387,7 @@ class DefinedTermCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_definedterm'
     model = utility_models.DefinedTerm
-    form_class = utility_forms.DefinedTermForm
+    form_class = DefinedTermForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/defined-term-add.html'
 
@@ -420,7 +420,7 @@ class DefinedTermCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
 
 class DefinedTermUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = utility_models.DefinedTerm
-    form_class = utility_forms.DefinedTermForm
+    form_class = DefinedTermForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-kit/defined-term-update.html'
@@ -450,7 +450,7 @@ class DefinedTermUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateV
 
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
     model = utility_models.ContactUs
-    form_class = utility_forms.ContactUsUpdateForm
+    form_class = ContactUsUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
     template_name = 'home/django-material-dashboard/model-update.html'
@@ -579,7 +579,7 @@ class MetadataStandardsTemplateView(TemplateView):
 class ContactUsCreateView(CreateView):
     # public template, to make private add LoginRequiredMixin
     model = utility_models.ContactUs
-    form_class = utility_forms.ContactUsForm
+    form_class = ContactUsForm
     template_name = 'home/django-material-kit/contact-us.html'
     # success_url = reverse_lazy('contact_us_received') # placed in urls.py
 
