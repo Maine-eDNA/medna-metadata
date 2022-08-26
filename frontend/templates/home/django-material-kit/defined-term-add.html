@@ -14,10 +14,10 @@
 <!-- https://images.unsplash.com/photo-1596808458255-6bb96beb2dbe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80 -->
 
   <div class="page-header min-vh-80"
-       style="{% if sop_type == 'wet_lab' %}background-image: url('https://images.unsplash.com/photo-1615631570866-4ff59a69093a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
-       {% elif sop_type == 'field_collection' %}background-image: url('https://images.unsplash.com/photo-1592870407191-67fa2b6c374e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
-       {% elif sop_type == 'bioinformatics' %}background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
-       {% else %}background-image: url('https://images.unsplash.com/photo-1546250001-6b7b60086f17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       style="{% if defined_term_type == 'schema' %}background-image: url('https://images.unsplash.com/photo-1545987796-200677ee1011?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% elif defined_term_type == 'permission' %}background-image: url('https://images.unsplash.com/photo-1584649525122-8d6895492a5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% elif defined_term_type == 'general' %}background-image: url('https://images.unsplash.com/photo-1583361704493-d4d4d1b1d70a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% else %}background-image: url('https://images.unsplash.com/photo-1583361704493-d4d4d1b1d70a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
        {% endif %}">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container">
