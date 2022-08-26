@@ -130,6 +130,7 @@ class DefinedTermForm(forms.ModelForm):
     )
     defined_term_module = forms.ChoiceField(
         required=False,
+        help_text='(Optional) The related module.',
         choices=SopTypes.choices,
         widget=CustomSelect2(
             attrs={
@@ -139,6 +140,7 @@ class DefinedTermForm(forms.ModelForm):
     )
     defined_term_model = forms.CharField(
         required=False,
+        help_text='(Optional) The related table.',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
