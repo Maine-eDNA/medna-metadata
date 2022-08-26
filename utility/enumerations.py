@@ -12,9 +12,10 @@ class YesNo(models.TextChoices):
 
 
 class SopTypes(models.TextChoices):
-    BIOINFO = 'bioinformatics', _('Bioinformatics')
-    WETLAB = 'wet_lab', _('Wet Lab')
+    UTILITY = 'utility', _('Utility')
     FIELDCOLLECTION = 'field_collection', _('Field Collection')
+    WETLAB = 'wet_lab', _('Wet Lab')
+    BIOINFO = 'bioinformatics', _('Bioinformatics')
     FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
 
 
