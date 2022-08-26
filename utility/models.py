@@ -238,7 +238,7 @@ class DefinedTerm(DateTimeUserMixin):
     defined_term_name = models.CharField('Term', unique=True, max_length=255)
     defined_term = models.TextField('Definition')
     defined_term_type = models.CharField('Term Type', max_length=50, choices=DefinedTermTypes.choices)
-    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=SopTypes)
+    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=SopTypes.choices)
     defined_term_model = models.CharField('Related Table (Optional)', blank=True, max_length=255)
     defined_term_slug = models.SlugField('Term Slug', max_length=255)
 
