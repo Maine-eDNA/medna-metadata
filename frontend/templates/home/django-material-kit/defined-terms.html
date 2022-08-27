@@ -24,12 +24,12 @@
         <div class="col-md-8 mx-auto">
           <div class="text-center">
             <h1 class="text-white">
-              {% if defined_term_type == 'schema' %} medna-metadata Schema (Entity Relationship Diagram)
+              {% if defined_term_type == 'schema' %} medna-metadata Schema
               {% elif defined_term_type == 'permission' %} Permissions
               {% elif defined_term_type == 'general' %} General Definitions
               {% else %} {{ page_title|title }} {% endif %}
             </h1>
-            <p class="lead mb-4 text-white opacity-8">{% if defined_term_type %}Defined Terms{% else %}{{ page_subtitle }}{% endif %}</p>
+            <p class="lead mb-4 text-white opacity-8">{% if defined_term_type == 'schema' %}Entity Relationship Diagram & Defined Terms{% else %}{{ page_subtitle }}{% endif %}</p>
           </div>
         </div>
       </div>
