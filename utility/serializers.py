@@ -177,7 +177,7 @@ class MetadataTemplateFileSerializer(serializers.ModelSerializer):
 
 class DefinedTermSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    defined_term_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DefinedTerm.objects.all())])
+    defined_term_name = serializers.CharField(read_only=False, max_length=255)
     defined_term = serializers.CharField(read_only=False)
     defined_term_type = serializers.ChoiceField(read_only=False, choices=DefinedTermTypes.choices)
     defined_term_module = serializers.ChoiceField(read_only=False, choices=SopTypes.choices, allow_blank=True)

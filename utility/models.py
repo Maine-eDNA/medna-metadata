@@ -235,7 +235,7 @@ class MetadataTemplateFile(DateTimeUserMixin):
 
 
 class DefinedTerm(DateTimeUserMixin):
-    defined_term_name = models.CharField('Term', unique=True, max_length=255)
+    defined_term_name = models.CharField('Term', max_length=255)
     defined_term = models.TextField('Definition')
     defined_term_type = models.CharField('Term Type', max_length=50, choices=DefinedTermTypes.choices)
     defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=SopTypes.choices)
