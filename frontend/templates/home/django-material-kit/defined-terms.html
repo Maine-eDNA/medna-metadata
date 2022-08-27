@@ -51,12 +51,13 @@
               {% if defined_term_list %}
               {% for defined_term in defined_term_list %}
               <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                       <h5 class="font-weight-bolder mt-3">{{ defined_term.defined_term_name }}</h5>
                   </div>
-                  <div class="col-md-8 bg-light text-dark">
-                      <h5 class="font-weight-bolder mt-3">{{ defined_term.defined_term_module }}: {{ defined_term.defined_term_model }}</h5>
+                  <div class="col-md-9 bg-light text-dark">
+                      {% if defined_term.defined_term_module %}<h5 class="font-weight-bolder mt-3">{{ defined_term.defined_term_module }} {{ defined_term.defined_term_model }}</h5>{% endif %}
                       <p class="pe-5">{{ defined_term.defined_term }}</p>
+                      {% if defined_term.defined_term_example %}<p class="pe-5">{{ defined_term.defined_term_example }}</p> {% endif %}
                   </div>
                   {% if perms.utility.change_definedterm %}
                   <div class="col-md-1">
