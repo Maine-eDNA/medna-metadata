@@ -368,7 +368,7 @@ class DefinedTermTemplateView(TemplateView, LoginRequiredMixin, PermissionRequir
         context = super().get_context_data(**kwargs)
         defined_term_type = self.kwargs['defined_term_type']
         if defined_term_type == utility_enums.DefinedTermTypes.SCHEMA:
-            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_model')
+            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_module', 'defined_term_model')
         else:
             defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_name')
         context['segment'] = 'view_definedterm'
