@@ -267,7 +267,10 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('view_standardoperatingprocedure')
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_standardoperatingprocedure', kwargs={'sop_type': self.object.sop_type})
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -411,7 +414,10 @@ class DefinedTermCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('view_definedterm')
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_definedterm', kwargs={'defined_term_type': self.object.defined_term_type})
 
     def handle_no_permission(self):
         if self.raise_exception:
