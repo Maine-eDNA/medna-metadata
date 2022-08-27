@@ -747,6 +747,18 @@ class DefinedTermTypesChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
+class ModuleTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.ModuleTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
 ########################################
 # CHOICE SERIALIZERS - UNITS           #
 ########################################

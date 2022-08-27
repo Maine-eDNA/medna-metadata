@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from users.models import CustomUser
 from .widgets import CustomSelect2, CustomSelect2Multiple, CustomAdminSplitDateTime
 from .models import ContactUs, Project, Publication, StandardOperatingProcedure, DefinedTerm
-from .enumerations import SopTypes, DefinedTermTypes
+from .enumerations import SopTypes, DefinedTermTypes, ModuleTypes
 
 
 # custom import from import_export/forms.py
@@ -139,7 +139,7 @@ class DefinedTermForm(forms.ModelForm):
     defined_term_module = forms.ChoiceField(
         required=False,
         help_text='(Optional) The related module.',
-        choices=SopTypes.choices,
+        choices=ModuleTypes.choices,
         widget=CustomSelect2(
             attrs={
                 'class': 'form-control',

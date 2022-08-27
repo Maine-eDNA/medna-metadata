@@ -7,7 +7,7 @@ import datetime
 import uuid
 import os
 from phonenumber_field.modelfields import PhoneNumberField
-from utility.enumerations import YesNo, SopTypes, DefinedTermTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_media_storage
 
@@ -240,7 +240,7 @@ class DefinedTerm(DateTimeUserMixin):
     defined_term = models.TextField('Definition')
     defined_term_example = models.TextField('Example', blank=True)
     defined_term_type = models.CharField('Term Type', max_length=50, choices=DefinedTermTypes.choices)
-    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=SopTypes.choices)
+    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=ModuleTypes.choices)
     defined_term_model = models.CharField('Related Table (Optional)', blank=True, max_length=255)
     defined_term_slug = models.SlugField('Term Slug', max_length=255)
 

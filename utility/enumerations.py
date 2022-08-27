@@ -19,6 +19,18 @@ class SopTypes(models.TextChoices):
     FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
 
 
+class ModuleTypes(models.TextChoices):
+    UTILITY = 'utility', _('Utility')
+    USERS = 'users', _('Users')
+    FIELDSITE = 'field_site', _('Field Site')
+    SAMPLELABEL = 'sample_label', _('Sample Label')
+    FIELDSURVEY = 'field_survey', _('Field Survey')
+    WETLAB = 'wet_lab', _('Wet Lab')
+    BIOINFO = 'bioinformatics', _('Bioinformatics')
+    FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
+    FRONTEND = 'frontend', _('Frontend')
+
+
 class DefinedTermTypes(models.TextChoices):
     SCHEMA = 'schema', _('Schema')
     PERMISSION = 'permission', _('Permission')

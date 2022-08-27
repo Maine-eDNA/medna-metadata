@@ -7,7 +7,7 @@ from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
-from utility.enumerations import YesNo, SopTypes, DefinedTermTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes
 
 
 class EagerLoadingMixin:
@@ -181,7 +181,7 @@ class DefinedTermSerializer(serializers.ModelSerializer):
     defined_term = serializers.CharField(read_only=False)
     defined_term_example = serializers.CharField(read_only=False, allow_blank=True)
     defined_term_type = serializers.ChoiceField(read_only=False, choices=DefinedTermTypes.choices)
-    defined_term_module = serializers.ChoiceField(read_only=False, choices=SopTypes.choices, allow_blank=True)
+    defined_term_module = serializers.ChoiceField(read_only=False, choices=ModuleTypes.choices, allow_blank=True)
     defined_term_model = serializers.CharField(read_only=False, max_length=255, allow_blank=True)
     defined_term_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
