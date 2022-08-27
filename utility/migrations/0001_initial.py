@@ -145,6 +145,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('defined_term_name', models.CharField(max_length=255, verbose_name='Term')),
                 ('defined_term', models.TextField(verbose_name='Definition')),
+                ('defined_term_example', models.TextField(blank=True, verbose_name='Example')),
                 ('defined_term_type', models.CharField(choices=[('schema', 'Schema'), ('permission', 'Permission'), ('general', 'General')], max_length=50, verbose_name='Term Type')),
                 ('defined_term_module', models.CharField(blank=True, choices=[('utility', 'Utility'), ('field_collection', 'Field Collection'), ('wet_lab', 'Wet Lab'), ('bioinformatics', 'Bioinformatics'), ('freezer_inventory', 'Freezer Inventory')], max_length=50, verbose_name='Related Module (Optional)')),
                 ('defined_term_model', models.CharField(blank=True, max_length=255, verbose_name='Related Table (Optional)')),

@@ -155,10 +155,10 @@ class DefinedTermAdminResource(resources.ModelResource):
         # Project
         model = utility_models.DefinedTerm
         import_id_fields = ('id', 'defined_term_name', )
-        fields = ('id', 'defined_term_name', 'defined_term', 'defined_term_type',
+        fields = ('id', 'defined_term_name', 'defined_term', 'defined_term_example', 'defined_term_type',
                   'defined_term_module', 'defined_term_model', 'defined_term_slug',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'defined_term_name', 'defined_term', 'defined_term_type',
+        export_order = ('id', 'defined_term_name', 'defined_term', 'defined_term_example', 'defined_term_type',
                         'defined_term_module', 'defined_term_model', 'defined_term_slug',
                         'created_by', 'created_datetime', 'modified_datetime', )
 

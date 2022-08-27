@@ -119,6 +119,14 @@ class DefinedTermForm(forms.ModelForm):
             }
         )
     )
+    defined_term_example = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     defined_term_type = forms.ChoiceField(
         required=True,
         choices=DefinedTermTypes.choices,
@@ -150,7 +158,7 @@ class DefinedTermForm(forms.ModelForm):
 
     class Meta:
         model = DefinedTerm
-        fields = ['defined_term_name', 'defined_term', 'defined_term_type', 'defined_term_module', 'defined_term_model', ]
+        fields = ['defined_term_name', 'defined_term', 'defined_term_example', 'defined_term_type', 'defined_term_module', 'defined_term_model', ]
 
 
 class ContactUsForm(forms.ModelForm):

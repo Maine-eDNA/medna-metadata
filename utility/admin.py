@@ -292,8 +292,8 @@ class DefinedTermAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['defined_term_name', 'defined_term', 'defined_term_type',
-                       'defined_term_module', 'defined_term_model',
+        self.fields = ['defined_term_name', 'defined_term', 'defined_term_example',
+                       'defined_term_type', 'defined_term_module', 'defined_term_model',
                        'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
@@ -303,8 +303,8 @@ class DefinedTermAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['defined_term_slug', 'defined_term_name', 'defined_term', 'defined_term_type',
-                       'defined_term_module', 'defined_term_model',
+        self.fields = ['defined_term_slug', 'defined_term_name', 'defined_term',  'defined_term_example',
+                       'defined_term_type', 'defined_term_module', 'defined_term_model',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(DefinedTermAdmin, self).change_view(request, object_id)
