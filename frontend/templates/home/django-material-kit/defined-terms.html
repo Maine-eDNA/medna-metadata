@@ -1,7 +1,7 @@
 {% extends "layouts/django-material-kit/base.html" %}
 {% load static %}
 
-{% block title %} SOP {% endblock %}
+{% block title %} Defined Term {% endblock %}
 
 {% block body_class %} index-page {% endblock %}
 
@@ -61,7 +61,7 @@
                   </div>
                   {% if perms.utility.change_definedterm %}
                   <div class="col-md-1">
-                      <a href="{% url 'update_definedterm' sop.pk %}">
+                      <a href="{% url 'update_definedterm' defined_term.uuid %}">
                           <i class="fas fa-user-edit text-secondary text-sm mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Term"></i>
                       </a>
                   </div>
