@@ -235,6 +235,7 @@ class MetadataTemplateFile(DateTimeUserMixin):
 
 
 class DefinedTerm(DateTimeUserMixin):
+    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     defined_term_name = models.CharField('Term', max_length=255)
     defined_term = models.TextField('Definition')
     defined_term_example = models.TextField('Example', blank=True)

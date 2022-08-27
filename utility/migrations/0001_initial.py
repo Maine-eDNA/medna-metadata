@@ -142,7 +142,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DefinedTerm',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('defined_term_name', models.CharField(max_length=255, verbose_name='Term')),
                 ('defined_term', models.TextField(verbose_name='Definition')),
                 ('defined_term_example', models.TextField(blank=True, verbose_name='Example')),

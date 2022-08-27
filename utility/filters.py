@@ -67,16 +67,18 @@ class StandardOperatingProcedureSerializerFilter(filters.FilterSet):
 
 class MetadataTemplateFileSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
     template_slug = filters.CharFilter(field_name='template_slug', lookup_expr='icontains')
     template_type = filters.CharFilter(field_name='template_type', lookup_expr='iexact')
 
     class Meta:
         model = utility_models.MetadataTemplateFile
-        fields = ['created_by', 'template_slug', 'template_type', ]
+        fields = ['created_by', 'uuid', 'template_slug', 'template_type', ]
 
 
 class DefinedTermSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
     defined_term_name = filters.CharFilter(field_name='defined_term_name', lookup_expr='icontains')
     defined_term_type = filters.CharFilter(field_name='defined_term_type', lookup_expr='iexact')
     defined_term_module = filters.CharFilter(field_name='defined_term_module', lookup_expr='iexact')
@@ -84,7 +86,7 @@ class DefinedTermSerializerFilter(filters.FilterSet):
 
     class Meta:
         model = utility_models.DefinedTerm
-        fields = ['created_by', 'defined_term_name', 'defined_term_type', 'defined_term_module', 'defined_term_model', ]
+        fields = ['created_by', 'uuid', 'defined_term_name', 'defined_term_type', 'defined_term_module', 'defined_term_model', ]
 
 
 class ContactUsSerializerFilter(filters.FilterSet):
