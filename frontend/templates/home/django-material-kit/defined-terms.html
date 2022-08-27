@@ -57,7 +57,7 @@
                   </div>
                   <div class="col-md-9 bg-light text-dark">
                       {% if defined_term.defined_term_module %}<h5 class="font-weight-bolder mt-3">{{ defined_term.defined_term_module|title }} Module - {{ defined_term.defined_term_model|title }} Table</h5>{% endif %}
-                      <p class="pe-5">{{ defined_term.defined_term }}</p>
+                      <p class="pe-5">{{ defined_term.defined_term_description }}</p>
                       {% if defined_term.defined_term_example %}<p class="pe-5"><strong>Example:</strong> {{ defined_term.defined_term_example }}</p> {% endif %}
                   </div>
                   {% if perms.utility.change_definedterm %}

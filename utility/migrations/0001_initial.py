@@ -144,7 +144,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('defined_term_name', models.CharField(max_length=255, verbose_name='Term')),
-                ('defined_term', models.TextField(verbose_name='Definition')),
+                ('defined_term_description', models.TextField(verbose_name='Description')),
                 ('defined_term_example', models.TextField(blank=True, verbose_name='Example')),
                 ('defined_term_type', models.CharField(choices=[('schema', 'Schema'), ('permission', 'Permission'), ('general', 'General')], max_length=50, verbose_name='Term Type')),
                 ('defined_term_module', models.CharField(blank=True, choices=[('utility', 'Utility'), ('users', 'Users'), ('field_site', 'Field Site'), ('sample_label', 'Sample Label'), ('field_survey', 'Field Survey'), ('wet_lab', 'Wet Lab'), ('bioinformatics', 'Bioinformatics'), ('freezer_inventory', 'Freezer Inventory'), ('frontend', 'Frontend'), ], max_length=50, verbose_name='Related Module (Optional)')),

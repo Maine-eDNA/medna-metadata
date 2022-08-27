@@ -178,7 +178,7 @@ class MetadataTemplateFileSerializer(serializers.ModelSerializer):
 class DefinedTermSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(read_only=True)
     defined_term_name = serializers.CharField(read_only=False, max_length=255)
-    defined_term = serializers.CharField(read_only=False)
+    defined_term_description = serializers.CharField(read_only=False)
     defined_term_example = serializers.CharField(read_only=False, allow_blank=True)
     defined_term_type = serializers.ChoiceField(read_only=False, choices=DefinedTermTypes.choices)
     defined_term_module = serializers.ChoiceField(read_only=False, choices=ModuleTypes.choices, allow_blank=True)
@@ -189,7 +189,7 @@ class DefinedTermSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DefinedTerm
-        fields = ['uuid', 'defined_term_name', 'defined_term', 'defined_term_example', 'defined_term_type',
+        fields = ['uuid', 'defined_term_name', 'defined_term_description', 'defined_term_example', 'defined_term_type',
                   'defined_term_module', 'defined_term_model', 'defined_term_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
