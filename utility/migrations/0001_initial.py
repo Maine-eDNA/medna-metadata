@@ -147,7 +147,7 @@ class Migration(migrations.Migration):
                 ('defined_term_description', models.TextField(verbose_name='Description')),
                 ('defined_term_example', models.TextField(blank=True, verbose_name='Example')),
                 ('defined_term_type', models.CharField(choices=[('schema', 'Schema'), ('permission', 'Permission'), ('general', 'General')], max_length=50, verbose_name='Term Type')),
-                ('defined_term_module', models.CharField(blank=True, choices=[('utility', 'Utility'), ('users', 'Users'), ('field_site', 'Field Site'), ('sample_label', 'Sample Label'), ('field_survey', 'Field Survey'), ('wet_lab', 'Wet Lab'), ('bioinformatics', 'Bioinformatics'), ('freezer_inventory', 'Freezer Inventory'), ('frontend', 'Frontend'), ], max_length=50, verbose_name='Related Module (Optional)')),
+                ('defined_term_module', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('all', 'All'), ('utility', 'Utility'), ('users', 'Users'), ('field_site', 'Field Site'), ('sample_label', 'Sample Label'), ('field_survey', 'Field Survey'), ('wet_lab', 'Wet Lab'), ('bioinformatics', 'Bioinformatics'), ('freezer_inventory', 'Freezer Inventory'), ('frontend', 'Frontend'), ], max_length=50, verbose_name='Related Module (Optional)')),
                 ('defined_term_model', models.CharField(blank=True, max_length=255, verbose_name='Related Table (Optional)')),
                 ('defined_term_slug', models.SlugField(max_length=255, verbose_name='Term Slug')),
                 ('created_by', models.ForeignKey(default=utility.models.get_default_user, on_delete=models.SET(utility.models.get_sentinel_user), to=settings.AUTH_USER_MODEL)),

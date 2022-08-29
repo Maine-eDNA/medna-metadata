@@ -262,6 +262,8 @@ class ContactUs(DateTimeUserMixin):
     full_name = models.CharField('Full Name', max_length=255)
     contact_email = models.EmailField(_('Email Address'))
     contact_context = models.TextField('Context')
+    contact_type = models.CharField()
+    contact_log = models.FileField()
     contact_slug = models.SlugField('Contact Slug', max_length=255)
     replied = models.CharField('Replied', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     replied_context = models.TextField('Replied Context', blank=True)

@@ -20,6 +20,7 @@ class SopTypes(models.TextChoices):
 
 
 class ModuleTypes(models.TextChoices):
+    ALL = 'all', _('All')
     UTILITY = 'utility', _('Utility')
     USERS = 'users', _('Users')
     FIELDSITE = 'field_site', _('Field Site')
@@ -29,6 +30,7 @@ class ModuleTypes(models.TextChoices):
     BIOINFO = 'bioinformatics', _('Bioinformatics')
     FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
     FRONTEND = 'frontend', _('Frontend')
+    __empty__ = _('(Unknown)')
 
 
 class DefinedTermTypes(models.TextChoices):
