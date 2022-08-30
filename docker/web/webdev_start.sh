@@ -63,6 +63,8 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_processlocation.json
   echo "${0}: [$(date -u)] ***Loading utility_standardoperatingprocedure"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_standardoperatingprocedure.json
+  echo "${0}: [$(date -u)] ***Loading utility_definedterm"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_definedterm.json
   echo "${0}: [$(date -u)] ***Loading utility_defaultsitecss"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_defaultsitecss.json
   # field_site

@@ -1,6 +1,6 @@
 from django.test import TestCase
-from .models import ContactUs, Fund, Project, Publication, ProcessLocation, StandardOperatingProcedure, DefaultSiteCss, CustomUserCss
-from utility.enumerations import SopTypes
+from .models import ContactUs, Fund, Project, Publication, ProcessLocation, StandardOperatingProcedure, DefaultSiteCss, CustomUserCss, DefinedTerm
+from utility.enumerations import SopTypes, DefinedTermTypes
 from users.tests import UsersManagersTests
 from users.models import CustomUser
 # from django.contrib.auth import get_user_model
@@ -63,20 +63,6 @@ class PublicationTestCase(TestCase):
         self.assertIs(medna.was_added_recently(), True)
 
 
-class StandardOperatingProcedureTestCase(TestCase):
-    # formerly Project in field_site.models
-    def setUp(self):
-        StandardOperatingProcedure.objects.get_or_create(sop_title='test sop',
-                                                         defaults={
-                                                             'sop_url': 'https://www.test.com',
-                                                             'sop_type': SopTypes.WETLAB})
-
-    def test_was_added_recently(self):
-        # test if date is added correctly
-        sop = StandardOperatingProcedure.objects.get(sop_title='test sop')
-        self.assertIs(sop.was_added_recently(), True)
-
-
 class ProcessLocationTestCase(TestCase):
     # formerly Project in field_site.models
     def setUp(self):
@@ -95,6 +81,34 @@ class ProcessLocationTestCase(TestCase):
         # test if date is added correctly
         medna = ProcessLocation.objects.get(process_location_name='CORE')
         self.assertIs(medna.was_added_recently(), True)
+
+
+class StandardOperatingProcedureTestCase(TestCase):
+    # formerly Project in field_site.models
+    def setUp(self):
+        StandardOperatingProcedure.objects.get_or_create(sop_title='test sop',
+                                                         defaults={
+                                                             'sop_url': 'https://www.test.com',
+                                                             'sop_type': SopTypes.WETLAB})
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        sop = StandardOperatingProcedure.objects.get(sop_title='test sop')
+        self.assertIs(sop.was_added_recently(), True)
+
+
+class DefinedTermTestCase(TestCase):
+    # formerly Project in field_site.models
+    def setUp(self):
+        DefinedTerm.objects.get_or_create(defined_term_name='test term',
+                                          defaults={
+                                              'defined_term_description': 'test definition',
+                                              'defined_term_type': DefinedTermTypes.GENERAL})
+
+    def test_was_added_recently(self):
+        # test if date is added correctly
+        defined_term = DefinedTerm.objects.get(defined_term_name='test term')
+        self.assertIs(defined_term.was_added_recently(), True)
 
 
 class ContactUsTestCase(TestCase):

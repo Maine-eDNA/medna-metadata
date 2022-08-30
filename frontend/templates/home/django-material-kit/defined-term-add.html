@@ -1,0 +1,71 @@
+{% extends "layouts/django-material-kit/base.html" %}
+
+{% block title %} {{ page_title|title }} {% endblock %}
+
+{% block body_class %} blog-author {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  {% include 'includes/django-material-kit/navigation-transparent.html' %}
+
+<!-- https://images.unsplash.com/photo-1596808458255-6bb96beb2dbe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80 -->
+
+  <div class="page-header min-vh-80"
+       style="{% if defined_term_type == 'schema' %}background-image: url('https://images.unsplash.com/photo-1545987796-200677ee1011?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% elif defined_term_type == 'permission' %}background-image: url('https://images.unsplash.com/photo-1584649525122-8d6895492a5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% elif defined_term_type == 'general' %}background-image: url('https://images.unsplash.com/photo-1583361704493-d4d4d1b1d70a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% else %}background-image: url('https://images.unsplash.com/photo-1583361704493-d4d4d1b1d70a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2490&q=80')
+       {% endif %}">
+    <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="text-center">
+            <h1 class="text-white">
+              {% if defined_term_type == 'schema' %} medna-metadata Schema (Entity Relationship Diagram)
+              {% elif defined_term_type == 'permission' %} Permissions
+              {% elif defined_term_type == 'general' %} General Definitions
+              {% else %} {{ page_title|title }} {% endif %}
+            </h1>
+            <p class="lead mb-4 text-white opacity-8">{% if defined_term_type %}Defined Terms{% else %}{{ page_subtitle }}{% endif %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <div class="container mt-n6">
+      <div class="row">
+        <div class="col">
+          <div class="card box-shadow-xl overflow-hidden mb-5">
+            <div class="row">
+              <div class="col-lg-5 position-relative px-0" style="background-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80')" loading="lazy">
+                <div class="z-index-2 text-center d-flex h-100 w-100 d-flex m-auto justify-content-center">
+                  <div class="mask bg-gradient-dark opacity-8"></div>
+                  <div class="p-5 ps-sm-8 position-relative text-start my-auto z-index-2"></div>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                {% if perms.utility.add_definedterm %}
+                <!-- begin form -->
+                {% include 'includes/django-material-kit/form.html' %}
+                <!-- end form -->
+                {% else %}
+                <div class="row">
+                  You do not have permission add a defined term.
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

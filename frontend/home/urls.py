@@ -33,14 +33,18 @@ urlpatterns = [
     path('main/projects/detail/<int:pk>/', utility_views.ProjectSurveyTemplateView.as_view(), name='detail_project'),
     # UTILITY: PUBLICATION (VIEW, ADD, UPDATE)
     path('main/publications/', utility_views.PublicationTemplateView.as_view(), name='view_publications'),
-    path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('detail_publication')), name='add_publication'),
+    path('main/publication/add/', utility_views.PublicationCreateView.as_view(success_url=reverse_lazy('view_publications')), name='add_publication'),
     path('main/publication/update/<int:pk>/', utility_views.PublicationUpdateView.as_view(), name='update_publication'),
     # UTILITY: STANDARD OPERATING PROCEDURE (VIEW, ADD, UPDATE)
     path('main/sop/<str:sop_type>/', utility_views.StandardOperatingProcedureTemplateView.as_view(), name='view_standardoperatingprocedure'),
-    path('main/sop/add/<str:sop_type>/', utility_views.StandardOperatingProcedureCreateView.as_view(success_url=reverse_lazy('detail_standardoperatingprocedure')), name='add_standardoperatingprocedure'),
+    path('main/sop/add/<str:sop_type>/', utility_views.StandardOperatingProcedureCreateView.as_view(success_url=reverse_lazy('view_standardoperatingprocedure')), name='add_standardoperatingprocedure'),
     path('main/sop/update/<int:pk>/', utility_views.StandardOperatingProcedureUpdateView.as_view(), name='update_standardoperatingprocedure'),
     path('main/sop/popup/add/<str:sop_type>/', utility_views.StandardOperatingProcedurePopupCreateView.as_view(), name='add_popup_standardoperatingprocedure'),
     path('main/sop/popup/update/<int:pk>/', utility_views.StandardOperatingProcedurePopupUpdateView.as_view(), name='update_popup_standardoperatingprocedure'),
+    # UTILITY: DEFINED TERM (VIEW, ADD, UPDATE)
+    path('main/definedterm/<str:defined_term_type>/', utility_views.DefinedTermTemplateView.as_view(), name='view_definedterm'),
+    path('main/definedterm/add/<str:defined_term_type>/', utility_views.DefinedTermCreateView.as_view(success_url=reverse_lazy('view_definedterm')), name='add_definedterm'),
+    path('main/definedterm/update/<str:pk>/', utility_views.DefinedTermUpdateView.as_view(), name='update_definedterm'),
     # UTILITY: CONTACT US (VIEW, ADD, UPDATE)
     path('main/contact-us/detail/<int:pk>/', utility_views.ContactUsDetailView.as_view(), name='detail_contactus'),
     path('main/contact-us/', utility_views.ContactUsCreateView.as_view(success_url=reverse_lazy('contact_us_received')), name='add_contactus'),

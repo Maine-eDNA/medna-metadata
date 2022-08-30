@@ -2,12 +2,12 @@ from tablib import Dataset
 from django_tables2.export import ExportMixin
 from django_tables2.export.export import TableExport
 from rest_framework import serializers
-from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplateFile
+from .models import ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, ContactUs, MetadataTemplateFile, DefinedTerm
 from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
-from utility.enumerations import YesNo, SopTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
 
 
 class EagerLoadingMixin:
@@ -114,40 +114,6 @@ class PublicationSerializer(serializers.ModelSerializer):
     publication_authors = serializers.SlugRelatedField(many=True, read_only=False, slug_field='email', queryset=CustomUser.objects.all())
 
 
-class StandardOperatingProcedureSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    sop_title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=StandardOperatingProcedure.objects.all())])
-    sop_url = serializers.URLField(max_length=255)
-    sop_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = StandardOperatingProcedure
-        fields = ['id', 'sop_title', 'sop_url', 'sop_type',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
-    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-
-
-class MetadataTemplateFileSerializer(serializers.ModelSerializer):
-    uuid = serializers.UUIDField(read_only=True)
-    template_slug = serializers.SlugField(read_only=True)
-    template_datafile = serializers.FileField(max_length=255)
-    template_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
-    template_version = serializers.IntegerField(min_value=1)
-    template_notes = serializers.CharField(allow_blank=True)
-    created_datetime = serializers.DateTimeField(read_only=True)
-    modified_datetime = serializers.DateTimeField(read_only=True)
-
-    class Meta:
-        model = MetadataTemplateFile
-        fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
-                  'created_by', 'created_datetime', 'modified_datetime', ]
-    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
-
-
 class ProcessLocationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     process_location_name = serializers.CharField(max_length=255)
@@ -174,12 +140,70 @@ class ProcessLocationSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
+class StandardOperatingProcedureSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    sop_title = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=StandardOperatingProcedure.objects.all())])
+    sop_url = serializers.URLField(max_length=255)
+    sop_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
+    sop_slug = serializers.SlugField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = StandardOperatingProcedure
+        fields = ['id', 'sop_title', 'sop_url', 'sop_type', 'sop_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class MetadataTemplateFileSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField(read_only=True)
+    template_slug = serializers.SlugField(read_only=True)
+    template_datafile = serializers.FileField(max_length=255)
+    template_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
+    template_version = serializers.IntegerField(min_value=1)
+    template_notes = serializers.CharField(allow_blank=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = MetadataTemplateFile
+        fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
+class DefinedTermSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField(read_only=True)
+    defined_term_name = serializers.CharField(read_only=False, max_length=255)
+    defined_term_description = serializers.CharField(read_only=False)
+    defined_term_example = serializers.CharField(read_only=False, allow_blank=True)
+    defined_term_type = serializers.ChoiceField(read_only=False, choices=DefinedTermTypes.choices)
+    defined_term_module = serializers.ChoiceField(read_only=False, choices=ModuleTypes.choices, allow_blank=True)
+    defined_term_model = serializers.CharField(read_only=False, max_length=255, allow_blank=True)
+    defined_term_slug = serializers.SlugField(read_only=True)
+    created_datetime = serializers.DateTimeField(read_only=True)
+    modified_datetime = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = DefinedTerm
+        fields = ['uuid', 'defined_term_name', 'defined_term_description', 'defined_term_example', 'defined_term_type',
+                  'defined_term_module', 'defined_term_model', 'defined_term_slug',
+                  'created_by', 'created_datetime', 'modified_datetime', ]
+    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
+    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
+
+
 class ContactUsSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     contact_slug = serializers.SlugField(read_only=True, max_length=255)
     full_name = serializers.CharField(read_only=False, max_length=255)
     contact_email = serializers.EmailField(read_only=False)
     contact_context = serializers.CharField(read_only=False)
+    contact_type = serializers.ChoiceField(read_only=False, choices=ContactUsTypes.choices, allow_blank=True)
+    contact_log = serializers.FileField(max_length=255, allow_null=True)
     replied = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
     replied_context = serializers.CharField(read_only=False)
     replied_datetime = serializers.DateTimeField(read_only=False, allow_null=True)
@@ -189,6 +213,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
         fields = ['id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'contact_type', 'contact_log',
                   'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.

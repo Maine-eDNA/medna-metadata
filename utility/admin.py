@@ -1,16 +1,14 @@
 from django.contrib.gis import admin
 from import_export.admin import ImportExportActionModelAdmin
-from .resources import ContactUsAdminResource, ProcessLocationAdminResource, PublicationAdminResource, \
-    StandardOperatingProcedureAdminResource, ProjectAdminResource, FundAdminResource, \
-    DefaultSiteCssAdminResource, CustomUserCssAdminResource, PeriodicTaskRunAdminResource, MetadataTemplateFileAdminResource
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, \
-    CustomUserCss, PeriodicTaskRun, MetadataTemplateFile
+import utility.resources as utility_resources
+import utility.models as utility_models
 
 
+# Register your models here.
 class PeriodicTaskRunAdmin(ImportExportActionModelAdmin):
     # formerly Project in field_site.models
     # below are import_export configs
-    resource_class = PeriodicTaskRunAdminResource
+    resource_class = utility_resources.PeriodicTaskRunAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('task', 'task_datetime')
     readonly_fields = ('task_datetime', )
@@ -31,13 +29,13 @@ class PeriodicTaskRunAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(PeriodicTaskRun, PeriodicTaskRunAdmin)
+admin.site.register(utility_models.PeriodicTaskRun, PeriodicTaskRunAdmin)
 
 
 class FundAdmin(ImportExportActionModelAdmin):
     # formerly Project in field_site.models
     # below are import_export configs
-    resource_class = FundAdminResource
+    resource_class = utility_resources.FundAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', )
@@ -67,20 +65,20 @@ class FundAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(Fund, FundAdmin)
+admin.site.register(utility_models.Fund, FundAdmin)
 
 
 class FundInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
-    model = Project.fund_names.through
+    model = utility_models.Project.fund_names.through
     # extra = 1
 
 
 class ProjectAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleLabelAdminResource
-    resource_class = ProjectAdminResource
+    resource_class = utility_resources.ProjectAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('modified_datetime', 'created_datetime', )
@@ -112,27 +110,27 @@ class ProjectAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
 
 
-admin.site.register(Project, ProjectAdmin)
+admin.site.register(utility_models.Project, ProjectAdmin)
 
 
 class ProjectInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
-    model = Publication.project_names.through
+    model = utility_models.Publication.project_names.through
     # extra = 1
 
 
 class UserInline(admin.TabularInline):
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-intermediary-models
     # https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#working-with-many-to-many-models
-    model = Publication.publication_authors.through
+    model = utility_models.Publication.publication_authors.through
     # extra = 1
 
 
 class PublicationAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     # SampleLabelAdminResource
-    resource_class = PublicationAdminResource
+    resource_class = utility_resources.PublicationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_by', 'created_datetime', )
     readonly_fields = ('publication_slug', 'modified_datetime', 'created_datetime', )
@@ -163,87 +161,12 @@ class PublicationAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
 
 
-admin.site.register(Publication, PublicationAdmin)
+admin.site.register(utility_models.Publication, PublicationAdmin)
 
 
-class StandardOperatingProcedureAdmin(ImportExportActionModelAdmin):
-    # below are import_export configs
-    # SampleLabelAdminResource
-    resource_class = StandardOperatingProcedureAdminResource
-    # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'sop_type', 'created_datetime', )
-    readonly_fields = ('sop_slug', 'modified_datetime', 'created_datetime', )
-    search_fields = ['sop_title']
-
-    def add_view(self, request, extra_content=None):
-        # specify the fields that can be viewed in add view
-        self.fields = ['sop_title', 'sop_url', 'sop_type', 'created_by', ]
-        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
-        add_fields = request.GET.copy()
-        add_fields['created_by'] = request.user
-        request.GET = add_fields
-        return super(StandardOperatingProcedureAdmin, self).add_view(request)
-
-    def change_view(self, request, object_id, extra_content=None):
-        # specify what can be changed in admin change view
-        self.fields = ['sop_slug', 'sop_title', 'sop_url', 'sop_type',
-                       'created_by', 'modified_datetime', 'created_datetime', ]
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(StandardOperatingProcedureAdmin, self).change_view(request, object_id)
-
-    # removes 'delete selected' from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-    # below are import_export configs
-
-
-admin.site.register(StandardOperatingProcedure, StandardOperatingProcedureAdmin)
-
-
-class MetadataTemplateFileAdmin(ImportExportActionModelAdmin):
-    # below are import_export configs
-    # SampleLabelAdminResource
-    resource_class = MetadataTemplateFileAdminResource
-    # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'template_version', 'created_datetime', )
-    readonly_fields = ('uuid', 'template_slug', 'modified_datetime', 'created_datetime', )
-    search_fields = ['template_datafile']
-
-    def add_view(self, request, extra_content=None):
-        # specify the fields that can be viewed in add view
-        self.fields = ['template_datafile', 'template_type', 'template_version', 'template_notes', 'created_by', ]
-        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
-        add_fields = request.GET.copy()
-        add_fields['created_by'] = request.user
-        request.GET = add_fields
-        return super(MetadataTemplateFileAdmin, self).add_view(request)
-
-    def change_view(self, request, object_id, extra_content=None):
-        # specify what can be changed in admin change view
-        self.fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
-                       'created_by', 'modified_datetime', 'created_datetime', ]
-        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
-        return super(MetadataTemplateFileAdmin, self).change_view(request, object_id)
-
-    # removes 'delete selected' from drop down menu
-    def get_actions(self, request):
-        actions = super().get_actions(request)
-        if 'delete_selected' in actions:
-            del actions['delete_selected']
-        return actions
-    # below are import_export configs
-
-
-admin.site.register(MetadataTemplateFile, MetadataTemplateFileAdmin)
-
-
-# Register your models here.
 class ProcessLocationAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = ProcessLocationAdminResource
+    resource_class = utility_resources.ProcessLocationAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('process_location_name_slug', 'modified_datetime', 'created_datetime', )
@@ -281,12 +204,126 @@ class ProcessLocationAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(ProcessLocation, ProcessLocationAdmin)
+admin.site.register(utility_models.ProcessLocation, ProcessLocationAdmin)
+
+
+class StandardOperatingProcedureAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = utility_resources.StandardOperatingProcedureAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'sop_type', 'created_datetime', )
+    readonly_fields = ('sop_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['sop_title']
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['sop_title', 'sop_url', 'sop_type', 'created_by', ]
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(StandardOperatingProcedureAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['sop_slug', 'sop_title', 'sop_url', 'sop_type',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(StandardOperatingProcedureAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(utility_models.StandardOperatingProcedure, StandardOperatingProcedureAdmin)
+
+
+class MetadataTemplateFileAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = utility_resources.MetadataTemplateFileAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'template_version', 'created_datetime', )
+    readonly_fields = ('uuid', 'template_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['template_datafile']
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['template_datafile', 'template_type', 'template_version', 'template_notes', 'created_by', ]
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(MetadataTemplateFileAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(MetadataTemplateFileAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(utility_models.MetadataTemplateFile, MetadataTemplateFileAdmin)
+
+
+class DefinedTermAdmin(ImportExportActionModelAdmin):
+    # below are import_export configs
+    # SampleLabelAdminResource
+    resource_class = utility_resources.DefinedTermAdminResource
+    # changes the order of how the tables are displayed and specifies what to display
+    list_display = ('__str__', 'defined_term_type', 'created_datetime', )
+    readonly_fields = ('uuid', 'defined_term_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['defined_term_name']
+
+    def add_view(self, request, extra_content=None):
+        # specify the fields that can be viewed in add view
+        self.fields = ['defined_term_name', 'defined_term_description', 'defined_term_example',
+                       'defined_term_type', 'defined_term_module', 'defined_term_model',
+                       'created_by', ]
+        # self.exclude = ('id', 'modified_datetime', 'created_datetime')
+        add_fields = request.GET.copy()
+        add_fields['created_by'] = request.user
+        request.GET = add_fields
+        return super(DefinedTermAdmin, self).add_view(request)
+
+    def change_view(self, request, object_id, extra_content=None):
+        # specify what can be changed in admin change view
+        self.fields = ['uuid', 'defined_term_slug', 'defined_term_name', 'defined_term_description',  'defined_term_example',
+                       'defined_term_type', 'defined_term_module', 'defined_term_model',
+                       'created_by', 'modified_datetime', 'created_datetime', ]
+        # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
+        return super(DefinedTermAdmin, self).change_view(request, object_id)
+
+    # removes 'delete selected' from drop down menu
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+    # below are import_export configs
+
+
+admin.site.register(utility_models.DefinedTerm, DefinedTermAdmin)
 
 
 class ContactUsAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = ContactUsAdminResource
+    resource_class = utility_resources.ContactUsAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('__str__', 'created_datetime', 'created_by')
     readonly_fields = ('contact_slug', 'modified_datetime', 'created_datetime', )
@@ -294,7 +331,7 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['full_name', 'contact_email', 'contact_context', 'created_by', ]
+        self.fields = ['full_name', 'contact_email', 'contact_context', 'contact_type', 'contact_log', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -305,6 +342,7 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['contact_slug', 'full_name', 'contact_email', 'contact_context',
+                       'contact_type', 'contact_log',
                        'replied', 'replied_context', 'replied_datetime',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
@@ -318,12 +356,12 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(ContactUs, ContactUsAdmin)
+admin.site.register(utility_models.ContactUs, ContactUsAdmin)
 
 
 class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = DefaultSiteCssAdminResource
+    resource_class = utility_resources.DefaultSiteCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('default_css_label', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', 'default_css_slug', )
@@ -373,12 +411,12 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(DefaultSiteCss, DefaultSiteCssAdmin)
+admin.site.register(utility_models.DefaultSiteCss, DefaultSiteCssAdmin)
 
 
 class CustomUserCssAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
-    resource_class = CustomUserCssAdminResource
+    resource_class = utility_resources.CustomUserCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
     list_display = ('custom_css_label', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', 'custom_css_slug', )
@@ -428,4 +466,4 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
         return actions
 
 
-admin.site.register(CustomUserCss, CustomUserCssAdmin)
+admin.site.register(utility_models.CustomUserCss, CustomUserCssAdmin)

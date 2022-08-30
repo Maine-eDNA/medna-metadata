@@ -1,6 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, \
-    DefaultSiteCss, CustomUserCss, MetadataTemplateFile
+import utility.models as utility_models
 
 
 # Create your filters here.
@@ -23,7 +22,7 @@ class FundSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
 
     class Meta:
-        model = Fund
+        model = utility_models.Fund
         fields = ['created_by', ]
 
 
@@ -32,7 +31,7 @@ class ProjectSerializerFilter(filters.FilterSet):
     fund_names = filters.CharFilter(field_name='fund_names__fund_code', lookup_expr='iexact')
 
     class Meta:
-        model = Project
+        model = utility_models.Project
         fields = ['created_by', 'fund_names', ]
 
 
@@ -43,8 +42,17 @@ class PublicationSerializerFilter(filters.FilterSet):
     publication_authors = filters.CharFilter(field_name='publication_authors__email', lookup_expr='iexact')
 
     class Meta:
-        model = Publication
+        model = utility_models.Publication
         fields = ['created_by', 'publication_title', 'project_names', 'publication_authors', ]
+
+
+class ProcessLocationSerializerFilter(filters.FilterSet):
+    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    process_location_name_slug = filters.CharFilter(field_name='process_location_name_slug', lookup_expr='icontains')
+
+    class Meta:
+        model = utility_models.ProcessLocation
+        fields = ['created_by', 'process_location_name_slug', ]
 
 
 class StandardOperatingProcedureSerializerFilter(filters.FilterSet):
@@ -53,46 +61,54 @@ class StandardOperatingProcedureSerializerFilter(filters.FilterSet):
     sop_type = filters.CharFilter(field_name='sop_type', lookup_expr='iexact')
 
     class Meta:
-        model = StandardOperatingProcedure
+        model = utility_models.StandardOperatingProcedure
         fields = ['created_by', 'sop_title', 'sop_type', ]
 
 
 class MetadataTemplateFileSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
     template_slug = filters.CharFilter(field_name='template_slug', lookup_expr='icontains')
     template_type = filters.CharFilter(field_name='template_type', lookup_expr='iexact')
 
     class Meta:
-        model = MetadataTemplateFile
-        fields = ['created_by', 'template_slug', 'template_type', ]
+        model = utility_models.MetadataTemplateFile
+        fields = ['created_by', 'uuid', 'template_slug', 'template_type', ]
 
 
-class ProcessLocationSerializerFilter(filters.FilterSet):
+class DefinedTermSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    process_location_name_slug = filters.CharFilter(field_name='process_location_name_slug', lookup_expr='icontains')
+    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
+    defined_term_name = filters.CharFilter(field_name='defined_term_name', lookup_expr='icontains')
+    defined_term_type = filters.CharFilter(field_name='defined_term_type', lookup_expr='iexact')
+    defined_term_module = filters.CharFilter(field_name='defined_term_module', lookup_expr='iexact')
+    defined_term_model = filters.CharFilter(field_name='defined_term_model', lookup_expr='iexact')
 
     class Meta:
-        model = ProcessLocation
-        fields = ['created_by', 'process_location_name_slug', ]
+        model = utility_models.DefinedTerm
+        fields = ['created_by', 'uuid', 'defined_term_name', 'defined_term_type', 'defined_term_module', 'defined_term_model', ]
 
 
 class ContactUsSerializerFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(field_name='created_datetime', input_formats=['%m-%d-%Y'], lookup_expr='icontains')
+    contact_type = filters.CharFilter(field_name='contact_type', lookup_expr='iexact')
+    contact_type = filters.CharFilter(field_name='contact_type', lookup_expr='iexact')
     contact_slug = filters.CharFilter(field_name='contact_slug', lookup_expr='iexact')
     replied = filters.CharFilter(field_name='replied', lookup_expr='iexact')
 
     class Meta:
-        model = ContactUs
+        model = utility_models.ContactUs
         fields = ['contact_slug', 'replied', 'created_datetime', ]
 
 
+# FREEZER_INVENTORY mobile app CSS
 class DefaultSiteCssSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     default_css_label = filters.CharFilter(field_name='default_css_label', lookup_expr='icontains')
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
     class Meta:
-        model = DefaultSiteCss
+        model = utility_models.DefaultSiteCss
         fields = ['created_by', 'default_css_label', 'created_datetime', ]
 
 
@@ -102,5 +118,5 @@ class CustomUserCssSerializerFilter(filters.FilterSet):
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
     class Meta:
-        model = CustomUserCss
+        model = utility_models.CustomUserCss
         fields = ['created_by', 'custom_css_label', 'created_datetime', ]

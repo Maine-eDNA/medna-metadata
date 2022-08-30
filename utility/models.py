@@ -7,7 +7,7 @@ import datetime
 import uuid
 import os
 from phonenumber_field.modelfields import PhoneNumberField
-from utility.enumerations import YesNo, SopTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_media_storage
 
@@ -44,6 +44,13 @@ def set_template_subdir(instance, filename):
     version = instance.template_version
     filename_version = filename+"_"+str(version)
     return f"metadata_templates/{filename_version}"
+
+
+def set_error_log_subdir(instance, filename):
+    # returns subdir documentation_templates for given filename
+    version = instance.template_version
+    filename_version = filename+"_"+str(version)
+    return f"error_logs/{filename_version}"
 
 
 # Create your models here.
@@ -140,6 +147,39 @@ class Publication(DateTimeUserMixin):
         verbose_name_plural = 'Publications'
 
 
+class ProcessLocation(DateTimeUserMixin):
+    # CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
+    # UMAINE = 'UMaine', _('UMaine (non-CORE)')
+    # BIGELOW = 'Bigelow', _('Bigelow Laboratory')
+    # URI = 'URI', _('Rhode Island Genomics (URI)')
+    # UNH = 'UNH', _('Hubbard Center (UNH)')
+    # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
+    # TACC = 'TACC', _('Texas Advanced Computing Center (TACC)')
+    # OSC = 'OSC', _('Ohio Supercomputer Center (OSC)')
+    process_location_name = models.CharField('Location Name', unique=True, max_length=255)
+    process_location_name_slug = models.SlugField('Location Name Slug', max_length=255)
+    affiliation = models.CharField('Affiliation', max_length=255)
+    process_location_url = models.URLField('Location URL', max_length=255)
+    phone_number = PhoneNumberField('Phone Number', blank=True, null=True)
+    location_email_address = models.EmailField(_('Location Email Address'), blank=True)
+    point_of_contact_email_address = models.EmailField(_('Point of Contact Email Address'), blank=True)
+    point_of_contact_first_name = models.CharField('Point of Contact First Name', blank=True, max_length=255)
+    point_of_contact_last_name = models.CharField('Point of Contact Last Name', blank=True, max_length=255)
+    location_notes = models.TextField('Notes', blank=True)
+
+    def save(self, *args, **kwargs):
+        self.process_location_name_slug = slugify(self.process_location_name)
+        super(ProcessLocation, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{affiliation}: {name}'.format(affiliation=self.affiliation, name=self.process_location_name)
+
+    class Meta:
+        app_label = 'utility'
+        verbose_name = 'Process Location'
+        verbose_name_plural = 'Process Locations'
+
+
 class StandardOperatingProcedure(DateTimeUserMixin):
     sop_title = models.CharField('SOP Title', unique=True, max_length=255)
     sop_url = models.URLField('SOP URL', max_length=255)
@@ -201,43 +241,36 @@ class MetadataTemplateFile(DateTimeUserMixin):
         verbose_name_plural = 'Metadata Template Files'
 
 
-class ProcessLocation(DateTimeUserMixin):
-    # CORE = 'eDNACORE', _('eDNA Laboratory (UMaine CORE)')
-    # UMAINE = 'UMaine', _('UMaine (non-CORE)')
-    # BIGELOW = 'Bigelow', _('Bigelow Laboratory')
-    # URI = 'URI', _('Rhode Island Genomics (URI)')
-    # UNH = 'UNH', _('Hubbard Center (UNH)')
-    # DALHOUSIEU = 'DalhousieU', _('Genomics Core Facility (Dalhousie U)') # https://medicine.dal.ca/research/genomics-core-facility.html
-    # TACC = 'TACC', _('Texas Advanced Computing Center (TACC)')
-    # OSC = 'OSC', _('Ohio Supercomputer Center (OSC)')
-    process_location_name = models.CharField('Location Name', unique=True, max_length=255)
-    process_location_name_slug = models.SlugField('Location Name Slug', max_length=255)
-    affiliation = models.CharField('Affiliation', max_length=255)
-    process_location_url = models.URLField('Location URL', max_length=255)
-    phone_number = PhoneNumberField('Phone Number', blank=True, null=True)
-    location_email_address = models.EmailField(_('Location Email Address'), blank=True)
-    point_of_contact_email_address = models.EmailField(_('Point of Contact Email Address'), blank=True)
-    point_of_contact_first_name = models.CharField('Point of Contact First Name', blank=True, max_length=255)
-    point_of_contact_last_name = models.CharField('Point of Contact Last Name', blank=True, max_length=255)
-    location_notes = models.TextField('Notes', blank=True)
+class DefinedTerm(DateTimeUserMixin):
+    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    defined_term_name = models.CharField('Term', max_length=255)
+    defined_term_description = models.TextField('Description')
+    defined_term_example = models.TextField('Example', blank=True)
+    defined_term_type = models.CharField('Term Type', max_length=50, choices=DefinedTermTypes.choices)
+    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=ModuleTypes.choices)
+    defined_term_model = models.CharField('Related Table (Optional)', blank=True, max_length=255)
+    defined_term_slug = models.SlugField('Term Slug', max_length=255)
 
     def save(self, *args, **kwargs):
-        self.process_location_name_slug = slugify(self.process_location_name)
-        super(ProcessLocation, self).save(*args, **kwargs)
+        self.defined_term_slug = '{type}_{title}'.format(type=slugify(self.defined_term_type),
+                                                         title=slugify(self.defined_term_name))
+        super(DefinedTerm, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '{affiliation}: {name}'.format(affiliation=self.affiliation, name=self.process_location_name)
+        return self.defined_term_name
 
     class Meta:
         app_label = 'utility'
-        verbose_name = 'Process Location'
-        verbose_name_plural = 'Process Locations'
+        verbose_name = 'Defined Term'
+        verbose_name_plural = 'Defined Terms'
 
 
 class ContactUs(DateTimeUserMixin):
     full_name = models.CharField('Full Name', max_length=255)
     contact_email = models.EmailField(_('Email Address'))
     contact_context = models.TextField('Context')
+    contact_type = models.CharField('Contact Type', blank=True, max_length=50, choices=ContactUsTypes.choices)
+    contact_log = models.FileField('Log Datafile', blank=True, max_length=255, storage=select_private_media_storage, upload_to=set_error_log_subdir)
     contact_slug = models.SlugField('Contact Slug', max_length=255)
     replied = models.CharField('Replied', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     replied_context = models.TextField('Replied Context', blank=True)

@@ -12,10 +12,37 @@ class YesNo(models.TextChoices):
 
 
 class SopTypes(models.TextChoices):
-    BIOINFO = 'bioinformatics', _('Bioinformatics')
-    WETLAB = 'wet_lab', _('Wet Lab')
+    UTILITY = 'utility', _('Utility')
     FIELDCOLLECTION = 'field_collection', _('Field Collection')
+    WETLAB = 'wet_lab', _('Wet Lab')
+    BIOINFO = 'bioinformatics', _('Bioinformatics')
     FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
+
+
+class ModuleTypes(models.TextChoices):
+    ALL = 'all', _('All')
+    UTILITY = 'utility', _('Utility')
+    USERS = 'users', _('Users')
+    FIELDSITE = 'field_site', _('Field Site')
+    SAMPLELABEL = 'sample_label', _('Sample Label')
+    FIELDSURVEY = 'field_survey', _('Field Survey')
+    WETLAB = 'wet_lab', _('Wet Lab')
+    BIOINFO = 'bioinformatics', _('Bioinformatics')
+    FREEZERINVENTORY = 'freezer_inventory', _('Freezer Inventory')
+    FRONTEND = 'frontend', _('Frontend')
+    __empty__ = _('(Unknown)')
+
+
+class DefinedTermTypes(models.TextChoices):
+    SCHEMA = 'schema', _('Schema')
+    PERMISSION = 'permission', _('Permission')
+    GENERAL = 'general', _('General')
+
+
+class ContactUsTypes(models.TextChoices):
+    ERROR = 'error', _('Error')
+    GENERAL = 'general', _('General')
+    __empty__ = _('(Unknown)')
 
 
 # UNITS CHOICES

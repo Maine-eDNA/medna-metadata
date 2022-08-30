@@ -24,13 +24,13 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import ContactUs, ProcessLocation, Publication, StandardOperatingProcedure, Project, Fund, DefaultSiteCss, CustomUserCss, MetadataTemplateFile
-from .forms import ContactUsForm, ContactUsUpdateForm, PublicationForm, StandardOperatingProcedureForm
 from .charts import return_select2_options
+import utility.models as utility_models
+from utility.forms import PublicationForm, StandardOperatingProcedureForm, DefinedTermForm, \
+    ContactUsForm, ContactUsUpdateForm, export_action_form_factory
 import utility.enumerations as utility_enums
 import utility.serializers as utility_serializers
 import utility.filters as utility_filters
-from utility.forms import export_action_form_factory
 
 
 # Create your views here.
@@ -139,15 +139,15 @@ class UpdatePopupMixin(BasePopupMixin):
 @login_required(login_url='dashboard_login')
 def get_project_options(request):
     fund = request.GET.get('id')
-    qs = Project.objects.filter(fund_names=fund).order_by('project_label').annotate(text=F('project_label'))
+    qs = utility_models.Project.objects.filter(fund_names=fund).order_by('project_label').annotate(text=F('project_label'))
     qs_json = return_select2_options(qs)
     return JsonResponse(data={'results': qs_json})
 
 
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
-    contactus_list = ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
-    replied_count = ContactUs.objects.filter(replied='yes').count()
+    contactus_list = utility_models.ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'contact_type', 'replied', 'replied_context', 'replied_datetime')
+    replied_count = utility_models.ContactUs.objects.filter(replied='yes').count()
     return contactus_list, replied_count
 
 
@@ -155,7 +155,7 @@ def contact_us_list(request):
 # FRONTEND PRIVATE VIEWS               #
 ########################################
 class PublicationUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = Publication
+    model = utility_models.Publication
     form_class = PublicationForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
@@ -187,7 +187,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_publication'
-    model = Publication
+    model = utility_models.Publication
     form_class = PublicationForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/publication-add.html'
@@ -216,7 +216,7 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return redirect('main/model-perms-required.html')
 
 
-class StandardOperatingProcedureTemplateView(TemplateView, PermissionRequiredMixin):
+class StandardOperatingProcedureTemplateView(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
     # public template, to make private add LoginRequiredMixin
     # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
     # https://leafletjs.com/examples/geojson/
@@ -230,7 +230,7 @@ class StandardOperatingProcedureTemplateView(TemplateView, PermissionRequiredMix
         context['segment'] = 'view_standardoperatingprocedure'
         context['page_title'] = 'Standard Operating Procedures'
         context['page_subtitle'] = 'Instructions for routine operations.'
-        context['sop_list'] = StandardOperatingProcedure.objects.prefetch_related('created_by').filter(sop_type=sop_type).order_by('pk')
+        context['sop_list'] = utility_models.StandardOperatingProcedure.objects.prefetch_related('created_by').filter(sop_type=sop_type).order_by('pk')
         return context
 
     def handle_no_permission(self):
@@ -243,7 +243,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_standardoperatingprocedure'
-    model = StandardOperatingProcedure
+    model = utility_models.StandardOperatingProcedure
     form_class = StandardOperatingProcedureForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-kit/sop-add.html'
@@ -267,7 +267,10 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('view_standardoperatingprocedure')
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_standardoperatingprocedure', kwargs={'sop_type': self.object.sop_type})
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -276,7 +279,7 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
 
 
 class StandardOperatingProcedureUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = StandardOperatingProcedure
+    model = utility_models.StandardOperatingProcedure
     form_class = StandardOperatingProcedureForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
@@ -309,7 +312,7 @@ class StandardOperatingProcedurePopupCreateView(CreatePopupMixin, LoginRequiredM
     # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
     # If you omit that, you’ll need to handle unauthorized users in form_valid().
     permission_required = 'utility.add_standardoperatingprocedure'
-    model = StandardOperatingProcedure
+    model = utility_models.StandardOperatingProcedure
     form_class = StandardOperatingProcedureForm
     # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
     template_name = 'home/django-material-dashboard/model-add-popup.html'
@@ -336,7 +339,7 @@ class StandardOperatingProcedurePopupCreateView(CreatePopupMixin, LoginRequiredM
 
 
 class StandardOperatingProcedurePopupUpdateView(UpdatePopupMixin, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = StandardOperatingProcedure
+    model = utility_models.StandardOperatingProcedure
     form_class = StandardOperatingProcedureForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
@@ -356,8 +359,104 @@ class StandardOperatingProcedurePopupUpdateView(UpdatePopupMixin, LoginRequiredM
         return redirect('main/model-perms-required.html')
 
 
+class DefinedTermTemplateView(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
+    # public template, to make private add LoginRequiredMixin
+    # https://www.paulox.net/2020/12/08/maps-with-django-part-1-geodjango-spatialite-and-leaflet/
+    # https://leafletjs.com/examples/geojson/
+    template_name = 'home/django-material-kit/defined-terms.html'
+    permission_required = 'utility.view_definedterm'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        defined_term_type = self.kwargs['defined_term_type']
+        if defined_term_type == utility_enums.DefinedTermTypes.SCHEMA:
+            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_module', 'defined_term_model')
+        else:
+            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_name')
+        context['segment'] = 'view_definedterm'
+        context['page_title'] = 'Defined Terms'
+        context['page_subtitle'] = 'Definitions for common terminology.'
+        context['defined_term_list'] = defined_term_list
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class DefinedTermCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    # LoginRequiredMixin prevents users who aren’t logged in from accessing the form.
+    # If you omit that, you’ll need to handle unauthorized users in form_valid().
+    permission_required = 'utility.add_definedterm'
+    model = utility_models.DefinedTerm
+    form_class = DefinedTermForm
+    # fields = ['site_id', 'sample_material', 'sample_type', 'sample_year', 'purpose', 'req_sample_label_num']
+    template_name = 'home/django-material-kit/defined-term-add.html'
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'add_definedterm'
+        context['page_title'] = 'Defined Terms'
+        context['page_subtitle'] = 'Definitions for common terminology.'
+        context['form_header'] = 'Add Term'
+        context['form_subheader'] = 'Fill and submit.'
+        return context
+
+    def get_initial(self):
+        return{'defined_term_type': self.kwargs.get('defined_term_type'), }
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_definedterm', kwargs={'defined_term_type': self.object.defined_term_type})
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+
+class DefinedTermUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = utility_models.DefinedTerm
+    form_class = DefinedTermForm
+    login_url = '/dashboard/login/'
+    redirect_field_name = 'next'
+    template_name = 'home/django-material-kit/defined-term-update.html'
+    permission_required = ('utility.update_definedterm', 'utility.view_definedterm', )
+
+    def get_context_data(self, **kwargs):
+        # Return the view context data.
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'update_definedterm'
+        context['page_title'] = 'Defined Terms'
+        context['page_subtitle'] = 'Definitions for common terminology.'
+        context['form_header'] = 'Update Term'
+        context['form_subheader'] = 'Fill and submit.'
+        return context
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('main/model-perms-required.html')
+
+    def get_success_url(self):
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_definedterm', kwargs={'defined_term_type': self.object.defined_term_type})
+
+
 class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
-    model = ContactUs
+    model = utility_models.ContactUs
     form_class = ContactUsUpdateForm
     login_url = '/dashboard/login/'
     redirect_field_name = 'next'
@@ -382,7 +481,7 @@ class ContactUsUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ContactUsDetailView(LoginRequiredMixin, DetailView):
-    model = ContactUs
+    model = utility_models.ContactUs
     template_name = 'home/django-material-dashboard/contact-us-detail.html'
     fields = ['full_name', 'contact_email', 'contact_context', 'replied_context', 'replied_datetime', ]
 
@@ -436,7 +535,7 @@ class ProjectsTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'view_projects'
         context['page_title'] = 'Projects'
-        context['project_list'] = Project.objects.prefetch_related('created_by', 'fund_names').order_by('pk')
+        context['project_list'] = utility_models.Project.objects.prefetch_related('created_by', 'fund_names').order_by('pk')
         return context
 
 
@@ -451,7 +550,7 @@ class ProjectSurveyTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Project Surveys'
         context['segment'] = 'projectsurvey'
-        self.project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        self.project = get_object_or_404(utility_models.Project, pk=self.kwargs['pk'])
         # context['markers'] = json.loads(serialize('geojson', FieldSurvey.objects.prefetch_related('project_ids').filter(project_ids=self.project).only('geom', 'survey_datetime', 'site_name')))
         context['project'] = self.project
         return context
@@ -469,7 +568,7 @@ class PublicationTemplateView(TemplateView):
         context['segment'] = 'view_publications'
         context['page_title'] = 'Publications'
         context['page_subtitle'] = 'Peer-reviewed content'
-        context['pub_list'] = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
+        context['pub_list'] = utility_models.Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors').order_by('pk')
         return context
 
 
@@ -486,7 +585,7 @@ class MetadataStandardsTemplateView(TemplateView):
 
 class ContactUsCreateView(CreateView):
     # public template, to make private add LoginRequiredMixin
-    model = ContactUs
+    model = utility_models.ContactUs
     form_class = ContactUsForm
     template_name = 'home/django-material-kit/contact-us.html'
     # success_url = reverse_lazy('contact_us_received') # placed in urls.py
@@ -528,7 +627,7 @@ class ContactUsReceivedTemplateView(TemplateView):
 class FundViewSet(viewsets.ModelViewSet):
     # formerly Project in field_site.models
     serializer_class = utility_serializers.FundSerializer
-    queryset = Fund.objects.prefetch_related('created_by')
+    queryset = utility_models.Fund.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.FundSerializerFilter
@@ -537,7 +636,7 @@ class FundViewSet(viewsets.ModelViewSet):
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ProjectSerializer
-    queryset = Project.objects.prefetch_related('created_by', 'fund_names')
+    queryset = utility_models.Project.objects.prefetch_related('created_by', 'fund_names')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.ProjectSerializerFilter
     swagger_tags = ['utility']
@@ -545,15 +644,23 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class PublicationViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.PublicationSerializer
-    queryset = Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
+    queryset = utility_models.Publication.objects.prefetch_related('created_by', 'project_names', 'publication_authors', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.PublicationSerializerFilter
     swagger_tags = ['utility']
 
 
+class ProcessLocationViewSet(viewsets.ModelViewSet):
+    serializer_class = utility_serializers.ProcessLocationSerializer
+    queryset = utility_models.ProcessLocation.objects.prefetch_related('created_by')
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = utility_filters.ProcessLocationSerializerFilter
+    swagger_tags = ['utility']
+
+
 class StandardOperatingProcedureViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.StandardOperatingProcedureSerializer
-    queryset = StandardOperatingProcedure.objects.prefetch_related('created_by', )
+    queryset = utility_models.StandardOperatingProcedure.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.StandardOperatingProcedureSerializerFilter
     swagger_tags = ['utility']
@@ -561,23 +668,23 @@ class StandardOperatingProcedureViewSet(viewsets.ModelViewSet):
 
 class MetadataTemplateFileViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.MetadataTemplateFileSerializer
-    queryset = MetadataTemplateFile.objects.prefetch_related('created_by', )
+    queryset = utility_models.MetadataTemplateFile.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.MetadataTemplateFileSerializerFilter
     swagger_tags = ['utility']
 
 
-class ProcessLocationViewSet(viewsets.ModelViewSet):
-    serializer_class = utility_serializers.ProcessLocationSerializer
-    queryset = ProcessLocation.objects.prefetch_related('created_by')
+class DefinedTermViewSet(viewsets.ModelViewSet):
+    serializer_class = utility_serializers.DefinedTermSerializer
+    queryset = utility_models.DefinedTerm.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = utility_filters.ProcessLocationSerializerFilter
+    filterset_class = utility_filters.DefinedTermSerializerFilter
     swagger_tags = ['utility']
 
 
 class ContactUsViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ContactUsSerializer
-    queryset = ContactUs.objects.prefetch_related('created_by')
+    queryset = utility_models.ContactUs.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.ContactUsSerializerFilter
     swagger_tags = ['utility']
@@ -585,7 +692,7 @@ class ContactUsViewSet(viewsets.ModelViewSet):
 
 class DefaultSiteCssViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.DefaultSiteCssSerializer
-    queryset = DefaultSiteCss.objects.prefetch_related('created_by')
+    queryset = utility_models.DefaultSiteCss.objects.prefetch_related('created_by')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.DefaultSiteCssSerializerFilter
     swagger_tags = ['utility']
@@ -593,7 +700,7 @@ class DefaultSiteCssViewSet(viewsets.ModelViewSet):
 
 class CustomUserCssViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.CustomUserCssSerializer
-    queryset = CustomUserCss.objects.prefetch_related('created_by',)
+    queryset = utility_models.CustomUserCss.objects.prefetch_related('created_by',)
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.CustomUserCssSerializerFilter
     swagger_tags = ['utility']
@@ -623,6 +730,42 @@ class SopTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
         choices = []
         for choice in utility_enums.SopTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class DefinedTermTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.DefinedTermTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class ModuleTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.ModuleTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class ContactUsTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.ContactUsTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)
@@ -1060,7 +1203,9 @@ class CheckoutActionsChoicesViewSet(viewsets.ViewSet):
         return Response(initial_data, status=status.HTTP_200_OK)
 
 
-# BIOINFORMATICS CHOICES
+##########################################
+# CHOICE SERIALIZERS - BIOINFORMATICS    #
+##########################################
 class QualityChecksChoicesViewSet(viewsets.ViewSet):
     swagger_tags = ['choices']
     permission_classes = [IsAuthenticated, ]
