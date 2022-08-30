@@ -34,8 +34,9 @@ router.register(r'utility/custom_user_css', utility_views.CustomUserCssViewSet, 
 # utility:enums
 router.register(r'utility/choices_yes_no', utility_views.YesNoChoicesViewSet, 'choices_yes_no')
 router.register(r'utility/choices_sop_types', utility_views.SopTypesChoicesViewSet, 'choices_sop_types')
-router.register(r'utility/choices_module_types', utility_views.ModuleTypesChoicesViewSet, 'choices_module_types')
 router.register(r'utility/choices_defined_term_types', utility_views.DefinedTermTypesChoicesViewSet, 'choices_defined_term_types')
+router.register(r'utility/choices_module_types', utility_views.ModuleTypesChoicesViewSet, 'choices_module_types')
+router.register(r'utility/choices_contact_us_types', utility_views.ContactUsTypesChoicesViewSet, 'choices_contact_us_types')
 router.register(r'utility/choices_temp_units', utility_views.TempUnitsChoicesViewSet, 'choices_temp_units')
 router.register(r'utility/choices_measure_units', utility_views.MeasureUnitsChoicesViewSet, 'choices_measure_units')
 router.register(r'utility/choices_vol_units', utility_views.VolUnitsChoicesViewSet, 'choices_vol_units')
