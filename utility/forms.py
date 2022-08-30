@@ -2,9 +2,9 @@ from django import forms
 from django.contrib.admin.helpers import ActionForm
 from django.utils.translation import gettext_lazy as _
 from users.models import CustomUser
-from .widgets import CustomSelect2, CustomSelect2Multiple, CustomAdminSplitDateTime
+from .widgets import CustomSelect2, CustomSelect2Multiple, CustomAdminSplitDateTime, CustomClearableFileInput
 from .models import ContactUs, Project, Publication, StandardOperatingProcedure, DefinedTerm
-from .enumerations import SopTypes, DefinedTermTypes, ModuleTypes
+from .enumerations import SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
 
 
 # custom import from import_export/forms.py
@@ -194,10 +194,25 @@ class ContactUsForm(forms.ModelForm):
             }
         )
     )
+    contact_type = forms.ChoiceField(
+        required=True,
+        disabled=True,
+        choices=ContactUsTypes.choices,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control',
+                'readonly': True
+            }
+        )
+    )
 
     class Meta:
         model = ContactUs
-        fields = ['full_name', 'contact_email', 'contact_context', ]
+        fields = ['full_name', 'contact_email', 'contact_context', 'contact_type', ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contact_type'].initial = ContactUsTypes.GENERAL
 
     # def send_email(self):
     #     # send email using the self.cleaned_data dictionary
@@ -233,7 +248,23 @@ class ContactUsUpdateForm(forms.ModelForm):
             }
         )
     )
-
+    contact_type = forms.ChoiceField(
+        required=False,
+        choices=ContactUsTypes.choices,
+        widget=CustomSelect2(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    contact_log = forms.FileField(
+        required=False,
+        widget=CustomClearableFileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     replied_context = forms.CharField(
         required=True,
         widget=forms.Textarea(
@@ -243,7 +274,6 @@ class ContactUsUpdateForm(forms.ModelForm):
             }
         )
     )
-
     replied_datetime = forms.SplitDateTimeField(
         required=True,
         widget=CustomAdminSplitDateTime()
@@ -251,7 +281,7 @@ class ContactUsUpdateForm(forms.ModelForm):
 
     class Meta:
         model = ContactUs
-        fields = ['full_name', 'contact_email', 'contact_context', 'replied_context', 'replied_datetime', ]
+        fields = ['full_name', 'contact_email', 'contact_context', 'contact_type', 'contact_log', 'replied_context', 'replied_datetime', ]
 
     # def send_email(self):
     #     # send email using the self.cleaned_data dictionary

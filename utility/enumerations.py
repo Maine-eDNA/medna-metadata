@@ -39,6 +39,12 @@ class DefinedTermTypes(models.TextChoices):
     GENERAL = 'general', _('General')
 
 
+class ContactUsTypes(models.TextChoices):
+    ERROR = 'error', _('Error')
+    GENERAL = 'general', _('General')
+    __empty__ = _('(Unknown)')
+
+
 # UNITS CHOICES
 class TempUnits(models.TextChoices):
     F = 'fahrenheit', _('Fahrenheit')

@@ -176,9 +176,11 @@ class ContactUsAdminResource(resources.ModelResource):
         model = utility_models.ContactUs
         import_id_fields = ('id', 'contact_slug', )
         fields = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'contact_type', 'contact_log',
                   'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                        'contact_type', 'contact_log',
                         'replied', 'replied_context', 'replied_datetime',
                         'created_by', 'created_datetime', 'modified_datetime', )
 

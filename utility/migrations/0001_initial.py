@@ -167,6 +167,8 @@ class Migration(migrations.Migration):
                 ('contact_slug', models.SlugField(max_length=255, verbose_name='Contact Slug')),
                 ('contact_email', models.EmailField(max_length=254, verbose_name='Email Address')),
                 ('contact_context', models.TextField(verbose_name='Context')),
+                ('contact_type', models.CharField(blank=True, choices=[(None, '(Unknown)'), ('error', 'Error'), ('general', 'General'), ], max_length=50, verbose_name='Contact Type')),
+                ('contact_log', models.FileField(blank=True, max_length=255, storage=medna_metadata.storage_backends.select_private_media_storage, upload_to=utility.models.set_error_log_subdir, verbose_name='Log Datafile')),
                 ('replied', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Replied')),
                 ('replied_context', models.TextField(blank=True, verbose_name='Replied Context')),
                 ('replied_datetime', models.DateTimeField(null=True, blank=True, verbose_name='Replied DateTime')),

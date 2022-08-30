@@ -331,7 +331,7 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['full_name', 'contact_email', 'contact_context', 'created_by', ]
+        self.fields = ['full_name', 'contact_email', 'contact_context', 'contact_type', 'contact_log', 'created_by', ]
 
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         add_fields = request.GET.copy()
@@ -342,6 +342,7 @@ class ContactUsAdmin(ImportExportActionModelAdmin):
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
         self.fields = ['contact_slug', 'full_name', 'contact_email', 'contact_context',
+                       'contact_type', 'contact_log',
                        'replied', 'replied_context', 'replied_datetime',
                        'created_by', 'modified_datetime', 'created_datetime']
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')

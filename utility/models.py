@@ -7,7 +7,7 @@ import datetime
 import uuid
 import os
 from phonenumber_field.modelfields import PhoneNumberField
-from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_media_storage
 
@@ -44,6 +44,13 @@ def set_template_subdir(instance, filename):
     version = instance.template_version
     filename_version = filename+"_"+str(version)
     return f"metadata_templates/{filename_version}"
+
+
+def set_error_log_subdir(instance, filename):
+    # returns subdir documentation_templates for given filename
+    version = instance.template_version
+    filename_version = filename+"_"+str(version)
+    return f"error_logs/{filename_version}"
 
 
 # Create your models here.
@@ -262,8 +269,8 @@ class ContactUs(DateTimeUserMixin):
     full_name = models.CharField('Full Name', max_length=255)
     contact_email = models.EmailField(_('Email Address'))
     contact_context = models.TextField('Context')
-    contact_type = models.CharField()
-    contact_log = models.FileField()
+    contact_type = models.CharField('Contact Type', blank=True, max_length=50, choices=ContactUsTypes.choices)
+    contact_log = models.FileField('Log Datafile', blank=True, max_length=255, storage=select_private_media_storage, upload_to=set_error_log_subdir)
     contact_slug = models.SlugField('Contact Slug', max_length=255)
     replied = models.CharField('Replied', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     replied_context = models.TextField('Replied Context', blank=True)
