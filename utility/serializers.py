@@ -203,7 +203,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
     contact_email = serializers.EmailField(read_only=False)
     contact_context = serializers.CharField(read_only=False)
     contact_type = serializers.ChoiceField(read_only=False, choices=ContactUsTypes.choices, allow_blank=True)
-    contact_log = serializers.FileField(max_length=255, allow_blank=True)
+    contact_log = serializers.FileField(max_length=255, allow_null=True)
     replied = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
     replied_context = serializers.CharField(read_only=False)
     replied_datetime = serializers.DateTimeField(read_only=False, allow_null=True)
