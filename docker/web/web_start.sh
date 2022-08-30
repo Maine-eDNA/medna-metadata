@@ -59,6 +59,8 @@ if [ "x$DJANGO_DATABASE_LOADDATA" = 'xon' ]; then
   # Load fixtures
   echo "${0}: [$(date -u)] ***Loading fixtures"
   # utility
+  echo "${0}: [$(date -u)] ***Loading utility_definedterm"
+  python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_definedterm.json
   echo "${0}: [$(date -u)] ***Loading utility_defaultsitecss"
   python ${APP_HOME}/manage.py loaddata ${FIXTURES_DIR}/utility_defaultsitecss.json
   # field_site

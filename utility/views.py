@@ -146,7 +146,7 @@ def get_project_options(request):
 
 @login_required(login_url='dashboard_login')
 def contact_us_list(request):
-    contactus_list = utility_models.ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'replied', 'replied_context', 'replied_datetime', )
+    contactus_list = utility_models.ContactUs.objects.only('id', 'full_name', 'contact_email', 'contact_context', 'contact_type', 'replied', 'replied_context', 'replied_datetime')
     replied_count = utility_models.ContactUs.objects.filter(replied='yes').count()
     return contactus_list, replied_count
 
@@ -267,7 +267,10 @@ class StandardOperatingProcedureCreateView(LoginRequiredMixin, PermissionRequire
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('view_standardoperatingprocedure')
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_standardoperatingprocedure', kwargs={'sop_type': self.object.sop_type})
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -368,7 +371,7 @@ class DefinedTermTemplateView(TemplateView, LoginRequiredMixin, PermissionRequir
         context = super().get_context_data(**kwargs)
         defined_term_type = self.kwargs['defined_term_type']
         if defined_term_type == utility_enums.DefinedTermTypes.SCHEMA:
-            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_model')
+            defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_module', 'defined_term_model')
         else:
             defined_term_list = utility_models.DefinedTerm.objects.prefetch_related('created_by').filter(defined_term_type=defined_term_type).order_by('defined_term_name')
         context['segment'] = 'view_definedterm'
@@ -411,7 +414,10 @@ class DefinedTermCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('view_definedterm')
+        # after successfully filling out and submitting a form,
+        # show the user the detail view of the label
+        # sop_type = self.kwargs['sop_type']
+        return reverse('view_definedterm', kwargs={'defined_term_type': self.object.defined_term_type})
 
     def handle_no_permission(self):
         if self.raise_exception:
@@ -751,6 +757,18 @@ class DefinedTermTypesChoicesViewSet(viewsets.ViewSet):
     def list(self, request, format=None):
         choices = []
         for choice in utility_enums.DefinedTermTypes:
+            choices.append(choice.value)
+        initial_data = {'choices': choices}
+        return Response(initial_data, status=status.HTTP_200_OK)
+
+
+class ModuleTypesChoicesViewSet(viewsets.ViewSet):
+    swagger_tags = ['choices']
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, format=None):
+        choices = []
+        for choice in utility_enums.ModuleTypes:
             choices.append(choice.value)
         initial_data = {'choices': choices}
         return Response(initial_data, status=status.HTTP_200_OK)

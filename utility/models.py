@@ -7,7 +7,7 @@ import datetime
 import uuid
 import os
 from phonenumber_field.modelfields import PhoneNumberField
-from utility.enumerations import YesNo, SopTypes, DefinedTermTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
 # custom private media S3 backend storage
 from medna_metadata.storage_backends import select_private_media_storage
 
@@ -44,6 +44,13 @@ def set_template_subdir(instance, filename):
     version = instance.template_version
     filename_version = filename+"_"+str(version)
     return f"metadata_templates/{filename_version}"
+
+
+def set_error_log_subdir(instance, filename):
+    # returns subdir documentation_templates for given filename
+    version = instance.template_version
+    filename_version = filename+"_"+str(version)
+    return f"error_logs/{filename_version}"
 
 
 # Create your models here.
@@ -242,10 +249,12 @@ class MetadataTemplateFile(DateTimeUserMixin):
 
 
 class DefinedTerm(DateTimeUserMixin):
-    defined_term_name = models.CharField('Term', unique=True, max_length=255)
-    defined_term = models.TextField('Definition')
+    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    defined_term_name = models.CharField('Term', max_length=255)
+    defined_term_description = models.TextField('Description')
+    defined_term_example = models.TextField('Example', blank=True)
     defined_term_type = models.CharField('Term Type', max_length=50, choices=DefinedTermTypes.choices)
-    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=SopTypes.choices)
+    defined_term_module = models.CharField('Related Module (Optional)', blank=True, max_length=50, choices=ModuleTypes.choices)
     defined_term_model = models.CharField('Related Table (Optional)', blank=True, max_length=255)
     defined_term_slug = models.SlugField('Term Slug', max_length=255)
 
@@ -267,6 +276,8 @@ class ContactUs(DateTimeUserMixin):
     full_name = models.CharField('Full Name', max_length=255)
     contact_email = models.EmailField(_('Email Address'))
     contact_context = models.TextField('Context')
+    contact_type = models.CharField('Contact Type', blank=True, max_length=50, choices=ContactUsTypes.choices)
+    contact_log = models.FileField('Log Datafile', blank=True, max_length=255, storage=select_private_media_storage, upload_to=set_error_log_subdir)
     contact_slug = models.SlugField('Contact Slug', max_length=255)
     replied = models.CharField('Replied', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     replied_context = models.TextField('Replied Context', blank=True)

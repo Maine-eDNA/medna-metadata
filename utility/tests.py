@@ -102,7 +102,7 @@ class DefinedTermTestCase(TestCase):
     def setUp(self):
         DefinedTerm.objects.get_or_create(defined_term_name='test term',
                                           defaults={
-                                              'defined_term': 'test definition',
+                                              'defined_term_description': 'test definition',
                                               'defined_term_type': DefinedTermTypes.GENERAL})
 
     def test_was_added_recently(self):

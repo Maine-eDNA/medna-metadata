@@ -7,7 +7,7 @@ from rest_framework.validators import UniqueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
-from utility.enumerations import YesNo, SopTypes, DefinedTermTypes
+from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
 
 
 class EagerLoadingMixin:
@@ -177,11 +177,12 @@ class MetadataTemplateFileSerializer(serializers.ModelSerializer):
 
 
 class DefinedTermSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    defined_term_name = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DefinedTerm.objects.all())])
-    defined_term = serializers.CharField(read_only=False)
+    uuid = serializers.UUIDField(read_only=True)
+    defined_term_name = serializers.CharField(read_only=False, max_length=255)
+    defined_term_description = serializers.CharField(read_only=False)
+    defined_term_example = serializers.CharField(read_only=False, allow_blank=True)
     defined_term_type = serializers.ChoiceField(read_only=False, choices=DefinedTermTypes.choices)
-    defined_term_module = serializers.ChoiceField(read_only=False, choices=SopTypes.choices, allow_blank=True)
+    defined_term_module = serializers.ChoiceField(read_only=False, choices=ModuleTypes.choices, allow_blank=True)
     defined_term_model = serializers.CharField(read_only=False, max_length=255, allow_blank=True)
     defined_term_slug = serializers.SlugField(read_only=True)
     created_datetime = serializers.DateTimeField(read_only=True)
@@ -189,7 +190,7 @@ class DefinedTermSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DefinedTerm
-        fields = ['id', 'defined_term_name', 'defined_term', 'defined_term_type',
+        fields = ['uuid', 'defined_term_name', 'defined_term_description', 'defined_term_example', 'defined_term_type',
                   'defined_term_module', 'defined_term_model', 'defined_term_slug',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
@@ -202,6 +203,8 @@ class ContactUsSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(read_only=False, max_length=255)
     contact_email = serializers.EmailField(read_only=False)
     contact_context = serializers.CharField(read_only=False)
+    contact_type = serializers.ChoiceField(read_only=False, choices=ContactUsTypes.choices, allow_blank=True)
+    contact_log = serializers.FileField(max_length=255, allow_null=True)
     replied = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
     replied_context = serializers.CharField(read_only=False)
     replied_datetime = serializers.DateTimeField(read_only=False, allow_null=True)

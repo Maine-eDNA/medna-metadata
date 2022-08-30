@@ -154,11 +154,11 @@ class DefinedTermAdminResource(resources.ModelResource):
     class Meta:
         # Project
         model = utility_models.DefinedTerm
-        import_id_fields = ('id', 'defined_term_name', )
-        fields = ('id', 'defined_term_name', 'defined_term', 'defined_term_type',
+        import_id_fields = ('uuid', 'defined_term_name', )
+        fields = ('uuid', 'defined_term_name', 'defined_term_description', 'defined_term_example', 'defined_term_type',
                   'defined_term_module', 'defined_term_model', 'defined_term_slug',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('id', 'defined_term_name', 'defined_term', 'defined_term_type',
+        export_order = ('uuid', 'defined_term_name', 'defined_term_description', 'defined_term_example', 'defined_term_type',
                         'defined_term_module', 'defined_term_model', 'defined_term_slug',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
@@ -176,9 +176,11 @@ class ContactUsAdminResource(resources.ModelResource):
         model = utility_models.ContactUs
         import_id_fields = ('id', 'contact_slug', )
         fields = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'contact_type', 'contact_log',
                   'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', )
         export_order = ('id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                        'contact_type', 'contact_log',
                         'replied', 'replied_context', 'replied_datetime',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
