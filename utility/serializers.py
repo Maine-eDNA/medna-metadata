@@ -214,6 +214,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
         fields = ['id', 'contact_slug', 'full_name', 'contact_email', 'contact_context',
+                  'contact_type', 'contact_log',
                   'replied', 'replied_context', 'replied_datetime',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
