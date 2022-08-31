@@ -402,7 +402,7 @@ class FilterSample(DateTimeUserMixin):
         return '{size} milliliter'.format(size=size_fmt)
 
     def __str__(self):
-        return self.field_sample
+        return str(self.field_sample)
 
     class Meta:
         app_label = 'field_survey'
