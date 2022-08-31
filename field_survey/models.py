@@ -310,15 +310,16 @@ class FieldSample(DateTimeUserMixin):
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='Field Sample Editor', on_delete=models.SET(get_sentinel_user), related_name='field_sample_record_editor')
 
     def __str__(self):
-        return self.barcode_slug
+        return '{barcode}: {gid}'.format(barcode=self.barcode_slug, gid=self.sample_global_id)
 
     def save(self, *args, **kwargs):
-        from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
-        # update_barcode_sample_type must come before creating barcode_slug
-        # because need to grab old barcode_slug value on updates
-        # update barcode to type == Field Sample
-        update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type())
-        self.barcode_slug = self.field_sample_barcode.barcode_slug
+        if self.field_sample_barcode:
+            from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
+            # update_barcode_sample_type must come before creating barcode_slug
+            # because need to grab old barcode_slug value on updates
+            # update barcode to type == Field Sample
+            update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type())
+            self.barcode_slug = self.field_sample_barcode.barcode_slug
         if self.collection_global_id.collection_type == CollectionTypes.WATER_SAMPLE:
             self.sample_material = SampleMaterial.objects.filter(sample_material_label__icontains='water').first()
         elif self.collection_global_id.collection_type == CollectionTypes.SED_SAMPLE:
