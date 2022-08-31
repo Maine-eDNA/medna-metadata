@@ -299,7 +299,7 @@ class SedimentCollection(DateTimeUserMixin):
 class FieldSample(DateTimeUserMixin):
     # mixs source_mat_id
     sample_global_id = models.CharField('Sample Global ID', primary_key=True, max_length=255)
-    field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', related_name='field_sample_barcode', on_delete=models.RESTRICT)
+    field_sample_barcode = models.OneToOneField('sample_label.SampleBarcode', blank=True, null=True, related_name='field_sample_barcode', on_delete=models.RESTRICT)
     collection_global_id = models.ForeignKey(FieldCollection, db_column='collection_global_id', related_name='field_samples', on_delete=models.CASCADE)
     barcode_slug = models.SlugField('Field Sample Barcode Slug', max_length=17)
     is_extracted = models.CharField('Extracted', max_length=3, choices=YesNo.choices, default=YesNo.NO)
@@ -310,7 +310,10 @@ class FieldSample(DateTimeUserMixin):
     record_editor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='Field Sample Editor', on_delete=models.SET(get_sentinel_user), related_name='field_sample_record_editor')
 
     def __str__(self):
-        return '{barcode}: {gid}'.format(barcode=self.barcode_slug, gid=self.sample_global_id)
+        if self.field_sample_barcode:
+            return '{barcode}: {gid}'.format(barcode=self.barcode_slug, gid=self.sample_global_id)
+        else:
+            return '{gid}'.format(gid=self.sample_global_id)
 
     def save(self, *args, **kwargs):
         from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type

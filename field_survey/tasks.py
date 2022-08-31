@@ -1,8 +1,12 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
+from django.utils import timezone
+from django.db.models import Count, Q
+from celery.utils.log import get_task_logger
+import numpy as np
 from medna_metadata.celery import app
 from medna_metadata.tasks import BaseTaskWithRetry
-from utility.models import PeriodicTaskRun, Project, StandardOperatingProcedure
 from utility.enumerations import CollectionTypes
+from utility.models import PeriodicTaskRun, Project, StandardOperatingProcedure
 from users.models import CustomUser
 from field_site.models import FieldSite
 from field_survey.models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasurement, \
@@ -11,10 +15,6 @@ from field_survey.models import FieldSurvey, FieldCrew, EnvMeasureType, EnvMeasu
     FieldSurveyETL, FieldCrewETL, EnvMeasurementETL, \
     FieldCollectionETL, SampleFilterETL
 from sample_label.models import SampleBarcode
-from django.utils import timezone
-from django.db.models import Count
-import numpy as np
-from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 
@@ -22,6 +22,26 @@ def replace_quote_space(field):
     if field == '" "':
         field = ''
     return field
+
+
+def return_barcode_or_none(field):
+    if field == '" "':
+        field = ''
+    try:
+        barcode = SampleBarcode.objects.get(sample_barcode_id=field)
+    except SampleBarcode.DoesNotExist:
+        barcode = None
+    return barcode
+
+
+def return_site_id_or_none(field):
+    if field == '" "':
+        field = ''
+    try:
+        site_id = FieldSite.objects.get(site_id=field)
+    except FieldSite.DoesNotExist:
+        site_id = None
+    return site_id
 
 
 def return_user_or_none(field):
@@ -115,7 +135,7 @@ def update_record_field_survey(record, pk):
                 'recorder_fname': replace_quote_space(record.recorder_fname),
                 'recorder_lname': replace_quote_space(record.recorder_lname),
                 'arrival_datetime': record.arrival_datetime,
-                'site_id': FieldSite.objects.get(site_id=record_site_id),
+                'site_id': return_site_id_or_none(record_site_id),
                 'site_id_other': replace_quote_space(record.site_id_other),
                 'site_name': replace_quote_space(record.site_name),
                 'lat_manual': record.lat_manual,
@@ -319,7 +339,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
         field_sample, created = FieldSample.objects.update_or_create(
             sample_global_id=field_sample_pk,
             defaults={
-                'field_sample_barcode': replace_quote_space(sample_barcode_record),
+                'field_sample_barcode': return_barcode_or_none(sample_barcode_record),
                 'collection_global_id': FieldCollection.objects.get(collection_global_id=collection_global_id),
                 'record_create_datetime': record.record_create_datetime,
                 'record_creator': return_user_or_none(record.record_creator),
@@ -451,72 +471,88 @@ def update_queryset_subcore_sample(queryset):
         created_count = 0
         for record in queryset:
             collection_global_id = record.collection_global_id
-            subcore_min_barcode = record.subcore_min_barcode
-            subcore_max_barcode = record.subcore_max_barcode
-            # only one barcode used
-            if subcore_min_barcode == subcore_max_barcode or not subcore_max_barcode:
-                # if min and max are equal or there is no max barcode
-                if subcore_min_barcode:
-                    if SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode).exists():
-                        sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode)[0]
-                        # only proceed if sample_barcode exists
+            if record.subcore_min_barcode:
+                # subcore_min_barcode is present
+                subcore_min_barcode = record.subcore_min_barcode
+                subcore_max_barcode = record.subcore_max_barcode
+                # only one barcode used
+                if subcore_min_barcode == subcore_max_barcode or not subcore_max_barcode:
+                    # if min and max are equal or there is no max barcode
+                    # since we put a 'min' and 'max' field, rather than a separate record
+                    # for each subcore barcode, here we're appending the barcode to the
+                    # gid to create a unique gid
+                    new_gid = record.collection_global_id + '-' + subcore_min_barcode
 
-                        # since we put a 'min' and 'max' field, rather than a separate record
-                        # for each subcore barcode, here we're appending the barcode to the
-                        # gid to create a unique gid
-                        new_gid = record.collection_global_id + '-' + subcore_min_barcode
+                    count = update_record_field_sample(record=record,
+                                                       collection_type=record.collection_type,
+                                                       collection_global_id=collection_global_id,
+                                                       field_sample_pk=new_gid,
+                                                       sample_barcode_record=subcore_min_barcode)
 
-                        count = update_record_field_sample(record=record,
-                                                           collection_type=record.collection_type,
-                                                           collection_global_id=collection_global_id,
-                                                           field_sample_pk=new_gid,
-                                                           sample_barcode_record=sample_barcode)
+                    # count for subcore
+                    created_count = created_count + count
 
-                        # count for subcore
-                        created_count = created_count + count
-
-            else:
-                # more than one barcode label requested, so need to interate to insert into Field Sample and
-                # SubCoreSample
-                # arrange does not include max value, hence max+1
-                # check if sample_id matches pattern
-                # sequence number
-                subcore_min_num = str(subcore_min_barcode)[-4:]
-                subcore_max_num = str(subcore_max_barcode)[-4:]
-                subcore_prefix_min = str(subcore_min_barcode)[:12]
-                subcore_prefix_max = str(subcore_max_barcode)[:12]
-                if subcore_prefix_min == subcore_prefix_max:
-                    subcore_prefix = subcore_prefix_min
-
-                    if SampleBarcode.objects.filter(sample_barcode_id=subcore_min_barcode).exists():
-                        # only proceed if sample_barcode exists
+                else:
+                    # more than one barcode label requested, so need to interate to insert into Field Sample and
+                    # SubCoreSample
+                    # check if sample_id matches pattern sequence number
+                    subcore_min_num = str(subcore_min_barcode)[-4:]
+                    subcore_max_num = str(subcore_max_barcode)[-4:]
+                    subcore_prefix_min = str(subcore_min_barcode)[:12]
+                    subcore_prefix_max = str(subcore_max_barcode)[:12]
+                    if subcore_prefix_min == subcore_prefix_max:
+                        subcore_prefix = subcore_prefix_min
                         # only proceed if the prefix of the subcores match
                         for num in np.arange(subcore_min_num, subcore_max_num + 1, 1):
-
+                            # arrange does not include max value, hence max+1
                             # add leading zeros to site_num, e.g., 1 to 01
                             num_leading_zeros = str(num).zfill(4)
 
                             # format site_id, e.g., 'eAL_L01'
-                            subcore_barcode = '{labelprefix}{sitenum}'.format(labelprefix=subcore_prefix,
-                                                                              sitenum=num_leading_zeros)
+                            subcore_barcode = '{labelprefix}{sitenum}'.format(labelprefix=subcore_prefix, sitenum=num_leading_zeros)
 
-                            if SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode).exists():
-                                # only proceed if barcode exists
-                                sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=subcore_barcode)[0]
+                            # since we put a 'min' and 'max' field, rather than a separate record
+                            # for each subcore barcode, here we're appending the barcode to the
+                            # gid to create a unique gid
+                            new_gid = collection_global_id + '-' + subcore_barcode
 
-                                # since we put a 'min' and 'max' field, rather than a separate record
-                                # for each subcore barcode, here we're appending the barcode to the
-                                # gid to create a unique gid
-                                new_gid = collection_global_id + '-' + subcore_barcode
+                            count = update_record_field_sample(record=record,
+                                                               collection_type=record.collection_type,
+                                                               collection_global_id=collection_global_id,
+                                                               field_sample_pk=new_gid,
+                                                               sample_barcode_record=subcore_barcode)
 
-                                count = update_record_field_sample(record=record,
-                                                                   collection_type=record.collection_type,
-                                                                   collection_global_id=collection_global_id,
-                                                                   field_sample_pk=new_gid,
-                                                                   sample_barcode_record=sample_barcode)
+                            created_count = created_count + count
+            else:
+                # subcore_min_barcode is null or blank
+                subcore_min_num = 1
+                if record.subcore_number:
+                    subcore_max_num = record.subcore_number
+                else:
+                    subcore_max_num = 1
+                for num in np.arange(subcore_min_num, subcore_max_num + 1, 1):
+                    # arrange does not include max value, hence max+1
+                    # add leading zeros to site_num, e.g., 1 to 01
+                    num_leading_zeros = str(num).zfill(4)
+                    subcore_prefix = 'NO_BARCODE_SEDIMENT'
+                    # format site_id, e.g., 'eAL_L01'
+                    subcore_barcode = '{labelprefix}_{sitenum}'.format(labelprefix=subcore_prefix, sitenum=num_leading_zeros)
+                    print(subcore_barcode)
 
-                                created_count = created_count + count
+                    # since we put a 'min' and 'max' field, rather than a separate record
+                    # for each subcore, here we're appending the subcore_prefix to the
+                    # gid to create a unique gid
+                    new_gid = collection_global_id + '-' + subcore_barcode
 
+                    print(new_gid)
+
+                    count = update_record_field_sample(record=record,
+                                                       collection_type=record.collection_type,
+                                                       collection_global_id=collection_global_id,
+                                                       field_sample_pk=new_gid,
+                                                       sample_barcode_record=subcore_barcode)
+
+                    created_count = created_count + count
         return created_count
     except Exception as err:
         raise RuntimeError('** Error: update_queryset_subcore_sample Failed (' + str(err) + ')')
@@ -526,44 +562,42 @@ def update_queryset_filter_sample(queryset):
     try:
         created_count = 0
         for record in queryset:
-            filter_barcode = record.filter_barcode
-            if filter_barcode:
-                # only proceed if filter_barcode exists
-                if SampleBarcode.objects.filter(sample_barcode_id=filter_barcode).exists():
-                    sample_barcode = SampleBarcode.objects.filter(sample_barcode_id=filter_barcode)[0]
-                    count = update_record_field_sample(record=record,
-                                                       collection_type=record.collection_global_id.collection_type,
-                                                       collection_global_id=record.collection_global_id.collection_global_id,
-                                                       field_sample_pk=record.filter_global_id,
-                                                       sample_barcode_record=sample_barcode)
+            count = update_record_field_sample(record=record,
+                                               collection_type=record.collection_global_id.collection_type,
+                                               collection_global_id=record.collection_global_id.collection_global_id,
+                                               field_sample_pk=record.filter_global_id,
+                                               sample_barcode_record=record.filter_barcode)
 
-                    created_count = created_count + count
+            created_count = created_count + count
         return created_count
     except Exception as err:
         raise RuntimeError('** Error: update_queryset_filter_sample Failed (' + str(err) + ')')
 
 
-def transform_field_survey_etls(queryset):
+def conservative_transform_field_survey_etls(queryset):
     try:
+        # conservative transform REMOVES duplicate barcodes
         update_count = 0
         # grab related records based on each item in queryset
         related_survey_records = FieldSurveyETL.objects.filter(survey_global_id__in=[record.survey_global_id for record in queryset])
+        # FieldCrew NOT crew_fname LIKE '' AND NOT crew_lname LIKE ''
+        # NOT crew_fname ISNULL AND NOT crew_lname ISNULL
         related_crew_records = FieldCrewETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             crew_fname__iexact='', crew_lname__iexact='').exclude(
             crew_fname__isnull=True, crew_lname__isnull=True)
         related_env_records = EnvMeasurementETL.objects.filter(
-            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset])
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            Q(env_measurement__iexact='') | Q(env_measurement__isnull=True))
+        # FieldCollections NOT water_vessel_label LIKE 'delete' OR NOT core_label LIKE 'delete'
+        # NOT collection_type ISNULL OR NOT collection_type ISNULL
         related_collect_records = FieldCollectionETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
-            core_label__icontains='delete').exclude(
-            collection_type__iexact='').exclude(
-            collection_type__isnull=True)
+            Q(water_vessel_label__icontains='delete') | Q(core_label__icontains='delete') |
+            Q(collection_type__iexact='') | Q(collection_type__isnull=True))
         related_filter_records = SampleFilterETL.objects.filter(
             collection_global_id__survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
-            filter_sample_label__icontains='delete').exclude(
-            filter_barcode__iexact='').exclude(
-            filter_barcode__isnull=True)
+            Q(filter_sample_label__icontains='delete') | Q(filter_barcode__iexact='') | Q(filter_barcode__isnull=True))
 
         if related_collect_records:
             subcore_min_duplicates = get_min_subcore_etl_duplicates()
@@ -651,11 +685,67 @@ def transform_field_survey_etls(queryset):
                 update_count = update_count + count
         return update_count
     except Exception as err:
-        raise RuntimeError('** Error: transform_field_survey_etls Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: conservative_transform_field_survey_etls Failed (' + str(err) + ')')
 
 
-@app.task(bind=True, base=BaseTaskWithRetry, name='transform-new-records-field-survey-task')
-def transform_new_records_field_survey_task(self):
+def moderate_transform_field_survey_etls(queryset):
+    try:
+        # moderate transform does NOT remove duplicate barcodes
+        update_count = 0
+        # grab related records based on each item in queryset
+        related_survey_records = FieldSurveyETL.objects.filter(survey_global_id__in=[record.survey_global_id for record in queryset])
+        # FieldCrew NOT crew_fname LIKE '' AND NOT crew_lname LIKE ''
+        # NOT crew_fname ISNULL AND NOT crew_lname ISNULL
+        related_crew_records = FieldCrewETL.objects.filter(
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            crew_fname__iexact='', crew_lname__iexact='').exclude(
+            crew_fname__isnull=True, crew_lname__isnull=True)
+        related_env_records = EnvMeasurementETL.objects.filter(
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            Q(env_measurement__iexact='') | Q(env_measurement__isnull=True))
+        # FieldCollections NOT water_vessel_label LIKE 'delete' OR NOT core_label LIKE 'delete'
+        # NOT collection_type ISNULL OR NOT collection_type ISNULL
+        related_collect_records = FieldCollectionETL.objects.filter(
+            survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            Q(water_vessel_label__icontains='delete') | Q(core_label__icontains='delete') |
+            Q(collection_type__iexact='') | Q(collection_type__isnull=True))
+        related_filter_records = SampleFilterETL.objects.filter(
+            collection_global_id__survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
+            filter_sample_label__icontains='delete').exclude(
+            filter_type__iexact='', filter_sample_label__iexact='').exclude(
+            filter_type__isnull=True, filter_sample_label__isnull=True)
+
+        if related_survey_records:
+            count = update_queryset_field_survey(related_survey_records)
+            update_count = update_count + count
+
+        if related_crew_records:
+            count = update_queryset_field_crew(related_crew_records)
+            update_count = update_count + count
+
+        if related_env_records:
+            count = update_queryset_env_measurement(related_env_records)
+            update_count = update_count + count
+
+        if related_collect_records:
+            # transform field_collection
+            count = update_queryset_field_collection(related_collect_records)
+            update_count = update_count + count
+            # transform subcores
+            count = update_queryset_subcore_sample(related_collect_records)
+            update_count = update_count + count
+
+        if related_filter_records:
+            # transform filters
+            count = update_queryset_filter_sample(related_filter_records)
+            update_count = update_count + count
+        return update_count
+    except Exception as err:
+        raise RuntimeError('** Error: moderate_transform_field_survey_etls Failed (' + str(err) + ')')
+
+
+@app.task(bind=True, base=BaseTaskWithRetry, name='conservative-transform-new-records-field-survey-task')
+def conservative_transform_new_records_field_survey_task(self):
     try:
         task_name = self.name
         now = timezone.now()
@@ -676,28 +766,77 @@ def transform_new_records_field_survey_task(self):
                 # create a record in PeriodicTaskRun with the current datetime.
                 PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
         if new_records:
-            updated_count = transform_field_survey_etls(new_records)
+            updated_count = conservative_transform_field_survey_etls(new_records)
             logger.info('Update count: ' + str(updated_count))
             PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
             return updated_count
         else:
             return 0
     except Exception as err:
-        raise RuntimeError('** Error: transform_new_records_field_survey_task Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: conservative_transform_new_records_field_survey_task Failed (' + str(err) + ')')
 
 
-@app.task(bind=True, base=BaseTaskWithRetry, name='transform-all-records-field-survey-task')
-def transform_all_records_field_survey_task(self):
+@app.task(bind=True, base=BaseTaskWithRetry, name='conservative-transform-all-records-field-survey-task')
+def conservative_transform_all_records_field_survey_task(self):
     try:
         task_name = self.name
         now = timezone.now()
         all_records = FieldSurveyETL.objects.all()
         if all_records:
-            updated_count = transform_field_survey_etls(all_records)
+            updated_count = conservative_transform_field_survey_etls(all_records)
             logger.info('Update count: ' + str(updated_count))
             PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
             return updated_count
         else:
             return 0
     except Exception as err:
-        raise RuntimeError('** Error: transform_all_records_field_survey_task Failed (' + str(err) + ')')
+        raise RuntimeError('** Error: conservative_transform_all_records_field_survey_task Failed (' + str(err) + ')')
+
+
+@app.task(bind=True, base=BaseTaskWithRetry, name='moderate-transform-new-records-field-survey-task')
+def moderate_transform_new_records_field_survey_task(self):
+    try:
+        task_name = self.name
+        now = timezone.now()
+        if PeriodicTaskRun.objects.filter(task=task_name).exists():
+            # https://stackoverflow.com/questions/32002207/how-to-check-if-an-element-is-present-in-a-django-queryset
+            last_run = PeriodicTaskRun.objects.filter(task=task_name).order_by('-task_datetime')[:1].get()
+            new_records = FieldSurveyETL.objects.filter(modified_datetime__range=[last_run.task_datetime, now])
+        else:
+            # task has never been ran, so there is no timestamp to reference
+            # run query for less than or equal to current datetime.
+            new_records = FieldSurveyETL.objects.filter(modified_datetime__lte=now)
+            if new_records:
+                # since the task has never been ran, create a record in PeriodicTaskRun with the oldest survey date.
+                oldest_record = new_records.order_by('modified_datetime')[:1].get()
+                PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': oldest_record.modified_datetime})
+            else:
+                # since the task has never been ran and there were no records matching the query,
+                # create a record in PeriodicTaskRun with the current datetime.
+                PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+        if new_records:
+            updated_count = moderate_transform_field_survey_etls(new_records)
+            logger.info('Update count: ' + str(updated_count))
+            PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+            return updated_count
+        else:
+            return 0
+    except Exception as err:
+        raise RuntimeError('** Error: moderate_transform_new_records_field_survey_task Failed (' + str(err) + ')')
+
+
+@app.task(bind=True, base=BaseTaskWithRetry, name='moderate-transform-all-records-field-survey-task')
+def moderate_transform_all_records_field_survey_task(self):
+    try:
+        task_name = self.name
+        now = timezone.now()
+        all_records = FieldSurveyETL.objects.all()
+        if all_records:
+            updated_count = moderate_transform_field_survey_etls(all_records)
+            logger.info('Update count: ' + str(updated_count))
+            PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+            return updated_count
+        else:
+            return 0
+    except Exception as err:
+        raise RuntimeError('** Error: moderate_transform_all_records_field_survey_task Failed (' + str(err) + ')')
