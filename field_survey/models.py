@@ -313,8 +313,8 @@ class FieldSample(DateTimeUserMixin):
         return '{barcode}: {gid}'.format(barcode=self.barcode_slug, gid=self.sample_global_id)
 
     def save(self, *args, **kwargs):
+        from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
         if self.field_sample_barcode:
-            from sample_label.models import SampleMaterial, update_barcode_sample_type, get_field_sample_sample_type
             # update_barcode_sample_type must come before creating barcode_slug
             # because need to grab old barcode_slug value on updates
             # update barcode to type == Field Sample
