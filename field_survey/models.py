@@ -277,15 +277,16 @@ class FieldSample(DateTimeUserMixin):
     sample_material = models.ForeignKey('sample_label.SampleMaterial', on_delete=models.RESTRICT)
 
     def __str__(self):
-        return self.barcode_slug
+        return '{barcode}: {gid}'.format(barcode=self.barcode_slug, gid=self.sample_global_id)
 
     def save(self, *args, **kwargs):
-        from sample_label.models import update_barcode_sample_type, get_field_sample_sample_type
-        # update_barcode_sample_type must come before creating barcode_slug
-        # because need to grab old barcode_slug value on updates
-        # update barcode to type == Field Sample
-        update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type())
-        self.barcode_slug = self.field_sample_barcode.barcode_slug
+        if self.field_sample_barcode:
+            from sample_label.models import update_barcode_sample_type, get_field_sample_sample_type
+            # update_barcode_sample_type must come before creating barcode_slug
+            # because need to grab old barcode_slug value on updates
+            # update barcode to type == Field Sample
+            update_barcode_sample_type(self.barcode_slug, self.field_sample_barcode, get_field_sample_sample_type())
+            self.barcode_slug = self.field_sample_barcode.barcode_slug
         # all done, time to save changes to the db
         super(FieldSample, self).save(*args, **kwargs)
 
