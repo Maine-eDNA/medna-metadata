@@ -83,7 +83,7 @@ def get_filter_etl_delete_labels():
 
 def get_filter_etl_duplicates():
     try:
-        filter_duplicates = SampleFilterETL.objects.values('filter_barcode').annotate(filter_barcode_count=Count('filter_barcode')).filter(filter_barcode_count__gt=1)
+        filter_duplicates = SampleFilterETL.objects.values('filter_barcode').annotate(filter_barcode_count=Count('filter_barcode')).filter(filter_barcode_count__gt=1).exclude(Q(filter_barcode__iexact='') | Q(filter_barcode__iexact='" "'))
         return filter_duplicates
     except Exception as err:
         raise RuntimeError('** Error: get_filter_etl_duplicates Failed (' + str(err) + ')')
@@ -99,7 +99,7 @@ def get_core_etl_delete_labels():
 
 def get_min_subcore_etl_duplicates():
     try:
-        subcore_min_duplicates = FieldCollectionETL.objects.values('subcore_min_barcode').annotate(subcore_min_barcode_count=Count('subcore_min_barcode')).filter(subcore_min_barcode__gt=1)
+        subcore_min_duplicates = FieldCollectionETL.objects.values('subcore_min_barcode').annotate(subcore_min_barcode_count=Count('subcore_min_barcode')).filter(subcore_min_barcode__gt=1).exclude(Q(subcore_min_barcode__iexact='') | Q(subcore_min_barcode__iexact='" "'))
         return subcore_min_duplicates
     except Exception as err:
         raise RuntimeError('** Error: get_min_subcore_etl_duplicates Failed (' + str(err) + ')')
@@ -107,7 +107,7 @@ def get_min_subcore_etl_duplicates():
 
 def get_max_subcore_etl_duplicates():
     try:
-        subcore_max_duplicates = FieldCollectionETL.objects.values('subcore_max_barcode').annotate(subcore_max_barcode_count=Count('subcore_max_barcode')).filter(subcore_max_barcode__gt=1)
+        subcore_max_duplicates = FieldCollectionETL.objects.values('subcore_max_barcode').annotate(subcore_max_barcode_count=Count('subcore_max_barcode')).filter(subcore_max_barcode__gt=1).exclude(Q(subcore_max_barcode__iexact='') | Q(subcore_max_barcode__iexact='" "'))
         return subcore_max_duplicates
     except Exception as err:
         raise RuntimeError('** Error: get_max_subcore_etl_duplicates Failed (' + str(err) + ')')
@@ -350,11 +350,11 @@ def update_record_field_collection(record, pk):
 
 def update_record_field_sample(record, collection_type, collection_global_id, field_sample_pk, sample_barcode_record):
     try:
-        print(collection_type)
-        print(sample_barcode_record)
-        print(collection_global_id)
+        # print(collection_type)
+        # print(sample_barcode_record)
+        # print(collection_global_id)
         field_collection = return_field_collection_or_none(collection_global_id)
-        print(field_collection)
+        # print(field_collection)
         update_count = 0
         if field_collection:
             # only proceed if related field_collection record exists
@@ -585,7 +585,7 @@ def update_queryset_filter_sample(queryset):
 
 def conservative_transform_field_survey_etls(queryset):
     try:
-        # conservative transform REMOVES duplicate barcodes
+        # conservative transform REMOVES duplicate and blank barcodes
         update_count = 0
         # grab related records based on each item in queryset
         related_survey_records = FieldSurveyETL.objects.filter(survey_global_id__in=[record.survey_global_id for record in queryset])
@@ -594,19 +594,21 @@ def conservative_transform_field_survey_etls(queryset):
         related_crew_records = FieldCrewETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             crew_fname__iexact='', crew_lname__iexact='').exclude(
+            crew_fname__iexact='" "', crew_lname__iexact='" "').exclude(
             crew_fname__isnull=True, crew_lname__isnull=True)
         related_env_records = EnvMeasurementETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
-            Q(env_measurement__iexact='') | Q(env_measurement__isnull=True))
+            Q(env_measurement__iexact='') | Q(env_measurement__iexact='" "') | Q(env_measurement__isnull=True))
         # FieldCollections NOT water_vessel_label LIKE 'delete' OR NOT core_label LIKE 'delete'
         # NOT collection_type ISNULL OR NOT collection_type ISNULL
         related_collect_records = FieldCollectionETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             Q(water_vessel_label__icontains='delete') | Q(core_label__icontains='delete') |
-            Q(collection_type__iexact='') | Q(collection_type__isnull=True))
+            Q(collection_type__iexact='') | Q(collection_type__iexact='" "') | Q(collection_type__isnull=True))
         related_filter_records = SampleFilterETL.objects.filter(
             collection_global_id__survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
-            Q(filter_sample_label__icontains='delete') | Q(filter_barcode__iexact='') | Q(filter_barcode__isnull=True))
+            Q(filter_sample_label__icontains='delete') | Q(filter_sample_label__iexact='') | Q(filter_sample_label__iexact='" "') | Q(filter_sample_label__isnull=True)).exclude(
+            Q(filter_barcode__iexact='') | Q(filter_barcode__iexact='" "') | Q(filter_barcode__isnull=True))
         if related_collect_records:
             subcore_min_duplicates = get_min_subcore_etl_duplicates()
             subcore_max_duplicates = get_max_subcore_etl_duplicates()
@@ -617,6 +619,7 @@ def conservative_transform_field_survey_etls(queryset):
             nondup_related_collect = nondup_min_related_collect.exclude(
                 subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates]).exclude(
                 subcore_min_barcode__iexact='', subcore_max_barcode__iexact='').exclude(
+                subcore_min_barcode__iexact='" "', subcore_max_barcode__iexact='" "').exclude(
                 subcore_min_barcode__isnull=True, subcore_max_barcode__isnull=True)
             if nondup_related_collect:
                 if related_survey_records:
@@ -690,7 +693,7 @@ def conservative_transform_field_survey_etls(queryset):
 
 def moderate_transform_field_survey_etls(queryset):
     try:
-        # moderate transform does NOT remove duplicate barcodes
+        # moderate transform removes duplicate barcodes, but does NOT remove blank barcodes
         update_count = 0
         # grab related records based on each item in queryset
         related_survey_records = FieldSurveyETL.objects.filter(survey_global_id__in=[record.survey_global_id for record in queryset])
@@ -699,21 +702,22 @@ def moderate_transform_field_survey_etls(queryset):
         related_crew_records = FieldCrewETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             crew_fname__iexact='', crew_lname__iexact='').exclude(
+            crew_fname__iexact='" "', crew_lname__iexact='" "').exclude(
             crew_fname__isnull=True, crew_lname__isnull=True)
         related_env_records = EnvMeasurementETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
-            Q(env_measurement__iexact='') | Q(env_measurement__isnull=True))
+            Q(env_measurement__iexact='') | Q(env_measurement__iexact='" "') | Q(env_measurement__isnull=True))
         # FieldCollections NOT water_vessel_label LIKE 'delete' OR NOT core_label LIKE 'delete'
         # NOT collection_type ISNULL OR NOT collection_type ISNULL
         related_collect_records = FieldCollectionETL.objects.filter(
             survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             Q(water_vessel_label__icontains='delete') | Q(core_label__icontains='delete') |
-            Q(collection_type__iexact='') | Q(collection_type__isnull=True))
+            Q(collection_type__iexact='') | Q(collection_type__iexact='" "') | Q(collection_type__isnull=True))
         related_filter_records = SampleFilterETL.objects.filter(
             collection_global_id__survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             filter_sample_label__icontains='delete').exclude(
-            filter_type__iexact='', filter_sample_label__iexact='').exclude(
-            filter_type__isnull=True, filter_sample_label__isnull=True)
+            Q(filter_type__iexact='') | Q(filter_type__iexact='" "') | Q(filter_type__isnull=True)).exclude(
+            Q(filter_sample_label__iexact='') | Q(filter_sample_label__iexact='" "') | Q(filter_sample_label__isnull=True))
         if related_survey_records:
             count = update_queryset_field_survey(related_survey_records)
             update_count = update_count + count
@@ -729,11 +733,20 @@ def moderate_transform_field_survey_etls(queryset):
             update_count = update_count + count
             # select only sediment records & transform subcores
             related_collect_records_sediment = related_collect_records.filter(collection_type__iexact=CollectionTypes.SED_SAMPLE, subcores_taken__iexact=YesNo.YES)
-            count = update_queryset_subcore_sample(related_collect_records_sediment)
+            subcore_min_duplicates = get_min_subcore_etl_duplicates()
+            subcore_max_duplicates = get_max_subcore_etl_duplicates()
+            # remove any present duplicate min_barcodes
+            nondup_min_related_collect_sediment = related_collect_records_sediment.exclude(subcore_min_barcode__in=[item['subcore_min_barcode'] for item in subcore_min_duplicates])
+            # remove any present duplicate max barcodes from the min-exclude subset
+            nondup_related_collect_sediment = nondup_min_related_collect_sediment.exclude(subcore_max_barcode__in=[item['subcore_max_barcode'] for item in subcore_max_duplicates])
+            count = update_queryset_subcore_sample(nondup_related_collect_sediment)
             update_count = update_count + count
         if related_filter_records:
             # transform filters
-            count = update_queryset_filter_sample(related_filter_records)
+            filter_duplicates = get_filter_etl_duplicates()
+            # remove any present duplicate filter_barcodes
+            nondup_related_filters = related_filter_records.exclude(filter_barcode__in=[item['filter_barcode'] for item in filter_duplicates])
+            count = update_queryset_filter_sample(nondup_related_filters)
             update_count = update_count + count
         return update_count
     except Exception as err:
