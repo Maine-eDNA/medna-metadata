@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.db.models import F, Count, Func, Value, CharField
+from django.db.models import F, Count, Func, Value, CharField, Q
 from django.db.models.functions import TruncMonth
 from django.core.serializers import serialize
 from django.core.exceptions import PermissionDenied
@@ -80,7 +80,7 @@ def get_survey_count_chart(request):
 def get_survey_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    labels, data = return_queryset_lists(FieldSurvey.objects.exclude(site_id__system__system_label__exact='').annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_queryset_lists(FieldSurvey.objects.exclude(Q(site_id__system__system_label__exact='') | Q(site_id__system__system_label__isnull=True)).annotate(label=F('site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
     # labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
@@ -88,7 +88,7 @@ def get_survey_system_count_chart(request):
 @login_required(login_url='dashboard_login')
 def get_survey_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
-    labels, data = return_queryset_lists(FieldSurvey.objects.exclude(site_id__site_id__exact='').annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_queryset_lists(FieldSurvey.objects.exclude(Q(site_id__site_id__exact='') | Q(site_id__site_id__isnull=True)).annotate(label=F('site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
     # labels = ['eLP_O01' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
@@ -115,7 +115,7 @@ def get_field_sample_count_chart(request):
 def get_filter_type_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    labels, data = return_queryset_lists(FilterSample.objects.exclude(filter_type__exact='').annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_queryset_lists(FilterSample.objects.exclude(Q(filter_type__exact='') | Q(filter_type__isnull=True)).annotate(label=F('filter_type')).values('label').annotate(data=Count('pk')).order_by('-label'))
     # labels = ['other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
@@ -124,7 +124,7 @@ def get_filter_type_count_chart(request):
 def get_filter_system_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    labels, data = return_queryset_lists(FilterSample.objects.exclude(field_sample__field_sample_barcode__site_id__system__system_label__exact='').annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_queryset_lists(FilterSample.objects.exclude(Q(field_sample__field_sample_barcode__site_id__system__system_label__exact='') | Q(field_sample__field_sample_barcode__site_id__system__system_label__isnull=True)).annotate(label=F('field_sample__field_sample_barcode__site_id__system__system_label')).values('label').annotate(data=Count('pk')).order_by('-label'))
     # labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
@@ -133,7 +133,7 @@ def get_filter_system_count_chart(request):
 def get_filter_site_count_chart(request):
     # https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html
     # https://stackoverflow.com/questions/31933239/using-annotate-or-extra-to-add-field-of-foreignkey-to-queryset-equivalent-of/31933276#31933276
-    labels, data = return_queryset_lists(FilterSample.objects.exclude(field_sample__field_sample_barcode__site_id__site_id__exact='').annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
+    labels, data = return_queryset_lists(FilterSample.objects.exclude(Q(field_sample__field_sample_barcode__site_id__site_id__exact='') | Q(field_sample__field_sample_barcode__site_id__site_id__isnull=True)).annotate(label=F('field_sample__field_sample_barcode__site_id__site_id')).values('label').annotate(data=Count('pk')).order_by('-label'))
     # labels = ['Other' if x == '' else x for x in labels]
     return JsonResponse(data={'labels': labels, 'data': data, })
 
