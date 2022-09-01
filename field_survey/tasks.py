@@ -25,6 +25,14 @@ def replace_quote_space(field):
     return field
 
 
+def replace_quote_lower_strip_space(field):
+    if field == '" "':
+        field = ''
+    field = field.strip()
+    field = field.lower()
+    return field
+
+
 def return_user_or_none(field):
     try:
         record = CustomUser.objects.get(agol_username=field)
@@ -123,7 +131,8 @@ def update_record_field_survey(record, pk):
                 prj = 'prj_medna'
             project = Project.objects.get(project_code=prj)
             prj_list.append(project)
-        if record.site_id == 'other':
+        site_id = replace_quote_lower_strip_space(record.site_id)
+        if site_id == 'other' or not site_id:
             record_site_id = 'eOT_O01'
         else:
             record_site_id = record.site_id
@@ -393,7 +402,7 @@ def update_record_field_sample(record, collection_type, collection_global_id, fi
                         'filter_method': replace_quote_space(record.filter_method),
                         'filter_method_other': replace_quote_space(record.filter_method_other),
                         'filter_vol': record.filter_vol,
-                        'filter_type': replace_quote_space(record.filter_type),
+                        'filter_type': replace_quote_lower_strip_space(record.filter_type),
                         'filter_type_other': replace_quote_space(record.filter_type_other),
                         'filter_pore': record.filter_pore,
                         'filter_size': record.filter_size,
@@ -646,7 +655,9 @@ def conservative_transform_field_survey_etls(queryset):
                 count = update_queryset_field_collection(nondup_related_collect_sediment)
                 update_count = update_count + count
                 # transform subcores
-                count = update_queryset_subcore_sample(nondup_related_collect_sediment)
+                nondup_related_collect_sediment_subcores = nondup_related_collect_sediment.filter(subcores_taken__iexact=YesNo.YES).exclude(
+                    Q(subcore_datetime_start__iexact='') | Q(subcore_datetime_start__iexact='" "') | Q(subcore_datetime_start__isnull=True))
+                count = update_queryset_subcore_sample(nondup_related_collect_sediment_subcores)
                 update_count = update_count + count
         if related_filter_records:
             # get_filter_etl_duplicates returns a list, so subscript is different
@@ -717,7 +728,8 @@ def moderate_transform_field_survey_etls(queryset):
             collection_global_id__survey_global_id__survey_global_id__in=[record.survey_global_id for record in queryset]).exclude(
             filter_sample_label__icontains='delete').exclude(
             Q(filter_type__iexact='') | Q(filter_type__iexact='" "') | Q(filter_type__isnull=True)).exclude(
-            Q(filter_sample_label__iexact='') | Q(filter_sample_label__iexact='" "') | Q(filter_sample_label__isnull=True))
+            Q(filter_sample_label__iexact='') | Q(filter_sample_label__iexact='" "') | Q(filter_sample_label__isnull=True)).exclude(
+            Q(filter_datetime__iexact='') | Q(filter_datetime__iexact='" "') | Q(filter_datetime__isnull=True))
         if related_survey_records:
             count = update_queryset_field_survey(related_survey_records)
             update_count = update_count + count
@@ -732,7 +744,8 @@ def moderate_transform_field_survey_etls(queryset):
             count = update_queryset_field_collection(related_collect_records)
             update_count = update_count + count
             # select only sediment records & transform subcores
-            related_collect_records_sediment = related_collect_records.filter(collection_type__iexact=CollectionTypes.SED_SAMPLE, subcores_taken__iexact=YesNo.YES)
+            related_collect_records_sediment = related_collect_records.filter(collection_type__iexact=CollectionTypes.SED_SAMPLE, subcores_taken__iexact=YesNo.YES).exclude(
+                Q(subcore_datetime_start__iexact='') | Q(subcore_datetime_start__iexact='" "') | Q(subcore_datetime_start__isnull=True))
             subcore_min_duplicates = get_min_subcore_etl_duplicates()
             subcore_max_duplicates = get_max_subcore_etl_duplicates()
             # remove any present duplicate min_barcodes
