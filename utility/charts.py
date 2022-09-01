@@ -47,7 +47,7 @@ def fill_month_zeros(labels, data, colname):
         df2 = pd.DataFrame(columns=['label', colname])
         df2['label'] = pd.to_datetime(df2['label'], format='%m/%Y')
         df2['label'] = df2['label'].dt.to_period('M')
-        df2 = df2.set_index('label')
+        df_merge = df2.set_index('label')
     else:
         # convert labels and data array into one dataframe
         # https://stackoverflow.com/questions/46379095/convert-two-numpy-array-to-dataframe
@@ -59,13 +59,15 @@ def fill_month_zeros(labels, data, colname):
         df['label'] = df['label'].dt.to_period('M')
         # set index column to label and sort by label
         df2 = df.set_index('label').sort_index()
+        # if there are duplicate dates in the array, collapse them by group
+        df_merge = df2.groupby(level=0).sum()
         # create period_range that starts with earliest date and ends with latest date in input labels
         # and reindexes by the range
         # https://stackoverflow.com/questions/17343726/pandas-add-data-for-missing-months
-        df2 = df2.reindex(pd.period_range(df2.index[0], df2.index[-1], freq='M'))
+        df_merge = df_merge.reindex(pd.period_range(df2.index[0], df2.index[-1], freq='M'))
         # fill NaN with 0, ultimately filling missing months with 0 value
-        df2 = df2.fillna(0.0)
-    return df2
+        df_merge = df_merge.fillna(0.0)
+    return df_merge
 
 
 def return_zeros_lists(labels, data, colname='data'):
