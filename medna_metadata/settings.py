@@ -369,7 +369,7 @@ REST_FRAMEWORK = {
                                  'rest_framework.renderers.BrowsableAPIRenderer',
                                  'rest_framework_csv.renderers.CSVRenderer', ],
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
-    'PAGE_SIZE': 1000,
+    'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],  # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',  # can authenticate via token
                                        'rest_framework.authentication.SessionAuthentication', ],  # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication' - simple_jwt auth configuration
