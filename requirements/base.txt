@@ -19,6 +19,7 @@ django-storages==1.12.3
 django-tables2==2.4.1
 djangorestframework==3.13.1
 djangorestframework-gis==0.18
+djangorestframework-csv==2.1.1
 # djangorestframework-simplejwt==5.0.0
 drf-yasg==1.20.0
 numpy==1.22.2
