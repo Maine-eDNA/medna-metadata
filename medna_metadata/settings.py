@@ -365,8 +365,11 @@ CORS_ALLOWED_ORIGINS = [
 # these are settings for Django REST framework
 # https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer',
+                                 'rest_framework.renderers.BrowsableAPIRenderer',
+                                 'rest_framework_csv.renderers.CSVRenderer', ],
     'DEFAULT_PAGINATION_CLASS': 'utility.pagination.CustomPagination',
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 1000,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],  # https://django-filter.readthedocs.io/en/main/guide/rest_framework.html
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',  # can authenticate via token
                                        'rest_framework.authentication.SessionAuthentication', ],  # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication' - simple_jwt auth configuration

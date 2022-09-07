@@ -18,8 +18,6 @@ from django_tables2.views import SingleTableMixin
 from django_filters.views import FilterView
 from rest_framework import generics
 from rest_framework import viewsets
-from rest_framework.settings import api_settings
-from rest_framework_csv.renderers import CSVRenderer
 from utility.charts import return_queryset_lists, return_zeros_lists, return_merged_zeros_lists
 from utility.views import export_context, CreatePopupMixin, UpdatePopupMixin
 from utility.serializers import SerializerExportMixin, CharSerializerExportMixin
@@ -826,7 +824,6 @@ class GeoFieldSurveyViewSet(viewsets.ReadOnlyModelViewSet):
                                                     'core_subcorer', 'water_filterer', 'record_creator', 'record_editor', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.GeoFieldSurveySerializerFilter
-    renderer_classes = (CSVRenderer, ) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -838,7 +835,6 @@ class FieldCrewViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FieldCrew.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCrewSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -847,7 +843,6 @@ class EnvMeasureTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = EnvMeasureType.objects.prefetch_related('created_by', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasureTypeSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -856,7 +851,6 @@ class EnvMeasurementViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = EnvMeasurement.objects.prefetch_related('created_by', 'survey_global_id', 'env_measurement', 'record_creator', 'record_editor', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.EnvMeasurementSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -865,7 +859,6 @@ class FieldCollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FieldCollection.objects.prefetch_related('created_by', 'survey_global_id', 'record_creator', 'record_editor', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldCollectionSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -874,7 +867,6 @@ class WaterCollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = WaterCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.WaterCollectionSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -883,7 +875,6 @@ class SedimentCollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SedimentCollection.objects.prefetch_related('created_by', 'field_collection')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SedimentCollectionSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -892,7 +883,6 @@ class FieldSampleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = FieldSample.objects.prefetch_related('created_by', 'collection_global_id', 'sample_material', 'field_sample_barcode', 'record_creator', 'record_editor', )
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.FieldSampleSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
@@ -909,7 +899,6 @@ class SubCoreSampleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SubCoreSample.objects.prefetch_related('created_by', 'field_sample')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = fieldsurvey_filters.SubCoreSampleSerializerFilter
-    renderer_classes = (CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
     swagger_tags = ['field survey']
 
 
