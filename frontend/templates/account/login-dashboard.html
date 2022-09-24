@@ -33,25 +33,24 @@
           <div class="card-body">
             <div class="row mt-3">
               <p class="mb-0 text-center">
+                {% if messages %}
                 <!-- begin messages -->
                 <p class="mb-0 text-center">
-                  {% if messages %}
-                  {% for message in messages %}
-                  {{ message | safe }}
-                  {% endfor %}
-                  {% endif %}
+                {% for message in messages %}
+                {{ message | safe }}
+                {% endfor %}
                 </p>
                 <!-- end messages -->
-                <!-- begin errors -->
-                {% if form.errors and not form.non_field_errors %}
-                <p class="mb-0 text-center">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
                 {% endif %}
                 {% if form.non_field_errors %}
-                {% for error in form.non_field_errors %}
-                <p class="mb-0 text-center">{{ error }}</p>
-                {% endfor %}
+                <!-- START form non field errors -->
+                <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+                <!-- END form non field errors -->
                 {% endif %}
-                <!-- end errors -->
+                {% if form.errors and not form.non_field_errors %}
+                <!-- begin errors -->
+                <p class="mb-0 text-center">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
+                {% endif %}
               </p>
             </div>
             {% get_providers as socialaccount_providers %}
@@ -65,13 +64,42 @@
             {% endif %}
             <form role="form" method="post" action="" class="text-start">
               {% csrf_token %}
-              {{ form.as_p }}
-              {% if redirect_field_value %}
-              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-              {% endif %}
-              <div class="text-center">
-                <button class="btn btn-primary" type="submit" name="login">{% trans "Sign In" %}</button>
-                <a class="btn btn-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+              <div class="card-body pt-1">
+                {% for field in form %}
+                <div class="row">
+                  {% if field.errors %}
+                  <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                    <span class="text-sm">{{ field.label }}: {{ field.errors }}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  {% endif %}
+                  {% if field.help_text %}
+                  <div class="row">
+                    <div class="alert alert-info alert-dismissible text-white" role="alert">
+                      <span class="text-sm help">{{ field.help_text|safe }}</span>
+                      <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {{ field.label_tag }}
+                  <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% elif field.field.widget|field_type == 'FieldSiteAllowEditLeaflet' %}col-md-12{% else %}input-group input-group-outline my-3{% endif %}">
+                    {{ field }}
+                  </div>
+                </div>
+                {% endfor %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <div class="row">
+                  <div class="col-md-6 text-end ms-auto">
+                    <button class="btn btn-primary" type="submit" name="login">{% trans "Sign In" %}</button>
+                    <a class="btn btn-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
