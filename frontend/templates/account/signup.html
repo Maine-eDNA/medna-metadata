@@ -1,7 +1,7 @@
 {% extends "layouts/django-material-kit/base-fullscreen.html" %}
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'utility/css/allauth_forms.css' %}">
 {{ form.media }}
 {% endblock %}
 
@@ -28,11 +28,11 @@
                 <p class="mb-0 text-white text-center">
                   <!-- begin errors -->
                   {% if form.errors and not form.non_field_errors %}
-                  <p class="errornote">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
+                  <p class="mb-0 text-center">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
                   {% endif %}
                   {% if form.non_field_errors %}
                   {% for error in form.non_field_errors %}
-                  <p class="errornote">{{ error }}</p>
+                  <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ error }}</div>
                   {% endfor %}
                   {% endif %}
                   <!-- end errors -->
@@ -40,17 +40,23 @@
               </div>
             </div>
           </div>
-          <div class="card-body">
+          <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            <div class="card-body pt-1">
             <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-              {% csrf_token %}
-              {{ form.as_p }}
+
+              {% include 'account/includes/form-fields.html' %}
+
               {% if redirect_field_value %}
               <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
               {% endif %}
-              <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-            </form>
-          </div>
+              <div class="row">
+                <div class="col-md-6 text-end ms-auto">
+                  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
