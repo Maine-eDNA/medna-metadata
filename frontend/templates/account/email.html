@@ -1,6 +1,5 @@
-{% extends "account/base.html" %}
+{% extends "layouts/django-material-kit/base-fullscreen.html" %}
 {% load i18n static %}
-{% load crispy_forms_tags %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
 {{ form.media }}
@@ -29,65 +28,84 @@
 {% block contentclass %}{{ block.super }}allauth_forms{% endblock %}
 
 {% block content %}
-<div id="content-main">
-    <!-- begin errors -->
-    {% if form.errors and not form.non_field_errors %}
-        <p class="errornote">
-        {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
-        </p>
-    {% endif %}
-    {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
-        <p class="errornote">
-          {{ error }}
-        </p>
-        {% endfor %}
-    {% endif %}
-    <!-- end errors -->
-
-    <h1>{% trans "E-mail Addresses" %}</h1>
-    {% if user.emailaddress_set.all %}
-        <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
-
-        <form action="{% url 'account_email' %}" class="email_list" method="POST">
-            {% csrf_token %}
-            <fieldset class="blockLabels">
-
-              {% for emailaddress in user.emailaddress_set.all %}
-                <div class="ctrlHolder">
-                  <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
-                  <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
-                  {{ emailaddress.email }}
-                  {% if emailaddress.verified %}
-                    <span class="verified">{% trans "Verified" %}</span>
-                  {% else %}
-                    <span class="unverified">{% trans "Unverified" %}</span>
+{% include 'includes/django-material-kit/navigation-transparent.html' %}
+<div class="page-header align-items-start min-vh-100" style="background-image: url('{% static 'assets/img/bg0-dark.jpg' %}');" loading="lazy">
+  <span class="mask bg-gradient-dark opacity-6"></span>
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-lg-4 col-md-8 col-12 mx-auto">
+        <div class="card z-index-0 fadeIn3 fadeInBottom">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+              <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                {% trans "Maine-eDNA Metadata" %}
+              </h4>
+              <div class="row mt-3">
+                <p class="mb-0 text-white text-center">
+                  <!-- begin errors -->
+                  {% if form.errors and not form.non_field_errors %}
+                  <p class="errornote">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
                   {% endif %}
-                  {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
-                  </label>
-                </div>
-              {% endfor %}
-
-              <div class="buttonHolder">
-                <button class="btn btn-secondary" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
-                <button class="btn btn-secondary" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
-                <button class="btn btn-primary" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+                  {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                  <p class="errornote">{{ error }}</p>
+                  {% endfor %}
+                  {% endif %}
+                  <!-- end errors -->
+                </p>
               </div>
-            </fieldset>
-        </form>
+            </div>
+          </div>
+          <div class="card-body">
+            <h1>{% trans "E-mail Addresses" %}</h1>
+            {% if user.emailaddress_set.all %}
+            <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
+              <form action="{% url 'account_email' %}" class="email_list" method="POST">
+                {% csrf_token %}
+                <fieldset class="blockLabels">
+                  {% for emailaddress in user.emailaddress_set.all %}
+                  <div class="ctrlHolder">
+                    <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+                      <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+                      {{ emailaddress.email }}
+                      {% if emailaddress.verified %}
+                      <span class="verified">{% trans "Verified" %}</span>
+                      {% else %}
+                      <span class="unverified">{% trans "Unverified" %}</span>
+                      {% endif %}
+                      {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+                    </label>
+                  </div>
+                  {% endfor %}
 
-    {% else %}
-        <p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
-    {% endif %}
-    {% if can_add_email %}
-        <h2>{% trans "Add E-mail Address" %}</h2>
-        <form method="POST" action="{% url 'account_email' %}" class="add_email">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button class="btn btn-secondary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
-        </form>
-      {% endif %}
+                  <div class="buttonHolder">
+                    <button class="btn btn-secondary" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
+                    <button class="btn btn-secondary" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
+                    <button class="btn btn-primary" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+                  </div>
+                </fieldset>
+              </form>
+              {% else %}
+              <p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
+              {% endif %}
+              {% if can_add_email %}
+              <h2>{% trans "Add E-mail Address" %}</h2>
+              <form method="POST" action="{% url 'account_email' %}" class="add_email">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-secondary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    {% include 'includes/django-material-kit/footer-auth.html' %}
+
 </div>
 {% endblock %}
 
-
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
