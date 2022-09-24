@@ -11,7 +11,7 @@ import dj_rest_auth.registration.views as djrestauth_views
 from rest_framework import viewsets
 from .serializers import CustomUserSerializer
 from .models import CustomUser
-from .forms import CustomUserUpdateForm
+from .forms import CustomUserUpdateForm, CustomLoginForm
 import users.filters as user_filters
 
 
@@ -59,14 +59,18 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 # CUSTOM ALLAUTH VIEWS                 #
 ########################################
 class CustomMainLoginView(allauth_views.LoginView):
+    form_class = CustomLoginForm
     template_name = "account/login-main.html"
+    success_url = "/"
 
 
 main_login_view = CustomMainLoginView.as_view()
 
 
 class CustomDashboardLoginView(allauth_views.LoginView):
+    form_class = CustomLoginForm
     template_name = "account/login-dashboard.html"
+    success_url = "/dashboard/"
 
 
 dashboard_login_view = CustomDashboardLoginView.as_view()
