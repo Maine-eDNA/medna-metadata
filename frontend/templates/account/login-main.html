@@ -63,7 +63,7 @@
             </div>
             {% include "socialaccount/snippets/login_extra.html" %}
             {% endif %}
-            <form class="login" method="POST" action="{% url 'account_login' %}" class="text-start">
+            <form role="form" method="post" action="" class="text-start">
               {% csrf_token %}
               {{ form.as_p }}
               {% if redirect_field_value %}
