@@ -401,6 +401,12 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 ########################################
 # DJANGO ALLAUTH CONFIG                #
 ########################################
+# custom allauth settings:
+# https://stackoverflow.com/questions/17923692/turn-off-user-social-registration-in-django-allauth
+# A custom variable we created to tell the CustomAccountAdapter whether to allow signups.
+# redirects to signup_closed
+ACCOUNT_ADAPTER = 'users.adapters.CustomAccountAdapter'
+ACCOUNT_ALLOW_SIGNUPS = False
 # allauth settings:
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
