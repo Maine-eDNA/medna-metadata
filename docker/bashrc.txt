@@ -7,6 +7,7 @@
 ####################################################################
 export DJANGO_SECRET_KEY='your_secret_key'
 export DJANGO_ALLOWED_HOSTS='localhost www.yourdomain.com [::1]'
+export DJANGO_ALLAUTH_HOST='your_domain'
 export DJANGO_SETTINGS_MODULE=medna_metadata.settings
 export DJANGO_DEBUG=False
 export DJANGO_LOG_LEVEL='info'

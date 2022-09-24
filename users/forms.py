@@ -11,9 +11,12 @@ from allauth.account.views import PasswordResetView
 from .models import CustomUser
 from utility.models import Project
 from utility.widgets import CustomClearableFileInput, CustomFileInput
+import os
 
 
-# FRONTEND
+########################################
+# FRONTEND FORMS                       #
+########################################
 class CustomUserUpdateForm(forms.ModelForm):
     # https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html
     first_name = forms.CharField(
@@ -79,9 +82,18 @@ class CustomUserUpdateForm(forms.ModelForm):
         fields = ('first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )
 
 
+########################################
+# CUSTOM ALLAUTH FRONTEND FORMS        #
+########################################
 # https://django-allauth.readthedocs.io/en/latest/forms.html#account-forms
+# https://gavinwiener.medium.com/modifying-django-allauth-forms-6eb19e77ef56
 class CustomLoginForm(LoginForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(CustomLoginForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
 
 
 class CustomSignupForm(SignupForm):
@@ -96,11 +108,18 @@ class CustomSignupForm(SignupForm):
     class Meta:
         model = CustomUser
 
+    def __init__(self, *args, **kwargs):
+        super(CustomSignupForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
+
     def signup(self, request, user):
         user = super().save(request)
         new_request = HttpRequest()
         new_request.method = 'POST'
-        new_request.META['HTTP_HOST'] = 'metadata.spatialmsk.dev'
+        new_request.META['HTTP_HOST'] = os.environ.get('DJANGO_ALLAUTH_HOST')
 
         new_request.POST = {
             'email': user.email,
@@ -111,32 +130,60 @@ class CustomSignupForm(SignupForm):
 
 
 class CustomAddEmailForm(AddEmailForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(CustomAddEmailForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
 
 
 class CustomChangePasswordForm(ChangePasswordForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(CustomChangePasswordForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
 
 
 class CustomSetPasswordForm(SetPasswordForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
 
 
 class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(CustomResetPasswordKeyForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
 
 
 class CustomResetPasswordForm(ResetPasswordForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(CustomResetPasswordForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control'
+            })
 
 
+########################################
+# CUSTOM ALLAUTH ADMIN FORMS           #
+########################################
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('email',)
+        fields = ('email', )
 
 
 class CustomUserAdminChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'custom_user_css', 'affiliated_projects')
+        fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'custom_user_css', 'affiliated_projects', )
