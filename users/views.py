@@ -1,13 +1,13 @@
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from allauth.account.views import LoginView
+import allauth.account.views as allauth_views
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 # from dj_rest_auth.registration.views import SocialLoginView
 from rest_framework.authentication import TokenAuthentication
 from django_filters import rest_framework as filters
-from dj_rest_auth.registration.views import LoginView
+import dj_rest_auth.registration.views as djrestauth_views
 from rest_framework import viewsets
 from .serializers import CustomUserSerializer
 from .models import CustomUser
@@ -58,14 +58,14 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 ########################################
 # CUSTOM ALLAUTH VIEWS                 #
 ########################################
-class CustomMainLoginView(LoginView):
+class CustomMainLoginView(allauth_views.LoginView):
     template_name = "account/login-main.html"
 
 
 main_login_view = CustomMainLoginView.as_view()
 
 
-class CustomDashboardLoginView(LoginView):
+class CustomDashboardLoginView(allauth_views.LoginView):
     template_name = "account/login-dashboard.html"
 
 
@@ -75,7 +75,7 @@ dashboard_login_view = CustomDashboardLoginView.as_view()
 ########################################
 # SERIALIZER VIEWS                     #
 ########################################
-class CustomRestAuthLoginView(LoginView):
+class CustomRestAuthLoginView(djrestauth_views.LoginView):
     authentication_classes = (TokenAuthentication, )
 
 
