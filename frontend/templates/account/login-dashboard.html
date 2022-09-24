@@ -41,11 +41,11 @@
                   <!-- end messages -->
                   <!-- begin errors -->
                   {% if form.errors and not form.non_field_errors %}
-                  <p class="errornote">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
+                  <p class="mb-0 errornote">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
                   {% endif %}
                   {% if form.non_field_errors %}
                   {% for error in form.non_field_errors %}
-                  <p class="errornote">{{ error }}</p>
+                  <p class="mb-0 errornote">{{ error }}</p>
                   {% endfor %}
                   {% endif %}
                   <!-- end errors -->
@@ -62,8 +62,6 @@
               <div class="login-or">{% trans 'or' %}</div>
             </div>
             {% include "socialaccount/snippets/login_extra.html" %}
-            {% else %}
-            <p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
             {% endif %}
             <form class="login" method="POST" action="{% url 'account_login' %}">
               {% csrf_token %}
