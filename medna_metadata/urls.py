@@ -16,12 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include, re_path
-from allauth.account.views import confirm_email, signup
-from dj_rest_auth.registration.views import VerifyEmailView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from users import views as users_views
 from .api import router
 
 
@@ -42,21 +39,11 @@ schema_view = get_schema_view(
 urlpatterns = [
     # admin urls
     path('admin/', admin.site.urls),
-    # frontend urls
+    # frontend & authentication urls
     path('', include('frontend.authentication.urls')),  # Auth routes - login / register
     path('', include('frontend.home.urls')),  # UI Kits Html files
     # API router
     path('api/', include(router.urls)),
-    # allauth urls
-    re_path(r'^account/', include('allauth.urls')),
-    re_path(r'^account/disabled/signup/', signup, name='account_signup'),  # re-registering signup to change url
-    re_path(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),  # allauth email confirmation
-    # dj-rest-auth urls - https://dj-rest-auth.readthedocs.io/en/latest/api_endpoints.html
-    re_path(r'^rest-auth/login/$', users_views.CustomRestAuthLoginView.as_view(), name='rest_login'),
-    re_path(r'^rest-auth/', include('dj_rest_auth.urls')),
-    re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
-    # url(r'^rest-auth/registration/google/', GoogleLogin.as_view(), name='google_login')
     # drf-yasg urls
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', login_required(schema_view.without_ui(cache_timeout=0)), name='schema-json'),
     re_path(r'^swagger/$', login_required(schema_view.with_ui('swagger', cache_timeout=0)), name='schema-swagger-ui'),

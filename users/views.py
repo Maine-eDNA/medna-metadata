@@ -11,7 +11,7 @@ import dj_rest_auth.registration.views as djrestauth_views
 from rest_framework import viewsets
 from .serializers import CustomUserSerializer
 from .models import CustomUser
-from .forms import CustomUserUpdateForm, CustomLoginForm
+from .forms import CustomUserUpdateForm, CustomLoginForm, CustomSignupForm
 import users.filters as user_filters
 
 
@@ -74,6 +74,24 @@ class CustomDashboardLoginView(allauth_views.LoginView):
 
 
 dashboard_login_view = CustomDashboardLoginView.as_view()
+
+
+class CustomMainSignupView(allauth_views.SignupView):
+    form_class = CustomSignupForm
+    template_name = "account/signup-main.html"
+    success_url = "/"
+
+
+main_signup_view = CustomMainSignupView.as_view()
+
+
+class CustomDashboardSignupView(allauth_views.SignupView):
+    form_class = CustomSignupForm
+    template_name = "account/signup-dashboard.html"
+    success_url = "/dashboard/"
+
+
+dashboard_signup_view = CustomDashboardSignupView.as_view()
 
 
 ########################################
