@@ -70,9 +70,11 @@
                       {% if emailaddress.verified %}
                       <span class="font-weight-bolder verified">{% trans "Verified" %}</span>
                       {% else %}
-                      <span class="font-weight-bolder unverified">{% trans "Unverified" %}</span>
+                      <span class="unverified">{% trans "Unverified" %}</span>
                       {% endif %}
-                      {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+                      {% if emailaddress.primary %}
+                      <span class="font-weight-bolder primary">{% trans "Primary" %}</span>
+                      {% endif %}
                     </label>
                   </div>
                   {% endfor %}
