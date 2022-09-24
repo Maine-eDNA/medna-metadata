@@ -62,7 +62,7 @@
             </div>
             {% include "socialaccount/snippets/login_extra.html" %}
             {% endif %}
-            <form role="form" method="post" action="" class="text-start">
+            <form class="login" method="POST" action="{% url 'account_login' %}">
               {% csrf_token %}
               <div class="card-body pt-1">
                 {% for field in form %}

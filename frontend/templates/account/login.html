@@ -55,14 +55,14 @@
             </div>
             {% get_providers as socialaccount_providers %}
             {% if socialaccount_providers %}
-            <p>{% blocktrans with site.name as site_name %}Please sign in with one of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a> for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+            <p>{% blocktrans with site.name as site_name %}Please sign in with one of your existing third party accounts:{% endblocktrans %}</p>
             <div class="socialaccount_ballot">
               <ul class="socialaccount_providers">{% include "socialaccount/snippets/provider_list.html" with process="login" %}</ul>
               <div class="login-or">{% trans 'or' %}</div>
             </div>
             {% include "socialaccount/snippets/login_extra.html" %}
             {% endif %}
-            <form role="form" method="post" action="" class="text-start">
+            <form class="login" method="POST" action="{% url 'account_login' %}">
               {% csrf_token %}
               <div class="card-body pt-1">
                 {% for field in form %}
@@ -96,7 +96,7 @@
                 {% endif %}
                 <div class="row">
                   <div class="col-md-12 text-end ms-auto">
-                    <button class="btn btn-primary" type="submit" name="login">{% trans "Sign In" %}</button>
+                    <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
                     <a class="btn btn-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                   </div>
                 </div>
