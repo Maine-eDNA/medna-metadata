@@ -94,9 +94,13 @@
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
+                <div class="form-check form-switch d-flex align-items-center mb-3">
+                  <input class="form-check-input" type="checkbox" name="remember" id="id_remember">
+                  <label class="form-check-label mb-0 ms-2" for="id_remember">Remember me</label>
+                </div>
                 <div class="row">
                   <div class="col-md-12 text-end ms-auto">
-                    <button class="btn btn-primary" type="submit" name="login">{% trans "Sign In" %}</button>
+                    <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
                     <a class="btn btn-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                   </div>
                 </div>
