@@ -441,7 +441,14 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 900  # 15 mins in seconds
 # signup: allauth.account.forms.SignupForm
 # signup: allauth.socialaccount.forms.SignupForm
 ACCOUNT_FORMS = {
+    'login': 'users.forms.CustomLoginForm',
     'signup': 'users.forms.CustomSignupForm',
+    'add_email': 'users.forms.CustomAddEmailForm',
+    'change_password': 'users.forms.CustomChangePasswordForm',
+    'set_password': 'users.forms.CustomSetPasswordForm',
+    'reset_password': 'users.forms.CustomResetPasswordForm',
+    'reset_password_from_key': 'users.forms.CustomResetPasswordKeyForm',
+    'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
 }
 
 # Django oauth allauth settings:
