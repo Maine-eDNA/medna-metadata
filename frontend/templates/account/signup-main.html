@@ -1,0 +1,97 @@
+{% extends "layouts/django-material-kit/base-fullscreen.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{{ form.media }}
+{% endblock %}
+
+{% block title %}{% trans "Signup" %} | {{ site_title|default:_('Maine-eDNA Metadata') }}{% endblock %}
+
+{% block bodyclass %}{{ block.super }} {% endblock %}
+
+{% block contentclass %}{{ block.super }}allauth_forms{% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+{% include 'includes/django-material-kit/navigation-transparent.html' %}
+<div class="page-header align-items-start min-vh-100" style="background-image: url('{% static 'assets/img/bg0-dark.jpg' %}');" loading="lazy">
+  <span class="mask bg-gradient-dark opacity-6"></span>
+  <div class="container my-auto">
+    <div class="row">
+      <div class="col-lg-4 col-md-8 col-12 mx-auto">
+        <div class="card z-index-0 fadeIn3 fadeInBottom">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+              <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                {% trans "Sign Up" %}
+              </h4>
+              <div class="row mt-3">
+                <p class="mb-0 text-white text-center">
+                  <!-- begin errors -->
+                  {% if form.errors and not form.non_field_errors %}
+                  <p class="errornote">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
+                  {% endif %}
+                  {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                  <p class="errornote">{{ error }}</p>
+                  {% endfor %}
+                  {% endif %}
+                  <!-- end errors -->
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+              {% csrf_token %}
+              <div class="card-body pt-1">
+                {% for field in form %}
+                <div class="row">
+                  {% if field.errors %}
+                  <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                    <span class="text-sm">{{ field.label }}: {{ field.errors }}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  {% endif %}
+                  {% if field.help_text %}
+                  <div class="row">
+                    <div class="alert alert-info alert-dismissible text-white" role="alert">
+                      <span class="text-sm help">{{ field.help_text|safe }}</span>
+                      <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {{ field.label_tag }}
+                  <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% elif field.field.widget|field_type == 'FieldSiteAllowEditLeaflet' %}col-md-12{% else %}input-group input-group-outline my-3{% endif %}">
+                    {{ field }}
+                  </div>
+                </div>
+                {% endfor %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <div class="row">
+                  <div class="col-md-6 text-end ms-auto">
+                    <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include 'includes/django-material-kit/footer-auth.html' %}
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
