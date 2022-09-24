@@ -12,11 +12,13 @@ urlpatterns = [
     ##########################################################################################
     # re_path(r'^account/', include('allauth.urls')),
     path('login/', users_views.main_login_view, name='login'),
+    path('account/login/', users_views.main_login_view, name='account_login'),
     path('dashboard/login/', users_views.dashboard_login_view, name='dashboard_login'),
     path('disabled/signup/', users_views.main_signup_view, name='account_signup'),  # account_signup
     path('disabled/dashboard/signup/', users_views.dashboard_signup_view, name='account_signup_dashboard'),
     # path('logout/', LogoutView.as_view(), name='logout'),
-    path('logout/', allauth_views.logout, name='account_logout'),
+    path('logout/', allauth_views.logout, name='logout'),
+    path('account/logout/', allauth_views.logout, name='account_logout'),
     # re_path(r'^account/disabled/signup/', allauth_views.signup, name='account_signup'),  # re-registering signup to change url
     re_path(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', allauth_views.confirm_email, name='account_confirm_email'),  # allauth email confirmation
     path('password/change/', allauth_views.password_change, name='account_change_password', ),
