@@ -1,6 +1,7 @@
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from allauth.account.views import LoginView
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 # from dj_rest_auth.registration.views import SocialLoginView
@@ -52,6 +53,23 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+########################################
+# CUSTOM ALLAUTH VIEWS                 #
+########################################
+class CustomMainLoginView(LoginView):
+    template_name = "account/login-main.html"
+
+
+main_login_view = CustomMainLoginView.as_view()
+
+
+class CustomDashboardLoginView(LoginView):
+    template_name = "account/login-dashboard.html"
+
+
+dashboard_login_view = CustomDashboardLoginView.as_view()
 
 
 ########################################
