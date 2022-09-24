@@ -1,7 +1,7 @@
 {% extends "layouts/django-material-dashboard/base-fullscreen.html" %}
-{% load i18n static %}
+{% load i18n static html_tags %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "utility/css/allauth_forms.css" %}">
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'utility/css/allauth_forms.css' %}">
 {{ form.media }}
 {% endblock %}
 
@@ -50,38 +50,14 @@
               </div>
             </div>
           </div>
-          <div class="card-body">
-            <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
             <form class="signup" id="signup_form" method="post" action="{% url 'account_signup_dashboard' %}">
               {% csrf_token %}
               <div class="card-body pt-1">
-                {% for field in form %}
-                <div class="row">
-                  {% if field.errors %}
-                  <div class="alert alert-danger alert-dismissible text-white" role="alert">
-                    <span class="text-sm">{{ field.label }}: {{ field.errors }}</span>
-                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  {% endif %}
-                  {% if field.help_text %}
-                  <div class="row">
-                    <div class="alert alert-info alert-dismissible text-white" role="alert">
-                      <span class="text-sm help">{{ field.help_text|safe }}</span>
-                      <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                  </div>
-                  {% endif %}
-                  {{ field.label_tag }}
-                  <div class="{% if field.field.widget|field_type == 'CustomRadioSelect' %}form-check form-check-inline{% elif field.field.widget|field_type == 'FieldSiteAllowEditLeaflet' %}col-md-12{% else %}input-group input-group-outline my-3{% endif %}">
-                    {{ field }}
-                  </div>
-                </div>
-                {% endfor %}
+                <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+                {% include 'account/includes/form-fields.html' %}
+
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
@@ -94,10 +70,8 @@
                 <div class="row">
                   <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">{% trans "Sign Up" %} &raquo;</button>
                 </div>
-                </div>
+              </div>
             </form>
-
-          </div>
           <div class="card-footer text-center pt-0 px-lg-2 px-1">
             <p class="mb-2 text-sm mx-auto">
               Already have an account?
