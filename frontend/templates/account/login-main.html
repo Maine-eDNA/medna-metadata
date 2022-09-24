@@ -31,7 +31,7 @@
               <div class="row mt-3">
                 <p class="mb-0 text-white text-center">
                   <!-- begin messages -->
-                  <p>
+                  <p class="mb-0 text-white text-center">
                     {% if messages %}
                     {% for message in messages %}
                     {{ message | safe }}
@@ -72,7 +72,7 @@
               <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
               {% endif %}
               <div class="text-center">
-                <button class="btn bg-gradient-primary my-4 mb-2" type="submit" name="login">{% trans "Sign In" %}</button>
+                <button class="btn btn-primary" type="submit" name="login">{% trans "Sign In" %}</button>
                 <a class="btn btn-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
               </div>
             </form>
