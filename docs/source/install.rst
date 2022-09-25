@@ -200,7 +200,7 @@ The following python libraries will install:
 .. literalinclude:: ../../requirements/prod.txt
    :language: env
 
-Create `PostgreSQL <https://www.postgresql.org/>`___ database with `PostGIS <https://postgis.net/>`___ Extension
+Create `PostgreSQL <https://www.postgresql.org/>`__ database with `PostGIS <https://postgis.net/>`__ Extension
 --------------------------------------------------------------------------------------------------------------
 
 Create the database for your project::
@@ -304,7 +304,7 @@ Now test to see if the project can be deployed with `Gunicorn <https://gunicorn.
      - `Django with PostgreSQL, Gunicorn, and Nginx on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
 
 Create `Gunicorn <https://gunicorn.org/>`__ Socket and Service files (e.g., daemonizing!)
-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 
 Leave the virtualenv::
 
@@ -399,7 +399,7 @@ service, socket, settings, or env files are edited::
     sudo systemctl daemon-reload
     sudo systemctl restart gunicorn
 
-Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`___ and `RabbitMQ <https://www.rabbitmq.com/>`___
+Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and `RabbitMQ <https://www.rabbitmq.com/>`__
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ task management and the
@@ -434,7 +434,7 @@ Install `Celery <https://docs.celeryproject.org/en/stable/getting-started/introd
     pip install -U "celery>=5.2.3"
 
 Setup `RabbitMQ <https://docs.celeryproject.org/en/stable/getting-started/backends-and-brokers/rabbitmq.html#setting-up-rabbitmq>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add a user and a virtual host::
 
@@ -474,7 +474,6 @@ Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introdu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Like Gunicorn, `celery should be run as a Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#usage-systemd>`__.
---
 
 First, open your environment file::
 
@@ -510,7 +509,7 @@ Now we need to create the Celery log and run directories and update their permis
     sudo chmod g+rwx /var/run/celery/
     sudo chmod g+rwx /var/log/celery/
 
-Create a `Celery service file <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celery-service>`___::
+Create a `Celery service file <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celery-service>`__::
 
     sudo vim /etc/systemd/system/celery.service
 
@@ -605,7 +604,7 @@ If you want these services to start automatically on boot, you can enable them a
     sudo systemctl enable celerybeat.service
 
 Troubleshooting `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are trying to troubleshoot celery or celerybeat, be sure to check system logs for error messages::
 
@@ -630,7 +629,7 @@ Any time there is a change made to the python code, run the following to reload 
     git pull && python manage.py collectstatic --noinput --clear && sudo systemctl daemon-reload && sudo systemctl restart gunicorn.socket gunicorn.service
 
 Configure `Nginx <https://www.nginx.com/>`__
--------------------------------------------
+--------------------------------------------
 
 Create a nginx config file::
 
@@ -681,7 +680,7 @@ Delete port 8000 and allow `Nginx <https://www.nginx.com/>`__ in the firewall::
     sudo ufw allow 'Nginx Full'
 
 Troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. seealso::
     For more information on troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__, please see the following:

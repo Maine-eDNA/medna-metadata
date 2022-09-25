@@ -1,6 +1,6 @@
-==========================================
+========================================
 Welcome to medna-metadata documentation!
-==========================================
+========================================
 
 **medna-metadata** is a data management system for tracking environmental DNA samples from field data collection
 to bioinformatics analyses.
