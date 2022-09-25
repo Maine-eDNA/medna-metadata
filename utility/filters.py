@@ -19,7 +19,7 @@ def get_choices(model, field):
 # SERIALIZER FILTERS                   #
 ########################################
 class FundSerializerFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    created_by = filters.CharFilter(field_name='created_by', lookup_expr='icontains')
 
     class Meta:
         model = utility_models.Fund
@@ -27,7 +27,7 @@ class FundSerializerFilter(filters.FilterSet):
 
 
 class ProjectSerializerFilter(filters.FilterSet):
-    created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
+    created_by = filters.CharFilter(field_name='created_by', lookup_expr='icontains')
     fund_names = filters.CharFilter(field_name='fund_names__fund_code', lookup_expr='iexact')
 
     class Meta:
