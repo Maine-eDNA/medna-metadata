@@ -68,6 +68,7 @@ class FundSerializer(serializers.ModelSerializer):
     fund_code = serializers.CharField(max_length=1, validators=[UniqueValidator(queryset=Fund.objects.all())])
     fund_label = serializers.CharField(max_length=255)
     fund_description = serializers.CharField(read_only=False)
+    created_by = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -75,8 +76,6 @@ class FundSerializer(serializers.ModelSerializer):
         model = Fund
         fields = ['id', 'fund_code', 'fund_label', 'fund_description',
                   'created_by', 'created_datetime', 'modified_datetime', ]
-    # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -86,6 +85,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     project_description = serializers.CharField(allow_blank=True)
     project_goals = serializers.CharField(allow_blank=True)
     local_contexts_id = serializers.CharField(allow_blank=True, max_length=255, validators=[UniqueValidator(queryset=Project.objects.all())])
+    created_by = serializers.CharField(max_length=255, allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)
 
@@ -94,7 +94,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ['id', 'project_code', 'project_label', 'project_description', 'project_goals', 'local_contexts_id',
                   'fund_names', 'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
-    created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     fund_names = serializers.SlugRelatedField(many=True, read_only=False, slug_field='fund_code', queryset=Fund.objects.all())
 
 

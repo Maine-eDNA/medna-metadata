@@ -535,7 +535,7 @@ class ProjectsTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'view_projects'
         context['page_title'] = 'Projects'
-        context['project_list'] = utility_models.Project.objects.prefetch_related('created_by', 'fund_names').order_by('pk')
+        context['project_list'] = utility_models.Project.objects.prefetch_related('fund_names').order_by('pk')
         return context
 
 
@@ -642,7 +642,6 @@ class ContactUsReceivedTemplateView(TemplateView):
 class FundViewSet(viewsets.ModelViewSet):
     # formerly Project in field_site.models
     serializer_class = utility_serializers.FundSerializer
-    queryset = utility_models.Fund.objects.prefetch_related('created_by')
     # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.FundSerializerFilter
@@ -651,7 +650,7 @@ class FundViewSet(viewsets.ModelViewSet):
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = utility_serializers.ProjectSerializer
-    queryset = utility_models.Project.objects.prefetch_related('created_by', 'fund_names')
+    queryset = utility_models.Project.objects.prefetch_related('fund_names')
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = utility_filters.ProjectSerializerFilter
     swagger_tags = ['utility']

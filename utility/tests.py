@@ -11,7 +11,7 @@ class FundTestCase(TestCase):
     # formerly Project in field_site.models
     def setUp(self):
         Fund.objects.get_or_create(fund_code='e', defaults={'fund_label': 'Maine-eDNA',
-                                                              'fund_description': 'test description'})
+                                                            'fund_description': 'test description'})
 
     def test_was_added_recently(self):
         # test if date is added correctly

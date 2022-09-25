@@ -82,12 +82,15 @@ class PeriodicTaskRun(models.Model):
         verbose_name_plural = 'Periodic Task Runs'
 
 
-class Fund(DateTimeUserMixin):
+class Fund(models.Model):
     # e: Maine-eDNA
     # formerly Project in field_site.models
     fund_code = models.CharField('Fund Code', unique=True, max_length=1)
     fund_label = models.CharField('Fund Label', max_length=255)
     fund_description = models.TextField('Fund Description', blank=True)
+    created_by = models.CharField('Created By', blank=True, max_length=255)
+    modified_datetime = models.DateTimeField('Modified DateTime', auto_now_add=True)
+    created_datetime = models.DateTimeField('Created DateTime', auto_now=True)
 
     def __str__(self):
         return '{code}: {label}'.format(code=self.fund_code, label=self.fund_label)
@@ -98,7 +101,7 @@ class Fund(DateTimeUserMixin):
         verbose_name_plural = 'Funds'
 
 
-class Project(DateTimeUserMixin):
+class Project(models.Model):
     #    prj_medna = 'prj_medna', _('Maine eDNA')
     #    prj_theme1 = 'prj_theme1', _('Theme 1')
     #    prj_lbb = 'prj_lbb', _('Larval Black Box (T1)')
@@ -118,6 +121,9 @@ class Project(DateTimeUserMixin):
     project_goals = models.TextField('Project Goals', blank=True)
     fund_names = models.ManyToManyField(Fund, verbose_name='Affiliated Fund(s)', related_name='fund_names')
     local_contexts_id = models.CharField('Local Contexts Project ID', unique=True, default=None, blank=True, null=True, max_length=255)
+    created_by = models.CharField('Created By', blank=True, max_length=255)
+    modified_datetime = models.DateTimeField('Modified DateTime', auto_now_add=True)
+    created_datetime = models.DateTimeField('Created DateTime', auto_now=True)
 
     def save(self, *args, **kwargs):
         # Empty strings are not unique, but we can save multiple NULLs

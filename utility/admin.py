@@ -46,7 +46,7 @@ class FundAdmin(ImportExportActionModelAdmin):
         self.fields = ['fund_label', 'fund_code', 'fund_description', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
-        add_fields['created_by'] = request.user
+        add_fields['created_by'] = request.user.email
         request.GET = add_fields
         return super(FundAdmin, self).add_view(request)
 
@@ -90,7 +90,7 @@ class ProjectAdmin(ImportExportActionModelAdmin):
                        'fund_names', 'local_contexts_id', 'created_by', ]
         # self.exclude = ('id', 'modified_datetime', 'created_datetime')
         add_fields = request.GET.copy()
-        add_fields['created_by'] = request.user
+        add_fields['created_by'] = request.user.email
         request.GET = add_fields
         return super(ProjectAdmin, self).add_view(request)
 
