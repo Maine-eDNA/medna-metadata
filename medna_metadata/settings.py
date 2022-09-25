@@ -421,8 +421,8 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 # The URL (or URL name) to return to after the user logs out. Defaults to Django’s LOGOUT_REDIRECT_URL,
 # unless that is empty, then “/” is used.
 # ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'account_reset_password'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'account_reset_password'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'login'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'login'
 # Controls the life time of the session. Set to None to ask the user (“Remember me?”),
 # False to not remember, and True to always remember.
 ACCOUNT_SESSION_REMEMBER = True
