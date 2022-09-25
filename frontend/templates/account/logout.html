@@ -24,30 +24,31 @@
               <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
                 {% trans "Sign Out" %}
               </h4>
-              <div class="row mt-3">
-                <p class="mb-0 text-white text-center">
-                  <!-- begin errors -->
-                  {% if form.errors and not form.non_field_errors %}
-                  <p class="mb-0 text-center">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
-                  {% endif %}
-                  {% if form.non_field_errors %}
-                  {% for error in form.non_field_errors %}
-                  <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ error }}</div>
-                  {% endfor %}
-                  {% endif %}
-                  <!-- end errors -->
-                </p>
-              </div>
             </div>
           </div>
           <div class="card-body">
-            <p>{% trans 'Are you sure you want to sign out?' %}</p>
+            <div class="row mt-3">
+              <p class="mb-0 text-center">
+                {% if form.non_field_errors %}
+                <!-- START form non field errors -->
+                <div class="alert alert-secondary text-white font-weight-bold" role="alert">{{ form.non_field_errors }}</div>
+                <!-- END form non field errors -->
+                {% endif %}
+                {% if form.errors and not form.non_field_errors %}
+                <!-- begin errors -->
+                <p class="mb-0 text-center">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
+                {% endif %}
+              </p>
+            </div>
             <form method="post" action="{% url 'logout' %}">
               {% csrf_token %}
-              {% if redirect_field_value %}
-              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-              {% endif %}
-              <button class="btn btn-primary" type="submit">{% trans 'Sign Out' %}</button>
+              <div class="card-body p-0">
+                <p>{% trans 'Are you sure you want to sign out?' %}</p>
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="btn btn-primary" type="submit">{% trans 'Sign Out' %}</button>
+              </div>
             </form>
           </div>
         </div>
@@ -56,7 +57,7 @@
   </div>
   {% include 'includes/django-material-kit/footer-auth.html' %}
 </div>
-{% endblock %}
+{% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
