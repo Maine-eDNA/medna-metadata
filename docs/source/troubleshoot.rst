@@ -30,7 +30,7 @@ medna-metadata stores logs in a few locations:
 
 Manual Installation Logs
 ~~~~~~~~~~~~~~~~~~~~~~~~
-If services were daemonized during a manual installation, additional information may be available through system status and logs ::
+If services were daemonized during a manual installation, additional information may be available through system status and logs::
 
     # show daemonization status - this shows if a service is running
     sudo systemctl status gunicorn
@@ -50,11 +50,11 @@ If services were daemonized during a manual installation, additional information
 
 Docker-Compose Installation Logs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For a docker-compose installation, log file directories are accessible after entering a docker container. To enter the medna-metadata docker container, use the following command: ::
+For a docker-compose installation, log file directories are accessible after entering a docker container. To enter the medna-metadata docker container, use the following command::
 
     sudo docker exec -it medna_metadata_web /bin/bash
 
-To exit the docker container: ::
+To exit the docker container::
 
     exit
 

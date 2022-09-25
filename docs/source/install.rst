@@ -8,8 +8,8 @@ Installation
 .. seealso::
     If you've never set up a server before, DigitalOcean provides an extensive variety of tutorials that we highly recommend.
     Several of the steps below were adapted from their tutorials.
-     - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__
-     - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
+     - `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`_
+     - `Django, PostgreSQL, NGINX, Gunicorn, and Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`_
     It's recommended to visit these tutorials to understand some of the rational behind the steps below.
 
 The following instructions provide guidance on installing MeDNA-Metadata on Ubuntu 20.04.
@@ -18,7 +18,7 @@ The following instructions provide guidance on installing MeDNA-Metadata on Ubun
     Instances of ``youruser`` need to be replaced with a relevant username. For example, references to ``/home/youruser/``
     must be adjusted to the active Ubuntu username. The simplest solution would be to use the same username throughout the
     setup process, as long as it is **not** the root username. Never use root. For more information, see the aforementioned
-    `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`__.
+    `Initial Server Setup With Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-20-04>`_.
 
 ====================
 Clone the Repository
@@ -42,8 +42,8 @@ Install Requirements
 Ubuntu 20.04
 ~~~~~~~~~~~~
 Deploying with docker requires docker and docker-compose. Docker-compose must be able to run at least version 3.8.
-DigitalOcean provides tutorials on `How to Install and Use Docker on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04>`__
-and `How To Install and Use Docker Compose on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04>`__.
+DigitalOcean provides tutorials on `How to Install and Use Docker on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04>`_
+and `How To Install and Use Docker Compose on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04>`_.
 
 After following DigitalOcean's tutorials, create a symbolic link of the installation to the ``docker-compose`` command ::
 
@@ -90,9 +90,9 @@ Repeat these steps with ``medna.env.db``.
 
 Once settings are verified, run ``sudo docker-compose -f docker-compose.yml up -d --build`` from the ``docker/`` directory
 to build and deploy medna-metadata from the Dockerfiles in ``docker/web/`` and ``docker/nginx/``,
-`PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`__, `RabbitMQ <https://hub.docker.com/_/rabbitmq>`__,
-`Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`__, `Gunicorn <https://gunicorn.org/>`__, and
-`NGINX <https://hub.docker.com/_/nginx>`__.::
+`PostgreSQL with PostGIS <https://registry.hub.docker.com/r/postgis/postgis/>`_, `RabbitMQ <https://hub.docker.com/_/rabbitmq>`_,
+`Celery <https://docs.celeryq.dev/en/stable/userguide/configuration.html>`_, `Gunicorn <https://gunicorn.org/>`_, and
+`NGINX <https://hub.docker.com/_/nginx>`_.::
 
     cd medna-metadata/docker/
     sudo docker-compose -f docker-compose.yml up -d --build
@@ -183,8 +183,8 @@ Create and activate virtualenvwrapper::
 
 .. important::
     The version of python varies and you will have to check or install it.
-     - `Python with Virtualenvwrapper <https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper>`__
-     - `Change Ubuntu's Default Python Version <https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu>`__
+     - `Python with Virtualenvwrapper <https://stackoverflow.com/questions/6401951/using-different-versions-of-python-with-virtualenvwrapper>`_
+     - `Change Ubuntu's Default Python Version <https://unix.stackexchange.com/questions/410579/change-the-python3-default-version-in-ubuntu>`_
 
 Activate the virtual environment::
 
@@ -211,7 +211,7 @@ Create a database user and add them to the project with a secure password::
 
     sudo -u postgres psql -c "CREATE USER youruser WITH PASSWORD 'yourdbpassword';"
 
-Recommended settings from the `Django <https://www.djangoproject.com/>`__ project::
+Recommended settings from the `Django <https://www.djangoproject.com/>`_ project::
 
     sudo -u postgres psql -c "ALTER ROLE youruser SET client_encoding TO 'utf8';"
     sudo -u postgres psql -c "ALTER ROLE youruser SET default_transaction_isolation TO 'read committed';"
@@ -221,11 +221,11 @@ Set ``youruser`` as the administrator for the medna_metadata database::
 
     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE medna_metadata TO youruser;"
 
-Grant privileges to the ``youruser`` database user to create databases for `Django <https://www.djangoproject.com/>`__ tests::
+Grant privileges to the ``youruser`` database user to create databases for `Django <https://www.djangoproject.com/>`_ tests::
 
     sudo -u postgres psql -c "ALTER USER youruser CREATEDB NOSUPERUSER NOCREATEROLE;"
 
-Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
+Add the `PostGIS <https://postgis.net/>`_ extension to medna_metadata::
 
     sudo -i -u postgres psql -d medna_metadata -c "CREATE EXTENSION postgis;"
 
@@ -235,7 +235,7 @@ Add the `PostGIS <https://postgis.net/>`__ extension to medna_metadata::
 Migrate the Database Tables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Migrate the database schema to `PostgreSQL <https://www.postgresql.org/>`__ from within the same directory as ``manage.py``
+Migrate the database schema to `PostgreSQL <https://www.postgresql.org/>`_ from within the same directory as ``manage.py``
 Within each app there is a migration directory which contains files which tell the database how to
 create the database tables. These have been pre-generated and added to this repository to simplify the
 process of deplying the medna-metadata application::
@@ -293,15 +293,15 @@ If you're able to see a live project, then enter ``[CTRL-C]`` in to shut down th
 Test Gunicorn
 ~~~~~~~~~~~~~
 
-Now test to see if the project can be deployed with `Gunicorn <https://gunicorn.org/>`__::
+Now test to see if the project can be deployed with `Gunicorn <https://gunicorn.org/>`_::
 
     gunicorn --bind 0.0.0.0:8000 medna_metadata.wsgi
 
 .. seealso::
-    If you were able to visit the same page while deployed with `Gunicorn <https://gunicorn.org/>`__, continue onward. If not, some helpful
-    troubleshooting steps can be found in the DigitalOcean tutorial on setting up `Django <https://www.djangoproject.com/>`__
-    with `PostgreSQL <https://www.postgresql.org/>`__, `Gunicorn <https://gunicorn.org/>`__, and `Nginx <https://www.nginx.com/>`__.
-     - `Django with PostgreSQL, Gunicorn, and Nginx on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
+    If you were able to visit the same page while deployed with `Gunicorn <https://gunicorn.org/>`_, continue onward. If not, some helpful
+    troubleshooting steps can be found in the DigitalOcean tutorial on setting up `Django <https://www.djangoproject.com/>`_
+    with `PostgreSQL <https://www.postgresql.org/>`_, `Gunicorn <https://gunicorn.org/>`_, and `Nginx <https://www.nginx.com/>`_.
+     - `Django with PostgreSQL, Gunicorn, and Nginx on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`_
 
 Create `Gunicorn <https://gunicorn.org/>`_ Socket and Service files (e.g., daemonizing!)
 ----------------------------------------------------------------------------------------
@@ -388,7 +388,7 @@ Test the socket activation mechanism through curl::
 
     curl --unix-socket /run/gunicorn.sock localhost
 
-Now see if `Gunicorn <https://gunicorn.org/>`__ is "running"::
+Now see if `Gunicorn <https://gunicorn.org/>`_ is "running"::
 
     sudo systemctl status gunicorn
 
@@ -402,22 +402,22 @@ service, socket, settings, or env files are edited::
 Setup `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and `RabbitMQ <https://www.rabbitmq.com/>`__
 -------------------------------------------------------------------------------------------------------------------------------------------
 
-`Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ task management and the
-`RabbitMQ <https://www.rabbitmq.com/>`__
+`Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ task management and the
+`RabbitMQ <https://www.rabbitmq.com/>`_
 messaging server are used for task queues within the backend application. This allows for things such as queues of data
 transformations and workers that will spawn as resources are available.
 
 .. seealso::
-    - `Celery First Steps <https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#first-steps>`__
-    - `Celery, RabbitMQ, and Ubuntu <https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps>`__
-    - `Celery and Django <https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html>`__
+    - `Celery First Steps <https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery.html#first-steps>`_
+    - `Celery, RabbitMQ, and Ubuntu <https://www.digitalocean.com/community/tutorials/how-to-use-celery-with-rabbitmq-to-queue-tasks-on-an-ubuntu-vps>`_
+    - `Celery and Django <https://simpleisbetterthancomplex.com/tutorial/2017/08/20/how-to-use-celery-with-django.html>`_
 
 .. note::
-    `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and
-    `RabbitMQ <https://www.rabbitmq.com/>`__ should have already been installed with the requirements.txt and
+    `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ and
+    `RabbitMQ <https://www.rabbitmq.com/>`_ should have already been installed with the requirements.txt and
     ubuntu-requirements.sh, but the commands are also provided here.
 
-Install `RabbitMQ <https://www.rabbitmq.com/>`__ messaging server::
+Install `RabbitMQ <https://www.rabbitmq.com/>`_ messaging server::
 
     sudo apt-get update
     sudo apt-get install rabbitmq-server
@@ -429,12 +429,12 @@ Activate the virtualenv::
 
     workon mednaenv
 
-Install `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__::
+Install `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_::
 
     pip install -U "celery>=5.2.3"
 
-Setup `RabbitMQ <https://docs.celeryproject.org/en/stable/getting-started/backends-and-brokers/rabbitmq.html#setting-up-rabbitmq>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Setup `RabbitMQ <https://docs.celeryproject.org/en/stable/getting-started/backends-and-brokers/rabbitmq.html#setting-up-rabbitmq>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add a user and a virtual host::
 
@@ -446,9 +446,9 @@ Add a user and a virtual host::
 .. warning::
     You will need to replace ``youruser``, ``yourpassword``, ``yourvhost``, ``yourtag``, to the password, username, tag
     and hostname of your choosing. These are specific to RabbitMQ and not dependent on other applications. What is
-    chosen is used to construct your `CELERY_BROKER_URL <https://docs.celeryproject.org/en/stable/userguide/configuration.html#broker-settings>`__.
+    chosen is used to construct your `CELERY_BROKER_URL <https://docs.celeryproject.org/en/stable/userguide/configuration.html#broker-settings>`_.
 
-Stop `RabbitMQ <https://www.rabbitmq.com/>`__::
+Stop `RabbitMQ <https://www.rabbitmq.com/>`_::
 
     sudo systemctl stop rabbitmq-server
 
@@ -463,24 +463,24 @@ Start it up again::
     sudo systemctl status rabbitmq-server
 
 .. warning::
-    For `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ and
-    `RabbitMQ <https://www.rabbitmq.com/>`__ to function, the `CELERY_RESULT_BACKEND <https://docs.celeryproject.org/en/stable/userguide/configuration.html#result-backend>`__
-    and `CELERY_BROKER_URL <https://docs.celeryproject.org/en/stable/userguide/configuration.html#broker-settings>`__
+    For `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ and
+    `RabbitMQ <https://www.rabbitmq.com/>`_ to function, the `CELERY_RESULT_BACKEND <https://docs.celeryproject.org/en/stable/userguide/configuration.html#result-backend>`_
+    and `CELERY_BROKER_URL <https://docs.celeryproject.org/en/stable/userguide/configuration.html#broker-settings>`_
     variables must be set in ``~/.bashrc`` and ``docker/gunicorn.env``. These variables should resemble the following:
      - CELERY_RESULT_BACKEND='rpc'
      - CELERY_BROKER_URL='pyamqp://youruser:yourpassword@localhost:port/yourvhost`
 
-Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ Worker and Beat files (e.g., daemonizing!)
+Create `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ Worker and Beat files (e.g., daemonizing!)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Like Gunicorn, `celery should be run as a Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#usage-systemd>`__.
+Like Gunicorn, `celery should be run as a Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#usage-systemd>`_.
 --
 
 First, open your environment file::
 
     sudo vim docker/gunicorn.env
 
-Update or add the following `Celery config settings <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#generic-systemd-celery-example>`__ to your environment file::
+Update or add the following `Celery config settings <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#generic-systemd-celery-example>`_ to your environment file::
 
     CELERY_RESULT_BACKEND='your_result_backend'
     CELERY_BROKER_URL='transport://your_rabbitmq_user:your_rabbitmq_password@hostname:port/your_rabbitmq_vhost'
@@ -550,9 +550,9 @@ Write and exit the VIM text editor::
     You will need to replace the ``User`` and ``Group`` to the correct Ubuntu username and group and modify the
     ``WorkingDirectory`` and ``EnvironmentFile`` to the actual directory MeDNA-Metadata is in.
 
-We also need a `celerybeat Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celerybeat-service>`__ for scheduling tasks.
+We also need a `celerybeat Systemd service <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celerybeat-service>`_ for scheduling tasks.
 
-Create a `celerybeat file <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celerybeat-service>`__::
+Create a `celerybeat file <https://docs.celeryproject.org/en/stable/userguide/daemonizing.html#service-file-celerybeat-service>`_::
 
     sudo vim /etc/systemd/system/celerybeat.service
 
@@ -604,19 +604,19 @@ If you want these services to start automatically on boot, you can enable them a
     sudo systemctl enable celery.service
     sudo systemctl enable celerybeat.service
 
-Troubleshooting `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Troubleshooting `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are trying to troubleshoot celery or celerybeat, be sure to check system logs for error messages::
 
     sudo cat /var/log/syslog
     sudo tail /var/log/syslog -n 40
 
-You can also check `RabbitMQ <https://www.rabbitmq.com/>`__ logs::
+You can also check `RabbitMQ <https://www.rabbitmq.com/>`_ logs::
 
     sudo tail /var/log/rabbitmq/rabbit@medna-metadata.log -n 50
 
-To view `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`__ tasks as they are sent by `RabbitMQ <https://www.rabbitmq.com/>`__::
+To view `Celery <https://docs.celeryproject.org/en/stable/getting-started/introduction.html/>`_ tasks as they are sent by `RabbitMQ <https://www.rabbitmq.com/>`_::
 
     celery -A medna_metadata worker --pool=solo -l info
 
@@ -629,8 +629,8 @@ Any time there is a change made to the python code, run the following to reload 
 
     git pull && python manage.py collectstatic --noinput --clear && sudo systemctl daemon-reload && sudo systemctl restart gunicorn.socket gunicorn.service
 
-Configure `Nginx <https://www.nginx.com/>`__
---------------------------------------------
+Configure `Nginx <https://www.nginx.com/>`_
+-------------------------------------------
 
 Create a nginx config file::
 
@@ -667,25 +667,25 @@ Enable the file by linking it to sites-enabled::
 
     sudo ln -s /etc/nginx/sites-available/medna-metadata /etc/nginx/sites-enabled
 
-Test the `Nginx <https://www.nginx.com/>`__ configuration for syntaix errors::
+Test the `Nginx <https://www.nginx.com/>`_ configuration for syntaix errors::
 
     sudo nginx -t
 
-If there are no errors, restart `Nginx <https://www.nginx.com/>`__::
+If there are no errors, restart `Nginx <https://www.nginx.com/>`_::
 
     sudo systemctl restart nginx
 
-Delete port 8000 and allow `Nginx <https://www.nginx.com/>`__ in the firewall::
+Delete port 8000 and allow `Nginx <https://www.nginx.com/>`_ in the firewall::
 
     sudo ufw delete allow 8000
     sudo ufw allow 'Nginx Full'
 
-Troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Troubleshooting `Nginx <https://www.nginx.com/>`_ and `Gunicorn <https://gunicorn.org/>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. seealso::
-    For more information on troubleshooting `Nginx <https://www.nginx.com/>`__ and `Gunicorn <https://gunicorn.org/>`__, please see the following:
-     - `Django with PostgreSQL, NGINX, and Gunicorn on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`__
+    For more information on troubleshooting `Nginx <https://www.nginx.com/>`_ and `Gunicorn <https://gunicorn.org/>`_, please see the following:
+     - `Django with PostgreSQL, NGINX, and Gunicorn on Ubuntu 20.04 <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04>`_
 
 SSL Certificates with Certbot
 -----------------------------
