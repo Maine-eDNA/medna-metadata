@@ -186,4 +186,4 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserAdminChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'custom_user_css', 'affiliated_projects', )
+        fields = ('email', 'first_name', 'last_name', 'phone_number', 'agol_username', 'profile_image', 'affiliated_projects', )

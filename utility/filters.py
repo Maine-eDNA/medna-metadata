@@ -106,18 +106,20 @@ class ContactUsSerializerFilter(filters.FilterSet):
 class DefaultSiteCssSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     default_css_label = filters.CharFilter(field_name='default_css_label', lookup_expr='icontains')
+    selected_css_profile = filters.CharFilter(field_name='selected_css_profile', lookup_expr='iexact')
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
     class Meta:
         model = utility_models.DefaultSiteCss
-        fields = ['created_by', 'default_css_label', 'created_datetime', ]
+        fields = ['created_by', 'default_css_label', 'selected_css_profile', 'created_datetime', ]
 
 
 class CustomUserCssSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
     custom_css_label = filters.CharFilter(field_name='custom_css_label', lookup_expr='icontains')
+    selected_css_profile = filters.CharFilter(field_name='selected_css_profile', lookup_expr='iexact')
     created_datetime = filters.DateFilter(input_formats=['%m-%d-%Y'], lookup_expr='icontains')
 
     class Meta:
         model = utility_models.CustomUserCss
-        fields = ['created_by', 'custom_css_label', 'created_datetime', ]
+        fields = ['created_by', 'custom_css_label', 'selected_css_profile', 'created_datetime', ]

@@ -363,13 +363,13 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = utility_resources.DefaultSiteCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('default_css_label', 'created_datetime', 'created_by')
+    list_display = ('default_css_label', 'selected_css_profile', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', 'default_css_slug', )
-    search_fields = ['default_css_label']
+    search_fields = ['default_css_label', 'selected_css_profile']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['default_css_label',
+        self.fields = ['default_css_label', 'selected_css_profile',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -389,7 +389,7 @@ class DefaultSiteCssAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['default_css_slug', 'default_css_label',
+        self.fields = ['default_css_slug', 'default_css_label', 'selected_css_profile',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -418,13 +418,13 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
     # below are import_export configs
     resource_class = utility_resources.CustomUserCssAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('custom_css_label', 'created_datetime', 'created_by')
+    list_display = ('custom_css_label', 'selected_css_profile', 'created_datetime', 'created_by')
     readonly_fields = ('modified_datetime', 'created_datetime', 'custom_css_slug', )
-    search_fields = ['custom_css_label']
+    search_fields = ['custom_css_label', 'selected_css_profile']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
-        self.fields = ['custom_css_label',
+        self.fields = ['custom_css_label', 'selected_css_profile',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -444,7 +444,7 @@ class CustomUserCssAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['custom_css_slug', 'custom_css_label',
+        self.fields = ['custom_css_slug', 'custom_css_label', 'selected_css_profile',
                        'css_selected_background_color', 'css_selected_text_color',
                        'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                        'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',

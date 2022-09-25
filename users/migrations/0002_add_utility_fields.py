@@ -12,11 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='CustomUser',
-            name='custom_user_css',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='utility.customusercss', related_name='selected_user_css', verbose_name='Selected Color Profile'),
-        ),
-        migrations.AddField(
-            model_name='CustomUser',
             name='affiliated_projects',
             field=models.ManyToManyField(blank=True, related_name='affiliated_projects', to='utility.Project', verbose_name='Affiliated Project(s)'),
         ),

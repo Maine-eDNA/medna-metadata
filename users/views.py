@@ -103,7 +103,7 @@ class CustomRestAuthLoginView(djrestauth_views.LoginView):
 
 class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
-    queryset = CustomUser.objects.prefetch_related('custom_user_css', 'groups', 'affiliated_projects')
+    queryset = CustomUser.objects.prefetch_related('groups', 'affiliated_projects')
     # filterset_fields = ['email', 'agol_username', 'is_staff', 'is_active', 'expiration_date']
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = user_filters.CustomUserSerializerFilter
