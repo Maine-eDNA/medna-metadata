@@ -7,7 +7,7 @@ are the most common and accessible options in Django.
 
 DEBUG Mode
 ----------
-Django provides a `DEBUG mode <https://docs.djangoproject.com/en/4.0/ref/settings/#debug>`_, where errors are displayed directly in the frontend (user facing web content) while browsing.
+Django provides a `DEBUG mode <https://docs.djangoproject.com/en/4.0/ref/settings/#debug>`__, where errors are displayed directly in the frontend (user facing web content) while browsing.
 This is helpful in that a developer is provided with the source of an error rather than a generic failure page. However,
 DEBUG mode consumes a significant amount of resources and the outputs publicly display secure information. It is not advised
 to use DEBUG mode on a production (live) server.
