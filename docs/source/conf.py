@@ -3,7 +3,7 @@
 # -- Project information
 
 project = 'medna-metadata'
-copyright = '2021, melkimble'
+copyright = '2022, melkimble'
 author = 'melkimble'
 
 version = 'latest'
