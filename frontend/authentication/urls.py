@@ -3,7 +3,7 @@
 from django.urls import path, re_path, include
 # from django.contrib.auth.views import LogoutView
 import allauth.account.views as allauth_views
-from dj_rest_auth.registration.views import VerifyEmailView
+from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerificationView, RegisterView
 from users import views as users_views
 
 urlpatterns = [
@@ -38,7 +38,9 @@ urlpatterns = [
     ##########################################################################################
     re_path(r'^rest-auth/login/$', users_views.CustomRestAuthLoginView.as_view(), name='rest_login'),
     re_path(r'^rest-auth/', include('dj_rest_auth.urls')),
-    re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
+    # re_path(r'^rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='rest_email_verification_sent'),
+    path('rest-auth/resend-email/', ResendEmailVerificationView.as_view(), name="rest_resend_email"),
+    path('rest-auth/', RegisterView.as_view(), name='rest_register'),
     # url(r'^rest-auth/registration/google/', GoogleLogin.as_view(), name='google_login')
 ]
