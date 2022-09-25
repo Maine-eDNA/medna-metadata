@@ -29,7 +29,7 @@
                 <p class="mb-0 text-white text-center">
                   <!-- begin errors -->
                   {% if form.errors and not form.non_field_errors %}
-                  <p class="mb-0 text-center">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</p>
+                  <div class="alert alert-secondary text-white font-weight-bold" role="alert">{% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}</div>
                   {% endif %}
                   {% if form.non_field_errors %}
                   {% for error in form.non_field_errors %}
