@@ -40,7 +40,10 @@
               <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
                 {% trans "E-mail Addresses" %}
               </h4>
-              <div class="row mt-3">
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row mt-3">
                 <p class="mb-0 text-white text-center">
                   <!-- begin errors -->
                   {% if form.errors and not form.non_field_errors %}
@@ -54,9 +57,6 @@
                   <!-- end errors -->
                 </p>
               </div>
-            </div>
-          </div>
-          <div class="card-body">
             {% if user.emailaddress_set.all %}
             <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
               <form action="{% url 'account_email' %}" class="email_list" method="POST">
