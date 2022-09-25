@@ -55,7 +55,7 @@
             {% endif %}
             <form class="login" method="POST" action="{% url 'account_login' %}">
               {% csrf_token %}
-              <div class="card-body pt-1">
+              <div class="card-body p-0">
 
                 {% include 'account/includes/form-fields.html' %}
 
