@@ -319,6 +319,7 @@ class ContactUs(DateTimeUserMixin):
 # FREEZER_INVENTORY mobile app CSS
 class DefaultSiteCss(DateTimeUserMixin):
     default_css_label = models.CharField('Default CSS Label', unique=True, max_length=255)
+    selected_css_profile = models.CharField('Selected CSS Profile', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # selected CSS
     css_selected_background_color = models.CharField('Selected BG CSS', max_length=255, default='green')
     css_selected_text_color = models.CharField('Selected Text CSS', max_length=255, default='black')
@@ -363,6 +364,7 @@ class DefaultSiteCss(DateTimeUserMixin):
 
 class CustomUserCss(DateTimeUserMixin):
     custom_css_label = models.CharField('Custom CSS Label', max_length=255)
+    selected_css_profile = models.CharField('Selected CSS Profile', max_length=3, choices=YesNo.choices, default=YesNo.NO)
     # selected CSS
     css_selected_background_color = models.CharField('Selected BG CSS', max_length=255, default='green')
     css_selected_text_color = models.CharField('Selected Text CSS', max_length=255, default='black')

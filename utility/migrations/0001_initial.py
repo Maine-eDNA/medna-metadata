@@ -186,6 +186,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('default_css_label', models.CharField(unique=True, max_length=255, verbose_name='Default CSS Label')),
+                ('selected_css_profile', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Selected CSS Profile')),
                 ('css_selected_background_color', models.CharField(default='green', max_length=255, verbose_name='Selected BG CSS')),
                 ('css_selected_text_color', models.CharField(default='black', max_length=255, verbose_name='Selected Text CSS')),
                 ('freezer_empty_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='Empty Freezer BG CSS')),
@@ -219,6 +220,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('custom_css_label', models.CharField(max_length=255, verbose_name='Custom CSS Label')),
+                ('selected_css_profile', models.CharField(choices=[(None, '(Unknown)'), ('no', 'No'), ('yes', 'Yes')], default='no', max_length=3, verbose_name='Selected CSS Profile')),
                 ('css_selected_background_color', models.CharField(default='green', max_length=255, verbose_name='Selected BG CSS')),
                 ('css_selected_text_color', models.CharField(default='black', max_length=255, verbose_name='Selected Text CSS')),
                 ('freezer_empty_css_background_color', models.CharField(default='orange', max_length=255, verbose_name='Empty Freezer BG CSS')),

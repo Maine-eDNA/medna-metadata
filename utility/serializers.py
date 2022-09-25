@@ -221,6 +221,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
 
 class DefaultSiteCssSerializer(serializers.ModelSerializer):
     default_css_label = serializers.CharField(max_length=255, validators=[UniqueValidator(queryset=DefaultSiteCss.objects.all())])
+    selected_css_profile = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
     # selected CSS
     css_selected_background_color = serializers.CharField(max_length=255, default='green')
     css_selected_text_color = serializers.CharField(max_length=255, default='black')
@@ -248,7 +249,7 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DefaultSiteCss
-        fields = ['id', 'default_css_slug', 'default_css_label',
+        fields = ['id', 'default_css_slug', 'default_css_label', 'selected_css_profile',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                   'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
@@ -265,6 +266,7 @@ class DefaultSiteCssSerializer(serializers.ModelSerializer):
 
 class CustomUserCssSerializer(serializers.ModelSerializer):
     custom_css_label = serializers.CharField(max_length=255)
+    selected_css_profile = serializers.ChoiceField(read_only=False, choices=YesNo.choices, default=YesNo.NO)
     # selected CSS
     css_selected_background_color = serializers.CharField(max_length=255, default='green')
     css_selected_text_color = serializers.CharField(max_length=255, default='black')
@@ -292,7 +294,7 @@ class CustomUserCssSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUserCss
-        fields = ['id', 'custom_css_slug', 'custom_css_label', 'user',
+        fields = ['id', 'custom_css_slug', 'custom_css_label', 'selected_css_profile', 'user',
                   'css_selected_background_color', 'css_selected_text_color',
                   'freezer_empty_css_background_color', 'freezer_empty_css_text_color',
                   'freezer_inuse_css_background_color', 'freezer_inuse_css_text_color',
