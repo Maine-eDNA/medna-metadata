@@ -644,6 +644,7 @@ Modify and write the following::
         location = /favicon.ico { access_log off; log_not_found off; }
         location /static/ {
             root /path/to/medna-metadata;
+            client_max_body_size 150M;
         }
 
         location / {
@@ -652,6 +653,7 @@ Modify and write the following::
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_connect_timeout 300s;
             proxy_read_timeout 300s;
+            client_max_body_size 150M;
         }
     }
 
