@@ -40,8 +40,8 @@ class FieldSiteCreateForm(forms.ModelForm):
                   '(E) Estuary: Tidal transition zone between river and ocean <br>'
                   '(C) Coast: Fully marine site with little to no direct influence of river discharge <br>'
                   '(P) Pelagic: Generally open ocean (i.e., if you can\'t see the coast) <br>'
-                  '(A) Aquarium <br>'
-                  '(M) Mock Community',
+                  '(A) Aquarium: A container (such as a glass tank) or an artificial pond in which living aquatic animals or plants are kept <br>'
+                  '(M) Mock Community: A positive control comprised of pre-selected specimens',
         queryset=System.objects.all(),
         widget=CustomSelect2(
             attrs={
