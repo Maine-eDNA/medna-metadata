@@ -81,7 +81,7 @@ class FilterSampleFilter(filters.FilterSet):
     username = filters.ModelChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2, label='Username')
     supervisor = filters.ModelChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2, label='Supervisor')
     filter_datetime = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='Filter DateTime')
-    field_sample_barcode = filters.ModelChoiceFilter(field_name='field_sample__field_sample_barcode__sample_barcode_id', queryset=FieldSample.objects.all(), widget=CustomSelect2, label='Barcode')
+    field_sample_barcode = filters.ModelChoiceFilter(field_name='field_sample__field_sample_barcode__barcode_slug', queryset=FieldSample.objects.all(), widget=CustomSelect2, label='Barcode')
 
     class Meta:
         model = FieldSurvey
@@ -94,7 +94,7 @@ class SubCoreSampleFilter(filters.FilterSet):
     username = filters.ModelChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__username__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2, label='Username')
     supervisor = filters.ModelChoiceFilter(field_name='field_sample__collection_global_id__survey_global_id__supervisor__agol_username', queryset=CustomUser.objects.all(), widget=CustomSelect2, label='Supervisor')
     subcore_datetime_start = filters.DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y'], lookup_expr='icontains', widget=forms.SelectDateWidget(attrs={'class': 'form-control', }), label='SubCore DateTime')
-    field_sample_barcode = filters.ModelChoiceFilter(field_name='field_sample__field_sample_barcode__sample_barcode_id', queryset=FieldSample.objects.all(), widget=CustomSelect2, label='Barcode')
+    field_sample_barcode = filters.ModelChoiceFilter(field_name='field_sample__field_sample_barcode__barcode_slug', queryset=FieldSample.objects.all(), widget=CustomSelect2, label='Barcode')
 
     class Meta:
         model = FieldSurvey
