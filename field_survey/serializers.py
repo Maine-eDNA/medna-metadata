@@ -206,7 +206,7 @@ class FilterSampleTableSerializer(serializers.ModelSerializer):
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     filter_protocol = serializers.ReadOnlyField(source='filter_protocol.sop_title')
-    field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.sample_barcode_id')
+    field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.barcode_slug')
     survey_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.survey_datetime')
     is_extracted = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.is_extracted')
     water_control = serializers.ReadOnlyField(source='field_sample.collection_global_id.water_collection.water_control')
@@ -275,7 +275,7 @@ class SubCoreSampleTableSerializer(serializers.ModelSerializer):
     # slug_field='sample_global_id'
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
     field_sample = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-    field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.sample_barcode_id')
+    field_sample_barcode = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.barcode_slug')
     subcore_protocol = serializers.ReadOnlyField(source='subcore_protocol.sop_title')
     survey_datetime = serializers.ReadOnlyField(source='field_sample.collection_global_id.survey_global_id.survey_datetime')
     is_extracted = serializers.ReadOnlyField(source='field_sample.field_sample_barcode.is_extracted')
