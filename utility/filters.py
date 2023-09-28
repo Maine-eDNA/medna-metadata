@@ -67,13 +67,13 @@ class StandardOperatingProcedureSerializerFilter(filters.FilterSet):
 
 class MetadataTemplateFileSerializerFilter(filters.FilterSet):
     created_by = filters.CharFilter(field_name='created_by__email', lookup_expr='iexact')
-    uuid = filters.CharFilter(field_name='uuid', lookup_expr='iexact')
+    template_version = filters.CharFilter(field_name='template_version', lookup_expr='iexact')
     template_slug = filters.CharFilter(field_name='template_slug', lookup_expr='icontains')
     template_type = filters.CharFilter(field_name='template_type', lookup_expr='iexact')
 
     class Meta:
         model = utility_models.MetadataTemplateFile
-        fields = ['created_by', 'uuid', 'template_slug', 'template_type', ]
+        fields = ['created_by', 'template_version', 'template_slug', 'template_type', ]
 
 
 class DefinedTermSerializerFilter(filters.FilterSet):

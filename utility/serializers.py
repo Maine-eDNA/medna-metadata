@@ -157,11 +157,11 @@ class StandardOperatingProcedureSerializer(serializers.ModelSerializer):
 
 
 class MetadataTemplateFileSerializer(serializers.ModelSerializer):
-    uuid = serializers.UUIDField(read_only=True)
+    id = serializers.IntegerField(read_only=True)
     template_slug = serializers.SlugField(read_only=True)
     template_datafile = serializers.FileField(max_length=255)
     template_type = serializers.ChoiceField(read_only=False, choices=SopTypes.choices)
-    template_version = serializers.IntegerField(min_value=1)
+    template_version = serializers.CharField(allow_blank=False)
     template_notes = serializers.CharField(allow_blank=True)
     created_datetime = serializers.DateTimeField(read_only=True)
     modified_datetime = serializers.DateTimeField(read_only=True)

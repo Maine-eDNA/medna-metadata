@@ -125,10 +125,10 @@ class MetadataTemplateFileAdminResource(resources.ModelResource):
     class Meta:
         # Project
         model = utility_models.MetadataTemplateFile
-        import_id_fields = ('uuid', 'template_datafile', )
-        fields = ('uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+        import_id_fields = ('template_datafile', 'template_version', )
+        fields = ('id', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                   'created_by', 'created_datetime', 'modified_datetime', )
-        export_order = ('uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+        export_order = ('id', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                         'created_by', 'created_datetime', 'modified_datetime', )
 
     created_by = fields.Field(

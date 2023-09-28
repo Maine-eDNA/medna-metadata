@@ -249,9 +249,9 @@ class MetadataTemplateFileAdmin(ImportExportActionModelAdmin):
     # SampleLabelAdminResource
     resource_class = utility_resources.MetadataTemplateFileAdminResource
     # changes the order of how the tables are displayed and specifies what to display
-    list_display = ('__str__', 'template_version', 'created_datetime', )
-    readonly_fields = ('uuid', 'template_slug', 'modified_datetime', 'created_datetime', )
-    search_fields = ['template_datafile']
+    list_display = ('template_type', 'template_datafile', 'template_version', 'created_datetime', )
+    readonly_fields = ('id', 'template_slug', 'modified_datetime', 'created_datetime', )
+    search_fields = ['template_datafile', 'template_version']
 
     def add_view(self, request, extra_content=None):
         # specify the fields that can be viewed in add view
@@ -264,7 +264,8 @@ class MetadataTemplateFileAdmin(ImportExportActionModelAdmin):
 
     def change_view(self, request, object_id, extra_content=None):
         # specify what can be changed in admin change view
-        self.fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+        self.fields = ['id', 'template_slug', 'template_datafile', 'template_type', 'template_version',
+                       'template_notes',
                        'created_by', 'modified_datetime', 'created_datetime', ]
         # self.exclude = ('site_prefix', 'site_num','site_id','created_datetime')
         return super(MetadataTemplateFileAdmin, self).change_view(request, object_id)
