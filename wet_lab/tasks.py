@@ -124,8 +124,8 @@ def update_record_fastq_file(record, pk):
 
 
 def update_record_wetlab_doc_file(pk, library_prep_location, library_prep_datetime, pooled_library_label,
-                                 pooled_library_location, pooled_library_datetime, run_prep_location,
-                                 run_prep_datetime, sequencing_location):
+                                  pooled_library_location, pooled_library_datetime, run_prep_location,
+                                  run_prep_datetime, sequencing_location):
     try:
         wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(
             uuid=pk,
@@ -473,10 +473,10 @@ def parse_wetlab_doc_file(wetlab_doc_file):
                 update_count += 1
 
         wet_lab_doc, weblabdoc_created = update_record_wetlab_doc_file(pk, library_prep_location,
-                                                                      library_prep_datetime, pooled_library_label,
-                                                                      pooled_library_location, pooled_library_datetime,
-                                                                      sequencing_location, run_prep_datetime,
-                                                                      sequencing_location)
+                                                                       library_prep_datetime, pooled_library_label,
+                                                                       pooled_library_location, pooled_library_datetime,
+                                                                       sequencing_location, run_prep_datetime,
+                                                                       sequencing_location)
         if weblabdoc_created:
             update_count += 1
         return update_count
@@ -532,28 +532,28 @@ def ingest_new_wetlab_doc_fastq_files_from_s3(self):
     try:
         task_name = self.name
         now = timezone.now()
-        # Instead of truncating based on last run date of the task, grab run_ids and compare to what's in the s3 directory -
-        # only ingest runs that are not in the database
+        # Instead of truncating based on last run date of the task, grab run_ids and compare to what's in the
+        # s3 directory - only ingest runs that are not in the database
         all_records = RunResult.objects.all()
-        if all_records:
-            # there are new run_ids, so create list of ids
-            run_ids = all_records.values_list('run_id', flat=True).order_by('run_id')
-            # get list of run folders in s3
-            s3_run_keys = get_s3_run_dirs()
-            # check if any run_ids are in s3
-            if run_ids:
-                # when compared to an empty queryset, list comprehension returns an empty list
-                # so check first if run_ids is empty
-                runs_not_in_db = [s for s in s3_run_keys if any(xs not in s for xs in run_ids)]
-            else:
-                runs_not_in_db = s3_run_keys
-            # runs_not_in_db = list(set(s3_run_keys) - set(run_ids))
-            if runs_not_in_db:
-                created_count_wetlabdoc = ingest_wetlab_doc_files(runs_not_in_db)
-                created_count_fastqfile = ingest_fastq_files(runs_not_in_db)
-                created_count = created_count_wetlabdoc+created_count_fastqfile
-                logger.info('Update count: ' + str(created_count))
-                PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+        # there are new run_ids, so create list of ids
+        run_ids = all_records.values_list('run_id', flat=True).order_by('run_id')
+        # get list of run folders in s3
+        s3_run_keys = get_s3_run_dirs()
+        # check if any run_ids are in s3
+        if run_ids:
+            # when compared to an empty queryset, list comprehension returns an empty list
+            # so check first if run_ids is empty
+            runs_not_in_db = [s for s in s3_run_keys if any(xs not in s for xs in run_ids)]
+        else:
+            runs_not_in_db = s3_run_keys
+        # runs_not_in_db = list(set(s3_run_keys) - set(run_ids))
+        if runs_not_in_db:
+            created_count_wetlabdoc = ingest_wetlab_doc_files(runs_not_in_db)
+            created_count_fastqfile = ingest_fastq_files(runs_not_in_db)
+            created_count = created_count_wetlabdoc+created_count_fastqfile
+            logger.info('Update count: ' + str(created_count))
+            PeriodicTaskRun.objects.update_or_create(task=task_name, defaults={'task_datetime': now})
+
     except Exception as err:
         raise RuntimeError('** Error: ingest_new_wetlab_doc_fastq_files_from_s3 Failed (' + str(err) + ')')
 
