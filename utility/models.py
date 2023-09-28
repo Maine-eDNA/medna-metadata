@@ -237,8 +237,9 @@ class MetadataTemplateFile(DateTimeUserMixin):
         return self.template_datafile.url
 
     def save(self, *args, **kwargs):
-        self.template_slug = '{type}_{template_filename}'.format(template_filename=slugify(self.template_datafile.name),
-                                                                 type=slugify(self.template_type))
+        self.template_slug = '{type}_{template_filename}_{template_version}'.format(template_filename=slugify(self.template_datafile.name),
+                                                                                    type=slugify(self.template_type),
+                                                                                    version=slugify(self.template_version))
         super(MetadataTemplateFile, self).save(*args, **kwargs)
 
     def __str__(self):
