@@ -123,11 +123,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MetadataTemplateFile',
             fields=[
-                ('uuid', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('template_slug', models.SlugField(max_length=255, verbose_name='Template Slug')),
                 ('template_datafile', models.FileField(max_length=255, storage=medna_metadata.storage_backends.select_private_media_storage, upload_to=utility.models.set_template_subdir, verbose_name='Template Datafile')),
                 ('template_type', models.CharField(choices=[('utility', 'Utility'), ('field_collection', 'Field Collection'), ('wet_lab', 'Wet Lab'), ('bioinformatics', 'Bioinformatics'), ('freezer_inventory', 'Freezer Inventory')], max_length=50, verbose_name='Template Type')),
-                ('template_version', models.PositiveIntegerField(verbose_name='Template Version')),
+                ('template_version', models.CharField(verbose_name='Template Version')),
                 ('template_notes', models.TextField(blank=True, verbose_name='Notes')),
                 ('modified_datetime', models.DateTimeField(auto_now_add=True, verbose_name='Modified DateTime')),
                 ('created_datetime', models.DateTimeField(auto_now=True, verbose_name='Created DateTime')),

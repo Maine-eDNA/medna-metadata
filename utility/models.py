@@ -214,11 +214,10 @@ class StandardOperatingProcedure(DateTimeUserMixin):
 
 class MetadataTemplateFile(DateTimeUserMixin):
     # i.e., WetLabDocumentation.xlsx blank template
-    uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     template_slug = models.SlugField('Template Slug', max_length=255)
     template_datafile = models.FileField('Template Datafile', max_length=255, storage=select_private_media_storage, upload_to=set_template_subdir)
     template_type = models.CharField('Template Type', max_length=50, choices=SopTypes.choices)
-    template_version = models.PositiveIntegerField('Template Version')
+    template_version = models.CharField('Template Version')
     # Template notes.
     template_notes = models.TextField('Notes', blank=True)
 
