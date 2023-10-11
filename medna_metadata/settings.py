@@ -490,8 +490,11 @@ SWAGGER_SETTINGS = {
 # The db_backup task is in utility/tasks.py
 DB_BACKUPS = os.environ.get('DB_BACKUPS', False) == 'True'
 
-if os.getenv('GITHUB_WORKFLOW') or 'AWS_ACCESS_KEY_ID' not in os.environ:
-    # if there is no AWS_ACCESS_KEY_ID in environment, then use local storage
+USE_S3 = os.environ.get('USE_S3', False) == 'True'
+
+if os.getenv('AWS_ACCESS_KEY_ID') not in os.environ or not USE_S3:
+    # os.getenv('GITHUB_WORKFLOW') not in os.environ or
+    # if there is no AWS_ACCESS_KEY_ID in environment or if USE_S3 is False, then use local storage
     # media files (if uploaded)
     # django\conf\global_settings.py
     # Absolute filesystem path to the directory that will hold user-uploaded files.
