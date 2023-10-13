@@ -147,7 +147,7 @@ def update_record_wetlab_doc_file(pk, library_prep_location, library_prep_dateti
 
 def update_record_extraction(extraction_barcode, field_sample, extraction_control,
                              extraction_control_type, process_location, extraction_datetime,
-                             extraction_method,
+                             extraction_method, extraction_first_name, extraction_last_name,
                              extraction_volume, extraction_volume_units, quantification_method,
                              extraction_concentration, extraction_concentration_units,
                              extraction_notes):
@@ -322,6 +322,7 @@ def update_queryset_fastq_file(queryset):
 def parse_wetlab_doc_file(wetlab_doc_file):
     try:
         update_count = 0
+        fill_value = ''
         lib_prep_list = dict()
         pooled_lib_list = dict()
         wetlab_doc_datafile = wetlab_doc_file.wetlab_doc_datafile
@@ -333,31 +334,35 @@ def parse_wetlab_doc_file(wetlab_doc_file):
         for row in range(0, num_rows):
             print(row)
             # EXTRACTION + LIB PREP
-            in_survey123 = extr_libprep_df['in_survey123'][row]
-            sample_name = extr_libprep_df['sample_name'][row]
-            field_barcode = extr_libprep_df['field_barcode'][row]
-            extraction_barcode = extr_libprep_df['extraction_barcode'][row]
-            extraction_location = extr_libprep_df['extraction_location'][row]
-            extraction_control = extr_libprep_df['extraction_control'][row]
-            extraction_control_type = extr_libprep_df['extraction_control_type'][row]
-            extraction_datetime = extr_libprep_df['extraction_datetime'][row]
-            extraction_method = extr_libprep_df['extraction_method'][row]
+            in_survey123 = extr_libprep_df.reindex(index=[row], columns=['in_survey123'], fill_value=fill_value).iloc[0, 0]
+            sample_name = extr_libprep_df.reindex(index=[row], columns=['sample_name'], fill_value=fill_value).iloc[0, 0]
+            field_barcode = extr_libprep_df.reindex(index=[row], columns=['field_barcode'], fill_value=fill_value).iloc[0, 0]
+            extraction_barcode = extr_libprep_df.reindex(index=[row], columns=['extraction_barcode'], fill_value=fill_value).iloc[0, 0]
+            extraction_location = extr_libprep_df.reindex(index=[row], columns=['extraction_location'], fill_value=fill_value).iloc[0, 0]
+            extraction_control = extr_libprep_df.reindex(index=[row], columns=['extraction_control'], fill_value=fill_value).iloc[0, 0]
+            extraction_control_type = extr_libprep_df.reindex(index=[row], columns=['extraction_control_type'], fill_value=fill_value).iloc[0, 0]
+            extraction_datetime = extr_libprep_df.reindex(index=[row], columns=['extraction_datetime'], fill_value=fill_value).iloc[0, 0]
+            extraction_method = extr_libprep_df.reindex(index=[row], columns=['extraction_method'], fill_value=fill_value).iloc[0, 0]
+            extraction_first_name = extr_libprep_df.reindex(index=[row], columns=['extraction_first_name'], fill_value=fill_value).iloc[0, 0]
+            extraction_last_name = extr_libprep_df.reindex(index=[row], columns=['extraction_last_name'], fill_value=fill_value).iloc[0, 0]
             # TODO change extraction_method to instead lookup via the sop_url
-            extraction_sop_url = extr_libprep_df['extraction_sop_url'][row]
-            extraction_elution_volume = extr_libprep_df['extraction_elution_volume'][row]
-            extraction_elution_volume_units = extr_libprep_df['extraction_elution_volume_units'][row]
-            extraction_quantification_method = extr_libprep_df['extraction_quantification_method'][row]
-            extraction_concentration = extr_libprep_df['extraction_concentration'][row]
-            extraction_concentration_units = extr_libprep_df['extraction_concentration_units'][row]
-            extraction_notes = extr_libprep_df['extraction_notes'][row]
+            extraction_sop_url = extr_libprep_df.reindex(index=[row], columns=['extraction_sop_url'], fill_value=fill_value).iloc[0, 0]
+            extraction_volume = extr_libprep_df.reindex(index=[row], columns=['extraction_elution_volume'], fill_value=fill_value).iloc[0, 0]
+            extraction_volume_units = extr_libprep_df.reindex(index=[row], columns=['extraction_elution_volume_units'], fill_value=fill_value).iloc[0, 0]
+            extraction_quantification_method = extr_libprep_df.reindex(index=[row], columns=['extraction_quantification_method'], fill_value=fill_value).iloc[0, 0]
+            extraction_concentration = extr_libprep_df.reindex(index=[row], columns=['extraction_concentration'], fill_value=fill_value).iloc[0, 0]
+            extraction_concentration_units = extr_libprep_df.reindex(index=[row], columns=['extraction_concentration_units'], fill_value=fill_value).iloc[0, 0]
+            extraction_notes = extr_libprep_df.reindex(index=[row], columns=['extraction_notes'], fill_value=fill_value).iloc[0, 0]
 
             # create extraction record
             extraction, extr_created = update_record_extraction(extraction_barcode, field_barcode, extraction_control,
                                                                 extraction_control_type, extraction_location,
                                                                 extraction_datetime,
                                                                 extraction_method,
-                                                                extraction_elution_volume,
-                                                                extraction_elution_volume_units,
+                                                                extraction_first_name,
+                                                                extraction_last_name,
+                                                                extraction_volume,
+                                                                extraction_volume_units,
                                                                 extraction_quantification_method,
                                                                 extraction_concentration,
                                                                 extraction_concentration_units,
@@ -493,7 +498,8 @@ def ingest_wetlab_doc_files(runs_in_s3):
             for s3_wetlab_doc_key in s3_wetlab_doc_keys:
                 wetlab_doc_datafile = remove_s3_subfolder_from_path(s3_wetlab_doc_key)
                 # wetlab_doc_filename = get_wetlab_doc_filename_from_key(s3_wetlab_doc_key)
-                wetlab_doc_file = WetLabDocumentationFile.objects.get(wetlab_doc_datafile=wetlab_doc_datafile)
+                wetlab_doc_file = WetLabDocumentationFile.objects.filter(wetlab_doc_datafile=wetlab_doc_datafile).first()
+                # wetlab_doc_file = WetLabDocumentationFile.objects.get(wetlab_doc_datafile=wetlab_doc_datafile)
                 if not wetlab_doc_file:
                     wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlab_doc_datafile=wetlab_doc_datafile)
                     parse_wetlab_doc_file(wetlab_doc_file)
