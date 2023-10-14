@@ -492,6 +492,22 @@ DB_BACKUPS = os.environ.get('DB_BACKUPS', False) == 'True'
 
 USE_S3 = os.environ.get('USE_S3', False) == 'True'
 
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', None)
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', None)
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', None)
+AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME', None)
+AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
+AWS_REGION = os.environ.get('AWS_REGION', 'us-east-1')
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'  # this setting only applies to Maine-eDNA Deployment that shares MyTardis S3 storage
+AWS_PRIVATE_BACKUP_LOCATION = '%s/backups/' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
+
 if os.getenv('AWS_ACCESS_KEY_ID') not in os.environ or not USE_S3:
     # os.getenv('GITHUB_WORKFLOW') not in os.environ or
     # if there is no AWS_ACCESS_KEY_ID in environment or if USE_S3 is False, then use local storage
@@ -526,37 +542,17 @@ if os.getenv('AWS_ACCESS_KEY_ID') not in os.environ or not USE_S3:
     }
 
 else:
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-    AWS_STORAGE_BUCKET_SUBFOLDER_NAME = os.environ.get('AWS_STORAGE_BUCKET_SUBFOLDER_NAME')
-    AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL', 'https://s3.wasabisys.com')
-    AWS_REGION = os.environ.get('AWS_REGION', 'us-east-1')
-    AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '%s.s3.%s.wasabisys.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION))
-
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-
-    AWS_STATIC_LOCATION = '%s/static' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
     STATICFILES_STORAGE = 'medna_metadata.storage_backends.StaticStorage'
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
-
-    AWS_PUBLIC_MEDIA_LOCATION = '%s/media/public' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
     MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
     DEFAULT_FILE_STORAGE = 'medna_metadata.storage_backends.PublicMediaStorage'
-
-    AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
     PRIVATE_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateMediaStorage'
-
     PRIVATE_SEQUENCING_FILE_STORAGE = 'medna_metadata.storage_backends.PrivateSequencingStorage'
-    AWS_PRIVATE_SEQUENCING_LOCATION = 'CORE'  # this setting only applies to Maine-eDNA Deployment that shares MyTardis S3 storage
 
     ########################################
     # DJANGO-DBBACKUP CONFIG               #
     ########################################
     DBBACKUP_STORAGE = 'medna_metadata.storage_backends.PrivateBackupStorage'
-    AWS_PRIVATE_BACKUP_LOCATION = '%s/backups/' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
     DBBACKUP_STORAGE_OPTIONS = {
         'access_key': AWS_ACCESS_KEY_ID,
         'secret_key': AWS_SECRET_ACCESS_KEY,
