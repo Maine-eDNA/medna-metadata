@@ -508,7 +508,7 @@ AWS_PRIVATE_MEDIA_LOCATION = '%s/media/private' % AWS_STORAGE_BUCKET_SUBFOLDER_N
 AWS_PRIVATE_SEQUENCING_LOCATION = '%s/media/private/wet_lab' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
 AWS_PRIVATE_BACKUP_LOCATION = '%s/backups/' % AWS_STORAGE_BUCKET_SUBFOLDER_NAME
 
-if os.getenv('AWS_ACCESS_KEY_ID') not in os.environ or not USE_S3:
+if not USE_S3:
     # os.getenv('GITHUB_WORKFLOW') not in os.environ or
     # if there is no AWS_ACCESS_KEY_ID in environment or if USE_S3 is False, then use local storage
     # media files (if uploaded)
