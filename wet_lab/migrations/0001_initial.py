@@ -231,7 +231,7 @@ class Migration(migrations.Migration):
                 ('amplification_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.amplificationmethod')),
                 ('primer_set', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.primerpair')),
                 ('size_selection_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.sizeselectionmethod')),
-                ('index_pair', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.indexpair')),
+                ('index_pair', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, blank=True, null=True, to='wet_lab.indexpair')),
                 ('index_removal_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.indexremovalmethod')),
                 ('quantification_method', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='wet_lab.quantificationmethod')),
                 ('lib_prep_qubit_results', models.DecimalField(blank=True, null=True, decimal_places=10, max_digits=15, verbose_name='QuBit Results')),
