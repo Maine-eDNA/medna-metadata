@@ -5,6 +5,7 @@ from medna_metadata.celery import app
 from medna_metadata.tasks import BaseTaskWithRetry
 from django.conf import settings
 from sample_label.models import SampleBarcode
+from field_survey.models import FieldSample
 from utility.models import PeriodicTaskRun, ProcessLocation, StandardOperatingProcedure
 from wet_lab.models import Extraction, LibraryPrep, PooledLibrary, FastqFile, RunPrep, RunResult, \
     WetLabDocumentationFile, ExtractionMethod, QuantificationMethod, AmplificationMethod, PrimerPair,\
@@ -152,11 +153,13 @@ def update_record_extraction(in_survey123, sample_name, extraction_barcode, fiel
                              extraction_concentration, extraction_concentration_units,
                              extraction_notes):
     try:
-        extraction_notes = "in_survey123: " + str(in_survey123) + ", sample_name: " + str(sample_name) + ", extraction_notes: " + str(extraction_notes)
+        extraction_notes = "in_survey123: " + str(in_survey123) + ", sample_name: " + str(sample_name) \
+                           + ", extraction_method: " + str(extraction_method) + ", extraction_notes: " \
+                           + str(extraction_notes)
 
         # convert to lowercase to prevent mismatches due to camelcase
         extraction_barcode = SampleBarcode.objects.filter(barcode_slug=extraction_barcode.lower()).first()
-        field_sample = SampleBarcode.objects.filter(barcode_slug=field_sample.lower()).first()
+        field_sample = FieldSample.objects.filter(barcode_slug=field_sample.lower()).first()
         if extraction_barcode and field_sample:
             process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
             extraction_sop = StandardOperatingProcedure.objects.filter(sop_url=extraction_sop_url).first()
