@@ -110,16 +110,28 @@ def get_s3_wetlab_doc_keys(run_keys):
         raise RuntimeError('** Error: get_s3_wetlab_doc_keys Failed (' + str(err) + ')')
 
 
-def update_record_fastq_file(record, pk):
+def update_record_fastq_file(pk, run_id, extraction_barcode, primer_set, fastq_datafile,
+                             submitted_to_insdc, insdc_url, seq_meth, investigation_type):
     try:
-        fastq_file, created = FastqFile.objects.update_or_create(
-            uuid=pk,
-            defaults={
-                'run_result': record.run_result,
-                'fastq_datafile': record.fastq_datafile,
-                'created_by': record.created_by,
-            }
-        )
+        run_result = RunResult.objects.filter(run_id=run_id).first()
+        extraction = Extraction.objects.filter(barcode_slug=extraction_barcode.lower()).first()
+        primer_set = PrimerPair.objects.filter(primer_set_name=primer_set).first()
+        if pk:
+            fastq_file, created = FastqFile.objects.update_or_create(
+                uuid=pk,
+                defaults={
+                    'run_result': run_result,
+                    'extraction': extraction,
+                    'primer_set': primer_set,
+                    'fastq_datafile': fastq_datafile,
+                    'submitted_to_insdc': submitted_to_insdc,
+                    'insdc_url': insdc_url,
+                    'seq_meth': seq_meth,
+                    'investigation_type': investigation_type,
+                }
+            )
+        else:
+            fastq_file, created = None, None
         return fastq_file, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_fastq_file Failed (' + str(err) + ')')
@@ -129,19 +141,22 @@ def update_record_wetlab_doc_file(pk, lib_prep_location, lib_prep_datetime, pool
                                   pooled_library_location, pooled_library_datetime, run_prep_location,
                                   run_prep_datetime, sequencing_location):
     try:
-        wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(
-            uuid=pk,
-            defaults={
-                'library_prep_location': str(lib_prep_location),
-                'library_prep_datetime': lib_prep_datetime,
-                'pooled_library_label': str(pooled_library_label),
-                'pooled_library_location': str(pooled_library_location),
-                'pooled_library_datetime': pooled_library_datetime,
-                'run_prep_location': str(run_prep_location),
-                'run_prep_datetime': run_prep_datetime,
-                'sequencing_location': str(sequencing_location),
-            }
-        )
+        if pk:
+            wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(
+                uuid=pk,
+                defaults={
+                    'library_prep_location': str(lib_prep_location),
+                    'library_prep_datetime': lib_prep_datetime,
+                    'pooled_library_label': str(pooled_library_label),
+                    'pooled_library_location': str(pooled_library_location),
+                    'pooled_library_datetime': pooled_library_datetime,
+                    'run_prep_location': str(run_prep_location),
+                    'run_prep_datetime': run_prep_datetime,
+                    'sequencing_location': str(sequencing_location),
+                }
+            )
+        else:
+            wetlab_doc_file, created = None, None
         return wetlab_doc_file, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_wetlab_doc_file Failed (' + str(err) + ')')
@@ -314,19 +329,6 @@ def update_record_runprep(pooled_lib_list, run_prep_label,
         return run_prep, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_runprep Failed (' + str(err) + ')')
-
-
-def update_queryset_fastq_file(queryset):
-    try:
-        update_count = 0
-        for record in queryset:
-            pk = record.uuid
-            fastq_file, created = update_record_fastq_file(record, pk)
-            if created:
-                update_count += 1
-        return update_count
-    except Exception as err:
-        raise RuntimeError('** Error: update_queryset_fastq_file Failed (' + str(err) + ')')
 
 
 def parse_wetlab_doc_file(wetlab_doc_file):
@@ -533,7 +535,6 @@ def ingest_fastq_files(runs_in_s3):
                     fastq_datafile = remove_s3_subfolder_from_path(s3_fastq_key)
                     fastq_file = FastqFile.objects.filter(fastq_datafile=fastq_datafile).first()
                     if not fastq_file:
-                        # TODO - change to call update_record_fastq_file
                         fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result,
                                                                                  fastq_datafile=fastq_datafile)
                         if created:
