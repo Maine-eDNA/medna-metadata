@@ -125,21 +125,21 @@ def update_record_fastq_file(record, pk):
         raise RuntimeError('** Error: update_record_fastq_file Failed (' + str(err) + ')')
 
 
-def update_record_wetlab_doc_file(pk, library_prep_location, library_prep_datetime, pooled_library_label,
+def update_record_wetlab_doc_file(pk, lib_prep_location, lib_prep_datetime, pooled_library_label,
                                   pooled_library_location, pooled_library_datetime, run_prep_location,
                                   run_prep_datetime, sequencing_location):
     try:
         wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(
             uuid=pk,
             defaults={
-                'library_prep_location': library_prep_location,
-                'library_prep_datetime': library_prep_datetime,
-                'pooled_library_label': pooled_library_label,
-                'pooled_library_location': pooled_library_location,
+                'library_prep_location': str(lib_prep_location),
+                'library_prep_datetime': lib_prep_datetime,
+                'pooled_library_label': str(pooled_library_label),
+                'pooled_library_location': str(pooled_library_location),
                 'pooled_library_datetime': pooled_library_datetime,
-                'run_prep_location': run_prep_location,
+                'run_prep_location': str(run_prep_location),
                 'run_prep_datetime': run_prep_datetime,
-                'sequencing_location': sequencing_location,
+                'sequencing_location': str(sequencing_location),
             }
         )
         return wetlab_doc_file, created
@@ -336,7 +336,7 @@ def parse_wetlab_doc_file(wetlab_doc_file):
         lib_prep_list = dict()
         pooled_lib_list = dict()
         wetlab_doc_datafile = wetlab_doc_file.wetlab_doc_datafile
-        pk = wetlab_doc_file.pk
+        wetlab_doc_file_pk = wetlab_doc_file.pk
         # file = wetlab_doc_datafile.read().decode('utf-8')
         # csv_data = csv.reader(StringIO(file), delimiter=',')
         extr_libprep_df = pd.read_excel(wetlab_doc_datafile, sheet_name=1)
@@ -464,16 +464,16 @@ def parse_wetlab_doc_file(wetlab_doc_file):
         runprep_df = pd.read_excel(wetlab_doc_datafile, sheet_name=3)
         for row in runprep_df:
             # RUN PREP
-            pooled_library_barcode_list =  runprep_df['pooled_library_barcode_list'][row]
-            run_prep_label = runprep_df['run_prep_label'][row]
-            run_prep_datetime = runprep_df['run_prep_datetime'][row]
-            sequencing_location = runprep_df['sequencing_location'][row]
-            phix_spike_in = runprep_df['phix_spike_in'][row]
-            phix_spike_in_units = runprep_df['phix_spike_in_units'][row]
-            final_library_quantification_method = runprep_df['final_library_quantification_method'][row]
-            final_library_concentration = runprep_df['final_library_concentration'][row]
-            final_library_concentration_units = runprep_df['final_library_concentration_units'][row]
-            run_prep_notes = runprep_df['run_prep_notes'][row]
+            pooled_library_barcode_list = runprep_df.reindex(index=[row], columns=['pooled_library_barcode_list'], fill_value=fill_value).iloc[0, 0]
+            run_prep_label = runprep_df.reindex(index=[row], columns=['run_prep_label'], fill_value=fill_value).iloc[0, 0]
+            run_prep_datetime = runprep_df.reindex(index=[row], columns=['run_prep_datetime'], fill_value=fill_value).iloc[0, 0]
+            sequencing_location = runprep_df.reindex(index=[row], columns=['sequencing_location'], fill_value=fill_value).iloc[0, 0]
+            phix_spike_in = runprep_df.reindex(index=[row], columns=['phix_spike_in'], fill_value=fill_value).iloc[0, 0]
+            phix_spike_in_units = runprep_df.reindex(index=[row], columns=['phix_spike_in_units'], fill_value=fill_value).iloc[0, 0]
+            final_library_quantification_method = runprep_df.reindex(index=[row], columns=['final_library_quantification_method'], fill_value=fill_value).iloc[0, 0]
+            final_library_concentration = runprep_df.reindex(index=[row], columns=['final_library_concentration'], fill_value=fill_value).iloc[0, 0]
+            final_library_concentration_units = runprep_df.reindex(index=[row], columns=['final_library_concentration_units'], fill_value=fill_value).iloc[0, 0]
+            run_prep_notes = runprep_df.reindex(index=[row], columns=['run_prep_notes'], fill_value=fill_value).iloc[0, 0]
 
             related_pooled_lib_list = [x for x in pooled_lib_list if x in pooled_library_barcode_list]
 
@@ -487,7 +487,7 @@ def parse_wetlab_doc_file(wetlab_doc_file):
             if rp_created:
                 update_count += 1
 
-        wet_lab_doc, weblabdoc_created = update_record_wetlab_doc_file(pk, lib_prep_location,
+        wet_lab_doc, weblabdoc_created = update_record_wetlab_doc_file(wetlab_doc_file_pk, lib_prep_location,
                                                                        lib_prep_datetime, pooled_library_label,
                                                                        pooled_library_location, pooled_library_datetime,
                                                                        sequencing_location, run_prep_datetime,
