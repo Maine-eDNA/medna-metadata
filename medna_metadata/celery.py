@@ -37,6 +37,10 @@ app.conf.beat_schedule = {
         'task': 'db-backup',
         'schedule': crontab(hour=4, minute=30),  # Everyday at 04:30
     },
+    'ingest-new-wetlabdoc-fastq-files-from-s3': {
+        'task': 'ingest-new-wetlabdoc-fastq-files-from-s3',
+        'schedule': crontab(hour=2, minute=0),  # Will run everyday 02:00
+    }
 }
 
 app.conf.timezone = settings.TIME_ZONE
