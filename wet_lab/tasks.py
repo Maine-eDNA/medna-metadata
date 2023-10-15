@@ -1,5 +1,6 @@
 # https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#proj-tasks-py
 from django.utils import timezone
+from django.utils.text import slugify
 from celery.utils.log import get_task_logger
 from medna_metadata.celery import app
 from medna_metadata.tasks import BaseTaskWithRetry
@@ -159,6 +160,7 @@ def update_record_extraction(in_survey123, sample_name, extraction_barcode, fiel
 
         # convert to lowercase to prevent mismatches due to camelcase
         extraction_barcode = SampleBarcode.objects.filter(barcode_slug=extraction_barcode.lower()).first()
+        field_sample = slugify(field_sample)
         field_sample = FieldSample.objects.filter(barcode_slug=field_sample.lower()).first()
         if extraction_barcode and field_sample:
             process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
@@ -198,18 +200,19 @@ def update_record_libraryprep(lib_prep_experiment_name, lib_prep_datetime, proce
                               lib_prep_qpcr_results, lib_prep_qpcr_units,
                               lib_prep_final_concentration, lib_prep_final_concentration_units,
                               lib_prep_kit, lib_prep_type, lib_prep_layout, lib_prep_thermal_cond,
-                              lib_prep_sop, lib_prep_notes):
+                              lib_prep_sop_url, lib_prep_notes):
     try:
         # convert to lowercase to prevent mismatches due to camelcase
-        extraction = Extraction.objects.filter(extraction=extraction).first()
+        # extraction = Extraction.objects.filter(extraction=extraction).first()
         if extraction and lib_prep_experiment_name:
             process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
-            primer_set = PrimerPair.objects.filter(extraction_method_name=primer_set).first()
+            primer_set = PrimerPair.objects.filter(primer_set_name=primer_set).first()
             amplification_method = AmplificationMethod.objects.filter(amplification_method_name=amplification_method).first()
             size_selection_method = SizeSelectionMethod.objects.filter(size_selection_method_name=size_selection_method).first()
             index_removal_method = IndexRemovalMethod.objects.filter(index_removal_method_name=index_removal_method).first()
             quantification_method = QuantificationMethod.objects.filter(quant_method_name=quantification_method).first()
-            lib_prep_sop = StandardOperatingProcedure.objects.filter(sop_url=lib_prep_sop).first()
+            lib_prep_sop = StandardOperatingProcedure.objects.filter(sop_url=lib_prep_sop_url).first()
+
             lib_prep, created = LibraryPrep.objects.update_or_create(
                 lib_prep_experiment_name=lib_prep_experiment_name,
                 extraction=extraction,
@@ -378,50 +381,50 @@ def parse_wetlab_doc_file(wetlab_doc_file):
 
             if extr_created:
                 update_count += 1
+                lib_prep_location = extr_libprep_df.reindex(index=[row], columns=['library_prep_location'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_datetime = extr_libprep_df.reindex(index=[row], columns=['library_prep_datetime'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_amplification_method = extr_libprep_df.reindex(index=[row], columns=['library_prep_amplification_method'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_primer_set_name = extr_libprep_df.reindex(index=[row], columns=['library_prep_primer_set_name'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_index_removal_method = extr_libprep_df.reindex(index=[row], columns=['library_prep_index_removal_method'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_size_selection_method = extr_libprep_df.reindex(index=[row], columns=['library_prep_size_selection_method'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_experiment_name = extr_libprep_df.reindex(index=[row], columns=['library_prep_experiment_name'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_quantification_method = extr_libprep_df.reindex(index=[row], columns=['library_prep_quantification_method'], fill_value=fill_value).iloc[0, 0]
+                qubit_results = extr_libprep_df.reindex(index=[row], columns=['qubit_results'], fill_value=fill_value).iloc[0, 0]
+                qubit_units = extr_libprep_df.reindex(index=[row], columns=['qubit_units'], fill_value=fill_value).iloc[0, 0]
+                qpcr_results = extr_libprep_df.reindex(index=[row], columns=['qpcr_results'], fill_value=fill_value).iloc[0, 0]
+                qpcr_units = extr_libprep_df.reindex(index=[row], columns=['qpcr_units'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_final_concentration = extr_libprep_df.reindex(index=[row], columns=['library_prep_final_concentration'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_final_concentration_units = extr_libprep_df.reindex(index=[row], columns=['library_prep_final_concentration_units'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_kit = extr_libprep_df.reindex(index=[row], columns=['library_prep_kit'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_type = extr_libprep_df.reindex(index=[row], columns=['library_prep_type'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_layout = extr_libprep_df.reindex(index=[row], columns=['library_prep_layout'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_thermal_cond = extr_libprep_df.reindex(index=[row], columns=['library_prep_thermal_conditions'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_sop_url = extr_libprep_df.reindex(index=[row], columns=['library_prep_sop_url'], fill_value=fill_value).iloc[0, 0]
+                lib_prep_notes = extr_libprep_df.reindex(index=[row], columns=['library_prep_notes'], fill_value=fill_value).iloc[0, 0]
 
-                library_prep_location = extr_libprep_df['library_prep_location'][row]
-                library_prep_datetime = extr_libprep_df['library_prep_datetime'][row]
-                library_prep_amplification_method = extr_libprep_df['library_prep_amplification_method'][row]
-                library_prep_primer_set_name = extr_libprep_df['library_prep_primer_set_name'][row]
-                library_prep_index_removal_method = extr_libprep_df['library_prep_index_removal_method'][row]
-                library_prep_size_selection_method = extr_libprep_df['library_prep_size_selection_method'][row]
-                library_prep_experiment_name = extr_libprep_df['library_prep_experiment_name'][row]
-                library_prep_quantification_method = extr_libprep_df['library_prep_quantification_method'][row]
-                qubit_results = extr_libprep_df['qubit_results'][row]
-                qubit_units = extr_libprep_df['qubit_units'][row]
-                qpcr_results = extr_libprep_df['qpcr_results'][row]
-                qpcr_units = extr_libprep_df['qpcr_units'][row]
-                library_prep_final_concentration = extr_libprep_df['library_prep_final_concentration'][row]
-                library_prep_final_concentration_units = extr_libprep_df['library_prep_final_concentration_units'][row]
-                library_prep_kit = extr_libprep_df['library_prep_kit'][row]
-                library_prep_type = extr_libprep_df['library_prep_type'][row]
-                lib_prep_layout = extr_libprep_df['library_prep_layout'][row]
-                lib_prep_thermal_cond = extr_libprep_df['library_prep_thermal_conditions'][row]
-                lib_prep_sop = extr_libprep_df['library_prep_sop_url'][row]
-                lib_prep_notes = extr_libprep_df['library_prep_notes'][row]
-
-                lib_prep, lp_created = update_record_libraryprep(library_prep_experiment_name, library_prep_datetime,
-                                                                 library_prep_location,
-                                                                 extraction, library_prep_amplification_method,
-                                                                 library_prep_primer_set_name,
-                                                                 library_prep_size_selection_method,
-                                                                 library_prep_index_removal_method,
-                                                                 library_prep_quantification_method,
+                lib_prep, lp_created = update_record_libraryprep(lib_prep_experiment_name, lib_prep_datetime,
+                                                                 lib_prep_location,
+                                                                 extraction, lib_prep_amplification_method,
+                                                                 lib_prep_primer_set_name,
+                                                                 lib_prep_size_selection_method,
+                                                                 lib_prep_index_removal_method,
+                                                                 lib_prep_quantification_method,
                                                                  qubit_results, qubit_units,
                                                                  qpcr_results, qpcr_units,
-                                                                 library_prep_final_concentration, library_prep_final_concentration_units,
-                                                                 library_prep_kit, library_prep_type,
+                                                                 lib_prep_final_concentration, lib_prep_final_concentration_units,
+                                                                 lib_prep_kit, lib_prep_type,
                                                                  lib_prep_layout, lib_prep_thermal_cond,
-                                                                 lib_prep_sop, lib_prep_notes)
+                                                                 lib_prep_sop_url, lib_prep_notes)
+
                 if lp_created:
                     update_count += 1
-                    if library_prep_experiment_name in lib_prep_list:
+                    if lib_prep_experiment_name in lib_prep_list:
                         # https://www.journaldev.com/40231/check-if-a-key-exists-in-python-dictionary#:~:text=The%20get()%20method%20in,by%20the%20user%20is%20returned.
                         # https://stackoverflow.com/questions/2285874/python-dictionary-that-maps-strings-to-a-set-of-strings
-                        lib_prep_list[library_prep_experiment_name].add(lib_prep)
+                        lib_prep_list[lib_prep_experiment_name].add(lib_prep)
                     else:
-                        lib_prep_list[library_prep_experiment_name] = set()
-                        lib_prep_list[library_prep_experiment_name].add(lib_prep)
+                        lib_prep_list[lib_prep_experiment_name] = set()
+                        lib_prep_list[lib_prep_experiment_name].add(lib_prep)
 
         pooledlib_df = pd.read_excel(wetlab_doc_datafile, sheet_name=2)
         for row in pooledlib_df:
@@ -485,8 +488,8 @@ def parse_wetlab_doc_file(wetlab_doc_file):
             if rp_created:
                 update_count += 1
 
-        wet_lab_doc, weblabdoc_created = update_record_wetlab_doc_file(pk, library_prep_location,
-                                                                       library_prep_datetime, pooled_library_label,
+        wet_lab_doc, weblabdoc_created = update_record_wetlab_doc_file(pk, lib_prep_location,
+                                                                       lib_prep_datetime, pooled_library_label,
                                                                        pooled_library_location, pooled_library_datetime,
                                                                        sequencing_location, run_prep_datetime,
                                                                        sequencing_location)
