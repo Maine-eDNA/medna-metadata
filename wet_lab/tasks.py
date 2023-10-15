@@ -145,21 +145,23 @@ def update_record_wetlab_doc_file(pk, library_prep_location, library_prep_dateti
         raise RuntimeError('** Error: update_record_wetlab_doc_file Failed (' + str(err) + ')')
 
 
-def update_record_extraction(extraction_barcode, field_sample, extraction_control,
+def update_record_extraction(in_survey123, sample_name, extraction_barcode, field_sample, extraction_control,
                              extraction_control_type, process_location, extraction_datetime,
-                             extraction_method, extraction_first_name, extraction_last_name,
+                             extraction_method, extraction_first_name, extraction_last_name, extraction_sop_url,
                              extraction_volume, extraction_volume_units, quantification_method,
                              extraction_concentration, extraction_concentration_units,
                              extraction_notes):
     try:
+        extraction_notes = "in_survey123: " + str(in_survey123) + ", sample_name: " + str(sample_name) + ", extraction_notes: " + str(extraction_notes)
+
         # convert to lowercase to prevent mismatches due to camelcase
-        extraction_barcode = SampleBarcode.objects.get(barcode_slug=extraction_barcode.lower())
-        field_sample = SampleBarcode.objects.get(barcode_slug=field_sample.lower())
+        extraction_barcode = SampleBarcode.objects.filter(barcode_slug=extraction_barcode.lower()).first()
+        field_sample = SampleBarcode.objects.filter(barcode_slug=field_sample.lower()).first()
         if extraction_barcode and field_sample:
-            process_location = ProcessLocation.objects.get(process_location_name=process_location)
-            # TODO change to lookup via sop_url
-            extraction_method = ExtractionMethod.objects.get(extraction_method_name=extraction_method)
-            quantification_method = QuantificationMethod.objects.get(quant_method_name=quantification_method)
+            process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
+            extraction_sop = StandardOperatingProcedure.objects.filter(sop_url=extraction_sop_url).first()
+            extraction_method = ExtractionMethod.objects.filter(extraction_sop=extraction_sop).first()
+            quantification_method = QuantificationMethod.objects.filter(quant_method_name=quantification_method).first()
             extraction, created = Extraction.objects.update_or_create(
                 extraction_barcode=extraction_barcode,
                 defaults={
@@ -194,15 +196,15 @@ def update_record_libraryprep(lib_prep_experiment_name, lib_prep_datetime, proce
                               lib_prep_sop, lib_prep_notes):
     try:
         # convert to lowercase to prevent mismatches due to camelcase
-        extraction = Extraction.objects.get(extraction=extraction)
+        extraction = Extraction.objects.filter(extraction=extraction).first()
         if extraction and lib_prep_experiment_name:
-            process_location = ProcessLocation.objects.get(process_location_name=process_location)
-            primer_set = PrimerPair.objects.get(extraction_method_name=primer_set)
-            amplification_method = AmplificationMethod.objects.get(amplification_method_name=amplification_method)
-            size_selection_method = SizeSelectionMethod.objects.get(size_selection_method_name=size_selection_method)
-            index_removal_method = IndexRemovalMethod.objects.get(index_removal_method_name=index_removal_method)
-            quantification_method = QuantificationMethod.objects.get(quant_method_name=quantification_method)
-            lib_prep_sop = StandardOperatingProcedure.objects.get(sop_url=lib_prep_sop)
+            process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
+            primer_set = PrimerPair.objects.filter(extraction_method_name=primer_set).first()
+            amplification_method = AmplificationMethod.objects.filter(amplification_method_name=amplification_method).first()
+            size_selection_method = SizeSelectionMethod.objects.filter(size_selection_method_name=size_selection_method).first()
+            index_removal_method = IndexRemovalMethod.objects.filter(index_removal_method_name=index_removal_method).first()
+            quantification_method = QuantificationMethod.objects.filter(quant_method_name=quantification_method).first()
+            lib_prep_sop = StandardOperatingProcedure.objects.filter(sop_url=lib_prep_sop).first()
             lib_prep, created = LibraryPrep.objects.update_or_create(
                 lib_prep_experiment_name=lib_prep_experiment_name,
                 extraction=extraction,
@@ -245,9 +247,9 @@ def update_record_pooledlibrary(lib_prep_list, pooled_lib_label,
     try:
         # convert to lowercase to prevent mismatches due to camelcase
         if lib_prep_list and pooled_lib_barcode:
-            pooled_lib_barcode = SampleBarcode.objects.get(barcode_slug=pooled_lib_barcode.lower())
-            process_location = ProcessLocation.objects.get(process_location_name=process_location)
-            quantification_method = QuantificationMethod.objects.get(quant_method_name=quantification_method)
+            pooled_lib_barcode = SampleBarcode.objects.filter(barcode_slug=pooled_lib_barcode.lower()).first()
+            process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
+            quantification_method = QuantificationMethod.objects.filter(quant_method_name=quantification_method).first()
             pooled_lib, created = PooledLibrary.objects.update_or_create(
                 pooled_lib_barcode=pooled_lib_barcode,
                 defaults={
@@ -282,8 +284,8 @@ def update_record_runprep(pooled_lib_list, run_prep_label,
     try:
         # convert to lowercase to prevent mismatches due to camelcase
         if pooled_lib_list and run_prep_label:
-            process_location = ProcessLocation.objects.get(process_location_name=process_location)
-            quantification_method = QuantificationMethod.objects.get(quant_method_name=quantification_method)
+            process_location = ProcessLocation.objects.filter(process_location_name=process_location).first()
+            quantification_method = QuantificationMethod.objects.filter(quant_method_name=quantification_method).first()
             run_prep, created = RunPrep.objects.update_or_create(
                 run_prep_label=run_prep_label,
                 defaults={
@@ -355,12 +357,14 @@ def parse_wetlab_doc_file(wetlab_doc_file):
             extraction_notes = extr_libprep_df.reindex(index=[row], columns=['extraction_notes'], fill_value=fill_value).iloc[0, 0]
 
             # create extraction record
-            extraction, extr_created = update_record_extraction(extraction_barcode, field_barcode, extraction_control,
+            extraction, extr_created = update_record_extraction(in_survey123, sample_name,
+                                                                extraction_barcode, field_barcode, extraction_control,
                                                                 extraction_control_type, extraction_location,
                                                                 extraction_datetime,
                                                                 extraction_method,
                                                                 extraction_first_name,
                                                                 extraction_last_name,
+                                                                extraction_sop_url,
                                                                 extraction_volume,
                                                                 extraction_volume_units,
                                                                 extraction_quantification_method,
@@ -499,7 +503,7 @@ def ingest_wetlab_doc_files(runs_in_s3):
                 wetlab_doc_datafile = remove_s3_subfolder_from_path(s3_wetlab_doc_key)
                 # wetlab_doc_filename = get_wetlab_doc_filename_from_key(s3_wetlab_doc_key)
                 wetlab_doc_file = WetLabDocumentationFile.objects.filter(wetlab_doc_datafile=wetlab_doc_datafile).first()
-                # wetlab_doc_file = WetLabDocumentationFile.objects.get(wetlab_doc_datafile=wetlab_doc_datafile)
+                # wetlab_doc_file = WetLabDocumentationFile.objects.filter(wetlab_doc_datafile=wetlab_doc_datafile).first()
                 if not wetlab_doc_file:
                     wetlab_doc_file, created = WetLabDocumentationFile.objects.update_or_create(wetlab_doc_datafile=wetlab_doc_datafile)
                     parse_wetlab_doc_file(wetlab_doc_file)
@@ -516,12 +520,12 @@ def ingest_fastq_files(runs_in_s3):
         update_count = 0
         for s3_run in runs_in_s3:
             run_id = get_runid_from_key(s3_run)
-            run_result = RunResult.objects.get(run_id=run_id)
+            run_result = RunResult.objects.filter(run_id=run_id).first()
             if run_result:
                 s3_fastq_keys = get_s3_fastq_keys(s3_run)
                 for s3_fastq_key in s3_fastq_keys:
                     fastq_datafile = remove_s3_subfolder_from_path(s3_fastq_key)
-                    fastq_file = FastqFile.objects.get(fastq_datafile=fastq_datafile)
+                    fastq_file = FastqFile.objects.filter(fastq_datafile=fastq_datafile).first()
                     if not fastq_file:
                         # TODO - change to call update_record_fastq_file
                         fastq_file, created = FastqFile.objects.update_or_create(run_result=run_result,
