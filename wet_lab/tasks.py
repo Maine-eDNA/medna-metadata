@@ -185,7 +185,7 @@ def update_record_extraction(in_survey123, sample_name, extraction_barcode, fiel
                 }
             )
         else:
-            extraction, created = None
+            extraction, created = None, None
         return extraction, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_extraction Failed (' + str(err) + ')')
@@ -236,7 +236,7 @@ def update_record_libraryprep(lib_prep_experiment_name, lib_prep_datetime, proce
                 }
             )
         else:
-            lib_prep, created = None
+            lib_prep, created = None, None
         return lib_prep, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_libraryprep Failed (' + str(err) + ')')
@@ -273,7 +273,7 @@ def update_record_pooledlibrary(lib_prep_list, pooled_lib_label,
             # ManyToManyFields must be added separately though set(). clear=True clears the fields first
             pooled_lib.library_prep.set(lib_prep_list, clear=True)
         else:
-            pooled_lib, created = None
+            pooled_lib, created = None, None
         return pooled_lib, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_pooledlibrary Failed (' + str(err) + ')')
@@ -307,7 +307,7 @@ def update_record_runprep(pooled_lib_list, run_prep_label,
             # ManyToManyFields must be added separately though set(). clear=True clears the fields first
             run_prep.pooled_library.set(pooled_lib_list, clear=True)
         else:
-            run_prep, created = None
+            run_prep, created = None, None
         return run_prep, created
     except Exception as err:
         raise RuntimeError('** Error: update_record_runprep Failed (' + str(err) + ')')
