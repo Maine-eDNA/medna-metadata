@@ -391,7 +391,7 @@ class LibraryPrep(DateTimeUserMixin):
     primer_set = models.ForeignKey(PrimerPair, on_delete=models.RESTRICT)
     # may use multiple size_selection_methods so this needs to be an m2m field
     size_selection_method = models.ForeignKey(SizeSelectionMethod, on_delete=models.RESTRICT)
-    index_pair = models.ForeignKey(IndexPair, on_delete=models.RESTRICT)
+    index_pair = models.ForeignKey(IndexPair, blank=True, null=True, on_delete=models.RESTRICT)
     # may use multiple index_removal_methods so this needs to be a m2m field
     index_removal_method = models.ForeignKey(IndexRemovalMethod, on_delete=models.RESTRICT)
     quantification_method = models.ForeignKey(QuantificationMethod, on_delete=models.RESTRICT)
