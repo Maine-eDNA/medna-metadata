@@ -148,7 +148,7 @@ class SizeSelectionMethod(DateTimeUserMixin):
     # beads, gel extraction, spin column, ...
     size_selection_method_name = models.CharField('Size Selection Method', unique=True, max_length=255)
     size_selection_method_slug = models.SlugField('Size Selection Method Slug', max_length=255)
-    primer_set = models.ForeignKey(PrimerPair, null=True, on_delete=models.RESTRICT)
+    primer_set = models.ForeignKey(PrimerPair, blank=True, null=True, on_delete=models.RESTRICT)
     size_selection_sop = models.ForeignKey('utility.StandardOperatingProcedure', verbose_name='Size Selection SOP', on_delete=models.RESTRICT)
 
     def save(self, *args, **kwargs):
@@ -538,8 +538,8 @@ class FastqFile(DateTimeUserMixin):
     # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
     uuid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     run_result = models.ForeignKey(RunResult, on_delete=models.RESTRICT, related_name='run_results')
-    extraction = models.ForeignKey(Extraction, null=True, on_delete=models.RESTRICT, related_name='extractions')
-    primer_set = models.ForeignKey(PrimerPair, null=True, on_delete=models.RESTRICT, related_name='primer_sets')
+    extraction = models.ForeignKey(Extraction, blank=True, null=True, on_delete=models.RESTRICT, related_name='extractions')
+    primer_set = models.ForeignKey(PrimerPair, blank=True, null=True, on_delete=models.RESTRICT, related_name='primer_sets')
     fastq_slug = models.SlugField('Fastq Slug', max_length=255)
     fastq_datafile = models.FileField('FastQ Datafile', max_length=255, storage=select_private_sequencing_storage)
     # MIxS submitted_to_insdc - e.g. genbank, Fields et al., 2009; Yilmaz et al., 2011
