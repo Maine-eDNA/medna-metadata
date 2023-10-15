@@ -171,6 +171,8 @@ def update_record_extraction(in_survey123, sample_name, extraction_barcode, fiel
                     'process_location': process_location,
                     'extraction_datetime': extraction_datetime,
                     'extraction_method': extraction_method,
+                    'extraction_first_name': extraction_first_name,
+                    'extraction_last_name': extraction_last_name,
                     'extraction_volume': extraction_volume,
                     'extraction_volume_units': extraction_volume_units,
                     'quantification_method': quantification_method,
@@ -338,7 +340,7 @@ def parse_wetlab_doc_file(wetlab_doc_file):
             # EXTRACTION + LIB PREP
             in_survey123 = extr_libprep_df.reindex(index=[row], columns=['in_survey123'], fill_value=fill_value).iloc[0, 0]
             sample_name = extr_libprep_df.reindex(index=[row], columns=['sample_name'], fill_value=fill_value).iloc[0, 0]
-            field_barcode = extr_libprep_df.reindex(index=[row], columns=['field_barcode'], fill_value=fill_value).iloc[0, 0]
+            field_sample = extr_libprep_df.reindex(index=[row], columns=['field_barcode'], fill_value=fill_value).iloc[0, 0]
             extraction_barcode = extr_libprep_df.reindex(index=[row], columns=['extraction_barcode'], fill_value=fill_value).iloc[0, 0]
             extraction_location = extr_libprep_df.reindex(index=[row], columns=['extraction_location'], fill_value=fill_value).iloc[0, 0]
             extraction_control = extr_libprep_df.reindex(index=[row], columns=['extraction_control'], fill_value=fill_value).iloc[0, 0]
@@ -347,7 +349,6 @@ def parse_wetlab_doc_file(wetlab_doc_file):
             extraction_method = extr_libprep_df.reindex(index=[row], columns=['extraction_method'], fill_value=fill_value).iloc[0, 0]
             extraction_first_name = extr_libprep_df.reindex(index=[row], columns=['extraction_first_name'], fill_value=fill_value).iloc[0, 0]
             extraction_last_name = extr_libprep_df.reindex(index=[row], columns=['extraction_last_name'], fill_value=fill_value).iloc[0, 0]
-            # TODO change extraction_method to instead lookup via the sop_url
             extraction_sop_url = extr_libprep_df.reindex(index=[row], columns=['extraction_sop_url'], fill_value=fill_value).iloc[0, 0]
             extraction_volume = extr_libprep_df.reindex(index=[row], columns=['extraction_elution_volume'], fill_value=fill_value).iloc[0, 0]
             extraction_volume_units = extr_libprep_df.reindex(index=[row], columns=['extraction_elution_volume_units'], fill_value=fill_value).iloc[0, 0]
@@ -358,7 +359,7 @@ def parse_wetlab_doc_file(wetlab_doc_file):
 
             # create extraction record
             extraction, extr_created = update_record_extraction(in_survey123, sample_name,
-                                                                extraction_barcode, field_barcode, extraction_control,
+                                                                extraction_barcode, field_sample, extraction_control,
                                                                 extraction_control_type, extraction_location,
                                                                 extraction_datetime,
                                                                 extraction_method,
