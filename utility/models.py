@@ -224,6 +224,7 @@ class MetadataTemplateFile(DateTimeUserMixin):
     template_slug = models.SlugField('Template Slug', max_length=255)
     template_datafile = models.FileField('Template Datafile', max_length=255, storage=select_private_media_storage, upload_to=set_template_subdir)
     template_type = models.CharField('Template Type', max_length=50, choices=SopTypes.choices)
+    # TODO update schema metadata for template_version
     template_version = models.CharField('Template Version', max_length=255)
     # Template notes.
     template_notes = models.TextField('Notes', blank=True)
