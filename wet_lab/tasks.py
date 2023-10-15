@@ -429,20 +429,19 @@ def parse_wetlab_doc_file(wetlab_doc_file):
         pooledlib_df = pd.read_excel(wetlab_doc_datafile, sheet_name=2)
         for row in pooledlib_df:
             # POOLED LIBRARY
-            library_prep_experiment_name_list = pooledlib_df['library_prep_experiment_name_list'][row]
-            pooled_library_barcode = pooledlib_df['pooled_library_barcode'][row]
-            pooled_library_barcode = pooled_library_barcode.lower()
-            pooled_library_label = pooledlib_df['pooled_library_label'][row]
-            pooled_library_location = pooledlib_df['pooled_library_location'][row]
-            pooled_library_datetime = pooledlib_df['pooled_library_datetime'][row]
-            pooled_library_quantification_method = pooledlib_df['pooled_library_quantification_method'][row]
-            pooled_library_concentration = pooledlib_df['pooled_library_concentration'][row]
-            pooled_library_concentration_units = pooledlib_df['pooled_library_concentration_units'][row]
-            pooled_library_volume = pooledlib_df['pooled_library_volume'][row]
-            pooled_library_volume_units = pooledlib_df['pooled_library_volume_units'][row]
-            pooled_library_notes = pooledlib_df['pooled_library_notes'][row]
+            lib_prep_experiment_name_list = pooledlib_df.reindex(index=[row], columns=['library_prep_experiment_name_list'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_barcode = pooledlib_df.reindex(index=[row], columns=['pooled_library_barcode'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_label = pooledlib_df.reindex(index=[row], columns=['pooled_library_label'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_location = pooledlib_df.reindex(index=[row], columns=['pooled_library_location'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_datetime = pooledlib_df.reindex(index=[row], columns=['pooled_library_datetime'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_quantification_method = pooledlib_df.reindex(index=[row], columns=['pooled_library_quantification_method'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_concentration = pooledlib_df.reindex(index=[row], columns=['pooled_library_concentration'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_concentration_units = pooledlib_df.reindex(index=[row], columns=['pooled_library_concentration_units'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_volume = pooledlib_df.reindex(index=[row], columns=['pooled_library_volume'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_volume_units = pooledlib_df.reindex(index=[row], columns=['pooled_library_volume_units'], fill_value=fill_value).iloc[0, 0]
+            pooled_library_notes = pooledlib_df.reindex(index=[row], columns=['pooled_library_notes'], fill_value=fill_value).iloc[0, 0]
 
-            related_lib_prep_list = [x for x in lib_prep_list if x in library_prep_experiment_name_list]
+            related_lib_prep_list = [x for x in lib_prep_list if x in lib_prep_experiment_name_list]
 
             pooled_lib, pl_created = update_record_pooledlibrary(related_lib_prep_list, pooled_library_label,
                                                                  pooled_library_datetime,
