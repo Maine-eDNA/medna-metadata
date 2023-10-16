@@ -18,7 +18,6 @@ import boto3
 logger = get_task_logger(__name__)
 
 
-# TODO - these tasks are not running and partially tested
 def remove_s3_subfolder_from_path(s3_key):
     if settings.AWS_PRIVATE_SEQUENCING_LOCATION:
         sequencing_subfolder = settings.AWS_PRIVATE_SEQUENCING_LOCATION + '/'
