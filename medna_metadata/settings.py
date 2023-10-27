@@ -519,9 +519,9 @@ if not USE_S3:
     # URL that handles the media served from MEDIA_ROOT.
     # Examples: 'http://example.com/media/', 'http://media.example.com/'
     MEDIA_URL = '/media/'
-    DEFAULT_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
-    PRIVATE_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
-    PRIVATE_SEQUENCING_FILE_STORAGE = 'django.files.storage.FileSystemStorage'
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    PRIVATE_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    PRIVATE_SEQUENCING_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
     # Static files (CSS, JavaScript, Images)
     # django\conf\global_settings.py
