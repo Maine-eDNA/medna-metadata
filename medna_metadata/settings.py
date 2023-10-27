@@ -682,7 +682,7 @@ APP_ORDER = OrderedDict([
                       'FieldCollectionETL', 'SampleFilterETL']),
     ('wet_lab', ['PrimerPair', 'IndexPair', 'IndexRemovalMethod', 'SizeSelectionMethod',
                  'QuantificationMethod', 'AmplificationMethod', 'ExtractionMethod', 'Extraction', 'PcrReplicate', 'Pcr',
-                 'LibraryPrep', 'PooledLibrary', 'RunPrep', 'RunResult', 'FastqFile']),
+                 'LibraryPrep', 'PooledLibrary', 'RunPrep', 'RunResult', 'FastqFile', 'WetLabDocumentationFile']),
     ('bioinformatics', ['QualityMetadata', 'DenoiseClusterMethod', 'DenoiseClusterMetadata',
                         'FeatureOutput', 'FeatureRead',
                         'ReferenceDatabase', 'AnnotationMethod', 'AnnotationMetadata', 'TaxonomicAnnotation',
