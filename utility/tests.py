@@ -15,8 +15,8 @@ class FundTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = Fund.objects.get(fund_code='e')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = Fund.objects.filter(fund_code='e')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class ProjectTestCase(TestCase):
@@ -35,8 +35,8 @@ class ProjectTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = Project.objects.get(project_code='prj_commsci')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = Project.objects.filter(project_code='prj_commsci')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class PublicationTestCase(TestCase):
@@ -49,7 +49,7 @@ class PublicationTestCase(TestCase):
         project_name = Project.objects.filter()[:1].get()
         manytomany_prj_list.append(project_name)
         user_test = UsersManagersTests()
-        user_test.setUp()
+        user_test.test_create_user()
         user_name = CustomUser.objects.filter()[:1].get()
         manytomany_usr_list.append(user_name)
         publication, created = Publication.objects.get_or_create(publication_title='the title of the publication',
@@ -59,8 +59,8 @@ class PublicationTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = Publication.objects.get(publication_title='the title of the publication')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = Publication.objects.filter(publication_title='the title of the publication')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class ProcessLocationTestCase(TestCase):
@@ -79,8 +79,8 @@ class ProcessLocationTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = ProcessLocation.objects.get(process_location_name='CORE')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = ProcessLocation.objects.filter(process_location_name='CORE')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class StandardOperatingProcedureTestCase(TestCase):
@@ -93,8 +93,8 @@ class StandardOperatingProcedureTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        sop = StandardOperatingProcedure.objects.get(sop_title='test sop')
-        self.assertIs(sop.was_added_recently(), True)
+        test_exists = StandardOperatingProcedure.objects.filter(sop_title='test sop')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class DefinedTermTestCase(TestCase):
@@ -107,8 +107,8 @@ class DefinedTermTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        defined_term = DefinedTerm.objects.get(defined_term_name='test term')
-        self.assertIs(defined_term.was_added_recently(), True)
+        test_exists = DefinedTerm.objects.filter(defined_term_name='test term')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class ContactUsTestCase(TestCase):
@@ -122,8 +122,8 @@ class ContactUsTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = ContactUs.objects.get(full_name='test person')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = ContactUs.objects.filter(full_name='test person')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class DefaultSiteCssTestCase(TestCase):
@@ -151,8 +151,8 @@ class DefaultSiteCssTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = DefaultSiteCss.objects.get(default_css_label='default_css_label')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = DefaultSiteCss.objects.filter(default_css_label='default_css_label')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
 
 
 class CustomUserCssTestCase(TestCase):
@@ -180,5 +180,5 @@ class CustomUserCssTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        medna = CustomUserCss.objects.get(custom_css_label='custom_css_label')
-        self.assertIs(medna.was_added_recently(), True)
+        test_exists = CustomUserCss.objects.filter(custom_css_label='custom_css_label')[:1].get()
+        self.assertIs(test_exists.was_added_recently(), True)
