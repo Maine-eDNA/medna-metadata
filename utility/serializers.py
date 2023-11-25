@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.throttling import UserRateThrottle
 from users.models import CustomUser
 from utility.enumerations import YesNo, SopTypes, DefinedTermTypes, ModuleTypes, ContactUsTypes
+import logging
 
 
 class EagerLoadingMixin:
@@ -354,7 +355,9 @@ class SerializerExportMixin(ExportMixin):
     def get_table_data(self):
         selected_column_ids = self.request.GET.get('_selected_column_ids', None)
         if selected_column_ids:
+            logging.info('selected_column_ids pre-map: ["{}"].'.format(selected_column_ids))
             selected_column_ids = map(int, selected_column_ids.split(','))
+            logging.info('selected_column_ids post-map: ["{}"].'.format(selected_column_ids))
             return super().get_table_data().filter(pk__in=selected_column_ids)
         return super().get_table_data()
 
@@ -382,7 +385,9 @@ class CharSerializerExportMixin(ExportMixin):
     def get_table_data(self):
         selected_column_ids = self.request.GET.get('_selected_column_ids', None)
         if selected_column_ids:
+            logging.info('selected_column_ids pre-map: ["{}"].'.format(selected_column_ids))
             # selected_column_ids = map(int, selected_column_ids.split(','))
             selected_column_ids = map(str, selected_column_ids.split(','))
+            logging.info('selected_column_ids post-map: ["{}"].'.format(selected_column_ids))
             return super().get_table_data().filter(pk__in=selected_column_ids)
         return super().get_table_data()
