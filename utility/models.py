@@ -92,6 +92,10 @@ class Fund(models.Model):
     modified_datetime = models.DateTimeField('Modified DateTime', auto_now_add=True)
     created_datetime = models.DateTimeField('Created DateTime', auto_now=True)
 
+    def was_added_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
+
     def __str__(self):
         return '{code}: {label}'.format(code=self.fund_code, label=self.fund_label)
 
@@ -123,6 +127,10 @@ class Project(models.Model):
     created_by = models.CharField('Created By', blank=True, max_length=255)
     modified_datetime = models.DateTimeField('Modified DateTime', auto_now_add=True)
     created_datetime = models.DateTimeField('Created DateTime', auto_now=True)
+
+    def was_added_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.created_datetime <= now
 
     def __str__(self):
         return self.project_label
