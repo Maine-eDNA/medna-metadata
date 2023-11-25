@@ -23,12 +23,11 @@ class FieldSurveyTestCase(TestCase):
         project = Project.objects.filter()[:1].get()
         manytomany_list.append(project)
         field_site = FieldSite.objects.filter()[:1].get()
-        field_survey, created = FieldSurvey.objects.get_or_create(survey_global_id='test_survey_global_id',
+        field_survey, created = FieldSurvey.objects.get_or_create(recorder_fname='test_first_name',
                                                                   defaults={
                                                                       'username': get_default_user(),
                                                                       'survey_datetime': current_datetime,
                                                                       'supervisor': get_default_user(),
-                                                                      'recorder_fname': 'test_first_name',
                                                                       'recorder_lname': 'test_last_name',
                                                                       'site_id': field_site,
                                                                       'env_obs_turbidity': TurbidTypes.NONE,
@@ -41,7 +40,7 @@ class FieldSurveyTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FieldSurvey.objects.filter(survey_global_id='test_survey_global_id')[:1].get()
+        test_exists = FieldSurvey.objects.filter(recorder_fname='test_first_name')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
