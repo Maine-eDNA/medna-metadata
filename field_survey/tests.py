@@ -49,15 +49,14 @@ class FieldCollectionTestCase(TestCase):
         survey_test = FieldSurveyTestCase()
         survey_test.setUp()
         survey = FieldSurvey.objects.filter()[:1].get()
-        FieldCollection.objects.get_or_create(collection_global_id='test_collection_global_id',
+        FieldCollection.objects.get_or_create(collection_type=CollectionTypes.WATER_SAMPLE,
                                               defaults={
-                                                  'survey_global_id': survey,
-                                                  'collection_type': CollectionTypes.WATER_SAMPLE
+                                                  'survey_global_id': survey
                                               })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FieldCollection.objects.filter(collection_global_id='test_collection_global_id')[:1].get()
+        test_exists = FieldCollection.objects.filter(collection_type=CollectionTypes.WATER_SAMPLE)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -72,7 +71,6 @@ class FieldSampleTestCase(TestCase):
         sample_material = SampleMaterial.objects.filter()[:1].get()
         FieldSample.objects.get_or_create(field_sample_barcode=sample_barcode,
                                           defaults={
-                                              'sample_global_id': 'test_sample_global_id',
                                               'collection_global_id': collection,
                                               'sample_material': sample_material,
                                               'is_extracted': YesNo.NO
@@ -80,5 +78,5 @@ class FieldSampleTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FieldSample.objects.filter(sample_global_id='test_sample_global_id')[:1].get()
+        test_exists = FieldSample.objects.filter(is_extracted=YesNo.NO)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
