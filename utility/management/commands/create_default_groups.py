@@ -335,6 +335,102 @@ GROUPS = {
         'Annotation Metadata': ['view'],
         'Taxonomic Annotation': ['view'],
     },
+
+    'addonly-permissions': {
+        # django app model specific permissions
+        # field_site
+        'ENVO Biome 1st Tier': ['view'],
+        'ENVO Biome 2nd Tier': ['view'],
+        'ENVO Biome 3rd Tier': ['view'],
+        'ENVO Biome 4th Tier': ['view'],
+        'ENVO Biome 5th Tier': ['view'],
+        'ENVO Feature 1st Tier': ['view'],
+        'ENVO Feature 2nd Tier': ['view'],
+        'ENVO Feature 3rd Tier': ['view'],
+        'ENVO Feature 4th Tier': ['view'],
+        'ENVO Feature 5th Tier': ['view'],
+        'ENVO Feature 6th Tier': ['view'],
+        'ENVO Feature 7th Tier': ['view'],
+        'System': ['view'],
+        'Watershed': ['view'],
+        'Field Site': ['view'],
+        'World Border': ['view'],
+
+        # sample_label
+        'Sample Type': ['view'],
+        'SampleLabelRequest': ['view'],
+        'SampleBarcode': ['view'],
+
+        # utility
+        'Fund': ['view'],
+        'Project': ['view'],
+        'Publication': ['view'],
+        'Process Location': ['view'],
+        'Standard Operating Procedure': ['view'],
+        'Metadata Template File': ['view'],
+        'Defined Term': ['view'],
+        'Contact Us': ['add', 'view'],
+        'Default Site CSS': ['view'],
+        'Custom User CSS': ['view'],
+        'Periodic Task Run': ['view'],
+
+        # field_survey
+        'Field Survey': ['view'],
+        'Field Crew': ['view'],
+        'Env Measure Type': ['view'],
+        'Env Measurement': ['view'],
+        'Field Collection': ['view'],
+        'Water Collection': ['view'],
+        'Sediment Collection': ['view'],
+        'Field Sample': ['view'],
+        'Filter Sample': ['view'],
+        'SubCore Sample': ['view'],
+
+        # wet_lab
+        'Primer Pair': ['add', 'change', 'view'],
+        'Index Pair': ['add', 'change', 'view'],
+        'Index Removal Method': ['add', 'change', 'view'],
+        'Size Selection Method': ['add', 'change', 'view'],
+        'Quantification Method': ['add', 'change', 'view'],
+        'Extraction Method': ['add', 'change', 'view'],
+        'Extraction': ['add'],
+        'PCR Replicate': ['add'],
+        'PCR': ['add'],
+        'Library Prep': ['add'],
+        'Pooled Library': ['add'],
+        'Run Prep': ['add'],
+        'Run Result': [],
+        'Fastq File': [],
+
+        # freezer_inventory
+        'Return Action': ['view'],
+        'Freezer': ['view'],
+        'Freezer Rack': ['view'],
+        'Freezer Box': ['view'],
+        'Freezer Inventory': ['add', 'change', 'view'],
+        'Inventory Log': ['add', 'change', 'view'],
+        'Inventory Return Metadata': ['change', 'view'],
+
+        # bioinformatics
+        'Quality Metadata': ['add'],
+        'DenoiseCluster Method': ['add', 'change', 'view'],
+        'DenoiseCluster Metadata': ['add'],
+        'Feature Output': ['add'],
+        'Feature Read': ['add'],
+        'Reference Database': ['add', 'change', 'view'],
+        'Taxon Domain': ['add', 'change', 'view'],
+        'Taxon Kingdom': ['add', 'change', 'view'],
+        'Taxon Supergroup': ['add', 'change', 'view'],
+        'Taxon Phylum/Division': ['add', 'change', 'view'],
+        'Taxon Class': ['add', 'change', 'view'],
+        'Taxon Order': ['add', 'change', 'view'],
+        'Taxon Family': ['add', 'change', 'view'],
+        'Taxon Genus': ['add', 'change', 'view'],
+        'Taxon Species': ['add', 'change', 'view'],
+        'Annotation Method': ['add', 'change', 'view'],
+        'Annotation Metadata': ['add'],
+        'Taxonomic Annotation': ['add'],
+    },
 }
 
 
