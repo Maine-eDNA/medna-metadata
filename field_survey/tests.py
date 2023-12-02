@@ -23,12 +23,11 @@ class FieldSurveyTestCase(TestCase):
         project = Project.objects.filter()[:1].get()
         manytomany_list.append(project)
         field_site = FieldSite.objects.filter()[:1].get()
-        field_survey, created = FieldSurvey.objects.get_or_create(survey_global_id='test_survey_global_id',
+        field_survey, created = FieldSurvey.objects.get_or_create(recorder_fname='test_first_name',
                                                                   defaults={
                                                                       'username': get_default_user(),
                                                                       'survey_datetime': current_datetime,
                                                                       'supervisor': get_default_user(),
-                                                                      'recorder_fname': 'test_first_name',
                                                                       'recorder_lname': 'test_last_name',
                                                                       'site_id': field_site,
                                                                       'env_obs_turbidity': TurbidTypes.NONE,
@@ -41,7 +40,7 @@ class FieldSurveyTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FieldSurvey.objects.filter(survey_global_id='test_survey_global_id')[:1].get()
+        test_exists = FieldSurvey.objects.filter(recorder_fname='test_first_name')[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -50,15 +49,14 @@ class FieldCollectionTestCase(TestCase):
         survey_test = FieldSurveyTestCase()
         survey_test.setUp()
         survey = FieldSurvey.objects.filter()[:1].get()
-        FieldCollection.objects.get_or_create(collection_global_id='test_collection_global_id',
+        FieldCollection.objects.get_or_create(collection_type=CollectionTypes.WATER_SAMPLE,
                                               defaults={
-                                                  'survey_global_id': survey,
-                                                  'collection_type': CollectionTypes.WATER_SAMPLE
+                                                  'survey_global_id': survey
                                               })
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FieldCollection.objects.filter(collection_global_id='test_collection_global_id')[:1].get()
+        test_exists = FieldCollection.objects.filter(collection_type=CollectionTypes.WATER_SAMPLE)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
 
 
@@ -73,7 +71,6 @@ class FieldSampleTestCase(TestCase):
         sample_material = SampleMaterial.objects.filter()[:1].get()
         FieldSample.objects.get_or_create(field_sample_barcode=sample_barcode,
                                           defaults={
-                                              'sample_global_id': 'test_sample_global_id',
                                               'collection_global_id': collection,
                                               'sample_material': sample_material,
                                               'is_extracted': YesNo.NO
@@ -81,5 +78,5 @@ class FieldSampleTestCase(TestCase):
 
     def test_was_added_recently(self):
         # test if date is added correctly
-        test_exists = FieldSample.objects.filter(sample_global_id='test_sample_global_id')[:1].get()
+        test_exists = FieldSample.objects.filter(is_extracted=YesNo.NO)[:1].get()
         self.assertIs(test_exists.was_added_recently(), True)
