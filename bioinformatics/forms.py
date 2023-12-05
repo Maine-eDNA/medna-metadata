@@ -37,7 +37,12 @@ class QualityMetadataForm(forms.ModelForm):
     )
     fastq_file = forms.ModelMultipleChoiceField(
         required=True,
-        queryset=FastqFile.objects.none()
+        queryset=FastqFile.objects.all().order_by('-created_datetime'),
+        widget=CustomSelect2Multiple(
+            attrs={
+                'class': 'form-control',
+            }
+        )
     )
     analyst_first_name = forms.CharField(
         required=True,
@@ -124,8 +129,8 @@ class QualityMetadataForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
-        self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
+        # self.fields['fastq_file'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_fastqfile')))
+        # self.fields['fastq_file'].queryset = FastqFile.objects.all().order_by('-created_datetime')
         self.fields['analysis_sop'].widget = (AddAnotherWidgetWrapper(CustomSelect2Multiple(attrs={'class': 'form-control', }), reverse_lazy('add_popup_standardoperatingprocedure', kwargs={'sop_type': SopTypes.BIOINFO},)))
         self.fields['analysis_sop'].queryset = StandardOperatingProcedure.objects.filter(sop_type=SopTypes.BIOINFO).order_by('-created_datetime')
 
