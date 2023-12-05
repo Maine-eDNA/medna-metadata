@@ -86,7 +86,7 @@ GROUPS = {
         'Pooled Library': ['add', 'delete', 'change', 'view'],
         'Run Prep': ['add', 'delete', 'change', 'view'],
         'Run Result': ['add', 'delete', 'change', 'view'],
-        'Fastq File': ['add', 'delete', 'change', 'view'],
+        'Fastq File': ['view'],
         'WetLabDocumentationFile': ['add', 'delete', 'change', 'view'],
 
         # freezer_inventory
