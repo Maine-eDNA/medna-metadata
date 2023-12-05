@@ -1,1 +1,1 @@
-[{"model": "utility.fund", "pk": 1, "fields": {"created_by": "melissa.kimble@maine.edu", "modified_datetime": "2021-01-15T19:56:58.457Z", "created_datetime": "2021-01-15T19:56:58.457Z", "fund_code": "e", "fund_label": "Maine-eDNA", "fund_description": ""}}]
+[{"model": "utility.fund", "pk": 1, "fields": {"fund_code": "e", "fund_label": "Maine-eDNA", "fund_description": "", "created_by": "melissa.kimble@maine.edu", "modified_datetime": "2021-01-15T19:56:58.457Z", "created_datetime": "2021-01-15T19:56:58.457Z"}}]
