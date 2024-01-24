@@ -16,7 +16,7 @@ django-phonenumber-field[phonenumberslite]==6.1.0
 #django-rest-auth==0.9.5
 dj-rest-auth==2.2.3
 django-storages==1.12.3
-django-tables2==2.4.1
+django-tables2==2.7.0
 djangorestframework==3.13.1
 djangorestframework-gis==0.18
 djangorestframework-csv==2.1.1
