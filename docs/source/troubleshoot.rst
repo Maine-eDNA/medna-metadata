@@ -39,10 +39,10 @@ If services were daemonized during a manual installation, additional information
     sudo systemctl status celerybeat.service
 
     # show journal entries for each service
-    sudo journalctl -u gunicorn
-    sudo journalctl -u nginx
-    sudo journalctl -u celery.service
-    sudo journalctl -u celerybeat.service
+    sudo journalctl -u gunicorn -e
+    sudo journalctl -u nginx -e
+    sudo journalctl -u celery.service -e
+    sudo journalctl -u celerybeat.service -e
 
     # print system logs
     sudo cat /var/log/syslog
