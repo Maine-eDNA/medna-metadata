@@ -358,8 +358,11 @@ class SerializerExportMixin(ExportMixin):
         if selected_column_ids:
             logging.info('SerializerExportMixin: selected_column_ids pre-map: ["{}"].'.format(selected_column_ids))
             selected_column_ids = map(int, selected_column_ids.split(','))
+            # TODO - test output for SerializerExportMixin
             logging.info('SerializerExportMixin: selected_column_ids post-map: ["{}"].'.format(list(selected_column_ids)))
+            logging.info('SerializerExportMixin: get_table_data: ["{}"].'.format(super().get_table_data().filter(pk__in=selected_column_ids)))
             return super().get_table_data().filter(pk__in=selected_column_ids)
+        logging.info('SerializerExportMixin: get_table_data: ["{}"].'.format(super().get_table_data()))
         return super().get_table_data()
 
 
