@@ -285,6 +285,11 @@ class TargetGenes(models.TextChoices):
     TG_18S = '18s', _('18S')
     TG_COI = 'coi', _('COI')
     TG_ITS = 'its', _('ITS')
+    TG_MTND2 = 'mt-nd2', _('MT-ND2')
+    TG_MTND4 = 'mt-nd4', _('MT-ND4')
+    TG_CYTB = 'cytb', _('Cytb')
+    TG_RBCS = 'rbcs', _('rbcS')
+    TG_DABA = 'daba', _('dabA')
     __empty__ = _('(Unknown)')
 
 
