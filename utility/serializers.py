@@ -169,7 +169,7 @@ class MetadataTemplateFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MetadataTemplateFile
-        fields = ['uuid', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
+        fields = ['id', 'template_slug', 'template_datafile', 'template_type', 'template_version', 'template_notes',
                   'created_by', 'created_datetime', 'modified_datetime', ]
     # Foreign key fields - SlugRelatedField to reference fields other than pk from related model.
     created_by = serializers.SlugRelatedField(many=False, read_only=True, slug_field='email')
