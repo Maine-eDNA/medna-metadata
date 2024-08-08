@@ -290,6 +290,7 @@ class TargetGenes(models.TextChoices):
     TG_CYTB = 'cytb', _('Cytb')
     TG_RBCS = 'rbcs', _('rbcS')
     TG_DABA = 'daba', _('dabA')
+    TG_LSU = 'lsu', _('LSU')
     __empty__ = _('(Unknown)')
 
 
